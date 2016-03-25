@@ -1,0 +1,69 @@
+package com.wmstein.transektcount.widgets;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.wmstein.transektcount.R;
+import com.wmstein.transektcount.database.Count;
+import com.wmstein.transektcount.database.Section;
+
+
+/**
+ * Created by wmstein on 15.03.2016
+ */
+public class ListSpeciesWidget extends RelativeLayout
+{
+    public static String TAG = "transektcountListSpeciesWidget";
+
+    private TextView txtSectName;
+    private TextView txtSpecName;
+    private TextView specCount;
+    private TextView txtSpecRem;
+    private TextView specCounta;
+
+    public int spec_count;
+    public int spec_counta;
+    public Count spec;
+    public Section section;
+
+    public ListSpeciesWidget(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.widget_listspecies, this, true);
+		txtSectName = (TextView) findViewById(R.id.txtSect);
+        txtSpecName = (TextView) findViewById(R.id.txtSpecName);
+        specCount = (TextView) findViewById(R.id.specCount);
+		txtSpecRem = (TextView) findViewById(R.id.txtSpecRem);
+        specCounta = (TextView) findViewById(R.id.specCounta);
+    }
+
+    public void setCount(Count spec, Section section)
+    {
+        txtSectName.setText(section.name);
+        txtSpecName.setText(spec.name);
+        specCount.setText(String.valueOf(spec.count));
+		txtSpecRem.setText(spec.notes);
+        specCounta.setText(String.valueOf(spec.counta));
+	}
+
+    //Parameter spec_count for use in ListSpeciesActivity
+    public int getSpec_count(Count newcount)
+    {
+        spec = newcount;
+        spec_count = spec.count;
+        return spec_count;
+    }
+
+    public int getSpec_counta(Count newcount)
+    {
+        spec = newcount;
+        spec_counta = spec.counta;
+        return spec_counta;
+    }
+    
+}

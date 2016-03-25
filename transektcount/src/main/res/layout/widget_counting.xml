@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- widget_counting.xml is used by CountingWidget.java -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="2dp"
+              android:layout_marginTop="5dp"
+              android:layout_marginRight="2dp"
+              android:background="@drawable/rounded_corner"
+              android:padding="5dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"
+                android:id="@+id/countName"
+                android:hint="@string/countNameHint"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="5"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:id="@+id/countCount"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="i"
+                android:layout_weight="0.8"/>
+
+            <ImageButton
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countDown"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:id="@+id/buttonDown"
+                android:layout_weight="1.2"/>
+
+            <ImageButton
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUp"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:id="@+id/buttonUp"
+                android:layout_weight="1.6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <!-- perhaps replace with ImageButton http://developer.android.com/guide/topics/ui/controls/button.html -->
+            <ImageButton
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:onClick="edit"
+                android:src="@android:drawable/ic_menu_edit"
+                android:id="@+id/buttonEdit"
+                android:layout_weight="2.2"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.8"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:id="@+id/countCounta"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="#AFAFAF"
+                android:background="@drawable/count_background"
+                android:layout_marginBottom="0dp"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:hint="e"
+                android:layout_weight="0.8"/>
+
+            <ImageButton
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countDowna"
+                android:src="@drawable/minuse"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:id="@+id/buttonDowna"
+                android:layout_weight="1.2"/>
+
+            <ImageButton
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpa"
+                android:src="@drawable/pluse"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:id="@+id/buttonUpa"
+                android:layout_weight="1.6"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+    <!--
+                android:textSize="38sp"
+    -->

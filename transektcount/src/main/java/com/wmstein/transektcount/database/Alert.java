@@ -1,0 +1,16 @@
+package com.wmstein.transektcount.database;
+
+/**
+ * Created by milo on 05/05/2014.
+ * Changed by wmstein on 18.02.2016
+ */
+
+public class Alert
+{
+    public long id;
+    public long count_id;
+    public int alert;
+    public String alert_text;
+
+}
+

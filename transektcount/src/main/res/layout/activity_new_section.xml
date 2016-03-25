@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_new_section.xml is used by NewSectionActivity.java -->
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/newsectScreen"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditText
+        android:id="@+id/newsectName"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:hint="@string/labelNewsect"
+        android:background="@drawable/rounded_corner"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:editable="false"
+        android:layout_margin="5dp">
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+        <Button
+            android:id="@+id/addNewCountButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="newCount"
+            android:text="@string/labelNewCountButton"
+            android:layout_weight="1"
+            android:maxLines="1">
+        </Button>
+
+        <Button
+            android:id="@+id/clearCountButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clearCount"
+            android:text="@string/clearCountButton"
+            android:layout_weight="1"
+            android:maxLines="1">
+        </Button>
+
+        <Button
+            android:id="@+id/newsectSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveSection"
+            android:text="@string/labelNewsectSaveButton"
+            android:layout_weight="1"
+            android:maxLines="1">
+        </Button>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/newCountList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:id="@+id/newCountLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- insert the new counts as they are created in here -->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+

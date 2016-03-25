@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    { 
+          color:#C0F0C0; 
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle { 
+          color:#C0F0C0; 
+          font-size:0.8em; 
+          margin-bottom:1em; 
+          text-align:center }
+      div.freetext { color:#F0F0F0 }
+      div.list     { color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+
+  % TransektCount by wmstein
+  _ Copyright (C) 2016, Wilhelm Stein
+  _
+  _ email: stein.wm@web.de
+  _
+$ Todo
+  % Todo
+    * Reject double species names in "Edit Section"
+$ 1.2.1
+  % Version 1.2.1
+  _ 2016-03-22
+    * Export-DB show only counts >0
+    * Better views for small displays
+$ 1.2.0
+  % Version 1.2.0
+  _ 2016-03-19
+    * Edit Section List: Initial focus on remarks field
+    * View for counting results
+    * Alerts only for "internal" counts
+    * "Add Alert" now scrolls to end of page and sets focus on new field
+    * Design of Starting page improved
+    * Design of Counting page improved
+$ 1.1.0
+  % Version 1.1.0
+  _ 2016-03-05
+    * Layout of counting page improved
+    * Filename of Export-DB with Date
+    * "+"-Button in app bar of page "Add Species"
+    * "Add species" now scrolls to end of page and sets focus on new field
+    * Save Icon in app bar of page "New Section"
+$ 1.0.8
+  % Version 1.0.8
+  _ 2016-02-27
+    * Additional counter per species for external sightings. Therefore layout adapted in widgets and DB structure
+    * Also Database and calculating routines added for 2nd counter
+    * Count options allow to set values for both counters per species
+$ 1.0.6
+  % Version 1.0.6
+  _ 2016-02-22
+    * Section list shows remarks
+    * Section date shown only if !=0
+    * Suitable for Android 17 (JellyBean) - 23 (Marshmallow)
+    * German text improved
+    * Some minor code improvements
+$ 1.0.4
+  % Version 1.0.4
+  _ 2016-02-18
+    * Detailed Help page
+    * Only Portrait Mode
+    * Base-DB-Import: Raw Database 'transektcount0.db'
+    * Base-DB-Export: Raw Database 'transektcount0.db'
+    * DB-Export: Database 'transektcount.db'
+$ 1.0.2
+  % Version 1.0.2
+  _ 2016-02-14
+    * Sort default: Section name ascending
+    * German translation and adaptation.
+    * Removal of unused functions
+$ 1.0.0
+  % Version 1.0.0
+  _ 2016-02-12
+  ! 1. Release.
+  	* Text adaptation for butterfly monitoring
+    * Based on BeeCount by knirirr
+    * https://github.com/knirirr/ BeeCount.git
+  _
+  !This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+  _
+  !This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  !See the GNU General Public License at http://www.gnu.org/copyleft/gpl.html for more details.
+  _
+  
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

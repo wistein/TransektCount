@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    { 
+          color:#C0F0C0; 
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle { 
+          color:#C0F0C0; 
+          font-size:1.0em;
+          font-weight:bold;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext { color:#F0F0F0 }
+      div.list     { color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+$ 10
+  % 1. Introduction
+  !
+  ! This counting app should support you when monitoring your transect. 
+  ! It can substitute your field book and pencil, and with a modern smartphone you carry a camera for pictures of interesting species anyway.
+  _ 
+  ! The integrated database is organized according to a transect inspection. That means, there will be used a new database per inspection.
+  ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
+  ! The recorded data (counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
+  _ 
+  ! The app has no tracking or advertising functions and demands only for storage access permits which are needed for im-/exporting the counting data. 
+
+$ 9
+  % 2. Set up
+  !
+  ! Before initial use you must set up an empty basic database (Basic DB).
+  ! Therefore, you first create a species list for the first transect section. Use the function "New Section" from the "List of Transect Sections" menu for that.
+  ! Then this list gets a name (e.g.: Sect 01) and subsequently an entry for each expected species (Add Species), e.g.:
+  _ 
+  ! Sect 01
+  ! --------------------
+  ! P. napi
+  ! P. rapae
+  ! P. na./ra.-compl.
+  ! ...
+  _ 
+  ! You may add one or two spare entries for unforeseen cases at the end.
+  ! This list can be changed or supplemented afterwards.
+  ! With "Save List" you get it stored into the database.
+  _ 
+  ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
+  ! (e.g.: Sect 02, Sect 03,...).
+  ! When you have created the section lists for all transect sections, the database is ready for export as the "Basic Database".
+  ! To do this, you can use the function "Export as Basic DB" in the menu of the starting page.
+  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models).
+  ! The "Basic Database" will be used as a template for all further transect inspections in future. For safety reasons you should copy the Basic Database file "transektcount0.db" to a different backup directory by a file manager.  
+  
+$ 8
+  % 3. Usage
+  !
+  ! Start with the "List of Transect Sections". Here you see the table with all your transect sections. 
+  ! Select the relevant transect section. As it ought to be distinguished between counts of butterflies within the imaginary count area and butterflies outside you have 2 separate counters ("i" for internal and "e" for external). 
+  ! To count just tap on either the internal or external "+"-Button of the corresponding species.
+  ! The "-"-Buttons allows for corrections. 
+  ! While storing the counting results of a section the current date and time of the inspection will be stored either. The date and a possible section remark will then be shown in the list of sections.   
+  _ 
+  ! The Pencil-Button in the app bar of the counting page opens the section editing page for adding remarks for the section and editing names of section and species. The section related remarks will be shown at the end of the species list and within the section list.
+  _
+  ! The Pencil-Button in each species row of the counting page opens the species editing page that lets you add remarks for each species and set its counters to any value.
+  ! Here you may also set pop-up alarms which show up while reaching a set value on the corresponding internal counter (e.g. to realize on site if a certain species is more abundant than on a previous inspection). 
+  ! If you enter a species related remark this will be shown in an extra line beneath the row. 
+  _ 
+  ! To move back one page you can use the arrow in the left upper corner.
+  _ 
+  ! Nearly each app page has its specific context menu. You can activate it with the 3-point-symbol in the upper right corner.
+  _ 
+  ! When you have large lists or have collect big amounts of data the app may slow down a bit, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
+  _  
+  ! Finally, there is a page showing your results. Here you see only the species which got counts. You open this page from the Starting page with "Show Result".
+
+$ 7
+  % 4. Further functions
+  !
+  ! The "Settings" page can be reached from the menu of most pages of the app.
+  ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds and alerts. 
+  ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
+  _ 
+  ! The menu on the starting page has Import, Export, Help, Info and Settings functions. 
+  ! Here you may export the DB as "Basic DB" (only reasonable, as long as all counters are zero, see "2. Settings").
+  ! Here you may export the current database (Export DB) with its counts to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db. 
+  ! Here you may import the Basic DB from /sdcard/transektcount0.db as a base for a new transect inspection. But notice: Importing a Basic DB clears all existing counting information.
+  ! And you may find here under "App Info" the email address of the author (for bug reports), the history of the app and the license note.
+  _ 
+  ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
+  _ 
+  ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
+  ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
+  _ 
+  ! IT-affine users may transfer the "transektcount_YYYY-MM-DD_hhmmss.db" file to a PC. With the free tool "SqliteBrowser" (sqlitebrowser.org) you may examine the db-file or export its "counts" table data into Excel readable format (.csv) for further processing.
+  !
+  
+$ END_OF_VIEW_HELP
+  </body>
+</html>

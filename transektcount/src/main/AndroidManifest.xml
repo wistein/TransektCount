@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.wmstein.transektcount"
+          android:largeHeap="true"
+
+          android:versionName="1.2.1">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <!-- android:screenOrientation="landscape" in allen Activities (Tablet-Version) -->
+    <!-- android:screenOrientation="portrait" in allen Activities (Smartphone-Version) -->
+
+    <application
+        android:name=".TransektCountApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="TransektCount"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.wmstein.transektcount.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.NewSectionActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:label="@string/title_activity_new_section"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/action_settings"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
+        <!-- funktioniert nur mit android:theme="@android:style/Theme.Holo" -->
+        <activity
+            android:name="com.wmstein.transektcount.ListSectionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_list_section"
+            android:theme="@android:style/Theme.Holo"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.ListSpeciesActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_list_species"
+            android:theme="@style/Theme.AppCompat"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.CountingActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_counting"
+            android:theme="@style/Theme.AppCompat"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ListSectionActivity"/>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.CountOptionsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_count_options"
+            android:theme="@style/Theme.AppCompat"
+            android:parentActivityName="com.wmstein.transektcount.CountingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="CountingActivity"/>
+        </activity>
+        <activity
+            android:name="com.wmstein.transektcount.EditSectionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_edit_section"
+            android:theme="@style/Theme.AppCompat"
+            android:parentActivityName="com.wmstein.transektcount.CountingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="CountingActivity"/>
+        </activity>
+
+        <uses-library
+            android:required="false"
+            android:name="com.sec.android.app.multiwindow"/>
+
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:resource="@dimen/app_defaultsize_w"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:resource="@dimen/app_defaultsize_h"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:resource="@dimen/app_minimumsize_w"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:resource="@dimen/app_minimumsize_h"/>
+
+    </application>
+
+</manifest>

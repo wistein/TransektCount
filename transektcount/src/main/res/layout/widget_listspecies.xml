@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- widget_listspecies.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
+     Shows purged list of species counts -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/list_background"
+              android:orientation="horizontal"
+              android:padding="3dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+    <!-- Name of transect section created from hint+section_id -->
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2.3"
+        android:id="@+id/txtSect"
+        android:gravity="start|center_vertical"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:padding="4sp"
+        android:textStyle="bold"/>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+
+    <!-- Name of species -->
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="5.2"
+        android:id="@+id/txtSpecName"
+        android:gravity="left"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:padding="4sp"
+        android:textStyle="bold"/>
+
+	<!-- count -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.4"
+        android:id="@+id/specCount"
+        android:hint="@string/charZero"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:singleLine="true"
+        android:padding="0dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/count_background"
+        android:layout_marginBottom="0dp"
+        android:layout_gravity="center|top"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:inputType="number|numberSigned"/>
+            
+    <!-- i -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="i"
+        android:layout_weight="0.6"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+    <!-- Remark of transect section -->
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:id="@+id/txtSpecRem"
+        android:gravity="left|top"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="4sp"/>
+
+	<!-- counta -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.4"
+        android:id="@+id/specCounta"
+        android:hint="@string/charZero"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:singleLine="true"
+        android:padding="0dp"
+        android:textColor="#AFAFAF"
+        android:background="@drawable/count_background"
+        android:layout_marginBottom="0dp"
+        android:layout_gravity="center|top"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:inputType="number|numberSigned"/>
+
+    <!-- e -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:hint="e"
+        android:layout_weight="0.6"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+</LinearLayout>

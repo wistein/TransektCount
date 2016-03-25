@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_new_section">Neuer Abschnitt</string>
+    <string name="title_activity_list_section">Liste Transektabschn.</string>
+    <string name="title_activity_counting">CountingActivity</string>
+    <string name="title_activity_list_species">ListSpeciesActivity</string>
+    <string name="title_activity_count_options">CountOptionsActivity</string>
+    <string name="title_activity_edit_section">EditSectionActivity</string>
+    <string name="hello_world">Hallo!</string>
+
+    <!-- generic -->
+    <string name="app_name">TransektCount</string>
+    <string name="customMissing">Dein Hintergrundbild wurde nicht gefunden; es wird der Standard-Hintergrund verwendet.</string>
+    <string name="customNotDefined">Es wurde kein Hintergrundbild gewählt; es wird der Standard-Hintergrund verwendet.</string>
+    <string name="customTooBig">Leider ist der interne Speicher für das gewählte Hintergrundbild zu klein.</string>
+
+    <!-- WelcomeActivity -->
+    <string name="hello">Eine App für\'s Tagfaltermonitoring\n\nUnterstützt die artspezifische Erfassung von Schmetterlingen in Transektabschnitten.\n\nEine Anleitung zur App gibt es unter dem Menüpunkt \"Hilfe\".</string>
+    <string name="hello2">Viel Erfolg!</string>
+    <string name="newSectionButton">Neuer Abschnitt</string>
+    <string name="viewSectionButton">Liste Transektabschn.</string>
+    <string name="viewSpeciesButton">Zeige Ergebnis</string>
+    <string name="newSectTitle">Neuer Abschnitt</string>
+    <string name="changeLogTitle">App-Info</string>
+    <string name="viewHelpTitle">Hilfe</string>
+
+    <!-- NewSectionActivity -->
+    <string name="labelNewsectSaveButton">Speichern</string>
+    <string name="labelNewsect">Abschnittsbezeichnung</string>
+    <string name="labelNewCountButton">Art hinzuf.</string>
+    <string name="clearCountButton">Art entf.</string>
+    <string name="emptyBox">Bitte die leeren Felder ausfüllen!</string>
+    <string name="noCounts">Es muss mindestens ein Eintrag vorhanden sein!</string>
+    <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
+    <string name="boxFill">Eintrag </string>
+    <string name="sectionSaved">Liste gespeichert!</string>
+
+    <!-- ListSectionActivity -->
+    <string name="noCard">Die Sdcard kann nicht verwendet werden!</string>
+    <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
+    <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
+    <string name="exportMenu">Export DB</string>
+    <string name="exportBasisMenu">Export als Basis-DB</string>
+    <string name="importMenu">Import DB</string>
+    <string name="importBasisMenu">Import Basis-DB</string>
+    <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
+    <string name="importWin">Die Datenbank wurde importiert.</string>
+    <string name="noDb">Bitte lege eine Kopie der Datenbankdatei \"transektcount0.db\" auf die /sdcard Partition.</string>
+    <string name="importButton">Import</string>
+    <string name="importCancelButton">Abbrechen</string>
+    <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmImport">Willst Du wirklich eine alte Transekt-Datenbank \"transektcount.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmBasisExport">Willst Du wirklich die aktuelle Transekt-Datenbank als Basis-Datenbank \"transektcount0.db\" exportieren? Deine vorhandene Basis-Datenbank wird überschrieben!</string>
+    <string name="confirmExport">Willst Du wirklich die aktuelle Transekt-Datenbank \"transektcount.db\" exportieren? Eine zuvor exportierte Datenbank wird überschrieben!</string>
+
+
+    <!-- CountingActivity -->
+    <string name="saveCountsButton">Sichern</string>
+    <string name="sectSaving">Speichern </string>
+    <string name="hasAutoReset">%1$s hat Auto-Reset!</string>
+    <string name="alertTitle">Buzz!</string>
+    <string name="willLinkReset">- %1$s wird %2$s bei %3$d zurücksetzen.</string>
+    <string name="willLinkIncrease">- %1$s wird %2$s alle %3$d erhöhen.</string>
+    <string name="willLinkDecrease">- %1$s wird %2$s alle %3$d vermindern.</string>
+    <string name="cloneButton">Abschnittsliste duplizieren</string>
+    <string name="newName">Eine Bezeichnung für die Kopie der Liste eingeben.</string>
+    <string name="newCopyCreated">Eine neue Abschnittsliste wurde erstellt!</string>
+
+
+    <!-- CountingActivity Menu -->
+    <string name="editSectTitle">Liste bearbeiten</string>
+    <string name="confirmDelete">Soll die Liste wirklich gelöscht werden?</string>
+    <string name="postIncr">%1$s hat %2$s erhöht!</string>
+    <string name="postReset">%1$s hat %2$s zurückgesetzt!</string>
+    <string name="postDecr">%1$s hat %2$s verringert!</string>
+    <string name="willReset">- %1$s wird automatisch auf %2$d bei %3$d zurückgesetzt.</string>
+    <string name="willAlert">- %1$s wird bei %2$d ein Signal geben.</string>
+    <string name="deleteButton">Löschen</string>
+    <string name="cancelButton">Abbrechen</string>
+    <string name="action_share">Mitteilen</string>
+    <string name="send_to">Versenden</string>
+
+    <!-- EditSectionActivity -->
+    <string name="titleEdit">Listenname (Transektabschnitt)</string>
+    <string name="addLinkButton">Link Zählliste</string>
+    <string name="failedToSave">Leider konnten Ihre Daten nicht gespeichert werden. Bitte prüf Deine Links und versuch es nochmal.</string>
+    <string name="mismatch">Bitte prüfe, welche Zählliste Du verlinkt hast.</string>
+    <string name="zero">Der Link-Inkrementwert kann nicht Null sein, Speichern schlug fehl!</string>
+    <string name="every">alle</string>
+    <string name="incr_up"> werden erhöht </string>
+    <string name="incr_down"> werden vermindert </string>
+    <string name="incr_reset"> werden zurückgesetzt </string>
+    <string name="notesHere">Bemerkung</string>
+    <string name="notesHint">Bemerkung einfügen&#8230;</string>
+    <string name="deleteCount">Element löschen</string>
+    <string name="reallyDeleteCount">Bist Du sicher? Das Element wird sofort gelöscht.</string>
+    <string name="deleteLink">Link löschen</string>
+    <string name="reallyDeleteLink">Bist Du sicher? Der Link wird sofort gelöscht.</string>
+    <string name="xWillYZ">%1$s wird %2$s alle %4$d %3$s.</string>
+    <string name="linkPlaceholder">Link Information geht hierhin</string>
+    <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
+
+    <!-- ChangeLog -->
+    <string name="changelog_full_title">App Info</string>
+    <string name="changelog_title">Was ist neu?</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">mehr&#8230;</string>
+
+    <!-- ViewHelp -->
+    <string name="viewhelp_full_title">Hilfe</string>
+    <string name="viewhelp_title">Was kann die App?</string>
+    <string name="viewhelp_ok_button">OK</string>
+    <string name="viewhelp_show_full">mehr&#8230;</string>
+
+    <!-- Preferences -->
+    <string name="pref_bg">Hintergrund</string>
+    <string name="pref_bg_summ">Wähle Standard-, eigenen oder keinen Hintergrund.</string>
+    <string name="pref_awake">Lass Bildschirm an</string>
+    <string name="pref_awake_summ">Verhindert den Ruhezustand beim Zählen.</string>
+    <string name="chooseImg">Hintergrundbild</string>
+    <string name="explainImg">Wähle ein Hintergrundbild aus, wenn ein eigenes Bild angezeigt werden soll.</string>
+    <string name="prefs_appearance">Aussehen</string>
+    <string name="prefs_sound">Sound</string>
+    <string name="prefs_counting">Zählen</string>
+    <string name="image_error">Hintergrundbild setzen fehlgeschlagen! Versuche es mit der Gallery anstelle von File Manager.</string>
+    <string name="pref_note_font">Anmerkungs-Font</string>
+    <string name="pref_note_font_summ">Wähle diese Option um die Schriftgröße der Bemerkungen anzuheben.</string>
+    <string name="pref_sort_order">Sortierung</string>
+    <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
+    <string name="pref_sound">Tonalarm</string>
+    <string name="pref_sound_summary">Erzeuge einen Benachrichtigungston wenn ein Zählalarm ausgelöst wird.</string>
+    <string name="choose_alert">Benachrichtigungston</string>
+    <string name="explain_alert">Wähle einen Benachrichtigungston aus.</string>
+    <string name="pref_negative">Allow negative counts</string>
+    <string name="pref_negative_summ">If this option is selected then counts can drop below 0 when counting down.</string>
+    <string name="pref_duplicate">Verhindere gleiche Listeneinträge</string>
+    <string name="pref_duplicate_summary">Wähle diese Option, wenn Listeneinträge (Artnamen) eindeutig sein sollen.</string>
+    <string name="pref_button_sound">Zähler-Button Sound</string>
+    <string name="pref_button_sound_summary">Erzeuge einen Sound wenn ein Zähl-Button getippt wird.</string>
+    <string name="choose_button_alert">Button Sound</string>
+    <string name="explain_button_alert">Wähle einen Button-Sound aus.</string>
+
+
+    <!-- CountOptionsActivity -->
+    <string name="editCountValuea">Du kannst den momentanen Extern-Zählerstand %2$d von \"%1$s\" hier ändern.</string>
+    <string name="editCountValue">Du kannst den momentanen Intern-Zählerstand %2$d von \"%1$s\" hier ändern.</string>
+    <string name="addSomeAlerts">Jedem internen Zähler einer Art können Alarme zugewiesen werden, die ausgelöst werden, wenn der jeweils vorgegebene Wert erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
+    <string name="alertName">Neuer Alarm</string>
+    <string name="countName">Neue Art</string>
+    <string name="deleteAlert">Lösche Alarm</string>
+    <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
+    <string name="yesDeleteIt">Löschen</string>
+    <string name="noCancel">Abbrechen</string>
+
+    <!-- ListViewSpecies -->
+    <string name="sect">Ab</string>
+    <string name="viewSpecTitle">Zählergebnis</string>
+    <string name="wait">Bitte Warten, Tabelle wird berechnet.</string>
+    <string name="wait_header">Moment</string>
+    
+
+    <!-- other stuff -->
+    <string name="charZero">0</string>
+    <string name="countNameHint">Art-Name</string>
+    <string name="hintTitle">Titel</string>
+    <string name="hintSectionNotes">Abschnittsnotizen.</string>
+    <string name="hintInstructions">Anleitung.</string>
+    <string name="upgradeFail">Das Upgrade einiger Deiner Links zum neuen Format schlug fehl. Bitte prüfe Deine Projekte, um festzustellen welche betroffen sind und füge sie manuell hinzu. Entschuldige bitte diese Umstände.</string>
+    <string name="getHelp">Leider gibt es ein Problem mit Deiner Datenbank. Bitte sende eine E-Mail mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
+    <string name="linkLoop">Bitte prüfe Deine Links - es scheint da ein Problem zu geben!</string>
+    <string name="linkLoopError">Oh, nein!</string>
+
+</resources>
