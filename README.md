@@ -7,4 +7,4 @@ The recorded data (counts and remarks) may either be read on the smartphone or t
 
 The app demands for storage access permits which are needed for im-/exporting the counting data. 
 
-A detailed description for setting up and using the app is provided within the app under menu "Help".
+A detailed description for setting up and using the app as well as a sample basic database (transektcount0.db) is provided under 'transectcount/docs'.
