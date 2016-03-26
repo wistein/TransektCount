@@ -100,7 +100,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         getPrefs();
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
-        counting_screen.setBackgroundDrawable(transektCount.getBackground());
+        counting_screen.setBackground(transektCount.getBackground());
 
         count_area = (LinearLayout) findViewById(R.id.countCountLayout);
         notes_area = (LinearLayout) findViewById(R.id.countNotesLayout);
@@ -163,11 +163,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         List<String> extras = new ArrayList<String>();
 
         // counts
-        countingWidgets = new ArrayList<CountingWidget>();
+        countingWidgets = new ArrayList<>();
         counts = countDataSource.getAllCountsForSection(section.id);
 
         // display all the counts by adding them to countCountLayout
-        alerts = new ArrayList<Alert>();
+        alerts = new ArrayList<>();
         for (Count count : counts)
         {
             CountingWidget widget = new CountingWidget(this, null);
@@ -529,8 +529,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
-        counting_screen.setBackgroundDrawable(null);
-        counting_screen.setBackgroundDrawable(transektCount.setBackground());
+        counting_screen.setBackground(null);
+        counting_screen.setBackground(transektCount.setBackground());
         getPrefs();
     }
 

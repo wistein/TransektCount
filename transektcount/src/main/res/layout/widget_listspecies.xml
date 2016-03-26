@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="2.3"
-        android:id="@+id/txtSect"
+        android:id="@+id/txtSectName"
         android:gravity="start|center_vertical"
         android:textColor="#FFFFFF"
         android:textSize="17sp"
@@ -79,29 +79,44 @@
         android:gravity="center"
         android:text="i"
         android:layout_weight="0.6"/>
+    </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="wrap_content">
 
     <!-- Remark of transect section -->
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="8"
+        android:layout_weight="3.2"
+        android:id="@+id/txtSectRem"
+        android:gravity="left|top"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:padding="4sp"/>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"/>
+
+    <!-- Remark of species -->
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="4.6"
         android:id="@+id/txtSpecRem"
         android:gravity="left|top"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:padding="4sp"/>
 
-	<!-- counta -->
+            <!-- counta -->
     <TextView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:layout_weight="1.4"
         android:id="@+id/specCounta"
         android:hint="@string/charZero"

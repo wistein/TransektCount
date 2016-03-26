@@ -29,8 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.text.method.Touch.scrollTo;
-
 /**
  * Created by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
@@ -59,15 +57,13 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     EditTitleWidget enw;
     private View markedForDelete;
     private long idToDelete;
-    private AlertDialog.Builder are_you_sure;
+    private AlertDialog.Builder areYouSure;
     public ArrayList<String> countNames;
     public ArrayList<Long> countIds;
     public ArrayList<CountEditWidget> savedCounts;
 
     //added for dupPref ToDo
     private boolean dupPref;
-    private ArrayList<NewCount> myTexts;
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,9 +71,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_section);
 
-        countNames = new ArrayList<String>();
-        countIds = new ArrayList<Long>();
-        savedCounts = new ArrayList<CountEditWidget>();
+        countNames = new ArrayList<>();
+        countIds = new ArrayList<>();
+        savedCounts = new ArrayList<>();
 
         notes_area = (LinearLayout) findViewById(R.id.editingNotesLayout);
         counts_area = (LinearLayout) findViewById(R.id.editingCountsLayout);
@@ -106,10 +102,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         //added for dupPref
         dupPref = prefs.getBoolean("pref_duplicate", true);
-        //
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
-        counting_screen.setBackgroundDrawable(transektCount.getBackground());
+        counting_screen.setBackground(transektCount.getBackground());
     }
 
     @Override
@@ -144,8 +139,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         alertDataSource = new AlertDataSource(this);
         alertDataSource.open();
 
-        // load the data
-        // sections
+        // load the sections data
         section = sectionDataSource.getSection(section_id);
         getSupportActionBar().setTitle(section.name);
 
@@ -164,7 +158,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.requestFocus();
         notes_area.addView(enw);
 
-        // counts
+        // load the counts data
         counts = countDataSource.getAllCountsForSection(section.id);
 
         // display all the counts by adding them to countCountLayout
@@ -221,7 +215,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public void saveAndExit(View view)
     {
         if (saveData())
-            // empty the list of linkEditWidgets in case it hangs around to create a nuisance later
             savedCounts.clear();
         super.finish();
     }
@@ -230,10 +223,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     {
         //added for dupPref ToDo
         String count_name;
-        //
 
-        ArrayList<String> newlyCreatedCounts = new ArrayList<String>();
-        
         // save title and notes only if they have changed
         boolean savesection = false;
         String newtitle = etw.getSectionName();
@@ -251,7 +241,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             savesection = true;
         }
         //...if they haven't, only save if the current notes have a value (i.e.
-        // they are trying to delete what's there.
         else
         {
             if (StringUtils.isNotEmpty(section.notes))
@@ -266,63 +255,71 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         // save counts
+        boolean retValue = false; //---------- <- this sort of comment shows: added for dupPref
+
         int childcount;
-        childcount = counts_area.getChildCount();
+        childcount = counts_area.getChildCount(); //No. of species in list
+
         for (int i = 0; i < childcount; i++)
         {
+            Log.i(TAG, "Childcount: " + String.valueOf(childcount));
             CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
             if (StringUtils.isNotEmpty(cew.getCountName()))
             {
-                // save or create
-                if (cew.countId == 0)
-                {
-                    // make sure a count is not created twice if it's already been done in a link, above
-                    if (newlyCreatedCounts.contains(cew.getCountName()))
-                        continue;
-
-                    /*
-                    // check for unique names
-                    if (dupPref)
-                    {
-                        countNames.clear();
-                        for (NewCount c : myTexts)
-                        {
-                            // cew.getCountName() = c.getText().toString();
-                            if (countNames.contains(cew.getCountName()))
+                Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
+/********
+                // check for unique names ----------
+                if (dupPref) //----------
+                { //----------
+                    //getCountNames(); // refreshes countNames??? ----------
+                    for (CountEditWidget c : savedCounts) //----------
+                    { //-----
+                        count_name = c.getCountName(); //----------
+                        Log.i(TAG, "count_name = " + count_name); //----------
+                        if (countNames.contains(count_name)) //----------
+                        { //----------
+                            retValue = false; //----------
+                            Log.i(TAG, "found duplicate"); //----------
+                        } //----------
+                        else //----------
+                        { //----------
+********/
+                            // create or save
+                            if (cew.countId == 0)
                             {
-                                Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
-                                return true;
+                                Log.i(TAG, "Creating!");
+                                //returns newCount
+                                countDataSource.createCount(section_id, cew.getCountName());
                             }
                             else
                             {
-                                countNames.add(cew.getCountName());
+                                Log.i(TAG, "Updating!");
+                                countDataSource.updateCountName(cew.countId, cew.getCountName());
                             }
-                        }
-                    }
-                    */
-
-                    //Log.i(TAG, "Creating!");
-                    countDataSource.createCount(section_id, cew.getCountName());
-                }
-                else
-                {
-                    //Log.i(TAG, "Updating!");
-                    countDataSource.updateCountName(cew.countId, cew.getCountName());
-                }
-            }
-            else
-            {
-                Log.i(TAG, "Failed to save count: " + cew.countId);
+/*********
+                            retValue = true; //----------
+                        } //----------
+                    } //----------
+                } //----------
+***********/
             }
         }
-        Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
+/**********
+        if (retValue) //----------
+        { //----------
 
-        return true;
+            Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show(); //----------
+
+        } //----------
+        else //----------
+        { //----------
+            Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show(); //----------
+        } //----------
+        return retValue; //----------
+ *********/
+    Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
+    return true;        
     }
-
-    /*
-     * These are the methods for adding new widgets to the relevant section of the screen.
-     */
 
     /*
      * Scroll to end of view
@@ -350,7 +347,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         CountEditWidget cew = new CountEditWidget(this, null);
         counts_area.addView(cew); // adds a child view cew
         // Scroll to end of view, added by wmstein
-        View scrollV= findViewById(R.id.editingScreen);
+        View scrollV = findViewById(R.id.editingScreen);
         ScrollToEndOfView(scrollV);
         cew.requestFocus();       // set focus to cew added by wmstein
 
@@ -380,10 +377,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             // before removing this widget it is necessary to do the following:
             // (1) Check the user is sure they want to delete it and, if so...
             // (2) Delete the associated alert from the database.
-            are_you_sure = new AlertDialog.Builder(this);
-            are_you_sure.setTitle(getString(R.string.deleteCount));
-            are_you_sure.setMessage(getString(R.string.reallyDeleteCount));
-            are_you_sure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
+            areYouSure = new AlertDialog.Builder(this);
+            areYouSure.setTitle(getString(R.string.deleteCount));
+            areYouSure.setMessage(getString(R.string.reallyDeleteCount));
+            areYouSure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
@@ -392,17 +389,16 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                     counts_area.removeView((CountEditWidget) markedForDelete.getParent().getParent());
                 }
             });
-            are_you_sure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
+            areYouSure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
                     // Cancelled.
                 }
             });
-            are_you_sure.show();
+            areYouSure.show();
         }
         getCountNames();
-
     }
     
     @Override
@@ -446,11 +442,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
-        counting_screen.setBackgroundDrawable(null);
-        counting_screen.setBackgroundDrawable(transektCount.setBackground());
+        counting_screen.setBackground(null);
+        counting_screen.setBackground(transektCount.setBackground());
 
         //added for dupPref
         dupPref = prefs.getBoolean("duplicate_counts", true);
-        //
     }
 }

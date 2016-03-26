@@ -47,7 +47,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private List<Alert> alerts;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
-    private AlertDialog.Builder are_you_sure;
+    private AlertDialog.Builder areYouSure;
     private View markedForDelete;
     private long deleteAnAlert;
     private long section_id;
@@ -71,7 +71,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
-        counting_screen.setBackgroundDrawable(TransektCountApplication.getBackground());
+        counting_screen.setBackground(TransektCountApplication.getBackground());
 
         static_widget_area = (LinearLayout) findViewById(R.id.static_widget_area);
         dynamic_widget_area = (LinearLayout) findViewById(R.id.dynamic_widget_area);
@@ -83,7 +83,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             section_id = extras.getLong("section_id");
         }
 
-        savedAlerts = new ArrayList<AlertCreateWidget>();
+        savedAlerts = new ArrayList<>();
         if (savedInstanceState != null)
         {
             if (savedInstanceState.getSerializable("savedAlerts") != null)
@@ -91,8 +91,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                 savedAlerts = (ArrayList<AlertCreateWidget>) savedInstanceState.getSerializable("savedAlerts");
             }
         }
-
-
     }
 
     @Override
@@ -130,6 +128,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         enw.setSectionName(count.notes);
         enw.setWidgetTitle(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
+        enw.requestFocus();
+
         static_widget_area.addView(enw);
 
         aa_widget = new AddAlertWidget(this, null);
@@ -280,10 +280,10 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             // before removing this widget it is necessary to do the following:
             // (1) Check the user is sure they want to delete it and, if so...
             // (2) Delete the associated alert from the database.
-            are_you_sure = new AlertDialog.Builder(this);
-            are_you_sure.setTitle(getString(R.string.deleteAlert));
-            are_you_sure.setMessage(getString(R.string.reallyDeleteAlert));
-            are_you_sure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
+            areYouSure = new AlertDialog.Builder(this);
+            areYouSure.setTitle(getString(R.string.deleteAlert));
+            areYouSure.setMessage(getString(R.string.reallyDeleteAlert));
+            areYouSure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
@@ -298,14 +298,14 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                     }
                 }
             });
-            are_you_sure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
+            areYouSure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
                     // Cancelled.
                 }
             });
-            are_you_sure.show();
+            areYouSure.show();
         }
     }
 
@@ -347,8 +347,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
-        counting_screen.setBackgroundDrawable(null);
-        counting_screen.setBackgroundDrawable(TransektCountApplication.setBackground());
+        counting_screen.setBackground(null);
+        counting_screen.setBackground(TransektCountApplication.setBackground());
     }
 
 }

@@ -22,9 +22,6 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /*********************
  * Create a new transect section list (NewCount) with name
@@ -47,7 +44,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     SectionDataSource sectionDataSource;
     CountDataSource countDataSource;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -60,7 +56,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         dupPref = prefs.getBoolean("pref_duplicate", true);
 
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
-        baseLayout.setBackgroundDrawable(transektCount.getBackground());
+        baseLayout.setBackground(transektCount.getBackground());
 
         // data access using CrowTrack method
         sectionDataSource = new SectionDataSource(this);
@@ -69,11 +65,11 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         // setup from previous version
         newBox = 1;
         layout = (ViewGroup) findViewById(R.id.newCountLayout);
-        myTexts = new ArrayList<NewCount>();
+        myTexts = new ArrayList<>();
         newsectName = (EditText) findViewById(R.id.newsectName);
         newsectName.setTextColor(Color.WHITE);
         newsectName.setHintTextColor(Color.WHITE);
-        countNames = new ArrayList<String>();
+        countNames = new ArrayList<>();
 
         if (savedInstanceState != null)
         {
@@ -97,7 +93,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
                 }
             }
         }
-
     }
 
     // the required pause and resume stuff
@@ -131,7 +126,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         countDataSource.close();
         super.onPause();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -269,9 +263,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
-        baseLayout.setBackgroundDrawable(null);
-        baseLayout.setBackgroundDrawable(transektCount.setBackground());
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
-
 }

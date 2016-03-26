@@ -74,8 +74,7 @@ public class TransektCountApplication extends Application
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-
-
+        
         if (backgroundPref.equals("none"))
         {
             // boring black screen

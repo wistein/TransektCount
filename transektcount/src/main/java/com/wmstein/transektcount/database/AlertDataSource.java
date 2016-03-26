@@ -92,7 +92,7 @@ public class AlertDataSource
 
     public List<Alert> getAllAlertsForCount(long count_id)
     {
-        List<Alert> alerts = new ArrayList<Alert>();
+        List<Alert> alerts = new ArrayList<>();
 
         Cursor cursor = database.query(DbHelper.ALERT_TABLE, allColumns,
             DbHelper.A_COUNT_ID + " = " + count_id, null, null, null, null);

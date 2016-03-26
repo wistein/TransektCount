@@ -3,14 +3,14 @@
           package="com.wmstein.transektcount"
           android:largeHeap="true"
 
-          android:versionName="1.2.1">
+          android:versionName="1.2.2">
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <!-- android:screenOrientation="landscape" in allen Activities (Tablet-Version) -->
-    <!-- android:screenOrientation="portrait" in allen Activities (Smartphone-Version) -->
+<!-- android:screenOrientation="landscape" in all activities (Tablet-Version) -->
+<!-- android:screenOrientation="portrait" in all activities but ListSpeciesActivity (Smartphone-Version) -->
 
     <application
         android:name=".TransektCountApplication"
@@ -63,7 +63,6 @@
         </activity>
         <activity
             android:name="com.wmstein.transektcount.ListSpeciesActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_list_species"
             android:theme="@style/Theme.AppCompat"
             android:launchMode="singleTop"

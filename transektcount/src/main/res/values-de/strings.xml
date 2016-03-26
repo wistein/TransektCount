@@ -25,6 +25,11 @@
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
+    <string name="col1">Abschnitt</string>
+    <string name="col2">Spezies</string>
+    <string name="col3">Intern</string>
+    <string name="col4">Extern</string>
+    <string name="col5">Bemerkungen</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>
@@ -43,6 +48,7 @@
     <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export als Basis-DB</string>
+    <string name="exportCSVMenu">Export DB -> CSV-Datei</string>
     <string name="importMenu">Import DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>

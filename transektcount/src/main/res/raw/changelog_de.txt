@@ -27,11 +27,12 @@
   _
 $ Todo
   % Todo
-    * Doppelte Artnamen in "Edit Abschnitt" reklamieren
-$ 1.2.1
-  % Version 1.2.1
-  _ 22.03.2016
-    * Export-DB enthält nur Zählergebnisse >0
+    * Export-DB in csv-Format
+$ 1.2.2
+  % Version 1.2.2
+  _ 25.03.2016
+    * Bug gefixt: Doppelte Speziesnamen werden verhindert
+    * Exportierte DB enthält nur Zählergebnisse >0
     * Bessere Darstellung auf kleinen Displays
 $ 1.2.0
   % Version 1.2.0

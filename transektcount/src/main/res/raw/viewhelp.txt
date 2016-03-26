@@ -46,8 +46,7 @@ $ 9
   ! P. na./ra.-compl.
   ! ...
   _ 
-  ! You may add one or two spare entries for unforeseen cases at the end.
-  ! This list can be changed or supplemented afterwards.
+  ! The list can be changed or supplemented anytime afterwards.
   ! With "Save List" you get it stored into the database.
   _ 
   ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
@@ -76,14 +75,14 @@ $ 8
   _ 
   ! Nearly each app page has its specific context menu. You can activate it with the 3-point-symbol in the upper right corner.
   _ 
-  ! When you have large lists or have collect big amounts of data the app may slow down a bit, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
+  ! When you have large lists or have collected big amounts of data the app may slow down a bit, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
   _  
-  ! Finally, there is a page showing your results. Here you see only the species which got counts. You open this page from the Starting page with "Show Result".
+  ! From the Starting page you can open the results page with "Show Results". It shows the list of counted butterflies.
 
 $ 7
   % 4. Further functions
   !
-  ! The "Settings" page can be reached from the menu of most pages of the app.
+  ! The "Settings" page can be reached from most pages of the app.
   ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds and alerts. 
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 

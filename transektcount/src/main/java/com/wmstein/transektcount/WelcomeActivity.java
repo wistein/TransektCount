@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.wmstein.transektcount.database.CSVWriter;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
@@ -28,6 +29,7 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.sql.Statement;
@@ -66,7 +68,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // following stuff for purging export db added by wmstein
     private SQLiteDatabase database;
     private DbHelper dbHandler;
-    
+    private long sect_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -79,7 +82,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-        baseLayout.setBackgroundDrawable(transektCount.getBackground());
+        baseLayout.setBackground(transektCount.getBackground());
         
         //Progressbar in activity_welcome invisible
 
@@ -128,6 +131,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             exportDb();
             return true;
         }
+        else if (id == R.id.exportCSVMenu)
+        {
+            exportDb2CSV();
+            return true;
+        }
         else if (id == R.id.exportBasisMenu)
         {
             exportBasisDb();
@@ -153,7 +161,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
-
         else if (id == R.id.viewSpecies)
         {
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
@@ -161,7 +168,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             startActivity(new Intent(this, ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -181,19 +187,19 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-        baseLayout.setBackgroundDrawable(null);
-        baseLayout.setBackgroundDrawable(transektCount.setBackground());
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
     }
 
   /**************************************************************************
-   * The five activities below are for exporting and importing the database. 
+   * The six activities below are for exporting and importing the database. 
    * They've been put here because no database should be open at this point.
    */
 
     /***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
     // supplemented with date and time in filename by wmstein
-    // and prepared for purged export (ToDo)
+    // and purged export
     @SuppressLint("SdCardPath")
     public void exportDb()
     {
@@ -240,17 +246,34 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else
         {
-            // export the db
+            // purge count table and export the db
             try
             {
-                copy(infile, tmpfile); // save current db as backup db "tempfile"
-                
-                //*************************************
-                // purge transektcount.db from empty rows
-                purgeDB();
-                
-                copy(infile, outfile); // export purged DB
-                copy(tmpfile, infile); // restore current db from tempfile
+                // save current db as backup db tmpfile
+                copy(infile, tmpfile);
+
+                // purge transektcount.db count table from empty rows
+                // Delete all empty counts (and sections)
+                // by wmstein
+                dbHandler = new DbHelper(this);
+                database = dbHandler.getWritableDatabase();
+
+                String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
+                database.execSQL(sql);
+
+                // Not necessary to purge the section table, but the code would do
+                //sql = "DELETE FROM " + DbHelper.SECTION_TABLE + " WHERE (" + DbHelper.S_CREATED_AT + " IS NULL OR " + DbHelper.S_CREATED_AT + " = '');";
+                //database.execSQL(sql);
+
+                dbHandler.close();
+
+                // export purged db
+                copy(infile, outfile);
+
+                // restore current db from tmpfile
+                copy(tmpfile, infile);
+
+                // delete backup db
                 boolean d0 = tmpfile.delete(); // delete backup DB
                 if (d0)
                 {
@@ -266,27 +289,122 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             }
         }
     }
-
-    /**********************************************************************************************/
-    // Delete all empty counts and sections
-    // by wmstein
-    public void purgeDB()
+    /***********************************************************************/
+    // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.csv
+    // supplemented with date and time in filename by wmstein
+    // and purged export in csv-format (ToDo)
+    @SuppressLint("SdCardPath")
+    public void exportDb2CSV()
     {
-        dbHandler = new DbHelper(this);
-        database = dbHandler.getWritableDatabase();
+        boolean mExternalStorageAvailable = false;
+        boolean mExternalStorageWriteable = false;
+        String state = Environment.getExternalStorageState();
+        File tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
+        File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
+        String destPath = "/data/data/com.wmstein.transektcount/files";
 
-        String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
-        database.execSQL(sql);
-        
-        // Reihen werden nicht gelöscht (leeres int-Feld =0 oder <1 funktioniert nicht?)
-        //sql = "DELETE FROM " + DbHelper.SECTION_TABLE + " WHERE (" + DbHelper.S_CREATED_AT + " < 1);";
-        //database.execSQL(sql);
+        try
+        {
+            destPath = getFilesDir().getPath();
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "destPath error: " + e.toString());
+        }
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
+        File infile = new File(destPath + "/transektcount.db");
 
-        dbHandler.close();
+        if (Environment.MEDIA_MOUNTED.equals(state))
+        {
+            // We can read and write the media
+            mExternalStorageAvailable = mExternalStorageWriteable = true;
+        }
+        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+        {
+            // We can only read the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = false;
+        }
+        else
+        {
+            // Something else is wrong. It may be one of many other states, but all we need
+            //  to know is we can neither read nor write
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
 
+        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        {
+            Log.e(TAG, "No sdcard access");
+            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            // export the count table to csv
+            try
+            {
+                // save current db as backup db tmpfile
+                copy(infile, tmpfile);
+
+                // purge transektcount.db count table from empty rows 
+                dbHandler = new DbHelper(this);
+                database = dbHandler.getWritableDatabase();
+
+                String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
+                database.execSQL(sql);
+
+                //********************
+                // export purged db as csv
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
+                Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE,null);
+                String arrCol[] =
+                    {
+                        getString(R.string.col1), getString(R.string.col2), getString(R.string.col3), getString(R.string.col4), getString(R.string.col5)
+                    };
+                // modified for csv table layout
+                csvWrite.writeNext(arrCol);
+
+                while(curCSV.moveToNext())
+                {
+
+                    sect_id = curCSV.getLong(1);
+                    section = sectionDataSource.getSection(sect_id);
+
+                    String arrStr[] = 
+                    {
+                        //curCSV.getString(0), //ID not used
+                        curCSV.getString(1),   //section No. try to substitute with section name 
+                        curCSV.getString(4),   //species name
+                        curCSV.getString(2),   //count
+                        curCSV.getString(3),   //counta
+                        curCSV.getString(5)    //notes
+                    };
+                    csvWrite.writeNext(arrStr);
+                }
+                csvWrite.close();
+                curCSV.close();
+                
+                dbHandler.close();
+                
+                // restore current db from tmpfile
+                copy(tmpfile, infile);
+
+                // delete backup db
+                boolean d0 = tmpfile.delete();
+                if (d0)
+                {
+                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            catch (IOException e)
+            {
+                Log.e(TAG, "Failed to copy database");
+                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
     }
 
-    
     /**************************************************************************************************/
     @SuppressLint("SdCardPath")
     // modified by wmstein
@@ -300,7 +418,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         try
         {
             destPath = getFilesDir().getPath();
-        } catch (Exception e)
+        } 
+        catch (Exception e)
         {
             Log.e(TAG, "destPath error: " + e.toString());
         }

@@ -46,8 +46,7 @@ $ 9
   ! P. na./ra.-Kompl.
   ! ...
   _ 
-  ! Es sollten noch ein oder zwei allgemeine Art-Einträge für unvorhergesehene Fälle am Ende angefügt werden.
-  ! Die Liste kann aber auch nachträglich ergänzt oder geändert werden.
+  ! Die Liste kann jederzeit nachträglich ergänzt oder geändert werden.
   ! Mit "Speichern" wird die Liste übernommen.
   _ 
   ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnittsliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
@@ -78,12 +77,12 @@ $ 8
   _ 
   ! Bei großen Datenmengen kann sich die Reaktion der App, insbesondere beim Aufruf einer Abschnittsartenliste (der Zählerseite) und der Ergebnisseite etwas verlangsamen, da hier im Hintergrund umfangreiche Berechnungen laufen.
   _ 
-  ! Schließlich gibt es noch die Ergebnisseite, die eine Liste nur der Falter anzeigt, die gezählt wurden. Diese Seite wird von der Startseite aus erreicht mit "Zeige Ergebnis". 
+  ! Die Ergebnisseite zeigt eine Liste der gezählten Falter an. Diese Seite wird von der Startseite aus erreicht mit "Zeige Ergebnis". 
 
 $ 7
   % 4. Weitere Funktionen
   !
-  ! Die Seite „Einstellungen“ wird vom Menü fast jeder App-Seite aus erreicht.
+  ! Die Seite „Einstellungen“ kann von fast jeder App-Seite aus erreicht werden.
   ! Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds und Alarme. 
   ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
   _ 

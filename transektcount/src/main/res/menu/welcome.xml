@@ -41,6 +41,12 @@
         android:icon="@android:drawable/ic_menu_save">
     </item>
     <item
+        android:id="@+id/exportCSVMenu"
+        android:title="@string/exportCSVMenu"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_save">
+    </item>
+    <item
         android:id="@+id/viewHelp"
         android:title="@string/viewHelpTitle"
         app:showAsAction="never"

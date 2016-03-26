@@ -46,6 +46,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     private SectionDataSource sectionDataSource;
     
     private long sect_id;
+    private long sect_idOld;
     private Section section;
 
     @Override
@@ -108,7 +109,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // 
     public void loadData()
     {
-        listSpecWidgets = new ArrayList<ListSpeciesWidget>();
+        listSpecWidgets = new ArrayList<>();
         //ListSpeciesActivity.this.getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
         getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
 
@@ -121,27 +122,32 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         
         //ListSpeciesActivity.this.spec_area.removeAllViews();
         spec_area.removeAllViews();
-
+        sect_idOld = 999999; // preset for No. of sections never reached
         // display all the counts by adding them to listSpecies layout
         for (Count spec : specs)
         {
             // set section ID from count table and prepare to get section name from section table
             sect_id = spec.section_id;
+            Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
             section = sectionDataSource.getSection(sect_id);
 
-            //ListSpeciesWidget widget = new ListSpeciesWidget(ListSpeciesActivity.this, null);
             ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
-
             widget.setCount(spec, section);
             spec_count = widget.getSpec_count(spec);
             spec_counta = widget.getSpec_counta(spec);
 
-            // spec_count(a) werden nicht direkt aus ListSpeciesWidget.java übernommen!
+            // fill widget only for counted species
             if (spec_counta > 0 || spec_count > 0)
             {
+                if (sect_id == sect_idOld)
+                {
+                    widget.setCount1(spec, section);
+                }
+                
                 listSpecWidgets.add(widget);
                 //ListSpeciesActivity.this.spec_area.addView(widget);
                 spec_area.addView(widget);
+                sect_idOld = sect_id;
             }
         }
     }
@@ -182,8 +188,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
-        listSpec_screen.setBackgroundDrawable(null);
-        listSpec_screen.setBackgroundDrawable(transektCount.setBackground());
+        listSpec_screen.setBackground(null);
+        listSpec_screen.setBackground(transektCount.setBackground());
         getPrefs();
     }
 
