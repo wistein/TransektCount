@@ -27,11 +27,11 @@
   _
 $ Todo
   % Todo
-    * Export DB in csv-Format
+    * Bug: Double species names not rejected in "Edit Sections"
 $ 1.2.2
   % Version 1.2.2
   _ 2016-03-25
-    * Bug fixed: Double species names now rejected
+    * Export DB in csv-Format
     * Exported DB shows only counts >0
     * Better views for small displays
 $ 1.2.0

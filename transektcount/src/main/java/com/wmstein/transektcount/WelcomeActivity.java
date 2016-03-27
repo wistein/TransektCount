@@ -68,7 +68,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // following stuff for purging export db added by wmstein
     private SQLiteDatabase database;
     private DbHelper dbHandler;
-    private long sect_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -203,8 +202,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     @SuppressLint("SdCardPath")
     public void exportDb()
     {
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+        boolean mExternalStorageAvailable;
+        boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
         File tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
         File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
@@ -279,30 +278,35 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 {
                     Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
             catch (IOException e)
             {
                 Log.e(TAG, "Failed to copy database");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
-                return;
             }
         }
     }
+    
     /***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.csv
     // supplemented with date and time in filename by wmstein
-    // and purged export in csv-format (ToDo)
+    // and purged export in csv-format
     @SuppressLint("SdCardPath")
     public void exportDb2CSV()
     {
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+        boolean mExternalStorageAvailable;
+        boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
         File tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
         File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
         String destPath = "/data/data/com.wmstein.transektcount/files";
-
+        SectionDataSource sectionDataSource;
+        Section section;
+        String sectName;
+        String sectNotes;
+        String specNotes;
+        long sect_id;
+        
         try
         {
             destPath = getFilesDir().getPath();
@@ -351,38 +355,49 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
                 database.execSQL(sql);
+                sectionDataSource = new SectionDataSource(this);
+                sectionDataSource.open();
 
-                //********************
                 // export purged db as csv
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
                 Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE,null);
+                
+                // set header according to table representation in MS Excel
+                // Section, Section Notes, Species, Internal, External, Notes
                 String arrCol[] =
                     {
-                        getString(R.string.col1), getString(R.string.col2), getString(R.string.col3), getString(R.string.col4), getString(R.string.col5)
+                        getString(R.string.col1), getString(R.string.col2), getString(R.string.col3), getString(R.string.col4), getString(R.string.col5), getString(R.string.col6)
                     };
-                // modified for csv table layout
                 csvWrite.writeNext(arrCol);
-
+                
+                // build the table array
                 while(curCSV.moveToNext())
                 {
-
                     sect_id = curCSV.getLong(1);
                     section = sectionDataSource.getSection(sect_id);
+                    sectName = section.name;
+                    sectNotes = section.notes;
+                    
+                    specNotes = curCSV.getString(5);
+                    // Byte code translation from UTF-8 to ISO-8859-1 makes representation in MS Excel even worse.
+                    // Excel can import csv files with UTF-8 filter 
+                    //byte[] utf8 = specNotes.getBytes("UTF-8");
+                    //specNotes = new String(utf8, "ISO-8859-1");
 
                     String arrStr[] = 
                     {
-                        //curCSV.getString(0), //ID not used
-                        curCSV.getString(1),   //section No. try to substitute with section name 
+                        sectName,              //section name
+                        sectNotes,             //section notes
                         curCSV.getString(4),   //species name
                         curCSV.getString(2),   //count
                         curCSV.getString(3),   //counta
-                        curCSV.getString(5)    //notes
+                        specNotes              //notes
                     };
                     csvWrite.writeNext(arrStr);
                 }
+
                 csvWrite.close();
                 curCSV.close();
-                
                 dbHandler.close();
                 
                 // restore current db from tmpfile
@@ -394,13 +409,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 {
                     Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
             catch (IOException e)
             {
                 Log.e(TAG, "Failed to copy database");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
-                return;
             }
         }
     }
@@ -410,8 +423,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // modified by wmstein
     public void exportBasisDb()
     {
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+        boolean mExternalStorageAvailable;
+        boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
         File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
         String destPath = "/data/data/com.wmstein.transektcount/files";
@@ -456,13 +469,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             {
                 copy(infile, outfile);
                 Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
-                return;
             }
             catch (IOException e)
             {
                 Log.e(TAG, "Failed to copy database");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
-                return;
             }
         }
     }
@@ -522,12 +533,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     mExternalStorageAvailable = mExternalStorageWriteable = false;
                 }
 
-
                 if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
                 {
                     Log.e(TAG, "No sdcard access");
                     Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
-                    return;
                 }
                 else
                 {
@@ -539,11 +548,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         Log.e(TAG, "Failed to import database");
                         Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
-                        return;
                     }
                 }
-
-                // END
+            // END
             }
         }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
         {
@@ -573,5 +580,4 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         in.close();
         out.close();
     }
-
 }

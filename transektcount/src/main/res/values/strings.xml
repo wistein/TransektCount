@@ -26,10 +26,11 @@
     <string name="changeLogTitle">App Info</string>
     <string name="viewHelpTitle">Help</string>
     <string name="col1">Section</string>
-    <string name="col2">Species</string>
-    <string name="col3">Internal</string>
-    <string name="col4">External</string>
-    <string name="col5">Notes</string>
+    <string name="col2">Section Notes</string>
+    <string name="col3">Species</string>
+    <string name="col4">Internal</string>
+    <string name="col5">External</string>
+    <string name="col6">Notes</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Save List</string>

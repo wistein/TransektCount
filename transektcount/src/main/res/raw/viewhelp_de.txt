@@ -87,7 +87,7 @@ $ 7
   ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
   _ 
   ! Das Menü auf der Eingangsseite bietet Import-, Export-, Hilfe-, Info- und die Einstellungsfunktionen. 
-  ! Es erlaubt neben dem Export der DB als Basis-DB (nur sinnvoll, solange alle Zählerstände null sind, s. "2. Einrichtung") auch den Export der aktuellen Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db". 
+  ! Es erlaubt neben dem Export der DB als Basis-DB (nur sinnvoll, solange alle Zählerstände null sind, s. "2. Einrichtung") auch den Export der aktuellen Zähldaten als SQLite-Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db" oder als csv-Datei (Export DB -> CSV-Datei) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv". 
   ! Importiert werden kann von hier aus die angelegte Basis-Datenbank "/sdcard/transektcount0.db", die als Basis für neue Begehungen dient. Hier ist zu beachten, dass beim Import der Basis-Datenbank die bisherigen Daten überschrieben werden. 
   ! Und unter "App-Info" sind die E-Mail-Adresse des Autors (für Bug-Reports), die Historie der App-Entwicklung und ein Lizenz-Hinweis abrufbar.
   _ 
@@ -96,7 +96,8 @@ $ 7
   ! In der Zähler-Ansicht eines ausgewählten Transektabschnitts kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden. Diese Funktion empfiehlt sich, wie unter "2. Einrichtung" beschrieben, bei erstmaligem Anlegen der Datenbankstruktur.
   ! In dieser Ansicht kann auch über das Mitteilungssymbol eine Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
   _ 
-  ! IT-affine Anwender können die "transektcount_JJJJ-MM-TT_hhmmss.db"-Dateien auf einen PC übertragen und mit Hilfe des kostenlosen Tools "SqliteBrowser" (sqlitebrowser.org) die Zähldaten in der Tabelle "counts" betrachten oder für Excel (im .csv-Format) exportieren.
+  ! IT-affine Anwender können die SQLite-Datei "transektcount_JJJJ-MM-TT_hhmmss.db" oder die csv-Textdatei "transektcount_JJJJ-MM-TT_hhmmss.csv" aus dem "/sdcard"-Verzeichnis auf einen PC übertragen.
+  ! Dort kann mit Hilfe des kostenlosen Tools "SqliteBrowser" (sqlitebrowser.org) die .db-Datei bearbeitet bzw. die .csv-Datei in Excel als Text-Datei (Unicode UTF-8) importiert und bearbeitet werden.
   !
   
 $ END_OF_VIEW_HELP

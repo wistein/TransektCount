@@ -88,7 +88,8 @@ $ 7
   _ 
   ! The menu on the starting page has Import, Export, Help, Info and Settings functions. 
   ! Here you may export the DB as "Basic DB" (only reasonable, as long as all counters are zero, see "2. Settings").
-  ! Here you may export the current database (Export DB) with its counts to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db. 
+  ! Here you may export the current database (Export DB) with its counts as SQLite-DB to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.db".
+  ! Here you may also export the counting results table (Export DB -> CSV-file) as a csv-textfile to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.csv".
   ! Here you may import the Basic DB from /sdcard/transektcount0.db as a base for a new transect inspection. But notice: Importing a Basic DB clears all existing counting information.
   ! And you may find here under "App Info" the email address of the author (for bug reports), the history of the app and the license note.
   _ 
@@ -97,7 +98,8 @@ $ 7
   ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
-  ! IT-affine users may transfer the "transektcount_YYYY-MM-DD_hhmmss.db" file to a PC. With the free tool "SqliteBrowser" (sqlitebrowser.org) you may examine the db-file or export its "counts" table data into Excel readable format (.csv) for further processing.
+  ! IT-affine users may transfer the SQLite DB file "transektcount_YYYY-MM-DD_hhmmss.db" or the csv-textfile "transektcount_JJJJ-MM-TT_hhmmss.csv" to a PC. 
+  ! There you may examine the db-file with the free tool "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file into Excel for further processing.
   !
   
 $ END_OF_VIEW_HELP

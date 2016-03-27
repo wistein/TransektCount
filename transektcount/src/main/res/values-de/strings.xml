@@ -26,10 +26,11 @@
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
     <string name="col1">Abschnitt</string>
-    <string name="col2">Spezies</string>
-    <string name="col3">Intern</string>
-    <string name="col4">Extern</string>
-    <string name="col5">Bemerkungen</string>
+    <string name="col2">Ab.-Bemerkungen</string>
+    <string name="col3">Spezies</string>
+    <string name="col4">Intern</string>
+    <string name="col5">Extern</string>
+    <string name="col6">Bemerkungen</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>

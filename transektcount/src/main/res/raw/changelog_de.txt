@@ -27,11 +27,11 @@
   _
 $ Todo
   % Todo
-    * Export-DB in csv-Format
+    * Bug: Doppelte Speziesnamen werden nicht verhindert in "Edit Abschnitte"
 $ 1.2.2
   % Version 1.2.2
   _ 25.03.2016
-    * Bug gefixt: Doppelte Speziesnamen werden verhindert
+    * Export-DB in csv-Format
     * Exportierte DB enthält nur Zählergebnisse >0
     * Bessere Darstellung auf kleinen Displays
 $ 1.2.0
