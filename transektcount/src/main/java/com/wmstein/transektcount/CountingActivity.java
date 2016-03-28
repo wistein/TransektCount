@@ -113,7 +113,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
     }
 
     /*
@@ -217,18 +216,10 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
         }
 
-/*        // finally, check to see if the screen should be kept on whilst counting
         if (awakePref)
         {
-            try
-            {
-                wl.acquire();
-            } catch (Exception e)
-            {
-                Log.e(TAG, "Couldn't acquire wakelock: " + e.toString());
-            }
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-*/
     }
 
     @Override
@@ -252,18 +243,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // has denied wakelock permission to transektcount
         if (awakePref)
         {
-/*
-            if (wl.isHeld())
-            {
-                try
-                {
-                    wl.release();
-                } catch (Exception e)
-                {
-                    Log.e(TAG, "Couldn't release wakelock: " + e.toString());
-                }
-            }
-*/
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 

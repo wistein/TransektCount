@@ -27,7 +27,12 @@
   _
 $ Todo
   % Todo
-    * Bug: Double species names not rejected in "Edit Sections"
+    * Reject double species names in "Edit Sections"
+    * Immediate popup "Please wait..." when starting the counting page or results page
+$ 1.2.3
+  % Version 1.2.3
+  _ 2016-03-28
+    * App runs always in portrait mode 
 $ 1.2.2
   % Version 1.2.2
   _ 2016-03-25

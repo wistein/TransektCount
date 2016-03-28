@@ -27,7 +27,12 @@
   _
 $ Todo
   % Todo
-    * Bug: Doppelte Speziesnamen werden nicht verhindert in "Edit Abschnitte"
+    * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
+    * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite 
+$ 1.2.3
+  % Version 1.2.3
+  _ 28.03.2016
+    * App läuft immer im Portraitmodus
 $ 1.2.2
   % Version 1.2.2
   _ 25.03.2016

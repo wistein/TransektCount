@@ -75,7 +75,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
     }
 
     /*
@@ -93,19 +92,10 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
         loadData();
 
-/*        // finally, check to see if the screen should be kept on whilst counting
         if (awakePref)
         {
-            try
-            {
-                wl.acquire();
-            } 
-            catch (Exception e)
-            {
-                Log.e(TAG, "Couldn't acquire wakelock: " + e.toString());
-            }
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-*/
     }
     
 
@@ -168,18 +158,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         // has denied wakelock permission to transektcount
         if (awakePref)
         {
-/*
-            if (wl.isHeld())
-            {
-                try
-                {
-                    wl.release();
-                } catch (Exception e)
-                {
-                    Log.e(TAG, "Couldn't release wakelock: " + e.toString());
-                }
-            }
-*/
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
