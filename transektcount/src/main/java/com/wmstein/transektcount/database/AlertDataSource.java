@@ -40,14 +40,14 @@ public class AlertDataSource
         dbHandler.close();
     }
 
-    public Alert createAlert(long count_id, int alert_value, String alert_text)
+    public Alert createAlert(int count_id, int alert_value, String alert_text)
     {
         ContentValues values = new ContentValues();
         values.put(DbHelper.A_COUNT_ID, count_id);
         values.put(DbHelper.A_ALERT, alert_value);
         values.put(DbHelper.A_ALERT_TEXT, alert_text);
 
-        long insertId = database.insert(DbHelper.ALERT_TABLE, null, values);
+        int insertId = (int) database.insert(DbHelper.ALERT_TABLE, null, values);
         Cursor cursor = database.query(DbHelper.ALERT_TABLE,
             allColumns, DbHelper.A_ID + " = " + insertId, null,
             null, null, null);
@@ -60,8 +60,8 @@ public class AlertDataSource
     private Alert cursorToAlert(Cursor cursor)
     {
         Alert newalert = new Alert();
-        newalert.id = cursor.getLong(cursor.getColumnIndex(DbHelper.A_ID));
-        newalert.count_id = cursor.getLong(cursor.getColumnIndex(DbHelper.A_COUNT_ID));
+        newalert.id = cursor.getInt(cursor.getColumnIndex(DbHelper.A_ID));
+        newalert.count_id = cursor.getInt(cursor.getColumnIndex(DbHelper.A_COUNT_ID));
         newalert.alert = cursor.getInt(cursor.getColumnIndex(DbHelper.A_ALERT));
         newalert.alert_text = cursor.getString(cursor.getColumnIndex(DbHelper.A_ALERT_TEXT));
         return newalert;
@@ -69,18 +69,18 @@ public class AlertDataSource
 
     public void deleteAlert(Alert alert)
     {
-        long id = alert.id;
+        int id = alert.id;
         System.out.println("Alert deleted with id: " + id);
         database.delete(DbHelper.ALERT_TABLE, DbHelper.A_ID + " = " + id, null);
     }
 
-    public void deleteAlertById(long id)
+    public void deleteAlertById(int id)
     {
         System.out.println("Alert deleted with id: " + id);
         database.delete(DbHelper.ALERT_TABLE, DbHelper.A_ID + " = " + id, null);
     }
 
-    public void saveAlert(long alert_id, int alert_value, String alert_text)
+    public void saveAlert(int alert_id, int alert_value, String alert_text)
     {
         ContentValues dataToInsert = new ContentValues();
         dataToInsert.put(DbHelper.A_ALERT, alert_value);
@@ -90,7 +90,7 @@ public class AlertDataSource
         database.update(DbHelper.ALERT_TABLE, dataToInsert, where, whereArgs);
     }
 
-    public List<Alert> getAllAlertsForCount(long count_id)
+    public List<Alert> getAllAlertsForCount(int count_id)
     {
         List<Alert> alerts = new ArrayList<>();
 

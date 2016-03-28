@@ -1,12 +1,12 @@
 package com.wmstein.transektcount;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -45,8 +45,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     private CountDataSource countDataSource;
     private SectionDataSource sectionDataSource;
     
-    private long sect_id;
-    private long sect_idOld;
+    private int sect_id;
+    private int sect_idOld;
     private Section section;
 
     @Override
@@ -70,8 +70,10 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
         if (awakePref)
         {
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+            // As FULL_WAKE_LOCK is deprecated, next 2 lines changed to addFlags funtion
+            //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
     }
@@ -91,7 +93,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
         loadData();
 
-        // finally, check to see if the screen should be kept on whilst counting
+/*        // finally, check to see if the screen should be kept on whilst counting
         if (awakePref)
         {
             try
@@ -103,6 +105,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                 Log.e(TAG, "Couldn't acquire wakelock: " + e.toString());
             }
         }
+*/
     }
     
 
@@ -165,6 +168,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         // has denied wakelock permission to transektcount
         if (awakePref)
         {
+/*
             if (wl.isHeld())
             {
                 try
@@ -175,6 +179,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                     Log.e(TAG, "Couldn't release wakelock: " + e.toString());
                 }
             }
+*/
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 

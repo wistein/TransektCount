@@ -5,4 +5,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+<!-- In combinatuion with Manifest entry android:theme="@style/KeybBackground" 
+         should prevent squeezing background. 
+         Important: don't set any backgrounds in your normal .xml file!
+         - But it doesn't work.
+         
+    <style name="KeybBackground" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/transektcount_picture</item>
+    </style>
+-->    
+
 </resources>

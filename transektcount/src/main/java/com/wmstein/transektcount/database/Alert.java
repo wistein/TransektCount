@@ -7,8 +7,8 @@ package com.wmstein.transektcount.database;
 
 public class Alert
 {
-    public long id;
-    public long count_id;
+    public int id;
+    public int count_id;
     public int alert;
     public String alert_text;
 

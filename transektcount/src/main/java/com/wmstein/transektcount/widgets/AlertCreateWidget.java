@@ -21,7 +21,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
 {
     EditText alert_name;
     EditText alert_value;
-    long alert_id;
+    int alert_id;
     ImageButton deleteButton;
 
     public AlertCreateWidget(Context context, AttributeSet attrs)
@@ -34,7 +34,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         alert_value = (EditText) findViewById(R.id.alert_value);
         alert_id = 0;
         deleteButton = (ImageButton) findViewById(R.id.delete_button);
-        deleteButton.setTag(Long.valueOf(0));
+        deleteButton.setTag(Integer.valueOf(0));
     }
 
     public String getAlertName()
@@ -57,7 +57,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         }
     }
 
-    public long getAlertId()
+    public int getAlertId()
     {
         return alert_id;
     }
@@ -72,10 +72,10 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         alert_value.setText(String.valueOf(value));
     }
 
-    public void setAlertId(long id)
+    public void setAlertId(int id)
     {
         alert_id = id;
-        deleteButton.setTag(Long.valueOf(id));
+        deleteButton.setTag(Integer.valueOf(id));
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Section
 {
-    public long id;
+    public int id;
     public long created_at;
     public String name;
     public String notes;
@@ -30,7 +30,7 @@ public class Section
     }
 
     //setting S_SECTION_ID *******************
-    public void setS_ID (long S_sectid)
+    public void setS_ID (int S_sectid)
     {
         this.id = S_sectid;
     }

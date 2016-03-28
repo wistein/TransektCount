@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class CountDataSource
         dbHandler.close();
     }
 
-    public Count createCount(long section_id, String name)
+    public Count createCount(int section_id, String name)
     {
         ContentValues values = new ContentValues();
         values.put(DbHelper.C_NAME, name);
@@ -54,7 +53,7 @@ public class CountDataSource
         values.put(DbHelper.C_COUNTA, 0);
         // notes should be default null and so isn't created here
 
-        long insertId = database.insert(DbHelper.COUNT_TABLE, null, values);
+        int insertId = (int) database.insert(DbHelper.COUNT_TABLE, null, values);
         Cursor cursor = database.query(DbHelper.COUNT_TABLE,
             allColumns, DbHelper.C_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
@@ -66,9 +65,9 @@ public class CountDataSource
     private Count cursorToCount(Cursor cursor)
     {
         Count newcount = new Count();
-        newcount.id = cursor.getLong(cursor.getColumnIndex(DbHelper.C_ID));
+        newcount.id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_ID));
         newcount.name = cursor.getString(cursor.getColumnIndex(DbHelper.C_NAME));
-        newcount.section_id = cursor.getLong(cursor.getColumnIndex(DbHelper.C_SECTION_ID));
+        newcount.section_id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_SECTION_ID));
         newcount.count = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT));
         newcount.counta = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNTA));
         newcount.notes = cursor.getString(cursor.getColumnIndex(DbHelper.C_NOTES));
@@ -77,14 +76,14 @@ public class CountDataSource
 
     public void deleteCount(Count count)
     {
-        long id = count.id;
+        int id = count.id;
         database.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + id, null);
 
         // delete associated alerts
         database.delete(DbHelper.ALERT_TABLE, DbHelper.A_COUNT_ID + " = " + id, null);
     }
 
-    public void deleteCountById(long id)
+    public void deleteCountById(int id)
     {
         System.out.println("Gelöscht: Zähler mit ID: " + id);
         database.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + id, null);
@@ -105,7 +104,7 @@ public class CountDataSource
         database.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs);
     }
 
-    public void updateCountName(long id, String name)
+    public void updateCountName(int id, String name)
     {
         ContentValues dataToInsert = new ContentValues();
         dataToInsert.put(DbHelper.C_NAME, name);
@@ -114,7 +113,7 @@ public class CountDataSource
         database.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs);
     }
 
-    public List<Count> getAllCountsForSection(long section_id)
+    public List<Count> getAllCountsForSection(int section_id)
     {
         List<Count> counts = new ArrayList<>();
 
@@ -133,7 +132,7 @@ public class CountDataSource
         return counts;
     }
 
-    public Count getCountById(long count_id)
+    public Count getCountById(int count_id)
     {
         Cursor cursor = database.query(DbHelper.COUNT_TABLE, allColumns,
             DbHelper.C_ID + " = " + count_id, null, null, null, null);

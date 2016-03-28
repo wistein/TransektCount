@@ -7,8 +7,8 @@ package com.wmstein.transektcount.database;
 
 public class Count
 {
-    public long id;
-    public long section_id;
+    public int id;
+    public int section_id;
     public int count;
     public int counta;
     public String name;
@@ -48,14 +48,14 @@ public class Count
 
     //setting C_ID
     // added by wmstein
-    public void setC_ID (long C_id)
+    public void setC_ID (int C_id)
     {
         this.id = C_id;
     }
 
     //setting C_SECTION_ID
     // added by wmstein
-    public void setC_SECTION_ID (long C_sectid)
+    public void setC_SECTION_ID (int C_sectid)
     {
         this.section_id = C_sectid;
     }

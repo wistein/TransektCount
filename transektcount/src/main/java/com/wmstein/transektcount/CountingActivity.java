@@ -1,12 +1,10 @@
 package com.wmstein.transektcount;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
-import android.database.sqlite.SQLiteException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -49,12 +48,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private AlertDialog.Builder row_alert;
     TransektCountApplication transektCount;
     SharedPreferences prefs;
-    long section_id;
+    int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
-    long last_count;
+    int last_count;
     // added for 2nd counter per species
-    long last_counta;
+    int last_counta;
 
     // preferences
     private boolean awakePref;
@@ -86,7 +85,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            section_id = extras.getLong("section_id");
+            section_id = extras.getInt("section_id");
         }
 
         sectionDataSource = new SectionDataSource(this);
@@ -107,10 +106,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         last_count = 0;
         last_counta = 0;
 
-        if (awakePref == true)
+        if (awakePref)
         {
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+            // As FULL_WAKE_LOCK is deprecated, next 2 lines changed to addFlags funtion
+            //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
     }
@@ -160,7 +161,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // Actionbar: Zeile wegen Holo auskommentiert, funktioniert trotzdem nicht
         getSupportActionBar().setTitle(section.name);
         
-        List<String> extras = new ArrayList<String>();
+        List<String> extras = new ArrayList<>();
 
         // counts
         countingWidgets = new ArrayList<>();
@@ -216,8 +217,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
         }
 
-        // finally, check to see if the screen should be kept on whilst counting
-        if (awakePref == true)
+/*        // finally, check to see if the screen should be kept on whilst counting
+        if (awakePref)
         {
             try
             {
@@ -227,7 +228,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 Log.e(TAG, "Couldn't acquire wakelock: " + e.toString());
             }
         }
-
+*/
     }
 
     @Override
@@ -249,8 +250,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         // N.B. a wakelock might not be held, e.g. if someone is using Cyanogenmod and
         // has denied wakelock permission to transektcount
-        if (awakePref == true)
+        if (awakePref)
         {
+/*
             if (wl.isHeld())
             {
                 try
@@ -261,6 +263,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                     Log.e(TAG, "Couldn't release wakelock: " + e.toString());
                 }
             }
+*/
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
     }
@@ -276,7 +280,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             countDataSource.saveCount(count);
         }
-        if (hasChanged == true)
+        if (hasChanged)
         {    
             sectionDataSource.saveDateSection(section);
             hasChanged = false;
@@ -308,14 +312,14 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         //Log.i(TAG, "View clicked: " + view.toString());
         //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
-        long count_id = Long.valueOf(view.getTag().toString());
+        int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
             last_count = 0;
             widget.countUp();
+            checkAlert(widget.count.id, widget.count.count);
         }
-        checkAlert(widget.count.id, widget.count.count);
         hasChanged = true;
     }
 
@@ -324,14 +328,14 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         //Log.i(TAG, "View clicked: " + view.toString());
         //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
-        long count_id = Long.valueOf(view.getTag().toString());
+        int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
             last_count = 0;
             widget.countDown();
+            checkAlert(widget.count.id, widget.count.count);
         }
-        checkAlert(widget.count.id, widget.count.count);
         hasChanged = true;
     }
 
@@ -340,7 +344,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         //Log.i(TAG, "View clicked: " + view.toString());
         //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
-        long count_id = Long.valueOf(view.getTag().toString());
+        int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
@@ -355,7 +359,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         //Log.i(TAG, "View clicked: " + view.toString());
         //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
-        long count_id = Long.valueOf(view.getTag().toString());
+        int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
@@ -367,7 +371,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     public void edit(View view)
     {
-        long count_id = Long.valueOf(view.getTag().toString());
+        int count_id = Integer.valueOf(view.getTag().toString());
         Intent intent = new Intent(CountingActivity.this, CountOptionsActivity.class);
         intent.putExtra("count_id", count_id);
         intent.putExtra("section_id", section_id);
@@ -378,7 +382,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
      * This is the lookup to get a counting widget (with references to the
      * associated count) from the list of widgets.
      */
-    public CountingWidget getCountFromId(long id)
+    public CountingWidget getCountFromId(int id)
     {
         for (CountingWidget widget : countingWidgets)
         {
@@ -394,7 +398,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
   /*
    * alert checking...
    */
-    public void checkAlert(long count_id, int count_value)
+    public void checkAlert(int count_id, int count_value)
     {
         for (Alert a : alerts)
         {
@@ -563,7 +567,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                     return;
                 }
                 // These are needed to link old and new counts and alerts
-                HashMap<Long, Long> countMap = new HashMap<>();
+                HashMap<Integer, Integer> countMap = new HashMap<>();
 
                 // Creating the new section
                 Section newSection = sectionDataSource.createSection(m_Text); // might need to escape the name

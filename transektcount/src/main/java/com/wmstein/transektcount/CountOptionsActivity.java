@@ -43,14 +43,14 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     SharedPreferences prefs;
 
     private Count count;
-    private long count_id;
+    private int count_id;
     private List<Alert> alerts;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
     private AlertDialog.Builder areYouSure;
     private View markedForDelete;
-    private long deleteAnAlert;
-    private long section_id;
+    private int deleteAnAlert;
+    private int section_id;
 
     LinearLayout static_widget_area;
     LinearLayout dynamic_widget_area;
@@ -67,7 +67,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         setContentView(R.layout.activity_count_options);
 
         TransektCountApplication = (TransektCountApplication) getApplication();
-        prefs = TransektCountApplication.getPrefs();
+        prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
@@ -79,8 +79,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            count_id = extras.getLong("count_id");
-            section_id = extras.getLong("section_id");
+            count_id = extras.getInt("count_id");
+            section_id = extras.getInt("section_id");
         }
 
         savedAlerts = new ArrayList<>();
@@ -233,17 +233,17 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
      */
     public void ScrollToEndOfView(View scrlV)
     {
-        int scroll_amount=scrlV.getBottom();
-        int scrollY=scroll_amount;
+        int scroll_amount = scrlV.getBottom();
+        int scrollY = scroll_amount;
         boolean pageend = false;
         while(!pageend)
         {
-            scrlV.scrollTo(0, scroll_amount);           //scrollen
-            scroll_amount=scroll_amount+scroll_amount;  //scroll_amount erhöhen
-            scrollY=scrollY+scrlV.getScrollY();         //scroll-Position der 1. Zeile
+            scrlV.scrollTo(0, scroll_amount);              //scrollen
+            scroll_amount = scroll_amount + scroll_amount; //scroll_amount erhöhen
+            scrollY = scrollY + scrlV.getScrollY();        //scroll-Position der 1. Zeile
             if (scroll_amount > scrollY)
             {
-                pageend=true;
+                pageend = true;
             }
         }
     }
@@ -267,7 +267,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
      * which they will be deleted.
      */
         markedForDelete = view;
-        deleteAnAlert = (Long) view.getTag();
+        deleteAnAlert = (Integer) view.getTag();
         if (deleteAnAlert == 0)
         {
             //Log.i(TAG, "(1) View tag was " + String.valueOf(deleteAnAlert));

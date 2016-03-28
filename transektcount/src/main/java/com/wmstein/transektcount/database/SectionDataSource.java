@@ -50,7 +50,7 @@ public class SectionDataSource
     {
         ContentValues values = new ContentValues();
         values.put(DbHelper.S_NAME, name);
-        long insertId = database.insert(DbHelper.SECTION_TABLE, null, values);
+        int insertId = (int) database.insert(DbHelper.SECTION_TABLE, null, values);
         Cursor cursor = database.query(DbHelper.SECTION_TABLE,
             allColumns, DbHelper.S_ID + " = " + insertId, null,
             null, null, null);
@@ -63,7 +63,7 @@ public class SectionDataSource
     private Section cursorToSection(Cursor cursor)
     {
         Section section = new Section();
-        section.id = cursor.getLong(cursor.getColumnIndex(DbHelper.S_ID));
+        section.id = cursor.getInt(cursor.getColumnIndex(DbHelper.S_ID));
         section.created_at = cursor.getLong(cursor.getColumnIndex(DbHelper.S_CREATED_AT));
         section.name = cursor.getString(cursor.getColumnIndex(DbHelper.S_NAME));
         section.notes = cursor.getString(cursor.getColumnIndex(DbHelper.S_NOTES));
@@ -72,7 +72,7 @@ public class SectionDataSource
 
     public void deleteSection(Section section)
     {
-        long id = section.id;
+        int id = section.id;
         System.out.println((R.string.deletedList) + id);
         database.delete(DbHelper.SECTION_TABLE, DbHelper.S_ID + " = " + id, null);
 
@@ -156,7 +156,7 @@ public class SectionDataSource
     }
 
     // called from CountingActivity and EditSectionActivity
-    public Section getSection(long section_id)
+    public Section getSection(int section_id)
     {
         Section section;
         Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, DbHelper.S_ID + " = ?", new String[]{String.valueOf(section_id)}, null, null, null);

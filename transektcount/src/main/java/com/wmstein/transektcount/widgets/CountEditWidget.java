@@ -19,7 +19,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
 {
     private transient EditText countName;
     private ImageButton deleteButton;
-    public long countId;
+    public int countId;
 
     public CountEditWidget(Context context, AttributeSet attrs)
     {
@@ -29,7 +29,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
         inflater.inflate(R.layout.widget_edit_count, this, true);
         countName = (EditText) findViewById(R.id.countName);
         deleteButton = (ImageButton) findViewById(R.id.deleteCount);
-        deleteButton.setTag(Long.valueOf(0));
+        deleteButton.setTag(Integer.valueOf(0));
     }
 
     public String getCountName()
@@ -42,10 +42,10 @@ public class CountEditWidget extends LinearLayout implements Serializable
         countName.setText(name);
     }
 
-    public void setCountId(long id)
+    public void setCountId(int id)
     {
         countId = id;
-        deleteButton.setTag(Long.valueOf(id));
+        deleteButton.setTag(Integer.valueOf(id));
     }
     
 }

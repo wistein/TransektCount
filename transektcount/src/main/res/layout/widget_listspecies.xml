@@ -26,7 +26,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="2.3"
+        android:layout_weight="2.6"
         android:id="@+id/txtSectName"
         android:gravity="start|center_vertical"
         android:textColor="#FFFFFF"
@@ -37,7 +37,7 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.2"/>
 
     <!-- Name of species -->
     <TextView
@@ -54,7 +54,7 @@
 	<!-- count -->
     <TextView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:layout_weight="1.4"
         android:id="@+id/specCount"
         android:hint="@string/charZero"
@@ -72,7 +72,7 @@
     <!-- i -->
     <TextView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -134,7 +134,7 @@
     <!-- e -->
     <TextView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"

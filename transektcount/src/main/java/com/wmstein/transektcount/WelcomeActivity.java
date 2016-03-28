@@ -2,7 +2,6 @@ package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,13 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.wmstein.transektcount.database.CSVWriter;
-import com.wmstein.transektcount.database.Count;
-import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
@@ -31,13 +27,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
@@ -305,7 +297,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         String sectName;
         String sectNotes;
         String specNotes;
-        long sect_id;
+        int sect_id;
         
         try
         {
@@ -373,7 +365,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // build the table array
                 while(curCSV.moveToNext())
                 {
-                    sect_id = curCSV.getLong(1);
+                    sect_id = curCSV.getInt(1);
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
                     sectNotes = section.notes;

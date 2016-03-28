@@ -50,16 +50,16 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
 
-    long section_id;
+    int section_id;
     LinearLayout counts_area;
     LinearLayout notes_area;
     EditTitleWidget etw;
     EditTitleWidget enw;
     private View markedForDelete;
-    private long idToDelete;
+    private int idToDelete;
     private AlertDialog.Builder areYouSure;
     public ArrayList<String> countNames;
-    public ArrayList<Long> countIds;
+    public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
 
     //added for dupPref ToDo
@@ -81,7 +81,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            section_id = extras.getLong("section_id");
+            section_id = extras.getInt("section_id");
         }
 
         /*
@@ -327,17 +327,17 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
      */
     public void ScrollToEndOfView(View scrlV)
     {
-        int scroll_amount=scrlV.getBottom();
-        int scrollY=scroll_amount;
+        int scroll_amount = scrlV.getBottom();
+        int scrollY = scroll_amount;
         boolean pageend = false;
         while(!pageend)
         {
-            scrlV.scrollTo(0, scroll_amount);           //scrollen
-            scroll_amount=scroll_amount+scroll_amount;  //scroll_amount erhöhen
-            scrollY=scrollY+scrlV.getScrollY();         //scroll-Position der 1. Zeile
+            scrlV.scrollTo(0, scroll_amount);            //scroll
+            scroll_amount=scroll_amount + scroll_amount; //increase scroll_amount 
+            scrollY = scrollY + scrlV.getScrollY();      //scroll position 1. row
             if (scroll_amount > scrollY)
             {
-                pageend=true;
+                pageend = true;
             }
         }
     }        
@@ -365,7 +365,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
      * which they will be deleted.
      */
         markedForDelete = view;
-        idToDelete = (Long) view.getTag();
+        idToDelete = (Integer) view.getTag();
         if (idToDelete == 0)
         {
             // the actual CountEditWidget is two levels up from the button in which it is embedded
