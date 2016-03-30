@@ -2,12 +2,12 @@ package com.wmstein.transektcount;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.wmstein.transektcount.database.Count;
@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Show counting results without empty counts
+ * ListSpeciesActivity shows list of positive counting results
+ * 
  * Created by wmstein on 15.03.2016
  */
 
@@ -35,20 +36,11 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     public int spec_counta;
     // preferences
     private boolean awakePref;
-    private PowerManager.WakeLock wl;
-
+    
     // the actual data
-    private List<Count> specs;  //List of species
-
-    private List<ListSpeciesWidget> listSpecWidgets;
-
     private CountDataSource countDataSource;
     private SectionDataSource sectionDataSource;
     
-    private int sect_id;
-    private int sect_idOld;
-    private Section section;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,14 +57,12 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
+        getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
 
         spec_area = (LinearLayout) findViewById(R.id.listSpecLayout);
 
         if (awakePref)
         {
-            // As FULL_WAKE_LOCK is deprecated, next 2 lines changed to addFlags funtion
-            //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
@@ -90,38 +80,42 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     {
         super.onResume();
 
-        loadData();
-
         if (awakePref)
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-    }
-    
 
-    // 
+        spec_area.removeAllViews();
+        
+        loadData();
+    }
+
+    // fill ListSpeciesWidget with relevant counts and sections data
     public void loadData()
     {
-        listSpecWidgets = new ArrayList<>();
-        //ListSpeciesActivity.this.getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
-        getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
-
+        List<ListSpeciesWidget> listSpecWidgets = new ArrayList<>();
+        
+        //List of species
+        List<Count> specs; 
+        
+        int sect_id;
+        // preset for unused id of section as starting criteria in if-clause of for-loop
+        int sect_idOld = 0;
+        Section section;
+        
         // setup the data sources
         countDataSource.open();
         sectionDataSource.open();
 
         // load the data
         specs = countDataSource.getAllSpecies();
-        
-        //ListSpeciesActivity.this.spec_area.removeAllViews();
-        spec_area.removeAllViews();
-        sect_idOld = 999999; // preset for No. of sections never reached
+
         // display all the counts by adding them to listSpecies layout
         for (Count spec : specs)
         {
             // set section ID from count table and prepare to get section name from section table
             sect_id = spec.section_id;
-            Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
+            //Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
             section = sectionDataSource.getSection(sect_id);
 
             ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
@@ -138,7 +132,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                 }
                 
                 listSpecWidgets.add(widget);
-                //ListSpeciesActivity.this.spec_area.addView(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }
@@ -154,8 +147,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         countDataSource.close();
         sectionDataSource.close();
         
-        // N.B. a wakelock might not be held, e.g. if someone is using Cyanogenmod and
-        // has denied wakelock permission to transektcount
         if (awakePref)
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

@@ -29,10 +29,13 @@ $ Todo
   % Todo
     * Reject double species names in "Edit Sections"
     * Immediate popup "Please wait..." when starting the counting page or results page
+    * New input page for master data
+    * Export functions including master data
 $ 1.2.3
   % Version 1.2.3
   _ 2016-03-28
-    * App runs always in portrait mode 
+    * App runs always in portrait mode
+    * Empty Basic DB may be exported any time
 $ 1.2.2
   % Version 1.2.2
   _ 2016-03-25

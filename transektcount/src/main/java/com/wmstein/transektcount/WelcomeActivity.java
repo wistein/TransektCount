@@ -35,7 +35,10 @@ import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
 
 /**
- * Created by milo on 05/05/2014.
+ * WelcomeActivity provides the starting page with menu and buttons for import/export/help/info methods
+ * and ListSectionActivity/ListSpeciesActivity.
+ * 
+ * Based an BeeCount (GitHub) created by milo on 05/05/2014.
  * Changes and additions by wmstein on 18.02.2016
  */
 
@@ -75,8 +78,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
         
-        //Progressbar in activity_welcome invisible
-
         // a title isn't necessary on this welcome screen as it appears below
         getSupportActionBar().setTitle("");
 
@@ -170,7 +171,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public void viewSpecies(View view)
     {
         Toast.makeText(getApplicationContext(),getString(R.string.wait), Toast.LENGTH_SHORT).show();
-
         startActivity(new Intent(this, ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
@@ -197,8 +197,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
-        File tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
-        File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
+        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
         String destPath = "/data/data/com.wmstein.transektcount/files";
         
         try
@@ -210,7 +209,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Log.e(TAG, "destPath error: " + e.toString());
         }
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        File infile = new File(destPath + "/transektcount.db");
+        infile = new File(destPath + "/transektcount.db");
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -237,39 +236,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else
         {
-            // purge count table and export the db
+            // export the db
             try
             {
-                // save current db as backup db tmpfile
-                copy(infile, tmpfile);
-
-                // purge transektcount.db count table from empty rows
-                // Delete all empty counts (and sections)
-                // by wmstein
-                dbHandler = new DbHelper(this);
-                database = dbHandler.getWritableDatabase();
-
-                String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
-                database.execSQL(sql);
-
-                // Not necessary to purge the section table, but the code would do
-                //sql = "DELETE FROM " + DbHelper.SECTION_TABLE + " WHERE (" + DbHelper.S_CREATED_AT + " IS NULL OR " + DbHelper.S_CREATED_AT + " = '');";
-                //database.execSQL(sql);
-
-                dbHandler.close();
-
-                // export purged db
+                // export db
                 copy(infile, outfile);
-
-                // restore current db from tmpfile
-                copy(tmpfile, infile);
-
-                // delete backup db
-                boolean d0 = tmpfile.delete(); // delete backup DB
-                if (d0)
-                {
-                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
             }
             catch (IOException e)
             {
@@ -289,8 +261,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
-        File tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
-        File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
+        tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
+        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
         String destPath = "/data/data/com.wmstein.transektcount/files";
         SectionDataSource sectionDataSource;
         Section section;
@@ -308,7 +280,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Log.e(TAG, "destPath error: " + e.toString());
         }
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        File infile = new File(destPath + "/transektcount.db");
+        infile = new File(destPath + "/transektcount.db");
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -371,8 +343,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     sectNotes = section.notes;
                     
                     specNotes = curCSV.getString(5);
-                    // Byte code translation from UTF-8 to ISO-8859-1 makes representation in MS Excel even worse.
-                    // Excel can import csv files with UTF-8 filter 
+                    // Excel can import csv files with Unicode UTF-8 filter, so next 3 commented lines are obsolete.  
+                    // Byte code translation from UTF-8 to ISO-8859-1
                     //byte[] utf8 = specNotes.getBytes("UTF-8");
                     //specNotes = new String(utf8, "ISO-8859-1");
 
@@ -404,7 +376,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             }
             catch (IOException e)
             {
-                Log.e(TAG, "Failed to copy database");
+                Log.e(TAG, "Failed to export csv file");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
             }
         }
@@ -418,8 +390,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
-        File outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
+        tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
+        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
         String destPath = "/data/data/com.wmstein.transektcount/files";
+
         try
         {
             destPath = getFilesDir().getPath();
@@ -429,7 +403,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Log.e(TAG, "destPath error: " + e.toString());
         }
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        File infile = new File(destPath + "/transektcount.db");
+        infile = new File(destPath + "/transektcount.db");
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -456,15 +430,41 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else
         {
-            // export the db
+            // export the basic db
             try
             {
+                // save current db as backup db tmpfile
+                copy(infile, tmpfile);
+
+                // clear all values in DB
+                dbHandler = new DbHelper(this);
+                database = dbHandler.getWritableDatabase();
+
+                String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET " + DbHelper.C_COUNT + " = 0, " + DbHelper.C_COUNTA + " = 0, " + DbHelper.C_NOTES + " = '';";
+                database.execSQL(sql);
+                sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET " + DbHelper.S_CREATED_AT + " = '', " + DbHelper.S_NOTES + " = '';";
+                database.execSQL(sql);
+                sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
+                database.execSQL(sql);
+
+                dbHandler.close();
+                
+                // write Basis DB
                 copy(infile, outfile);
-                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+
+                // restore actual db from tmpfile
+                copy(tmpfile, infile);
+
+                // delete backup db
+                boolean d0 = tmpfile.delete();
+                if (d0)
+                {
+                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+                }
             }
             catch (IOException e)
             {
-                Log.e(TAG, "Failed to copy database");
+                Log.e(TAG, "Failed to export Basic DB");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
             }
         }
@@ -475,8 +475,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // modified by wmstein
     public void importBasisDb()
     {
+        //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
         infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
-        //outfile = new File("/data/data/com.wmstein.transektcount/databases/transektcount.db");
         String destPath = "/data/data/com.wmstein.transektcount/files";
         try
         {
@@ -487,8 +487,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Log.e(TAG, "destPath error: " + e.toString());
         }
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        //File infile = new File(destPath + "/transektcount.db");
-        //outfile = new File(this.getFilesDir().getPath() + "/data/com.wmstein.transektcount/databases/transektcount.db");
+        //outfile = new File("/data/data/com.wmstein.transektcount/databases/transektcount.db");
         outfile = new File(destPath + "/transektcount.db");
         if (!(infile.exists()))
         {

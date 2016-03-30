@@ -164,7 +164,7 @@
     <!-- ListViewSpecies -->
     <string name="sect">Ab</string>
     <string name="viewSpecTitle">Zählergebnis</string>
-    <string name="wait">Bitte Warten, Tabelle wird berechnet.</string>
+    <string name="wait">Bitte warten, Tabelle wird berechnet.</string>
     <string name="wait_header">Moment</string>
     
 

@@ -162,15 +162,8 @@ public class CountDataSource
         // Make sure to close the cursor
         cursor.close();
         return species;
-
     }
 
-    // Used by WelcomeActivity
-    public void purgeCounts()
-    {
-        
-    }
-    
     // Getting All Counts
     public List<Count> get_Counts()
     {

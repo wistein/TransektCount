@@ -87,7 +87,7 @@ $ 7
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
   ! The menu on the starting page has Import, Export, Help, Info and Settings functions. 
-  ! Here you may export the DB as "Basic DB" (only reasonable, as long as all counters are zero, see "2. Settings").
+  ! Here you may export the DB as "Basic DB" (see "2. Settings").
   ! Here you may export the current database (Export DB) with its counts as SQLite-DB to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.db".
   ! Here you may also export the counting results table (Export DB -> CSV-file) as a csv-textfile to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.csv".
   ! Here you may import the Basic DB from /sdcard/transektcount0.db as a base for a new transect inspection. But notice: Importing a Basic DB clears all existing counting information.

@@ -23,7 +23,7 @@ public class DbHelper extends SQLiteOpenHelper
     static final int DATABASE_VERSION = 11;
     public static final String SECTION_TABLE = "sections";
     public static final String COUNT_TABLE = "counts";
-    static final String ALERT_TABLE = "alerts";
+    public static final String ALERT_TABLE = "alerts";
     public static final String S_ID = "_id";
     public static final String S_CREATED_AT = "created_at";
     public static final String S_NAME = "name";

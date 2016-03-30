@@ -37,7 +37,7 @@ $ 9
   !
   ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden.
   ! Dazu erzeugt man zunächst die Artenliste für den 1. Transektabschnitt mit "Neuer Abschnitt" (Aufruf aus dem Menü der Seite „Liste Transektabschn.“).
-  ! Die Liste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag (Art hinzuf.), z.B.:
+  ! Die Abschnittsliste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag (Art hinzuf.), z.B.:
   _ 
   ! Ab 01
   ! --------------------
@@ -87,8 +87,8 @@ $ 7
   ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
   _ 
   ! Das Menü auf der Eingangsseite bietet Import-, Export-, Hilfe-, Info- und die Einstellungsfunktionen. 
-  ! Es erlaubt neben dem Export der DB als Basis-DB (nur sinnvoll, solange alle Zählerstände null sind, s. "2. Einrichtung") auch den Export der aktuellen Zähldaten als SQLite-Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db" oder als csv-Datei (Export DB -> CSV-Datei) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv". 
-  ! Importiert werden kann von hier aus die angelegte Basis-Datenbank "/sdcard/transektcount0.db", die als Basis für neue Begehungen dient. Hier ist zu beachten, dass beim Import der Basis-Datenbank die bisherigen Daten überschrieben werden. 
+  ! Es erlaubt neben dem Export der DB als Basis-DB auch den Export der aktuellen Zähldaten als SQLite-Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db" oder als csv-Datei (Export DB -> CSV-Datei) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv". 
+  ! Importiert werden kann von hier aus die angelegte Basis-Datenbank "/sdcard/transektcount0.db" als Basis für eine neue Begehungen. Hier ist zu beachten, dass beim Import der Basis-Datenbank die bisherigen Daten überschrieben werden. 
   ! Und unter "App-Info" sind die E-Mail-Adresse des Autors (für Bug-Reports), die Historie der App-Entwicklung und ein Lizenz-Hinweis abrufbar.
   _ 
   ! Das Menü der Seite "Liste der Transektabschnitte" erlaubt das Anlegen einer neuen Abschnittsliste. Diese Funktion wird aber nur beim erstmaligen Anlegen der Datenbank oder bei Anpassungen des Transekts benötigt.

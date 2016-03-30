@@ -28,11 +28,14 @@
 $ Todo
   % Todo
     * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
-    * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite 
+    * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
+    * Eingabeseite für Stammdaten
+    * Exportfunktionen mit Stammdaten
 $ 1.2.3
   % Version 1.2.3
   _ 28.03.2016
     * App läuft immer im Portraitmodus
+    * Leere Basis DB kann jederzeit exportiert werden 
 $ 1.2.2
   % Version 1.2.2
   _ 25.03.2016

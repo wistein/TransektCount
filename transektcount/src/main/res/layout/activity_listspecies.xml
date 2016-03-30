@@ -10,6 +10,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
+<!--        
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center" />
+-->
+        
         <LinearLayout
             android:id="@+id/listSpecLayout"
             android:orientation="vertical"
@@ -19,6 +29,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    
 </ScrollView>
 
