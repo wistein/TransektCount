@@ -35,7 +35,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/alert_value"
         android:hint="@string/charZero"
-        android:phoneNumber="true"
+        android:inputType="phone"
         android:textAlignment="center"
         android:gravity="center|center_vertical|center_horizontal"
         android:textColor="#FFFFFF"

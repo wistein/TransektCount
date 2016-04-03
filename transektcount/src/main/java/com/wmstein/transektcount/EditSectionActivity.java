@@ -35,7 +35,7 @@ import java.util.List;
  */
 
 /***********************************************************************************************************************/
-// Edit section list, module is called from CountingActivity 
+// EditSectionActivity is called from CountingActivity 
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     TransektCountApplication transektCount;
@@ -57,7 +57,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     EditTitleWidget enw;
     private View markedForDelete;
     private int idToDelete;
-    private AlertDialog.Builder areYouSure;
+    AlertDialog.Builder areYouSure;
     public ArrayList<String> countNames;
     public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
@@ -141,7 +141,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         // load the sections data
         section = sectionDataSource.getSection(section_id);
-        getSupportActionBar().setTitle(section.name);
+        try
+        {
+            getSupportActionBar().setTitle(section.name);
+        }
+        catch (NullPointerException e)
+        {
+            Log.i(TAG, "NullPointerException: No section name!");
+        }
 
         // display an editable section title
         etw = new EditTitleWidget(this, null);
@@ -226,13 +233,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         // save title and notes only if they have changed
         boolean savesection = false;
+        
         String newtitle = etw.getSectionName();
-
         if (StringUtils.isNotEmpty(newtitle))
         {
             section.name = newtitle;
             savesection = true;
         }
+        
         String newnotes = enw.getSectionName();
         // Always add notes if the user has written some...
         if (StringUtils.isNotEmpty(newnotes))
@@ -249,6 +257,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 savesection = true;
             }
         }
+        
         if (savesection)
         {
             sectionDataSource.saveSection(section);

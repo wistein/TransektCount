@@ -17,8 +17,11 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.wmstein.transektcount.database.CSVWriter;
 import com.wmstein.transektcount.database.DbHelper;
+import com.wmstein.transektcount.database.Head;
+import com.wmstein.transektcount.database.HeadDataSource;
+import com.wmstein.transektcount.database.Meta;
+import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
@@ -168,6 +171,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
+    public void editMeta(View view)
+    {
+        startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
     public void viewSpecies(View view)
     {
         Toast.makeText(getApplicationContext(),getString(R.string.wait), Toast.LENGTH_SHORT).show();
@@ -265,11 +273,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
         String destPath = "/data/data/com.wmstein.transektcount/files";
         SectionDataSource sectionDataSource;
+        HeadDataSource headDataSource;
+        MetaDataSource metaDataSource;
+        
         Section section;
         String sectName;
-        String sectNotes;
-        String specNotes;
+        String sectNotes, specNotes;
         int sect_id;
+        Head head;
+        Meta meta;
+        String transNo, inspecName;
+        int temp, wind, clouds;
+        String start_tm, end_tm;
         
         try
         {
@@ -319,20 +334,72 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
                 database.execSQL(sql);
+                
+                // open Head and Meta table for head and meta info
+                headDataSource = new HeadDataSource(this);
+                headDataSource.open();
+                metaDataSource = new MetaDataSource(this);
+                metaDataSource.open();
+                                
+                // open Section table for section name and notes
                 sectionDataSource = new SectionDataSource(this);
                 sectionDataSource.open();
 
                 // export purged db as csv
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
+                
                 Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE,null);
                 
                 // set header according to table representation in MS Excel
-                // Section, Section Notes, Species, Internal, External, Notes
                 String arrCol[] =
                     {
-                        getString(R.string.col1), getString(R.string.col2), getString(R.string.col3), getString(R.string.col4), getString(R.string.col5), getString(R.string.col6)
+                        getString(R.string.transectnumber), 
+                        getString(R.string.inspector), 
+                        getString(R.string.temperature), 
+                        getString(R.string.wind), 
+                        getString(R.string.clouds), 
+                        getString(R.string.starttm), 
+                        getString(R.string.endtm)
                     };
                 csvWrite.writeNext(arrCol);
+                
+                head = headDataSource.getHead();
+                transNo = head.transect_no;
+                inspecName = head.inspector_name;
+                meta = metaDataSource.getMeta();
+                temp = meta.temp;
+                wind = meta.wind;
+                clouds = meta.clouds;
+                start_tm = meta.start_tm;
+                end_tm = meta.end_tm;
+                
+                String arrMeta[] =
+                    {
+                        transNo,
+                        inspecName,
+                        String.valueOf(temp),
+                        String.valueOf(wind),
+                        String.valueOf(clouds),
+                        start_tm,
+                        end_tm,
+                    };
+                csvWrite.writeNext(arrMeta);
+                
+                // Empty row
+                String arrEmpt[] = {};
+                csvWrite.writeNext(arrEmpt);
+                
+                // Section, Section Notes, Species, Internal, External, Notes
+                String arrCol1[] =
+                    {
+                        getString(R.string.col1), 
+                        getString(R.string.col2), 
+                        getString(R.string.col3), 
+                        getString(R.string.col4), 
+                        getString(R.string.col5), 
+                        getString(R.string.col6)
+                    };
+                csvWrite.writeNext(arrCol1);
                 
                 // build the table array
                 while(curCSV.moveToNext())

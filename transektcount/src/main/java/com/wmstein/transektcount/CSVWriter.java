@@ -1,4 +1,4 @@
-package com.wmstein.transektcount.database;
+package com.wmstein.transektcount;
 
 /**
  Copyright 2015 Bytecode Pty Ltd.

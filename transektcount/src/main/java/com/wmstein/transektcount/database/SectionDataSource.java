@@ -135,26 +135,6 @@ public class SectionDataSource
         return sections;
     }
 
-    // called from ListSectioActivity and ListSpeciesActivity
-    public List<Section> getAllSections()
-    {
-        List<Section> sections = new ArrayList<>();
-
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE, 
-            allColumns, null, null, null, null, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Section section = cursorToSection(cursor);
-            sections.add(section);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return sections;
-    }
-
     // called from CountingActivity and EditSectionActivity
     public Section getSection(int section_id)
     {
@@ -166,14 +146,6 @@ public class SectionDataSource
         cursor.close();
         return section;
     }
-
-/*---------------------------------
-    // May be used by WelcomeActivity
-    public void purgeSections()
-    {
-        
-    }
-*/
     
     // Getting All Sections
     public List<Section> get_Sections()
@@ -208,38 +180,4 @@ public class SectionDataSource
         return section_list;
     }
 
-/*-----------------------------------------
-    // Get all section rows and delete empty ones
-    // may be used by WelcomeActivity
-    public void delEmptySections()
-    {
-        section_list.clear();
-
-        // Select All Query
-        String selectQuery = "DELETE  * FROM " + DbHelper.SECTION_TABLE +
-            " where " + DbHelper.S_CREATED_AT + " = '';";
-
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                Section section = new Section();
-                section.setS_ID(Integer.parseInt(cursor.getString(0)));
-                section.setS_CREATED_AT(Integer.parseInt(cursor.getString(1)));
-                section.setS_NAME(cursor.getString(4));
-                section.setS_NOTES(cursor.getString(5));
-                // Adding count to list
-                section_list.add(section);
-            }
-            while (cursor.moveToNext());
-        }
-
-        // return section list
-        cursor.close();
-        database.close();
-    }
-*/
 }

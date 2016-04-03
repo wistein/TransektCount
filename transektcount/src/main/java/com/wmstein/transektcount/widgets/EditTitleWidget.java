@@ -27,6 +27,11 @@ public class EditTitleWidget extends LinearLayout
         section_name = (EditText) findViewById(R.id.sectionName);
     }
 
+    public void setWidgetTitle(String title)
+    {
+        widget_title.setText(title);
+    }
+
     public void setSectionName(String name)
     {
         section_name.setText(name);
@@ -37,15 +42,9 @@ public class EditTitleWidget extends LinearLayout
         return section_name.getText().toString();
     }
 
-    public void setWidgetTitle(String title)
-    {
-        widget_title.setText(title);
-    }
-
     public void setHint(String hint)
     {
         section_name.setHint(hint);
     }
-
-
+    
 }

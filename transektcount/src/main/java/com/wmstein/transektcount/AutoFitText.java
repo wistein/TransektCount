@@ -26,10 +26,10 @@ import android.widget.TextView;
  * (Button, TextClock etc.)
  *
  * @author pheuschk
- * @createDate: 18.04.2013
+ * createDate: 18.04.2013
  * 
  * Modified by wmstein on 18.03.2016
- * Bugs fixed (height of single character) and context comments changed 
+ * Bug fixed (height of single character) and context comments changed 
  */
 @SuppressWarnings("unused")
 public class AutoFitText extends TextView
@@ -38,8 +38,8 @@ public class AutoFitText extends TextView
     /**
      * Global min and max for text size. Remember: values are in pixels!
      */
-    private final int MIN_TEXT_SIZE = 8;   // was 10
-    private final int MAX_TEXT_SIZE = 100; // was 400, best: 80?
+    final int MIN_TEXT_SIZE = 8;   // was 10
+    final int MAX_TEXT_SIZE = 100; // was 400, best: 80?
 
     /**
      * A dummy {@link TextView} to test the text size without actually showing anything to the user
@@ -49,7 +49,7 @@ public class AutoFitText extends TextView
     /**
      * A dummy {@link Paint} to test the text size without actually showing anything to the user
      */
-    private Paint mTestPaint;
+    Paint mTestPaint;
 
     /**
      * Scaling factor for fonts. It's a method of calculating independently (!) from the actual
@@ -63,12 +63,10 @@ public class AutoFitText extends TextView
      * Defines how close we want to be to the factual size of the Text-field. Lower values mean
      * higher precision but also exponentially higher computing cost (more loop runs)
      */
-    private final float mThreshold = 0.5f; // original was 0.5f
+    final float mThreshold = 0.5f; // original was 0.5f
 
     /**
      * Constructor for call without attributes --> invoke constructor with AttributeSet null
-     *
-     * @param context
      */
     public AutoFitText(Context context)
     {

@@ -15,7 +15,7 @@ import com.wmstein.transektcount.R;
  */
 public class NotesWidget extends LinearLayout
 {
-    public static String TAG = "TransektCount Notiz-Widget";
+    public static String TAG = "TransektCount Notes Widget";
     public String section_notes;
     private TextView textView;
 

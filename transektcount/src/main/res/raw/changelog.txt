@@ -29,7 +29,10 @@ $ Todo
   % Todo
     * Reject double species names in "Edit Sections"
     * Immediate popup "Please wait..." when starting the counting page or results page
-    * New input page for master data
+$ 1.2.4
+  % Version 1.2.4
+  _ 2016-04-03
+    * Input page for master data
     * Export functions including master data
 $ 1.2.3
   % Version 1.2.3

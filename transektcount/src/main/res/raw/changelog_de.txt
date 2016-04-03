@@ -29,6 +29,9 @@ $ Todo
   % Todo
     * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
     * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
+$ 1.2.4
+  % Version 1.2.4
+  _ 03.04.2016
     * Eingabeseite für Stammdaten
     * Exportfunktionen mit Stammdaten
 $ 1.2.3

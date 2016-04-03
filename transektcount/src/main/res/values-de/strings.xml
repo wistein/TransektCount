@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- strings.xml German strings -->
 <resources>
 
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_new_section">Neuer Abschnitt</string>
+    <string name="title_activity_meta">Meta-Daten</string>
     <string name="title_activity_list_section">Liste Transektabschn.</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
@@ -22,15 +24,28 @@
     <string name="newSectionButton">Neuer Abschnitt</string>
     <string name="viewSectionButton">Liste Transektabschn.</string>
     <string name="viewSpeciesButton">Zeige Ergebnis</string>
+    <string name="editMetaButton">Begehung vorbereiten</string>
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
+
+    <!-- EditMetaActivity -->
     <string name="col1">Abschnitt</string>
     <string name="col2">Ab.-Bemerkungen</string>
     <string name="col3">Spezies</string>
     <string name="col4">Intern</string>
     <string name="col5">Extern</string>
     <string name="col6">Bemerkungen</string>
+    <string name="editHeadTitle">Meta-Daten</string>
+    <string name="transectnumber">Transekt-Nr.</string>
+    <string name="inspector">Kartierer(in)</string>
+    <string name="temperature">Temp. (°C)</string>
+    <string name="wind">Wind (1-4)</string>
+    <string name="clouds">Wolken (%)</string>
+    <string name="starttm">Uhrzeit von</string>
+    <string name="hinttm">Tippe für akt. Zeit</string>
+    <string name="endtm">bis</string>
+
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>
@@ -166,7 +181,6 @@
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Bitte warten, Tabelle wird berechnet.</string>
     <string name="wait_header">Moment</string>
-    
 
     <!-- other stuff -->
     <string name="charZero">0</string>

@@ -57,6 +57,20 @@
             android:layout_height="0dp"
             android:layout_weight="2"/>
         
+        <Button
+            android:id="@+id/editMetaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:onClick="editMeta"
+            android:text="@string/editMetaButton"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"/>
+
         <LinearLayout
             android:id="@+id/welcomeButtons"
             android:layout_width="wrap_content"
