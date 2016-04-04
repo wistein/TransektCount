@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
     
 <!--
-  - widget_edit_meta.xml used by EditMetaActivity.java  
+  - widget_list_meta.xml used by ListSpeciesActivity.java  
   ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
   -->
 
@@ -21,7 +21,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    
+        
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -44,19 +44,18 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:id="@+id/widgetMeta1"
+            android:id="@+id/widgetLMeta1"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:id="@+id/widgetItem1"
-            android:inputType="phone"
+            android:id="@+id/widgetLItem1"
             android:background="@drawable/count_background"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
@@ -79,19 +78,18 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:id="@+id/widgetMeta2"
+            android:id="@+id/widgetLMeta2"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:inputType="phone"
-            android:id="@+id/widgetItem2"
+            android:id="@+id/widgetLItem2"
             android:background="@drawable/count_background"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
@@ -113,19 +111,18 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:id="@+id/widgetMeta3"
+            android:id="@+id/widgetLMeta3"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:inputType="phone"
-            android:id="@+id/widgetItem3"
+            android:id="@+id/widgetLItem3"
             android:background="@drawable/count_background"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
@@ -150,13 +147,48 @@
             android:paddingRight="5dp"
             android:paddingTop="0dp">
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:id="@+id/widgetLDate1"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="start|top"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/widgetLDate2"
+            android:background="@drawable/count_background"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:id="@+id/widgetDate1"
+                android:id="@+id/widgetLTime1"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:paddingRight="5dp"
@@ -168,12 +200,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:id="@+id/widgetDate2"
-                android:clickable="true"
-                android:onClick="getSDate"
+                android:id="@+id/widgetLItem4"
                 android:background="@drawable/count_background"
-                android:hint="@string/hinttm"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"/>
@@ -185,7 +214,6 @@
             android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -194,7 +222,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:id="@+id/widgetTime1"
+            android:id="@+id/widgetLTime2"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
@@ -206,55 +234,19 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:id="@+id/widgetItem4"
-            android:clickable="true"
-            android:onClick="getSTime"
+            android:id="@+id/widgetLItem5"
             android:background="@drawable/count_background"
-            android:hint="@string/hinttm"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingTop="0dp">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:id="@+id/widgetTime2"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
-            android:gravity="start|top"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/widgetItem5"
-            android:clickable="true"
-            android:onClick="getETime"
-            android:background="@drawable/count_background"
-            android:hint="@string/hinttm"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>
     </LinearLayout>
-            
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        
     </LinearLayout>
     
 </LinearLayout>

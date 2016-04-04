@@ -9,6 +9,7 @@ public class Meta
     public int temp;
     public int wind;
     public int clouds;
+    public String date;
     public String start_tm;
     public String end_tm;
 
@@ -34,6 +35,12 @@ public class Meta
     public void setM_CLOUDS(int M_clouds)
     {
         this.clouds = M_clouds;
+    }
+
+    //setting M_DATE
+    public void setM_DATE(String M_date)
+    {
+        this.start_tm = M_date;
     }
 
     //setting M_START_TM

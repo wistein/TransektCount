@@ -229,7 +229,7 @@ public class ChangeLog
         {
             String language = Locale.getDefault().toString().substring(0, 2);
             InputStream ins;
-            if (Objects.equals(language, "de"))
+            if (language.equals("de"))
             {
                 ins = context.getResources().openRawResource(R.raw.changelog_de);
             }

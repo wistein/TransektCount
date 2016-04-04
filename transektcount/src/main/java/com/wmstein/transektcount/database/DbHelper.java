@@ -48,6 +48,7 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String M_TEMP = "temp";
     public static final String M_WIND = "wind";
     public static final String M_CLOUDS = "clouds";
+    public static final String M_DATE = "date";
     public static final String M_START_TM = "start_tm";
     public static final String M_END_TM = "end_tm";
     private Context mContext;
@@ -80,7 +81,8 @@ public class DbHelper extends SQLiteOpenHelper
             + " text, " + H_INSPECTOR_NAME + " text)";
         db.execSQL(sql);
         sql = "create table " + META_TABLE + " (" + M_ID + " integer primary key, " + M_TEMP + 
-            " int, " + M_WIND + " int, " + M_CLOUDS + " int, " + M_START_TM + " text, " + M_END_TM + " text)";
+            " int, " + M_WIND + " int, " + M_CLOUDS + " int, " + M_DATE + " text, " + M_START_TM + 
+            " text, " + M_END_TM + " text)";
         db.execSQL(sql);
         
         //create empty row for HEAD_TABLE and META_TABLE
@@ -95,6 +97,7 @@ public class DbHelper extends SQLiteOpenHelper
         values2.put(M_TEMP, 0);
         values2.put(M_WIND, 0);
         values2.put(M_CLOUDS, 0);
+        values2.put(M_DATE, "");
         values2.put(M_START_TM, "");
         values2.put(M_END_TM, "");
         db.insert(META_TABLE, null, values2);

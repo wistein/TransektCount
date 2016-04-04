@@ -21,6 +21,7 @@ public class MetaDataSource
         DbHelper.M_TEMP,
         DbHelper.M_WIND,
         DbHelper.M_CLOUDS,
+        DbHelper.M_DATE,
         DbHelper.M_START_TM,
         DbHelper.M_END_TM,
     };
@@ -49,6 +50,7 @@ public class MetaDataSource
         dataToInsert.put(DbHelper.M_TEMP, meta.temp);
         dataToInsert.put(DbHelper.M_WIND, meta.wind);
         dataToInsert.put(DbHelper.M_CLOUDS, meta.clouds);
+        dataToInsert.put(DbHelper.M_DATE, meta.date);
         dataToInsert.put(DbHelper.M_START_TM, meta.start_tm);
         dataToInsert.put(DbHelper.M_END_TM, meta.end_tm);
         database.update(DbHelper.META_TABLE, dataToInsert, null, null);
@@ -61,6 +63,7 @@ public class MetaDataSource
         meta.temp = cursor.getInt(cursor.getColumnIndex(DbHelper.M_TEMP));
         meta.wind = cursor.getInt(cursor.getColumnIndex(DbHelper.M_WIND));
         meta.clouds = cursor.getInt(cursor.getColumnIndex(DbHelper.M_CLOUDS));
+        meta.date = cursor.getString(cursor.getColumnIndex(DbHelper.M_DATE));
         meta.start_tm = cursor.getString(cursor.getColumnIndex(DbHelper.M_START_TM));
         meta.end_tm = cursor.getString(cursor.getColumnIndex(DbHelper.M_END_TM));
         return meta;

@@ -40,12 +40,15 @@
     <string name="transectnumber">Transekt-Nr.</string>
     <string name="inspector">Kartierer(in)</string>
     <string name="temperature">Temp. (°C)</string>
-    <string name="wind">Wind (1-4)</string>
+    <string name="wind">Wind (0-4)</string>
     <string name="clouds">Wolken (%)</string>
-    <string name="starttm">Uhrzeit von</string>
-    <string name="hinttm">Tippe für akt. Zeit</string>
+    <string name="starttm">Zeit von</string>
+    <string name="hinttm">Tippe hier</string>
     <string name="endtm">bis</string>
-
+    <string name="valTemp">Unrealistische Temperatur</string>
+    <string name="valWind">Wind überprüfen!</string>
+    <string name="valClouds">Wolken überprüfen!</string>
+    <string name="date">Datum</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>

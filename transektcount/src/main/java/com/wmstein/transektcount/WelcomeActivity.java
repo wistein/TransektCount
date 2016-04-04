@@ -198,7 +198,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     /***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
     // supplemented with date and time in filename by wmstein
-    // and purged export
     @SuppressLint("SdCardPath")
     public void exportDb()
     {
@@ -284,7 +283,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Meta meta;
         String transNo, inspecName;
         int temp, wind, clouds;
-        String start_tm, end_tm;
+        String date, start_tm, end_tm;
         
         try
         {
@@ -357,7 +356,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         getString(R.string.inspector), 
                         getString(R.string.temperature), 
                         getString(R.string.wind), 
-                        getString(R.string.clouds), 
+                        getString(R.string.clouds),
+                        getString(R.string.date),
                         getString(R.string.starttm), 
                         getString(R.string.endtm)
                     };
@@ -370,6 +370,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 temp = meta.temp;
                 wind = meta.wind;
                 clouds = meta.clouds;
+                date = meta.date;
                 start_tm = meta.start_tm;
                 end_tm = meta.end_tm;
                 
@@ -380,6 +381,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         String.valueOf(temp),
                         String.valueOf(wind),
                         String.valueOf(clouds),
+                        date,
                         start_tm,
                         end_tm,
                     };
@@ -507,10 +509,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 dbHandler = new DbHelper(this);
                 database = dbHandler.getWritableDatabase();
 
-                String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET " + DbHelper.C_COUNT + " = 0, " + DbHelper.C_COUNTA + " = 0, " + DbHelper.C_NOTES + " = '';";
+                String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET " 
+                    + DbHelper.C_COUNT + " = 0, " 
+                    + DbHelper.C_COUNTA + " = 0, " 
+                    + DbHelper.C_NOTES + " = '';";
                 database.execSQL(sql);
-                sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET " + DbHelper.S_CREATED_AT + " = '', " + DbHelper.S_NOTES + " = '';";
+                
+                sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET " 
+                    + DbHelper.S_CREATED_AT + " = '', " 
+                    + DbHelper.S_NOTES + " = '';";
                 database.execSQL(sql);
+                
+                sql = "UPDATE " + DbHelper.META_TABLE + " SET " 
+                    + DbHelper.M_TEMP + " = 0, "
+                    + DbHelper.M_WIND + " = 0, " 
+                    + DbHelper.M_CLOUDS + " = 0, " 
+                    + DbHelper.M_DATE + " = '', " 
+                    + DbHelper.M_START_TM + " = '', " 
+                    + DbHelper.M_END_TM + " = '';";
+                database.execSQL(sql);
+                
                 sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
                 database.execSQL(sql);
 

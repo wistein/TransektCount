@@ -31,8 +31,9 @@ $ Todo
     * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
 $ 1.2.4
   % Version 1.2.4
-  _ 03.04.2016
+  _ 04.04.2016
     * Eingabeseite für Stammdaten
+    * Ergebnisseite mit Stammdaten
     * Exportfunktionen mit Stammdaten
 $ 1.2.3
   % Version 1.2.3

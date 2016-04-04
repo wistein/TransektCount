@@ -1,20 +1,18 @@
 package com.wmstein.transektcount;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -27,10 +25,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 /*
+ * EditMetaActivity collects meta info 
  * Created by wmstein on 31.03.2016.
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -44,8 +44,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
 
-    int head_id;
-    int meta_id;
     LinearLayout head_area;
     
     EditHeadWidget ehw;
@@ -98,18 +96,14 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         head = headDataSource.getHead();
         meta = metaDataSource.getMeta();
         
-        // display the editable transect No.
+        // display the editable head data
         ehw = new EditHeadWidget(this, null);
-        ehw.setWidgetHead(getString(R.string.transectnumber));
-        ehw.setWidgetItem(head.transect_no);
+        ehw.setWidgetNo(getString(R.string.transectnumber));
+        ehw.setWidgetNo1(head.transect_no);
+        ehw.setWidgetName(getString(R.string.inspector));
+        ehw.setWidgetName1(head.inspector_name);
         head_area.addView(ehw);
 
-        // display the editable inspector name
-        eiw = new EditHeadWidget(this, null);
-        eiw.setWidgetHead(getString(R.string.inspector));
-        eiw.setWidgetItem(head.inspector_name);
-        head_area.addView(eiw);
-        
         // display the editable meta data
         etw = new EditMetaWidget(this, null);
         etw.setWidgetMeta1(getString(R.string.temperature));
@@ -118,6 +112,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         etw.setWidgetItem2(meta.wind);
         etw.setWidgetMeta3(getString(R.string.clouds));
         etw.setWidgetItem3(meta.clouds);
+        etw.setWidgetDate1(getString(R.string.date));
+        etw.setWidgetDate2(meta.date);
         etw.setWidgetTime1(getString(R.string.starttm));
         etw.setWidgetItem4(meta.start_tm);
         etw.setWidgetTime2(getString(R.string.endtm));
@@ -137,12 +133,21 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     }
 
+    // getSDate()
+    public void getSDate(View view)
+    {
+        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
+            .hideSoftInputFromWindow(view.getWindowToken(), 0);
+        TextView sDate = (TextView) this.findViewById(R.id.widgetDate2);
+        sDate.setText(getcurDate());
+    }
+
     // getSTime()
     public void getSTime(View view)
     {
         ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-            .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-        EditText sTime = (EditText) this.findViewById(R.id.widgetItem4);
+            .hideSoftInputFromWindow(view.getWindowToken(), 0);
+        TextView sTime = (TextView) this.findViewById(R.id.widgetItem4);
         sTime.setText(getcurTime());
     }
 
@@ -150,9 +155,28 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     public void getETime(View view)
     {
         ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-            .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-        EditText eTime = (EditText) this.findViewById(R.id.widgetItem5);
+            .hideSoftInputFromWindow(view.getWindowToken(), 0);
+        TextView eTime = (TextView) this.findViewById(R.id.widgetItem5);
         eTime.setText(getcurTime());
+    }
+
+    // Date for date
+    // by wmstein
+    public String getcurDate()
+    {
+        Date date = new Date();
+        DateFormat dform;
+        String lng = Locale.getDefault().toString().substring(0, 2);
+        
+        if (lng.equals("de"))
+        {
+            dform = new SimpleDateFormat("dd.MM.yyyy");
+        }
+        else
+        {
+            dform = new SimpleDateFormat("yyyy-MM-dd");
+        }
+        return dform.format(date);
     }
 
     // Date for start_tm and end_tm
@@ -177,22 +201,38 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     /***************/
     public void saveAndExit(View view)
     {
-        saveData();
-        super.finish();
+        if (saveData())
+            super.finish();
     }
 
     public boolean saveData()
     {
         // Save head data
-        head.transect_no = ehw.getWidgetItem();
-        head.inspector_name = eiw.getWidgetItem();
+        head.transect_no = ehw.getWidgetNo1();
+        head.inspector_name = ehw.getWidgetName1();
 
         headDataSource.saveHead(head);
 
         // Save meta data
         meta.temp = etw.getWidgetItem1();
+        if (meta.temp > 50 || meta.temp < -10)
+        {
+            Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
+            return false;
+        }
         meta.wind = etw.getWidgetItem2();
+        if (meta.wind > 4 || meta.wind < 0)
+        {
+            Toast.makeText(this, getString(R.string.valWind), Toast.LENGTH_SHORT).show();
+            return false;
+        }
         meta.clouds = etw.getWidgetItem3();
+        if (meta.clouds > 100 || meta.clouds < 0)
+        {
+            Toast.makeText(this, getString(R.string.valClouds), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        meta.date = etw.getWidgetDate2();
         meta.start_tm = etw.getWidgetItem4();
         meta.end_tm = etw.getWidgetItem5();
 

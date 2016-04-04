@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  - widget_edit_head.xml used by EditMeatActivity.java  
+  - widget_list_head.xml used by ListSpeciesActivity.java  
   ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
   -->
 
@@ -37,24 +37,24 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:id="@+id/widgetNo"
+            android:id="@+id/widgetLNo"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:id="@+id/widgetNo1"
+            android:id="@+id/widgetLNo1"
             android:background="@drawable/count_background"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
-
+        
     </LinearLayout>
 
         <LinearLayout
@@ -70,18 +70,18 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:id="@+id/widgetName"
+                android:id="@+id/widgetLName"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:paddingRight="5dp"
                 android:paddingBottom="5dp"
                 android:gravity="start|top"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:id="@+id/widgetName1"
+                android:id="@+id/widgetLName1"
                 android:background="@drawable/count_background"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -89,7 +89,7 @@
                 android:paddingBottom="5dp"/>
 
         </LinearLayout>
-
+        
     </LinearLayout>
 
 </LinearLayout>

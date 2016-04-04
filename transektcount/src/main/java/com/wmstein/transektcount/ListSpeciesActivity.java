@@ -12,8 +12,16 @@ import android.widget.ScrollView;
 
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
+import com.wmstein.transektcount.database.Head;
+import com.wmstein.transektcount.database.HeadDataSource;
+import com.wmstein.transektcount.database.Meta;
+import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
+import com.wmstein.transektcount.widgets.EditHeadWidget;
+import com.wmstein.transektcount.widgets.EditMetaWidget;
+import com.wmstein.transektcount.widgets.ListHeadWidget;
+import com.wmstein.transektcount.widgets.ListMetaWidget;
 import com.wmstein.transektcount.widgets.ListSpeciesWidget;
 
 import java.util.ArrayList;
@@ -31,7 +39,10 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     TransektCountApplication transektCount;
     SharedPreferences prefs;
     LinearLayout spec_area;
-    
+
+    Head head;
+    Meta meta;
+
     public int spec_count;
     public int spec_counta;
     // preferences
@@ -40,7 +51,13 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // the actual data
     private CountDataSource countDataSource;
     private SectionDataSource sectionDataSource;
-    
+    private HeadDataSource headDataSource;
+    private MetaDataSource metaDataSource;
+
+    ListHeadWidget ehw;
+    ListHeadWidget eiw;
+    ListMetaWidget etw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,6 +66,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
         countDataSource = new CountDataSource(this);
         sectionDataSource = new SectionDataSource(this);
+        headDataSource = new HeadDataSource(this);
+        metaDataSource = new MetaDataSource(this);
 
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -93,8 +112,39 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // fill ListSpeciesWidget with relevant counts and sections data
     public void loadData()
     {
-        List<ListSpeciesWidget> listSpecWidgets = new ArrayList<>();
-        
+//        List<ListSpeciesWidget> listSpecWidgets = new ArrayList<>();
+
+        headDataSource.open();
+        metaDataSource.open();
+
+        //load head and meta data
+        head = headDataSource.getHead();
+        meta = metaDataSource.getMeta();
+
+        // display the editable transect No.
+        ehw = new ListHeadWidget(this, null);
+        ehw.setWidgetLNo(getString(R.string.transectnumber));
+        ehw.setWidgetLNo1(head.transect_no);
+        ehw.setWidgetLName(getString(R.string.inspector));
+        ehw.setWidgetLName1(head.inspector_name);
+        spec_area.addView(ehw);
+
+        // display the editable meta data
+        etw = new ListMetaWidget(this, null);
+        etw.setWidgetLMeta1(getString(R.string.temperature));
+        etw.setWidgetLItem1(meta.temp);
+        etw.setWidgetLMeta2(getString(R.string.wind));
+        etw.setWidgetLItem2(meta.wind);
+        etw.setWidgetLMeta3(getString(R.string.clouds));
+        etw.setWidgetLItem3(meta.clouds);
+        etw.setWidgetLDate1(getString(R.string.date));
+        etw.setWidgetLDate2(meta.date);
+        etw.setWidgetLTime1(getString(R.string.starttm));
+        etw.setWidgetLItem4(meta.start_tm);
+        etw.setWidgetLTime2(getString(R.string.endtm));
+        etw.setWidgetLItem5(meta.end_tm);
+        spec_area.addView(etw);
+
         //List of species
         List<Count> specs; 
         
@@ -131,7 +181,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                     widget.setCount1(spec, section);
                 }
                 
-                listSpecWidgets.add(widget);
+//                listSpecWidgets.add(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }

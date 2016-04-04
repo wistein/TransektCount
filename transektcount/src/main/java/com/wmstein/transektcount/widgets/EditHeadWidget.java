@@ -2,6 +2,7 @@ package com.wmstein.transektcount.widgets;
 
 /*
  * EditHeadWidget.java used by EditMetaActivity.java
+ * Created by wmstein for com.wmstein.transektcount on 31.03.2016.
  */
 
 import android.content.Context;
@@ -15,53 +16,57 @@ import com.wmstein.transektcount.R;
 
 import static java.lang.Integer.valueOf;
 
-/*
- * Created by wmstein for com.wmstein.transektcount on 31.03.2016.
- */
 public class EditHeadWidget extends LinearLayout
 {
-    TextView widget_head; // used for transect_no and inspector_name
-    EditText widget_item;
-    public int widget_no;
+    TextView widget_no; // used for transect_no title
+    EditText widget_no1; // used for transect_no
+    TextView widget_name; // used for inspector_name title
+    EditText widget_name1; // used for inspector_name
 
     public EditHeadWidget(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_head, this, true);
-        widget_head = (TextView) findViewById(R.id.widgetHead);
-        widget_item = (EditText) findViewById(R.id.widgetItem);
+        widget_no = (TextView) findViewById(R.id.widgetNo);
+        widget_no1 = (EditText) findViewById(R.id.widgetNo1);
+        widget_name = (TextView) findViewById(R.id.widgetName);
+        widget_name1 = (EditText) findViewById(R.id.widgetName1);
     }
 
-    public void setWidgetHead(String title)
+    public void setWidgetNo(String title)
     {
-        widget_head.setText(title);
+        widget_no.setText(title);
     }
 
-    public void setWidgetItem(String name)
+    public void setWidgetNo1(String name)
     {
-        widget_item.setText(name);
+        widget_no1.setText(name);
     }
 
-    public String getWidgetItem()
+    public void setWidgetName(String title)
     {
-        return widget_item.getText().toString();
+        widget_name.setText(title);
     }
 
-    public void setWidgetNo(int no)
+    public void setWidgetName1(String name)
     {
-        widget_no = no;
+        widget_name1.setText(name);
     }
 
-    public int getWidgetNo()
+    public String getWidgetNo1()
     {
-        widget_no = valueOf(String.valueOf(widget_item));
-        return widget_no;
+        return widget_no1.getText().toString();
+    }
+
+    public String getWidgetName1()
+    {
+        return widget_name1.getText().toString();
     }
 
     public void setHint(String hint)
     {
-        widget_head.setHint(hint);
+        widget_no.setHint(hint);
     }
 
 }

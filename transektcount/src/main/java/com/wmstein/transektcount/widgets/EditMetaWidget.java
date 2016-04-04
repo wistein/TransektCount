@@ -15,9 +15,6 @@ import com.wmstein.transektcount.R;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static java.lang.Integer.getInteger;
-import static java.lang.Integer.valueOf;
-
 /*
  * Created by wmstein for com.wmstein.transektcount on 02.04.2016.
  */
@@ -29,10 +26,12 @@ public class EditMetaWidget extends LinearLayout
     EditText widget_item2;
     TextView widget_meta3; // clouds
     EditText widget_item3;
+    TextView widget_date1; // date
+    TextView widget_date2;
     TextView widget_time1; // start_tm
-    EditText widget_item4;
+    TextView widget_item4;
     TextView widget_time2; // end_tm
-    EditText widget_item5;
+    TextView widget_item5;
 
     public EditMetaWidget(Context context, AttributeSet attrs)
     {
@@ -45,13 +44,16 @@ public class EditMetaWidget extends LinearLayout
         widget_item2 = (EditText) findViewById(R.id.widgetItem2);
         widget_meta3 = (TextView) findViewById(R.id.widgetMeta3);
         widget_item3 = (EditText) findViewById(R.id.widgetItem3);
+        widget_date1 = (TextView) findViewById(R.id.widgetDate1);
+        widget_date2 = (TextView) findViewById(R.id.widgetDate2);
         widget_time1 = (TextView) findViewById(R.id.widgetTime1);
-        widget_item4 = (EditText) findViewById(R.id.widgetItem4);
+        widget_item4 = (TextView) findViewById(R.id.widgetItem4);
         widget_time2 = (TextView) findViewById(R.id.widgetTime2);
-        widget_item5 = (EditText) findViewById(R.id.widgetItem5);
+        widget_item5 = (TextView) findViewById(R.id.widgetItem5);
     }
 
     // Following the SETS
+    // temperature
     public void setWidgetMeta1(String title)
     {
         widget_meta1.setText(title);
@@ -62,6 +64,7 @@ public class EditMetaWidget extends LinearLayout
         widget_item1.setText(String.valueOf(name));
     }
 
+    // wind
     public void setWidgetMeta2(String title)
     {
         widget_meta2.setText(title);
@@ -72,6 +75,7 @@ public class EditMetaWidget extends LinearLayout
         widget_item2.setText(String.valueOf(name));
     }
 
+    // clouds
     public void setWidgetMeta3(String title)
     {
         widget_meta3.setText(title);
@@ -82,6 +86,18 @@ public class EditMetaWidget extends LinearLayout
         widget_item3.setText(String.valueOf(name));
     }
 
+    // date
+    public void setWidgetDate1(String title)
+    {
+        widget_date1.setText(title);
+    }
+
+    public void setWidgetDate2(String name)
+    {
+        widget_date2.setText(name);
+    }
+
+    // start_tm
     public void setWidgetTime1(String title)
     {
         widget_time1.setText(title);
@@ -92,6 +108,7 @@ public class EditMetaWidget extends LinearLayout
         widget_item4.setText(name);
     }
 
+    // end_tm
     public void setWidgetTime2(String title)
     {
         widget_time2.setText(title);
@@ -128,6 +145,11 @@ public class EditMetaWidget extends LinearLayout
             return 0;
         else
             return Integer.parseInt(text);
+    }
+
+    public String getWidgetDate2()
+    {
+        return widget_date2.getText().toString();
     }
 
     public String getWidgetItem4()

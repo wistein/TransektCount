@@ -40,11 +40,15 @@
     <string name="transectnumber">Transect No.</string>
     <string name="inspector">Inspector Name</string>
     <string name="temperature">Temp. (°C)</string>
-    <string name="wind">Wind (1-4)</string>
+    <string name="wind">Wind (0-4)</string>
     <string name="clouds">Clouds (%)</string>
     <string name="starttm">Time from</string>
-    <string name="hinttm">Tap to get time</string>
+    <string name="hinttm">Tap here</string>
     <string name="endtm">until</string>
+    <string name="valTemp">Unrealistic temperature</string>
+    <string name="valWind">Wind out of range</string>
+    <string name="valClouds">Clouds out of range</string>
+    <string name="date">Date</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Save</string>
