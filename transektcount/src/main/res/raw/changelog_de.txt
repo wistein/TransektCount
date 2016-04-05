@@ -96,9 +96,12 @@ $ 1.0.0
   % Version 1.0.0
   _ 12.02.2016
   ! 1. Release.
-    * Text-Anpassung für Tagfaltermonitoring
+    * Text- und Struktur-Anpassung für Tagfaltermonitoring
     * Basiert auf BeeCount von knirirr
     * https://github.com/knirirr/ BeeCount.git
+    * Modifizierte AutoFitText.java, original Code von Autor: pheuschk
+    * Modifizierte ChangeLog.java und ViewHelp.java original Code von Autor: Karsten Priegnitz
+    * Modifizierte CSVWriter.java original Code Copyright 2015 Bytecode Pty Ltd.
   _
   ! Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
   _ 
