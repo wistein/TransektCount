@@ -6,7 +6,7 @@
  *  Author: Wilhelm Stein
  *  Based on BeeCount, author: knirrirr 
  *  Modified AutoFitText.java, original code from author: pheuschk
- *  Modified ChangeLog.java and ViewHelp.java original code from author: Karsten Priegnitz
+ *  Modified ChangeLog.java original code from author: Karsten Priegnitz
  *  Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd.
  *
  *
