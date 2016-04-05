@@ -35,6 +35,7 @@ $ 1.2.4
     * Input page for master data
     * Results page including master data
     * Export functions including master data
+    * Background for editing pages unicolored
 $ 1.2.3
   % Version 1.2.3
   _ 2016-03-28

@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +64,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
 
+    private Bitmap bMap;
+    private BitmapDrawable bg;
+
     //added for dupPref ToDo
     private boolean dupPref;
 
@@ -104,7 +109,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         dupPref = prefs.getBoolean("pref_duplicate", true);
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
-        counting_screen.setBackground(transektCount.getBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(counting_screen.getResources(), bMap);
+        counting_screen.setBackground(bg);
+        //counting_screen.setBackground(transektCount.getBackground());
     }
 
     @Override
@@ -452,7 +460,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
         counting_screen.setBackground(null);
-        counting_screen.setBackground(transektCount.setBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(counting_screen.getResources(), bMap);
+        counting_screen.setBackground(bg);
+        //counting_screen.setBackground(transektCount.setBackground());
 
         //added for dupPref
         dupPref = prefs.getBoolean("duplicate_counts", true);

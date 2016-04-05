@@ -26,6 +26,8 @@ public class TransektCountApplication extends Application
     public BitmapDrawable ob;
     private Bitmap bMap;
     private static SharedPreferences prefs;
+    int width;
+    int height;
 
 
     @Override
@@ -72,8 +74,8 @@ public class TransektCountApplication extends Application
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+        width = size.x;
+        height = size.y;
         
         if (backgroundPref.equals("none"))
         {
@@ -124,7 +126,7 @@ public class TransektCountApplication extends Application
             bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
         }
 
-        ob = new BitmapDrawable(bMap);
+        ob = new BitmapDrawable(this.getResources(), bMap);
         bMap = null;
         return ob;
     }
@@ -137,18 +139,18 @@ public class TransektCountApplication extends Application
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
     {
         // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
+        final int height1 = options.outHeight;
+        final int width1 = options.outWidth;
         int inSampleSize = 1;
 
-        if (height > reqHeight || width > reqWidth)
+        if (height1 > reqHeight || width1 > reqWidth)
         {
 
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
+            final int halfHeight = height1 / 2;
+            final int halfWidth = width1 / 2;
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            //   height and width larger than the requested height and width.
+            //   height1 and width1 larger than the requested height and width.
             while ((halfHeight / inSampleSize) > reqHeight
                 && (halfWidth / inSampleSize) > reqWidth)
             {

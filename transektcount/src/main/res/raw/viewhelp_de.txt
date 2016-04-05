@@ -28,16 +28,16 @@ $ 10
   _ 
   ! Die integrierte Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank verwendet.
   ! Datenbanken können individuell bezüglich Transektabschnitten und erwarteten Schmetterlingsarten angelegt werden.
-  ! Die erfassten Daten (Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder vom Smartphone abgelesen werden, oder für eigene Bearbeitung auf den PC übertragen werden.
+  ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder vom Smartphone abgelesen werden, oder für eigene Bearbeitung auf den PC übertragen werden.
   _ 
-  ! Die App enthält weder Tracking- noch Werbefunktionen und fordert nur Speicher-Zugriffsrechte, die für die Im- und Export-Funktionen nötig sind. 
+  ! Die App ist Open Source (https://github.com/wistein/TransektCount), enthält weder Tracking- noch Werbefunktionen und fordert nur Speicher-Zugriffsrechte, die für die Im- und Export-Funktionen nötig sind. 
 
 $ 9
   % 2. Einrichtung
   !
-  ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden.
-  ! Dazu erzeugt man zunächst die Artenliste für den 1. Transektabschnitt mit "Neuer Abschnitt" (Aufruf aus dem Menü der Seite „Liste Transektabschn.“).
-  ! Die Abschnittsliste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag (Art hinzuf.), z.B.:
+  ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden. Dazu werden zunächst die Meta-Daten zum Transekt eingegeben. Dazu auf „Begehung vorbereiten“ tippen und zumindest Transekt-Nr. und Kartierername eingeben. Mit Tippen aufs Speichersymbol abschließen. Die Meta-Daten können jederzeit weiter bearbeitet werden.
+  ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt mit "Neuer Abschnitt" (Aufruf aus dem Menü der Seite „Liste Transektabschn.“).
+  ! Die Abschnittsliste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag, z.B.:
   _ 
   ! Ab 01
   ! --------------------
@@ -46,57 +46,59 @@ $ 9
   ! P. na./ra.-Kompl.
   ! ...
   _ 
-  ! Die Liste kann jederzeit nachträglich ergänzt oder geändert werden.
+  ! Die Liste kann nachträglich ergänzt oder geändert werden.
   ! Mit "Speichern" wird die Liste übernommen.
   _ 
-  ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnittsliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
+  ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnitts-Artenliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
   ! (z.B.: Ab 02, Ab 03,...).
-  ! Sind für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig und sollte nun als leere Basis-Datenbank exportiert werden.
+  ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig und sollte nun als leere Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
   ! Hierdurch wird eine Kopie der leeren Datenbank als "Basis-Datenbank" (transektcount0.db) im Home-Verzeichnis /sdcard (oder /sdcard0, bzw. /storage/emulated/0, ist je nach Smartphone-Modell unterschiedlich) abgelegt.
-  ! Die "Basis-Datenbank" dient als leere Vorlage für jede weitere Begehung. Sicherheitshalber sollte mit Hilfe eines Dateimanagers die Datei "transektcount0.db" in ein Backupdatenverzeichnis kopiert werden.  
+  ! Die Basis-DB enthält keine begehungs-spezifischen Daten und dient als leere Vorlage für jede weitere Begehung. Die Basis-DB kann auch später, z.B. nach Änderungen an Listen, erneut exportiert werden (alle begehungsspezifischen Daten werden dabei ignoriert).  
   
 $ 8
   % 3. Benutzung
   !
   ! Beginne mit der "Liste Transektabschnitte". Hier wird die Tabelle mit allen Transektabschnitten angezeigt.
-  ! Wähle den zutreffenden Transektabschnitt. Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb fliegen, gibt es entsprechend für jede Art 2 Zähler ("i" für intern und "e" für extern). 
+  ! Wähle den zutreffenden Transektabschnitt. Es erscheint die Zählerseite. Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb fliegen, gibt es entsprechend für jede Art 2 Zähler ("i" für intern und "e" für extern). 
   ! Zum Zählen tippe jeweils auf den entsprechenden "+"-Button der gesichteten Art.
   ! Mit den "-"-Buttons kann ggf. korrigiert werden.
-  ! Beim Speichern der Zählung für einen Transektabschnitt werden ebenfalls Datum und Uhrzeit aktuell gespeichert. Das Datum und ggf. eine Bemerkung zum Abschnitt erscheint anschließend in der Liste der Transektabschnitte.     
+  ! Beim Speichern der Zählung für einen Transektabschnitt werden ebenfalls Datum und Uhrzeit abschnitts-spezifisch gespeichert. Das Datum und ggf. eine Bemerkung zum Abschnitt erscheinen anschließend in der Liste der Transektabschnitte.     
   _ 
   ! Mit dem Bleistift-Button in der Kopfzeile der Zählerseite lassen sich Bemerkungen zum Abschnitt hinzufügen sowie Name und Art-Einträge editieren. Abschnittsbemerkungen werden unterhalb der Artenliste angezeigt.
   _
-  ! Der Bleistift-Button in der Art-Zeile auf der Zählerseite ruft die Art-editieren-Seite auf. Hier können Art-spezifische Bemerkungen hinzugefügt werden, und es können die Zähler auf beliebige Werte gesetzt werden.
+  ! Der Bleistift-Button in der Art-Zeile auf der Zählerseite ruft die Art-editieren-Seite auf. Hier können Art-spezifische Bemerkungen hinzugefügt und die Zähler auf beliebige Werte gesetzt werden.
   ! Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen des eingestellten Werts beim internen Zähler einen entsprechenden Hinweis anzeigen (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.
   ! Ein Art-spezifischer Kommentar wird anschließend in der Liste direkt unter der Art eingeblendet.
   _ 
-  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke.
+  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke. TransektCount sollte immer über seine Startseite verlassen werden, damit die Datenbank geschlossen ist.
   _ 
-  ! Fast jede App-Seite hat ihr spezifisches Kontext-Menü, das jeweils mit dem 3-Punkt-Symbol oben rechts aufgerufen werden kann.
+  ! Einige App-Seiten haben ein spezifisches Kontext-Menü, das jeweils mit dem 3-Punkt-Symbol oben rechts aufgerufen werden kann.
   _ 
   ! Bei großen Datenmengen kann sich die Reaktion der App, insbesondere beim Aufruf einer Abschnittsartenliste (der Zählerseite) und der Ergebnisseite etwas verlangsamen, da hier im Hintergrund umfangreiche Berechnungen laufen.
   _ 
-  ! Die Ergebnisseite zeigt eine Liste der gezählten Falter an. Diese Seite wird von der Startseite aus erreicht mit "Zeige Ergebnis". 
+  ! Die Ergebnisseite zeigt unterhalb der Begehungs-Meta-Daten eine Liste der gezählten Falter an. Diese Seite wird von der Startseite aus erreicht mit "Zeige Ergebnis". Der Aufbau dieser Seite kann einige Sekunden dauern.
 
 $ 7
   % 4. Weitere Funktionen
   !
-  ! Die Seite „Einstellungen“ kann von fast jeder App-Seite aus erreicht werden.
-  ! Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds und Alarme. 
+  ! Die Seite „Einstellungen“ wird von den meisten App-Seiten aus erreicht. Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds und Alarme. 
   ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
   _ 
   ! Das Menü auf der Eingangsseite bietet Import-, Export-, Hilfe-, Info- und die Einstellungsfunktionen. 
-  ! Es erlaubt neben dem Export der DB als Basis-DB auch den Export der aktuellen Zähldaten als SQLite-Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db" oder als csv-Datei (Export DB -> CSV-Datei) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv". 
-  ! Importiert werden kann von hier aus die angelegte Basis-Datenbank "/sdcard/transektcount0.db" als Basis für eine neue Begehungen. Hier ist zu beachten, dass beim Import der Basis-Datenbank die bisherigen Daten überschrieben werden. 
-  ! Und unter "App-Info" sind die E-Mail-Adresse des Autors (für Bug-Reports), die Historie der App-Entwicklung und ein Lizenz-Hinweis abrufbar.
+  _ 
+  ! Importiert werden kann die angelegte Basis-Datenbank „/sdcard/transektcount0.db", die jeweils als Basis für neue Begehungen dient. Hier ist zu beachten, dass nach dem Import der Basis-Datenbank die bisherigen Begehungsdaten überschrieben werden.
+  ! Es erlaubt neben dem Export der DB als Basis-DB auch den Export der kompletten DB als SQLite-Datenbank (Export DB) nach "/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db". 
+  ! Die Funktion „Export DB -> CSV-Datei“ scheibt die Zählergebnisse in eine MS Excel-kompatible Datei nach „/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv".
+  _ 
+  ! Die E-Mail-Adresse des Autors und die Historie der App-Entwicklung nebst Lizenzhinweis ist unter "App-Info" abrufbar.
   _ 
   ! Das Menü der Seite "Liste der Transektabschnitte" erlaubt das Anlegen einer neuen Abschnittsliste. Diese Funktion wird aber nur beim erstmaligen Anlegen der Datenbank oder bei Anpassungen des Transekts benötigt.
   _ 
   ! In der Zähler-Ansicht eines ausgewählten Transektabschnitts kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden. Diese Funktion empfiehlt sich, wie unter "2. Einrichtung" beschrieben, bei erstmaligem Anlegen der Datenbankstruktur.
   ! In dieser Ansicht kann auch über das Mitteilungssymbol eine Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
   _ 
-  ! IT-affine Anwender können die SQLite-Datei "transektcount_JJJJ-MM-TT_hhmmss.db" oder die csv-Textdatei "transektcount_JJJJ-MM-TT_hhmmss.csv" aus dem "/sdcard"-Verzeichnis auf einen PC übertragen.
+  ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"- bzw. -.csv-Dateien auf einen PC übertragen.
   ! Dort kann mit Hilfe des kostenlosen Tools "SqliteBrowser" (sqlitebrowser.org) die .db-Datei bearbeitet bzw. die .csv-Datei in Excel als Text-Datei (Unicode UTF-8) importiert und bearbeitet werden.
   !
   

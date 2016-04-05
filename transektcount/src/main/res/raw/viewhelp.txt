@@ -28,16 +28,16 @@ $ 10
   _ 
   ! The integrated database is organized according to a transect inspection. That means, there will be used a new database per inspection.
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
-  ! The recorded data (counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
+  ! The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
   _ 
-  ! The app has no tracking or advertising functions and demands only for storage access permits which are needed for im-/exporting the counting data. 
+  ! The app is open source has no tracking or advertising functions, demands only for storage access permits which are needed for im-/exporting the data and is published on https://github.com/wistein/TransektCount. 
 
 $ 9
   % 2. Set up
   !
   ! Before initial use you must set up an empty basic database (Basic DB).
-  ! Therefore, you first create a species list for the first transect section. Use the function "New Section" from the "List of Transect Sections" menu for that.
-  ! Then this list gets a name (e.g.: Sect 01) and subsequently an entry for each expected species (Add Species), e.g.:
+  ! Therefore, you first enter the meta data of the transect. Tap on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. Then create a species list for the first transect section. Use the function "New Section" from the "List of Transect Sections" menu for that.
+  ! Then this list gets a name (e.g.: Sect 01) and subsequently an entry for each expected species, e.g.:
   _ 
   ! Sect 01
   ! --------------------
@@ -46,20 +46,21 @@ $ 9
   ! P. na./ra.-compl.
   ! ...
   _ 
-  ! The list can be changed or supplemented anytime afterwards.
+  ! This list can be changed or supplemented anytime afterwards.
   ! With "Save List" you get it stored into the database.
   _ 
   ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
   ! (e.g.: Sect 02, Sect 03,...).
+  _ 
   ! When you have created the section lists for all transect sections, the database is ready for export as the "Basic Database".
   ! To do this, you can use the function "Export as Basic DB" in the menu of the starting page.
   ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models).
-  ! The "Basic Database" will be used as a template for all further transect inspections in future. For safety reasons you should copy the Basic Database file "transektcount0.db" to a different backup directory by a file manager.  
+  ! The "Basic Database" will be used as a template for all further transect inspections in future.  
   
 $ 8
   % 3. Usage
   !
-  ! Start with the "List of Transect Sections". Here you see the table with all your transect sections. 
+  ! Start with the "List of Transect Sections".  
   ! Select the relevant transect section. As it ought to be distinguished between counts of butterflies within the imaginary count area and butterflies outside you have 2 separate counters ("i" for internal and "e" for external). 
   ! To count just tap on either the internal or external "+"-Button of the corresponding species.
   ! The "-"-Buttons allows for corrections. 
@@ -71,13 +72,13 @@ $ 8
   ! Here you may also set pop-up alarms which show up while reaching a set value on the corresponding internal counter (e.g. to realize on site if a certain species is more abundant than on a previous inspection). 
   ! If you enter a species related remark this will be shown in an extra line beneath the row. 
   _ 
-  ! To move back one page you can use the arrow in the left upper corner.
+  ! To move back one page you can use the arrow in the left upper corner. You should leave TransektCount always from its starting page, as in this state the database is safely closed.
   _ 
   ! Nearly each app page has its specific context menu. You can activate it with the 3-point-symbol in the upper right corner.
   _ 
-  ! When you have large lists or have collected big amounts of data the app may slow down a bit, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
+  ! When you have large lists or have collected big amounts of data the app may delay the start of pages, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
   _  
-  ! From the Starting page you can open the results page with "Show Results". It shows the list of counted butterflies.
+  ! From the Starting page you can open the results page with "Show Results". It shows the meta data of the inspection and the list of counted butterflies. It may take a few seconds to show up.
 
 $ 7
   % 4. Further functions
@@ -87,19 +88,19 @@ $ 7
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
   ! The menu on the starting page has Import, Export, Help, Info and Settings functions. 
-  ! Here you may export the DB as "Basic DB" (see "2. Settings").
-  ! Here you may export the current database (Export DB) with its counts as SQLite-DB to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.db".
-  ! Here you may also export the counting results table (Export DB -> CSV-file) as a csv-textfile to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.csv".
   ! Here you may import the Basic DB from /sdcard/transektcount0.db as a base for a new transect inspection. But notice: Importing a Basic DB clears all existing counting information.
-  ! And you may find here under "App Info" the email address of the author (for bug reports), the history of the app and the license note.
+  ! Here you may export the DB as "Basic DB" (see "2. Settings").
+  ! Here you may export the complete database (Export DB) as SQLite-DB to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.db".
+  ! Here you may also export the counting results table (Export DB -> CSV-file) as a csv-textfile to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.csv".
+  ! And you may find under "App Info" the email address of the author, the history of the app and the license note.
   _ 
   ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
   _ 
   ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
-  ! IT-affine users may transfer the SQLite DB file "transektcount_YYYY-MM-DD_hhmmss.db" or the csv-textfile "transektcount_JJJJ-MM-TT_hhmmss.csv" to a PC. 
-  ! There you may examine the db-file with the free tool "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file into Excel for further processing.
+  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
+  ! There you may examine the db-file with the free tool "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file as UTF-8 text file into Excel for further processing.
   !
   
 $ END_OF_VIEW_HELP

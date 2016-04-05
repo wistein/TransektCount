@@ -2,7 +2,9 @@ package com.wmstein.transektcount;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -35,6 +37,10 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     private static String TAG = "TransektCountNewSectionActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+
+    private Bitmap bMap;
+    private BitmapDrawable bg;
+
     int newBox;
     private boolean dupPref;
     ViewGroup layout;
@@ -56,7 +62,10 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         dupPref = prefs.getBoolean("pref_duplicate", true);
 
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
-        baseLayout.setBackground(transektCount.getBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(baseLayout.getResources(), bMap);
+        baseLayout.setBackground(bg);
+        //baseLayout.setBackground(transektCount.getBackground());
 
         // data access using CrowTrack method
         sectionDataSource = new SectionDataSource(this);
@@ -264,7 +273,11 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     {
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
         baseLayout.setBackground(null);
-        baseLayout.setBackground(transektCount.setBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(baseLayout.getResources(), bMap);
+        baseLayout.setBackground(bg);
+        //baseLayout.setBackground(transektCount.setBackground());
+
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
 }

@@ -2,9 +2,10 @@ package com.wmstein.transektcount;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 /*
  * EditMetaActivity collects meta info 
@@ -40,6 +40,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     Head head;
     Meta meta;
+    private Bitmap bMap;
+    private BitmapDrawable bg;
     
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
@@ -47,7 +49,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     LinearLayout head_area;
     
     EditHeadWidget ehw;
-    EditHeadWidget eiw;
     EditMetaWidget etw;
     
     @Override
@@ -61,15 +62,11 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         transektCount = (TransektCountApplication) getApplication();
 
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
-        editHead_screen.setBackground(transektCount.getBackground());
-        try
-        {
-            getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
-        }
-        catch (NullPointerException e)
-        {
-            Log.i(TAG, "NullPointerException: No head title!");
-        }
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
+        editHead_screen.setBackground(bg);
+
+        getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
     }
 
     @Override
@@ -267,7 +264,9 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     {
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
         editHead_screen.setBackground(null);
-        editHead_screen.setBackground(transektCount.setBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
+        editHead_screen.setBackground(bg);
     }
 
 }

@@ -35,6 +35,7 @@ $ 1.2.4
     * Eingabeseite für Stammdaten
     * Ergebnisseite mit Stammdaten
     * Exportfunktionen mit Stammdaten
+    * Hintergrund der Editierseiten einfarbig
 $ 1.2.3
   % Version 1.2.3
   _ 28.03.2016

@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +41,7 @@ import java.util.List;
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "transektcountCountOptionsActivity";
-    TransektCountApplication TransektCountApplication;
+    TransektCountApplication transektCount;
     SharedPreferences prefs;
 
     private Count count;
@@ -51,6 +53,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private View markedForDelete;
     private int deleteAnAlert;
     private int section_id;
+    
+    private Bitmap bMap;
+    private BitmapDrawable bg;
 
     LinearLayout static_widget_area;
     LinearLayout dynamic_widget_area;
@@ -66,12 +71,14 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_options);
 
-        TransektCountApplication = (TransektCountApplication) getApplication();
+        transektCount = (TransektCountApplication) getApplication();
         prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
-        counting_screen.setBackground(TransektCountApplication.getBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(counting_screen.getResources(), bMap);
+        counting_screen.setBackground(bg);
 
         static_widget_area = (LinearLayout) findViewById(R.id.static_widget_area);
         dynamic_widget_area = (LinearLayout) findViewById(R.id.dynamic_widget_area);
@@ -348,7 +355,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
         counting_screen.setBackground(null);
-        counting_screen.setBackground(TransektCountApplication.setBackground());
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(counting_screen.getResources(), bMap);
+        counting_screen.setBackground(bg);
     }
 
 }

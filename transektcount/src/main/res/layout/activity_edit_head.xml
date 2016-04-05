@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        
     
         <LinearLayout 
               android:id="@+id/edit_head"
@@ -27,7 +26,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="saveAndExit"
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:text="@string/labelNewsectSaveButton"
                 android:maxLines="1">
