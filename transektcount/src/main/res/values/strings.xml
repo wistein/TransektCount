@@ -65,10 +65,12 @@
     <string name="noCard">Your sdcard could not be accessed!</string>
     <string name="saveFail">Your database could not be exported!</string>
     <string name="saveWin">Your database has been exported to the sdcard.</string>
+    <string name="reset2basic">Your database has been resetted.</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export as Basic DB</string>
     <string name="exportCSVMenu">Export DB -> CSV file</string>
     <string name="importMenu">Import DB</string>
+    <string name="resetDBMenu">Reset -> Basic DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
@@ -76,6 +78,7 @@
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
+    <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
     <string name="confirmImport">Are you sure you want to import a backed-up \'transektcount.db\'? Your current data will be overwritten!</string>
     <string name="confirmBasisExport">Are you sure you want to export the current Transect DB as Basic DB \'transektcount0.db\'? Your current Basic DB will be overwritten!</string>
     <string name="confirmExport">Are you sure you want to export the current Transect DB \'transektcount.db\'? The previously exported Transect DB will be overwritten!</string>

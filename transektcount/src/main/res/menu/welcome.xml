@@ -23,6 +23,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/resetDBMenu"
+        android:title="@string/resetDBMenu"
+        app:showAsAction="never">
+    </item>
+    <item
         android:id="@+id/importBasisMenu"
         android:title="@string/importBasisMenu"
         app:showAsAction="never"

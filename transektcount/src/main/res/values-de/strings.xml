@@ -65,10 +65,12 @@
     <string name="noCard">Die Sdcard kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
+    <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export als Basis-DB</string>
     <string name="exportCSVMenu">Export DB -> CSV-Datei</string>
     <string name="importMenu">Import DB</string>
+    <string name="resetDBMenu">Reset -> Basis-DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
@@ -76,6 +78,7 @@
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="confirmImport">Willst Du wirklich eine alte Transekt-Datenbank \"transektcount.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmBasisExport">Willst Du wirklich die aktuelle Transekt-Datenbank als Basis-Datenbank \"transektcount0.db\" exportieren? Deine vorhandene Basis-Datenbank wird überschrieben!</string>
     <string name="confirmExport">Willst Du wirklich die aktuelle Transekt-Datenbank \"transektcount.db\" exportieren? Eine zuvor exportierte Datenbank wird überschrieben!</string>
