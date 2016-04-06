@@ -11,7 +11,6 @@
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="hello_world">Hello!</string>
-    <string name="hello2">Good luck!</string>
 
     <!-- generic -->
     <string name="app_name">TransektCount</string>
@@ -28,6 +27,26 @@
     <string name="newSectTitle">New Section</string>
     <string name="changeLogTitle">App Info</string>
     <string name="viewHelpTitle">Help</string>
+    <string name="noCard">Your sdcard could not be accessed!</string>
+    <string name="saveFail">Your database could not be exported!</string>
+    <string name="saveWin">Your database has been exported to the sdcard.</string>
+    <string name="reset2basic">Your database has been resetted.</string>
+    <string name="exportMenu">Export DB</string>
+    <string name="exportBasisMenu">Export Basic DB</string>
+    <string name="exportCSVMenu">Export Data -> CSV file</string>
+    <string name="importMenu">Import DB</string>
+    <string name="resetDBMenu">Reset Data</string>
+    <string name="importBasisMenu">Import Basic DB</string>
+    <string name="importFail">Your database could not be imported!</string>
+    <string name="importWin">Your database has been imported.</string>
+    <string name="noDb">Please put \'transektcount0.db\' on your /sdcard partition.</string>
+    <string name="importButton">Import</string>
+    <string name="importCancelButton">Cancel</string>
+    <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
+    <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
+    <string name="confirmImport">Are you sure you want to import a backed-up \'transektcount.db\'? Your current data will be overwritten!</string>
+    <string name="confirmBasisExport">Are you sure you want to export the current Transect DB as Basic DB \'transektcount0.db\'? Your current Basic DB will be overwritten!</string>
+    <string name="confirmExport">Are you sure you want to export the current Transect DB \'transektcount.db\'? The previously exported Transect DB will be overwritten!</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Section</string>
@@ -52,7 +71,7 @@
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Save</string>
-    <string name="labelNewsect">Section Name</string>
+    <string name="labelNewsect">Enter Section Name here</string>
     <string name="labelNewCountButton">Add Species</string>
     <string name="clearCountButton">Remove Spec.</string>
     <string name="emptyBox">Please fill in the empty boxes!</string>
@@ -62,26 +81,6 @@
     <string name="sectionSaved">List saved!</string>
 
     <!-- ListSectionActivity -->
-    <string name="noCard">Your sdcard could not be accessed!</string>
-    <string name="saveFail">Your database could not be exported!</string>
-    <string name="saveWin">Your database has been exported to the sdcard.</string>
-    <string name="reset2basic">Your database has been resetted.</string>
-    <string name="exportMenu">Export DB</string>
-    <string name="exportBasisMenu">Export as Basic DB</string>
-    <string name="exportCSVMenu">Export DB -> CSV file</string>
-    <string name="importMenu">Import DB</string>
-    <string name="resetDBMenu">Reset -> Basic DB</string>
-    <string name="importBasisMenu">Import Basic DB</string>
-    <string name="importFail">Your database could not be imported!</string>
-    <string name="importWin">Your database has been imported.</string>
-    <string name="noDb">Please put \'transektcount0.db\' on your /sdcard partition.</string>
-    <string name="importButton">Import</string>
-    <string name="importCancelButton">Cancel</string>
-    <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
-    <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
-    <string name="confirmImport">Are you sure you want to import a backed-up \'transektcount.db\'? Your current data will be overwritten!</string>
-    <string name="confirmBasisExport">Are you sure you want to export the current Transect DB as Basic DB \'transektcount0.db\'? Your current Basic DB will be overwritten!</string>
-    <string name="confirmExport">Are you sure you want to export the current Transect DB \'transektcount.db\'? The previously exported Transect DB will be overwritten!</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>

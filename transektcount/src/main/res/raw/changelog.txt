@@ -32,9 +32,10 @@ $ Todo
 $ 1.2.4
   % Version 1.2.4
   _ 2016-04-04
-    * Input page for master data
-    * Results page including master data
-    * Export functions including master data
+    * New: "Reset Data" function
+    * New: Input page for master data
+    * New: Results page including master data
+    * New: Export functions including master data
     * Background for editing pages unicolored
 $ 1.2.3
   % Version 1.2.3
@@ -44,14 +45,14 @@ $ 1.2.3
 $ 1.2.2
   % Version 1.2.2
   _ 2016-03-25
-    * Export DB in csv-Format
+    * New: Export DB in csv-Format
     * Exported DB shows only counts >0
     * Better views for small displays
 $ 1.2.0
   % Version 1.2.0
   _ 2016-03-19
+    * New: View for counting results
     * Edit Section List: Initial focus on remarks field
-    * View for counting results
     * Alerts only for "internal" counts
     * "Add Alert" now scrolls to end of page and sets focus on new field
     * Design of Starting page improved
@@ -74,15 +75,14 @@ $ 1.0.6
   % Version 1.0.6
   _ 2016-02-22
     * Section list shows remarks
-    * Section date shown only if !=0
+    * Section date shown only if not 0
     * Suitable for Android 17 (JellyBean) - 23 (Marshmallow)
     * German text improved
     * Some minor code improvements
 $ 1.0.4
   % Version 1.0.4
   _ 2016-02-18
-    * Detailed Help page
-    * Only Portrait Mode
+    * New: Detailed Help page
     * Base-DB-Import: Raw Database 'transektcount0.db'
     * Base-DB-Export: Raw Database 'transektcount0.db'
     * DB-Export: Database 'transektcount.db'

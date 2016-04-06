@@ -32,9 +32,10 @@ $ Todo
 $ 1.2.4
   % Version 1.2.4
   _ 04.04.2016
-    * Eingabeseite für Stammdaten
-    * Ergebnisseite mit Stammdaten
-    * Exportfunktionen mit Stammdaten
+    * Neu: Funktion "Reset Daten"
+    * Neu: Eingabeseite für Stammdaten
+    * Neu: Ergebnisseite mit Stammdaten
+    * Neu: Exportfunktionen mit Stammdaten
     * Hintergrund der Editierseiten einfarbig
 $ 1.2.3
   % Version 1.2.3
@@ -44,14 +45,14 @@ $ 1.2.3
 $ 1.2.2
   % Version 1.2.2
   _ 25.03.2016
-    * Export-DB in csv-Format
+    * Neu: Export-DB in csv-Format
     * Exportierte DB enthält nur Zählergebnisse >0
     * Bessere Darstellung auf kleinen Displays
 $ 1.2.0
   % Version 1.2.0
   _ 19.03.2016
+    * Neu: View für Zählergebnis 
     * Edit Abschnittsliste: Anfangsfokus auf Feld "Bemerkungen"
-    * View für Zählergebnis 
     * Alarm nur für "interne" Zähler
     * "Alarm hinzuf." scrollt bis Seitenende und setzt Fokus auf neues Feld 
     * Design der Startseite verbessert
@@ -74,15 +75,14 @@ $ 1.0.6
   % Version 1.0.6
   _ 22.02.2016
     * Abschnittsliste zeigt Anmerkungen
-    * Abschnittsdatum wird nur gezeigt, wenn !=0
+    * Abschnittsdatum wird nur gezeigt, wenn ungleich 0
     * Geeignet für Android 17 (JellyBean) - 23 (Marshmallow)
     * Deutsche Übersetzung verbessert
     * Einige kleinere Verbesserungen im Code
 $ 1.0.4
   % Version 1.0.4
   _ 18.02.2016
-    * Ausführliche Hilfe-Seite
-    * Nur Portrait-Modus
+    * Neu: Ausführliche Hilfe-Seite
     * Basis-DB-Import: Leere Datenbank 'transektcount0.db'
     * Basis-DB-Export: Leere Datenbank 'transektcount0.db'
     * DB-Export: Datenbank 'transektcount.db'

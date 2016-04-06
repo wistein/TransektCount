@@ -94,7 +94,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
                     c.setHint(this.getString(R.string.boxFill) + " " + newBox);
                     c.setBackgroundResource(R.drawable.rounded_corner);
                     c.setPadding(5, 5, 5, 5);
-                    c.setTextSize(24);
+                    c.setTextSize(18);
                     c.setTextColor(Color.WHITE);
                     c.setHintTextColor(Color.WHITE);
                     layout.addView(c, params);
@@ -175,7 +175,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         c.setHint(this.getString(R.string.boxFill) + " " + newBox);
         c.setBackgroundResource(R.drawable.rounded_corner);
         c.setPadding(5, 5, 5, 5);
-        c.setTextSize(24);
+        c.setTextSize(18);
         c.setTextColor(Color.WHITE);
         c.setHintTextColor(Color.WHITE);
 

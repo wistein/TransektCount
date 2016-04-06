@@ -30,26 +30,22 @@
     <item
         android:id="@+id/importBasisMenu"
         android:title="@string/importBasisMenu"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_upload">
+        app:showAsAction="never">
     </item>
     <item
         android:id="@+id/exportBasisMenu"
         android:title="@string/exportBasisMenu"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_save">
+        app:showAsAction="never">
     </item>
     <item
         android:id="@+id/exportMenu"
         android:title="@string/exportMenu"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_save">
+        app:showAsAction="never">
     </item>
     <item
         android:id="@+id/exportCSVMenu"
         android:title="@string/exportCSVMenu"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_save">
+        app:showAsAction="never">
     </item>
     <item
         android:id="@+id/viewHelp"
@@ -60,8 +56,7 @@
     <item
         android:id="@+id/changeLog"
         android:title="@string/changeLogTitle"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_help">
+        app:showAsAction="never">
     </item>
 
 </menu>

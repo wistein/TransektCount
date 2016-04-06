@@ -20,7 +20,6 @@
 
     <!-- WelcomeActivity -->
     <string name="hello">Eine App für\'s Tagfaltermonitoring\n\nUnterstützt die artspezifische Erfassung von Schmetterlingen in Transektabschnitten.\n\nEine Anleitung zur App gibt es unter dem Menüpunkt \"Hilfe\".</string>
-    <string name="hello2">Viel Erfolg!</string>
     <string name="newSectionButton">Neuer Abschnitt</string>
     <string name="viewSectionButton">Liste Transektabschn.</string>
     <string name="viewSpeciesButton">Zeige Ergebnis</string>
@@ -28,6 +27,26 @@
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
+    <string name="noCard">Die Sdcard kann nicht verwendet werden!</string>
+    <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
+    <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
+    <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
+    <string name="exportMenu">Export DB</string>
+    <string name="exportBasisMenu">Export Basis-DB</string>
+    <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
+    <string name="importMenu">Import DB</string>
+    <string name="resetDBMenu">Reset Daten</string>
+    <string name="importBasisMenu">Import Basis-DB</string>
+    <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
+    <string name="importWin">Die Datenbank wurde importiert.</string>
+    <string name="noDb">Bitte lege eine Kopie der Datenbankdatei \"transektcount0.db\" auf die /sdcard Partition.</string>
+    <string name="importButton">Import</string>
+    <string name="importCancelButton">Abbrechen</string>
+    <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
+    <string name="confirmImport">Willst Du wirklich eine alte Transekt-Datenbank \"transektcount.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmBasisExport">Willst Du wirklich die aktuelle Transekt-Datenbank als Basis-Datenbank \"transektcount0.db\" exportieren? Deine vorhandene Basis-Datenbank wird überschrieben!</string>
+    <string name="confirmExport">Willst Du wirklich die aktuelle Transekt-Datenbank \"transektcount.db\" exportieren? Eine zuvor exportierte Datenbank wird überschrieben!</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Abschnitt</string>
@@ -52,7 +71,7 @@
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>
-    <string name="labelNewsect">Abschnittsbezeichnung</string>
+    <string name="labelNewsect">Hier Abschnittsname eingeben</string>
     <string name="labelNewCountButton">Art hinzuf.</string>
     <string name="clearCountButton">Art entf.</string>
     <string name="emptyBox">Bitte die leeren Felder ausfüllen!</string>
@@ -62,27 +81,6 @@
     <string name="sectionSaved">Liste gespeichert!</string>
 
     <!-- ListSectionActivity -->
-    <string name="noCard">Die Sdcard kann nicht verwendet werden!</string>
-    <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
-    <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
-    <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
-    <string name="exportMenu">Export DB</string>
-    <string name="exportBasisMenu">Export als Basis-DB</string>
-    <string name="exportCSVMenu">Export DB -> CSV-Datei</string>
-    <string name="importMenu">Import DB</string>
-    <string name="resetDBMenu">Reset -> Basis-DB</string>
-    <string name="importBasisMenu">Import Basis-DB</string>
-    <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
-    <string name="importWin">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte lege eine Kopie der Datenbankdatei \"transektcount0.db\" auf die /sdcard Partition.</string>
-    <string name="importButton">Import</string>
-    <string name="importCancelButton">Abbrechen</string>
-    <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
-    <string name="confirmImport">Willst Du wirklich eine alte Transekt-Datenbank \"transektcount.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmBasisExport">Willst Du wirklich die aktuelle Transekt-Datenbank als Basis-Datenbank \"transektcount0.db\" exportieren? Deine vorhandene Basis-Datenbank wird überschrieben!</string>
-    <string name="confirmExport">Willst Du wirklich die aktuelle Transekt-Datenbank \"transektcount.db\" exportieren? Eine zuvor exportierte Datenbank wird überschrieben!</string>
-
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
@@ -95,7 +93,6 @@
     <string name="cloneButton">Abschnittsliste duplizieren</string>
     <string name="newName">Eine Bezeichnung für die Kopie der Liste eingeben.</string>
     <string name="newCopyCreated">Eine neue Abschnittsliste wurde erstellt!</string>
-
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Liste bearbeiten</string>
