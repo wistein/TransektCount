@@ -147,37 +147,4 @@ public class SectionDataSource
         return section;
     }
     
-    // Getting All Sections
-    public List<Section> get_Sections()
-    {
-        section_list.clear();
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + DbHelper.SECTION_TABLE +
-            " where " + DbHelper.S_CREATED_AT + " <> '';";
-
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                Section section = new Section();
-                section.setS_ID(Integer.parseInt(cursor.getString(0)));
-                section.setS_CREATED_AT(Integer.parseInt(cursor.getString(1)));
-                section.setS_NAME(cursor.getString(4));
-                section.setS_NOTES(cursor.getString(5));
-                // Adding count to list
-                section_list.add(section);
-            }
-            while (cursor.moveToNext());
-        }
-
-        // return section list
-        cursor.close();
-        database.close();
-        return section_list;
-    }
-
 }

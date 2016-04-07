@@ -202,14 +202,6 @@ public class ChangeLog
     }
 
     /**
-     * @return HTML which displays full change log
-     */
-    public String getFullLog()
-    {
-        return this.getLog(true);
-    }
-
-    /**
      * modes for HTML-Lists (bullet, numbered)
      */
     private enum Listmode

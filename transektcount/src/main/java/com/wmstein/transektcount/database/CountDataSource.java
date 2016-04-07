@@ -74,15 +74,6 @@ public class CountDataSource
         return newcount;
     }
 
-    public void deleteCount(Count count)
-    {
-        int id = count.id;
-        database.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + id, null);
-
-        // delete associated alerts
-        database.delete(DbHelper.ALERT_TABLE, DbHelper.A_COUNT_ID + " = " + id, null);
-    }
-
     public void deleteCountById(int id)
     {
         System.out.println("Gelöscht: Zähler mit ID: " + id);
@@ -162,40 +153,6 @@ public class CountDataSource
         // Make sure to close the cursor
         cursor.close();
         return species;
-    }
-
-    // Getting All Counts
-    public List<Count> get_Counts()
-    {
-        count_list.clear();
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + DbHelper.COUNT_TABLE +
-            " where (" + DbHelper.C_COUNT + " > 0 or " + DbHelper.C_COUNTA + " > 0);";
-
-        Cursor cursor = database.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                Count count = new Count();
-                count.setC_ID(Integer.parseInt(cursor.getString(0)));
-                count.setC_SECTION_ID(Integer.parseInt(cursor.getString(1)));
-                count.setC_COUNT(Integer.parseInt(cursor.getString(2)));
-                count.setC_COUNTA(Integer.parseInt(cursor.getString(3)));
-                count.setC_NAME(cursor.getString(4));
-                count.setC_NOTES(cursor.getString(5));
-                // Adding count to list
-                count_list.add(count);
-            }
-            while (cursor.moveToNext());
-        }
-
-        // return count list
-        cursor.close();
-        return count_list;
     }
 
 }

@@ -553,139 +553,139 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         alert = builder.create();
         alert.show();
         Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+    }
+
+    // clear DB values for basic DB
+    public void clearDBValues()
+    {
+        // clear values in DB
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
+
+        String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
+            + DbHelper.C_COUNT + " = 0, "
+            + DbHelper.C_COUNTA + " = 0, "
+            + DbHelper.C_NOTES + " = '';";
+        database.execSQL(sql);
+
+        sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
+            + DbHelper.S_CREATED_AT + " = '', "
+            + DbHelper.S_NOTES + " = '';";
+        database.execSQL(sql);
+
+        sql = "UPDATE " + DbHelper.META_TABLE + " SET "
+            + DbHelper.M_TEMP + " = 0, "
+            + DbHelper.M_WIND + " = 0, "
+            + DbHelper.M_CLOUDS + " = 0, "
+            + DbHelper.M_DATE + " = '', "
+            + DbHelper.M_START_TM + " = '', "
+            + DbHelper.M_END_TM + " = '';";
+        database.execSQL(sql);
+
+        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
+        database.execSQL(sql);
+
+        dbHandler.close();
+    }
+
+    /**************************************************************************************************/
+    @SuppressLint("SdCardPath")
+    // modified by wmstein
+    public void importBasisDb()
+    {
+        //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
+        infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
+        String destPath = "/data/data/com.wmstein.transektcount/files";
+        try
+        {
+            destPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            Log.e(TAG, "destPath error: " + e.toString());
+        }
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
+        //outfile = new File("/data/data/com.wmstein.transektcount/databases/transektcount.db");
+        outfile = new File(destPath + "/transektcount.db");
+        if (!(infile.exists()))
+        {
+            Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
+            return;
         }
 
-            // clear DB values for basic DB
-            public void clearDBValues()
+        // a confirm dialogue before anything else takes place
+        // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
+        // could make the dialog central in the popup - to do later
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setMessage(R.string.confirmBasisImport).setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
             {
-                // clear values in DB
-                dbHandler = new DbHelper(this);
-                database = dbHandler.getWritableDatabase();
-
-                String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
-                    + DbHelper.C_COUNT + " = 0, "
-                    + DbHelper.C_COUNTA + " = 0, "
-                    + DbHelper.C_NOTES + " = '';";
-                database.execSQL(sql);
-
-                sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
-                    + DbHelper.S_CREATED_AT + " = '', "
-                    + DbHelper.S_NOTES + " = '';";
-                database.execSQL(sql);
-
-                sql = "UPDATE " + DbHelper.META_TABLE + " SET "
-                    + DbHelper.M_TEMP + " = 0, "
-                    + DbHelper.M_WIND + " = 0, "
-                    + DbHelper.M_CLOUDS + " = 0, "
-                    + DbHelper.M_DATE + " = '', "
-                    + DbHelper.M_START_TM + " = '', "
-                    + DbHelper.M_END_TM + " = '';";
-                database.execSQL(sql);
-
-                sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
-                database.execSQL(sql);
-
-                dbHandler.close();
-            }
-
-            /**************************************************************************************************/
-            @SuppressLint("SdCardPath")
-            // modified by wmstein
-            public void importBasisDb()
-            {
-                //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
-                infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
-                String destPath = "/data/data/com.wmstein.transektcount/files";
-                try
+                // START
+                // replace this with another function rather than this lazy c&p
+                if (Environment.MEDIA_MOUNTED.equals(state))
                 {
-                    destPath = getFilesDir().getPath();
-                } catch (Exception e)
-                {
-                    Log.e(TAG, "destPath error: " + e.toString());
+                    // We can read and write the media
+                    mExternalStorageAvailable = mExternalStorageWriteable = true;
                 }
-                destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-                //outfile = new File("/data/data/com.wmstein.transektcount/databases/transektcount.db");
-                outfile = new File(destPath + "/transektcount.db");
-                if (!(infile.exists()))
+                else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
                 {
-                    Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
-                    return;
+                    // We can only read the media
+                    mExternalStorageAvailable = true;
+                    mExternalStorageWriteable = false;
+                }
+                else
+                {
+                    // Something else is wrong. It may be one of many other states, but all we need
+                    //  to know is we can neither read nor write
+                    mExternalStorageAvailable = mExternalStorageWriteable = false;
                 }
 
-                // a confirm dialogue before anything else takes place
-                // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
-                // could make the dialog central in the popup - to do later
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setIcon(android.R.drawable.ic_dialog_alert);
-                builder.setMessage(R.string.confirmBasisImport).setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
+                if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
                 {
-                    public void onClick(DialogInterface dialog, int id)
+                    Log.e(TAG, "No sdcard access");
+                    Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    try
                     {
-                        // START
-                        // replace this with another function rather than this lazy c&p
-                        if (Environment.MEDIA_MOUNTED.equals(state))
-                        {
-                            // We can read and write the media
-                            mExternalStorageAvailable = mExternalStorageWriteable = true;
-                        }
-                        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-                        {
-                            // We can only read the media
-                            mExternalStorageAvailable = true;
-                            mExternalStorageWriteable = false;
-                        }
-                        else
-                        {
-                            // Something else is wrong. It may be one of many other states, but all we need
-                            //  to know is we can neither read nor write
-                            mExternalStorageAvailable = mExternalStorageWriteable = false;
-                        }
-
-                        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
-                        {
-                            Log.e(TAG, "No sdcard access");
-                            Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            try
-                            {
-                                copy(infile, outfile);
-                                Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
-                            } catch (IOException e)
-                            {
-                                Log.e(TAG, "Failed to import database");
-                                Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        // END
-                    }
-                }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
+                        copy(infile, outfile);
+                        Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e)
                     {
-                        dialog.cancel();
+                        Log.e(TAG, "Failed to import database");
+                        Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
                     }
-                });
-                alert = builder.create();
-                alert.show();
-            }
-
-            /**********************************************************************************************/
-            // http://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
-            public void copy(File src, File dst) throws IOException
-            {
-                FileInputStream in = new FileInputStream(src);
-                FileOutputStream out = new FileOutputStream(dst);
-
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0)
-                {
-                    out.write(buf, 0, len);
                 }
-                in.close();
-                out.close();
+                // END
             }
+        }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                dialog.cancel();
+            }
+        });
+        alert = builder.create();
+        alert.show();
+    }
+
+    /**********************************************************************************************/
+    // http://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
+    public void copy(File src, File dst) throws IOException
+    {
+        FileInputStream in = new FileInputStream(src);
+        FileOutputStream out = new FileOutputStream(dst);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0)
+        {
+            out.write(buf, 0, len);
         }
+        in.close();
+        out.close();
+    }
+}

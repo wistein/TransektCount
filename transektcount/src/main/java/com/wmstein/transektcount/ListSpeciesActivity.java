@@ -112,8 +112,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // fill ListSpeciesWidget with relevant counts and sections data
     public void loadData()
     {
-//        List<ListSpeciesWidget> listSpecWidgets = new ArrayList<>();
-
         headDataSource.open();
         metaDataSource.open();
 

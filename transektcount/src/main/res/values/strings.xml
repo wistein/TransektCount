@@ -33,7 +33,7 @@
     <string name="reset2basic">Your database has been resetted.</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
-    <string name="exportCSVMenu">Export Data -> CSV file</string>
+    <string name="exportCSVMenu">Export Data -> CSV File</string>
     <string name="importMenu">Import DB</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="importBasisMenu">Import Basic DB</string>

@@ -85,16 +85,6 @@ public class ViewHelp
         Log.d(TAG, "appVersion: " + this.thisVersion);
     }
 
-    /**
-     * @return <code>true</code> if your app including ChangeLog is started the
-     * first time ever. Also <code>true</code> if your app was
-     * deinstalled and installed again.
-     */
-    private boolean firstRunEver()
-    {
-        return NO_VERSION.equals(this.lastVersion);
-    }
-
     /*********************************************************
      * @return an AlertDialog with a full change log displayed
      */
@@ -158,7 +148,6 @@ public class ViewHelp
 
     private Listmode listMode = Listmode.NONE;
     private StringBuffer sb = null;
-    private static final String EOCL = "END_OF_VIEW_HELP";
 
     private String getLog(boolean full)
     {
@@ -168,7 +157,7 @@ public class ViewHelp
         {
             String language = Locale.getDefault().toString().substring(0, 2);
             InputStream ins;
-            if (Objects.equals(language, "de"))
+            if (language.equals("de"))
             {
                 ins = context.getResources().openRawResource(R.raw.viewhelp_de);
             }

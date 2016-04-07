@@ -274,15 +274,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         super.finish();
     }
 
-    public void editSection(View view)
-    {
-        // some stuff to go here
-        // transektCount.section_id = section_id;
-        Intent intent = new Intent(CountingActivity.this, EditSectionActivity.class);
-        intent.putExtra("section_id", section_id);
-        startActivity(intent);
-    }
-
   /*
    * The functions below are triggered by the count buttons
    */
