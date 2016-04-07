@@ -87,11 +87,11 @@ $ 7
   ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds and alerts. 
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
-  ! The menu on the starting page has Import, Export, Help, Info and Settings functions. 
-  ! Here you may import the Basic DB from /sdcard/transektcount0.db as a base for a new transect inspection. But notice: Importing a Basic DB clears all existing counting information.
-  ! Here you may export the DB as "Basic DB" (see "2. Settings").
-  ! Here you may export the complete database (Export DB) as SQLite-DB to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.db".
-  ! Here you may also export the counting results table (Export DB -> CSV-file) as a csv-textfile to "/sdcard/transektcount_YYYY-MM-DD_hhmmss.csv".
+  ! The menu on the starting page has Reset, Import, Export, Help, Info and Settings functions. 
+  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB from /sdcard/transektcount0.db 
+  ! By “Export Basic DB” you may export the DB as empty "Basic DB" which is reasonable, when to take into account changes of the transect structure or new species you may have entered.
+  ! Exporting the current database (Export DB) writes a copy of the complete DB to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db.
+  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /sdcard/transektcount_YYYY-MM-DD_hhmmss.csv.
   ! And you may find under "App Info" the email address of the author, the history of the app and the license note.
   _ 
   ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
