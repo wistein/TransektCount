@@ -15,19 +15,16 @@ import com.wmstein.transektcount.database.SectionDataSource;
 
 import java.util.List;
 
-/**
+/*
  * Created by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
- public class ListSectionActivity extends ListActivity implements SharedPreferences.OnSharedPreferenceChangeListener
- public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+ * Changed by wmstein on 08.04.2016
  */
-public class ListSectionActivity extends ListActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "TransektCountListSectionActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
     private SectionDataSource sectionDataSource;
-    private SectionListAdapter adapter;
     List<Section> sections;
     ListView list;
     
@@ -73,11 +70,13 @@ public class ListSectionActivity extends ListActivity implements SharedPreferenc
         sectionDataSource.close();
     }
 
-    private void showData()
+    // modified for ListView
+    public void showData()
     {
         sections = sectionDataSource.getAllSections(prefs);
-        adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections);
-        setListAdapter(adapter); //provide cursor for the list view
+        SectionListAdapter adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections);
+        ListView lv = (ListView)findViewById(android.R.id.list);
+        lv.setAdapter(adapter);
     }
 
     @Override

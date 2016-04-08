@@ -17,7 +17,7 @@
         android:gravity="left"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:padding="4sp"
+        android:padding="4dp"
         android:textStyle="bold"/>
 
     <!-- Remark of transect section -->
@@ -29,7 +29,7 @@
         android:gravity="left"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
-        android:padding="4sp"/>
+        android:padding="4dp"/>
 
     <!-- Date of first count -->
     <TextView
@@ -38,7 +38,7 @@
         android:layout_weight="4"
         android:textColor="#FFFFFF"
         android:gravity="right"
-        android:padding="4sp"
+        android:padding="4dp"
         android:id="@+id/txtDate"/>
 
     <!-- Delete botton -->

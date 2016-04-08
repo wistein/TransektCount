@@ -18,18 +18,14 @@ import com.wmstein.transektcount.database.Meta;
 import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
-import com.wmstein.transektcount.widgets.EditHeadWidget;
-import com.wmstein.transektcount.widgets.EditMetaWidget;
 import com.wmstein.transektcount.widgets.ListHeadWidget;
 import com.wmstein.transektcount.widgets.ListMetaWidget;
 import com.wmstein.transektcount.widgets.ListSpeciesWidget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ListSpeciesActivity shows list of positive counting results
- * 
+ * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 15.03.2016
  */
 

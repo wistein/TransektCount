@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.wmstein.transektcount"
           android:largeHeap="true"
-          android:versionCode="124"
-          android:versionName="1.2.4">
+          android:versionCode="125"
+          android:versionName="1.2.5">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -27,17 +27,19 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.NewSectionActivity"
             android:theme="@style/Theme.AppCompat"
             android:screenOrientation="portrait"
             android:noHistory="true"
             android:label="@string/title_activity_new_section"
-            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="WelcomeActivity"/>
+                android:value="ListSectionActivity"/>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.SettingsActivity"
             android:screenOrientation="portrait"
@@ -53,7 +55,7 @@
             android:name="com.wmstein.transektcount.ListSectionActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_list_section"
-            android:theme="@android:style/Theme.Holo"
+            android:theme="@style/Theme.AppCompat"
             android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

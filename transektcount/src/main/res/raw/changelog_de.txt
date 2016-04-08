@@ -27,8 +27,12 @@
   _
 $ Todo
   % Todo
-    * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
     * Sofortige Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
+$ 1.2.5
+  % Version 1.2.5
+  _ 07.04.2016
+    * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
+    * "+"-Button in Kopfzeile der Seite "Liste Transektabschn."
 $ 1.2.4
   % Version 1.2.4
   _ 04.04.2016

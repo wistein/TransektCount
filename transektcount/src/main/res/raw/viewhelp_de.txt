@@ -35,8 +35,9 @@ $ 10
 $ 9
   % 2. Einrichtung
   !
-  ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden. Dazu werden zunächst die Meta-Daten zum Transekt eingegeben. Dazu auf „Begehung vorbereiten“ tippen und zumindest Transekt-Nr. und Kartierername eingeben. Mit Tippen aufs Speichersymbol abschließen. Die Meta-Daten können jederzeit weiter bearbeitet werden.
-  ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt mit "Neuer Abschnitt" (Aufruf aus dem Menü der Seite „Liste Transektabschn.“).
+  ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden. Dazu werden zunächst die Meta-Daten zum Transekt eingegeben. 
+  ! Dazu auf „Begehung vorbereiten“ tippen und zumindest Transekt-Nr. und Kartierername eingeben. Mit Tippen aufs Speichersymbol abschließen. Die Meta-Daten können jederzeit weiter bearbeitet werden.
+  ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt. Aufruf mittels (+)-Button oder Funktion "Neuer Abschnitt" aus dem Menü der Seite "Liste Transektabschn."
   ! Die Abschnittsliste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag, z.B.:
   _ 
   ! Ab 01
@@ -51,6 +52,7 @@ $ 9
   _ 
   ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnitts-Artenliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
   ! (z.B.: Ab 02, Ab 03,...).
+  _ 
   ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig und sollte nun als leere Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
   ! Hierdurch wird eine Kopie der leeren Datenbank als "Basis-Datenbank" (transektcount0.db) im Home-Verzeichnis /sdcard (oder /sdcard0, bzw. /storage/emulated/0, ist je nach Smartphone-Modell unterschiedlich) abgelegt.

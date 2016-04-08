@@ -36,7 +36,8 @@ $ 9
   % 2. Set up
   !
   ! Before initial use you must set up an empty basic database (Basic DB).
-  ! Therefore, you first enter the meta data of the transect. Tap on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. Then create a species list for the first transect section. Use the function "New Section" from the "List of Transect Sections" menu for that.
+  ! Therefore, you first enter the meta data of the transect. Tap on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. 
+  ! Then create the species list for the first transect section. Use the (+)-Button or the function "New Section" from the "List of Transect Sections" menu for that.
   ! Then this list gets a name (e.g.: Sect 01) and subsequently an entry for each expected species, e.g.:
   _ 
   ! Sect 01
@@ -55,7 +56,7 @@ $ 9
   ! When you have created the section lists for all transect sections, the database is ready for export as the "Basic Database".
   ! To do this, you can use the function "Export as Basic DB" in the menu of the starting page.
   ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models).
-  ! The "Basic Database" will be used as a template for all further transect inspections in future.  
+  ! The "Basic Database" will be used as a template for all further transect inspections. You may export the Basic DB anytime later, e.g. when you modified its structure or inserted new species. 
   
 $ 8
   % 3. Usage

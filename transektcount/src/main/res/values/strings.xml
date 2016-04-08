@@ -118,14 +118,15 @@
     <string name="incr_down"> will decrease </string>
     <string name="incr_reset"> will reset </string>
     <string name="notesHere">Notes</string>
-    <string name="notesHint">Type some notes here&#8230;</string>
-    <string name="deleteCount">Delete Count</string>
+    <string name="notesHint">Type notes here&#8230;</string>
+    <string name="deleteCount">Delete Item</string>
     <string name="reallyDeleteCount">Are you sure? This count will be deleted immediately.</string>
     <string name="deleteLink">Delete Link</string>
     <string name="reallyDeleteLink">Are you sure? This link will be deleted immediately.</string>
     <string name="xWillYZ">%1$s will %2$s %3$s every %4$d.</string>
     <string name="linkPlaceholder">Link information will go here</string>
     <string name="deletedList">Deleted: Section list with ID: "</string>
+    <string name="isdouble"> is double!</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>

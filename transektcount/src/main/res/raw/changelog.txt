@@ -27,8 +27,12 @@
   _
 $ Todo
   % Todo
-    * Reject double species names in "Edit Sections"
     * Immediate popup "Please wait..." when starting the counting page or results page
+$ 1.2.5
+  % Version 1.2.5
+  _ 2016-04-07
+    * Reject double species names in "Edit Sections"
+    * "+"-Button in app bar of page "List of Sections"
 $ 1.2.4
   % Version 1.2.4
   _ 2016-04-04

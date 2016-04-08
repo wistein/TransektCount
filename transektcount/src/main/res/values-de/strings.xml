@@ -126,6 +126,7 @@
     <string name="xWillYZ">%1$s wird %2$s alle %4$d %3$s.</string>
     <string name="linkPlaceholder">Link Information geht hierhin</string>
     <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
+    <string name="isdouble"> ist doppelt!</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>
