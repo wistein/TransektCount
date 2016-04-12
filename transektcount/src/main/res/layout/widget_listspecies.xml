@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp">
 
-    <!-- Name of transect section created from hint+section_id -->
+    <!-- Name of transect section -->
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"

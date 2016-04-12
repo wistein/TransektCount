@@ -32,6 +32,7 @@ $ 1.2.5
   % Version 1.2.5
   _ 07.04.2016
     * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
+	  * Verhindern von doppelten Abschnittsnamen in "Abschnittsliste duplizieren"
     * "+"-Button in Kopfzeile der Seite "Liste Transektabschn."
 $ 1.2.4
   % Version 1.2.4

@@ -51,9 +51,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
-    int last_count;
-    // added for 2nd counter per species
-    int last_counta;
+    public ArrayList<String> cmpSectionNames;
 
     // preferences
     private boolean awakePref;
@@ -103,14 +101,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         count_area = (LinearLayout) findViewById(R.id.countCountLayout);
         notes_area = (LinearLayout) findViewById(R.id.countNotesLayout);
-        last_count = 0;
-        last_counta = 0;
 
         if (awakePref)
         {
-            // As FULL_WAKE_LOCK is deprecated, next 2 lines changed to addFlags funtion
-            //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            //wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
@@ -161,7 +154,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         getSupportActionBar().setTitle(section.name);
         
         List<String> extras = new ArrayList<>();
-
+        
         // counts
         countingWidgets = new ArrayList<>();
         counts = countDataSource.getAllCountsForSection(section.id);
@@ -286,7 +279,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
-            last_count = 0;
             widget.countUp();
             checkAlert(widget.count.id, widget.count.count);
         }
@@ -295,30 +287,32 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     public void countDown(View view)
     {
-        //Log.i(TAG, "View clicked: " + view.toString());
-        //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
-            last_count = 0;
             widget.countDown();
             checkAlert(widget.count.id, widget.count.count);
         }
-        hasChanged = true;
+
+        if (widget.count.count == 0)
+        {
+            hasChanged = false;
+        }
+        else
+        {
+            hasChanged = true;
+        }
     }
 
     public void countUpa(View view)
     {
-        //Log.i(TAG, "View clicked: " + view.toString());
-        //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
-            last_counta = 0;
             widget.countUpa();
         }
         hasChanged = true;
@@ -326,17 +320,22 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     public void countDowna(View view)
     {
-        //Log.i(TAG, "View clicked: " + view.toString());
-        //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget widget = getCountFromId(count_id);
         if (widget != null)
         {
-            last_counta = 0;
             widget.countDowna();
         }
-        hasChanged = true;
+        
+        if (widget.count.counta == 0)
+        {
+            hasChanged = false;
+        }
+        else
+        {
+            hasChanged = true;
+        }
     }
 
     public void edit(View view)
@@ -508,10 +507,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         getPrefs();
     }
 
+    // modified by wmstein on 10.04.2016
     public void cloneSection()
     {
+        boolean isOK = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle(getString(R.string.dpSectTitle));
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -525,19 +526,22 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
+                // enter new section title
                 String m_Text = input.getText().toString();
-                Toast.makeText(CountingActivity.this, "Got text: " + m_Text, Toast.LENGTH_SHORT).show();
-        /*
-         * Now having to a title for the section it needs to be determined if this is a duplicate
-         * of the existing name. If not, then the section can be created.
-         */
+                
+                //check if this is not empty 
                 if (m_Text.isEmpty())
                 {
                     Toast.makeText(CountingActivity.this, getString(R.string.newName), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // These are needed to link old and new counts and alerts
-                HashMap<Integer, Integer> countMap = new HashMap<>();
+                
+                //check if this is not a duplicate of an existing name
+                if (compSectionNames(m_Text))
+                {
+                    Toast.makeText(CountingActivity.this, m_Text + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Creating the new section
                 Section newSection = sectionDataSource.createSection(m_Text); // might need to escape the name
@@ -548,24 +552,15 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                     Count newCount = countDataSource.createCount(newSection.id, c.name);
                     newCount.notes = c.notes;
                     countDataSource.saveCount(newCount);
-
-                    // prepare alerts
-                    for (Alert a : alertDataSource.getAllAlertsForCount(c.id))
-                    {
-                        Alert newAlert = alertDataSource.createAlert(newCount.id, a.alert, a.alert_text);
-                    }
-
-                    // save relationship between old and new counts
-                    countMap.put(c.id, newCount.id); //old, new
-
                 }
 
                 // Exit this and go to the list of new sections
-                Toast.makeText(CountingActivity.this, getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountingActivity.this, m_Text + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CountingActivity.this, ListSectionActivity.class);
                 startActivity(intent);
             }
         });
+        
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
         {
             @Override
@@ -575,6 +570,33 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
         });
         builder.show();
+    }
+
+    // Compare section names for duplicates and returns name of 1. duplicate found
+    // created by wmstein on 10.04.2016
+    public boolean compSectionNames(String newname)
+    {
+        boolean isDbl = false;
+        String sname;
+
+        cmpSectionNames = new ArrayList<>();
+        List<Section> sectionList = sectionDataSource.getAllSections(prefs);
+
+        int childcount = sectionList.size() + 1;
+        // for all Sections
+        for (int i = 1; i < childcount; i++)
+        {
+            section = sectionDataSource.getSection(i);
+            sname = section.name;
+            //Log.i(TAG, "sname = " + sname);
+            if (newname.equals(sname))
+            {
+                isDbl = true;
+                //Log.i(TAG, "Double name = " + sname);
+                break;
+            }
+        }
+        return isDbl;
     }
 
 }

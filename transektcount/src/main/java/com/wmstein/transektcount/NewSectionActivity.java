@@ -77,7 +77,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         myTexts = new ArrayList<>();
         newsectName = (EditText) findViewById(R.id.newsectName);
         newsectName.setTextColor(Color.WHITE);
-        newsectName.setHintTextColor(Color.WHITE);
+        newsectName.setHintTextColor(Color.argb(255, 170, 170, 170));
         countNames = new ArrayList<>();
 
         if (savedInstanceState != null)
@@ -96,7 +96,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
                     c.setPadding(5, 5, 5, 5);
                     c.setTextSize(18);
                     c.setTextColor(Color.WHITE);
-                    c.setHintTextColor(Color.WHITE);
+                    c.setHintTextColor(Color.argb(255, 170, 170, 170));
                     layout.addView(c, params);
                     newBox++;
                 }
@@ -177,7 +177,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         c.setPadding(5, 5, 5, 5);
         c.setTextSize(18);
         c.setTextColor(Color.WHITE);
-        c.setHintTextColor(Color.WHITE);
+        c.setHintTextColor(Color.argb(255, 170, 170, 170));
 
         layout.addView(c, params);
         c.requestFocus();

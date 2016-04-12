@@ -18,7 +18,6 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:orderInCategory="100"
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="never"/>
 
@@ -48,14 +47,13 @@
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/viewHelp"
-        android:title="@string/viewHelpTitle"
-        app:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_help">
-    </item>
-    <item
         android:id="@+id/changeLog"
         android:title="@string/changeLogTitle"
+        app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/viewHelp"
+        android:title="@string/viewHelpTitle"
         app:showAsAction="never">
     </item>
 

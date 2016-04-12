@@ -20,7 +20,6 @@
 
     <!-- WelcomeActivity -->
     <string name="hello">Butterfly Monitoring App\n\nSupports species-specific counting of butterflies in transect sections.\n\nYou can find instructions for the App under the menu \"Help\".</string>
-    <string name="newSectionButton">New Section</string>
     <string name="viewSectionButton">List of Transect Sections</string>
     <string name="viewSpeciesButton">Show Results</string>
     <string name="editMetaButton">Prepare Inspection</string>
@@ -34,7 +33,6 @@
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV File</string>
-    <string name="importMenu">Import DB</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
@@ -44,9 +42,6 @@
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
-    <string name="confirmImport">Are you sure you want to import a backed-up \'transektcount.db\'? Your current data will be overwritten!</string>
-    <string name="confirmBasisExport">Are you sure you want to export the current Transect DB as Basic DB \'transektcount0.db\'? Your current Basic DB will be overwritten!</string>
-    <string name="confirmExport">Are you sure you want to export the current Transect DB \'transektcount.db\'? The previously exported Transect DB will be overwritten!</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Section</string>
@@ -80,27 +75,18 @@
     <string name="boxFill">Species Name </string>
     <string name="sectionSaved">List saved!</string>
 
-    <!-- ListSectionActivity -->
-
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>
     <string name="sectSaving">Saving </string>
-    <string name="hasAutoReset">%1$s has auto-reset!</string>
     <string name="alertTitle">Buzz!</string>
-    <string name="willLinkReset">- %1$s will reset %2$s at %3$d.</string>
-    <string name="willLinkIncrease">- %1$s will increase %2$s every %3$d.</string>
-    <string name="willLinkDecrease">- %1$s will decrease %2$s every %3$d.</string>
     <string name="cloneButton">Duplicate Section List</string>
-    <string name="newName">You must select a name for the new copy of this List.</string>
-    <string name="newCopyCreated">A new copy has been created!</string>
+    <string name="newName">You must enter a name for the new list.</string>
+    <string name="newCopyCreated">has been created!</string>
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Edit List</string>
+    <string name="dpSectTitle">New section name</string>
     <string name="confirmDelete">Are you sure you want to delete this list?</string>
-    <string name="postIncr">%1$s has increased %2$s!</string>
-    <string name="postReset">%1$s has reset %2$s!</string>
-    <string name="postDecr">%1$s has decreased %2$s!</string>
-    <string name="willReset">- %1$s will auto-reset to %2$d at %3$d.</string>
     <string name="willAlert">- %1$s will show alert at  %2$d.</string>
     <string name="deleteButton">Delete</string>
     <string name="cancelButton">Cancel</string>
@@ -109,22 +95,10 @@
 
     <!-- EditSectionActivity -->
     <string name="titleEdit">List name (Transect section)</string>
-    <string name="addLinkButton">Link Counts</string>
-    <string name="failedToSave">Sorry, your list failed to save. Please check your links and try again.</string>
-    <string name="mismatch">Please check which counts you have linked</string>
-    <string name="zero">The link increment value cannot be zero; save failed!</string>
-    <string name="every">every</string>
-    <string name="incr_up"> will increase </string>
-    <string name="incr_down"> will decrease </string>
-    <string name="incr_reset"> will reset </string>
     <string name="notesHere">Notes</string>
     <string name="notesHint">Type notes here&#8230;</string>
     <string name="deleteCount">Delete Item</string>
     <string name="reallyDeleteCount">Are you sure? This count will be deleted immediately.</string>
-    <string name="deleteLink">Delete Link</string>
-    <string name="reallyDeleteLink">Are you sure? This link will be deleted immediately.</string>
-    <string name="xWillYZ">%1$s will %2$s %3$s every %4$d.</string>
-    <string name="linkPlaceholder">Link information will go here</string>
     <string name="deletedList">Deleted: Section list with ID: "</string>
     <string name="isdouble"> is double!</string>
 
@@ -138,7 +112,6 @@
     <string name="viewhelp_full_title">Help</string>
     <string name="viewhelp_title">What can the app do?</string>
     <string name="viewhelp_ok_button">OK</string>
-    <string name="viewhelp_show_full">more&#8230;</string>
 
     <!-- Preferences -->
     <string name="pref_bg">Background</string>
@@ -159,8 +132,6 @@
     <string name="pref_sound_summary">Sound an audible alert when an alert is triggered.</string>
     <string name="choose_alert">Notification sound</string>
     <string name="explain_alert">Choose a notification tone for alerts.</string>
-    <string name="pref_negative">Allow negative counts</string>
-    <string name="pref_negative_summ">If this option is selected then counts can drop below 0 when counting down.</string>
     <string name="pref_duplicate">Prevent duplicate counts</string>
     <string name="pref_duplicate_summary">When selected, the names in each species list must be unique.</string>
     <string name="pref_button_sound">Count button sounds</string>
@@ -180,10 +151,8 @@
     <string name="noCancel">Cancel</string>
 
     <!-- ListViewSpecies -->
-    <string name="sect">Sect</string>
     <string name="viewSpecTitle">Counting Result</string>
     <string name="wait">Please wait while table will be calculated.</string>
-    <string name="wait_header">Calculating</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
@@ -191,9 +160,6 @@
     <string name="hintTitle">Title</string>
     <string name="hintSectionNotes">Section notes.</string>
     <string name="hintInstructions">Instructions.</string>
-    <string name="upgradeFail">Some of your links could not be upgraded to the new data format. Please check your projects to see which ones, and re-add them manually. Sorry for the inconvenience.</string>
     <string name="getHelp">Sorry, there was a problem with your database. Please email if you need assistance, attaching your exported \'transektcount.db\'.</string>
-    <string name="linkLoop">Please check your links - there seems to be a problem!</string>
-    <string name="linkLoopError">Oh, no!</string>
 
 </resources>

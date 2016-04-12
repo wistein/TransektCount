@@ -20,7 +20,6 @@
 
     <!-- WelcomeActivity -->
     <string name="hello">Eine App für\'s Tagfaltermonitoring\n\nUnterstützt die artspezifische Erfassung von Schmetterlingen in Transektabschnitten.\n\nEine Anleitung zur App gibt es unter dem Menüpunkt \"Hilfe\".</string>
-    <string name="newSectionButton">Neuer Abschnitt</string>
     <string name="viewSectionButton">Liste Transektabschn.</string>
     <string name="viewSpeciesButton">Zeige Ergebnis</string>
     <string name="editMetaButton">Begehung vorbereiten</string>
@@ -34,7 +33,6 @@
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
-    <string name="importMenu">Import DB</string>
     <string name="resetDBMenu">Reset Daten</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
@@ -44,9 +42,6 @@
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
-    <string name="confirmImport">Willst Du wirklich eine alte Transekt-Datenbank \"transektcount.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmBasisExport">Willst Du wirklich die aktuelle Transekt-Datenbank als Basis-Datenbank \"transektcount0.db\" exportieren? Deine vorhandene Basis-Datenbank wird überschrieben!</string>
-    <string name="confirmExport">Willst Du wirklich die aktuelle Transekt-Datenbank \"transektcount.db\" exportieren? Eine zuvor exportierte Datenbank wird überschrieben!</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Abschnitt</string>
@@ -80,27 +75,18 @@
     <string name="boxFill">Eintrag </string>
     <string name="sectionSaved">Liste gespeichert!</string>
 
-    <!-- ListSectionActivity -->
-
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
     <string name="sectSaving">Speichern </string>
-    <string name="hasAutoReset">%1$s hat Auto-Reset!</string>
     <string name="alertTitle">Buzz!</string>
-    <string name="willLinkReset">- %1$s wird %2$s bei %3$d zurücksetzen.</string>
-    <string name="willLinkIncrease">- %1$s wird %2$s alle %3$d erhöhen.</string>
-    <string name="willLinkDecrease">- %1$s wird %2$s alle %3$d vermindern.</string>
     <string name="cloneButton">Abschnittsliste duplizieren</string>
-    <string name="newName">Eine Bezeichnung für die Kopie der Liste eingeben.</string>
-    <string name="newCopyCreated">Eine neue Abschnittsliste wurde erstellt!</string>
+    <string name="newName">Bitte einen Namen für die neue Liste eingeben.</string>
+    <string name="newCopyCreated">wurde erstellt!</string>
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Liste bearbeiten</string>
+    <string name="dpSectTitle">Neuer Abschnittsname</string>
     <string name="confirmDelete">Soll die Liste wirklich gelöscht werden?</string>
-    <string name="postIncr">%1$s hat %2$s erhöht!</string>
-    <string name="postReset">%1$s hat %2$s zurückgesetzt!</string>
-    <string name="postDecr">%1$s hat %2$s verringert!</string>
-    <string name="willReset">- %1$s wird automatisch auf %2$d bei %3$d zurückgesetzt.</string>
     <string name="willAlert">- %1$s wird bei %2$d ein Signal geben.</string>
     <string name="deleteButton">Löschen</string>
     <string name="cancelButton">Abbrechen</string>
@@ -109,22 +95,10 @@
 
     <!-- EditSectionActivity -->
     <string name="titleEdit">Listenname (Transektabschnitt)</string>
-    <string name="addLinkButton">Link Zählliste</string>
-    <string name="failedToSave">Leider konnten Ihre Daten nicht gespeichert werden. Bitte prüf Deine Links und versuch es nochmal.</string>
-    <string name="mismatch">Bitte prüfe, welche Zählliste Du verlinkt hast.</string>
-    <string name="zero">Der Link-Inkrementwert kann nicht Null sein, Speichern schlug fehl!</string>
-    <string name="every">alle</string>
-    <string name="incr_up"> werden erhöht </string>
-    <string name="incr_down"> werden vermindert </string>
-    <string name="incr_reset"> werden zurückgesetzt </string>
     <string name="notesHere">Bemerkung</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
     <string name="deleteCount">Element löschen</string>
     <string name="reallyDeleteCount">Bist Du sicher? Das Element wird sofort gelöscht.</string>
-    <string name="deleteLink">Link löschen</string>
-    <string name="reallyDeleteLink">Bist Du sicher? Der Link wird sofort gelöscht.</string>
-    <string name="xWillYZ">%1$s wird %2$s alle %4$d %3$s.</string>
-    <string name="linkPlaceholder">Link Information geht hierhin</string>
     <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
     <string name="isdouble"> ist doppelt!</string>
 
@@ -138,7 +112,6 @@
     <string name="viewhelp_full_title">Hilfe</string>
     <string name="viewhelp_title">Was kann die App?</string>
     <string name="viewhelp_ok_button">OK</string>
-    <string name="viewhelp_show_full">mehr&#8230;</string>
 
     <!-- Preferences -->
     <string name="pref_bg">Hintergrund</string>
@@ -159,15 +132,12 @@
     <string name="pref_sound_summary">Erzeuge einen Benachrichtigungston wenn ein Zählalarm ausgelöst wird.</string>
     <string name="choose_alert">Benachrichtigungston</string>
     <string name="explain_alert">Wähle einen Benachrichtigungston aus.</string>
-    <string name="pref_negative">Allow negative counts</string>
-    <string name="pref_negative_summ">If this option is selected then counts can drop below 0 when counting down.</string>
     <string name="pref_duplicate">Verhindere gleiche Listeneinträge</string>
     <string name="pref_duplicate_summary">Wähle diese Option, wenn Listeneinträge (Artnamen) eindeutig sein sollen.</string>
     <string name="pref_button_sound">Zähler-Button Sound</string>
     <string name="pref_button_sound_summary">Erzeuge einen Sound wenn ein Zähl-Button getippt wird.</string>
     <string name="choose_button_alert">Button Sound</string>
     <string name="explain_button_alert">Wähle einen Button-Sound aus.</string>
-
 
     <!-- CountOptionsActivity -->
     <string name="editCountValuea">Du kannst den momentanen Extern-Zählerstand %2$d von \"%1$s\" hier ändern.</string>
@@ -181,10 +151,8 @@
     <string name="noCancel">Abbrechen</string>
 
     <!-- ListViewSpecies -->
-    <string name="sect">Ab</string>
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Bitte warten, Tabelle wird berechnet.</string>
-    <string name="wait_header">Moment</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
@@ -192,9 +160,6 @@
     <string name="hintTitle">Titel</string>
     <string name="hintSectionNotes">Abschnittsnotizen.</string>
     <string name="hintInstructions">Anleitung.</string>
-    <string name="upgradeFail">Das Upgrade einiger Deiner Links zum neuen Format schlug fehl. Bitte prüfe Deine Projekte, um festzustellen welche betroffen sind und füge sie manuell hinzu. Entschuldige bitte diese Umstände.</string>
     <string name="getHelp">Leider gibt es ein Problem mit Deiner Datenbank. Bitte sende eine E-Mail mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
-    <string name="linkLoop">Bitte prüfe Deine Links - es scheint da ein Problem zu geben!</string>
-    <string name="linkLoopError">Oh, nein!</string>
 
 </resources>

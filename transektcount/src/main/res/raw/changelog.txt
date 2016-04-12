@@ -32,6 +32,7 @@ $ 1.2.5
   % Version 1.2.5
   _ 2016-04-07
     * Reject double species names in "Edit Sections"
+	  * Reject double section names in "Duplicate Section"
     * "+"-Button in app bar of page "List of Sections"
 $ 1.2.4
   % Version 1.2.4

@@ -99,9 +99,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
         spec_area.removeAllViews();
-        
         loadData();
     }
 
@@ -175,11 +173,16 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                     widget.setCount1(spec, section);
                 }
                 
-//                listSpecWidgets.add(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }
         }
+        
+        // close the data sources
+        headDataSource.close();
+        metaDataSource.close();
+        countDataSource.close();
+        sectionDataSource.close();
     }
     
     @Override
@@ -188,6 +191,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         super.onPause();
 
         // close the data sources
+        headDataSource.close();
+        metaDataSource.close();
         countDataSource.close();
         sectionDataSource.close();
         
