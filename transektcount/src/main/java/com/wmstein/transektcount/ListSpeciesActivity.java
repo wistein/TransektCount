@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -41,6 +42,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
     public int spec_count;
     public int spec_counta;
+    
     // preferences
     private boolean awakePref;
     
@@ -51,7 +53,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     private MetaDataSource metaDataSource;
 
     ListHeadWidget ehw;
-    ListHeadWidget eiw;
     ListMetaWidget etw;
 
     @Override
@@ -99,6 +100,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
         spec_area.removeAllViews();
         loadData();
     }
@@ -173,16 +175,11 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                     widget.setCount1(spec, section);
                 }
                 
+//                listSpecWidgets.add(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }
         }
-        
-        // close the data sources
-        headDataSource.close();
-        metaDataSource.close();
-        countDataSource.close();
-        sectionDataSource.close();
     }
     
     @Override

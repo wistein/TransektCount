@@ -112,6 +112,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
         list_view.setBackground(null);
         list_view.setBackground(transektCount.setBackground());
-        prefs = TransektCountApplication.getPrefs();
+        TransektCountApplication.getPrefs();
     }
 }

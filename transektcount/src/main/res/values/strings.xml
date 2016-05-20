@@ -8,6 +8,7 @@
     <string name="title_activity_list_section">List of Transect Sections</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
+    <string name="title_activity_load_task">Loading Data…</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="hello_world">Hello!</string>
@@ -152,7 +153,7 @@
 
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Counting Result</string>
-    <string name="wait">Please wait while table will be calculated.</string>
+    <string name="wait">View gets calculated&#8230;</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>

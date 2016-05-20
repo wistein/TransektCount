@@ -61,7 +61,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private boolean hasChanged = false;
     private String alertSound;
     private String buttonAlertSound;
-    private PowerManager.WakeLock wl;
 
     // the actual data
     Section section;

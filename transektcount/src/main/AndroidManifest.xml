@@ -16,6 +16,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="TransektCount"
         android:theme="@style/AppTheme">
+        
         <activity
             android:name="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -50,7 +51,6 @@
                 android:value="WelcomeActivity"/>
         </activity>
 
-        <!-- funktioniert nur mit android:theme="@android:style/Theme.Holo" -->
         <activity
             android:name="com.wmstein.transektcount.ListSectionActivity"
             android:screenOrientation="portrait"
@@ -61,6 +61,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+
+        <activity
+            android:name="com.wmstein.transektcount.LoadTaskActivity"
+            android:label="@string/title_activity_load_task"
+            android:theme="@style/Theme.AppCompat"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name="com.wmstein.transektcount.EditMetaActivity"
             android:theme="@style/Theme.AppCompat"
@@ -72,6 +85,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.ListSpeciesActivity"
             android:screenOrientation="portrait"
@@ -83,6 +97,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.CountingActivity"
             android:screenOrientation="portrait"
@@ -94,6 +109,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ListSectionActivity"/>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.CountOptionsActivity"
             android:screenOrientation="portrait"
@@ -104,6 +120,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
+        
         <activity
             android:name="com.wmstein.transektcount.EditSectionActivity"
             android:screenOrientation="portrait"

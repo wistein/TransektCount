@@ -212,7 +212,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         // Save meta data
         meta.temp = etw.getWidgetItem1();
-        if (meta.temp > 50 || meta.temp < -10)
+        if (meta.temp > 50 || meta.temp < 0)
         {
             Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
             return false;

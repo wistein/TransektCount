@@ -8,6 +8,7 @@
     <string name="title_activity_list_section">Liste Transektabschn.</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
+    <string name="title_activity_load_task">Lade Daten…</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="hello_world">Hallo!</string>
@@ -152,7 +153,7 @@
 
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Zählergebnis</string>
-    <string name="wait">Bitte warten, Tabelle wird berechnet.</string>
+    <string name="wait">Liste wird berechnet&#8230;</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>

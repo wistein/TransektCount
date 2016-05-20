@@ -51,7 +51,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     TransektCountApplication transektCount;
     SharedPreferences prefs;
     ChangeLog cl;
-
     ViewHelp vh; // added by wmstein
 
     // import/export stuff
@@ -67,6 +66,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private SQLiteDatabase database;
     private DbHelper dbHandler;
 
+    SectionDataSource sectionDataSource;
+    HeadDataSource headDataSource;
+    MetaDataSource metaDataSource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -76,14 +79,21 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+        
+        Head head;
+        headDataSource = new HeadDataSource(this);
+        headDataSource.open();
+        head = headDataSource.getHead();
 
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
 
         // a title isn't necessary on this welcome screen as it appears below
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(head.transect_no);
 
+        headDataSource.close();
+        
         cl = new ChangeLog(this);
         vh = new ViewHelp(this); // by wmstein
         if (cl.firstRun())
@@ -195,12 +205,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         baseLayout.setBackground(transektCount.setBackground());
     }
 
+    public void onStop()
+    {
+        super.onStop();
+    }
+
     /**************************************************************************
      * The six activities below are for exporting and importing the database. 
      * They've been put here because no database should be open at this point.
-     */
-
-    /***********************************************************************/
+     ***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
     // supplemented with date and time in filename by wmstein
     @SuppressLint("SdCardPath")
@@ -274,9 +287,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
         String destPath = "/data/data/com.wmstein.transektcount/files";
-        SectionDataSource sectionDataSource;
-        HeadDataSource headDataSource;
-        MetaDataSource metaDataSource;
 
         Section section;
         String sectName;

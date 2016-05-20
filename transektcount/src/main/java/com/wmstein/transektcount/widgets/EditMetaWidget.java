@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.wmstein.transektcount.EditMetaActivity;
 import com.wmstein.transektcount.R;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +34,8 @@ public class EditMetaWidget extends LinearLayout
     TextView widget_item4;
     TextView widget_time2; // end_tm
     TextView widget_item5;
+
+    String regEx = "^[0-9]*$"; // plausi for numeric input
 
     public EditMetaWidget(Context context, AttributeSet attrs)
     {
@@ -120,29 +124,38 @@ public class EditMetaWidget extends LinearLayout
     }
 
     // following the GETS
+    // get temperature with plausi
     public int getWidgetItem1()
     {
         String text = widget_item1.getText().toString();
         if (StringUtils.isEmpty(text))
             return 0;
+        else if (!text.trim().matches(regEx))
+            return 100;
         else
             return Integer.parseInt(text);
     }
 
+    // get wind with plausi
     public int getWidgetItem2()
     {
         String text = widget_item2.getText().toString();
         if (StringUtils.isEmpty(text))
             return 0;
+        else if (!text.trim().matches(regEx))
+            return 100;
         else
             return Integer.parseInt(text);
     }
 
+    // get clouds with plausi
     public int getWidgetItem3()
     {
         String text = widget_item3.getText().toString();
         if (StringUtils.isEmpty(text))
             return 0;
+        else if (!text.trim().matches(regEx))
+            return 200;
         else
             return Integer.parseInt(text);
     }

@@ -121,8 +121,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         List<Alert> alerts = alertDataSource.getAllAlertsForCount(count_id);
 
         // setup the static widgets in the following order
-        // 1. Current counta value (external counter)
-        // 2. Current count value (internal counter)
+        // 1. Current count value (internal counter)
+        // 2. Current counta value (external counter)
         // 3. Alert add/remove
         curr_val_widget = new OptionsWidget(this, null);
         curr_val_widget.setInstructions(String.format(getString(R.string.editCountValue), count.name, count.count));

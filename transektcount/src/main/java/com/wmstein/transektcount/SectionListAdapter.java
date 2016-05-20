@@ -71,8 +71,6 @@ public class SectionListAdapter extends ArrayAdapter<Section>
             holder.deleteSection = (ImageButton) row.findViewById(R.id.deleteSection);
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
-            holder.txtRemark.setOnClickListener(mOnRemarkClickListener);
-            holder.txtDate.setOnClickListener(mOnDateClickListener);
             holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
 
 
@@ -113,32 +111,6 @@ public class SectionListAdapter extends ArrayAdapter<Section>
      * Start counting by clicking on title, remark or date, delete by clicking on button.
      */
     private View.OnClickListener mOnTitleClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            sct = (Section) v.getTag();
-            Intent intent = new Intent(getContext(), CountingActivity.class);
-            intent.putExtra("section_id", sct.id);
-            //transektCount.section_id = sct.id;
-            mContext.startActivity(intent);
-        }
-    };
-
-    private View.OnClickListener mOnRemarkClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            sct = (Section) v.getTag();
-            Intent intent = new Intent(getContext(), CountingActivity.class);
-            intent.putExtra("section_id", sct.id);
-            //transektCount.section_id = sct.id;
-            mContext.startActivity(intent);
-        }
-    };
-
-    private View.OnClickListener mOnDateClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
