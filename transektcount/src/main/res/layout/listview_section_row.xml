@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_weight="3.5"
         android:id="@+id/txtTitle"
-        android:gravity="left"
+        android:gravity="start"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:padding="4dp"
@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_weight="6"
         android:id="@+id/txtRemark"
-        android:gravity="left"
+        android:gravity="start"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:padding="4dp"/>
@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:textColor="#FFFFFF"
-        android:gravity="right"
+        android:gravity="end"
         android:padding="4dp"
         android:id="@+id/txtDate"/>
 
@@ -47,9 +47,9 @@
         android:layout_width="0dp"
         android:layout_weight="2"
         android:id="@+id/deleteSection"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|end"
         android:src="@android:drawable/ic_menu_delete"
-        android:layout_gravity="bottom|right|top"
+        android:layout_gravity="bottom|end|top"
         android:layout_margin="1dp"/>
 
 </LinearLayout>

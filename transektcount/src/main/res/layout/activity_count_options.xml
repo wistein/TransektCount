@@ -10,21 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent">
 
+        <!-- all the initial widgets will go in here -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/static_widget_area">
-            <!-- all the initial widgets will go in here -->
         </LinearLayout>
 
+        <!-- all the count widgets will go in here -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dynamic_widget_area">
-            <!-- all the count widgets will go in here -->
-            
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

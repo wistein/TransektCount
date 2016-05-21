@@ -1,148 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_listspecies.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
      Shows purged list of species counts -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
+              android:baselineAligned="false"
               android:background="@drawable/list_background"
               android:orientation="horizontal"
-              android:padding="3dp">
+              android:padding="3dp"
+              tools:context=".ListSpeciesActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
         android:paddingTop="0dp">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            android:orientation="horizontal">
 
-    <!-- Name of transect section -->
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="2.6"
-        android:id="@+id/txtSectName"
-        android:gravity="start|center_vertical"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp"
-        android:padding="4sp"
-        android:textStyle="bold"/>
+            <!-- Name of transect section -->
+            <TextView
+                android:id="@+id/txtSectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.6"
+                android:gravity="start|center_vertical"
+                android:padding="4sp"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
 
-    <!-- Name of species -->
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="5.2"
-        android:id="@+id/txtSpecName"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp"
-        android:padding="4sp"
-        android:textStyle="bold"/>
+            <!-- Name of species -->
+            <TextView
+                android:id="@+id/txtSpecName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5.2"
+                android:gravity="start"
+                android:padding="4sp"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
 
-	<!-- count -->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_weight="1.4"
-        android:id="@+id/specCount"
-        android:hint="@string/charZero"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:singleLine="true"
-        android:padding="0dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/count_background"
-        android:layout_marginBottom="0dp"
-        android:layout_gravity="center|top"
-        android:gravity="center|center_vertical|center_horizontal"
-        android:inputType="number|numberSigned"/>
-            
-    <!-- i -->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:text="i"
-        android:layout_weight="0.6"/>
-    </LinearLayout>
+            <!-- count -->
+            <TextView
+                android:id="@+id/specCount"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.4"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"/>
 
-    <LinearLayout
-            android:orientation="horizontal"
+            <!-- i -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:text="i"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <!-- Remark of transect section -->
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="3.2"
-        android:id="@+id/txtSectRem"
-        android:gravity="left|top"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:padding="4sp"/>
+            <!-- Remark of transect section -->
+            <TextView
+                android:id="@+id/txtSectRem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.2"
+                android:gravity="start|top"
+                android:padding="4sp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
 
-    <!-- Remark of species -->
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="4.6"
-        android:id="@+id/txtSpecRem"
-        android:gravity="left|top"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:padding="4sp"/>
+            <!-- Remark of species -->
+            <TextView
+                android:id="@+id/txtSpecRem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4.6"
+                android:gravity="start|top"
+                android:padding="4sp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
 
             <!-- counta -->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_weight="1.4"
-        android:id="@+id/specCounta"
-        android:hint="@string/charZero"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:singleLine="true"
-        android:padding="0dp"
-        android:textColor="#AFAFAF"
-        android:background="@drawable/count_background"
-        android:layout_marginBottom="0dp"
-        android:layout_gravity="center|top"
-        android:gravity="center|center_vertical|center_horizontal"
-        android:inputType="number|numberSigned"/>
+            <TextView
+                android:id="@+id/specCounta"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.4"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="#AFAFAF"
+                android:textSize="18sp"/>
 
-    <!-- e -->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:hint="e"
-        android:layout_weight="0.6"/>
+            <!-- e -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:hint="e"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
 </LinearLayout>

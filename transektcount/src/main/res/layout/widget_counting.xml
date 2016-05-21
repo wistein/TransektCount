@@ -6,6 +6,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:baselineAligned="false"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -20,8 +21,8 @@
         android:layout_width="0dp"
         android:layout_weight="10"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:paddingTop="0dp">
 
         <LinearLayout
@@ -33,10 +34,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:id="@+id/countName"
                 android:hint="@string/countNameHint"
-                android:layout_marginLeft="1dp"
+                android:layout_marginStart="1dp"
                 android:layout_weight="5"/>
 
             <com.wmstein.transektcount.AutoFitText
@@ -49,8 +50,8 @@
                 android:singleLine="true"
                 android:paddingBottom="1dp"
                 android:paddingTop="1dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="0dp"
                 android:background="@drawable/count_background"
@@ -102,7 +103,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
+                android:layout_marginStart="1dp"
                 android:onClick="edit"
                 android:src="@android:drawable/ic_menu_edit"
                 android:id="@+id/buttonEdit"
@@ -123,8 +124,8 @@
                 android:singleLine="true"
                 android:paddingBottom="1dp"
                 android:paddingTop="1dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
                 android:textColor="#AFAFAF"
                 android:background="@drawable/count_background"
                 android:layout_marginBottom="0dp"

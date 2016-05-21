@@ -403,12 +403,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrEmpt[] = {};
                 csvWrite.writeNext(arrEmpt);
 
-                // Section, Section Notes, Species, Internal, External, Notes
+                // Section, Section Notes, Species, Species Code, Internal, External, Notes
                 String arrCol1[] =
                     {
                         getString(R.string.col1),
                         getString(R.string.col2),
                         getString(R.string.col3),
+                        getString(R.string.col3a),
                         getString(R.string.col4),
                         getString(R.string.col5),
                         getString(R.string.col6)
@@ -422,12 +423,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
                     sectNotes = section.notes;
-
                     specNotes = curCSV.getString(5);
-                    // Excel can import csv files with Unicode UTF-8 filter, so next 3 commented lines are obsolete.  
-                    // Byte code translation from UTF-8 to ISO-8859-1
-                    //byte[] utf8 = specNotes.getBytes("UTF-8");
-                    //specNotes = new String(utf8, "ISO-8859-1");
 
                     String arrStr[] =
                         {

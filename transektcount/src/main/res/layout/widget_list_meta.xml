@@ -12,8 +12,8 @@
               android:layout_marginLeft="5dp"
               android:layout_marginTop="5dp"
               android:layout_marginRight="5dp"
-              android:paddingLeft="5dp"
-              android:paddingRight="5dp"
+              android:paddingStart="5dp"
+              android:paddingEnd="5dp"
               android:paddingBottom="5dp"
               android:background="@drawable/rounded_corner">
 
@@ -26,8 +26,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:paddingTop="0dp">
 
         <LinearLayout
@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -45,9 +45,9 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:id="@+id/widgetLMeta1"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
@@ -57,8 +57,8 @@
             android:textSize="16sp"
             android:id="@+id/widgetLItem1"
             android:background="@drawable/count_background"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>
@@ -68,8 +68,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -79,9 +79,9 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:id="@+id/widgetLMeta2"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
@@ -91,8 +91,8 @@
             android:textSize="16sp"
             android:id="@+id/widgetLItem2"
             android:background="@drawable/count_background"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>
@@ -102,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -112,9 +112,9 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:id="@+id/widgetLMeta3"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
@@ -124,8 +124,8 @@
             android:textSize="16sp"
             android:id="@+id/widgetLItem3"
             android:background="@drawable/count_background"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>
@@ -135,8 +135,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:paddingTop="0dp">
 
         <LinearLayout
@@ -144,7 +144,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -154,9 +154,9 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:id="@+id/widgetLDate1"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
@@ -167,8 +167,8 @@
             android:textStyle="bold"
             android:id="@+id/widgetLDate2"
             android:background="@drawable/count_background"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>
@@ -178,8 +178,8 @@
             android:layout_width="0dp"
             android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
             <TextView
@@ -189,9 +189,9 @@
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:id="@+id/widgetLTime1"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 android:paddingTop="5dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
                 android:paddingBottom="5dp"
                 android:gravity="start|top"/>
 
@@ -202,8 +202,8 @@
                 android:textStyle="bold"
                 android:id="@+id/widgetLItem4"
                 android:background="@drawable/count_background"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"/>
         </LinearLayout>
@@ -213,7 +213,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="0dp">
 
         <TextView
@@ -223,9 +223,9 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:id="@+id/widgetLTime2"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:gravity="start|top"/>
 
@@ -236,8 +236,8 @@
             android:textStyle="bold"
             android:id="@+id/widgetLItem5"
             android:background="@drawable/count_background"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
         </LinearLayout>

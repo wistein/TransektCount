@@ -8,23 +8,24 @@
               android:layout_marginTop="5dp"
               android:layout_marginRight="5dp"
               android:background="@drawable/rounded_corner"
-              android:paddingLeft="5dp"
+              android:paddingStart="5dp"
               android:paddingTop="5dp"
-              android:paddingRight="5dp">
+              android:paddingEnd="5dp">
 
     <EditText
         android:layout_height="50dp"
         android:layout_width="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/alert_name"
+        android:inputType="textCapSentences"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:background="@drawable/count_background"
-        android:layout_gravity="bottom|left|right|top"
+        android:layout_gravity="bottom|start|end|top"
         android:hint="@string/alertName"
         android:layout_weight="10"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:padding="5dp"/>
 
     <EditText
@@ -41,21 +42,20 @@
         android:textColor="#FFFFFF"
         android:background="@drawable/count_background"
         android:textSize="30sp"
-        android:numeric="integer"
-        android:layout_gravity="bottom|right|top"
+        android:layout_gravity="bottom|end|top"
         android:layout_weight="3"
         android:padding="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginEnd="5dp"/>
 
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:onClick="deleteWidget"
         android:id="@+id/delete_button"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|end"
         android:src="@android:drawable/ic_menu_delete"
-        android:layout_gravity="bottom|right|top"
+        android:layout_gravity="bottom|end|top"
         android:layout_margin="5dp"/>
 
 </LinearLayout>

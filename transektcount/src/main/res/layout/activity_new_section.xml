@@ -7,7 +7,6 @@
     android:id="@+id/newsectScreen"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <EditText
         android:id="@+id/newsectName"
         android:inputType="text"
@@ -17,7 +16,6 @@
         android:background="@drawable/rounded_corner"
         android:textSize="20sp"
         android:padding="5dp"
-        android:editable="false"
         android:layout_margin="5dp">
     </EditText>
 
@@ -60,6 +58,7 @@
         </Button>
     </LinearLayout>
 
+    <!-- insert the new counts as they are created in here -->
     <ScrollView
         android:id="@+id/newCountList"
         android:layout_width="fill_parent"
@@ -70,9 +69,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!-- insert the new counts as they are created in here -->
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
 

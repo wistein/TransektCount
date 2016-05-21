@@ -16,10 +16,10 @@
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/notes_text"
-        android:gravity="center_vertical|left"
+        android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        android:layout_gravity="bottom|left|right|top"
+        android:layout_gravity="bottom|start|end|top"
         android:hint="@string/hintSectionNotes"/>
 </LinearLayout>
 

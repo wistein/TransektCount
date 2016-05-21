@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_options.xml used by OptionWidget.java -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:baselineAligned="false"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -9,15 +10,6 @@
               android:layout_marginRight="5dp"
               android:background="@drawable/rounded_corner"
               android:padding="5dp">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="7.5"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -28,10 +20,10 @@
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/help_text"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
-                android:layout_gravity="bottom|left|right|top"
+                android:layout_gravity="bottom|start|end|top"
                 android:hint="@string/hintInstructions"
                 android:layout_width="wrap_content"
                 android:layout_weight="18"
@@ -51,8 +43,7 @@
                 android:textColor="#FFFFFF"
                 android:background="@drawable/count_background"
                 android:textSize="20sp"
-                android:numeric="integer"
-                android:layout_gravity="bottom|right|top"
+                android:layout_gravity="bottom|end|top"
                 android:layout_weight="1"
                 android:padding="2dp"
                 android:layout_marginTop="10dp"
@@ -69,10 +60,10 @@
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/help_texta"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
-                android:layout_gravity="bottom|left|right|top"
+                android:layout_gravity="bottom|start|end|top"
                 android:hint="@string/hintInstructions"
                 android:layout_width="wrap_content"
                 android:layout_weight="18"
@@ -92,8 +83,7 @@
                 android:textColor="#FFFFFF"
                 android:background="@drawable/count_background"
                 android:textSize="20sp"
-                android:numeric="integer"
-                android:layout_gravity="bottom|right|top"
+                android:layout_gravity="bottom|end|top"
                 android:layout_weight="1"
                 android:padding="2dp"
                 android:layout_marginTop="10dp"
@@ -101,6 +91,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
 
 </LinearLayout>
