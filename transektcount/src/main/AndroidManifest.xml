@@ -12,7 +12,7 @@
 
     <application
         android:name=".TransektCountApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="TransektCount"
         android:theme="@style/AppTheme">
