@@ -185,6 +185,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
+        else if (id == R.id.editMeta)
+        {
+            startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            return true;
+        }
         else if (id == R.id.viewSpecies)
         {
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();

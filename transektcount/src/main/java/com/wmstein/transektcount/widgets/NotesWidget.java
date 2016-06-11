@@ -39,7 +39,7 @@ public class NotesWidget extends LinearLayout
         if (large)
         {
             Log.i(TAG, "Setzt große Schrift.");
-            textView.setTextSize(22);
+            textView.setTextSize(20);
         }
         else
         {

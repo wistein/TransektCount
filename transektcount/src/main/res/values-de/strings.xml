@@ -97,7 +97,7 @@
 
     <!-- EditSectionActivity -->
     <string name="titleEdit">Listenname (Transektabschnitt)</string>
-    <string name="notesHere">Bemerkung</string>
+    <string name="notesHere">Bemerkung zur Liste</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
     <string name="deleteCount">Element löschen</string>
     <string name="reallyDeleteCount">Bist Du sicher? Das Element wird sofort gelöscht.</string>
@@ -147,6 +147,7 @@
     <string name="addSomeAlerts">Jedem internen Zähler einer Art können Alarme zugewiesen werden, die ausgelöst werden, wenn der jeweils vorgegebene Wert erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
     <string name="alertName">Neuer Alarm</string>
     <string name="countName">Neue Art</string>
+    <string name="notesSpecies">Bemerkung zur Art</string>
     <string name="deleteAlert">Lösche Alarm</string>
     <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
     <string name="yesDeleteIt">Löschen</string>

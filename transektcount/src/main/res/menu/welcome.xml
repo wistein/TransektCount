@@ -4,6 +4,12 @@
       tools:context="com.wmstein.transektcount.WelcomeActivity">
 
     <item
+        android:id="@+id/editMeta"
+        android:title="@string/editMetaButton"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_edit">
+    </item>
+    <item
         android:id="@+id/viewSections"
         android:title="@string/viewSectionButton"
         app:showAsAction="always"

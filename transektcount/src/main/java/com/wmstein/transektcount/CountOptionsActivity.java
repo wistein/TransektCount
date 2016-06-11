@@ -133,7 +133,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
 
         enw = new EditTitleWidget(this, null);
         enw.setSectionName(count.notes);
-        enw.setWidgetTitle(getString(R.string.notesHere));
+        enw.setWidgetTitle(getString(R.string.notesSpecies));
         enw.setHint(getString(R.string.notesHint));
         enw.requestFocus();
 

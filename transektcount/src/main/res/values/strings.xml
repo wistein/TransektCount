@@ -96,8 +96,8 @@
     <string name="send_to">Share notes</string>
 
     <!-- EditSectionActivity -->
-    <string name="titleEdit">List name (Transect section)</string>
-    <string name="notesHere">Notes</string>
+    <string name="titleEdit">List Name (Transect section)</string>
+    <string name="notesHere">List Notes</string>
     <string name="notesHint">Type notes here&#8230;</string>
     <string name="deleteCount">Delete Item</string>
     <string name="reallyDeleteCount">Are you sure? This count will be deleted immediately.</string>
@@ -147,6 +147,7 @@
     <string name="addSomeAlerts">Each internal species counter may have alerts which will be triggered when the count reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
     <string name="alertName">New Alert</string>
     <string name="countName">New Species</string>
+    <string name="notesSpecies">Species Notes</string>
     <string name="deleteAlert">Delete Alert</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>
     <string name="yesDeleteIt">Delete</string>
