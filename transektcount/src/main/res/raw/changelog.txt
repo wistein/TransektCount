@@ -25,10 +25,10 @@
   _
   _ email: stein.wm@web.de
   _
-$ Todo
-  % Todo for Version 2.0
-    * DB with table "individuum" with time, coordinates, sex, stadium, remarks
-    * Extension for multiple transects
+$ 1.2.7
+  % Version 1.2.7
+  _ 2016-06-11
+    * Permission handling for Android M
 $ 1.2.6
   % Version 1.2.6
   _ 2016-04-14

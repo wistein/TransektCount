@@ -58,7 +58,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private boolean fontPref;
     private boolean soundPref;
     private boolean buttonSoundPref;
-    private boolean hasChanged = false;
+    private boolean hasChanged = false; // Kriterium für S_AT_CREATED
     private String alertSound;
     private String buttonAlertSound;
 

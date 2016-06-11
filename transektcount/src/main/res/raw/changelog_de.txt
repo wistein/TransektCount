@@ -25,10 +25,10 @@
   _
   _ email: stein.wm@web.de
   _
-$ Todo
-  % Todo für Version 2.0
-    * DB mit Tabelle "individuum" mit Zeit, Koordinaten, Sex, Stadium, Bemerkung
-    * Erweiterung für mehrere Transekte
+$ 1.2.7
+  % Version 1.2.7
+  _ 2016-06-11
+    * Erlaubnisprüfung für Android-M
 $ 1.2.6
   % Version 1.2.6
   _ 14.04.2016

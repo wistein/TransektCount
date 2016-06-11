@@ -1,12 +1,15 @@
 package com.wmstein.transektcount;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -93,7 +96,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         getSupportActionBar().setTitle(head.transect_no);
 
         headDataSource.close();
-        
+
+        // if API level > 23 permission request is necessary
+        int REQUEST_CODE_STORAGE = 123; // Identifier for permission request Android 6.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasWriteExtStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWriteExtStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE);
+            }
+        }
+
         cl = new ChangeLog(this);
         vh = new ViewHelp(this); // by wmstein
         if (cl.firstRun())
@@ -359,7 +373,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // export purged db as csv
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
 
-                Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE, null);
+                Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+				+ " order by " + DbHelper.C_NAME, null);
 
                 // set header according to table representation in MS Excel
                 String arrCol[] =
@@ -403,13 +418,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrEmpt[] = {};
                 csvWrite.writeNext(arrEmpt);
 
-                // Section, Section Notes, Species, Species Code, Internal, External, Notes
+                // Section, Section Notes, Species, Internal, External, Notes
                 String arrCol1[] =
                     {
                         getString(R.string.col1),
                         getString(R.string.col2),
                         getString(R.string.col3),
-                        getString(R.string.col3a),
                         getString(R.string.col4),
                         getString(R.string.col5),
                         getString(R.string.col6)
