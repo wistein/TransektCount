@@ -35,6 +35,7 @@
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV File</string>
     <string name="resetDBMenu">Reset Data</string>
+    <string name="loadFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
@@ -42,7 +43,17 @@
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
+    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
+
+    <!-- FileChooser -->
+    <string name="currentDir">Current Dir</string>
+    <string name="fileSize">Size</string>
+    <string name="folder">Folder</string>
+    <string name="parentDirectory">Parent Directory</string>
+    <string name="openFolder">Open folder</string>
+    <string name="selectThis">Select this</string>
+    <string name="optionSelection">Option selection</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Section</string>

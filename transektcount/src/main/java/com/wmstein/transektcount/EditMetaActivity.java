@@ -42,15 +42,15 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     Meta meta;
     private Bitmap bMap;
     private BitmapDrawable bg;
-    
+
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
 
     LinearLayout head_area;
-    
+
     EditHeadWidget ehw;
     EditMetaWidget etw;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,7 +58,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         setContentView(R.layout.activity_edit_head);
 
         head_area = (LinearLayout) findViewById(R.id.edit_head);
-        
+
         transektCount = (TransektCountApplication) getApplication();
 
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
@@ -79,20 +79,20 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     protected void onResume()
     {
         super.onResume();
-        
+
         //clear existing view
         head_area.removeAllViews();
-        
+
         //setup data sources
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
         metaDataSource = new MetaDataSource(this);
         metaDataSource.open();
-        
+
         //load head and meta data
         head = headDataSource.getHead();
         meta = metaDataSource.getMeta();
-        
+
         // display the editable head data
         ehw = new EditHeadWidget(this, null);
         ehw.setWidgetNo(getString(R.string.transectnumber));
@@ -164,7 +164,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         Date date = new Date();
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
-        
+
         if (lng.equals("de"))
         {
             dform = new SimpleDateFormat("dd.MM.yyyy");

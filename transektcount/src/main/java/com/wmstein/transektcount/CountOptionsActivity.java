@@ -53,7 +53,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private View markedForDelete;
     private int deleteAnAlert;
     private int section_id;
-    
+
     private Bitmap bMap;
     private BitmapDrawable bg;
 
@@ -243,7 +243,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         int scroll_amount = scrlV.getBottom();
         int scrollY = scroll_amount;
         boolean pageend = false;
-        while(!pageend)
+        while (!pageend)
         {
             scrlV.scrollTo(0, scroll_amount);              //scrollen
             scroll_amount = scroll_amount + scroll_amount; //scroll_amount erhöhen
@@ -260,7 +260,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         AlertCreateWidget acw = new AlertCreateWidget(this, null);
         savedAlerts.add(acw);
         // Scroll to end of view
-        View scrollV=findViewById(R.id.count_options);
+        View scrollV = findViewById(R.id.count_options);
         ScrollToEndOfView(scrollV);
         acw.requestFocus();
         dynamic_widget_area.addView(acw);

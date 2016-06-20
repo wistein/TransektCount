@@ -9,7 +9,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -34,12 +33,13 @@ import com.wmstein.transektcount.widgets.NotesWidget;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity, 
+ * calls CountOptionsActivity, calls EditSectionActivity, clones a section and lets you send a message 
+ * Based on milo's CountingActivity from 05/05/2014.
+ * Modified by wmstein on 18.02.2016
  */
 
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -140,20 +140,29 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         try
         {
             section = sectionDataSource.getSection(section_id);
-        } 
-        catch (CursorIndexOutOfBoundsException e)
+        } catch (CursorIndexOutOfBoundsException e)
         {
             Log.e(TAG, "Problem loading section: " + e.toString());
             Toast.makeText(CountingActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
             finish();
         }
 
-        //Log.i(TAG, "Got section: " + section.name);
-        // Actionbar: Zeile wegen Holo auskommentiert, funktioniert trotzdem nicht
         getSupportActionBar().setTitle(section.name);
-        
+
+        // display section notes
+        if (section.notes != null)
+        {
+            if (!section.notes.isEmpty())
+            {
+                NotesWidget section_notes = new NotesWidget(this, null);
+                section_notes.setNotes(section.notes);
+                section_notes.setFont(fontPref);
+                notes_area.addView(section_notes);
+            }
+        }
+
         List<String> extras = new ArrayList<>();
-        
+
         // counts
         countingWidgets = new ArrayList<>();
         counts = countDataSource.getAllCountsForSection(section.id);
@@ -176,7 +185,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 count_area.addView(count_notes);
             }
 
-            // get add all alerts for this section
+            // add all alerts for this section
             List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
             for (Alert a : tmpAlerts)
             {
@@ -184,28 +193,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
             }
         }
-    /*
-     * A crash here is a mystery, and users should seek further assistance.
-     */
 
         if (!extras.isEmpty())
         {
             NotesWidget extra_notes = new NotesWidget(this, null);
             extra_notes.setNotes(StringUtils.join(extras, "\n"));
             notes_area.addView(extra_notes);
-        }
-
-        // display section notes
-        // moved to bottom so it doesn't look like a count note
-        if (section.notes != null)
-        {
-            if (!section.notes.isEmpty())
-            {
-                NotesWidget section_notes = new NotesWidget(this, null);
-                section_notes.setNotes(section.notes);
-                section_notes.setFont(fontPref);
-                notes_area.addView(section_notes);
-            }
         }
 
         if (awakePref)
@@ -245,14 +238,14 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
      */
     private void saveData()
     {
-        
+
         Toast.makeText(CountingActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
         for (Count count : counts)
         {
             countDataSource.saveCount(count);
         }
         if (hasChanged)
-        {    
+        {
             sectionDataSource.saveDateSection(section);
             hasChanged = false;
         }
@@ -266,9 +259,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         super.finish();
     }
 
-  /*
-   * The functions below are triggered by the count buttons
-   */
+    /*
+     * The functions below are triggered by the count buttons
+     */
     public void countUp(View view)
     {
         //Log.i(TAG, "View clicked: " + view.toString());
@@ -326,7 +319,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             widget.countDowna();
         }
-        
+
         if (widget.count.counta == 0)
         {
             hasChanged = false;
@@ -337,6 +330,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
+    // Call CountOptionsActivity with count_id and section_id
     public void edit(View view)
     {
         int count_id = Integer.valueOf(view.getTag().toString());
@@ -362,8 +356,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return null;
     }
 
-    //**************************************
-  /*
+  /**************************************
    * alert checking...
    */
     public void checkAlert(int count_id, int count_value)
@@ -388,7 +381,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
         }
     }
-    
+
     /*
      * If the user has set the preference for an audible alert, then sound it here.
      */
@@ -440,11 +433,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-     
-  /***************************************
-   * Pop up various exciting messages if the user has not bothered to turn them off in the
-   * settings...
-   */
+
+    /***************************************
+     * Pop up various exciting messages if the user has not bothered to turn them off in the
+     * settings...
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -506,6 +499,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         getPrefs();
     }
 
+    // cloneSection() with check for double names
     // modified by wmstein on 10.04.2016
     public void cloneSection()
     {
@@ -527,14 +521,14 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 // enter new section title
                 String m_Text = input.getText().toString();
-                
+
                 //check if this is not empty 
                 if (m_Text.isEmpty())
                 {
                     Toast.makeText(CountingActivity.this, getString(R.string.newName), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                
+
                 //check if this is not a duplicate of an existing name
                 if (compSectionNames(m_Text))
                 {
@@ -559,7 +553,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 startActivity(intent);
             }
         });
-        
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
         {
             @Override

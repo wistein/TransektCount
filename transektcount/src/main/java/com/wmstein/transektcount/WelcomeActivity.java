@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.wmstein.filechooser.AdvFileChooser;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -35,6 +36,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import sheetrock.panda.changelog.ChangeLog;
@@ -44,8 +46,8 @@ import sheetrock.panda.changelog.ViewHelp;
  * WelcomeActivity provides the starting page with menu and buttons for import/export/help/info methods
  * and ListSectionActivity/ListSpeciesActivity.
  * <p/>
- * Based an BeeCount (GitHub) created by milo on 05/05/2014.
- * Changes and additions by wmstein on 18.02.2016
+ * Based on BeeCount (GitHub) created by milo on 05/05/2014.
+ * Modifications by wmstein on 18.02.2016
  */
 
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -54,7 +56,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     TransektCountApplication transektCount;
     SharedPreferences prefs;
     ChangeLog cl;
-    ViewHelp vh; // added by wmstein
+    ViewHelp vh;
+    private static final int FILE_CHOOSER = 11;
 
     // import/export stuff
     File infile;
@@ -82,7 +85,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        
+
         Head head;
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
@@ -92,7 +95,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
 
-        // a title isn't necessary on this welcome screen as it appears below
+        // set transect number as title
         getSupportActionBar().setTitle(head.transect_no);
 
         headDataSource.close();
@@ -165,6 +168,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             importBasisDb();
             return true;
         }
+        else if (id == R.id.loadFileMenu)
+        {
+            loadFile();
+            return true;
+        }
         else if (id == R.id.resetDBMenu)
         {
             resetToBasisDb();
@@ -230,7 +238,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     /**************************************************************************
-     * The six activities below are for exporting and importing the database. 
+     * The seven activities below are for exporting and importing the database.
      * They've been put here because no database should be open at this point.
      ***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
@@ -379,7 +387,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
 
                 Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-				+ " order by " + DbHelper.C_NAME, null);
+                    + " order by " + DbHelper.C_NAME, null);
 
                 // set header according to table representation in MS Excel
                 String arrCol[] =
@@ -615,6 +623,112 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     /**************************************************************************************************/
     @SuppressLint("SdCardPath")
+    // Choose a file to load and set it to transektcount.db
+    // based on android-file-chooser from Google Code Archive
+    // Created by wmstein
+    public void loadFile()
+    {
+        Intent intent = new Intent(this, AdvFileChooser.class);
+        ArrayList<String> extensions = new ArrayList<>();
+        extensions.add(".db");
+        String filterFileName = "transektcount";
+        intent.putStringArrayListExtra("filterFileExtension", extensions);
+        intent.putExtra("filterFileName", filterFileName);
+        startActivityForResult(intent, FILE_CHOOSER);
+    }
+
+    @Override
+    // Function is part of loadFile() and processes the result of AdvFileChooser
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        String fileSelected = "";
+        if ((requestCode == FILE_CHOOSER) && (resultCode == -1))
+        {
+            fileSelected = data.getStringExtra("fileSelected");
+            //Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
+        }
+
+        //infile = selected File
+        if (!fileSelected.equals(""))
+        {
+            infile = new File(fileSelected);
+            // destPath = "/data/data/com.wmstein.transektcount/files"
+            String destPath = this.getFilesDir().getPath();
+            try
+            {
+                destPath = getFilesDir().getPath();
+            } catch (Exception e)
+            {
+                Log.e(TAG, "destPath error: " + e.toString());
+            }
+            destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
+            //outfile = "/data/data/com.wmstein.transektcount/databases/transektcount.db"
+            outfile = new File(destPath + "/transektcount.db");
+
+            // a confirm dialogue before anything else takes place
+            // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
+            // could make the dialog central in the popup - to do later
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage(R.string.confirmDBImport)
+                .setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    // START
+                    // replace this with another function rather than this lazy c&p
+                    if (Environment.MEDIA_MOUNTED.equals(state))
+                    {
+                        // We can read and write the media
+                        mExternalStorageAvailable = mExternalStorageWriteable = true;
+                    }
+                    else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+                    {
+                        // We can only read the media
+                        mExternalStorageAvailable = true;
+                        mExternalStorageWriteable = false;
+                    }
+                    else
+                    {
+                        // Something else is wrong. It may be one of many other states, but all we need
+                        //  to know is we can neither read nor write
+                        mExternalStorageAvailable = mExternalStorageWriteable = false;
+                    }
+
+                    if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+                    {
+                        Log.e(TAG, "No sdcard access");
+                        Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            copy(infile, outfile);
+                            Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e)
+                        {
+                            Log.e(TAG, "Failed to import database");
+                            Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    // END
+                }
+            }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    dialog.cancel();
+                }
+            });
+            alert = builder.create();
+            alert.show();
+        }
+    }
+
+    /**************************************************************************************************/
+    @SuppressLint("SdCardPath")
+    // Import of the basic DB
     // modified by wmstein
     public void importBasisDb()
     {
@@ -697,6 +811,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     /**********************************************************************************************/
+    // copy file block-wise
     // http://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
     public void copy(File src, File dst) throws IOException
     {

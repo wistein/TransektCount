@@ -1,6 +1,5 @@
 package com.wmstein.transektcount;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -75,7 +74,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     {
         sections = sectionDataSource.getAllSections(prefs);
         SectionListAdapter adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections);
-        ListView lv = (ListView)findViewById(android.R.id.list);
+        ListView lv = (ListView) findViewById(android.R.id.list);
         lv.setAdapter(adapter);
     }
 

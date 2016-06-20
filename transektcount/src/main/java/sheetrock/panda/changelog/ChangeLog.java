@@ -1,17 +1,19 @@
 /**
  * Copyright (C) 2011-2013, Karsten Priegnitz
- * <p/>
+ * <p>
  * Permission to use, copy, modify, and distribute this piece of software
  * for any purpose with or without fee is hereby granted, provided that
  * the above copyright notice and this permission notice appear in the
  * source code of all copies.
- * <p/>
+ * <p>
  * It would be appreciated if you mention the author in your change log,
  * contributors list or the like.
  *
  * @author: Karsten Priegnitz
  * @see: http://code.google.com/p/android-change-log/
- * <p/>
+ * <p>
+ * Changed by wmstein on 18.02.2016
+ * <p>
  * Changed by wmstein on 18.02.2016
  */
 
@@ -40,7 +42,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
-import java.util.Objects;
 
 public class ChangeLog
 {
@@ -145,7 +146,7 @@ public class ChangeLog
                     : R.string.changelog_title))
             .setView(wv)
             .setCancelable(false)
-                // OK button
+            // OK button
             .setPositiveButton(
                 context.getResources().getString(
                     R.string.changelog_ok_button),

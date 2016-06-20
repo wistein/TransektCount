@@ -35,6 +35,7 @@
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
     <string name="resetDBMenu">Reset Daten</string>
+    <string name="loadFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
@@ -42,7 +43,17 @@
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
+
+    <!-- FileChooser -->
+    <string name="currentDir">Aktuelles Verz.</string>
+    <string name="fileSize">Größe</string>
+    <string name="folder">Verzeichnis</string>
+    <string name="parentDirectory">..</string>
+    <string name="openFolder">Öffne Verz.</string>
+    <string name="selectThis">Auswählen</string>
+    <string name="optionSelection">Option auswählen</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Abschnitt</string>

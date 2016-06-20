@@ -30,24 +30,25 @@ public class Section
     }
 
     //setting S_SECTION_ID *******************
-    public void setS_ID (int S_sectid)
+    public void setS_ID(int S_sectid)
     {
         this.id = S_sectid;
     }
+
     //setting S_CREATED_AT
-    public void setS_CREATED_AT (long S_Created)
+    public void setS_CREATED_AT(long S_Created)
     {
         this.created_at = S_Created;
     }
 
     //setting S_NAME
-    public void setS_NAME (String S_name)
+    public void setS_NAME(String S_name)
     {
         this.name = S_name;
     }
 
     //setting S_NOTES
-    public void setS_NOTES (String S_notes)
+    public void setS_NOTES(String S_notes)
     {
         this.notes = S_notes;
     }

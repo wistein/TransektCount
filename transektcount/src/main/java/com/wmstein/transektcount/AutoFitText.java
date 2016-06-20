@@ -26,10 +26,10 @@ import android.widget.TextView;
  * (Button, TextClock etc.)
  *
  * @author pheuschk
- * createDate: 18.04.2013
- * 
- * Modified by wmstein on 18.03.2016
- * Bug fixed (height of single character) and context comments changed 
+ *         createDate: 18.04.2013
+ *         <p>
+ *         Modified by wmstein on 18.03.2016
+ *         Bug fixed (height of single character) and context comments changed
  */
 @SuppressWarnings("unused")
 public class AutoFitText extends TextView
@@ -91,7 +91,7 @@ public class AutoFitText extends TextView
             {
                 // make an initial call to onSizeChanged to make sure that refitText is triggered
                 onSizeChanged(AutoFitText.this.getWidth(), AutoFitText.this.getHeight(), 0, 0);
-                
+
                 // Remove the LayoutListener immediately so we don't run into an infinite loop
                 AutoFitText.this.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
@@ -157,7 +157,7 @@ public class AutoFitText extends TextView
         /*************
          * skipped a lot of unused code here
          */
-        
+
         this.setTextSize(TypedValue.COMPLEX_UNIT_SP, lowerTextSize / mScaledDensityFactor);
         //next unnecessary line of void method skipped by wmstein
         //return;
@@ -168,7 +168,7 @@ public class AutoFitText extends TextView
      * is also called - among others - upon text size change which means that we MUST NEVER CALL
      * {@link "#refitText"(String)} from this method! Doing so would result in an endless loop that
      * would ultimately result in a stack overflow and termination of the application
-     * <p/>
+     * <p>
      * So for the time being this method does absolutely nothing. If you want to notify the view of
      * a changed text call {@link #setText(CharSequence)}
      */

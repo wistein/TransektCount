@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.wmstein.transektcount.EditMetaActivity;
 import com.wmstein.transektcount.R;
 
 import org.apache.commons.lang3.StringUtils;
@@ -180,5 +178,5 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_meta1.setHint(hint);
     }
-    
+
 }

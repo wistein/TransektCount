@@ -146,5 +146,5 @@ public class SectionDataSource
         cursor.close();
         return section;
     }
-    
+
 }

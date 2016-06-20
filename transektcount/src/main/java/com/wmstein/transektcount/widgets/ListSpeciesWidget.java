@@ -36,11 +36,11 @@ public class ListSpeciesWidget extends RelativeLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_listspecies, this, true);
-		txtSectName = (TextView) findViewById(R.id.txtSectName);
+        txtSectName = (TextView) findViewById(R.id.txtSectName);
         txtSectRem = (TextView) findViewById(R.id.txtSectRem);
         txtSpecName = (TextView) findViewById(R.id.txtSpecName);
         specCount = (TextView) findViewById(R.id.specCount);
-		txtSpecRem = (TextView) findViewById(R.id.txtSpecRem);
+        txtSpecRem = (TextView) findViewById(R.id.txtSpecRem);
         specCounta = (TextView) findViewById(R.id.specCounta);
     }
 
@@ -50,9 +50,9 @@ public class ListSpeciesWidget extends RelativeLayout
         txtSectRem.setText(section.notes);
         txtSpecName.setText(spec.name);
         specCount.setText(String.valueOf(spec.count));
-		txtSpecRem.setText(spec.notes);
+        txtSpecRem.setText(spec.notes);
         specCounta.setText(String.valueOf(spec.counta));
-	}
+    }
 
     public void setCount1(Count spec, Section section)
     {
@@ -74,5 +74,5 @@ public class ListSpeciesWidget extends RelativeLayout
         spec_counta = spec.counta;
         return spec_counta;
     }
-    
+
 }

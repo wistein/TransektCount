@@ -133,7 +133,7 @@ public class CountDataSource
         cursor.close();
         return count;
     }
-    
+
     // Used by ListSpeciesActivity
     public List<Count> getAllSpecies()
     {
@@ -146,7 +146,7 @@ public class CountDataSource
         while (!cursor.isAfterLast())
         {
             Count count = cursorToCount(cursor);
-            
+
             species.add(count);
             cursor.moveToNext();
         }

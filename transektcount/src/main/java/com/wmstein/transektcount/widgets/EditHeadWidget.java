@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-import static java.lang.Integer.valueOf;
-
 public class EditHeadWidget extends LinearLayout
 {
     TextView widget_no; // used for transect_no title

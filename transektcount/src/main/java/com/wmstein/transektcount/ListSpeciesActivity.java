@@ -3,12 +3,9 @@ package com.wmstein.transektcount;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.wmstein.transektcount.database.Count;
@@ -42,10 +39,10 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
     public int spec_count;
     public int spec_counta;
-    
+
     // preferences
     private boolean awakePref;
-    
+
     // the actual data
     private CountDataSource countDataSource;
     private SectionDataSource sectionDataSource;
@@ -140,13 +137,13 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         spec_area.addView(etw);
 
         //List of species
-        List<Count> specs; 
-        
+        List<Count> specs;
+
         int sect_id;
         // preset for unused id of section as starting criteria in if-clause of for-loop
         int sect_idOld = 0;
         Section section;
-        
+
         // setup the data sources
         countDataSource.open();
         sectionDataSource.open();
@@ -174,14 +171,14 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                 {
                     widget.setCount1(spec, section);
                 }
-                
+
 //                listSpecWidgets.add(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }
         }
     }
-    
+
     @Override
     protected void onPause()
     {
@@ -192,7 +189,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         metaDataSource.close();
         countDataSource.close();
         sectionDataSource.close();
-        
+
         if (awakePref)
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

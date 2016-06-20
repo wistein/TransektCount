@@ -29,6 +29,7 @@ $ 1.2.7
   % Version 1.2.7
   _ 2016-06-11
     * Permission handling for Android M
+    * File import dialog for existing DB
 $ 1.2.6
   % Version 1.2.6
   _ 2016-04-14
@@ -113,6 +114,7 @@ $ 1.0.0
     * Modified AutoFitText.java, original code from author: pheuschk
     * Modified ChangeLog.java original code from author: Karsten Priegnitz
     * Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd.
+    * Modified File Chooser dialog based on android-file-chooser, 2011, Google Code Archive, GNU GPL v3
   _
   ! Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
   _ 

@@ -1,18 +1,9 @@
 package com.wmstein.transektcount.database;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.wmstein.transektcount.R;
-import com.wmstein.transektcount.WelcomeActivity;
 
 
 /**
@@ -56,7 +47,7 @@ public class DbHelper extends SQLiteOpenHelper
     private Context mContext;
 
     private SQLiteDatabase db;
-    
+
     // constructor
     public DbHelper(Context context)
     {
@@ -69,41 +60,41 @@ public class DbHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         //Log.i(TAG, "Creating database: " + DATABASE_NAME);
-        String sql = "create table " + SECTION_TABLE + " (" 
-            + S_ID + " integer primary key, " 
-            + S_CREATED_AT + " int, " 
-            + S_NAME + " text, " 
+        String sql = "create table " + SECTION_TABLE + " ("
+            + S_ID + " integer primary key, "
+            + S_CREATED_AT + " int, "
+            + S_NAME + " text, "
             + S_NOTES + " text)";
         db.execSQL(sql);
-        sql = "create table " + COUNT_TABLE + " (" 
-            + C_ID + " integer primary key, " 
-            + C_SECTION_ID + " int, " 
-            + C_COUNT + " int, " 
-            + C_COUNTA + " int, " 
-            + C_NAME + " text, " 
+        sql = "create table " + COUNT_TABLE + " ("
+            + C_ID + " integer primary key, "
+            + C_SECTION_ID + " int, "
+            + C_COUNT + " int, "
+            + C_COUNTA + " int, "
+            + C_NAME + " text, "
             + C_NOTES + " text default NULL)";
         db.execSQL(sql);
-        sql = "create table " + ALERT_TABLE + " (" 
-            + A_ID + " integer primary key, " 
-            + A_COUNT_ID + " int, " 
-            + A_ALERT + " int, " 
+        sql = "create table " + ALERT_TABLE + " ("
+            + A_ID + " integer primary key, "
+            + A_COUNT_ID + " int, "
+            + A_ALERT + " int, "
             + A_ALERT_TEXT + " text)";
         db.execSQL(sql);
-        sql = "create table " + HEAD_TABLE + " (" 
-            + H_ID + " integer primary key, " 
-            + H_TRANSECT_NO + " text, " 
+        sql = "create table " + HEAD_TABLE + " ("
+            + H_ID + " integer primary key, "
+            + H_TRANSECT_NO + " text, "
             + H_INSPECTOR_NAME + " text)";
         db.execSQL(sql);
-        sql = "create table " + META_TABLE + " (" 
-            + M_ID + " integer primary key, " 
-            + M_TEMP + " int, " 
-            + M_WIND + " int, " 
-            + M_CLOUDS + " int, " 
-            + M_DATE + " text, " 
-            + M_START_TM + " text, " 
+        sql = "create table " + META_TABLE + " ("
+            + M_ID + " integer primary key, "
+            + M_TEMP + " int, "
+            + M_WIND + " int, "
+            + M_CLOUDS + " int, "
+            + M_DATE + " text, "
+            + M_START_TM + " text, "
             + M_END_TM + " text)";
         db.execSQL(sql);
-        
+
         //create empty row for HEAD_TABLE and META_TABLE
         ContentValues values1 = new ContentValues();
         values1.put(H_ID, 1);
@@ -120,7 +111,7 @@ public class DbHelper extends SQLiteOpenHelper
         values2.put(M_START_TM, "");
         values2.put(M_END_TM, "");
         db.insert(META_TABLE, null, values2);
-        
+
         //Log.i(TAG, "Success!");
     }
 
