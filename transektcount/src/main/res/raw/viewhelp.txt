@@ -89,10 +89,11 @@ $ 7
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
   ! The menu on the starting page has Reset, Import, Export, Help, Info and Settings functions. 
+  _ 
   ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB from /sdcard/transektcount0.db 
   _ 
   ! Internally, TransektCount stores the data always in a single, equally named SQlite-DB file in the app's own storage area. As this file cannot be read or changed directly by the user, exporting the data to files in a user reachable storage area is necessary.
-
+  _ 
   ! By “Export Basic DB” you may export the DB as empty "Basic DB" which is reasonable, when to take into account changes of the transect structure or new species you may have entered.
   _ 
   ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects. To achieve this you may create transect-specific Basic DBs which may be renamed by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
@@ -108,7 +109,7 @@ $ 7
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
-  ! There you may examine the db-file with the free tool "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file as UTF-8 text file into Excel for further processing.
+  ! There you may examine the db-file with a free tool like "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file as UTF-8 text file into Excel for further processing.
   !
   
 $ END_OF_VIEW_HELP
