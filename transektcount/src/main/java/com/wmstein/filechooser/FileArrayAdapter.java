@@ -57,22 +57,11 @@ public class FileArrayAdapter extends ArrayAdapter<Option>
             TextView t1 = (TextView) v.findViewById(R.id.TextView01);
             TextView t2 = (TextView) v.findViewById(R.id.TextView02);
 
-            if (o.getData().equalsIgnoreCase("folder"))
-            {
-                im.setImageResource(R.drawable.folder);
-            }
-            else if (o.getData().equalsIgnoreCase("parent directory"))
-            {
-                im.setImageResource(R.drawable.back);
-            }
+            String name = o.getName().toLowerCase();
+            if (name.endsWith(".db"))
+                im.setImageResource(R.drawable.db);
             else
-            {
-                String name = o.getName().toLowerCase();
-                if (name.endsWith(".db"))
-                    im.setImageResource(R.drawable.db);
-                else
-                    im.setImageResource(R.drawable.whitepage);
-            }
+                im.setImageResource(R.drawable.whitepage);
 
             if (t1 != null)
                 t1.setText(o.getName());
