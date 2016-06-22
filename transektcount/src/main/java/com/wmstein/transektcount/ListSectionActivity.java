@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -23,14 +24,15 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     private static String TAG = "TransektCountListSectionActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+
+    // preferences
+    private boolean brightPref;
+
     private SectionDataSource sectionDataSource;
+    
     List<Section> sections;
     ListView list;
     
-  /*
-   * NEEDS LONG PRESS TO DELETE SECTIONS
-   */
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,6 +42,16 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+        brightPref = prefs.getBoolean("pref_bright", true);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
 
         LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
         list_view.setBackground(transektCount.getBackground());

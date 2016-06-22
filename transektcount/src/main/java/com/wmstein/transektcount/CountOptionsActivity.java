@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -57,6 +58,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private Bitmap bMap;
     private BitmapDrawable bg;
 
+    // preferences
+    private boolean brightPref;
+
     LinearLayout static_widget_area;
     LinearLayout dynamic_widget_area;
     OptionsWidget curr_val_widget;
@@ -74,6 +78,16 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         transektCount = (TransektCountApplication) getApplication();
         prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+        brightPref = prefs.getBoolean("pref_bright", true);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);

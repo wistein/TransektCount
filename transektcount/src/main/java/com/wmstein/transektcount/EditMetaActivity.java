@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -37,6 +38,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 {
     private static String TAG = "transektcountEditMetaActivity";
     TransektCountApplication transektCount;
+    SharedPreferences prefs;
 
     Head head;
     Meta meta;
@@ -45,6 +47,9 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
+
+    // preferences
+    private boolean brightPref;
 
     LinearLayout head_area;
 
@@ -60,6 +65,18 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         head_area = (LinearLayout) findViewById(R.id.edit_head);
 
         transektCount = (TransektCountApplication) getApplication();
+        prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        brightPref = prefs.getBoolean("pref_bright", true);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
 
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);

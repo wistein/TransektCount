@@ -131,6 +131,8 @@
     <string name="pref_bg_summ">Wähle Standard-, eigenen oder keinen Hintergrund.</string>
     <string name="pref_awake">Lass Bildschirm an</string>
     <string name="pref_awake_summ">Verhindert den Ruhezustand beim Zählen.</string>
+    <string name="pref_bright">Bildschirm hell</string>
+    <string name="pref_bright_summ">Setzt die TransektCount-Seiten zum Zählen und Editieren hell.</string>
     <string name="chooseImg">Hintergrundbild</string>
     <string name="explainImg">Wähle ein Hintergrundbild aus, wenn ein eigenes Bild angezeigt werden soll.</string>
     <string name="prefs_appearance">Aussehen</string>

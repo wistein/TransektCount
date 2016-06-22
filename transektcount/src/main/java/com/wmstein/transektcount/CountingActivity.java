@@ -48,6 +48,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private AlertDialog.Builder row_alert;
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+    
     int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
@@ -55,6 +56,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     // preferences
     private boolean awakePref;
+    private boolean brightPref;
     private boolean fontPref;
     private boolean soundPref;
     private boolean buttonSoundPref;
@@ -95,6 +97,15 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         prefs.registerOnSharedPreferenceChangeListener(this);
         getPrefs();
 
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
+
         ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
         counting_screen.setBackground(transektCount.getBackground());
 
@@ -113,6 +124,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private void getPrefs()
     {
         awakePref = prefs.getBoolean("pref_awake", true);
+        brightPref = prefs.getBoolean("pref_bright", true);
         fontPref = prefs.getBoolean("pref_note_font", false);
         soundPref = prefs.getBoolean("pref_sound", false);
         alertSound = prefs.getString("alert_sound", null);

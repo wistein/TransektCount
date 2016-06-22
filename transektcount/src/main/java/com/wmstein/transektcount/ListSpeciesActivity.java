@@ -66,7 +66,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        getPrefs();
+        awakePref = prefs.getBoolean("pref_awake", true);
 
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
@@ -78,14 +78,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-    }
-
-    /*
-     * So preferences can be loaded at the start, and also when a change is detected.
-     */
-    private void getPrefs()
-    {
-        awakePref = prefs.getBoolean("pref_awake", true);
     }
 
     @Override
@@ -208,7 +200,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
-        getPrefs();
+        awakePref = prefs.getBoolean("pref_awake", true);
     }
 
 }

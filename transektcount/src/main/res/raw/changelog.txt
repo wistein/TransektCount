@@ -25,6 +25,10 @@
   _
   _ email: stein.wm@web.de
   _
+$ 1.3.0
+  % Version 1.3.0
+  _ 2016-06-22
+    * Option "Screen bright" in Preferences
 $ 1.2.7
   % Version 1.2.7
   _ 2016-06-11

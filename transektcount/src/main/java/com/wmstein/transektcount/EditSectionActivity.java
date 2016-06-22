@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -69,6 +70,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private Bitmap bMap;
     private BitmapDrawable bg;
 
+    // preferences
+    private boolean brightPref;
+
     //added for dupPref
     private boolean dupPref;
     String new_count_name = "";
@@ -108,8 +112,17 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        //added for dupPref
+        brightPref = prefs.getBoolean("pref_bright", true);
         dupPref = prefs.getBoolean("pref_duplicate", true);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
