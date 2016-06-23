@@ -1,3 +1,6 @@
+# TransektCount
+Readme.md
+
 TransektCount is an Android App that supports transect counters in nature preserving projects according to the Butterfly Monitoring Scheme methodology. It allows a species-specific counting per transect section. 
 
 The integrated database is organized according to a single transect inspection. That means, a new (prepared and importable) basic database instance will be used per inspection.
