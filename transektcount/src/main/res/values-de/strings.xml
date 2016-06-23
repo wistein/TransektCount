@@ -91,7 +91,7 @@
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
     <string name="sectSaving">Speichern </string>
-    <string name="alertTitle">Buzz!</string>
+    <string name="alertTitle">Anzahl erreicht!</string>
     <string name="cloneButton">Abschnittsliste duplizieren</string>
     <string name="newName">Bitte einen Namen für die neue Liste eingeben.</string>
     <string name="newCopyCreated">wurde erstellt!</string>

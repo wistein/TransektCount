@@ -91,7 +91,7 @@
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>
     <string name="sectSaving">Saving </string>
-    <string name="alertTitle">Buzz!</string>
+    <string name="alertTitle">Count reached!</string>
     <string name="cloneButton">Duplicate Section List</string>
     <string name="newName">You must enter a name for the new list.</string>
     <string name="newCopyCreated">has been created!</string>

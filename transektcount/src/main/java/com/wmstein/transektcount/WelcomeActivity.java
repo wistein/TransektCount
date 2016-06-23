@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -58,6 +59,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     ChangeLog cl;
     ViewHelp vh;
     private static final int FILE_CHOOSER = 11;
+    private Handler mHandler = new Handler();
 
     // import/export stuff
     File infile;
@@ -202,7 +204,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-            startActivity(new Intent(this, ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            // pause for 100 msec to show toast
+            mHandler.postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
+            }, 100);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -221,7 +230,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public void viewSpecies(View view)
     {
         Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+        // pause for 100 msec to show toast
+        mHandler.postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        }, 100);
+
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)

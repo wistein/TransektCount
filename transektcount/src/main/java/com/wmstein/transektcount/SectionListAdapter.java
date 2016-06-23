@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Section;
 
@@ -32,6 +34,7 @@ public class SectionListAdapter extends ArrayAdapter<Section>
     private Context mContext;
     private TransektCountApplication transektCount;
     private Section sct;
+    private Handler mHandler = new Handler();
 
 
     // Constructor
@@ -108,18 +111,27 @@ public class SectionListAdapter extends ArrayAdapter<Section>
     }
 
     /*
-     * Start counting by clicking on title, remark or date, delete by clicking on button.
+     * Start counting by clicking on title, delete by clicking on button.
      */
     private View.OnClickListener mOnTitleClickListener = new View.OnClickListener()
     {
         @Override
-        public void onClick(View v)
+        public void onClick(final View v)
         {
-            sct = (Section) v.getTag();
-            Intent intent = new Intent(getContext(), CountingActivity.class);
-            intent.putExtra("section_id", sct.id);
-            //transektCount.section_id = sct.id;
-            mContext.startActivity(intent);
+            Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
+
+            // pause for 100 msec to show toast
+            mHandler.postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    sct = (Section) v.getTag();
+                    Intent intent = new Intent(getContext(), CountingActivity.class);
+                    intent.putExtra("section_id", sct.id);
+                    //transektCount.section_id = sct.id;
+                    mContext.startActivity(intent);
+                }
+            }, 100);
         }
     };
 

@@ -75,18 +75,6 @@
         </activity>
 
         <activity
-            android:name="com.wmstein.transektcount.LoadTaskActivity"
-            android:label="@string/title_activity_load_task"
-            android:theme="@style/Theme.AppCompat"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="WelcomeActivity"/>
-        </activity>
-
-        <activity
             android:name="com.wmstein.transektcount.EditMetaActivity"
             android:theme="@style/Theme.AppCompat"
             android:screenOrientation="portrait"
