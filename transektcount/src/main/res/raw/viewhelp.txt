@@ -108,6 +108,8 @@ $ 7
   ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
+  ! The counting page is switched off when the phone is put into a pocket.
+  _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
   ! There you may examine the db-file with a free tool like "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file as UTF-8 text file into Excel for further processing.
   !

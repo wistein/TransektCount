@@ -1,6 +1,7 @@
 package com.wmstein.transektcount;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +9,9 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -37,7 +40,8 @@ import java.util.List;
 
 /**
  * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity, 
- * calls CountOptionsActivity, calls EditSectionActivity, clones a section and lets you send a message 
+ * calls CountOptionsActivity, calls EditSectionActivity, clones a section, switches screen off when pocketed 
+ * and lets you send a message. 
  * Based on milo's CountingActivity from 05/05/2014.
  * Modified by wmstein on 18.02.2016
  */
@@ -53,6 +57,10 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     LinearLayout count_area;
     LinearLayout notes_area;
     public ArrayList<String> cmpSectionNames;
+
+    // Proximity sensor handling for screen on/off
+    private PowerManager mPowerManager;
+    private PowerManager.WakeLock mProximityWakeLock;
 
     // preferences
     private boolean awakePref;
@@ -80,6 +88,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counting);
+
+        Context context = this.getApplicationContext();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -116,6 +126,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        // check for API-Level >= 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
+            {
+                mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "WAKE LOCK");
+            }
+            enableProximitySensor();
+        }
+        
     }
 
     /*
@@ -136,6 +158,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     protected void onResume()
     {
         super.onResume();
+
+        // check for API-Level >= 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            enableProximitySensor();
+        }
 
         // clear any existing views
         count_area.removeAllViews();
@@ -224,6 +252,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onPause();
 
+        // check for API-Level >= 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            disableProximitySensor(true);
+        }
+
         // save the data
         saveData();
         // save section id in case it is lost on pause
@@ -268,6 +302,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public void saveAndExit(View view)
     {
         saveData();
+
+        // check for API-Level >= 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            disableProximitySensor(true);
+        }
+
         super.finish();
     }
 
@@ -345,6 +386,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     // Call CountOptionsActivity with count_id and section_id
     public void edit(View view)
     {
+        // check for API-Level >= 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            disableProximitySensor(true);
+        }
+
         int count_id = Integer.valueOf(view.getTag().toString());
         Intent intent = new Intent(CountingActivity.this, CountOptionsActivity.class);
         intent.putExtra("count_id", count_id);
@@ -467,11 +514,23 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         int id = item.getItemId();
         if (id == R.id.action_settings)
         {
+            // check for API-Level >= 21
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                disableProximitySensor(true);
+            }
+
             startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.menuEditSection)
         {
+            // check for API-Level >= 21
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                disableProximitySensor(true);
+            }
+
             Intent intent = new Intent(CountingActivity.this, EditSectionActivity.class);
             intent.putExtra("section_id", section_id);
             startActivity(intent);
@@ -485,6 +544,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         else if (id == R.id.menuSaveExit)
         {
             saveData();
+
+            // check for API-Level >= 21
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            {
+                disableProximitySensor(true);
+            }
+
             super.finish();
             return true;
         }
@@ -604,4 +670,31 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return isDbl;
     }
 
+    private void enableProximitySensor()
+    {
+        if (mProximityWakeLock == null)
+        {
+            return;
+        }
+
+        if (!mProximityWakeLock.isHeld())
+        {
+            mProximityWakeLock.acquire();
+        }
+    }
+
+
+    private void disableProximitySensor(boolean waitForFarState)
+    {
+        if (mProximityWakeLock == null)
+        {
+            return;
+        }
+        if (mProximityWakeLock.isHeld())
+        {
+            int flags = waitForFarState ? PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY : 0;
+            mProximityWakeLock.release(flags);
+        }
+    }
+    
 }
