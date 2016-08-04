@@ -21,8 +21,6 @@ import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 
 /*********************
@@ -210,14 +208,14 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         // check that the boxes are filled in
         int carryon = 1;
-        if (StringUtils.isBlank(sect_name))
+        if (isBlank(sect_name))
         {
             carryon = 0;
         }
         for (NewCount c : myTexts)
         {
             count_name = c.getText().toString();
-            if (StringUtils.isBlank(count_name))
+            if (isBlank(count_name))
             {
                 carryon = 0;
                 break;
@@ -280,4 +278,34 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
+
+    /**
+     * Checks if a CharSequence is whitespace, empty ("") or null
+     * <p/>
+     * isBlank(null)      = true
+     * isBlank("")        = true
+     * isBlank(" ")       = true
+     * isBlank("bob")     = false
+     * isBlank("  bob  ") = false
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is null, empty or whitespace
+     */
+    public static boolean isBlank(final CharSequence cs)
+    {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0)
+        {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++)
+        {
+            if (!Character.isWhitespace(cs.charAt(i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

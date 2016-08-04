@@ -23,8 +23,6 @@ import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.widgets.EditHeadWidget;
 import com.wmstein.transektcount.widgets.EditMetaWidget;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,7 +134,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         // check for focus
         String newTransectNo = head.transect_no;
-        if (StringUtils.isNotEmpty(newTransectNo))
+        if (isNotEmpty(newTransectNo))
         {
             etw.requestFocus();
         }
@@ -284,6 +282,38 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
+    }
+
+    /**
+     * Checks if a CharSequence is not empty ("") and not null.
+     *
+     * isNotEmpty(null)      = false
+     * isNotEmpty("")        = false
+     * isNotEmpty(" ")       = true
+     * isNotEmpty("bob")     = true
+     * isNotEmpty("  bob  ") = true
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is not empty and not null
+     */
+    public static boolean isNotEmpty(final CharSequence cs) {
+        return !isEmpty(cs);
+    }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
     }
 
 }

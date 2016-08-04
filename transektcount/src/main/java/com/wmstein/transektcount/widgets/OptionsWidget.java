@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Created by milo on 27/05/2014.
  * Changed by wmstein on 18.02.2016
@@ -63,7 +61,7 @@ public class OptionsWidget extends LinearLayout
     public int getParameterValue()
     {
         String text = number.getText().toString();
-        if (StringUtils.isEmpty(text))
+        if (isEmpty(text))
         {
             return Integer.valueOf(0);
         }
@@ -77,7 +75,7 @@ public class OptionsWidget extends LinearLayout
     public int getParameterValuea()
     {
         String text = numbera.getText().toString();
-        if (StringUtils.isEmpty(text))
+        if (isEmpty(text))
         {
             return Integer.valueOf(0);
         }
@@ -86,4 +84,21 @@ public class OptionsWidget extends LinearLayout
             return Integer.parseInt(text);
         }
     }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
+
 }

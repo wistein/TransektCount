@@ -28,8 +28,6 @@ import com.wmstein.transektcount.widgets.AlertCreateWidget;
 import com.wmstein.transektcount.widgets.EditTitleWidget;
 import com.wmstein.transektcount.widgets.OptionsWidget;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,7 +227,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         for (int i = 0; i < childcount; i++)
         {
             AlertCreateWidget acw = (AlertCreateWidget) dynamic_widget_area.getChildAt(i);
-            if (StringUtils.isNotEmpty(acw.getAlertName()))
+            if (isNotEmpty(acw.getAlertName()))
             {
                 // save or create
                 if (acw.getAlertId() == 0)
@@ -372,6 +370,38 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
+    }
+
+    /**
+     * Checks if a CharSequence is not empty ("") and not null.
+     *
+     * isNotEmpty(null)      = false
+     * isNotEmpty("")        = false
+     * isNotEmpty(" ")       = true
+     * isNotEmpty("bob")     = true
+     * isNotEmpty("  bob  ") = true
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is not empty and not null
+     */
+    public static boolean isNotEmpty(final CharSequence cs) {
+        return !isEmpty(cs);
+    }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
     }
 
 }

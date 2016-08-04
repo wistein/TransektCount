@@ -9,8 +9,6 @@ import android.widget.LinearLayout;
 
 import com.wmstein.transektcount.R;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.Serializable;
 
 /**
@@ -47,7 +45,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
     public int getAlertValue()
     {
         String text = alert_value.getText().toString();
-        if (StringUtils.isEmpty(text))
+        if (isEmpty(text))
         {
             return Integer.valueOf(0);
         }
@@ -76,6 +74,22 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
     {
         alert_id = id;
         deleteButton.setTag(Integer.valueOf(id));
+    }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
     }
 
 }

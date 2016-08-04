@@ -33,15 +33,14 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountingWidget;
 import com.wmstein.transektcount.widgets.NotesWidget;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity, 
- * calls CountOptionsActivity, calls EditSectionActivity, clones a section, switches screen off when pocketed 
- * and lets you send a message. 
+ * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity,
+ * calls CountOptionsActivity, calls EditSectionActivity, clones a section, switches screen off when pocketed
+ * and lets you send a message.
  * Based on milo's CountingActivity from 05/05/2014.
  * Modified by wmstein on 18.02.2016
  */
@@ -52,7 +51,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private AlertDialog.Builder row_alert;
     TransektCountApplication transektCount;
     SharedPreferences prefs;
-    
+
     int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
@@ -137,7 +136,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
             enableProximitySensor();
         }
-        
+
     }
 
     /*
@@ -217,7 +216,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             count_area.addView(widget);
 
             // add a section note widget if there are any notes
-            if (StringUtils.isNotBlank(count.notes))
+            if (isNotBlank(count.notes))
             {
                 NotesWidget count_notes = new NotesWidget(this, null);
                 count_notes.setNotes(count.notes);
@@ -237,7 +236,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (!extras.isEmpty())
         {
             NotesWidget extra_notes = new NotesWidget(this, null);
-            extra_notes.setNotes(StringUtils.join(extras, "\n"));
+            extra_notes.setNotes(join(extras, "\n"));
             notes_area.addView(extra_notes);
         }
 
@@ -415,9 +414,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return null;
     }
 
-  /**************************************
-   * alert checking...
-   */
+    /**************************************
+     * alert checking...
+     */
     public void checkAlert(int count_id, int count_value)
     {
         for (Alert a : alerts)
@@ -451,7 +450,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             try
             {
                 Uri notification;
-                if (StringUtils.isNotBlank(alertSound) && alertSound != null)
+                if (isNotBlank(alertSound) && alertSound != null)
                 {
                     notification = Uri.parse(alertSound);
                 }
@@ -475,7 +474,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             try
             {
                 Uri notification;
-                if (StringUtils.isNotBlank(buttonAlertSound) && buttonAlertSound != null)
+                if (isNotBlank(buttonAlertSound) && buttonAlertSound != null)
                 {
                     notification = Uri.parse(buttonAlertSound);
                 }
@@ -696,5 +695,106 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             mProximityWakeLock.release(flags);
         }
     }
-    
+
+    /**
+     * Checks if a CharSequence is whitespace, empty ("") or null
+     * 
+     * isBlank(null)      = true
+     * isBlank("")        = true
+     * isBlank(" ")       = true
+     * isBlank("bob")     = false
+     * isBlank("  bob  ") = false
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is null, empty or whitespace
+     */
+    public static boolean isBlank(final CharSequence cs)
+    {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0)
+        {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++)
+        {
+            if (Character.isWhitespace(cs.charAt(i)) == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a CharSequence is not empty (""), not null and not whitespace only.
+     * 
+     * isNotBlank(null)      = false
+     * isNotBlank("")        = false
+     * isNotBlank(" ")       = false
+     * isNotBlank("bob")     = true
+     * isNotBlank("  bob  ") = true
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is
+     * not empty and not null and not whitespace
+     */
+    public static boolean isNotBlank(final CharSequence cs)
+    {
+        return !isBlank(cs);
+    }
+
+    public static String join(Iterator<?> iterator, String separator)
+    {
+        if (iterator == null)
+        {
+            return null;
+        }
+        else if (!iterator.hasNext())
+        {
+            return "";
+        }
+        else
+        {
+            Object first = iterator.next();
+            if (!iterator.hasNext())
+            {
+                return toString(first);
+            }
+            else
+            {
+                StringBuilder buf = new StringBuilder(256);
+                if (first != null)
+                {
+                    buf.append(first);
+                }
+
+                while (iterator.hasNext())
+                {
+                    if (separator != null)
+                    {
+                        buf.append(separator);
+                    }
+
+                    Object obj = iterator.next();
+                    if (obj != null)
+                    {
+                        buf.append(obj);
+                    }
+                }
+
+                return buf.toString();
+            }
+        }
+    }
+
+    public static String join(Iterable<?> iterable, String separator)
+    {
+        return iterable == null ? null : join(iterable.iterator(), separator);
+    }
+
+    public static String toString(Object obj)
+    {
+        return obj == null ? "" : obj.toString();
+    }
+
 }

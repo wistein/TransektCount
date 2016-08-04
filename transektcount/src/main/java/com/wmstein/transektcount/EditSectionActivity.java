@@ -27,8 +27,6 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountEditWidget;
 import com.wmstein.transektcount.widgets.EditTitleWidget;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,7 +231,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             String name = cew.getCountName();
             // ignore count widgets where the user has filled nothing in. 
             // Id will be 0 if this is a new count.
-            if (StringUtils.isNotEmpty(name))
+            if (isNotEmpty(name))
             {
                 countNames.add(name);
                 countIds.add(cew.countId);
@@ -281,7 +279,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         boolean savesection = false;
 
         String newtitle = etw.getSectionName();
-        if (StringUtils.isNotEmpty(newtitle))
+        if (isNotEmpty(newtitle))
         {
             section.name = newtitle;
             savesection = true;
@@ -289,7 +287,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         String newnotes = enw.getSectionName();
         // Always add notes if the user has written some...
-        if (StringUtils.isNotEmpty(newnotes))
+        if (isNotEmpty(newnotes))
         {
             section.notes = newnotes;
             savesection = true;
@@ -297,7 +295,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         //...if they haven't, only save if the current notes have a value (i.e.
         else
         {
-            if (StringUtils.isNotEmpty(section.notes))
+            if (isNotEmpty(section.notes))
             {
                 section.notes = newnotes;
                 savesection = true;
@@ -326,7 +324,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 for (int i = 0; i < childcount; i++)
                 {
                     CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
-                    if (StringUtils.isNotEmpty(cew.getCountName()))
+                    if (isNotEmpty(cew.getCountName()))
                     {
                         //Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
                         // create or save
@@ -496,4 +494,37 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         //added for dupPref
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
+
+    /**
+     * Checks if a CharSequence is not empty ("") and not null.
+     *
+     * isNotEmpty(null)      = false
+     * isNotEmpty("")        = false
+     * isNotEmpty(" ")       = true
+     * isNotEmpty("bob")     = true
+     * isNotEmpty("  bob  ") = true
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is not empty and not null
+     */
+    public static boolean isNotEmpty(final CharSequence cs) {
+        return !isEmpty(cs);
+    }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
+
 }
