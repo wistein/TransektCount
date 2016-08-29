@@ -25,6 +25,10 @@
   _
   _ email: stein.wm@web.de
   _
+$ 1.3.3
+  % Version 1.3.3
+  _ 29.08.2016
+    * Exportierbare csv-Tabelle verbessert
 $ 1.3.2
   % Version 1.3.2
   _ 04.08.2016

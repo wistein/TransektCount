@@ -341,6 +341,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Meta meta;
         String transNo, inspecName;
         int temp, wind, clouds;
+        int sum = 0, suma = 0;
         String date, start_tm, end_tm;
 
         try
@@ -480,7 +481,22 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                             specNotes              //notes
                         };
                     csvWrite.writeNext(arrStr);
+                    sum = sum + curCSV.getInt(2);
+                    suma = suma + curCSV.getInt(3);
                 }
+
+                // write total sum
+                String arrSum[] =
+                    {
+                        "",
+                        "",
+                        getString(R.string.sum),
+                        Integer.toString(sum),
+                        Integer.toString(suma)
+                    };
+                sum = 0;
+                suma = 0;
+                csvWrite.writeNext(arrSum);
 
                 csvWrite.close();
                 curCSV.close();

@@ -45,6 +45,7 @@
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
+    <string name="sum">Sum:</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>
