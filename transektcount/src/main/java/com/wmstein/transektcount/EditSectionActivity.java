@@ -457,11 +457,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
-        else if (id == R.id.home)
+        if (id == R.id.home)
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
             intent.putExtra("section_id", section_id);

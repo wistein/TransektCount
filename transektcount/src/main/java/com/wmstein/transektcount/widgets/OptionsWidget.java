@@ -12,7 +12,9 @@ import com.wmstein.transektcount.R;
 /**
  * Created by milo on 27/05/2014.
  * Changed by wmstein on 18.02.2016
- * Supplemented with functions for transect externel counter
+ * Edit options for species
+ * used by CountOptionsActivity in conjunction with widget_options.xml
+ * Supplemented with functions for transect external counter
  */
 public class OptionsWidget extends LinearLayout
 {

@@ -142,6 +142,8 @@
     <string name="image_error">Error setting custom image! Please try using the gallery rather than a file manager.</string>
     <string name="pref_note_font">Note font</string>
     <string name="pref_note_font_summ">Select this option to increase the size of note fonts on the counting screen.</string>
+    <string name="pref_left_hand">Lefties</string>
+    <string name="pref_left_hand_summ">Show left-hander counting view.</string>
     <string name="pref_sort_order">Sorting</string>
     <string name="pref_sort_order_summ">Sort order of your section list.</string>
     <string name="pref_sound">Audible alerts</string>

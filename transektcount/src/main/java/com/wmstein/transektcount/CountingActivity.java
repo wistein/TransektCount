@@ -31,11 +31,14 @@ import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountingWidget;
+import com.wmstein.transektcount.widgets.CountingWidgetLH;
 import com.wmstein.transektcount.widgets.NotesWidget;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.wmstein.transektcount.R.id.countingScreenLH;
 
 /**
  * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity,
@@ -55,6 +58,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
+    LinearLayout count_areaLH;
+    LinearLayout notes_areaLH;
     public ArrayList<String> cmpSectionNames;
 
     // Proximity sensor handling for screen on/off
@@ -65,6 +70,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private boolean awakePref;
     private boolean brightPref;
     private boolean fontPref;
+    private boolean handPref;
     private boolean soundPref;
     private boolean buttonSoundPref;
     private boolean hasChanged = false; // Kriterium für S_AT_CREATED
@@ -77,6 +83,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     List<Alert> alerts;
 
     List<CountingWidget> countingWidgets;
+    List<CountingWidgetLH> countingWidgetsLH;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
@@ -86,7 +93,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counting);
 
         Context context = this.getApplicationContext();
 
@@ -106,6 +112,15 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         prefs.registerOnSharedPreferenceChangeListener(this);
         getPrefs();
 
+        if (handPref) // if left-handed counting page
+        {
+            setContentView(R.layout.activity_countinglh);
+        }
+        else
+        {
+            setContentView(R.layout.activity_counting);
+        }
+
         // Set full brightness of screen
         if (brightPref)
         {
@@ -115,11 +130,21 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             getWindow().setAttributes(params);
         }
 
-        ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
-        counting_screen.setBackground(transektCount.getBackground());
 
-        count_area = (LinearLayout) findViewById(R.id.countCountLayout);
-        notes_area = (LinearLayout) findViewById(R.id.countNotesLayout);
+        if (handPref) // if left-handed counting page
+        {
+            ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreenLH);
+            counting_screen.setBackground(transektCount.getBackground());
+            count_areaLH = (LinearLayout) findViewById(R.id.countCountLayoutLH);
+            notes_areaLH = (LinearLayout) findViewById(R.id.countNotesLayoutLH);
+        }
+        else
+        {
+            ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
+            counting_screen.setBackground(transektCount.getBackground());
+            count_area = (LinearLayout) findViewById(R.id.countCountLayout);
+            notes_area = (LinearLayout) findViewById(R.id.countNotesLayout);
+        }
 
         if (awakePref)
         {
@@ -147,6 +172,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         awakePref = prefs.getBoolean("pref_awake", true);
         brightPref = prefs.getBoolean("pref_bright", true);
         fontPref = prefs.getBoolean("pref_note_font", false);
+        handPref = prefs.getBoolean("pref_left_hand", false); // left-handed counting page
         soundPref = prefs.getBoolean("pref_sound", false);
         alertSound = prefs.getString("alert_sound", null);
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
@@ -165,8 +191,16 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
 
         // clear any existing views
-        count_area.removeAllViews();
-        notes_area.removeAllViews();
+        if (handPref) // if left-handed counting page
+        {
+            count_areaLH.removeAllViews();
+            notes_areaLH.removeAllViews();
+        }
+        else
+        {
+            count_area.removeAllViews();
+            notes_area.removeAllViews();
+        }
 
         // setup the data sources
         sectionDataSource.open();
@@ -193,51 +227,103 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             if (!section.notes.isEmpty())
             {
-                NotesWidget section_notes = new NotesWidget(this, null);
-                section_notes.setNotes(section.notes);
-                section_notes.setFont(fontPref);
-                notes_area.addView(section_notes);
+                if (handPref) // if left-handed counting page
+                {
+                    NotesWidget section_notes = new NotesWidget(this, null);
+                    section_notes.setNotes(section.notes);
+                    section_notes.setFont(fontPref);
+                    notes_areaLH.addView(section_notes);
+                }
+                else
+                {
+                    NotesWidget section_notes = new NotesWidget(this, null);
+                    section_notes.setNotes(section.notes);
+                    section_notes.setFont(fontPref);
+                    notes_area.addView(section_notes);
+                }
             }
         }
-
         List<String> extras = new ArrayList<>();
 
         // counts
-        countingWidgets = new ArrayList<>();
+        if (handPref) // if left-handed counting page
+        {
+            countingWidgetsLH = new ArrayList<>();
+        }
+        else
+        {
+            countingWidgets = new ArrayList<>();
+        }
+
         counts = countDataSource.getAllCountsForSection(section.id);
 
         // display all the counts by adding them to countCountLayout
         alerts = new ArrayList<>();
-        for (Count count : counts)
+        if (handPref) // if left-handed counting page
         {
-            CountingWidget widget = new CountingWidget(this, null);
-            widget.setCount(count);
-            countingWidgets.add(widget);
-            count_area.addView(widget);
-
-            // add a section note widget if there are any notes
-            if (isNotBlank(count.notes))
+            for (Count count : counts)
             {
-                NotesWidget count_notes = new NotesWidget(this, null);
-                count_notes.setNotes(count.notes);
-                count_notes.setFont(fontPref);
-                count_area.addView(count_notes);
+                CountingWidgetLH widget = new CountingWidgetLH(this, null);
+                widget.setCount(count);
+                countingWidgetsLH.add(widget);
+                count_areaLH.addView(widget);
+
+                // add a section note widget if there are any notes
+                if (isNotBlank(count.notes))
+                {
+                    NotesWidget count_notes = new NotesWidget(this, null);
+                    count_notes.setNotes(count.notes);
+                    count_notes.setFont(fontPref);
+                    count_areaLH.addView(count_notes);
+                }
+
+                // add all alerts for this section
+                List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
+                for (Alert a : tmpAlerts)
+                {
+                    alerts.add(a);
+                    extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
+                }
             }
-
-            // add all alerts for this section
-            List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
-            for (Alert a : tmpAlerts)
+            if (!extras.isEmpty())
             {
-                alerts.add(a);
-                extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
+                NotesWidget extra_notes = new NotesWidget(this, null);
+                extra_notes.setNotes(join(extras, "\n"));
+                notes_areaLH.addView(extra_notes);
             }
         }
-
-        if (!extras.isEmpty())
+        else
         {
-            NotesWidget extra_notes = new NotesWidget(this, null);
-            extra_notes.setNotes(join(extras, "\n"));
-            notes_area.addView(extra_notes);
+            for (Count count : counts)
+            {
+                CountingWidget widget = new CountingWidget(this, null);
+                widget.setCount(count);
+                countingWidgets.add(widget);
+                count_area.addView(widget);
+
+                // add a section note widget if there are any notes
+                if (isNotBlank(count.notes))
+                {
+                    NotesWidget count_notes = new NotesWidget(this, null);
+                    count_notes.setNotes(count.notes);
+                    count_notes.setFont(fontPref);
+                    count_area.addView(count_notes);
+                }
+
+                // add all alerts for this section
+                List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
+                for (Alert a : tmpAlerts)
+                {
+                    alerts.add(a);
+                    extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
+                }
+            }
+            if (!extras.isEmpty())
+            {
+                NotesWidget extra_notes = new NotesWidget(this, null);
+                extra_notes.setNotes(join(extras, "\n"));
+                notes_area.addView(extra_notes);
+            }
         }
 
         if (awakePref)
@@ -329,6 +415,21 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         hasChanged = true;
     }
 
+    public void countUpLH(View view)
+    {
+        //Log.i(TAG, "View clicked: " + view.toString());
+        //Log.i(TAG, "View tag: " + view.getTag().toString());
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        if (widget != null)
+        {
+            widget.countUpLH();
+            checkAlert(widget.count.id, widget.count.count);
+        }
+        hasChanged = true;
+    }
+
     public void countDown(View view)
     {
         buttonSound();
@@ -337,6 +438,27 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (widget != null)
         {
             widget.countDown();
+            checkAlert(widget.count.id, widget.count.count);
+        }
+
+        if (widget.count.count == 0)
+        {
+            hasChanged = false;
+        }
+        else
+        {
+            hasChanged = true;
+        }
+    }
+
+    public void countDownLH(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        if (widget != null)
+        {
+            widget.countDownLH();
             checkAlert(widget.count.id, widget.count.count);
         }
 
@@ -362,6 +484,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         hasChanged = true;
     }
 
+    public void countUpaLH(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        if (widget != null)
+        {
+            widget.countUpaLH();
+        }
+        hasChanged = true;
+    }
+
     public void countDowna(View view)
     {
         buttonSound();
@@ -370,6 +504,26 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (widget != null)
         {
             widget.countDowna();
+        }
+
+        if (widget.count.counta == 0)
+        {
+            hasChanged = false;
+        }
+        else
+        {
+            hasChanged = true;
+        }
+    }
+
+    public void countDownaLH(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        if (widget != null)
+        {
+            widget.countDownaLH();
         }
 
         if (widget.count.counta == 0)
@@ -405,6 +559,22 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public CountingWidget getCountFromId(int id)
     {
         for (CountingWidget widget : countingWidgets)
+        {
+            if (widget.count.id == id)
+            {
+                return widget;
+            }
+        }
+        return null;
+    }
+
+    /*
+     * This is the lookup to get a counting widget (with references to the
+     * associated count) from the list of widgets.
+     */
+    public CountingWidgetLH getCountFromIdLH(int id)
+    {
+        for (CountingWidgetLH widget : countingWidgetsLH)
         {
             if (widget.count.id == id)
             {
@@ -511,18 +681,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            // check for API-Level >= 21
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            {
-                disableProximitySensor(true);
-            }
-
-            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            return true;
-        }
-        else if (id == R.id.menuEditSection)
+        if (id == R.id.menuEditSection)
         {
             // check for API-Level >= 21
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
@@ -538,19 +697,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         else if (id == R.id.menuClone)
         {
             cloneSection();
-            return true;
-        }
-        else if (id == R.id.menuSaveExit)
-        {
-            saveData();
-
-            // check for API-Level >= 21
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            {
-                disableProximitySensor(true);
-            }
-
-            super.finish();
             return true;
         }
         else if (id == R.id.action_share)
@@ -570,9 +716,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
-        counting_screen.setBackground(null);
-        counting_screen.setBackground(transektCount.setBackground());
         getPrefs();
     }
 
@@ -698,7 +841,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     /**
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * 
+     * <p/>
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true
@@ -727,7 +870,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * 
+     * <p/>
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false

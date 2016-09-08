@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- used by SettingsActivity.java -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/prefs_appearance">
@@ -23,6 +24,11 @@
             android:key="pref_note_font"
             android:title="@string/pref_note_font"
             android:summary="@string/pref_note_font_summ"
+            android:defaultValue="false"/>
+        <CheckBoxPreference
+            android:key="pref_left_hand"
+            android:title="@string/pref_left_hand"
+            android:summary="@string/pref_left_hand_summ"
             android:defaultValue="false"/>
     </PreferenceCategory>
 
