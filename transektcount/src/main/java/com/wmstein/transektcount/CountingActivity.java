@@ -41,8 +41,8 @@ import java.util.List;
 import static com.wmstein.transektcount.R.id.countingScreenLH;
 
 /**
- * CountingActivity does the actual counting with 2 counters, checks for alerts, calls SettingsActivity,
- * calls CountOptionsActivity, calls EditSectionActivity, clones a section, switches screen off when pocketed
+ * CountingActivity does the actual counting with 2 counters, checks for alerts, calls CountOptionsActivity, 
+ * calls EditSectionActivity, clones a section, switches screen off when pocketed
  * and lets you send a message.
  * Based on milo's CountingActivity from 05/05/2014.
  * Modified by wmstein on 18.02.2016
@@ -569,7 +569,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     /*
-     * This is the lookup to get a counting widget (with references to the
+     * This is the lookup to get a left-handed counting widget (with references to the
      * associated count) from the list of widgets.
      */
     public CountingWidgetLH getCountFromIdLH(int id)
