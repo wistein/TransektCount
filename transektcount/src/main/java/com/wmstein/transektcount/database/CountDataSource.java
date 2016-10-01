@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by milo on 05/05/2014.
+ * Based on CountDataSource.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
 public class CountDataSource

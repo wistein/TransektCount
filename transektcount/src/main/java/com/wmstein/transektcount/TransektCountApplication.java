@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.io.File;
 
 /**
- * Created by milo on 14/05/2014.
+ * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Changed by wmstein on 18.02.2016
  */
 public class TransektCountApplication extends Application
@@ -78,7 +78,7 @@ public class TransektCountApplication extends Application
 
         if (backgroundPref.equals("none"))
         {
-            // boring black screen
+            // black screen
             bMap = null;
             bMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             bMap.eraseColor(Color.BLACK);
@@ -89,9 +89,9 @@ public class TransektCountApplication extends Application
             {
                 if (new File(pictPref).isFile())
                 {
-          /*
-           * This should hopefully stop crashes caused by large image files.
-           */
+                   /*
+                    * This should hopefully stop crashes caused by large image files.
+                    */
                     try
                     {
                         BitmapFactory.Options options = new BitmapFactory.Options();

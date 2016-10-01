@@ -21,7 +21,7 @@ import java.util.List;
 import static java.lang.Long.toHexString;
 
 /**
- * Created by milo on 05/05/2014.
+ * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
 
@@ -120,7 +120,7 @@ public class SectionListAdapter extends ArrayAdapter<Section>
         {
             Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-            // pause for 100 msec to show toast
+            // pause for 100 msec to show toast immediately
             mHandler.postDelayed(new Runnable()
             {
                 public void run()

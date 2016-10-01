@@ -12,8 +12,9 @@ import com.wmstein.transektcount.R;
 import java.io.Serializable;
 
 /**
- * Created by milo on 02/06/2014.
  * This is the widget for creating an alert in the CountOptionsActivity.
+ * Created by milo on 02/06/2014.
+ * Modified by wmstein on 18.02.2016
  */
 public class AlertCreateWidget extends LinearLayout implements Serializable
 {

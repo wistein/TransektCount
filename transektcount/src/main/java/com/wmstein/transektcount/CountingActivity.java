@@ -44,7 +44,7 @@ import static com.wmstein.transektcount.R.id.countingScreenLH;
  * CountingActivity does the actual counting with 2 counters, checks for alerts, calls CountOptionsActivity, 
  * calls EditSectionActivity, clones a section, switches screen off when pocketed
  * and lets you send a message.
- * Based on milo's CountingActivity from 05/05/2014.
+ * Based on milo's CountingActivity.java from 05/05/2014.
  * Modified by wmstein on 18.02.2016
  */
 
@@ -58,8 +58,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     int section_id;
     LinearLayout count_area;
     LinearLayout notes_area;
-    LinearLayout count_areaLH;
-    LinearLayout notes_areaLH;
+    LinearLayout count_areaLH; // for lefthand counting screen
+    LinearLayout notes_areaLH; // for lefthand counting screen
     public ArrayList<String> cmpSectionNames;
 
     // Proximity sensor handling for screen on/off
@@ -70,12 +70,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private boolean awakePref;
     private boolean brightPref;
     private boolean fontPref;
-    private boolean handPref;
+    private boolean handPref; // true for lefthand mode of counting screen
     private boolean soundPref;
     private boolean buttonSoundPref;
-    private boolean hasChanged = false; // Kriterium für S_AT_CREATED
     private String alertSound;
     private String buttonAlertSound;
+
+    private boolean hasChanged = false; // Criteria for storing S_AT_CREATED
 
     // the actual data
     Section section;
@@ -183,7 +184,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     protected void onResume()
     {
         super.onResume();
-
+        
+        // build the counting screen
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         {
@@ -365,7 +367,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     /**************************************************
-     * Zählerstände sichern und Zähldatum nach S_CREATED_AT schreiben
+     * save counters to C_COUNT and counting date to S_CREATED_AT
      */
     private void saveData()
     {

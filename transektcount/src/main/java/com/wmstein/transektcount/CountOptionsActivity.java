@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by milo on 05/05/2014.
+ * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  * Edit options for species
  * uses optionsWidget.java and widget_options.xml
@@ -119,6 +119,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     {
         super.onResume();
 
+        // build the count options screen
         // clear any existing views
         static_widget_area.removeAllViews();
         dynamic_widget_area.removeAllViews();

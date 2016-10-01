@@ -90,6 +90,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        // build Show Results screen
         spec_area.removeAllViews();
         loadData();
     }

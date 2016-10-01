@@ -95,7 +95,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
-        //clear existing view
+        // build the Edit Meta Data screen
+        // clear existing view
         head_area.removeAllViews();
 
         //setup data sources
@@ -104,7 +105,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         metaDataSource = new MetaDataSource(this);
         metaDataSource.open();
 
-        //load head and meta data
+        // load head and meta data
         head = headDataSource.getHead();
         meta = metaDataSource.getMeta();
 
@@ -172,7 +173,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         eTime.setText(getcurTime());
     }
 
-    // Date for date
+    // formatted date
     // by wmstein
     public String getcurDate()
     {

@@ -16,8 +16,8 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import java.util.List;
 
 /*
- * Created by milo on 05/05/2014.
- * Changed by wmstein on 08.04.2016
+ * Based on ListProjectActivity.java by milo on 05/05/2014.
+ * Modified by wmstein on 08.04.2016
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -81,7 +81,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.close();
     }
 
-    // modified for ListView
+    // modified for ListView lv by wmstein
     public void showData()
     {
         sections = sectionDataSource.getAllSections(prefs);

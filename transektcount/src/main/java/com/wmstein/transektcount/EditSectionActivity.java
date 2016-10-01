@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by milo on 05/05/2014.
+ * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
 
@@ -148,6 +148,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     {
         super.onResume();
 
+        // build the Edit Section screen
         // clear any existing views
         counts_area.removeAllViews();
         notes_area.removeAllViews();
@@ -219,7 +220,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public void getCountNames()
     {
     /*
-     * My plan here is that both the names and ids arrays contain the entries in the same
+     * The plan here is that both the names and ids arrays contain the entries in the same
      * order, so I can link a count name to its id by knowing the index.
      */
         countNames.clear();
@@ -395,7 +396,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     }
 
     /*
-     * These are required for purging counts (with associated alerts)
+     * purging counts (with associated alerts)
      */
     public void deleteCount(View view)
     {

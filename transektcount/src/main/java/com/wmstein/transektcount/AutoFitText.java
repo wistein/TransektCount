@@ -29,7 +29,7 @@ import android.widget.TextView;
  *         createDate: 18.04.2013
  *         <p>
  *         Modified by wmstein on 18.03.2016
- *         Bug fixed (height of single character) and context comments changed
+ *         Bug fixed (height of single character), cleaned of unused code and context comments changed
  */
 @SuppressWarnings("unused")
 public class AutoFitText extends TextView

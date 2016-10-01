@@ -17,8 +17,7 @@ import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
 /**
- * Created by milo on 25/05/2014.
- * Changed by wmstein on 06.09.2016
+ * Created by wmstein on 06.09.2016
  */
 public class CountingWidgetLH extends RelativeLayout
 {

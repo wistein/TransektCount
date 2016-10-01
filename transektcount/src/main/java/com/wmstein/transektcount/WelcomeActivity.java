@@ -47,7 +47,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * WelcomeActivity provides the starting page with menu and buttons for import/export/help/info methods
  * and EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
  * <p/>
- * Based on BeeCount (GitHub) created by milo on 05/05/2014.
+ * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Modifications by wmstein on 18.02.2016
  */
 
