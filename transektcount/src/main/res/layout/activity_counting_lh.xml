@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
-    activity_countinglh.xml is used by CountingActivity.java
+    activity_counting_lh.xml is used by CountingActivity.java
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -38,5 +38,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    
 </ScrollView>
 

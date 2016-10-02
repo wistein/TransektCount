@@ -115,7 +115,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         if (handPref) // if left-handed counting page
         {
-            setContentView(R.layout.activity_countinglh);
+            setContentView(R.layout.activity_counting_lh);
         }
         else
         {
