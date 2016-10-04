@@ -9,13 +9,13 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="5dp"
+              android:layout_marginStart="1dp"
               android:layout_marginTop="5dp"
-              android:layout_marginRight="5dp"
+              android:layout_marginEnd="1dp"
               android:paddingStart="5dp"
               android:paddingEnd="5dp"
               android:paddingBottom="5dp"
-              android:background="@drawable/rounded_corner">
+              android:background="@drawable/corner">
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:paddingTop="0dp">
+            android:paddingTop="0dp"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem1"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -90,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem2"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -123,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem3"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -166,7 +167,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLDate2"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -201,7 +202,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLItem4"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -235,7 +236,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLItem5"
-                    android:background="@drawable/count_background"
+                    android:background="@drawable/list_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="5dp"
                     android:paddingTop="5dp"
@@ -245,7 +246,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:layout_height="15dp"/>
 
     </LinearLayout>
 
