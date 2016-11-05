@@ -16,11 +16,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-/**
- * Created by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+/**********************************************************
+ * Set the Settings parameters for TransektCount
+ * Based on SettingsActivity created by milo on 05/05/2014.
+ * Adapted for TransektCount by wmstein on 18.02.2016
  */
-
 public class SettingsActivity extends PreferenceActivity
 {
     private static String TAG = "transektcountPreferenceActivity";
@@ -180,7 +180,6 @@ public class SettingsActivity extends PreferenceActivity
                 }
             }
         }
-
 
         super.onActivityResult(requestCode, resultCode, data);
     }

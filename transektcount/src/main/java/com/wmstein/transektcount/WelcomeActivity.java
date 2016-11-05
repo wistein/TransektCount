@@ -22,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
+import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -43,19 +44,20 @@ import java.util.Date;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
 
-/**
- * WelcomeActivity provides the starting page with menu and buttons for import/export/help/info methods
- * and EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
+/**********************************************************************
+ * WelcomeActivity provides the starting page with menu and buttons for 
+ * import/export/help/info methods and
+ * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
  * <p/>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
- * Modifications by wmstein on 18.02.2016
+ * Changes and additions for TransektCount by wmstein on 18.02.2016
  */
-
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "TransektCountWelcomeActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+
     ChangeLog cl;
     ViewHelp vh;
     private static final int FILE_CHOOSER = 11;
@@ -70,11 +72,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     String state = Environment.getExternalStorageState();
     AlertDialog alert;
 
+    // preferences
+    private String sortPref;
+
     // following stuff for purging export db added by wmstein
     private SQLiteDatabase database;
     private DbHelper dbHandler;
 
     SectionDataSource sectionDataSource;
+    CountDataSource countDataSource;
     HeadDataSource headDataSource;
     MetaDataSource metaDataSource;
 
@@ -87,6 +93,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+        sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
 
         Head head;
         headDataSource = new HeadDataSource(this);
@@ -136,14 +143,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         return true;
     }
 
+    // Handle action bar item clicks here. The action bar will automatically handle clicks on 
+    // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
+    // Supplemented with exportCSVMenu, exportBasicMenu, importBasicMenu, loadFileMenu, resetDBMenu,
+    // editMeta, viewSpecies and viewHelp by wmstein
     @Override
-    // supplemented with exportBasicMenu, inportBasicMenu, viewSpecies and viewHelp by wmstein
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
         int id = item.getItemId();
         if (id == R.id.action_settings)
         {
@@ -248,6 +254,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
+        sortPref = prefs.getString("pref_sort_sp", "none");
+        
     }
 
     public void onStop()
@@ -256,7 +264,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     /**************************************************************************
-     * The seven activities below are for exporting and importing the database.
+     * The seven functions below are for exporting and importing the database.
      * They've been put here because no database should be open at this point.
      ***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
@@ -319,24 +327,20 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
     }
 
-    /***********************************************************************/
+    /**********************************************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.csv
     // supplemented with date and time in filename by wmstein
     // and purged export in csv-format
     @SuppressLint("SdCardPath")
     public void exportDb2CSV()
     {
-        boolean mExternalStorageAvailable;
-        boolean mExternalStorageWriteable;
-        String state = Environment.getExternalStorageState();
-        tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
-        String destPath = "/data/data/com.wmstein.transektcount/files";
 
         Section section;
         String sectName;
-        String sectNotes, specNotes;
+        String sectNotes;
         int sect_id;
+
         Head head;
         Meta meta;
         String transNo, inspecName;
@@ -344,15 +348,20 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int sum = 0, suma = 0;
         String date, start_tm, end_tm;
 
-        try
-        {
-            destPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            Log.e(TAG, "destPath error: " + e.toString());
-        }
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        infile = new File(destPath + "/transektcount.db");
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
+
+        // open Head and Meta table for head and meta info
+        headDataSource = new HeadDataSource(this);
+        headDataSource.open();
+        metaDataSource = new MetaDataSource(this);
+        metaDataSource.open();
+
+        // open Section table for section name and notes
+        sectionDataSource = new SectionDataSource(this);
+        sectionDataSource.open();
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -379,34 +388,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else
         {
-            // export the count table to csv
+            // export purged db as csv
             try
             {
-                // save current db as backup db tmpfile
-                copy(infile, tmpfile);
-
-                // purge transektcount.db count table from empty rows 
-                dbHandler = new DbHelper(this);
-                database = dbHandler.getWritableDatabase();
-
-                String sql = "DELETE FROM " + DbHelper.COUNT_TABLE + " WHERE (" + DbHelper.C_COUNT + " = 0 AND " + DbHelper.C_COUNTA + " = 0);";
-                database.execSQL(sql);
-
-                // open Head and Meta table for head and meta info
-                headDataSource = new HeadDataSource(this);
-                headDataSource.open();
-                metaDataSource = new MetaDataSource(this);
-                metaDataSource.open();
-
-                // open Section table for section name and notes
-                sectionDataSource = new SectionDataSource(this);
-                sectionDataSource.open();
-
-                // export purged db as csv
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
-
-                Cursor curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                    + " order by " + DbHelper.C_NAME, null);
 
                 // set header according to table representation in MS Excel
                 String arrCol[] =
@@ -420,7 +405,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         getString(R.string.starttm),
                         getString(R.string.endtm)
                     };
-                csvWrite.writeNext(arrCol);
+                csvWrite.writeNext(arrCol); // write line to csv-file
 
                 head = headDataSource.getHead();
                 transNo = head.transect_no;
@@ -450,40 +435,64 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrEmpt[] = {};
                 csvWrite.writeNext(arrEmpt);
 
-                // Section, Section Notes, Species, Internal, External, Notes
+                // Section, Section Notes, Species, Codes, Internal, External, Notes
                 String arrCol1[] =
                     {
                         getString(R.string.col1),
                         getString(R.string.col2),
                         getString(R.string.col3),
+                        getString(R.string.col3a),
                         getString(R.string.col4),
                         getString(R.string.col5),
                         getString(R.string.col6)
                     };
                 csvWrite.writeNext(arrCol1);
 
-                // build the table array
-                while (curCSV.moveToNext())
+                // build the species table array
+                Cursor curCSV;
+                switch (sortPref) // sort mode species list
+                {
+                case "names_alpha":
+                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
+                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_NAME, null);
+                    break;
+                case "codes":
+                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
+                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_CODE, null);
+                    break;
+                default:
+                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
+                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_NAME, null);
+                    break;
+                }
+
+                curCSV.moveToFirst();
+                while (!curCSV.isAfterLast())
                 {
                     sect_id = curCSV.getInt(1);
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
                     sectNotes = section.notes;
-                    specNotes = curCSV.getString(5);
 
                     String arrStr[] =
                         {
                             sectName,              //section name
                             sectNotes,             //section notes
                             curCSV.getString(4),   //species name
+                            curCSV.getString(5),   //species code
                             curCSV.getString(2),   //count
                             curCSV.getString(3),   //counta
-                            specNotes              //notes
+                            curCSV.getString(6)    //notes
                         };
                     csvWrite.writeNext(arrStr);
                     sum = sum + curCSV.getInt(2);
                     suma = suma + curCSV.getInt(3);
+                    curCSV.moveToNext();
                 }
+                curCSV.close();
 
                 // write total sum
                 String arrSum[] =
@@ -499,18 +508,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrSum);
 
                 csvWrite.close();
-                curCSV.close();
                 dbHandler.close();
+                headDataSource.close();
+                metaDataSource.close();
+                sectionDataSource.close();
+                countDataSource.close();
 
-                // restore current db from tmpfile
-                copy(tmpfile, infile);
-
-                // delete backup db
-                boolean d0 = tmpfile.delete();
-                if (d0)
-                {
-                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
             } catch (IOException e)
             {
                 Log.e(TAG, "Failed to export csv file");
@@ -519,7 +523,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
     }
 
-    /**************************************************************************************************/
+    /**********************************************************************************************/
     @SuppressLint("SdCardPath")
     // modified by wmstein
     public void exportBasisDb()
@@ -595,7 +599,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
     }
 
-    /**************************************************************************************************/
+    /**********************************************************************************************/
     // Clear all relevant DB values, reset to basic DB 
     // created by wmstein
     public void resetToBasisDb()
@@ -652,12 +656,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         database.execSQL(sql);
 
         dbHandler.close();
+        Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
     }
 
-    /**************************************************************************************************/
+    /**********************************************************************************************/
     @SuppressLint("SdCardPath")
     // Choose a file to load and set it to transektcount.db
-    // based on android-file-chooser from Google Code Archive
+    // based on android-file-chooser from Google Code Archive.
     // Created by wmstein
     public void loadFile()
     {
@@ -759,10 +764,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
     }
 
-    /**************************************************************************************************/
+    /**********************************************************************************************/
     @SuppressLint("SdCardPath")
-    // Import of the basic DB
-    // modified by wmstein
+    // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {
         //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
@@ -786,10 +790,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
         // a confirm dialogue before anything else takes place
         // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
-        // could make the dialog central in the popup - to do later
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.confirmBasisImport).setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
+        builder.setMessage(R.string.confirmBasisImport)
+            .setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
@@ -861,4 +865,5 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         in.close();
         out.close();
     }
+
 }

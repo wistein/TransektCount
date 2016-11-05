@@ -11,10 +11,10 @@ import com.wmstein.transektcount.R;
 
 import java.io.Serializable;
 
-/**
+/**************************************************************************
  * This is the widget for creating an alert in the CountOptionsActivity.
  * Created by milo on 02/06/2014.
- * Modified by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class AlertCreateWidget extends LinearLayout implements Serializable
 {
@@ -78,6 +78,9 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
     }
 
     /**
+     * Following function is taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
+     *
      * Checks if a CharSequence is empty ("") or null.
      *
      * isEmpty(null)      = true

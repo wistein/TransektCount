@@ -22,16 +22,16 @@ import com.wmstein.transektcount.widgets.ListSpeciesWidget;
 
 import java.util.List;
 
-/**
+/****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 15.03.2016
  */
-
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "transektcountListSpeciesActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+    
     LinearLayout spec_area;
 
     Head head;
@@ -42,6 +42,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
     // preferences
     private boolean awakePref;
+    private String sortPref;
 
     // the actual data
     private CountDataSource countDataSource;
@@ -56,7 +57,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listspecies);
+        setContentView(R.layout.activity_list_species);
 
         countDataSource = new CountDataSource(this);
         sectionDataSource = new SectionDataSource(this);
@@ -67,6 +68,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         awakePref = prefs.getBoolean("pref_awake", true);
+        sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
 
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
@@ -128,9 +130,9 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         etw.setWidgetLTime2(getString(R.string.endtm));
         etw.setWidgetLItem5(meta.end_tm);
         spec_area.addView(etw);
-
-        //List of species
-        List<Count> specs;
+        
+        List<Section> sort_sections; // List of sorted sections
+        List<Count> specs; // List of species
 
         int sect_id;
         // preset for unused id of section as starting criteria in if-clause of for-loop
@@ -142,30 +144,44 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.open();
 
         // load the data
-        specs = countDataSource.getAllSpecies();
+        sort_sections = sectionDataSource.getAllSections(prefs);
 
-        // display all the counts by adding them to listSpecies layout
-        for (Count spec : specs)
+        // display all the sorted counts by adding them to listSpecies layout
+        for (Section sort_sect : sort_sections)
         {
-            // set section ID from count table and prepare to get section name from section table
-            sect_id = spec.section_id;
-            //Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
-            section = sectionDataSource.getSection(sect_id);
+            sect_id = sort_sect.id;
 
-            ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
-            widget.setCount(spec, section);
-            spec_count = widget.getSpec_count(spec);
-            spec_counta = widget.getSpec_counta(spec);
-
-            // fill widget only for counted species
-            if (spec_counta > 0 || spec_count > 0)
+            switch (sortPref)
             {
+            case "names_alpha":
+                specs = countDataSource.getAllSpecsForSectionSrtName(sect_id);
+                break;
+            case "codes":
+                specs = countDataSource.getAllSpecsForSectionSrtCode(sect_id);
+                break;
+            default:
+                specs = countDataSource.getAllSpecsForSection(sect_id);
+                break;
+            }
+            
+            for (Count spec : specs)
+            {
+                // set section ID from count table and prepare to get section name from section table
+                //sect_id = spec.section_id;
+                //Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
+                section = sectionDataSource.getSection(sect_id);
+
+                ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
+                widget.setCount(spec, section);
+                spec_count = widget.getSpec_count(spec);
+                spec_counta = widget.getSpec_counta(spec);
+
+                // Show 2nd and ff. section names and remarks dark grey
                 if (sect_id == sect_idOld)
                 {
-                    widget.setCount1(spec, section);
+                    widget.setCount1();
                 }
 
-//                listSpecWidgets.add(widget);
                 spec_area.addView(widget);
                 sect_idOld = sect_id;
             }
@@ -189,7 +205,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         }
     }
 
-
     /***************/
     public void saveAndExit(View view)
     {
@@ -202,6 +217,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);
+        sortPref = prefs.getString("pref_sort_sp", "none");
     }
 
 }

@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-/**
+/****************************************************
  * Created by milo on 01/06/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class AddAlertWidget extends LinearLayout
 {

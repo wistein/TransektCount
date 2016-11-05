@@ -1,10 +1,9 @@
 package com.wmstein.transektcount.database;
 
-/**
+/********************************************
  * Based on Count.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
-
 public class Count
 {
     public int id;
@@ -12,6 +11,7 @@ public class Count
     public int count;
     public int counta;
     public String name;
+    public String code;
     public String notes;
 
     public int increase()
@@ -79,6 +79,13 @@ public class Count
     public void setC_NAME(String C_name)
     {
         this.name = C_name;
+    }
+
+    //setting C_CODE
+    // added by wmstein
+    public void setC_CODE(String C_code)
+    {
+        this.code = C_code;
     }
 
     //setting C_NOTES

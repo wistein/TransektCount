@@ -37,25 +37,27 @@ $ 9
   !
   ! Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt werden. Dazu werden zunächst die Meta-Daten zum Transekt eingegeben. 
   ! Dazu auf „Begehung vorbereiten“ tippen und zumindest Transekt-Nr. und Kartierername eingeben. Mit Tippen aufs Speichersymbol abschließen. Die Meta-Daten können jederzeit weiter bearbeitet werden.
-  ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt. Aufruf mittels (+)-Button oder Funktion "Neuer Abschnitt" aus dem Menü der Seite "Liste Transektabschn."
-  ! Die Abschnittsliste erhält zunächst eine Bezeichnung (z.B.: Ab 01) und für jede erwartete Art einen Eintrag, z.B.:
+  ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt. Aufruf mittels (+)-Button bzw. Funktion "Neuer Abschnitt" aus dem Menü der Seite "Liste Transektabschn."
+  ! Die 1. Abschnittsliste erhält hier eine Bezeichnung (z.B.: Ab 01) und wird gespeichert.
+  ! Der in der Liste der Transektabschnitte nun enthaltene Eintrag wird aufgerufen und mittels Edit-Funktion mit den Namen und Codes (5-stellig) für jede erwartete Art versehen, z.B.:
   _ 
   ! Ab 01
-  ! --------------------
-  ! P. napi
-  ! P. rapae
-  ! P. na./ra.-Kompl.
+  ! ---------------------------------------------
+  ! ...
+  ! Pieris napi ................ 07000
+  ! Pieris rapae .............. 06998
+  ! Pieris na./ra.-Kompl.	07000*
   ! ...
   _ 
-  ! Die Liste kann nachträglich ergänzt oder geändert werden.
-  ! Mit "Speichern" wird die Liste übernommen.
+  ! Die Codes dienen als Sortierkriterium für die Liste. Das *-Symbol kennzeichnet eine Gruppe. Mit "Speichern" wird die Liste in die Datenbank übernommen.
+  ! Die Liste kann nachträglich mittels Edit-Funktion der zugehörigen Zählerseite ergänzt oder geändert werden.
   _ 
   ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnitts-Artenliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
   ! (z.B.: Ab 02, Ab 03,...).
   _ 
   ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig und sollte nun als leere Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
-  ! Hierdurch wird eine Kopie der leeren Datenbank als "Basis-Datenbank" (transektcount0.db) im Home-Verzeichnis /sdcard (oder /sdcard0, bzw. /storage/emulated/0, ist je nach Smartphone-Modell unterschiedlich) abgelegt.
+  ! Hierdurch wird eine Kopie der leeren Datenbank als "Basis-Datenbank" (transektcount0.db) im Home-Verzeichnis /sdcard (oder /sdcard0, bzw. /storage/emulated/0, ist je nach Smartphone-Modell und Android-Version unterschiedlich) abgelegt.
   ! Die Basis-DB enthält keine begehungs-spezifischen Daten und dient als leere Vorlage für zukünftige Begehungen. Die Basis-DB kann auch später, z.B. nach Änderungen an Listen, erneut exportiert werden (alle begehungsspezifischen Daten werden dabei ignoriert).  
   
 $ 8
@@ -84,10 +86,10 @@ $ 8
 $ 7
   % 4. Weitere Funktionen
   !
-  ! Die Seite „Einstellungen“ wird von den einigen App-Seiten aus erreicht. Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds, Alarme oder Rechts-/Linkshänder-Darstellung der Zählerseite. 
-  ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
+  ! Das Menü auf der Eingangsseite bietet Einstellungs-, Reset-, Import-, Export-, Info- und Hilfefunktionen. 
   _ 
-  ! Das Menü auf der Eingangsseite bietet Reset-, Import-, Export-, Hilfe-, Info- und die Einstellungsfunktionen. 
+  ! Die Seite „Einstellungen“ wird von den einigen App-Seiten aus erreicht. Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds, Alarme, Sortierfolge der Listen oder Rechts-/Linkshänder-Darstellung der Zählerseite. 
+  ! Die Auswahl eines eigenen Hintergrundbildes klappt dabei nur mittels Galerie-App, erreichbar über das linke Seitenmenü der Hintergrundbild-Option (ggf. wischen vom linken Rand).
   _ 
   ! Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Daten“ die begehungsspezifischen Metadaten und alle Zähldaten gelöscht werden. Alternativ kann die angelegte Basis-Datenbank "/sdcard/transektcount0.db" importiert werden.
   _ 
@@ -98,7 +100,7 @@ $ 7
   ! Der Import einer beliebigen, zuvor exportierten TransektCount-DB ist sinnvoll, wenn mehrere Transekte begangen werden. Dazu können Transekt-bezogene Basis-DBs angelegt und jeweils unter Zuhilfenahme eines File_Managers umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw. (Der Dateiname muss immer mit „transektcount“ beginnen). Die Speicherung (Export) erzeugt immer Dateinamen mit der folgenden Konvention.
   _ 
   ! Der Export der aktuellen Datenbank (Export DB) schreibt eine Kopie der DB nach „/sdcard/transektcount_JJJJ-MM-TT_hhmmss.db". 
-  ! Die Funktion „Export Daten -> CSV-Datei“ scheibt die Zählergebnisse in eine MS Excel-kompatible Datei nach „/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv".
+  ! Die Funktion „Export Daten -> CSV-Datei“ scheibt die Zählergebnisse in eine aufbereitete MS Excel-kompatible Datei nach „/sdcard/transektcount_JJJJ-MM-TT_hhmmss.csv".
   _ 
   ! Die E-Mail-Adresse des Autors und die Historie der App-Entwicklung nebst Lizenzhinweis ist unter "App-Info" abrufbar.
   _ 
@@ -110,7 +112,12 @@ $ 7
   ! Unter Android 5.0.1 oder neuer wird in der Zähler-Ansicht die Anzeige mit Hilfe des Näherungssensors temporär abgeschaltet, wenn das Handy eingesteckt wird. Dadurch werden Fehleingaben vermieden und die App ist schneller wieder bereit. 
   _ 
   ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"- bzw. -.csv-Dateien auf einen PC übertragen.
-  ! Dort kann mit Hilfe des kostenlosen Tools "SqliteBrowser" (sqlitebrowser.org) die .db-Datei bearbeitet bzw. die .csv-Datei in Excel als Text-Datei (Unicode UTF-8) importiert und bearbeitet werden.
+  ! Dort kann mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (sqlitebrowser.org) die .db-Datei bearbeitet werden.
+  ! Die .csv-Datei kann für die weitere Bearbeitung als Textdatei in Excel importiert werden. Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze auf
+  ! - Komma als Trennzeichen,
+  ! - Anführungszeichen zur Texterkennung und
+  ! - Dateiursprung im Format "Unicode UTF-8"
+  ! zu achten.
   !
   
 $ END_OF_VIEW_HELP

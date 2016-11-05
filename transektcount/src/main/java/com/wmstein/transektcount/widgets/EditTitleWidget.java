@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
+ */
+
 package com.wmstein.transektcount.widgets;
 
 import android.content.Context;
@@ -9,9 +13,10 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-/**
- * Created by milo on 03/06/2014.
- * Changed by wmstein on 18.02.2016
+/*******************************************************
+ * Used by EditSectionActivity and widget_edit_title.xml
+ * Created by by milo on 05/05/2014.
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class EditTitleWidget extends LinearLayout
 {
@@ -23,8 +28,8 @@ public class EditTitleWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_title, this, true);
-        widget_title = (TextView) findViewById(R.id.widgetTitle);
-        section_name = (EditText) findViewById(R.id.sectionName);
+        widget_title = (TextView) findViewById(R.id.widgeteditTitle);
+        section_name = (EditText) findViewById(R.id.editsectionName);
     }
 
     public void setWidgetTitle(String title)

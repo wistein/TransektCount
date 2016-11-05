@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_edit_section is used by EditSectionActivity.java -->
+<!-- activity_edit_section is used by EditSectionActivity.java in conjunction with 
+    widget_edit_title.xml, widget_edit_notes.xml and widget_edit_count.xml -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -57,6 +58,8 @@
                 android:maxLines="1">
             </Button>
         </LinearLayout>
+        
     </LinearLayout>
+    
 </ScrollView>
 

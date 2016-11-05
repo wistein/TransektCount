@@ -1,6 +1,6 @@
 package com.wmstein.transektcount.database;
 
-/*
+/***********************************
  * Created by wmstein on 31.03.2016.
  */
 public class Meta

@@ -11,47 +11,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.wmstein.transektcount.database.Count;
-import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/*********************
- * Create a new transect section list (NewCount) with name
- * Based on NewProjectActivity.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+/*********************************************************
+ * Create a new empty transect section list (NewCount)
+ * uses activity_new_section
+ * NewSectionActivity is called from ListSectionActivity.
+ * Based on NewProjectActivity.java by milo on 05/05/2014,
+ * changed by wmstein on 18.02.2016
  */
-
-/**********************************************************************************************************************/
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "TransektCountNewSectionActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
 
+    private boolean dupPref;
     private Bitmap bMap;
     private BitmapDrawable bg;
 
-    int newBox;
-    private boolean dupPref;
+    Section section;
     ViewGroup layout;
-    private ArrayList<NewCount> myTexts;
-    private ArrayList<String> countNames;
     EditText newsectName;
-    SectionDataSource sectionDataSource;
-    CountDataSource countDataSource;
+    private SectionDataSource sectionDataSource;
+    List<Section> sections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_new_section);
 
         transektCount = (TransektCountApplication) getApplication();
@@ -59,85 +56,47 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         prefs.registerOnSharedPreferenceChangeListener(this);
         dupPref = prefs.getBoolean("pref_duplicate", true);
 
-        LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
+        LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen); //in activity_new_section.xml
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
-        //baseLayout.setBackground(transektCount.getBackground());
 
-        // data access using CrowTrack method
         sectionDataSource = new SectionDataSource(this);
-        countDataSource = new CountDataSource(this);
 
-        // setup from previous version
-        newBox = 1;
-        layout = (ViewGroup) findViewById(R.id.newCountLayout);
-        myTexts = new ArrayList<>();
-        newsectName = (EditText) findViewById(R.id.newsectName);
+        newsectName = (EditText) findViewById(R.id.newsectName); //in activity_new_section.xml
         newsectName.setTextColor(Color.WHITE);
         newsectName.setHintTextColor(Color.argb(255, 170, 170, 170));
-        countNames = new ArrayList<>();
-
-        if (savedInstanceState != null)
-        {
-            if (savedInstanceState.getSerializable("savedTexts") != null)
-            {
-                myTexts = (ArrayList<NewCount>) savedInstanceState.getSerializable("savedTexts");
-                for (NewCount c : myTexts)
-                {
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(5, 5, 5, 5);
-                    c.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-                    c.setHint(this.getString(R.string.boxFill) + " " + newBox);
-                    c.setBackgroundResource(R.drawable.rounded_corner);
-                    c.setPadding(5, 5, 5, 5);
-                    c.setTextSize(18);
-                    c.setTextColor(Color.WHITE);
-                    c.setHintTextColor(Color.argb(255, 170, 170, 170));
-                    layout.addView(c, params);
-                    newBox++;
-                }
-            }
-        }
     }
 
-    // the required pause and resume stuff
     @Override
     protected void onResume()
     {
-        sectionDataSource.open();
-        countDataSource.open();
         super.onResume();
+
+        sectionDataSource.open();
+        // To show the keyboard
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-    /*
-     * Before these widgets can be serialised they must be removed from their parent, or else
-     * trying to add them to a new parent causes a crash because they've already got one.
-     */
         super.onSaveInstanceState(outState);
-        for (NewCount c : myTexts)
-        {
-            ((ViewGroup) c.getParent()).removeView(c);
-        }
-        outState.putSerializable("savedTexts", myTexts);
     }
 
     @Override
     protected void onPause()
     {
-        sectionDataSource.close();
-        countDataSource.close();
         super.onPause();
+
+        // close the data sources
+        sectionDataSource.close();
     }
 
     @Override
+    // Inflate the menu; this adds items to the action bar if it is present.
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new_section, menu);
         return true;
     }
@@ -145,126 +104,75 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks here. The action bar will automatically handle clicks on 
+        // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            return true;
-        }
-        else if (id == R.id.menuSaveExit)
+        if (id == R.id.menuSaveExit)
         {
             saveSection(layout);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void newCount(View view)
-    {
-        // attempt to add a new EditText to an array thereof
-        //Log.i(TAG,"Adding new count!");
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(5, 5, 5, 5);
-        NewCount c = new NewCount(this);
-        c.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        c.setHint(this.getString(R.string.boxFill) + " " + newBox);
-        c.setBackgroundResource(R.drawable.rounded_corner);
-        c.setPadding(5, 5, 5, 5);
-        c.setTextSize(18);
-        c.setTextColor(Color.WHITE);
-        c.setHintTextColor(Color.argb(255, 170, 170, 170));
-
-        layout.addView(c, params);
-        c.requestFocus();
-        myTexts.add(c);
-        newBox++;
-    }
-
-    public void clearCount(View view)
-    {
-        if (myTexts.isEmpty())
-            return;
-        int count_number = myTexts.size();
-        ViewGroup layout = (ViewGroup) findViewById(R.id.newCountLayout);
-        layout.removeView(myTexts.get(count_number - 1));
-        myTexts.remove(count_number - 1);
-        newBox--;
-    }
-
+    // Save section with plausi-check for empty or duplicate section name
     public void saveSection(View view)
     {
         // first, the section name
         String sect_name = newsectName.getText().toString();
-        String count_name;
+        sections = sectionDataSource.getAllSections(prefs);
 
-        if (myTexts.isEmpty())
+        // check for empty section name
+        if (isNotEmpty(sect_name))
         {
-            Toast.makeText(this, getString(R.string.noCounts), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // check that the boxes are filled in
-        int carryon = 1;
-        if (isBlank(sect_name))
-        {
-            carryon = 0;
-        }
-        for (NewCount c : myTexts)
-        {
-            count_name = c.getText().toString();
-            if (isBlank(count_name))
+            //check if this is not a duplicate of an existing name
+            if (compSectionNames(sect_name))
             {
-                carryon = 0;
-                break;
+                Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else
+            {
+                sectionDataSource.createSection(sect_name); // might need to escape the name
             }
         }
-        if (carryon == 0)
+        else
         {
-            Toast.makeText(this, getString(R.string.emptyBox), Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // check for unique names
-        if (dupPref)
-        {
-            countNames.clear();
-            for (NewCount c : myTexts)
-            {
-                count_name = c.getText().toString();
-                if (countNames.contains(count_name))
-                {
-                    Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                else
-                {
-                    countNames.add(count_name);
-                }
-            }
-        }
-
-    /*
-     * Commence saving the section and its associated counts.
-     */
-
-        Section newSection = sectionDataSource.createSection(sect_name); // might need to escape the name
-        for (NewCount c : myTexts)
-        {
-            count_name = c.getText().toString();
-            Count newCount = countDataSource.createCount(newSection.id, count_name);
-        }
-
+        
         // Huzzah!
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
-        // Instead of returning to the welcome screen, show the new section.
-        //super.finish();
+        // Show the new section.
         Intent intent = new Intent(NewSectionActivity.this, ListSectionActivity.class);
-        //intent.putExtra("section_id",newSection.id);
         startActivity(intent);
+    }
+
+    // Compare section names for duplicates and return TRUE when duplicate found
+    // created by wmstein on 10.04.2016
+    public boolean compSectionNames(String newname)
+    {
+        boolean isDbl = false;
+        String sname;
+
+        List<Section> sectionList = sectionDataSource.getAllSectionNames();
+
+        int childcount = sectionList.size() + 1;
+        // for all Sections
+        for (int i = 1; i < childcount; i++)
+        {
+            section = sectionDataSource.getSection(i);
+            sname = section.name;
+            //Log.i(TAG, "sname = " + sname);
+            if (newname.equals(sname))
+            {
+                isDbl = true;
+                //Log.i(TAG, "Double name = " + sname);
+                break;
+            }
+        }
+        return isDbl;
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
@@ -274,38 +182,45 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
-        //baseLayout.setBackground(transektCount.setBackground());
 
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
 
     /**
-     * Checks if a CharSequence is whitespace, empty ("") or null
-     * <p/>
-     * isBlank(null)      = true
-     * isBlank("")        = true
-     * isBlank(" ")       = true
-     * isBlank("bob")     = false
-     * isBlank("  bob  ") = false
+     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
      *
-     * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is null, empty or whitespace
+     * Checks if a CharSequence is not empty ("") and not null.
+     *
+     * isNotEmpty(null)      = false
+     * isNotEmpty("")        = false
+     * isNotEmpty(" ")       = true
+     * isNotEmpty("bob")     = true
+     * isNotEmpty("  bob  ") = true
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is not empty and not null
      */
-    public static boolean isBlank(final CharSequence cs)
+    public static boolean isNotEmpty(final CharSequence cs)
     {
-        int strLen;
-        if (cs == null || (strLen = cs.length()) == 0)
-        {
-            return true;
-        }
-        for (int i = 0; i < strLen; i++)
-        {
-            if (!Character.isWhitespace(cs.charAt(i)))
-            {
-                return false;
-            }
-        }
-        return true;
+        return !isEmpty(cs);
+    }
+
+    /**
+     * Checks if a CharSequence is empty ("") or null.
+     *
+     * isEmpty(null)      = true
+     * isEmpty("")        = true
+     * isEmpty(" ")       = false
+     * isEmpty("bob")     = false
+     * isEmpty("  bob  ") = false
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is empty or null
+     */
+    public static boolean isEmpty(final CharSequence cs)
+    {
+        return cs == null || cs.length() == 0;
     }
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- widget_listspecies.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
+<!-- widget_list_species.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
      Shows purged list of species counts -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,6 +37,7 @@
             android:orientation="horizontal">
 
             <!-- Name of transect section -->
+            <!-- android:textColor="#FFFFFF" is controlled by ListSpeciesWidget.java -->
             <TextView
                 android:id="@+id/txtSectName"
                 android:layout_width="0dp"
@@ -44,7 +45,6 @@
                 android:layout_weight="2.6"
                 android:gravity="start|center_vertical"
                 android:padding="4sp"
-                android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:textStyle="bold"/>
 
@@ -88,8 +88,8 @@
                 android:layout_height="30dp"
                 android:layout_weight="0.6"
                 android:gravity="center"
-                android:text="i"
                 android:textColor="#FFFFFF"
+                android:text="i"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -100,6 +100,7 @@
             android:orientation="horizontal">
 
             <!-- Remark of transect section -->
+            <!-- android:textColor="#FFFFFF" is controlled by ListSpeciesWidget.java -->
             <TextView
                 android:id="@+id/txtSectRem"
                 android:layout_width="0dp"
@@ -107,7 +108,6 @@
                 android:layout_weight="3.2"
                 android:gravity="start|top"
                 android:padding="4sp"
-                android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
             <Space
@@ -139,7 +139,7 @@
                 android:hint="@string/charZero"
                 android:padding="0dp"
                 android:textAlignment="center"
-                android:textColor="#AFAFAF"
+                android:textColor="#BFBFBF"
                 android:textSize="18sp"
                 android:maxLines="1"/>
 

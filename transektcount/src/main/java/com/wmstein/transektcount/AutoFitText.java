@@ -1,8 +1,7 @@
 package com.wmstein.transektcount;
 
 /*
-  This code from:
-  http://pastebin.com/raw.php?i=e6WyrwSN
+  This code from: http://pastebin.com/raw.php?i=e6WyrwSN
   As mentioned in this thread:
   https://stackoverflow.com/questions/16017165/auto-fit-textview-for-android
  */
@@ -15,9 +14,8 @@ import android.util.TypedValue;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
-//import android.widget.RelativeLayout.LayoutParams;
 
-/**
+/**************************************************************************************************
  * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
  * to have the text font size in it automatically fit to match the screen width. Credits go largely
  * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
@@ -28,7 +26,7 @@ import android.widget.TextView;
  * @author pheuschk
  *         createDate: 18.04.2013
  *         <p>
- *         Modified by wmstein on 18.03.2016
+ *         Modified for TransektCount by wmstein on 18.03.2016
  *         Bug fixed (height of single character), cleaned of unused code and context comments changed
  */
 @SuppressWarnings("unused")

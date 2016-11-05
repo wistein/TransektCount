@@ -11,8 +11,8 @@ import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.Section;
 
 
-/**
- * Created by wmstein on 15.03.2016
+/****************************************************
+ * Created for TransektCount by wmstein on 15.03.2016
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -35,7 +35,7 @@ public class ListSpeciesWidget extends RelativeLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_listspecies, this, true);
+        inflater.inflate(R.layout.widget_list_species, this, true);
         txtSectName = (TextView) findViewById(R.id.txtSectName);
         txtSectRem = (TextView) findViewById(R.id.txtSectRem);
         txtSpecName = (TextView) findViewById(R.id.txtSpecName);
@@ -47,17 +47,19 @@ public class ListSpeciesWidget extends RelativeLayout
     public void setCount(Count spec, Section section)
     {
         txtSectName.setText(section.name);
+        txtSectName.setTextColor(0xffffffff); // white
         txtSectRem.setText(section.notes);
+        txtSectRem.setTextColor(0xffffffff);
         txtSpecName.setText(spec.name);
         specCount.setText(String.valueOf(spec.count));
         txtSpecRem.setText(spec.notes);
         specCounta.setText(String.valueOf(spec.counta));
     }
 
-    public void setCount1(Count spec, Section section)
+    public void setCount1()
     {
-        txtSectName.setText("");
-        txtSectRem.setText("");
+        txtSectName.setTextColor(0xff444444); // dark grey
+        txtSectRem.setTextColor(0xff444444);
     }
 
     //Parameter spec_count for use in ListSpeciesActivity

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
-/**
+/**********************************************************
  * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Changed by wmstein on 18.02.2016
  */
@@ -45,11 +45,8 @@ public class TransektCountApplication extends Application
         }
     }
 
-  /*
-   * The idea here is to keep ob around as a pre-prepared bitmap, only setting it up
-   * when the user's settings change or when the application starts up.
-   */
-
+   // The idea here is to keep ob around as a pre-prepared bitmap, only setting it up
+   // when the user's settings change or when the application starts up.
     public BitmapDrawable getBackground()
     {
         if (ob == null)
@@ -89,9 +86,7 @@ public class TransektCountApplication extends Application
             {
                 if (new File(pictPref).isFile())
                 {
-                   /*
-                    * This should hopefully stop crashes caused by large image files.
-                    */
+                    // This should hopefully stop crashes caused by large image files.
                     try
                     {
                         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -134,6 +129,7 @@ public class TransektCountApplication extends Application
         return prefs;
     }
 
+    // Scale bitmap
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
     {
         // Raw height and width of image
@@ -179,4 +175,5 @@ public class TransektCountApplication extends Application
             return null;
         }
     }
+    
 }

@@ -28,8 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/*
- * EditMetaActivity collects meta info 
+/***************************************************************
+ * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 31.03.2016.
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -286,6 +286,9 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     }
 
     /**
+     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
+     *
      * Checks if a CharSequence is not empty ("") and not null.
      *
      * isNotEmpty(null)      = false

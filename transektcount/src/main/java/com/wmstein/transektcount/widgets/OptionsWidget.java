@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-/**
- * Created by milo on 27/05/2014.
- * Changed by wmstein on 18.02.2016
+/***********************************************************************
  * Edit options for species
  * used by CountOptionsActivity in conjunction with widget_options.xml
- * Supplemented with functions for transect external counter
+ * Created by milo on 27/05/2014.
+ * Adopted and supplemented with functions for transect external counter
+ * by wmstein on 18.02.2016
  */
 public class OptionsWidget extends LinearLayout
 {
@@ -88,6 +88,9 @@ public class OptionsWidget extends LinearLayout
     }
 
     /**
+     * Following function is taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
+     *
      * Checks if a CharSequence is empty ("") or null.
      *
      * isEmpty(null)      = true

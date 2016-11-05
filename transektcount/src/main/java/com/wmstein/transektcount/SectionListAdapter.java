@@ -20,17 +20,17 @@ import java.util.List;
 
 import static java.lang.Long.toHexString;
 
-/**
+/*********************************************************
+ * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
-
-public class SectionListAdapter extends ArrayAdapter<Section>
+class SectionListAdapter extends ArrayAdapter<Section>
 {
     private static final String TAG = "transektcountSectionListAdapter";
-    Context context;
-    int layoutResourceId;
-    List<Section> sections = null;
+    private Context context;
+    private int layoutResourceId;
+    private List<Section> sections = null;
     private Context mContext;
     private TransektCountApplication transektCount;
     private Section sct;
@@ -38,7 +38,7 @@ public class SectionListAdapter extends ArrayAdapter<Section>
 
 
     // Constructor
-    public SectionListAdapter(Context context, int layoutResourceId, List<Section> sections)
+    SectionListAdapter(Context context, int layoutResourceId, List<Section> sections)
     {
         super(context, layoutResourceId, sections);
         this.layoutResourceId = layoutResourceId;
@@ -48,7 +48,7 @@ public class SectionListAdapter extends ArrayAdapter<Section>
         transektCount = (TransektCountApplication) context.getApplicationContext();
     }
 
-    static class SectionHolder
+    private static class SectionHolder
     {
         TextView txtTitle;
         TextView txtRemark;
@@ -75,7 +75,6 @@ public class SectionListAdapter extends ArrayAdapter<Section>
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
             holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
-
 
             row.setTag(holder);
         }
@@ -104,15 +103,13 @@ public class SectionListAdapter extends ArrayAdapter<Section>
         }
         else
         {
-            // section.getDate Holt Datum als String aus created_at 
+            // section.getDate fetches date as string from created_at 
             holder.txtDate.setText(section.getDate());
         }
         return row;
     }
 
-    /*
-     * Start counting by clicking on title, delete by clicking on button.
-     */
+    // Start counting by clicking on title
     private View.OnClickListener mOnTitleClickListener = new View.OnClickListener()
     {
         @Override
@@ -135,6 +132,7 @@ public class SectionListAdapter extends ArrayAdapter<Section>
         }
     };
 
+    // Delete section by clicking on delete button
     private View.OnClickListener mOnDeleteClickListener = new View.OnClickListener()
     {
         @Override
@@ -165,4 +163,5 @@ public class SectionListAdapter extends ArrayAdapter<Section>
             alert.show();
         }
     };
+    
 }

@@ -8,7 +8,6 @@
     <string name="title_activity_list_section">List of Transect Sections</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
-    <string name="title_activity_load_task">Loading Data…</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="hello_world">Hello!</string>
@@ -50,11 +49,6 @@
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>
     <string name="fileSize">Size</string>
-    <string name="folder">Folder</string>
-    <string name="parentDirectory">Parent Directory</string>
-    <string name="openFolder">Open folder</string>
-    <string name="selectThis">Select this</string>
-    <string name="optionSelection">Option selection</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Section</string>
@@ -82,11 +76,7 @@
     <string name="labelNewsectSaveButton">Save</string>
     <string name="labelNewsect">Enter Section Name here</string>
     <string name="labelNewCountButton">Add Species</string>
-    <string name="clearCountButton">Remove Spec.</string>
-    <string name="emptyBox">Please fill in the empty boxes!</string>
-    <string name="noCounts">You must define at least one count!</string>
     <string name="duplicate">Each count name must be unique!</string>
-    <string name="boxFill">Species Name </string>
     <string name="sectionSaved">List saved!</string>
 
     <!-- CountingActivity -->
@@ -115,6 +105,7 @@
     <string name="reallyDeleteCount">Are you sure? This count will be deleted immediately.</string>
     <string name="deletedList">Deleted: Section list with ID: "</string>
     <string name="isdouble"> is double!</string>
+    <string name="isempty">Section name is missing!</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>
@@ -146,6 +137,7 @@
     <string name="pref_left_hand_summ">Show left-hander counting view.</string>
     <string name="pref_sort_order">Sorting</string>
     <string name="pref_sort_order_summ">Sort order of your section list.</string>
+    <string name="pref_sort_order_sp_summ">Sort order of your species list.</string>
     <string name="pref_sound">Audible alerts</string>
     <string name="pref_sound_summary">Sound an audible alert when an alert is triggered.</string>
     <string name="choose_alert">Notification sound</string>
@@ -163,6 +155,7 @@
     <string name="addSomeAlerts">Each internal species counter may have alerts which will be triggered when the count reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
     <string name="alertName">New Alert</string>
     <string name="countName">New Species</string>
+    <string name="countCode">Code</string>
     <string name="notesSpecies">Species Notes</string>
     <string name="deleteAlert">Delete Alert</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>

@@ -15,7 +15,8 @@ import com.wmstein.transektcount.database.SectionDataSource;
 
 import java.util.List;
 
-/*
+/***************************************************************************************************
+ * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Modified by wmstein on 08.04.2016
  */
@@ -24,9 +25,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     private static String TAG = "TransektCountListSectionActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
-
-    // preferences
-    private boolean brightPref;
 
     private SectionDataSource sectionDataSource;
     
@@ -37,8 +35,10 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_section);
 
+        boolean brightPref;
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);

@@ -36,26 +36,28 @@ $ 9
   % 2. Set up
   !
   ! Before initial use you must set up an empty basic database (Basic DB).
-  ! Therefore, you first enter the meta data of the transect. Tap on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. 
-  ! Then create the species list for the first transect section. Use the (+)-Button or the function "New Section" from the "List of Transect Sections" menu for that.
-  ! Then this list gets a name (e.g.: Sect 01) and subsequently an entry for each expected species, e.g.:
+  ! Therefore, you first enter the meta data of the transect. Tip on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. 
+  ! Then create the species list for the first transect section. Use the (+)-Button or the function "New Section" respectively from the "List of Transect Sections" menu for that.
+  ! Then enter a name for the 1st list (e.g.: Sect 01) and save it. 
+  ! Subsequently tip on that new entry in the list of transect sections to open the respective counting page. Use the list's edit function to enter all expected species names and codes (five-digit), e.g.:
   _ 
   ! Sect 01
-  ! --------------------
-  ! P. napi
-  ! P. rapae
-  ! P. na./ra.-compl.
+  ! ---------------------------------------------
+  ! ...
+  ! Pieris napi ................ 07000
+  ! Pieris rapae .............. 06998
+  ! Pieris na./ra.-compl.	07000*
   ! ...
   _ 
-  ! This list can be changed or supplemented anytime afterwards.
-  ! With "Save List" you get it stored into the database.
+  ! The codes will be used as an option to sort the list. The trailing *-symbol marks a species group. With "Save List" you get it stored into the database.
+  ! This list can be changed or supplemented anytime afterwards by the Edit function of the corresponding counting page.
   _ 
   ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
   ! (e.g.: Sect 02, Sect 03,...).
   _ 
   ! When you have created the section lists for all transect sections, the database is ready for export as a "Basic Database".
   ! To do this, you can use the function "Export as Basic DB" in the menu of the starting page.
-  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models).
+  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models and Android versions).
   ! The "Basic Database" will be used as a template for further transect inspections in future. You may export the Basic DB anytime later, e.g. when you modified its structure or inserted new species. All inspection related data will be ignored for an export as Basic DB.
   
 $ 8
@@ -63,7 +65,7 @@ $ 8
   !
   ! Start with the "List of Transect Sections".  
   ! Select the relevant transect section. As it ought to be distinguished between counts of butterflies within the imaginary count area and butterflies outside you have 2 separate counters ("i" for internal and "e" for external). 
-  ! To count just tap on either the internal or external "+"-Button of the corresponding species.
+  ! To count just tip on either the internal or external "+"-Button of the corresponding species.
   ! The "-"-Buttons allows for corrections. 
   ! While storing the counting results of a section the current date and time of the inspection will be stored either. The date and a possible section remark will then be shown in the list of sections.   
   _ 
@@ -84,11 +86,11 @@ $ 8
 $ 7
   % 4. Further functions
   !
-  ! The "Settings" page can be reached from some pages of the app.
-  ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts or left-/right-hand counting page. 
-  ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
+  ! The menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
   _ 
-  ! The menu on the starting page has Reset, Import, Export, Help, Info and Settings functions. 
+  ! The "Settings" page can be reached from some pages of the app.
+  ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page. 
+  ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
   ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB from /sdcard/transektcount0.db 
   _ 
@@ -101,6 +103,7 @@ $ 7
   ! Exporting the current database (Export DB) writes a copy of the complete DB to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db.
   _ 
   ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /sdcard/transektcount_YYYY-MM-DD_hhmmss.csv.
+  _ 
   ! And you may find under "App Info" the email address of the author, the history of the app and the license note.
   _ 
   ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
@@ -111,7 +114,12 @@ $ 7
   ! Under Android 5.0.1 or newer the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This prohibits erroneous input and brings up the app quickly.
   _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
-  ! There you may examine the db-file with a free tool like "SqliteBrowser" (sqlitebrowser.org) or you may import the .csv-file as UTF-8 text file into Excel for further processing.
+  ! There you may examine the db-file with a free tool like "SqliteBrowser" (sqlitebrowser.org).
+  ! You may import the .csv-file as a
+  ! - comma-delimited text file with 
+  ! - quotations marks for textfield recognition and 
+  ! - file origin “Unicode UTF-8”
+  ! into Excel for further processing. 
   !
   
 $ END_OF_VIEW_HELP

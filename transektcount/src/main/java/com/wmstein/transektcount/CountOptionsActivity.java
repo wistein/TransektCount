@@ -25,20 +25,19 @@ import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.widgets.AddAlertWidget;
 import com.wmstein.transektcount.widgets.AlertCreateWidget;
-import com.wmstein.transektcount.widgets.EditTitleWidget;
+import com.wmstein.transektcount.widgets.EditNotesWidget;
 import com.wmstein.transektcount.widgets.OptionsWidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/************************************************************
+ * Edit options for counting species
+ * uses optionsWidget.java and widget_options.xml
+ * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
- * Edit options for species
- * uses optionsWidget.java and widget_options.xml
- * Supplemented with functions for transect externel counter
  */
-
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "transektcountCountOptionsActivity";
@@ -50,7 +49,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private List<Alert> alerts;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
-    private AlertDialog.Builder areYouSure;
     private View markedForDelete;
     private int deleteAnAlert;
     private int section_id;
@@ -58,13 +56,10 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     private Bitmap bMap;
     private BitmapDrawable bg;
 
-    // preferences
-    private boolean brightPref;
-
     LinearLayout static_widget_area;
     LinearLayout dynamic_widget_area;
     OptionsWidget curr_val_widget;
-    EditTitleWidget enw;
+    EditNotesWidget enw;
     AddAlertWidget aa_widget;
 
     ArrayList<AlertCreateWidget> savedAlerts;
@@ -78,7 +73,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         transektCount = (TransektCountApplication) getApplication();
         prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        brightPref = prefs.getBoolean("pref_bright", true);
+        boolean brightPref = prefs.getBoolean("pref_bright", true);
 
         // Set full brightness of screen
         if (brightPref)
@@ -146,9 +141,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         curr_val_widget.setParameterValuea(count.counta);
         static_widget_area.addView(curr_val_widget);
 
-        enw = new EditTitleWidget(this, null);
-        enw.setSectionName(count.notes);
-        enw.setWidgetTitle(getString(R.string.notesSpecies));
+        enw = new EditNotesWidget(this, null);
+        enw.setSectionNotes(count.notes);
+        enw.setWidgetNotes(getString(R.string.notesSpecies));
         enw.setHint(getString(R.string.notesHint));
         enw.requestFocus();
 
@@ -217,7 +212,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         Toast.makeText(CountOptionsActivity.this, getString(R.string.sectSaving) + " " + count.name + "!", Toast.LENGTH_SHORT).show();
         count.counta = curr_val_widget.getParameterValuea();
         count.count = curr_val_widget.getParameterValue();
-        count.notes = enw.getSectionName();
+        count.notes = enw.getSectionNotes();
 
         countDataSource.saveCount(count);
 
@@ -260,9 +255,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         boolean pageend = false;
         while (!pageend)
         {
-            scrlV.scrollTo(0, scroll_amount);              //scrollen
-            scroll_amount = scroll_amount + scroll_amount; //scroll_amount erhöhen
-            scrollY = scrollY + scrlV.getScrollY();        //scroll-Position der 1. Zeile
+            scrlV.scrollTo(0, scroll_amount);              //scroll
+            scroll_amount = scroll_amount + scroll_amount; //increase scroll_amount
+            scrollY = scrollY + scrlV.getScrollY();        //scroll position of 1. row
             if (scroll_amount > scrollY)
             {
                 pageend = true;
@@ -270,6 +265,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         }
     }
 
+    // Add alert to species counter
     public void addAnAlert(View view)
     {
         AlertCreateWidget acw = new AlertCreateWidget(this, null);
@@ -281,6 +277,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         dynamic_widget_area.addView(acw);
     }
 
+    // Delete alert from species counter and its widget from the view
     public void deleteWidget(View view)
     {
     /*
@@ -288,6 +285,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
      * of the alert itself, to make sure that they're available inside the code for the alert dialog by
      * which they will be deleted.
      */
+        AlertDialog.Builder areYouSure;
         markedForDelete = view;
         deleteAnAlert = (Integer) view.getTag();
         if (deleteAnAlert == 0)
@@ -372,6 +370,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     }
 
     /**
+     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
+     *
      * Checks if a CharSequence is not empty ("") and not null.
      *
      * isNotEmpty(null)      = false

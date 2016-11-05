@@ -31,7 +31,6 @@ public class AdvFileChooser extends Activity
     private File currentDir;
     private FileArrayAdapter adapter;
     private FileFilter fileFilter;
-    private File fileSelected;
     private ArrayList<String> extensions;
     private String filterFileName;
 
@@ -57,7 +56,8 @@ public class AdvFileChooser extends Activity
                             (
                                 (pathname.getName().contains(".") &&
                                     pathname.getName().contains(filterFileName) &&
-                                    extensions.contains(pathname.getName().substring(pathname.getName().lastIndexOf(".")))
+                                    extensions.contains(pathname.getName().substring(pathname.
+                                        getName().lastIndexOf(".")))
                                 )
                             );
                     }
@@ -119,10 +119,8 @@ public class AdvFileChooser extends Activity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id)
+            public void onItemClick(AdapterView<?> l, View v, int position, long id)
             {
-                // TODO Auto-generated method stub
                 Option o = adapter.getItem(position);
                 if (!o.isBack())
                     doSelect(o);
@@ -132,14 +130,13 @@ public class AdvFileChooser extends Activity
                     fill(currentDir);
                 }
             }
-
         });
     }
 
     private void doSelect(final Option o)
     {
         //onFileClick(o);
-        fileSelected = new File(o.getPath());
+        File fileSelected = new File(o.getPath());
         Intent intent = new Intent();
         intent.putExtra("fileSelected", fileSelected.getAbsolutePath());
         setResult(Activity.RESULT_OK, intent);

@@ -8,7 +8,6 @@
     <string name="title_activity_list_section">Liste Transektabschn.</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
-    <string name="title_activity_load_task">Lade Daten…</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="hello_world">Hallo!</string>
@@ -50,11 +49,6 @@
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>
     <string name="fileSize">Größe</string>
-    <string name="folder">Verzeichnis</string>
-    <string name="parentDirectory">..</string>
-    <string name="openFolder">Öffne Verz.</string>
-    <string name="selectThis">Auswählen</string>
-    <string name="optionSelection">Option auswählen</string>
 
     <!-- EditMetaActivity -->
     <string name="col1">Abschnitt</string>
@@ -80,20 +74,16 @@
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Speichern</string>
-    <string name="labelNewsect">Hier Abschnittsname eingeben</string>
+    <string name="labelNewsect">Hier Abschnittsnamen eingeben</string>
     <string name="labelNewCountButton">Art hinzuf.</string>
-    <string name="clearCountButton">Art entf.</string>
-    <string name="emptyBox">Bitte die leeren Felder ausfüllen!</string>
-    <string name="noCounts">Es muss mindestens ein Eintrag vorhanden sein!</string>
     <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
-    <string name="boxFill">Eintrag </string>
     <string name="sectionSaved">Liste gespeichert!</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
     <string name="sectSaving">Speichern </string>
     <string name="alertTitle">Anzahl erreicht!</string>
-    <string name="cloneButton">Abschnittsliste duplizieren</string>
+    <string name="cloneButton">Abschnitts-Artenliste duplizieren</string>
     <string name="newName">Bitte einen Namen für die neue Liste eingeben.</string>
     <string name="newCopyCreated">wurde erstellt!</string>
 
@@ -115,6 +105,7 @@
     <string name="reallyDeleteCount">Bist Du sicher? Das Element wird sofort gelöscht.</string>
     <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
     <string name="isdouble"> ist doppelt!</string>
+    <string name="isempty">Abschnittsname fehlt!</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>
@@ -146,6 +137,7 @@
     <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder.</string>
     <string name="pref_sort_order">Sortierung</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
+    <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
     <string name="pref_sound">Tonalarm</string>
     <string name="pref_sound_summary">Erzeuge einen Benachrichtigungston wenn ein Zählalarm ausgelöst wird.</string>
     <string name="choose_alert">Benachrichtigungston</string>
@@ -163,6 +155,7 @@
     <string name="addSomeAlerts">Jedem internen Zähler einer Art können Alarme zugewiesen werden, die ausgelöst werden, wenn der jeweils vorgegebene Wert erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
     <string name="alertName">Neuer Alarm</string>
     <string name="countName">Neue Art</string>
+    <string name="countCode">Code</string>
     <string name="notesSpecies">Bemerkung zur Art</string>
     <string name="deleteAlert">Lösche Alarm</string>
     <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>

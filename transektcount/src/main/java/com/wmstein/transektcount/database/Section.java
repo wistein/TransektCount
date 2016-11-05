@@ -4,9 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/****************************************************
  * Based on Project.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class Section
 {

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
+/********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class SectionDataSource
 {
@@ -115,13 +115,22 @@ public class SectionDataSource
     {
         List<Section> sections = new ArrayList<>();
 
-        String orderBy = DbHelper.S_NAME + " ASC";
+        String orderBy;
         String sortString = prefs.getString("pref_sort", "name_asc");
-        if (sortString.equals("name_desc"))
+        switch (sortString)
         {
+        case "name_desc":
             orderBy = DbHelper.S_NAME + " DESC";
+            break;
+        case "name_asc":
+            orderBy = DbHelper.S_NAME + " ASC";
+            break;
+        default:
+            orderBy = "";
+            break;
         }
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, null, null, null, null, orderBy);
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, 
+            null, null, null, null, orderBy);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -135,11 +144,40 @@ public class SectionDataSource
         return sections;
     }
 
-    // called from CountingActivity and EditSectionActivity
+    public List<Section> getAllSectionNames()
+    {
+        List<Section> sections = new ArrayList<>();
+
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
+            null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Section section = cursorToSect(cursor);
+            sections.add(section);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return sections;
+    }
+
+    // called by List<Section> getAllSectionNames()
+    private Section cursorToSect(Cursor cursor)
+    {
+        Section section = new Section();
+        section.id = cursor.getInt(cursor.getColumnIndex(DbHelper.S_ID));
+        section.name = cursor.getString(cursor.getColumnIndex(DbHelper.S_NAME));
+        return section;
+    }
+
+    // called from NewSectionActivity, CountingActivity and EditSectionActivity
     public Section getSection(int section_id)
     {
         Section section;
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, DbHelper.S_ID + " = ?", new String[]{String.valueOf(section_id)}, null, null, null);
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, 
+            DbHelper.S_ID + " = ?", new String[]{String.valueOf(section_id)}, null, null, null);
         cursor.moveToFirst();
         section = cursorToSection(cursor);
         // Make sure to close the cursor

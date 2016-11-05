@@ -1,9 +1,5 @@
 package com.wmstein.transektcount.widgets;
 
-/*
- * EditMetaWidget.java used by EditMetaActivity.java
- */
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,8 +9,9 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-/*
- * Created by wmstein for com.wmstein.transektcount on 02.04.2016.
+/*****************************************************
+ * EditMetaWidget.java used by EditMetaActivity.java
+ * Created by wmstein for TransektCount on 02.04.2016.
  */
 public class EditMetaWidget extends LinearLayout
 {

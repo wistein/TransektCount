@@ -25,18 +25,20 @@ import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountEditWidget;
+import com.wmstein.transektcount.widgets.EditNotesWidget;
 import com.wmstein.transektcount.widgets.EditTitleWidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*************************************************************************
+ * Edit the current section list (change, delete) and insert new species
+ * EditSectionActivity is called from CountingActivity.
+ * Uses CountEditWidget.java, EditTitleWidget.java, EditNotesWidget.java,
+ * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein on 18.02.2016
  */
-
-/***********************************************************************************************************************/
-// EditSectionActivity is called from CountingActivity 
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     TransektCountApplication transektCount;
@@ -55,12 +57,13 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     LinearLayout counts_area;
     LinearLayout notes_area;
     EditTitleWidget etw;
-    EditTitleWidget enw;
+    EditNotesWidget enw;
     private View markedForDelete;
     private int idToDelete;
     AlertDialog.Builder areYouSure;
 
     public ArrayList<String> countNames;
+    public ArrayList<String> countCodes;
     public ArrayList<String> cmpCountNames;
     public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
@@ -68,20 +71,20 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private Bitmap bMap;
     private BitmapDrawable bg;
 
-    // preferences
-    private boolean brightPref;
-
-    //added for dupPref
+    //added for duplicates check
     private boolean dupPref;
     String new_count_name = "";
+    String oldname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit_section);
 
         countNames = new ArrayList<>();
+        countCodes = new ArrayList<>();
         countIds = new ArrayList<>();
         savedCounts = new ArrayList<>();
 
@@ -105,12 +108,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             }
         }
 
+        // Load preferences
         transektCount = (TransektCountApplication) getApplication();
-        //section_id = transektCount.section_id;
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        brightPref = prefs.getBoolean("pref_bright", true);
+        boolean brightPref = prefs.getBoolean("pref_bright", true);
         dupPref = prefs.getBoolean("pref_duplicate", true);
 
         // Set full brightness of screen
@@ -126,21 +129,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
-    /*
-     * Before these widgets can be serialised they must be removed from their parent, or else
-     * trying to add them to a new parent causes a crash because they've already got one.
-     */
-        super.onSaveInstanceState(outState);
-        for (CountEditWidget cew : savedCounts)
-        {
-            ((ViewGroup) cew.getParent()).removeView(cew);
-        }
-        outState.putSerializable("savedCounts", savedCounts);
     }
 
     @Override
@@ -163,25 +151,26 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         // load the sections data
         section = sectionDataSource.getSection(section_id);
+        oldname = section.name;
         try
         {
-            getSupportActionBar().setTitle(section.name);
+            getSupportActionBar().setTitle(oldname);
         } catch (NullPointerException e)
         {
             Log.i(TAG, "NullPointerException: No section name!");
         }
 
-        // display an editable section title
+        // display the section title
         etw = new EditTitleWidget(this, null);
-        etw.setSectionName(section.name);
+        etw.setSectionName(oldname);
         etw.setWidgetTitle(getString(R.string.titleEdit));
         notes_area.addView(etw);
 
         // display editable section notes; the same class
         // is being used for both due to being lazy
-        enw = new EditTitleWidget(this, null);
-        enw.setSectionName(section.notes);
-        enw.setWidgetTitle(getString(R.string.notesHere));
+        enw = new EditNotesWidget(this, null);
+        enw.setSectionNotes(section.notes);
+        enw.setWidgetNotes(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
         enw.requestFocus();
         notes_area.addView(enw);
@@ -195,6 +184,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             // widget
             CountEditWidget cew = new CountEditWidget(this, null);
             cew.setCountName(count.name);
+            cew.setCountCode(count.code);
             cew.setCountId(count.id);
             counts_area.addView(cew);
         }
@@ -206,6 +196,21 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+    /*
+     * Before these widgets can be serialised they must be removed from their parent, or else
+     * trying to add them to a new parent causes a crash because they've already got one.
+     */
+        super.onSaveInstanceState(outState);
+        for (CountEditWidget cew : savedCounts)
+        {
+            ((ViewGroup) cew.getParent()).removeView(cew);
+        }
+        outState.putSerializable("savedCounts", savedCounts);
+    }
+
+    @Override
     protected void onPause()
     {
         super.onPause();
@@ -214,27 +219,66 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.close();
         countDataSource.close();
         alertDataSource.close();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_section, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.home)
+        {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            intent.putExtra("section_id", section_id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            NavUtils.navigateUpTo(this, intent);
+        }
+        else if (id == R.id.menuSaveExit)
+        {
+            if (saveData())
+            {
+                savedCounts.clear();
+                super.finish();
+            }
+        }
+        else if (id == R.id.newCount)
+        {
+            newCount(findViewById(R.id.editingCountsLayout));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void getCountNames()
     {
     /*
-     * The plan here is that both the names and ids arrays contain the entries in the same
-     * order, so I can link a count name to its id by knowing the index.
+     * The plan here is that names, codes and ids arrays contain the entries in the same
+     * order, so I can link count and code name to its id by knowing the index.
      */
         countNames.clear();
+        countCodes.clear();
         countIds.clear();
         int childcount = counts_area.getChildCount();
         for (int i = 0; i < childcount; i++)
         {
             CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
             String name = cew.getCountName();
+            String code = cew.getCountCode();
             // ignore count widgets where the user has filled nothing in. 
             // Id will be 0 if this is a new count.
             if (isNotEmpty(name))
             {
                 countNames.add(name);
+                countCodes.add(code);
                 countIds.add(cew.countId);
             }
         }
@@ -276,97 +320,137 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     public boolean saveData()
     {
-        // save section title and notes only if they have changed
+        // save section notes only if they have changed
         boolean savesection = false;
 
         String newtitle = etw.getSectionName();
+
         if (isNotEmpty(newtitle))
         {
-            section.name = newtitle;
-            savesection = true;
+            //check if this is not a duplicate of an existing name
+            if (compSectionNames(newtitle))
+            {
+                Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                savesection = false;
+            }
+            else
+            {
+                section.name = newtitle;
+                savesection = true;
+            }
+        }
+        else
+        {
+            Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
+            savesection = false;
         }
 
-        String newnotes = enw.getSectionName();
         // Always add notes if the user has written some...
-        if (isNotEmpty(newnotes))
+        String newnotes = enw.getSectionNotes();
+        if (isNotEmpty(newnotes) && savesection)
         {
             section.notes = newnotes;
-            savesection = true;
         }
-        //...if they haven't, only save if the current notes have a value (i.e.
+        //...if they haven't, only save if the current notes have a value
         else
         {
             if (isNotEmpty(section.notes))
             {
                 section.notes = newnotes;
-                savesection = true;
             }
         }
 
+        boolean retValue = false;
         if (savesection)
         {
             sectionDataSource.saveSection(section);
-        }
 
-        // save counts (species list)
-        boolean retValue = true;
-        String isDbl = "";
-        int childcount; //No. of species in list
-        childcount = counts_area.getChildCount();
-        //Log.i(TAG, "childcount: " + String.valueOf(childcount));
+            // save counts (species list)
+            String isDbl = "";
+            int childcount; //No. of species in list
+            childcount = counts_area.getChildCount();
+            //Log.i(TAG, "childcount: " + String.valueOf(childcount));
 
-        // check for unique names
-        if (dupPref)
-        {
-            isDbl = compCountNames();
-            if (isDbl.equals(""))
+            // check for unique species names
+            if (dupPref)
             {
-                // do for all species 
-                for (int i = 0; i < childcount; i++)
+                isDbl = compCountNames();
+                if (isDbl.equals(""))
                 {
-                    CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
-                    if (isNotEmpty(cew.getCountName()))
+                    // do for all species 
+                    for (int i = 0; i < childcount; i++)
                     {
-                        //Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
-                        // create or save
-                        if (cew.countId == 0)
+                        CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
+                        if (isNotEmpty(cew.getCountName()))
                         {
-                            //Log.i(TAG, "Creating!");
-                            //returns newCount
-                            countDataSource.createCount(section_id, cew.getCountName());
+                            //Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
+                            // create or save
+                            if (cew.countId == 0)
+                            {
+                                //Log.i(TAG, "Creating!");
+                                //returns newCount
+                                countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode());
+                            }
+                            else
+                            {
+                                //Log.i(TAG, "Updating!");
+                                countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode());
+                            }
+                            retValue = true;
                         }
-                        else
-                        {
-                            //Log.i(TAG, "Updating!");
-                            countDataSource.updateCountName(cew.countId, cew.getCountName());
-                        }
-                        retValue = true;
                     }
                 }
+                else
+                {
+                    Toast.makeText(this, isDbl + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                    retValue = false;
+                }
+            }
+
+            if (retValue)
+            {
+                Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(this, isDbl + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
-                retValue = false;
+                Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
             }
         }
-
-        if (retValue)
-        {
-            Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
-        }
-
         return retValue;
     }
 
-    /*
-     * Scroll to end of view
-     * by wmstein
-     */
+    // Compare section names for duplicates and return TRUE when duplicate found
+    // created by wmstein on 10.04.2016
+    public boolean compSectionNames(String newname)
+    {
+        boolean isDbl = false;
+        String sname;
+
+        if (newname.equals(oldname))
+        {
+            return false; // name has not changed
+        }
+
+        List<Section> sectionList = sectionDataSource.getAllSectionNames();
+
+        int childcount = sectionList.size() + 1;
+        // for all Sections
+        for (int i = 1; i < childcount; i++)
+        {
+            section = sectionDataSource.getSection(i);
+            sname = section.name;
+            //Log.i(TAG, "sname = " + sname);
+            if (newname.equals(sname))
+            {
+                isDbl = true;
+                //Log.i(TAG, "Double name = " + sname);
+                break;
+            }
+        }
+        return isDbl;
+    }
+
+    // Scroll to end of view, by wmstein
     public void ScrollToEndOfView(View scrlV)
     {
         int scroll_amount = scrlV.getBottom();
@@ -374,9 +458,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         boolean pageend = false;
         while (!pageend)
         {
-            scrlV.scrollTo(0, scroll_amount);            //scroll
+            scrlV.scrollTo(0, scroll_amount);              //scroll
             scroll_amount = scroll_amount + scroll_amount; //increase scroll_amount 
-            scrollY = scrollY + scrlV.getScrollY();      //scroll position 1. row
+            scrollY = scrollY + scrlV.getScrollY();        //scroll position 1. row
             if (scroll_amount > scrollY)
             {
                 pageend = true;
@@ -384,6 +468,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
     }
 
+    // add new CountEditWidget to view
     public void newCount(View view)
     {
         CountEditWidget cew = new CountEditWidget(this, null);
@@ -391,13 +476,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // Scroll to end of view, added by wmstein
         View scrollV = findViewById(R.id.editingScreen);
         ScrollToEndOfView(scrollV);
-        cew.requestFocus();       // set focus to cew added by wmstein
+        // set focus to cew, added by wmstein
+        cew.requestFocus();
         savedCounts.add(cew);
     }
 
-    /*
-     * purging counts (with associated alerts)
-     */
+    // purging counts (with associated alerts)
     public void deleteCount(View view)
     {
     /*
@@ -443,43 +527,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         getCountNames();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_section, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.home)
-        {
-            Intent intent = NavUtils.getParentActivityIntent(this);
-            intent.putExtra("section_id", section_id);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            NavUtils.navigateUpTo(this, intent);
-        }
-        else if (id == R.id.menuSaveExit)
-        {
-            if (saveData())
-            {
-                savedCounts.clear();
-                super.finish();
-            }
-        }
-        else if (id == R.id.newCount)
-        {
-            newCount(findViewById(R.id.editingCountsLayout));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
@@ -488,39 +535,44 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
 
-        //added for dupPref
+        //added for duplicates check
         dupPref = prefs.getBoolean("duplicate_counts", true);
     }
 
     /**
-     * Checks if a CharSequence is not empty ("") and not null.
+     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
      *
+     * Checks if a CharSequence is not empty ("") and not null.
+     * <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
      * isNotEmpty("bob")     = true
      * isNotEmpty("  bob  ") = true
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      */
-    public static boolean isNotEmpty(final CharSequence cs) {
+    public static boolean isNotEmpty(final CharSequence cs)
+    {
         return !isEmpty(cs);
     }
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     *
+     * <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false
      * isEmpty("bob")     = false
      * isEmpty("  bob  ") = false
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is empty or null
      */
-    public static boolean isEmpty(final CharSequence cs) {
+    public static boolean isEmpty(final CharSequence cs)
+    {
         return cs == null || cs.length() == 0;
     }
 

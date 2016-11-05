@@ -1,10 +1,5 @@
 package com.wmstein.transektcount.widgets;
 
-/*
- * EditHeadWidget.java used by EditMetaActivity.java
- * Created by wmstein for com.wmstein.transektcount on 03.04.2016
- */
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,6 +8,10 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
+/****************************************************
+ * EditHeadWidget.java used by EditMetaActivity.java
+ * Created by wmstein for TransektCount on 03.04.2016
+ */
 public class ListHeadWidget extends LinearLayout
 {
     TextView widget_lno; // used for transect_no title

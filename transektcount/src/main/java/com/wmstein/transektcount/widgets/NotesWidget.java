@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
-/**
+/****************************************************
  * Created by milo on 26/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class NotesWidget extends LinearLayout
 {
@@ -38,12 +38,12 @@ public class NotesWidget extends LinearLayout
     {
         if (large)
         {
-            Log.i(TAG, "Setzt große Schrift.");
+            //Log.i(TAG, "Setzt große Schrift.");
             textView.setTextSize(20);
         }
         else
         {
-            Log.i(TAG, "Setzt kleine Schrift.");
+            //Log.i(TAG, "Setzt kleine Schrift.");
             textView.setTextSize(14);
         }
     }

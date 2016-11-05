@@ -11,13 +11,14 @@ import com.wmstein.transektcount.R;
 
 import java.io.Serializable;
 
-/**
+/****************************************************
  * Created by milo on 04/06/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 18.02.2016
  */
 public class CountEditWidget extends LinearLayout implements Serializable
 {
     private transient EditText countName;
+    private transient EditText countCode;
     private ImageButton deleteButton;
     public int countId;
 
@@ -28,8 +29,9 @@ public class CountEditWidget extends LinearLayout implements Serializable
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_count, this, true);
         countName = (EditText) findViewById(R.id.countName);
+        countCode = (EditText) findViewById(R.id.countCode);
         deleteButton = (ImageButton) findViewById(R.id.deleteCount);
-        deleteButton.setTag(Integer.valueOf(0));
+        deleteButton.setTag(0);
     }
 
     public String getCountName()
@@ -42,10 +44,20 @@ public class CountEditWidget extends LinearLayout implements Serializable
         countName.setText(name);
     }
 
+    public String getCountCode()
+    {
+        return countCode.getText().toString();
+    }
+
+    public void setCountCode(String name)
+    {
+        countCode.setText(name);
+    }
+
     public void setCountId(int id)
     {
         countId = id;
-        deleteButton.setTag(Integer.valueOf(id));
+        deleteButton.setTag(id);
     }
 
 }

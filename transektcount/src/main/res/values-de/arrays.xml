@@ -10,12 +10,27 @@
         <item>custom</item>
         <item>default</item>
     </string-array>
-    <string-array name="pref_sort_entries">
+    
+    <string-array name="pref_sort_sect_entries">
+        <item>Unsortiert</item>
         <item>Name, aufsteigend</item>
         <item>Name, absteigend</item>
     </string-array>
-    <string-array name="pref_sort_values">
+    <string-array name="pref_sort_sect_values">
+        <item>none</item>
         <item>name_asc</item>
         <item>name_desc</item>
     </string-array>
+
+    <string-array name="pref_sort_sp_entries">
+        <item>Unsortiert</item>
+        <item>nach Artnamen, alphab.</item>
+        <item>nach Codes</item>
+    </string-array>
+    <string-array name="pref_sort_sp_values">
+        <item>none</item>
+        <item>names_alpha</item>
+        <item>codes</item>
+    </string-array>
+
 </resources>

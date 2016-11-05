@@ -12,11 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wmstein.transektcount.AutoFitText;
-import com.wmstein.transektcount.CountingActivity;
 import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
-/**
+/**********************************
  * Created by wmstein on 06.09.2016
  */
 public class CountingWidgetLH extends RelativeLayout
