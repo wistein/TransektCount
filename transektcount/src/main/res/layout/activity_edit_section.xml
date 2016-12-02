@@ -30,6 +30,10 @@
             android:layout_height="wrap_content">
         </LinearLayout>
 
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -54,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="saveAndExit"
                 android:layout_weight="1"
-                android:text="@string/labelNewsectSaveButton"
+                android:text="@string/labelEditsectSaveButton"
                 android:maxLines="1">
             </Button>
         </LinearLayout>

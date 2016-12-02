@@ -38,7 +38,7 @@
         <Button
             android:id="@+id/newsectSaveButton"
             android:layout_margin="5dp"
-            android:layout_width="150dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:onClick="saveSection"

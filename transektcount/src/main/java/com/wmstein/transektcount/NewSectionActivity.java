@@ -144,9 +144,17 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         // Huzzah!
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
-        // Show the new section.
-        Intent intent = new Intent(NewSectionActivity.this, ListSectionActivity.class);
+        // Edit the new section.
+        int section_id;
+        section = sectionDataSource.getSectionByName(sect_name); 
+        section_id = section.id;
+        Intent intent = new Intent(NewSectionActivity.this, EditSectionActivity.class);
+        intent.putExtra("section_id", section_id);
         startActivity(intent);
+
+        // Show the new section.
+        //Intent intent = new Intent(NewSectionActivity.this, ListSectionActivity.class);
+        //startActivity(intent);
     }
 
     // Compare section names for duplicates and return TRUE when duplicate found

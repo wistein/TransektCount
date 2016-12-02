@@ -20,8 +20,8 @@
 
     <!-- WelcomeActivity -->
     <string name="hello">Eine App für\'s Tagfaltermonitoring\n\nUnterstützt die artspezifische Erfassung von Schmetterlingen in Transektabschnitten.\n\nEine Anleitung zur App gibt es unter dem Menüpunkt \"Hilfe\".</string>
-    <string name="viewSectionButton">Liste Transektabschn.</string>
-    <string name="viewSpeciesButton">Zeige Ergebnis</string>
+    <string name="viewSectionButton">Transektabschnitte</string>
+    <string name="viewSpeciesButton">Ergebnis anzeigen</string>
     <string name="editMetaButton">Begehung vorbereiten</string>
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
@@ -73,7 +73,7 @@
     <string name="date">Datum</string>
 
     <!-- NewSectionActivity -->
-    <string name="labelNewsectSaveButton">Speichern</string>
+    <string name="labelNewsectSaveButton">Speichern und editieren</string>
     <string name="labelNewsect">Hier Abschnittsnamen eingeben</string>
     <string name="labelNewCountButton">Art hinzuf.</string>
     <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
@@ -106,6 +106,8 @@
     <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
     <string name="isdouble"> ist doppelt!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
+    <string name="empty">Kein Eintrag vorhanden!</string>
+    <string name="labelEditsectSaveButton">Abschn. speichern</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>

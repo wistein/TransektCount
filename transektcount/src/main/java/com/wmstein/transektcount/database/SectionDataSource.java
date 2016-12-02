@@ -185,4 +185,18 @@ public class SectionDataSource
         return section;
     }
 
+    // called from NewSectionActivity
+    public Section getSectionByName(String name)
+    {
+        Section section;
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
+            DbHelper.S_NAME + " = ?", new String[]{name}, null, null, null);
+        cursor.moveToFirst();
+        section = cursorToSection(cursor);
+        // Make sure to close the cursor
+        cursor.close();
+        return section;
+    }
+
+
 }

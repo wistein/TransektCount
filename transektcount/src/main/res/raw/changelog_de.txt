@@ -25,6 +25,14 @@
   _
   _ email: stein.wm@web.de
   _
+  * Geeignet für Android 4.2 (JellyBean) - 6.0 (Marshmallow)
+  * Android 7 (Nougat) nicht getestet
+
+$ 1.3.9
+  % Version 1.3.9
+  _ 21.11.2016
+  	* Abbilder der Arten auf Zählseite
+    * Neue Abschnittsliste erstellen ruft direkt Abschnittsliste editieren auf
 $ 1.3.8
   % Version 1.3.8
   _ 27.10.2016
@@ -117,7 +125,6 @@ $ 1.0.6
   _ 22.02.2016
     * Abschnittsliste zeigt Anmerkungen
     * Abschnittsdatum wird nur gezeigt, wenn ungleich 0
-    * Geeignet für Android 17 (JellyBean) - 23 (Marshmallow)
     * Deutsche Übersetzung verbessert
     * Einige kleinere Verbesserungen im Code
 $ 1.0.4

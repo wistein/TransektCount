@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -151,7 +152,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         PowerManager mPowerManager;
         // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
@@ -184,9 +185,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
+        Context context = this.getApplicationContext();
+        
         // build the counting screen
         // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             enableProximitySensor();
         }
@@ -350,7 +353,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         super.onPause();
 
         // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             disableProximitySensor(true);
         }
@@ -398,7 +401,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         saveData();
 
         // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             disableProximitySensor(true);
         }
@@ -550,7 +553,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public void edit(View view)
     {
         // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             disableProximitySensor(true);
         }
@@ -681,7 +684,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (id == R.id.menuEditSection)
         {
             // check for API-Level >= 21
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
                 disableProximitySensor(true);
             }
@@ -719,14 +722,19 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     // modified by wmstein on 10.04.2016
     public void cloneSection()
     {
-        boolean isOK = false;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.dpSectTitle));
 
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+/*        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            input.setShowSoftInputOnFocus(true);
+        }
+*/
         builder.setView(input);
 
         // Set up the buttons
@@ -753,7 +761,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 }
 
                 // Creating the new section
-                Section newSection = sectionDataSource.createSection(m_Text); // might need to escape the name
+                Section newSection = sectionDataSource.createSection(m_Text);
                 newSection.notes = section.notes;
                 sectionDataSource.saveSection(newSection);
                 for (Count c : countDataSource.getAllCountsForSection(section_id))
@@ -778,6 +786,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 dialog.cancel();
             }
         });
+
         builder.show();
     }
 

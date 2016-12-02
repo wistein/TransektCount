@@ -6,166 +6,184 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:baselineAligned="false"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginLeft="2dp"
-              android:layout_marginTop="5dp"
               android:layout_marginRight="2dp"
+              android:layout_marginTop="5dp"
               android:background="@drawable/rounded_corner"
+              android:baselineAligned="false"
+              android:orientation="horizontal"
               android:padding="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_weight="10"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
+        android:layout_weight="10"
+        android:orientation="vertical"
         android:paddingEnd="5dp"
+        android:paddingStart="5dp"
         android:paddingTop="0dp">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="38dp">
+            android:layout_height="38dp"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/countName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:id="@+id/countName"
-                android:hint="@string/countNameHint"
                 android:layout_marginStart="1dp"
-                android:layout_weight="5"/>
+                android:layout_weight="5"
+                android:hint="@string/countNameHint"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#bfffff"
+                android:textSize="17sp"/>
 
             <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4"
-                android:id="@+id/countCount"
-                android:hint="@string/charZero"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:paddingBottom="1dp"
-                android:paddingTop="1dp"
-                android:paddingStart="1dp"
-                android:paddingEnd="1dp"
-                android:textColor="#FFFFFF"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/count_background"
                 android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.4"
+                android:background="@drawable/count_background"
                 android:gravity="center_vertical|center_horizontal"
-                android:inputType="number"/>
+                android:hint="@string/charZero"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:text="i"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:text="i"
-                android:layout_weight="0.8"/>
+                android:textStyle="bold"/>
 
             <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:onClick="countDown"
-                android:src="@drawable/minus"
-                android:scaleType="fitCenter"
-                android:textStyle="bold"
                 android:id="@+id/buttonDown"
-                android:layout_weight="1.2"/>
-
-            <ImageButton
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:onClick="countUp"
-                android:src="@drawable/plus"
+                android:layout_weight="1.2"
+                android:onClick="countDown"
                 android:scaleType="fitCenter"
-                android:textStyle="bold"
+                android:src="@drawable/minus"
+                android:textStyle="bold"/>
+
+            <ImageButton
                 android:id="@+id/buttonUp"
-                android:layout_weight="1.6"/>
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"
+                android:onClick="countUp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/plus"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="38dp">
+            android:layout_height="38dp"
+            android:orientation="horizontal">
 
             <!-- perhaps replace with ImageButton http://developer.android.com/guide/topics/ui/controls/button.html -->
             <ImageButton
+                android:id="@+id/buttonEdit"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="1dp"
+                android:layout_weight="2.2"
                 android:onClick="edit"
-                android:src="@android:drawable/ic_menu_edit"
-                android:id="@+id/buttonEdit"
-                android:layout_weight="2.2"/>
+                android:src="@android:drawable/ic_menu_edit"/>
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.8"/>
-
-            <com.wmstein.transektcount.AutoFitText
+                android:layout_weight="0.1"/>
+            
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4"
-                android:id="@+id/countCounta"
-                android:hint="@string/charZero"
-                android:textAlignment="center"
-                android:singleLine="true"
-                android:paddingBottom="1dp"
-                android:paddingTop="1dp"
-                android:paddingStart="1dp"
-                android:paddingEnd="1dp"
-                android:textColor="#AFAFAF"
-                android:background="@drawable/count_background"
-                android:layout_marginBottom="0dp"
-                android:layout_gravity="center|top"
+                android:id="@+id/pSpecies"
                 android:gravity="center_vertical|center_horizontal"
-                android:inputType="number"/>
+                android:scaleType="fitCenter"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
+                android:src="@drawable/p00000"
+                android:layout_weight="2.6"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCounta"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.4"
+                android:background="@drawable/count_background"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="#AFAFAF"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:hint="e"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:hint="e"
-                android:layout_weight="0.8"/>
+                android:textStyle="bold"/>
 
             <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:onClick="countDowna"
-                android:src="@drawable/minuse"
-                android:scaleType="fitCenter"
-                android:textStyle="bold"
                 android:id="@+id/buttonDowna"
-                android:layout_weight="1.2"/>
-
-            <ImageButton
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:onClick="countUpa"
-                android:src="@drawable/pluse"
+                android:layout_weight="1.2"
+                android:onClick="countDowna"
                 android:scaleType="fitCenter"
-                android:textStyle="bold"
+                android:src="@drawable/minuse"
+                android:textStyle="bold"/>
+
+            <ImageButton
                 android:id="@+id/buttonUpa"
-                android:layout_weight="1.6"/>
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"
+                android:onClick="countUpa"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pluse"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </LinearLayout>

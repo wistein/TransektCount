@@ -115,7 +115,6 @@ public class TransektCountApplication extends Application
         }
         else if (backgroundPref.equals("default"))
         {
-            //bMap = BitmapFactory.decodeResource(getResources(), R.drawable.transektcount_picture);
             bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
         }
 

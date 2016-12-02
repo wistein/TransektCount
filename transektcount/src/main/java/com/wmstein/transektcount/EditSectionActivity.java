@@ -413,7 +413,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             }
             else
             {
-                Toast.makeText(this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
             }
         }
         return retValue;
