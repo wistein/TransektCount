@@ -1,5 +1,6 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -97,6 +98,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         {
             count_id = extras.getInt("count_id");
             section_id = extras.getInt("section_id");
+            //spinnerPosition = extras.getInt("itemposition");
         }
 
         savedAlerts = new ArrayList<>();
@@ -135,10 +137,32 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         // 2. Current counta value (external counter)
         // 3. Alert add/remove
         curr_val_widget = new OptionsWidget(this, null);
-        curr_val_widget.setInstructions(String.format(getString(R.string.editCountValue), count.name, count.count));
-        curr_val_widget.setInstructionsa(String.format(getString(R.string.editCountValuea), count.name, count.counta));
-        curr_val_widget.setParameterValue(count.count);
-        curr_val_widget.setParameterValuea(count.counta);
+        curr_val_widget.setInstructionsf1i(String.format(getString(R.string.editCountValuef1i), count.count_f1i));
+        curr_val_widget.setInstructionsf2i(String.format(getString(R.string.editCountValuef2i), count.count_f2i));
+        curr_val_widget.setInstructionsf3i(String.format(getString(R.string.editCountValuef3i), count.count_f3i));
+        curr_val_widget.setInstructionspi(String.format(getString(R.string.editCountValuepi), count.count_pi));
+        curr_val_widget.setInstructionsli(String.format(getString(R.string.editCountValueli), count.count_li));
+        curr_val_widget.setInstructionsei(String.format(getString(R.string.editCountValueei), count.count_ei));
+        curr_val_widget.setInstructionsf1e(String.format(getString(R.string.editCountValuef1e), count.count_f1e));
+        curr_val_widget.setInstructionsf2e(String.format(getString(R.string.editCountValuef2e), count.count_f2e));
+        curr_val_widget.setInstructionsf3e(String.format(getString(R.string.editCountValuef3e), count.count_f3e));
+        curr_val_widget.setInstructionspe(String.format(getString(R.string.editCountValuepe), count.count_pe));
+        curr_val_widget.setInstructionsle(String.format(getString(R.string.editCountValuele), count.count_le));
+        curr_val_widget.setInstructionsee(String.format(getString(R.string.editCountValueee), count.count_ee));
+        
+        curr_val_widget.setParameterValuef1i(count.count_f1i);
+        curr_val_widget.setParameterValuef2i(count.count_f2i);
+        curr_val_widget.setParameterValuef3i(count.count_f3i);
+        curr_val_widget.setParameterValuepi(count.count_pi);
+        curr_val_widget.setParameterValueli(count.count_li);
+        curr_val_widget.setParameterValueei(count.count_ei);
+        curr_val_widget.setParameterValuef1e(count.count_f1e);
+        curr_val_widget.setParameterValuef2e(count.count_f2e);
+        curr_val_widget.setParameterValuef3e(count.count_f3e);
+        curr_val_widget.setParameterValuepe(count.count_pe);
+        curr_val_widget.setParameterValuele(count.count_le);
+        curr_val_widget.setParameterValueee(count.count_ee);
+        
         static_widget_area.addView(curr_val_widget);
 
         enw = new EditNotesWidget(this, null);
@@ -206,12 +230,23 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         super.finish();
     }
 
+    @SuppressLint("LongLogTag")
     public void saveData()
     {
         // don't crash if the user hasn't filled things in...
         Toast.makeText(CountOptionsActivity.this, getString(R.string.sectSaving) + " " + count.name + "!", Toast.LENGTH_SHORT).show();
-        count.counta = curr_val_widget.getParameterValuea();
-        count.count = curr_val_widget.getParameterValue();
+        count.count_f1i = curr_val_widget.getParameterValuef1i();
+        count.count_f2i = curr_val_widget.getParameterValuef2i();
+        count.count_f3i = curr_val_widget.getParameterValuef3i();
+        count.count_pi = curr_val_widget.getParameterValuepi();
+        count.count_li = curr_val_widget.getParameterValueli();
+        count.count_ei = curr_val_widget.getParameterValueei();
+        count.count_f1e = curr_val_widget.getParameterValuef1e();
+        count.count_f2e = curr_val_widget.getParameterValuef2e();
+        count.count_f3e = curr_val_widget.getParameterValuef3e();
+        count.count_pe = curr_val_widget.getParameterValuepe();
+        count.count_le = curr_val_widget.getParameterValuele();
+        count.count_ee = curr_val_widget.getParameterValueee();
         count.notes = enw.getSectionNotes();
 
         countDataSource.saveCount(count);
@@ -305,6 +340,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             areYouSure.setMessage(getString(R.string.reallyDeleteAlert));
             areYouSure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
             {
+                @SuppressLint("LongLogTag")
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
                     // go ahead for the delete
@@ -372,35 +408,37 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     *
+     * <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     *
+     * <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
      * isNotEmpty("bob")     = true
      * isNotEmpty("  bob  ") = true
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      */
-    public static boolean isNotEmpty(final CharSequence cs) {
+    public static boolean isNotEmpty(final CharSequence cs)
+    {
         return !isEmpty(cs);
     }
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     *
+     * <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false
      * isEmpty("bob")     = false
      * isEmpty("  bob  ") = false
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is empty or null
      */
-    public static boolean isEmpty(final CharSequence cs) {
+    public static boolean isEmpty(final CharSequence cs)
+    {
         return cs == null || cs.length() == 0;
     }
 

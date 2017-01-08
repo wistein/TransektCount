@@ -14,10 +14,12 @@ import com.wmstein.transektcount.R;
  */
 public class ListHeadWidget extends LinearLayout
 {
-    TextView widget_lno; // used for transect_no title
-    TextView widget_lno1; // used for transect_no
-    TextView widget_lname; // used for inspector_name title
-    TextView widget_lname1; // used for inspector_name
+    public static String TAG = "transektcountListHeadWidget";
+
+    private TextView widget_lno;    // used for transect_no title
+    private TextView widget_lno1;   // used for transect_no
+    private TextView widget_lname;  // used for inspector_name title
+    private TextView widget_lname1; // used for inspector_name
 
     public ListHeadWidget(Context context, AttributeSet attrs)
     {

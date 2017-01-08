@@ -1,5 +1,6 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,7 +56,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     int section_id;
     LinearLayout counts_area;
-    LinearLayout notes_area;
+    LinearLayout notes_area2;
     EditTitleWidget etw;
     EditNotesWidget enw;
     private View markedForDelete;
@@ -65,6 +66,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public ArrayList<String> countNames;
     public ArrayList<String> countCodes;
     public ArrayList<String> cmpCountNames;
+    public ArrayList<String> cmpCountCodes;
     public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
 
@@ -88,7 +90,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         countIds = new ArrayList<>();
         savedCounts = new ArrayList<>();
 
-        notes_area = (LinearLayout) findViewById(R.id.editingNotesLayout);
+        notes_area2 = (LinearLayout) findViewById(R.id.editingNotesLayout);
         counts_area = (LinearLayout) findViewById(R.id.editingCountsLayout);
 
         Bundle extras = getIntent().getExtras();
@@ -131,6 +133,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         counting_screen.setBackground(bg);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onResume()
     {
@@ -139,7 +142,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // build the Edit Section screen
         // clear any existing views
         counts_area.removeAllViews();
-        notes_area.removeAllViews();
+        notes_area2.removeAllViews();
 
         // setup the data sources
         sectionDataSource = new SectionDataSource(this);
@@ -164,7 +167,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         etw = new EditTitleWidget(this, null);
         etw.setSectionName(oldname);
         etw.setWidgetTitle(getString(R.string.titleEdit));
-        notes_area.addView(etw);
+        notes_area2.addView(etw);
 
         // display editable section notes; the same class
         // is being used for both due to being lazy
@@ -173,7 +176,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.setWidgetNotes(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
         enw.requestFocus();
-        notes_area.addView(enw);
+        notes_area2.addView(enw);
 
         // load the counts data
         counts = countDataSource.getAllCountsForSection(section.id);
@@ -288,7 +291,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public String compCountNames()
     {
         String name = "";
-        String isDbl = "";
+        String isDblName = "";
         cmpCountNames = new ArrayList<String>();
 
         int childcount = counts_area.getChildCount();
@@ -300,13 +303,38 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
             if (cmpCountNames.contains(name))
             {
-                isDbl = name;
-                //Log.i(TAG, "Double name = " + isDbl);
+                isDblName = name;
+                //Log.i(TAG, "Double name = " + isDblName);
                 break;
             }
             cmpCountNames.add(name);
         }
-        return isDbl;
+        return isDblName;
+    }
+
+    // Compare count codes for duplicates and returns name of 1. duplicate found
+    public String compCountCodes()
+    {
+        String code = "";
+        String isDblCode = "";
+        cmpCountCodes = new ArrayList<String>();
+
+        int childcount = counts_area.getChildCount();
+        // for all CountEditWidgets
+        for (int i = 0; i < childcount; i++)
+        {
+            CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
+            code = cew.getCountCode();
+
+            if (cmpCountCodes.contains(code))
+            {
+                isDblCode = code;
+                //Log.i(TAG, "Double name = " + isDblName);
+                break;
+            }
+            cmpCountCodes.add(code);
+        }
+        return isDblCode;
     }
 
     public void saveAndExit(View view)
@@ -366,7 +394,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             sectionDataSource.saveSection(section);
 
             // save counts (species list)
-            String isDbl = "";
+            String isDblName = "";
+            String isDblCode = "";
             int childcount; //No. of species in list
             childcount = counts_area.getChildCount();
             //Log.i(TAG, "childcount: " + String.valueOf(childcount));
@@ -374,14 +403,16 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             // check for unique species names
             if (dupPref)
             {
-                isDbl = compCountNames();
-                if (isDbl.equals(""))
+                isDblName = compCountNames();
+                isDblCode = compCountCodes();
+                if (isDblName.equals("") && isDblCode.equals(""))
                 {
                     // do for all species 
                     for (int i = 0; i < childcount; i++)
                     {
                         CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
-                        if (isNotEmpty(cew.getCountName()))
+//                        if (isNotEmpty(cew.getCountName()))
+                        if (isNotEmpty(cew.getCountName()) && isNotEmpty(cew.getCountCode()))
                         {
                             //Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
                             // create or save
@@ -398,23 +429,33 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                             }
                             retValue = true;
                         }
+                        else
+                        {
+                            Toast.makeText(this, getString(R.string.isempt), Toast.LENGTH_SHORT).show();
+                            retValue = false;
+                        }
                     }
                 }
                 else
                 {
-                    Toast.makeText(this, isDbl + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.spname) + " " + isDblName + " "
+                        + getString(R.string.orcode) + " " + isDblCode + " " 
+                        + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
                     retValue = false;
                 }
             }
 
             if (retValue)
             {
-                Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " 
+                    + section.name + "!", Toast.LENGTH_SHORT).show();
             }
+/*
             else
             {
                 Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
             }
+*/
         }
         return retValue;
     }
@@ -423,7 +464,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     // created by wmstein on 10.04.2016
     public boolean compSectionNames(String newname)
     {
-        boolean isDbl = false;
+        boolean isDblName = false;
         String sname;
 
         if (newname.equals(oldname))
@@ -442,12 +483,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             //Log.i(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
-                isDbl = true;
+                isDblName = true;
                 //Log.i(TAG, "Double name = " + sname);
                 break;
             }
         }
-        return isDbl;
+        return isDblName;
     }
 
     // Scroll to end of view, by wmstein
@@ -542,7 +583,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     *
+     * <p>
      * Checks if a CharSequence is not empty ("") and not null.
      * <p>
      * isNotEmpty(null)      = false

@@ -23,12 +23,13 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 /******************************************************************
- * Based on "A very simple CSV writer" by 
+ * Based on "A very simple CSV writer" by
+ *
  * @author Glen Smith
- * 
- * The following code is an extraction of the library of Glen Smith 
- * and provides only the functions needed here.
- * Modified by wmstein
+ *         <p>
+ *         The following code is an extraction of the library of Glen Smith
+ *         and provides only the functions needed here.
+ *         Modified by wmstein
  */
 public class CSVWriter implements Closeable, Flushable
 {
@@ -175,6 +176,7 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Writes the next line to the file.
+     *
      * @param nextLine a string array with each comma-separated element as a separate
      *                 entry.
      */
@@ -185,6 +187,7 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * checks to see if the line contains special characters.
+     *
      * @param line - element of data to check for special characters.
      * @return true if the line contains the quote, escape, separator, newline or return.
      */
@@ -195,6 +198,7 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Processes all the characters in a line.
+     *
      * @param nextElement - element to process.
      * @return a StringBuilder with the elements data.
      */
@@ -211,7 +215,8 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Appends the character to the StringBuilder adding the escape character if needed.
-     * @param sb - StringBuffer holding the processed character.
+     *
+     * @param sb       - StringBuffer holding the processed character.
      * @param nextChar - character to process
      */
     private void processCharacter(StringBuilder sb, char nextChar)
@@ -235,6 +240,7 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Flush underlying stream to writer.
+     *
      * @throws IOException if bad things happen
      */
     public void flush() throws IOException

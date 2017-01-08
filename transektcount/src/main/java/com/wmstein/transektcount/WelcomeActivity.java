@@ -45,12 +45,12 @@ import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
 
 /**********************************************************************
- * WelcomeActivity provides the starting page with menu and buttons for 
+ * WelcomeActivity provides the starting page with menu and buttons for
  * import/export/help/info methods and
  * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
  * <p/>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
- * Changes and additions for TransektCount by wmstein on 18.02.2016
+ * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -255,7 +255,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");
-        
+
     }
 
     public void onStop()
@@ -269,7 +269,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
      ***********************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
     // supplemented with date and time in filename by wmstein
-    @SuppressLint("SdCardPath")
+    @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
     {
         boolean mExternalStorageAvailable;
@@ -331,7 +331,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.csv
     // supplemented with date and time in filename by wmstein
     // and purged export in csv-format
-    @SuppressLint("SdCardPath")
+    @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
     {
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
@@ -345,7 +345,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Meta meta;
         String transNo, inspecName;
         int temp, wind, clouds;
-        int sum = 0, suma = 0;
+        int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
+        int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
         String date, start_tm, end_tm;
 
         dbHandler = new DbHelper(this);
@@ -435,16 +436,30 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrEmpt[] = {};
                 csvWrite.writeNext(arrEmpt);
 
-                // Section, Section Notes, Species, Codes, Internal, External, Notes
+                // Intern, extern
+                String arrIE[] = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                csvWrite.writeNext(arrIE);
+
+                // Section, Section Notes, Species, Codes, Internal counts, External counts, Notes
                 String arrCol1[] =
                     {
-                        getString(R.string.col1),
-                        getString(R.string.col2),
-                        getString(R.string.col3),
-                        getString(R.string.col3a),
-                        getString(R.string.col4),
-                        getString(R.string.col5),
-                        getString(R.string.col6)
+                        getString(R.string.name_sect),
+                        getString(R.string.notes_sect),
+                        getString(R.string.name_spec),
+                        getString(R.string.code_spec),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.rem_spec)
                     };
                 csvWrite.writeNext(arrCol1);
 
@@ -454,18 +469,36 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 {
                 case "names_alpha":
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
-                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_NAME, null);
+                        + " WHERE ("
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_NAME, null);
                     break;
                 case "codes":
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
-                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_CODE, null);
+                        + " WHERE ("
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_CODE, null);
                     break;
                 default:
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE (" + DbHelper.C_COUNT + " > 0 OR "
-                        + DbHelper.C_COUNTA + " > 0) order by " + DbHelper.C_NAME, null);
+                        + " WHERE ("
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_NAME, null);
                     break;
                 }
 
@@ -481,15 +514,36 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         {
                             sectName,              //section name
                             sectNotes,             //section notes
-                            curCSV.getString(4),   //species name
-                            curCSV.getString(5),   //species code
-                            curCSV.getString(2),   //count
-                            curCSV.getString(3),   //counta
-                            curCSV.getString(6)    //notes
+                            curCSV.getString(2),   //species name
+                            curCSV.getString(3),   //species code
+                            curCSV.getString(4),   //count mf
+                            curCSV.getString(5),   //count m
+                            curCSV.getString(6),   //count f
+                            curCSV.getString(7),   //count p
+                            curCSV.getString(8),   //count l
+                            curCSV.getString(9),   //count e
+                            curCSV.getString(10),   //count mfe
+                            curCSV.getString(11),   //count me
+                            curCSV.getString(12),   //count fe
+                            curCSV.getString(13),   //count pe
+                            curCSV.getString(14),   //count le
+                            curCSV.getString(15),   //count ee
+                            curCSV.getString(16)    //notes
                         };
                     csvWrite.writeNext(arrStr);
-                    sum = sum + curCSV.getInt(2);
-                    suma = suma + curCSV.getInt(3);
+
+                    summf = summf + curCSV.getInt(4);
+                    summ = summ + curCSV.getInt(5);
+                    sumf = sumf + curCSV.getInt(6);
+                    sump = sump + curCSV.getInt(7);
+                    suml = suml + curCSV.getInt(8);
+                    sumo = sumo + curCSV.getInt(9);
+                    summfe = summfe + curCSV.getInt(10);
+                    summe = summe + curCSV.getInt(11);
+                    sumfe = sumfe + curCSV.getInt(12);
+                    sumpe = sumpe + curCSV.getInt(13);
+                    sumle = sumle + curCSV.getInt(14);
+                    sumoe = sumoe + curCSV.getInt(15);
                     curCSV.moveToNext();
                 }
                 curCSV.close();
@@ -497,14 +551,21 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // write total sum
                 String arrSum[] =
                     {
-                        "",
-                        "",
+                        "", "", "",
                         getString(R.string.sum),
-                        Integer.toString(sum),
-                        Integer.toString(suma)
+                        Integer.toString(summf),
+                        Integer.toString(summ),
+                        Integer.toString(sumf),
+                        Integer.toString(sump),
+                        Integer.toString(suml),
+                        Integer.toString(sumo),
+                        Integer.toString(summfe),
+                        Integer.toString(summe),
+                        Integer.toString(sumfe),
+                        Integer.toString(sumpe),
+                        Integer.toString(sumle),
+                        Integer.toString(sumoe),
                     };
-                sum = 0;
-                suma = 0;
                 csvWrite.writeNext(arrSum);
 
                 csvWrite.close();
@@ -524,7 +585,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     /**********************************************************************************************/
-    @SuppressLint("SdCardPath")
+    @SuppressLint({"SdCardPath", "LongLogTag"})
     // modified by wmstein
     public void exportBasisDb()
     {
@@ -633,8 +694,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         database = dbHandler.getWritableDatabase();
 
         String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
-            + DbHelper.C_COUNT + " = 0, "
-            + DbHelper.C_COUNTA + " = 0, "
+            + DbHelper.C_COUNT_F1I + " = 0, "
+            + DbHelper.C_COUNT_F2I + " = 0, "
+            + DbHelper.C_COUNT_F3I + " = 0, "
+            + DbHelper.C_COUNT_PI + " = 0, "
+            + DbHelper.C_COUNT_LI + " = 0, "
+            + DbHelper.C_COUNT_EI + " = 0, "
+            + DbHelper.C_COUNT_F1E + " = 0, "
+            + DbHelper.C_COUNT_F2E + " = 0, "
+            + DbHelper.C_COUNT_F3E + " = 0, "
+            + DbHelper.C_COUNT_PE + " = 0, "
+            + DbHelper.C_COUNT_LE + " = 0, "
+            + DbHelper.C_COUNT_EE + " = 0, "
             + DbHelper.C_NOTES + " = '';";
         database.execSQL(sql);
 
@@ -675,6 +746,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         startActivityForResult(intent, FILE_CHOOSER);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     // Function is part of loadFile() and processes the result of AdvFileChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -765,7 +837,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     /**********************************************************************************************/
-    @SuppressLint("SdCardPath")
+    @SuppressLint({"SdCardPath", "LongLogTag"})
     // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {

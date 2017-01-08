@@ -39,7 +39,7 @@ public class SettingsActivity extends PreferenceActivity
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        Preference button = (Preference) findPreference("button");
+        Preference button = findPreference("button");
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
@@ -57,7 +57,7 @@ public class SettingsActivity extends PreferenceActivity
         alert_uri = Uri.parse(strRingtonePreference);
         //Log.i(TAG,"ALERT_URI: " + String.valueOf(alert_uri));
 
-        Preference alert_sound = (Preference) findPreference("alert_sound");
+        Preference alert_sound = findPreference("alert_sound");
         alert_sound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
@@ -72,7 +72,7 @@ public class SettingsActivity extends PreferenceActivity
         String strButtonSoundPreference = prefs.getString("alert_button_sound", "DEFAULT_SOUND");
         alert_button_uri = Uri.parse(strButtonSoundPreference);
 
-        Preference alert_button_sound = (Preference) findPreference("alert_button_sound");
+        Preference alert_button_sound = findPreference("alert_button_sound");
         alert_button_sound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
@@ -115,7 +115,7 @@ public class SettingsActivity extends PreferenceActivity
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getString(R.string.pref_sound));
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) tmp_alert_uri);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, tmp_alert_uri);
         this.startActivityForResult(intent, requestCode);
     }
 

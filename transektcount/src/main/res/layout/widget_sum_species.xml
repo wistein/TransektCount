@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Wilhelm Stein, Bonn, Germany.
+  -->
+
+<!-- widget_sum_species.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
+     Shows totals of species counts -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:baselineAligned="false"
+              android:background="@drawable/corner"
+              android:orientation="horizontal"
+              android:padding="3dp"
+              tools:context=".ListSpeciesActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+        
+        <!-- Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:paddingTop="2dp"
+            android:background="@android:color/white"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtInternalSum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:gravity="start|top"
+                android:padding="2sp"
+                android:text="@string/countInternalSum"
+                android:textColor="#BFFFFF"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
+
+            <!-- Headline ♂, ♀,... -->
+            <TextView
+                android:id="@+id/txt_summf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_mf"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_summ"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_m"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sumf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_f"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sump"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_p"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_suml"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_l"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_e"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+        <!-- countf1i -->
+            <TextView
+                android:id="@+id/sumCountf1i"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countf2i -->
+            <TextView
+                android:id="@+id/sumCountf2i"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countf3i -->
+            <TextView
+                android:id="@+id/sumCountf3i"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countpi -->
+            <TextView
+                android:id="@+id/sumCountpi"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countli -->
+            <TextView
+                android:id="@+id/sumCountli"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countei -->
+            <TextView
+                android:id="@+id/sumCountei"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtExternalSum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:gravity="start|top"
+                android:padding="2sp"
+                android:text="@string/countExternalSum"
+                android:textColor="#BFFFFF"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
+
+            <!-- Headline ♂, ♀,... -->
+            <TextView
+                android:id="@+id/txt_summfe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_mf"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_summe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_m"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sumfe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_f"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sumpe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_p"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sumle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_l"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/txt_sumee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:gravity="center"
+                android:padding="4sp"
+                android:text="@string/txt_e"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <!-- countf1e -->
+            <TextView
+                android:id="@+id/sumCountf1e"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countf2e -->
+            <TextView
+                android:id="@+id/sumCountf2e"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countf3e -->
+            <TextView
+                android:id="@+id/sumCountf3e"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countpe -->
+            <TextView
+                android:id="@+id/sumCountpe"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countle -->
+            <TextView
+                android:id="@+id/sumCountle"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"/>
+
+            <!-- countee -->
+            <TextView
+                android:id="@+id/sumCountee"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1.6"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+    </LinearLayout>
+</LinearLayout>

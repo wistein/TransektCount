@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -19,6 +20,7 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.ListHeadWidget;
 import com.wmstein.transektcount.widgets.ListMetaWidget;
 import com.wmstein.transektcount.widgets.ListSpeciesWidget;
+import com.wmstein.transektcount.widgets.ListSumWidget;
 
 import java.util.List;
 
@@ -31,14 +33,24 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     private static String TAG = "transektcountListSpeciesActivity";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
-    
+
     LinearLayout spec_area;
 
     Head head;
     Meta meta;
 
-    public int spec_count;
-    public int spec_counta;
+    public int spec_countf1i;
+    public int spec_countf2i;
+    public int spec_countf3i;
+    public int spec_countpi;
+    public int spec_countli;
+    public int spec_countei;
+    public int spec_countf1e;
+    public int spec_countf2e;
+    public int spec_countf3e;
+    public int spec_countpe;
+    public int spec_countle;
+    public int spec_countee;
 
     // preferences
     private boolean awakePref;
@@ -50,8 +62,9 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
 
-    ListHeadWidget ehw;
-    ListMetaWidget etw;
+    ListHeadWidget lhw;
+    ListMetaWidget lmw;
+    ListSumWidget lsw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,6 +113,9 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // fill ListSpeciesWidget with relevant counts and sections data
     public void loadData()
     {
+        int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
+        int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
+
         headDataSource.open();
         metaDataSource.open();
 
@@ -108,45 +124,40 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         meta = metaDataSource.getMeta();
 
         // display the editable transect No.
-        ehw = new ListHeadWidget(this, null);
-        ehw.setWidgetLNo(getString(R.string.transectnumber));
-        ehw.setWidgetLNo1(head.transect_no);
-        ehw.setWidgetLName(getString(R.string.inspector));
-        ehw.setWidgetLName1(head.inspector_name);
-        spec_area.addView(ehw);
+        lhw = new ListHeadWidget(this, null);
+        lhw.setWidgetLNo(getString(R.string.transectnumber));
+        lhw.setWidgetLNo1(head.transect_no);
+        lhw.setWidgetLName(getString(R.string.inspector));
+        lhw.setWidgetLName1(head.inspector_name);
+        spec_area.addView(lhw);
 
         // display the editable meta data
-        etw = new ListMetaWidget(this, null);
-        etw.setWidgetLMeta1(getString(R.string.temperature));
-        etw.setWidgetLItem1(meta.temp);
-        etw.setWidgetLMeta2(getString(R.string.wind));
-        etw.setWidgetLItem2(meta.wind);
-        etw.setWidgetLMeta3(getString(R.string.clouds));
-        etw.setWidgetLItem3(meta.clouds);
-        etw.setWidgetLDate1(getString(R.string.date));
-        etw.setWidgetLDate2(meta.date);
-        etw.setWidgetLTime1(getString(R.string.starttm));
-        etw.setWidgetLItem4(meta.start_tm);
-        etw.setWidgetLTime2(getString(R.string.endtm));
-        etw.setWidgetLItem5(meta.end_tm);
-        spec_area.addView(etw);
-        
+        lmw = new ListMetaWidget(this, null);
+        lmw.setWidgetLMeta1(getString(R.string.temperature));
+        lmw.setWidgetLItem1(meta.temp);
+        lmw.setWidgetLMeta2(getString(R.string.wind));
+        lmw.setWidgetLItem2(meta.wind);
+        lmw.setWidgetLMeta3(getString(R.string.clouds));
+        lmw.setWidgetLItem3(meta.clouds);
+        lmw.setWidgetLDate1(getString(R.string.date));
+        lmw.setWidgetLDate2(meta.date);
+        lmw.setWidgetLTime1(getString(R.string.starttm));
+        lmw.setWidgetLItem4(meta.start_tm);
+        lmw.setWidgetLTime2(getString(R.string.endtm));
+        lmw.setWidgetLItem5(meta.end_tm);
+        spec_area.addView(lmw);
+
+        // display all the sorted counts by adding them to listSpecies layout
         List<Section> sort_sections; // List of sorted sections
         List<Count> specs; // List of species
 
         int sect_id;
-        // preset for unused id of section as starting criteria in if-clause of for-loop
-        int sect_idOld = 0;
         Section section;
-
-        // setup the data sources
         countDataSource.open();
         sectionDataSource.open();
 
-        // load the data
         sort_sections = sectionDataSource.getAllSections(prefs);
 
-        // display all the sorted counts by adding them to listSpecies layout
         for (Section sort_sect : sort_sections)
         {
             sect_id = sort_sect.id;
@@ -163,35 +174,72 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
                 specs = countDataSource.getAllSpecsForSection(sect_id);
                 break;
             }
-            
+
             for (Count spec : specs)
             {
-                // set section ID from count table and prepare to get section name from section table
-                //sect_id = spec.section_id;
-                //Log.e(TAG, "sect_id "  + String.valueOf(sect_id));
                 section = sectionDataSource.getSection(sect_id);
 
                 ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
                 widget.setCount(spec, section);
-                spec_count = widget.getSpec_count(spec);
-                spec_counta = widget.getSpec_counta(spec);
+                spec_countf1i = widget.getSpec_countf1i(spec);
+                spec_countf2i = widget.getSpec_countf2i(spec);
+                spec_countf3i = widget.getSpec_countf3i(spec);
+                spec_countpi = widget.getSpec_countpi(spec);
+                spec_countli = widget.getSpec_countli(spec);
+                spec_countei = widget.getSpec_countei(spec);
+                spec_countf1e = widget.getSpec_countf1e(spec);
+                spec_countf2e = widget.getSpec_countf2e(spec);
+                spec_countf3e = widget.getSpec_countf3e(spec);
+                spec_countpe = widget.getSpec_countpe(spec);
+                spec_countle = widget.getSpec_countle(spec);
+                spec_countee = widget.getSpec_countee(spec);
 
-                // Show 2nd and ff. section names and remarks dark grey
-                if (sect_id == sect_idOld)
-                {
-                    widget.setCount1();
-                }
+                summf = summf + spec_countf1i;
+                summ = summ + spec_countf2i;
+                sumf = sumf + spec_countf3i;
+                sump = sump + spec_countpi;
+                suml = suml + spec_countli;
+                sumo = sumo + spec_countei;
+                summfe = summfe + spec_countf1e;
+                summe = summe + spec_countf2e;
+                sumfe = sumfe + spec_countf3e;
+                sumpe = sumpe + spec_countpe;
+                sumle = sumle + spec_countle;
+                sumoe = sumoe + spec_countee;
 
                 spec_area.addView(widget);
-                sect_idOld = sect_id;
             }
         }
-    }
 
+        // display the totals
+        lsw = new ListSumWidget(this, null);
+        lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe);
+
+        spec_area.addView(lsw);
+
+    }
+    
     @Override
     protected void onPause()
     {
         super.onPause();
+
+        // close the data sources
+        headDataSource.close();
+        metaDataSource.close();
+        countDataSource.close();
+        sectionDataSource.close();
+
+        if (awakePref)
+        {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
 
         // close the data sources
         headDataSource.close();

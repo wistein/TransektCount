@@ -86,7 +86,7 @@ public class AdvFileChooser extends Activity
     {
         File[] dirs = null;
         String fileDate;
-        
+
         if (fileFilter != null)
             dirs = f.listFiles(fileFilter);
         else
@@ -102,7 +102,7 @@ public class AdvFileChooser extends Activity
                 if (!ff.isHidden())
                 {
                     fls.add(new Option(ff.getName(), getString(R.string.fileSize) + ": "
-                        + ff.length() + " B,  " + getString(R.string.date) + ": " 
+                        + ff.length() + " B,  " + getString(R.string.date) + ": "
                         + dform.format(ff.lastModified()), ff.getAbsolutePath(), false, false, false));
                 }
             }

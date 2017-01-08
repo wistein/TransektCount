@@ -12,14 +12,15 @@
               android:padding="2dp">
 
     <TextView
+        android:id="@+id/notes_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/notes_text"
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:layout_gravity="bottom|start|end|top"
         android:hint="@string/hintSectionNotes"/>
+    
 </LinearLayout>
 

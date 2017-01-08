@@ -129,7 +129,7 @@ public class SectionDataSource
             orderBy = "";
             break;
         }
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, 
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
             null, null, null, null, orderBy);
 
         cursor.moveToFirst();
@@ -176,7 +176,7 @@ public class SectionDataSource
     public Section getSection(int section_id)
     {
         Section section;
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns, 
+        Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
             DbHelper.S_ID + " = ?", new String[]{String.valueOf(section_id)}, null, null, null);
         cursor.moveToFirst();
         section = cursorToSection(cursor);

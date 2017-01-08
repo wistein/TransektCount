@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:baselineAligned="false"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="2dp"
+              android:layout_marginTop="2dp"
+              android:layout_marginRight="2dp"
+              android:background="@drawable/rounded_corner"
+              android:padding="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHf1e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHf1e"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHf1e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHf1e"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHf1e"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/f1eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagomfHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHf2e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHf2e"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHf2e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHf2e"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHf2e"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/f2eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagomHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHf3e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHf3e"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHf3e"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHf3e"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHf3e"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/f3eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagofHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHpe"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHpe"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHpe"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHpe"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHpe"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/peNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countPupaHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHle"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHle"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHle"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHle"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/leNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countLarvaHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="38dp">
+
+            <ImageButton
+                android:id="@+id/buttonUpLHee"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="countUpLHee"
+                android:src="@drawable/plus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.6"/>
+
+            <ImageButton
+                android:id="@+id/buttonDownLHee"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:onClick="countDownLHee"
+                android:src="@drawable/minus"
+                android:scaleType="fitCenter"
+                android:textStyle="bold"
+                android:layout_weight="1.4"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <com.wmstein.transektcount.AutoFitText
+                android:id="@+id/countCountLHee"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.7"
+                android:hint="@string/charZero"
+                android:textAlignment="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:paddingStart="1dp"
+                android:paddingEnd="1dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/count_background"
+                android:layout_gravity="center|top"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <TextView
+                android:id="@+id/eeNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countOvoHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    
+</LinearLayout>
+

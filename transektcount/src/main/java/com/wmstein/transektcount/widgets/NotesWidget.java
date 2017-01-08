@@ -2,7 +2,6 @@ package com.wmstein.transektcount.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,12 +38,12 @@ public class NotesWidget extends LinearLayout
         if (large)
         {
             //Log.i(TAG, "Setzt große Schrift.");
-            textView.setTextSize(20);
+            textView.setTextSize(14);
         }
         else
         {
             //Log.i(TAG, "Setzt kleine Schrift.");
-            textView.setTextSize(14);
+            textView.setTextSize(12);
         }
     }
 

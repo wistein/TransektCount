@@ -1,39 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_counting.xml is used by CountingActivity.java -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/countingScreen">
+<!-- 
+  ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
+    activity_counting.xml is used by CountingActivity.java 
+-->
+<LinearLayout android:id="@+id/countingScreen"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- insert the new notes as they are created in here -->
+        <!-- insert the section notes in here -->
         <LinearLayout
-            android:id="@+id/countNotesLayout"
-            android:orientation="vertical"
-            android:fillViewport="true"
+            android:id="@+id/sectionNotesLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            />
 
+        <!-- separating white line -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:background="@android:color/white"
             android:paddingTop="2dp"
-            android:background="@android:color/white"/>
-        
-        <!-- insert the new counts as they are created in here -->
-        <LinearLayout
-            android:id="@+id/countCountLayout"
-            android:orientation="vertical"
-            android:fillViewport="true"
+            />
+
+        <!-- insert spinner widget_counting_head1 here -->
+        <Spinner
+            android:id="@+id/countHead1Spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            />
 
+        <!-- separating white line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/white"
+            android:paddingTop="2dp"
+            />
+
+        <!-- insert head2 in here -->
+        <LinearLayout
+            android:id="@+id/countHead2Layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            />
+
+        <!-- separating white line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/white"
+            android:paddingTop="2dp"
+            />
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- insert the internal counts in here -->
+                <LinearLayout
+                    android:id="@+id/countCountiLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical"
+                    />
+
+                <!-- separating white line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@android:color/white"
+                    android:paddingTop="2dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/countHead3Layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical"
+                    />
+
+                <!-- separating white line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@android:color/white"
+                    android:paddingTop="2dp"
+                    />
+
+                <!-- insert the external counts in here -->
+                <LinearLayout
+                    android:id="@+id/countCounteLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <!-- separating white line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@android:color/white"
+                    android:paddingTop="2dp"
+                    />
+
+                <!-- insert the species notes in here -->
+                <LinearLayout
+                    android:id="@+id/countNotesLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical"
+                    />
+
+                <!-- insert the alert notes in here -->
+                <LinearLayout
+                    android:id="@+id/alertNotesLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:orientation="vertical"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-</ScrollView>
-
+</LinearLayout>

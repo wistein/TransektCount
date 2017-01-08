@@ -7,6 +7,7 @@
     <string name="title_activity_meta">Meta-Daten</string>
     <string name="title_activity_list_section">Liste Transektabschn.</string>
     <string name="title_activity_counting">CountingActivity</string>
+    <string name="title_activity_dummy">DummyActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
@@ -51,13 +52,13 @@
     <string name="fileSize">Größe</string>
 
     <!-- EditMetaActivity -->
-    <string name="col1">Abschnitt</string>
-    <string name="col2">Ab.-Bemerkungen</string>
-    <string name="col3">Spezies</string>
-    <string name="col3a">Spezies Code</string>
-    <string name="col4">Intern</string>
-    <string name="col5">Extern</string>
-    <string name="col6">Bemerkungen</string>
+    <string name="name_sect">Abschnitt</string>
+    <string name="notes_sect">Ab.-Bemerkungen</string>
+    <string name="name_spec">Spezies</string>
+    <string name="code_spec">Spezies Code</string>
+    <string name="internal">Intern</string>
+    <string name="external">Extern</string>
+    <string name="rem_spec">Bemerkungen</string>
     <string name="editHeadTitle">Meta-Daten</string>
     <string name="transectnumber">Transekt-Nr.</string>
     <string name="inspector">Kartierer(in)</string>
@@ -76,13 +77,12 @@
     <string name="labelNewsectSaveButton">Speichern und editieren</string>
     <string name="labelNewsect">Hier Abschnittsnamen eingeben</string>
     <string name="labelNewCountButton">Art hinzuf.</string>
-    <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
     <string name="sectionSaved">Liste gespeichert!</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
     <string name="sectSaving">Speichern </string>
-    <string name="alertTitle">Anzahl erreicht!</string>
+    <string name="alertTitle">Anzahl %1$d erreicht!</string>
     <string name="cloneButton">Abschnitts-Artenliste duplizieren</string>
     <string name="newName">Bitte einen Namen für die neue Liste eingeben.</string>
     <string name="newCopyCreated">wurde erstellt!</string>
@@ -105,6 +105,9 @@
     <string name="reallyDeleteCount">Bist Du sicher? Das Element wird sofort gelöscht.</string>
     <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
     <string name="isdouble"> ist doppelt!</string>
+    <string name="spname">Name</string>
+    <string name="orcode"> oder Code</string>
+    <string name="isempt">Name oder Code ist leer!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
     <string name="empty">Kein Eintrag vorhanden!</string>
     <string name="labelEditsectSaveButton">Abschn. speichern</string>
@@ -152,9 +155,19 @@
     <string name="explain_button_alert">Wähle einen Button-Sound aus.</string>
 
     <!-- CountOptionsActivity -->
-    <string name="editCountValuea">Du kannst den momentanen Extern-Zählerstand %2$d von \"%1$s\" hier ändern.</string>
-    <string name="editCountValue">Du kannst den momentanen Intern-Zählerstand %2$d von \"%1$s\" hier ändern.</string>
-    <string name="addSomeAlerts">Jedem internen Zähler einer Art können Alarme zugewiesen werden, die ausgelöst werden, wenn der jeweils vorgegebene Wert erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
+    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂, ♀ ändern</string>
+    <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
+    <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
+    <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
+    <string name="editCountValueli">Intern-Zählerstand [ %1$d ] von Raupe ändern</string>
+    <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
+    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂, ♀ ändern</string>
+    <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
+    <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
+    <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
+    <string name="editCountValuele">Extern-Zählerstand [ %1$d ] von Raupe ändern</string>
+    <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
+    <string name="addSomeAlerts">Jeder Art können Alarme zugewiesen werden, die ausgelöst werden, wenn die jeweils vorgegebene Anzahl an intern gezählten Faltern erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
     <string name="alertName">Neuer Alarm</string>
     <string name="countName">Neue Art</string>
     <string name="countCode">Code</string>
@@ -167,12 +180,30 @@
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Liste wird berechnet&#8230;</string>
+    <string name="txt_mf">♂, ♀</string>
+    <string name="txt_m">♂</string>
+    <string name="txt_f">♀</string>
+    <string name="txt_p">Puppe</string>
+    <string name="txt_l">Raupe</string>
+    <string name="txt_e">Ei</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
     <string name="countNameHint">Art-Name</string>
+    <string name="countCodeHint">Code</string>
+    <string name="countInternalHint">Innerhalb des Zählbereichs</string>
+    <string name="countExternalHint">Außerhalb des Zählbereichs</string>
+    <string name="countInternalSum">Summen aller Arten innerhalb des Zählbereichs</string>
+    <string name="countExternalSum">Summen aller Arten außerhalb des Zählbereichs</string>
+    <string name="countImagomfHint">Falter ♂ o. ♀</string>
+    <string name="countImagomHint">Falter ♂</string>
+    <string name="countImagofHint">Falter ♀</string>
+    <string name="countPupaHint">Puppe</string>
+    <string name="countLarvaHint">Raupe</string>
+    <string name="countOvoHint">Ei</string>
     <string name="hintTitle">Titel</string>
-    <string name="hintSectionNotes">Abschnittsnotizen.</string>
+    <string name="hintSectionNotes">Abschnittsnotizen</string>
+    <string name="hintCountNotes">Spezies Notizen</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="getHelp">Leider gibt es ein Problem mit Deiner Datenbank. Bitte sende eine E-Mail mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
 

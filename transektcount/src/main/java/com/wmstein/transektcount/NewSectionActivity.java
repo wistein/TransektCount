@@ -48,7 +48,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.activity_new_section);
 
         transektCount = (TransektCountApplication) getApplication();
@@ -140,13 +140,13 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
             Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         // Huzzah!
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
         // Edit the new section.
         int section_id;
-        section = sectionDataSource.getSectionByName(sect_name); 
+        section = sectionDataSource.getSectionByName(sect_name);
         section_id = section.id;
         Intent intent = new Intent(NewSectionActivity.this, EditSectionActivity.class);
         intent.putExtra("section_id", section_id);
@@ -161,7 +161,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     // created by wmstein on 10.04.2016
     public boolean compSectionNames(String newname)
     {
-        boolean isDbl = false;
+        boolean isDblName = false;
         String sname;
 
         List<Section> sectionList = sectionDataSource.getAllSectionNames();
@@ -175,12 +175,12 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
             //Log.i(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
-                isDbl = true;
+                isDblName = true;
                 //Log.i(TAG, "Double name = " + sname);
                 break;
             }
         }
-        return isDbl;
+        return isDblName;
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
@@ -197,16 +197,16 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     *
+     * <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     *
+     * <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
      * isNotEmpty("bob")     = true
      * isNotEmpty("  bob  ") = true
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      */
     public static boolean isNotEmpty(final CharSequence cs)
@@ -216,14 +216,14 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     *
+     * <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false
      * isEmpty("bob")     = false
      * isEmpty("  bob  ") = false
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is empty or null
      */
     public static boolean isEmpty(final CharSequence cs)

@@ -9,8 +9,9 @@ import android.widget.TextView;
 import com.wmstein.transektcount.R;
 
 /****************************************************
- * EditMetaWidget.java used by EditMetaActivity.java
- * Created by wmstein for TransektCount on 03.04.2016
+ * ListMetaWidget.java used by ListSpeciesActivity.java
+ * Created by wmstein for TransektCount on 03.04.2016,
+ * modified till 07.01.2017
  */
 public class ListMetaWidget extends LinearLayout
 {

@@ -45,8 +45,8 @@ public class TransektCountApplication extends Application
         }
     }
 
-   // The idea here is to keep ob around as a pre-prepared bitmap, only setting it up
-   // when the user's settings change or when the application starts up.
+    // The idea here is to keep ob around as a pre-prepared bitmap, only setting it up
+    // when the user's settings change or when the application starts up.
     public BitmapDrawable getBackground()
     {
         if (ob == null)
@@ -174,5 +174,5 @@ public class TransektCountApplication extends Application
             return null;
         }
     }
-    
+
 }

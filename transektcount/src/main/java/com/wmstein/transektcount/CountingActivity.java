@@ -1,11 +1,13 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -14,25 +16,34 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
+import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
-import com.wmstein.transektcount.widgets.CountingWidget;
-import com.wmstein.transektcount.widgets.CountingWidgetLH;
+import com.wmstein.transektcount.widgets.CountingWidgetLH_e;
+import com.wmstein.transektcount.widgets.CountingWidgetLH_i;
+import com.wmstein.transektcount.widgets.CountingWidget_e;
+import com.wmstein.transektcount.widgets.CountingWidget_head1;
+import com.wmstein.transektcount.widgets.CountingWidget_head2;
+import com.wmstein.transektcount.widgets.CountingWidget_head3;
+import com.wmstein.transektcount.widgets.CountingWidget_i;
 import com.wmstein.transektcount.widgets.NotesWidget;
 
 import java.util.ArrayList;
@@ -40,26 +51,29 @@ import java.util.Iterator;
 import java.util.List;
 
 /***************************************************************************************************
- * CountingActivity does the actual counting with 2 counters, checks for alerts, 
- * calls CountOptionsActivity, calls EditSectionActivity, clones a section, 
+ * CountingActivity does the actual counting with 12 counters, checks for alerts,
+ * calls CountOptionsActivity, calls EditSectionActivity, clones a section,
  * switches screen off when pocketed and lets you send a message.
- * Based on milo's CountingActivity.java from 05/05/2014.
- * Modified by wmstein on 18.02.2016
+ * Inspired by milo's CountingActivity.java from 05/05/2014.
+ * Modified by wmstein on 18.12.2016
  */
-public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener 
 {
-    private static String TAG = "transektcountCountingActivity";
+    private static final String TAG = "transektcountCountingActivity";
     private AlertDialog.Builder row_alert;
-    
-    TransektCountApplication transektCount;
-    SharedPreferences prefs;
 
-    int section_id;
-    LinearLayout count_area;
-    LinearLayout notes_area;
-    LinearLayout count_areaLH; // for lefthand counting screen
-    LinearLayout notes_areaLH; // for lefthand counting screen
-    public ArrayList<String> cmpSectionNames;
+    private TransektCountApplication transektCount;
+    private SharedPreferences prefs;
+
+    private int section_id;
+    private int iid = 1;
+    private LinearLayout notes_area1;
+    private LinearLayout head_area2;
+    private LinearLayout count_area_i;
+    private LinearLayout head_area3;
+    private LinearLayout count_area_e;
+    private LinearLayout notes_area2;
+    private LinearLayout notes_area3;
 
     // Proximity sensor handling for screen on/off
     private PowerManager.WakeLock mProximityWakeLock;
@@ -78,12 +92,25 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private boolean hasChanged = false; // Criteria for storing S_AT_CREATED
 
     // the actual data
-    Section section;
-    List<Count> counts;
-    List<Alert> alerts;
+    private Count count;
+    private Section section;
+    private List<Count> counts;
+    private List<Alert> alerts;
+    private List<CountingWidget_i> countingWidgets_i;
+    private List<CountingWidget_e> countingWidgets_e;
+    private List<CountingWidgetLH_i> countingWidgetsLH_i;
+    private List<CountingWidgetLH_e> countingWidgetsLH_e;
+    //private SpinnerPlus spinnerPlus;
+    private Spinner spinner;
+    private int itemPosition = 0;
 
-    List<CountingWidget> countingWidgets;
-    List<CountingWidgetLH> countingWidgetsLH;
+    private String[] idArray;
+    private String[] nameArray;
+    private String[] codeArray;
+    private Integer[] imageArray;
+
+    private SQLiteDatabase database;
+    private DbHelper dbHandler;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
@@ -100,6 +127,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (extras != null)
         {
             section_id = extras.getInt("section_id");
+        }
+
+        if (savedInstanceState != null)
+        {
+            spinner.setSelection(savedInstanceState.getInt("itemPosition", 0));
+            iid = savedInstanceState.getInt("count_id");
         }
 
         sectionDataSource = new SectionDataSource(this);
@@ -129,20 +162,29 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             getWindow().setAttributes(params);
         }
 
-
         if (lhandPref) // if left-handed counting page
         {
-            ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreenLH);
+            LinearLayout counting_screen = (LinearLayout) findViewById(R.id.countingScreenLH);
             counting_screen.setBackground(transektCount.getBackground());
-            count_areaLH = (LinearLayout) findViewById(R.id.countCountLayoutLH);
-            notes_areaLH = (LinearLayout) findViewById(R.id.countNotesLayoutLH);
+            notes_area1 = (LinearLayout) findViewById(R.id.sectionNotesLayoutLH);
+            head_area2 = (LinearLayout) findViewById(R.id.countHead2LayoutLH);
+            count_area_i = (LinearLayout) findViewById(R.id.countCountiLayoutLH);
+            head_area3 = (LinearLayout) findViewById(R.id.countHead3LayoutLH);
+            count_area_e = (LinearLayout) findViewById(R.id.countCounteLayoutLH);
+            notes_area2 = (LinearLayout) findViewById(R.id.countNotesLayoutLH);
+            notes_area3 = (LinearLayout) findViewById(R.id.alertNotesLayoutLH);
         }
         else
         {
-            ScrollView counting_screen = (ScrollView) findViewById(R.id.countingScreen);
+            LinearLayout counting_screen = (LinearLayout) findViewById(R.id.countingScreen);
             counting_screen.setBackground(transektCount.getBackground());
-            count_area = (LinearLayout) findViewById(R.id.countCountLayout);
-            notes_area = (LinearLayout) findViewById(R.id.countNotesLayout);
+            notes_area1 = (LinearLayout) findViewById(R.id.sectionNotesLayout);
+            head_area2 = (LinearLayout) findViewById(R.id.countHead2Layout);
+            count_area_i = (LinearLayout) findViewById(R.id.countCountiLayout);
+            head_area3 = (LinearLayout) findViewById(R.id.countHead3Layout);
+            count_area_e = (LinearLayout) findViewById(R.id.countCounteLayout);
+            notes_area2 = (LinearLayout) findViewById(R.id.countNotesLayout);
+            notes_area3 = (LinearLayout) findViewById(R.id.alertNotesLayout);
         }
 
         if (awakePref)
@@ -161,7 +203,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
             enableProximitySensor();
         }
-
     }
 
     /*
@@ -180,39 +221,36 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         buttonAlertSound = prefs.getString("alert_button_sound", null);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onResume()
     {
         super.onResume();
 
         Context context = this.getApplicationContext();
-        
-        // build the counting screen
+
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             enableProximitySensor();
         }
 
+        // build the counting screen
         // clear any existing views
-        if (lhandPref) // if left-handed counting page
-        {
-            count_areaLH.removeAllViews();
-            notes_areaLH.removeAllViews();
-        }
-        else
-        {
-            count_area.removeAllViews();
-            notes_area.removeAllViews();
-        }
+        notes_area1.removeAllViews();
+        head_area2.removeAllViews();
+        count_area_i.removeAllViews();
+        head_area3.removeAllViews();
+        count_area_e.removeAllViews();
+        notes_area2.removeAllViews();
+        notes_area3.removeAllViews();
 
         // setup the data sources
         sectionDataSource.open();
         countDataSource.open();
         alertDataSource.open();
 
-        // load the data
-        // 1. sections
+        // load and show the data
         Log.i(TAG, "Section ID: " + String.valueOf(section_id));
         try
         {
@@ -226,127 +264,181 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         getSupportActionBar().setTitle(section.name);
 
-        // display section notes
-        if (section.notes != null)
-        {
-            if (!section.notes.isEmpty())
-            {
-                if (lhandPref) // if left-handed counting page
-                {
-                    NotesWidget section_notes = new NotesWidget(this, null);
-                    section_notes.setNotes(section.notes);
-                    section_notes.setFont(fontPref);
-                    notes_areaLH.addView(section_notes);
-                }
-                else
-                {
-                    NotesWidget section_notes = new NotesWidget(this, null);
-                    section_notes.setNotes(section.notes);
-                    section_notes.setFont(fontPref);
-                    notes_area.addView(section_notes);
-                }
-            }
-        }
-        List<String> extras = new ArrayList<>();
-
-        // 2. counts
-        if (lhandPref) // if left-handed counting page
-        {
-            countingWidgetsLH = new ArrayList<>();
-        }
-        else
-        {
-            countingWidgets = new ArrayList<>();
-        }
-
         switch (sortPref)
         {
         case "names_alpha":
             counts = countDataSource.getAllCountsForSectionSrtName(section.id);
+            idArray = countDataSource.getAllIdsForSectionSrtName(section.id);
+            nameArray = countDataSource.getAllStringsForSectionSrtName(section.id, "name");
+            codeArray = countDataSource.getAllStringsForSectionSrtName(section.id, "code");
+            imageArray = countDataSource.getAllImagesForSectionSrtName(section.id);
             break;
         case "codes":
             counts = countDataSource.getAllCountsForSectionSrtCode(section.id);
+            idArray = countDataSource.getAllIdsForSectionSrtCode(section.id);
+            nameArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "name");
+            codeArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "code");
+            imageArray = countDataSource.getAllImagesForSectionSrtCode(section.id);
             break;
         default:
             counts = countDataSource.getAllCountsForSection(section.id);
+            idArray = countDataSource.getAllIdsForSection(section.id);
+            nameArray = countDataSource.getAllStringsForSection(section.id, "name");
+            codeArray = countDataSource.getAllStringsForSection(section.id, "code");
+            imageArray = countDataSource.getAllImagesForSection(section.id);
             break;
         }
 
-        // display all the counts by adding them to countCountLayout
-        alerts = new ArrayList<>();
+        countingWidgets_i = new ArrayList<>();
+        countingWidgets_e = new ArrayList<>();
+        countingWidgetsLH_i = new ArrayList<>();
+        countingWidgetsLH_e = new ArrayList<>();
+
+        // 1. section
+        // display section notes if there are any
+        if (section.notes != null)
+        {
+            if (!section.notes.isEmpty())
+            {
+                NotesWidget section_notes = new NotesWidget(this, null);
+                section_notes.setNotes(section.notes);
+                section_notes.setFont(fontPref);
+                notes_area1.addView(section_notes);
+            }
+        }
+
+        // 2. Head1, species selection spinner
         if (lhandPref) // if left-handed counting page
         {
-            for (Count count : counts)
-            {
-                CountingWidgetLH widget = new CountingWidgetLH(this, null);
-                widget.setCount(count);
-                countingWidgetsLH.add(widget);
-                count_areaLH.addView(widget);
-
-                // add a section note widget if there are any notes
-                if (isNotBlank(count.notes))
-                {
-                    NotesWidget count_notes = new NotesWidget(this, null);
-                    count_notes.setNotes(count.notes);
-                    count_notes.setFont(fontPref);
-                    count_areaLH.addView(count_notes);
-                }
-
-                // add all alerts for this section
-                List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
-                for (Alert a : tmpAlerts)
-                {
-                    alerts.add(a);
-                    extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
-                }
-            }
-            if (!extras.isEmpty())
-            {
-                NotesWidget extra_notes = new NotesWidget(this, null);
-                extra_notes.setNotes(join(extras, "\n"));
-                notes_areaLH.addView(extra_notes);
-            }
+            spinner = (Spinner) findViewById(R.id.countHead1SpinnerLH);
         }
         else
         {
-            for (Count count : counts)
-            {
-                CountingWidget widget = new CountingWidget(this, null);
-                widget.setCount(count);
-                countingWidgets.add(widget);
-                count_area.addView(widget);
-
-                // add a section note widget if there are any notes
-                if (isNotBlank(count.notes))
-                {
-                    NotesWidget count_notes = new NotesWidget(this, null);
-                    count_notes.setNotes(count.notes);
-                    count_notes.setFont(fontPref);
-                    count_area.addView(count_notes);
-                }
-
-                // add all alerts for this section
-                List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
-                for (Alert a : tmpAlerts)
-                {
-                    alerts.add(a);
-                    extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
-                }
-            }
-            if (!extras.isEmpty())
-            {
-                NotesWidget extra_notes = new NotesWidget(this, null);
-                extra_notes.setNotes(join(extras, "\n"));
-                notes_area.addView(extra_notes);
-            }
+            spinner = (Spinner) findViewById(R.id.countHead1Spinner);
         }
 
+        CountingWidget_head1 adapter = new CountingWidget_head1(this,
+            R.layout.widget_counting_head1, idArray, nameArray, codeArray, imageArray);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(itemPosition);
+
+        //spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        spinnerListener();
+        
         if (awakePref)
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 
+    // Spinner listener
+    private void spinnerListener()
+    {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long aid)
+            {
+                head_area2.removeAllViews();
+                count_area_i.removeAllViews();
+                head_area3.removeAllViews();
+                count_area_e.removeAllViews();
+                notes_area2.removeAllViews();
+                notes_area3.removeAllViews();
+
+                String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
+                iid = Integer.parseInt(sid);
+                itemPosition = position;
+
+                count = countDataSource.getCountById(iid);
+                countingScreen(count);
+                //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                // stub
+            }
+        });
+    }
+
+    // Show rest of widgets for counting screen
+    private void countingScreen(Count count)
+    {
+        // 2. Head2 with edit button
+        CountingWidget_head2 head2 = new CountingWidget_head2(this, null);
+        head2.setCountHead2(count);
+        head_area2.addView(head2);
+
+        // 3. counts internal
+        if (lhandPref) // if left-handed counting page
+        {
+            CountingWidgetLH_i widgeti = new CountingWidgetLH_i(this, null);
+            widgeti.setCountLHi(count);
+            countingWidgetsLH_i.add(widgeti);
+            count_area_i.addView(widgeti);
+        }
+        else
+        {
+            CountingWidget_i widgeti = new CountingWidget_i(this, null);
+            widgeti.setCounti(count);
+            countingWidgets_i.add(widgeti);
+            count_area_i.addView(widgeti);
+        }
+
+        // 4. Head3
+        CountingWidget_head3 head3 = new CountingWidget_head3(this, null);
+
+        head3.setCountHead3();
+        head_area3.addView(head3);
+
+        // 5. counts external
+        if (lhandPref) // if left-handed counting page
+        {
+            CountingWidgetLH_e widgete = new CountingWidgetLH_e(this, null);
+            widgete.setCountLHe(count);
+            countingWidgetsLH_e.add(widgete);
+            count_area_e.addView(widgete);
+        }
+        else
+        {
+            CountingWidget_e widgete = new CountingWidget_e(this, null);
+            widgete.setCounte(count);
+            countingWidgets_e.add(widgete);
+            count_area_e.addView(widgete);
+        }
+
+        // 6. species note widget if there are any notes
+        if (isNotBlank(count.notes))
+        {
+            NotesWidget count_notes = new NotesWidget(this, null);
+            count_notes.setNotes(count.notes);
+            count_notes.setFont(fontPref);
+            notes_area2.addView(count_notes);
+        }
+
+        // 7. species alerts note widget if there are any alert notes
+        List<String> extras = new ArrayList<>();
+        alerts = new ArrayList<>();
+        List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
+
+        for (Alert a : tmpAlerts)
+        {
+            alerts.add(a);
+            extras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
+        }
+
+        if (!extras.isEmpty())
+        {
+            NotesWidget extra_notes = new NotesWidget(this, null);
+            extra_notes.setNotes(join(extras, "\n"));
+            extra_notes.setFont(fontPref);
+            notes_area3.addView(extra_notes);
+        }
+    }
+
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onPause()
     {
@@ -359,11 +451,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
 
         // save the data
-        saveData();
-        
+        //saveData();
+
         // save section id in case it is lost on pause
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("pref_section_id", section_id);
+        editor.putInt("section_id", section_id);
+        editor.putInt("count_id", iid);
         editor.commit();
 
         // close the data sources
@@ -395,10 +488,15 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             hasChanged = false;
         }
     }
-    
+
     public void saveAndExit(View view)
     {
-        saveData();
+        //saveData();
+        if (hasChanged)
+        {
+            sectionDataSource.saveDateSection(section);
+            hasChanged = false;
+        }
 
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -409,144 +507,795 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         super.finish();
     }
 
-    /*
-     * The functions below are triggered by the count buttons for internal/external counts
-     * and righthand/lefthand views
+    /****************************
+     * The following functions get a referenced counting widget from the list
      */
-    public void countUp(View view)
+
+    // countingWidgets_i
+    private CountingWidget_i getCountFromId_i(int id)
     {
-        //Log.i(TAG, "View clicked: " + view.toString());
-        //Log.i(TAG, "View tag: " + view.getTag().toString());
+        for (CountingWidget_i widget : countingWidgets_i)
+        {
+            if (widget.count.id == id)
+            {
+                return widget;
+            }
+        }
+        return null;
+    }
+
+    // countingWidgetsLH_i
+    private CountingWidgetLH_i getCountFromIdLH_i(int id)
+    {
+        for (CountingWidgetLH_i widget : countingWidgetsLH_i)
+        {
+            if (widget.count.id == id)
+            {
+                return widget;
+            }
+        }
+        return null;
+    }
+
+    // countingWidgets_e
+    private CountingWidget_e getCountFromId_e(int id)
+    {
+        for (CountingWidget_e widget : countingWidgets_e)
+        {
+            if (widget.count.id == id)
+            {
+                return widget;
+            }
+        }
+        return null;
+    }
+
+    // countingWidgetsLH_e
+    private CountingWidgetLH_e getCountFromIdLH_e(int id)
+    {
+        for (CountingWidgetLH_e widget : countingWidgetsLH_e)
+        {
+            if (widget.count.id == id)
+            {
+                return widget;
+            }
+        }
+        return null;
+    }
+
+    /************************
+     * The functions below are triggered by the count buttons
+     * and righthand/lefthand (LH) views
+     * <p>
+     * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
+     */
+    public void countUpf1i(View view)
+    {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidget widget = getCountFromId(count_id);
+        CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
-            widget.countUp();
-            checkAlert(widget.count.id, widget.count.count);
+            widget.countUpf1i(); // count up and set value on screen
+            //Toast.makeText(CountingActivity.this, "CountUp " + count.count_f1i, Toast.LENGTH_SHORT).show();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+
+            // save the data
+            countDataSource.saveCountf1i(count);
+            sectionDataSource.saveDateSection(section);
         }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHf1i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHf1i();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+
+            // save the data
+            countDataSource.saveCountf1i(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownf1i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownf1i();
+            countDataSource.saveCountf1i(count);
+        }
+
+        hasChanged = widget.count.count_f1i != 0;
+        dummy();
+    }
+
+    public void countDownLHf1i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHf1i();
+            countDataSource.saveCountf1i(count);
+        }
+
+        hasChanged = widget.count.count_f1i != 0;
+        dummy();
+    }
+
+    public void countUpf2i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpf2i();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            countDataSource.saveCountf2i(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHf2i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHf2i();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            countDataSource.saveCountf2i(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownf2i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownf2i();
+            countDataSource.saveCountf2i(count);
+        }
+        hasChanged = widget.count.count_f2i != 0;
+        dummy();
+    }
+
+    public void countDownLHf2i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHf2i();
+            countDataSource.saveCountf2i(count);
+        }
+        hasChanged = widget.count.count_f2i != 0;
+        dummy();
+    }
+
+    public void countUpf3i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpf3i();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            countDataSource.saveCountf3i(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHf3i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHf3i();
+            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            countDataSource.saveCountf3i(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownf3i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownf3i();
+            countDataSource.saveCountf3i(count);
+        }
+        hasChanged = widget.count.count_f3i != 0;
+        dummy();
+    }
+
+    public void countDownLHf3i(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHf3i();
+            countDataSource.saveCountf3i(count);
+        }
+        hasChanged = widget.count.count_f3i != 0;
+        dummy();
+    }
+
+    public void countUppi(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countUppi();
+            countDataSource.saveCountpi(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHpi(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHpi();
+            countDataSource.saveCountpi(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownpi(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownpi();
+            countDataSource.saveCountpi(count);
+        }
+        hasChanged = widget.count.count_pi != 0;
+        dummy();
+    }
+
+    public void countDownLHpi(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHpi();
+            countDataSource.saveCountpi(count);
+        }
+        hasChanged = widget.count.count_pi != 0;
+        dummy();
+    }
+
+    public void countUpli(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpli();
+            countDataSource.saveCountli(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHli(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHli();
+            countDataSource.saveCountli(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownli(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownli();
+            countDataSource.saveCountli(count);
+        }
+        hasChanged = widget.count.count_li != 0;
+        dummy();
+    }
+
+    public void countDownLHli(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHli();
+            countDataSource.saveCountli(count);
+        }
+        hasChanged = widget.count.count_li != 0;
+        dummy();
+    }
+
+    public void countUpei(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpei();
+            countDataSource.saveCountei(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHei(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHei();
+            countDataSource.saveCountei(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownei(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_i widget = getCountFromId_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownei();
+            countDataSource.saveCountei(count);
+        }
+        hasChanged = widget.count.count_ei != 0;
+        dummy();
+    }
+
+    public void countDownLHei(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHei();
+            countDataSource.saveCountei(count);
+        }
+        hasChanged = widget.count.count_ei != 0;
+        dummy();
+    }
+
+
+    // count functions for external counters
+    public void countUpf1e(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpf1e();
+            countDataSource.saveCountf1e(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHf1e(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHf1e();
+            countDataSource.saveCountf1e(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownf1e(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownf1e();
+            countDataSource.saveCountf1e(count);
+        }
+        hasChanged = widget.count.count_f1e != 0;
+        dummy();
+    }
+
+    public void countDownLHf1e(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHf1e();
+            countDataSource.saveCountf1e(count);
+        }
+        hasChanged = widget.count.count_f1e != 0;
+        dummy();
+    }
+
+    public void countUpf2e(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpf2e();
+            countDataSource.saveCountf2e(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        dummy();
         hasChanged = true;
     }
 
-    public void countUpLH(View view)
+    public void countUpLHf2e(View view)
     {
-        //Log.i(TAG, "View clicked: " + view.toString());
-        //Log.i(TAG, "View tag: " + view.getTag().toString());
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
-            widget.countUpLH();
-            checkAlert(widget.count.id, widget.count.count);
+            widget.countUpLHf2e();
+            countDataSource.saveCountf2e(count);
+            sectionDataSource.saveDateSection(section);
         }
         hasChanged = true;
+        dummy();
     }
 
-    public void countDown(View view)
+    public void countDownf2e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidget widget = getCountFromId(count_id);
+        CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
-            widget.countDown();
-            checkAlert(widget.count.id, widget.count.count);
+            widget.countDownf2e();
+            countDataSource.saveCountf2e(count);
         }
-
-        if (widget.count.count == 0)
-        {
-            hasChanged = false;
-        }
-        else
-        {
-            hasChanged = true;
-        }
+        hasChanged = widget.count.count_f2e != 0;
+        dummy();
     }
 
-    public void countDownLH(View view)
+    public void countDownLHf2e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
-            widget.countDownLH();
-            checkAlert(widget.count.id, widget.count.count);
+            widget.countDownLHf2e();
+            countDataSource.saveCountf2e(count);
         }
-
-        if (widget.count.count == 0)
-        {
-            hasChanged = false;
-        }
-        else
-        {
-            hasChanged = true;
-        }
+        hasChanged = widget.count.count_f2e != 0;
+        dummy();
     }
 
-    public void countUpa(View view)
+    public void countUpf3e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidget widget = getCountFromId(count_id);
+
+        CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
-            widget.countUpa();
+            widget.countUpf3e();
+            countDataSource.saveCountf3e(count);
+            sectionDataSource.saveDateSection(section);
         }
         hasChanged = true;
+        dummy();
     }
 
-    public void countUpaLH(View view)
+    public void countUpLHf3e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
-            widget.countUpaLH();
+            widget.countUpLHf3e();
+            countDataSource.saveCountf3e(count);
+            sectionDataSource.saveDateSection(section);
         }
         hasChanged = true;
+        dummy();
     }
 
-    public void countDowna(View view)
+    public void countDownf3e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidget widget = getCountFromId(count_id);
+        CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
-            widget.countDowna();
+            widget.countDownf3e();
+            countDataSource.saveCountf3e(count);
         }
 
-        if (widget.count.counta == 0)
-        {
-            hasChanged = false;
-        }
-        else
-        {
-            hasChanged = true;
-        }
+        hasChanged = widget.count.count_f3e != 0;
+        dummy();
     }
 
-    public void countDownaLH(View view)
+    public void countDownLHf3e(View view)
     {
         buttonSound();
         int count_id = Integer.valueOf(view.getTag().toString());
-        CountingWidgetLH widget = getCountFromIdLH(count_id);
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
-            widget.countDownaLH();
+            widget.countDownLHf3e();
+            countDataSource.saveCountf3e(count);
         }
 
-        if (widget.count.counta == 0)
+        hasChanged = widget.count.count_f3e != 0;
+        dummy();
+    }
+
+    public void countUppe(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
         {
-            hasChanged = false;
+            widget.countUppe();
+            countDataSource.saveCountpe(count);
+            sectionDataSource.saveDateSection(section);
         }
-        else
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHpe(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
         {
-            hasChanged = true;
+            widget.countUpLHpe();
+            countDataSource.saveCountpe(count);
+            sectionDataSource.saveDateSection(section);
         }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownpe(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownpe();
+            countDataSource.saveCountpe(count);
+        }
+
+        hasChanged = widget.count.count_pe != 0;
+        dummy();
+    }
+
+    public void countDownLHpe(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHpe();
+            countDataSource.saveCountpe(count);
+        }
+
+        hasChanged = widget.count.count_pe != 0;
+        dummy();
+    }
+
+    public void countUple(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countUple();
+            countDataSource.saveCountle(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHle(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHle();
+            countDataSource.saveCountle(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownle(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownle();
+            countDataSource.saveCountle(count);
+        }
+
+        hasChanged = widget.count.count_le != 0;
+        dummy();
+    }
+
+    public void countDownLHle(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHle();
+            countDataSource.saveCountle(count);
+        }
+
+        hasChanged = widget.count.count_le != 0;
+        dummy();
+    }
+
+    public void countUpee(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpee();
+            countDataSource.saveCountee(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countUpLHee(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countUpLHee();
+            countDataSource.saveCountee(count);
+            sectionDataSource.saveDateSection(section);
+        }
+        hasChanged = true;
+        dummy();
+    }
+
+    public void countDownee(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidget_e widget = getCountFromId_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownee();
+            countDataSource.saveCountee(count);
+        }
+
+        hasChanged = widget.count.count_ee != 0;
+        dummy();
+    }
+
+    public void countDownLHee(View view)
+    {
+        buttonSound();
+        int count_id = Integer.valueOf(view.getTag().toString());
+        CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
+        if (widget != null)
+        {
+            widget.countDownLHee();
+            countDataSource.saveCountee(count);
+        }
+
+        hasChanged = widget.count.count_ee != 0;
+        dummy();
     }
 
     // Call CountOptionsActivity with count_id and section_id
@@ -558,48 +1307,44 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             disableProximitySensor(true);
         }
 
-        int count_id = Integer.valueOf(view.getTag().toString());
         Intent intent = new Intent(CountingActivity.this, CountOptionsActivity.class);
-        intent.putExtra("count_id", count_id);
+        intent.putExtra("count_id", iid);
         intent.putExtra("section_id", section_id);
+        intent.putExtra("itemposition", spinner.getSelectedItemPosition());
         startActivity(intent);
     }
 
-    // This is the lookup to get a referenced counting widget from the list of widgets
-    public CountingWidget getCountFromId(int id)
+    // Call DummyActivity to overcome Spinner deficiency for repeated item
+    public void dummy()
     {
-        for (CountingWidget widget : countingWidgets)
-        {
-            if (widget.count.id == id)
-            {
-                return widget;
-            }
-        }
-        return null;
+        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
+        //intent.putExtra("count_id", iid);
+        //intent.putExtra("section_id", section_id);
+        //intent.putExtra("section_name", section.name);
+        //intent.putExtra("itemposition", spinner.getSelectedItemPosition());
+        startActivity(intent);
     }
-
-    // This is the lookup to get a referenced left-handed counting widget from the list of widgets
-    public CountingWidgetLH getCountFromIdLH(int id)
+    
+    // Save activity state for getting back to CountingActivity
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
     {
-        for (CountingWidgetLH widget : countingWidgetsLH)
-        {
-            if (widget.count.id == id)
-            {
-                return widget;
-            }
-        }
-        return null;
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt("count_id", iid);
+        savedInstanceState.putInt("itemPosition", spinner.getSelectedItemPosition());
     }
 
     // alert checking...
-    public void checkAlert(int count_id, int count_value)
+    private void checkAlert(int count_id, int count_value)
     {
         for (Alert a : alerts)
         {
             if (a.count_id == count_id && a.alert == count_value)
             {
                 row_alert = new AlertDialog.Builder(this);
-                row_alert.setTitle(getString(R.string.alertTitle));
+//                row_alert.setTitle(getString(R.string.alertTitle));
+                row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
                 row_alert.setMessage(a.alert_text);
                 row_alert.setNegativeButton("OK", new DialogInterface.OnClickListener()
                 {
@@ -616,7 +1361,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // If the user has set the preference for an audible alert, then sound it here.
-    public void soundAlert()
+    private void soundAlert()
     {
         if (soundPref)
         {
@@ -640,7 +1385,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-    public void buttonSound()
+    private void buttonSound()
     {
         if (buttonSoundPref)
         {
@@ -663,7 +1408,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             }
         }
     }
-
 
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
@@ -720,7 +1464,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     // cloneSection() with check for double names
     // modified by wmstein on 10.04.2016
-    public void cloneSection()
+    private void cloneSection()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.dpSectTitle));
@@ -792,12 +1536,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     // Compare section names for duplicates and return state of duplicate found
     // created by wmstein on 10.04.2016
-    public boolean compSectionNames(String newname)
+    private boolean compSectionNames(String newname)
     {
-        boolean isDbl = false;
+        boolean isDblName = false;
         String sname;
 
-        cmpSectionNames = new ArrayList<>();
         List<Section> sectionList = sectionDataSource.getAllSections(prefs);
 
         int childcount = sectionList.size() + 1;
@@ -809,12 +1552,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             //Log.i(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
-                isDbl = true;
+                isDblName = true;
                 //Log.i(TAG, "Double name = " + sname);
                 break;
             }
         }
-        return isDbl;
+        return isDblName;
     }
 
     private void enableProximitySensor()
@@ -830,8 +1573,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-
     // Check for API-Level 21 or above is done previously
+    @SuppressLint("NewApi")
     private void disableProximitySensor(boolean waitForFarState)
     {
         if (mProximityWakeLock == null)
@@ -848,7 +1591,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     * <p>
      * Checks if a CharSequence is whitespace, empty ("") or null
      * <p/>
      * isBlank(null)      = true

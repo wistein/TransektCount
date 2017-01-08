@@ -163,5 +163,5 @@ class SectionListAdapter extends ArrayAdapter<Section>
             alert.show();
         }
     };
-    
+
 }

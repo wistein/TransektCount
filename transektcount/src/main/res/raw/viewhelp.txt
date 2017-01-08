@@ -26,22 +26,22 @@ $ 10
   ! This counting app should support you when monitoring your transect. 
   ! It can substitute your field book and pencil, and with a modern smartphone you carry a camera for pictures of interesting species anyway.
   _ 
-  ! The integrated database is organized according to a transect inspection. That means, there will be used a new database per inspection.
+  ! The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
   ! The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
   _ 
-  ! The app is open source has no tracking or advertising functions, demands only for storage access permits which are needed for im-/exporting the data and is published on https://github.com/wistein/TransektCount. 
+  ! The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on https://github.com/wistein/TransektCount. 
 
 $ 9
   % 2. Set up
   !
-  ! Before initial use you must set up an empty basic database (Basic DB).
-  ! Therefore, you first enter the meta data of the transect. Tip on “Prepare Inspection” and enter at least the transect-No. and the inspectors name. 
-  ! Then create the species list for the first transect section. Use the (+)-Button or the function "New Section" respectively from the "List of Transect Sections" menu for that.
-  ! Then enter a name for the 1st list (e.g.: Sect 01) and save it. 
-  ! Subsequently tip on that new entry in the list of transect sections to open the respective counting page. Use the list's edit function to enter all expected species names and codes (five-digit), e.g.:
+  ! Before initial use you must set up an empty basic database (Basic DB) or import and adapt an example Basic DB.
+  ! In the first case, you enter the meta data of the transect. Click on PREPARE INSPECTION and enter at least the transect-No. and the inspectors name. 
+  ! Save this by clicking the save icon. Changes can be applied at any time later.
+  ! To create a species list for the first transect section from scratch click the (+)-Button in the head line of “List of Transect Sections”, enter a name and click SAVE AND EDIT. Use the (+)-Button in the head line of the section editor to add species, each with name and code. When finished click SAVE SECTION or the save icon.
+  ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering according to Karsholt/Razowski, as used e.g. in the German Lepiforum (http://www.lepiforum.de). 
   _ 
-  ! Sect 01
+  ! Sect 01      (example part of a section list)
   ! ---------------------------------------------
   ! ...
   ! Pieris napi ................ 07000
@@ -49,39 +49,45 @@ $ 9
   ! Pieris na./ra.-compl.	07000*
   ! ...
   _ 
-  ! The codes will be used as an option to sort the list. The trailing *-symbol marks a species group. With "Save List" you get it stored into the database.
-  ! This list can be changed or supplemented anytime afterwards by the Edit function of the corresponding counting page.
+  ! The appended *-symbol at code 07000 marks a species group whose code advisably should be the largest code of its members.
+  ! This list can be changed or supplemented anytime afterwards.
   _ 
   ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
   ! (e.g.: Sect 02, Sect 03,...).
   _ 
+  ! Alternatively, you can just import an example Basic DB from https://github.com/wistein/TransektCount/tree/master/transektcount/docs out of your home directory and edit it suitably.
+  _ 
   ! When you have created the section lists for all transect sections, the database is ready for export as a "Basic Database".
-  ! To do this, you can use the function "Export as Basic DB" in the menu of the starting page.
+  ! Therefore you find the function "Export as Basic DB" in the menu of the starting page.
   ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models and Android versions).
-  ! The "Basic Database" will be used as a template for further transect inspections in future. You may export the Basic DB anytime later, e.g. when you modified its structure or inserted new species. All inspection related data will be ignored for an export as Basic DB.
+  ! The Basic Database "transektcount0.db" will be used as a template for further transect inspections in future. You may export the Basic DB anytime later, e.g. when you modified its structure or inserted new species. All inspection related data will be ignored for an export as Basic DB.
   
 $ 8
   % 3. Usage
   !
-  ! Start with the "List of Transect Sections".  
-  ! Select the relevant transect section. As it ought to be distinguished between counts of butterflies within the imaginary count area and butterflies outside you have 2 separate counters ("i" for internal and "e" for external). 
-  ! To count just tip on either the internal or external "+"-Button of the corresponding species.
-  ! The "-"-Buttons allows for corrections. 
-  ! While storing the counting results of a section the current date and time of the inspection will be stored either. The date and a possible section remark will then be shown in the list of sections.   
+  ! Start with TRANSECT SECTIONS.  
+  ! Select the relevant transect section. The counting page for the first species in the sorted section list appears.
+  ! As counting of butterflies ought to be distinguished between those within the imaginary count area and butterflies outside this area you have 2 separate sets of counters (Internal and External of Counting Area). 
+  ! To count just tip on the appropriate (+)-Button of the corresponding species. The (-)-Buttons allows for corrections.
+  ! Each count is stored immediately. While storing the count the current date and time will be stored either. The date and a possible section remark will then be shown in the list of sections and indicate a successful inspection of that section.
   _ 
   ! The Pencil-Button in the app bar of the counting page opens the section editing page for adding remarks for the section and editing names of section and species. The section related remarks will be shown at the end of the species list and within the section list.
-  _
-  ! The Pencil-Button in each species row of the counting page opens the species editing page that lets you add remarks for each species and set its counters to any value.
-  ! Here you may also set pop-up alarms which show up while reaching a set value on the corresponding internal counter (e.g. to realize on site if a certain species is more abundant than on a previous inspection). 
-  ! If you enter a species related remark this will be shown in an extra line beneath the row. 
   _ 
-  ! To move back one page you can use the arrow in the left upper corner. You should leave TransektCount always from its starting page, as in this state the database is safely closed.
+  ! To select another species just tip on the scroll down list on top of the counting page.
   _ 
-  ! Nearly each app page has its specific context menu. You can activate it with the 3-point-symbol in the upper right corner.
+  ! The Pencil-Button in the app bar of the counting page opens the section editing page for adding remarks for the section, adding species or editing the names of section and species. The section related remarks will be shown on top of the species list and within the section list.
   _ 
-  ! When you have large lists or have collected big amounts of data the app may delay the start of pages, especially when entering a transect section list (the counting page) or the result page, as those need heavy calculations.
+  ! The Pencil-Button beneath the species name row of the counting page opens the species editing page that lets you add remarks for each species and set its counters to any value. Here you may also set pop-up alerts which show up while reaching a set number of butterflies on the corresponding internal counters (sum of all ♂ and ♀) e.g. to realize already on site if a certain species is more abundant than on a previous inspection.
+  _ 
+  ! If you enter a species related remark this will be shown on the counting page in an extra line beneath the counting field.  
+  _ 
+  ! To move back one page you can use the arrow in the left upper corner. You should leave TransektCount from its starting page, as in this state the database is safely closed.
+  _ 
+  ! Some app pages have functional icons and/or a specific context menu (3-point-symbol) in their header.
+  _ 
+  ! When you have large lists or have collected big amounts of data the app may delay the start of pages, especially the results page, as this needs heavy calculations.
   _  
-  ! From the Starting page you can open the results page with "Show Results". It shows the meta data of the inspection and the list of counted butterflies. It may take a few seconds to show up.
+  ! Finally, there is a page showing your results. Here, in a scroll view you see beneath the meta data of the inspection all the species which got counts. You can enter this page from the Starting page with the SHOW RESULTS-Button or the Eye-symbol in the app-bar. It may take a few seconds to show up.
 
 $ 7
   % 4. Further functions
@@ -100,27 +106,29 @@ $ 7
   _ 
   ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects. To achieve this you may create transect-specific Basic DBs which may be renamed by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
   _ 
-  ! Exporting the current database (Export DB) writes a copy of the complete DB to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db.
+  ! Exporting the current database (Export DB) writes a copy of the complete DB to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db. For your own purpose you can rename the exported TransektCount DB files within the previously mentioned conventions.
   _ 
   ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /sdcard/transektcount_YYYY-MM-DD_hhmmss.csv.
   _ 
-  ! And you may find under "App Info" the email address of the author, the history of the app and the license note.
+  ! Under "App Info" you may find the email address of the author, the history of the app and the license note.
   _ 
   ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
   _ 
   ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
-  ! Under Android 5.0.1 or newer the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This prohibits erroneous input and brings up the app quickly.
+  ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This saves energy, prohibits unwanted input and recalls the app into its current state immediately.
   _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
-  ! There you may examine the db-file with a free tool like "SqliteBrowser" (sqlitebrowser.org).
+  ! With a free tool like "SQliteBrowser" (sqlitebrowser.org) you may examine the db-file.
+  _ 
   ! You may import the .csv-file as a
   ! - comma-delimited text file with 
   ! - quotations marks for textfield recognition and 
   ! - file origin “Unicode UTF-8”
   ! into Excel for further processing. 
-  !
+  ! 
+  ! This table is optimized for easy transmission of the results into the Monitoring web page.
   
 $ END_OF_VIEW_HELP
   </body>
