@@ -31,9 +31,9 @@
 $ 2.0.0
   % Version 2.0.0
   _ 06.01.2017
-  	* Komplett überarbeitete Zählerseite mit Drop-Down-Liste zur Species-Auswahl und vollständige Zähloptionen
+  	* Komplett überarbeitete Zählerseite mit Drop-Down-Liste zur Spezies-Auswahl und vollständige Zähloptionen
   	* Überarbeitete Ergebnisseite mit detaillierter Zählerinfo und Summen
-  	* Überarbeiteter Spezies-Editor mit Zählereingabe für alle Zähloptionen
+  	* Überarbeiteter Spezies-Editor mit Bulk-Zählereingabe für alle Zähloptionen
   	* Prüfung auf fehlende oder doppelte Spezies-Codes
   	* Neue Datenbankstruktur gemäß der neuen Zähloptionen 
   	* Alarme für alle gezählten Falter innerhalb des Zählbereichs (♂, ♀ summiert)
