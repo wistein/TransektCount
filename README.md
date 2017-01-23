@@ -11,7 +11,7 @@ The recorded data results (meta data, counts and remarks) may either be read on 
 
 The app demands for storage access permits which are needed for im-/exporting the counting data and the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer). 
 
-A detailed description for setting up and using the app as well as a sample basic database (transektcount0.db) is provided under 'transectcount/docs'.
+A detailed description for setting up and using the app as well as a sample basic database (transektcount0.db) is provided under 'transektcount/docs'.
 
 The apk-file 'transektcount-release.apk' is provided under 'transektcount/apk'. 
 It is usable with Android version 4.2.2 or newer (not tested under Android 7.x).
