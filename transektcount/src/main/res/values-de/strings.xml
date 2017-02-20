@@ -195,7 +195,7 @@
     <string name="countExternalHint">Außerhalb des Zählbereichs</string>
     <string name="countInternalSum">Summen aller Arten innerhalb des Zählbereichs</string>
     <string name="countExternalSum">Summen aller Arten außerhalb des Zählbereichs</string>
-    <string name="countImagomfHint">Falter ♂ o. ♀</string>
+    <string name="countImagomfHint">Falter ♂ od. ♀</string>
     <string name="countImagomHint">Falter ♂</string>
     <string name="countImagofHint">Falter ♀</string>
     <string name="countPupaHint">Puppe</string>
