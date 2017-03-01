@@ -2,18 +2,19 @@
 
 ## Environment for the project
 Windows 64-bit
+
 Android Smartphone with high resolution screen
 
 ## Dependencies
 - Android Studio (current version)
 
-## Android Studio components
+### Android Studio Components
 Android SDK with
 - Android Platforms: 5.0, 5.1, 6.0
 - SDK Tools: Android Emulator, Android SDK Platform-Tools, Android SDK Tools, Android Support Library, Google USB Driver, Intel x86 Emulator Accelerator, Android Support Repository, Google Repository
 - Plugins: .ignore, Android Support, CVS Integration, EditorConfig, Git Integration, GitHub, Gradle, Groovy, hg4idea, I18n for Java, IntelliLang, Java Bytecode Decompiler, JUnit, Properties Support, SDK Updater, Subversion Integration, Task Management, Terminal 
 
-### External Libraries
+### External Libraries (part of or imported by Android Studio)
 - Android API 23 Platform
 - Java jdk1.8.0_91
 - animated-vector-drawable-23.4.0
@@ -24,9 +25,12 @@ Android SDK with
 - support-v4-23.4.0
 - support-vector-drawable-23.4.0
 
-## Downloading source code
+## Start the Project
 
 Get the project source by downloading the master.zip.
+
 Extract it to a directory "TransektCount".
+
 Load the directory as a project in Android Studio.
+
 Set up your Android Studio environment regarding compiling key, apk directory and GitHub destination.
