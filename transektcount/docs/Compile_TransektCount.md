@@ -1,9 +1,9 @@
 # Compile Guide for TransektCount
 
 ## Environment for the Project
-Windows 64-bit
+Windows 64-bit with adb driver
 
-Android Smartphone with high resolution screen
+Android Smartphone with high resolution screen 
 
 ## Dependencies
 - Android Studio (current version)
