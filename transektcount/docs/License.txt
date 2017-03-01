@@ -1,8 +1,9 @@
 /*
- * *************************************************************************
+ * ********************************************************************************
  *  TransektCount
- * **************************************************************************
- *  Copyright (c) 2016 Wilhelm Stein
+ * ********************************************************************************
+ *
+ *  Copyright (c) 2016-2017 Wilhelm Stein (wistein)
  *  Author: Wilhelm Stein
  *  Based on BeeCount, author: knirrirr 
  *  Modified AutoFitText.java, original code from author: pheuschk
@@ -10,8 +11,8 @@
  *  Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd.
  *
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * TransektCount is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -21,5 +22,4 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
