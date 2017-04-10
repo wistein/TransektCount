@@ -39,7 +39,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
@@ -347,7 +349,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int temp, wind, clouds;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
-        String date, start_tm, end_tm;
+        String date, start_tm, end_tm, kw;
+        int yyyy, mm, dd;
 
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
@@ -404,7 +407,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         getString(R.string.clouds),
                         getString(R.string.date),
                         getString(R.string.starttm),
-                        getString(R.string.endtm)
+                        getString(R.string.endtm),
+                        getString(R.string.kal_w),
                     };
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
@@ -418,6 +422,28 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 date = meta.date;
                 start_tm = meta.start_tm;
                 end_tm = meta.end_tm;
+                
+                // Calculating the week of the year (ISO 8601)
+                Calendar cal = Calendar.getInstance();
+
+                String language = Locale.getDefault().toString().substring(0, 2);
+                if (language.equals("de"))
+                {
+                    yyyy = Integer.valueOf(date.substring(6, 10));
+                    mm = Integer.valueOf(date.substring(3, 5));
+                    dd = Integer.valueOf(date.substring(0, 2));
+                }
+                else
+                {
+                    yyyy = Integer.valueOf(date.substring(0, 4));
+                    mm = Integer.valueOf(date.substring(5, 7));
+                    dd = Integer.valueOf(date.substring(8, 10));
+                }
+                
+                // cal.set(2017, 3, 9); // 09.04.2017
+                cal.set(yyyy, mm - 1, dd);
+                int Kw = cal.get(Calendar.WEEK_OF_YEAR);
+                kw = String.valueOf(Kw);
 
                 String arrMeta[] =
                     {
@@ -429,6 +455,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         date,
                         start_tm,
                         end_tm,
+                        kw,
                     };
                 csvWrite.writeNext(arrMeta);
 

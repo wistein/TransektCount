@@ -46,6 +46,7 @@
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="sum">Summe:</string>
+    <string name="kal_w">KW</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>
