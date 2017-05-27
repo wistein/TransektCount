@@ -30,8 +30,11 @@
 
 $ 2.0.1
   % Version 2.0.1
-  _ 2017-02-27
-  	* Minor additions in Readme.md and other docs  
+  _ 2017-04-14
+  	* Minor additions in Readme.md and other docs
+  	* Minor layout improvements
+  	* Added Calendar Week in csv-export
+  	* Additional butterfly pictures
 $ 2.0.0
   % Version 2.0.0
   _ 2017-01-06
