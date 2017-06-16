@@ -28,6 +28,10 @@
   * Geeignet für Android 4.2 (JellyBean) - 6.0 (Marshmallow)
   * Android 7 (Nougat) nicht getestet
 
+$ 2.0.2
+  % Version 2.0.2
+  _ 16.06.2017
+  	* Ersatzbild für Spezies ohne Bild (z.B. Komplex). 
 $ 2.0.1
   % Version 2.0.1
   _ 27.05.2017

@@ -28,6 +28,10 @@
   * Suitable for Android 4.2 (JellyBean) - 6.0 (Marshmallow)
   * Android 7 (Nougat) not tested
 
+$ 2.0.2
+  % Version 2.0.2
+  _ 2017-06-17
+  	* Stub picture if no picture of species available (e.g. group)
 $ 2.0.1
   % Version 2.0.1
   _ 2017-04-14

@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
-import java.lang.reflect.Field;
-
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
@@ -49,12 +47,6 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
         this.imageArray = imageArray;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-/*        inflater.inflate(R.layout.widget_counting_head1, this, true);
-        countName = (TextView) findViewById(R.id.countName);
-        countCode = (TextView) findViewById(R.id.countCode);
-        pSpecies = (ImageView) findViewById(R.id.pSpecies);
-*/
     }
 
     @Override
@@ -86,40 +78,6 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
         pSpecies.setImageResource(imageArray[position]);
 
         return row;
-    }
-
-
-    public void setCountHead1(Count newcount)
-    {
-        count = newcount;
-
-        countName.setText(count.name);
-        countCode.setText(count.code);
-
-        String rname = "p" + count.code; // species picture resource name
-
-        int resId = getResId(rname);
-        //Log.i(TAG, "rname = " + rname);
-        //Log.i(TAG, "resId = " + String.valueOf(resId));
-        if (resId != 0)
-        {
-            pSpecies.setImageResource(resId);
-        }
-
-    }
-
-    // Get resource ID from resource name
-    public int getResId(String rName)
-    {
-        try
-        {
-            Class res = R.drawable.class;
-            Field idField = res.getField(rName);
-            return idField.getInt(null);
-        } catch (Exception e)
-        {
-            return 0;
-        }
     }
 
 }

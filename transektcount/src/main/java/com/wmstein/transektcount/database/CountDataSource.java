@@ -488,7 +488,16 @@ public class CountDataSource
 
             String rname = "p" + ucode; // species picture resource name
             int resId = getResId(rname);
-            imageArray[i] = resId;
+            int resId0 = getResId("p00000");
+            
+            if (resId != 0)
+            {
+                imageArray[i] = resId;
+            }
+            else
+            {
+                imageArray[i] = resId0;
+            }
             i++;
             cursor.moveToNext();
         }
@@ -513,7 +522,16 @@ public class CountDataSource
 
             String rname = "p" + ucode; // species picture resource name
             int resId = getResId(rname);
-            imageArray[i] = resId;
+            int resId0 = getResId("p00000");
+
+            if (resId != 0)
+            {
+                imageArray[i] = resId;
+            }
+            else
+            {
+                imageArray[i] = resId0;
+            }
             i++;
             cursor.moveToNext();
         }
@@ -538,7 +556,16 @@ public class CountDataSource
 
             String rname = "p" + ucode; // species picture resource name
             int resId = getResId(rname);
-            imageArray[i] = resId;
+            int resId0 = getResId("p00000");
+
+            if (resId != 0)
+            {
+                imageArray[i] = resId;
+            }
+            else
+            {
+                imageArray[i] = resId0;
+            }
             i++;
             cursor.moveToNext();
         }

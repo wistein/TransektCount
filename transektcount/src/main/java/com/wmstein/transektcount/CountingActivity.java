@@ -16,11 +16,9 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -358,7 +356,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
-                // stub
+                // stub, necessary to make Spinner work correctly when repeatedly used
             }
         });
     }
