@@ -47,6 +47,7 @@
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="sum">Summe:</string>
     <string name="kal_w">KW</string>
+    <string name="back_twice">Zum Beenden erneut drücken</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>

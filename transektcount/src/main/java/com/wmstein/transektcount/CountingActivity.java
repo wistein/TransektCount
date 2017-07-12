@@ -52,8 +52,8 @@ import java.util.List;
  * CountingActivity does the actual counting with 12 counters, checks for alerts,
  * calls CountOptionsActivity, calls EditSectionActivity, clones a section,
  * switches screen off when pocketed and lets you send a message.
- * Inspired by milo's CountingActivity.java from 05/05/2014.
- * Modified by wmstein on 18.12.2016
+ * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
+ * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener 
 {

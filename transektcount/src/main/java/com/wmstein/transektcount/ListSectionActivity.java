@@ -18,13 +18,15 @@ import java.util.List;
 /***************************************************************************************************
  * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
- * Modified by wmstein on 08.04.2016
+ * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "TransektCountListSectionActivity";
     TransektCountApplication transektCount;
-    SharedPreferences prefs;
+
+    // preferences
+    private SharedPreferences prefs;
 
     private SectionDataSource sectionDataSource;
 
@@ -118,6 +120,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         return super.onOptionsItemSelected(item);
     }
 
+    
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);

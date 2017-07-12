@@ -65,6 +65,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private static final int FILE_CHOOSER = 11;
     private Handler mHandler = new Handler();
 
+    public boolean doubleBackToExitPressedOnce;
+
     // import/export stuff
     File infile;
     File outfile;
@@ -260,6 +262,29 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        if (doubleBackToExitPressedOnce)
+        {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable()
+        {
+
+            @Override
+            public void run()
+            {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
+
     public void onStop()
     {
         super.onStop();
@@ -422,7 +447,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 date = meta.date;
                 start_tm = meta.start_tm;
                 end_tm = meta.end_tm;
-                
+
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
@@ -439,7 +464,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     mm = Integer.valueOf(date.substring(5, 7));
                     dd = Integer.valueOf(date.substring(8, 10));
                 }
-                
+
                 // cal.set(2017, 3, 9); // 09.04.2017
                 cal.set(yyyy, mm - 1, dd);
                 int Kw = cal.get(Calendar.WEEK_OF_YEAR);

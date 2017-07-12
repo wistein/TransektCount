@@ -30,8 +30,10 @@
 
 $ 2.0.2
   % Version 2.0.2
-  _ 16.06.2017
-  	* Ersatzbild für Spezies ohne Bild (z.B. Komplex). 
+  _ 07.07.2017
+  	* Ersatzbild für Spezies ohne Bild (z.B. Komplex).
+  	* Button Sound auch für Auswahl des Transektabschnitts
+  	* Zum Beenden Back Button zweimal drücken
 $ 2.0.1
   % Version 2.0.1
   _ 27.05.2017

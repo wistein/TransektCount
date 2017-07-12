@@ -5,6 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +27,31 @@ import static java.lang.Long.toHexString;
 /*********************************************************
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
-class SectionListAdapter extends ArrayAdapter<Section>
+class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountSectionListAdapter";
     private Context context;
     private int layoutResourceId;
     private List<Section> sections = null;
     private Context mContext;
-    private TransektCountApplication transektCount;
     private Section sct;
     private Handler mHandler = new Handler();
 
+    // preferences
+    private boolean buttonSoundPref;
+    private String buttonAlertSound;
+    private SharedPreferences prefs;
+
+    /*
+     * So preferences can be loaded at the start, and also when a change is detected.
+     */
+    private void getPrefs()
+    {
+        buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
+        buttonAlertSound = prefs.getString("alert_button_sound", null);
+    }
 
     // Constructor
     SectionListAdapter(Context context, int layoutResourceId, List<Section> sections)
@@ -45,7 +61,6 @@ class SectionListAdapter extends ArrayAdapter<Section>
         this.context = context;
         this.sections = sections;
         mContext = context;
-        transektCount = (TransektCountApplication) context.getApplicationContext();
     }
 
     private static class SectionHolder
@@ -61,6 +76,10 @@ class SectionListAdapter extends ArrayAdapter<Section>
     {
         View row = convertView;
         SectionHolder holder;
+
+        prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        getPrefs();
 
         if (row == null)
         {
@@ -115,6 +134,7 @@ class SectionListAdapter extends ArrayAdapter<Section>
         @Override
         public void onClick(final View v)
         {
+            buttonSound();
             Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
             // pause for 100 msec to show toast immediately
@@ -125,7 +145,6 @@ class SectionListAdapter extends ArrayAdapter<Section>
                     sct = (Section) v.getTag();
                     Intent intent = new Intent(getContext(), CountingActivity.class);
                     intent.putExtra("section_id", sct.id);
-                    //transektCount.section_id = sct.id;
                     mContext.startActivity(intent);
                 }
             }, 100);
@@ -164,4 +183,83 @@ class SectionListAdapter extends ArrayAdapter<Section>
         }
     };
 
+    private void buttonSound()
+    {
+        if (buttonSoundPref)
+        {
+            try
+            {
+                Uri notification;
+                if (isNotBlank(buttonAlertSound) && buttonAlertSound != null)
+                {
+                    notification = Uri.parse(buttonAlertSound);
+                }
+                else
+                {
+                    notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                }
+                Ringtone r = RingtoneManager.getRingtone(getContext(), notification);
+                r.play();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Checks if a CharSequence is not empty (""), not null and not whitespace only.
+     * <p/>
+     * isNotBlank(null)      = false
+     * isNotBlank("")        = false
+     * isNotBlank(" ")       = false
+     * isNotBlank("bob")     = true
+     * isNotBlank("  bob  ") = true
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is
+     * not empty and not null and not whitespace
+     */
+    public static boolean isNotBlank(final CharSequence cs)
+    {
+        return !isBlank(cs);
+    }
+
+    /**
+     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * licensed under Apache License Version 2.0, January 2004
+     * <p>
+     * Checks if a CharSequence is whitespace, empty ("") or null
+     * <p/>
+     * isBlank(null)      = true
+     * isBlank("")        = true
+     * isBlank(" ")       = true
+     * isBlank("bob")     = false
+     * isBlank("  bob  ") = false
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is null, empty or whitespace
+     */
+    public static boolean isBlank(final CharSequence cs)
+    {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0)
+        {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++)
+        {
+            if (!Character.isWhitespace(cs.charAt(i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+    {
+        getPrefs();
+    }
+    
 }

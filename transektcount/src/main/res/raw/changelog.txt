@@ -30,8 +30,10 @@
 
 $ 2.0.2
   % Version 2.0.2
-  _ 2017-06-17
+  _ 2017-07-12
   	* Stub picture if no picture of species available (e.g. group)
+  	* Button sound also for selection of transect section
+  	* Press back button twice to exit
 $ 2.0.1
   % Version 2.0.1
   _ 2017-04-14
