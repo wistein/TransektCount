@@ -554,6 +554,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     break;
                 }
 
+                int countmf, countm, countf, countp, countl, counte;
+                int countmfe, countme, countfe, countpe, countle, countee;
+                String strcountmf, strcountm, strcountf, strcountp, strcountl, strcounte;
+                String strcountmfe, strcountme, strcountfe, strcountpe, strcountle, strcountee;
+                
                 curCSV.moveToFirst();
                 while (!curCSV.isAfterLast())
                 {
@@ -562,25 +567,87 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     sectName = section.name;
                     sectNotes = section.notes;
 
-                    String arrStr[] =
+                    countmf = curCSV.getInt(4); 
+                    if (countmf > 0)
+                        strcountmf = Integer.toString(countmf);
+                    else
+                        strcountmf ="";
+                    countm = curCSV.getInt(5);
+                    if (countm > 0)
+                        strcountm = Integer.toString(countm);
+                    else
+                        strcountm ="";
+                    
+                    countf = curCSV.getInt(6);
+                    if (countf > 0)
+                        strcountf = Integer.toString(countf);
+                    else
+                        strcountf ="";
+                    countp = curCSV.getInt(7);
+                    if (countp > 0)
+                        strcountp = Integer.toString(countp);
+                    else
+                        strcountp ="";
+                    countl = curCSV.getInt(8);
+                    if (countl > 0)
+                        strcountl = Integer.toString(countl);
+                    else
+                        strcountl ="";
+                    counte = curCSV.getInt(9);
+                    if (counte > 0)
+                        strcounte = Integer.toString(counte);
+                    else
+                        strcounte ="";
+                    countmfe = curCSV.getInt(10);
+                    if (countmfe > 0)
+                        strcountmfe = Integer.toString(countmfe);
+                    else
+                        strcountmfe ="";
+                    countme = curCSV.getInt(11);
+                    if (countme > 0)
+                        strcountme = Integer.toString(countme);
+                    else
+                        strcountme ="";
+                    countfe = curCSV.getInt(12);
+                    if (countfe > 0)
+                        strcountfe = Integer.toString(countfe);
+                    else
+                        strcountfe ="";
+                    countpe = curCSV.getInt(13);
+                    if (countpe > 0)
+                        strcountpe = Integer.toString(countpe);
+                    else
+                        strcountpe ="";
+                    countle = curCSV.getInt(14);
+                    if (countle > 0)
+                        strcountle = Integer.toString(countle);
+                    else
+                        strcountle ="";
+                    countee = curCSV.getInt(15);
+                    if (countee > 0)
+                        strcountee = Integer.toString(countee);
+                    else
+                        strcountee ="";
+                    
+                    String arrStr[] = 
                         {
                             sectName,              //section name
                             sectNotes,             //section notes
                             curCSV.getString(2),   //species name
                             curCSV.getString(3),   //species code
-                            curCSV.getString(4),   //count mf
-                            curCSV.getString(5),   //count m
-                            curCSV.getString(6),   //count f
-                            curCSV.getString(7),   //count p
-                            curCSV.getString(8),   //count l
-                            curCSV.getString(9),   //count e
-                            curCSV.getString(10),   //count mfe
-                            curCSV.getString(11),   //count me
-                            curCSV.getString(12),   //count fe
-                            curCSV.getString(13),   //count pe
-                            curCSV.getString(14),   //count le
-                            curCSV.getString(15),   //count ee
-                            curCSV.getString(16)    //notes
+                            strcountmf,            //count mf
+                            strcountm,             //count m
+                            strcountf,             //count f
+                            strcountp,             //count p
+                            strcountl,             //count l
+                            strcounte,             //count e
+                            strcountmfe,           //count mfe
+                            strcountme,            //count me
+                            strcountfe,            //count fe
+                            strcountpe,            //count pe
+                            strcountle,            //count le
+                            strcountee,            //count ee
+                            curCSV.getString(16)   //notes
                         };
                     csvWrite.writeNext(arrStr);
 

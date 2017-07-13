@@ -197,7 +197,7 @@
     <string name="countExternalHint">External of Counting Area</string>
     <string name="countInternalSum">Totals of All Internal Species</string>
     <string name="countExternalSum">Totals of All External Species</string>
-    <string name="countImagomfHint">Butterfly ♂ or ♀</string>
+    <string name="countImagomfHint">Butterfly ♂, ♀</string>
     <string name="countImagomHint">Butterfly ♂</string>
     <string name="countImagofHint">Butterfly ♀</string>
     <string name="countPupaHint">Pupa</string>

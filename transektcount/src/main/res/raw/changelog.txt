@@ -30,10 +30,12 @@
 
 $ 2.0.2
   % Version 2.0.2
-  _ 2017-07-12
+  _ 2017-07-13
   	* Stub picture if no picture of species available (e.g. group)
   	* Button sound also for selection of transect section
   	* Press back button twice to exit
+    * CSV export now suppresses zeros for empty counts
+
 $ 2.0.1
   % Version 2.0.1
   _ 2017-04-14
@@ -41,6 +43,7 @@ $ 2.0.1
   	* Minor layout improvements
   	* Added Calendar Week in csv-export
   	* Additional butterfly pictures
+
 $ 2.0.0
   % Version 2.0.0
   _ 2017-01-06
@@ -50,11 +53,13 @@ $ 2.0.0
   	* Check for missing or duplicate species codes
   	* New database structure according to the new count options
   	* Alerts for all counted butterflies within counting boundary (♂, ♀ summed up)
+
 $ 1.3.9
   % Version 1.3.9
   _ 2016-11-21
   	* Pictures of species on counting page
     * Create new section includes edit section
+
 $ 1.3.8
   % Version 1.3.8
   _ 2016-10-27
@@ -64,6 +69,7 @@ $ 1.3.8
     * Codes for species added
     * Option added: Sorting of species by names or codes
     * "New Section" page simplified
+
 $ 1.3.5
   % Version 1.3.5
   _ 2016-10-03
@@ -71,35 +77,42 @@ $ 1.3.5
     * Option counting screen for lefties
     * Exportable csv-table improved
     * Bug fix
+
 $ 1.3.2
   % Version 1.3.2
   _ 2016-08-04
     * Bug fix
     * Code optimized
+
 $ 1.3.1
   % Version 1.3.1
   _ 2016-07-25
     * Switch screen off on counting page when in pocket
+
 $ 1.3.0
   % Version 1.3.0
   _ 2016-06-22
     * Option "Screen bright" in Preferences
+
 $ 1.2.7
   % Version 1.2.7
   _ 2016-06-11
     * Permission handling for Android M
     * File import dialog for existing DB
+
 $ 1.2.6
   % Version 1.2.6
   _ 2016-04-14
     * Message "Please wait..." when calling the counting or results page
     * Show Transect-No. in app bar of the starting page
+
 $ 1.2.5
   % Version 1.2.5
   _ 2016-04-07
     * Reject double species names in "Edit Sections"
 	  * Reject double section names in "Duplicate Section"
     * "+"-Button in app bar of page "List of Sections"
+
 $ 1.2.4
   % Version 1.2.4
   _ 2016-04-04
@@ -108,17 +121,20 @@ $ 1.2.4
     * New: Results page including master data
     * New: Export functions including master data
     * Background for editing pages unicolored
+
 $ 1.2.3
   % Version 1.2.3
   _ 2016-03-28
     * App runs always in portrait mode
     * Empty Basic DB may be exported any time
+
 $ 1.2.2
   % Version 1.2.2
   _ 2016-03-25
     * New: Export DB in csv-Format
     * Exported DB shows only counts >0
     * Better views for small displays
+
 $ 1.2.0
   % Version 1.2.0
   _ 2016-03-19
@@ -128,6 +144,7 @@ $ 1.2.0
     * "Add Alert" now scrolls to end of page and sets focus on new field
     * Design of Starting page improved
     * Design of Counting page improved
+
 $ 1.1.0
   % Version 1.1.0
   _ 2016-03-05
@@ -136,12 +153,14 @@ $ 1.1.0
     * "+"-Button in app bar of page "Add Species"
     * "Add species" now scrolls to end of page and sets focus on new field
     * Save Icon in app bar of page "New Section"
+
 $ 1.0.8
   % Version 1.0.8
   _ 2016-02-27
     * Additional counter per species for external sightings. Therefore layout adapted in widgets and DB structure
     * Also Database and calculating routines added for 2nd counter
     * Count options allow to set values for both counters per species
+
 $ 1.0.6
   % Version 1.0.6
   _ 2016-02-22
@@ -149,6 +168,7 @@ $ 1.0.6
     * Section date shown only if not 0
     * German text improved
     * Some minor code improvements
+
 $ 1.0.4
   % Version 1.0.4
   _ 2016-02-18
@@ -156,12 +176,14 @@ $ 1.0.4
     * Base-DB-Import: Raw Database 'transektcount0.db'
     * Base-DB-Export: Raw Database 'transektcount0.db'
     * DB-Export: Database 'transektcount.db'
+
 $ 1.0.2
   % Version 1.0.2
   _ 2016-02-14
     * Sort default: Section name ascending
     * German translation and adaptation.
     * Removal of unused functions
+
 $ 1.0.0
   % Version 1.0.0
   _ 2016-02-12
