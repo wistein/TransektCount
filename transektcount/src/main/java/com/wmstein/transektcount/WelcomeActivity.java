@@ -374,6 +374,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int temp, wind, clouds;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
+        int total = 0;
         String date, start_tm, end_tm, kw;
         int yyyy, mm, dd;
 
@@ -663,6 +664,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     sumpe = sumpe + curCSV.getInt(13);
                     sumle = sumle + curCSV.getInt(14);
                     sumoe = sumoe + curCSV.getInt(15);
+                    total = total + summf + summ + sumf + sump + suml + sumo +
+                        summfe + summe + sumfe + sumpe + sumle + sumoe;
                     curCSV.moveToNext();
                 }
                 curCSV.close();
@@ -684,6 +687,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         Integer.toString(sumpe),
                         Integer.toString(sumle),
                         Integer.toString(sumoe),
+                        Integer.toString(total)
                     };
                 csvWrite.writeNext(arrSum);
 

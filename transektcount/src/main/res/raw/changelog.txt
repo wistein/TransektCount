@@ -35,6 +35,7 @@ $ 2.0.2
   	* Button sound also for selection of transect section
   	* Press back button twice to exit
     * CSV export now suppresses zeros for empty counts
+    * CSV export adds overall totals
 
 $ 2.0.1
   % Version 2.0.1

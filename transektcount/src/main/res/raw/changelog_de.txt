@@ -35,7 +35,8 @@ $ 2.0.2
   	* Button Sound auch für Auswahl des Transektabschnitts
   	* Zum Beenden Back-Button zweimal drücken
     * CSV-Export unterdrückt Nullwerte für bessere Übersicht
-
+		* CSV-Export weist Gesamtsumme aus
+		
 $ 2.0.1
   % Version 2.0.1
   _ 27.05.2017
