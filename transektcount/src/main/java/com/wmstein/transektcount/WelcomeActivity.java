@@ -664,11 +664,43 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     sumpe = sumpe + curCSV.getInt(13);
                     sumle = sumle + curCSV.getInt(14);
                     sumoe = sumoe + curCSV.getInt(15);
-                    total = total + summf + summ + sumf + sump + suml + sumo +
-                        summfe + summe + sumfe + sumpe + sumle + sumoe;
                     curCSV.moveToNext();
                 }
                 curCSV.close();
+
+                total = summf + summ + sumf + sump + suml + sumo +
+                    summfe + summe + sumfe + sumpe + sumle + sumoe;
+
+                // Empty row
+                String arrEmpt2[] = {};
+                csvWrite.writeNext(arrEmpt2);
+
+                // Intern, extern
+                String arrIEsum[] = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                csvWrite.writeNext(arrIEsum);
+
+                // Internal counts, External counts, Total
+                String arrCol2[] =
+                    {
+                        "",
+                        "",
+                        "",
+                        "",
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.hintTotal)
+                    };
+                csvWrite.writeNext(arrCol2);
 
                 // write total sum
                 String arrSum[] =

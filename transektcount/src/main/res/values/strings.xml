@@ -207,6 +207,7 @@
     <string name="hintSectionNotes">Section notes</string>
     <string name="hintCountNotes">Species notes</string>
     <string name="hintInstructions">Instructions.</string>
+    <string name="hintTotal">Total</string>
     <string name="getHelp">Sorry, there was a problem with your database. Please email if you need assistance, attaching your exported \'transektcount.db\'.</string>
 
 </resources>

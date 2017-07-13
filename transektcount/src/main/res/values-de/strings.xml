@@ -207,6 +207,7 @@
     <string name="hintSectionNotes">Abschnittsnotizen</string>
     <string name="hintCountNotes">Spezies Notizen</string>
     <string name="hintInstructions">Anleitung.</string>
+    <string name="hintTotal">Gesamtsumme</string>
     <string name="getHelp">Leider gibt es ein Problem mit Deiner Datenbank. Bitte sende eine E-Mail mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
 
 </resources>
