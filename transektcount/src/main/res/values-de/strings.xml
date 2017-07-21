@@ -195,8 +195,9 @@
     <string name="countCodeHint">Code</string>
     <string name="countInternalHint">Innerhalb des Zählbereichs</string>
     <string name="countExternalHint">Außerhalb des Zählbereichs</string>
-    <string name="countInternalSum">Summen aller Arten innerhalb des Zählbereichs</string>
-    <string name="countExternalSum">Summen aller Arten außerhalb des Zählbereichs</string>
+    <string name="countInternalSum">Summen innerhalb des Zählbereichs</string>
+    <string name="countExternalSum">Summen außerhalb des Zählbereichs</string>
+    <string name="totalInternal">Gesamtsummen innerhalb / außerhalb</string>
     <string name="countImagomfHint">Falter ♂, ♀</string>
     <string name="countImagomHint">Falter ♂</string>
     <string name="countImagofHint">Falter ♀</string>

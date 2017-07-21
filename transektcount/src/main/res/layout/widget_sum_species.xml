@@ -24,7 +24,7 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:paddingTop="0dp">
-        
+
         <!-- Line -->
         <View
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="5dp"/>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,6 +139,7 @@
                 android:text="@string/txt_l"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
+
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -171,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
-        <!-- countf1i -->
+            <!-- countf1i -->
             <TextView
                 android:id="@+id/sumCountf1i"
                 android:layout_width="0dp"
@@ -411,6 +412,7 @@
                 android:text="@string/txt_l"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
+
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -574,6 +576,88 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtInternalTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:gravity="start|top"
+                android:padding="2sp"
+                android:text="@string/totalInternal"
+                android:textColor="#BFFFFF"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <!-- sumint -->
+            <TextView
+                android:id="@+id/sumIndInt"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"/>
+
+            <!-- sumext -->
+            <TextView
+                android:id="@+id/sumIndExt"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.8"/>
+
         </LinearLayout>
 
         <Space

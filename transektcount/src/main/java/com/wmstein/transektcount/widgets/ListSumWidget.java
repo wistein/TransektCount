@@ -30,6 +30,8 @@ public class ListSumWidget extends LinearLayout
     private TextView sumCountpe;
     private TextView sumCountle;
     private TextView sumCountee;
+    private TextView sumIndInt;
+    private TextView sumIndExt;
     
     public ListSumWidget(Context context, AttributeSet attrs)
     {
@@ -49,10 +51,13 @@ public class ListSumWidget extends LinearLayout
         sumCountpe = (TextView) findViewById(R.id.sumCountpe);
         sumCountle = (TextView) findViewById(R.id.sumCountle);
         sumCountee = (TextView) findViewById(R.id.sumCountee);
+        sumIndInt = (TextView) findViewById(R.id.sumIndInt);
+        sumIndExt = (TextView) findViewById(R.id.sumIndExt);
     }
 
     public void setSum(int summf, int summ, int sumf, int sump, int suml, int sumo, 
-                       int summfe, int summe, int sumfe, int sumpe, int sumle, int sumoe)
+                       int summfe, int summe, int sumfe, int sumpe, int sumle, int sumoe,
+                       int sumInt, int sumExt)
     {
         sumCountf1i.setText(String.valueOf(summf));
         sumCountf2i.setText(String.valueOf(summ));
@@ -66,6 +71,8 @@ public class ListSumWidget extends LinearLayout
         sumCountpe.setText(String.valueOf(sumpe));
         sumCountle.setText(String.valueOf(sumle));
         sumCountee.setText(String.valueOf(sumoe));
+        sumIndInt.setText(String.valueOf(sumInt));
+        sumIndExt.setText(String.valueOf(sumExt));
     }
     
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -115,6 +114,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     {
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
+        int sumInt = 0, sumExt = 0;
 
         headDataSource.open();
         metaDataSource.open();
@@ -211,9 +211,12 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             }
         }
 
+        sumInt = summf + summ + sumf + sump + suml + sumo;
+        sumExt = summfe + summe + sumfe + sumpe + sumle + sumoe;
+        
         // display the totals
         lsw = new ListSumWidget(this, null);
-        lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe);
+        lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe, sumInt, sumExt);
 
         spec_area.addView(lsw);
 

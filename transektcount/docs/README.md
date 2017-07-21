@@ -13,7 +13,7 @@ The app demands for storage access permits which are needed for im-/exporting th
 A detailed description for setting up and using the app as well as sample basic databases (transektcount0.db, transektcount0_Ab01.db and respective English versions) are provided under 'transektcount/docs'.
 
 The apk-file 'transektcount-release.apk' is provided under 'transektcount/apk'. 
-It is usable with Android version 4.2.2 or newer (not tested under Android 7.x).
+It is usable with Android version 4.2.2 or newer.
 
 Before using the app, please, read the documentation (provided in German and English).
 
