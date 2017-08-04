@@ -26,7 +26,12 @@
   _ email: stein.wm@web.de
   _
   * Suitable for Android 4.2 (JellyBean) - 6.0 (Marshmallow)
-  * Android 7 (Nougat) not tested
+  * Android 7 (Nougat) not completely tested
+
+$ 2.0.3
+  % Version 2.0.3
+  _ 2017-08-04
+  	* Fix for Drop-Down-Selection malfunction
 
 $ 2.0.2
   % Version 2.0.2

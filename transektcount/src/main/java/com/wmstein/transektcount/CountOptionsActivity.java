@@ -365,7 +365,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

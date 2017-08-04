@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -32,7 +31,6 @@ import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
-import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountingWidgetLH_e;
@@ -55,7 +53,7 @@ import java.util.List;
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
-public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener 
+public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountCountingActivity";
     private AlertDialog.Builder row_alert;
@@ -87,8 +85,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private String alertSound;
     private String buttonAlertSound;
 
-    private boolean hasChanged = false; // Criteria for storing S_AT_CREATED
-
     // the actual data
     private Count count;
     private Section section;
@@ -98,17 +94,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private List<CountingWidget_e> countingWidgets_e;
     private List<CountingWidgetLH_i> countingWidgetsLH_i;
     private List<CountingWidgetLH_e> countingWidgetsLH_e;
-    //private SpinnerPlus spinnerPlus;
     private Spinner spinner;
     private int itemPosition = 0;
+    private boolean itemCounted = true;
+    private int oldCount;
 
     private String[] idArray;
     private String[] nameArray;
     private String[] codeArray;
     private Integer[] imageArray;
 
-    private SQLiteDatabase database;
-    private DbHelper dbHandler;
+    //private SQLiteDatabase database;
+    //private DbHelper dbHandler;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
@@ -320,9 +317,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         spinner.setAdapter(adapter);
         spinner.setSelection(itemPosition);
 
-        //spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         spinnerListener();
-        
+
         if (awakePref)
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -448,9 +444,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             disableProximitySensor(true);
         }
 
-        // save the data
-        //saveData();
-
         // save section id in case it is lost on pause
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("section_id", section_id);
@@ -468,48 +461,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
-    }
-
-    // Save counters to C_COUNT and counting date to S_CREATED_AT
-    private void saveData()
-    {
-
-        Toast.makeText(CountingActivity.this, getString(R.string.sectSaving) + " " + section.name + "!", Toast.LENGTH_SHORT).show();
-        for (Count count : counts)
-        {
-            countDataSource.saveCount(count);
-        }
-        if (hasChanged)
-        {
-            sectionDataSource.saveDateSection(section);
-            hasChanged = false;
-        }
-    }
-
-    public void saveAndExit(View view)
-    {
-        //saveData();
-        if (hasChanged)
-        {
-            sectionDataSource.saveDateSection(section);
-            hasChanged = false;
-        }
-
-        // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            disableProximitySensor(true);
-        }
-
-        super.finish();
     }
 
     /****************************
      * The following functions get a referenced counting widget from the list
      */
 
-    // countingWidgets_i
+    // countingWidgets_i (internal, right-handed)
     private CountingWidget_i getCountFromId_i(int id)
     {
         for (CountingWidget_i widget : countingWidgets_i)
@@ -522,7 +480,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return null;
     }
 
-    // countingWidgetsLH_i
+    // countingWidgetsLH_i (internal, left-handed)
     private CountingWidgetLH_i getCountFromIdLH_i(int id)
     {
         for (CountingWidgetLH_i widget : countingWidgetsLH_i)
@@ -535,7 +493,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return null;
     }
 
-    // countingWidgets_e
+    // countingWidgets_e (external, right-handed)
     private CountingWidget_e getCountFromId_e(int id)
     {
         for (CountingWidget_e widget : countingWidgets_e)
@@ -548,7 +506,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return null;
     }
 
-    // countingWidgetsLH_e
+    // countingWidgetsLH_e (external, left-handed)
     private CountingWidgetLH_e getCountFromIdLH_e(int id)
     {
         for (CountingWidgetLH_e widget : countingWidgetsLH_e)
@@ -569,742 +527,863 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
      */
     public void countUpf1i(View view)
     {
-        buttonSound();
+        dummy(); // start dummy activity to fix spinner's 1. misbehaviour: 
+        // no action when selecting previous species
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1i; // desperate workaround for 2. crazy spinner behaviour: 
+            // When returning from species that got no count to previous
+            // selected species: 1st count button press is ignored,
+            // so use button sound only for 2nd press when actually counted
+            // ToDo: complete fix instead of workaround
             widget.countUpf1i(); // count up and set value on screen
-            //Toast.makeText(CountingActivity.this, "CountUp " + count.count_f1i, Toast.LENGTH_SHORT).show();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            if (count.count_f1i > oldCount) // has actually counted up
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
-            // save the data
-            countDataSource.saveCountf1i(count);
-            sectionDataSource.saveDateSection(section);
+                // save the data
+                countDataSource.saveCountf1i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHf1i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1i;
             widget.countUpLHf1i();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+            if (count.count_f1i > oldCount) // has actually counted up
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
-            // save the data
-            countDataSource.saveCountf1i(count);
-            sectionDataSource.saveDateSection(section);
+                // save the data
+                countDataSource.saveCountf1i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf1i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1i;
             widget.countDownf1i();
-            countDataSource.saveCountf1i(count);
+            if (count.count_f1i < oldCount || count.count_f1i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf1i(count);
+            }
         }
-
-        hasChanged = widget.count.count_f1i != 0;
-        dummy();
     }
 
     public void countDownLHf1i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1i;
             widget.countDownLHf1i();
-            countDataSource.saveCountf1i(count);
+            if (count.count_f1i < oldCount || count.count_f1i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf1i(count);
+            }
         }
-
-        hasChanged = widget.count.count_f1i != 0;
-        dummy();
     }
 
     public void countUpf2i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2i;
             widget.countUpf2i();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
-            countDataSource.saveCountf2i(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f2i > oldCount)
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                countDataSource.saveCountf2i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHf2i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2i;
             widget.countUpLHf2i();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
-            countDataSource.saveCountf2i(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f2i > oldCount)
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                countDataSource.saveCountf2i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf2i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2i;
             widget.countDownf2i();
-            countDataSource.saveCountf2i(count);
+            if (count.count_f2i < oldCount || count.count_f2i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf2i(count);
+            }
         }
-        hasChanged = widget.count.count_f2i != 0;
-        dummy();
     }
 
     public void countDownLHf2i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2i;
             widget.countDownLHf2i();
-            countDataSource.saveCountf2i(count);
+            if (count.count_f2i < oldCount || count.count_f2i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf2i(count);
+            }
         }
-        hasChanged = widget.count.count_f2i != 0;
-        dummy();
     }
 
     public void countUpf3i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3i;
             widget.countUpf3i();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
-            countDataSource.saveCountf3i(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f3i > oldCount)
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                countDataSource.saveCountf3i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHf3i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3i;
             widget.countUpLHf3i();
-            checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
-            countDataSource.saveCountf3i(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f3i > oldCount)
+            {
+                buttonSound();
+                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                countDataSource.saveCountf3i(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf3i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3i;
             widget.countDownf3i();
-            countDataSource.saveCountf3i(count);
+            if (count.count_f3i < oldCount || count.count_f3i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf3i(count);
+            }
         }
-        hasChanged = widget.count.count_f3i != 0;
-        dummy();
     }
 
     public void countDownLHf3i(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3i;
             widget.countDownLHf3i();
-            countDataSource.saveCountf3i(count);
+            if (count.count_f3i < oldCount || count.count_f3i == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf3i(count);
+            }
         }
-        hasChanged = widget.count.count_f3i != 0;
-        dummy();
     }
 
     public void countUppi(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pi;
             widget.countUppi();
-            countDataSource.saveCountpi(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_pi > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountpi(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHpi(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pi;
             widget.countUpLHpi();
-            countDataSource.saveCountpi(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_pi > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountpi(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownpi(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pi;
             widget.countDownpi();
-            countDataSource.saveCountpi(count);
+            if (count.count_pi < oldCount || count.count_pi == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountpi(count);
+            }
         }
-        hasChanged = widget.count.count_pi != 0;
-        dummy();
     }
 
     public void countDownLHpi(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pi;
             widget.countDownLHpi();
-            countDataSource.saveCountpi(count);
+            if (count.count_pi < oldCount || count.count_pi == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountpi(count);
+            }
         }
-        hasChanged = widget.count.count_pi != 0;
-        dummy();
     }
 
     public void countUpli(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_li;
             widget.countUpli();
-            countDataSource.saveCountli(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_li > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountli(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHli(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_li;
             widget.countUpLHli();
-            countDataSource.saveCountli(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_li > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountli(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownli(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_li;
             widget.countDownli();
-            countDataSource.saveCountli(count);
+            if (count.count_li < oldCount || count.count_li == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountli(count);
+            }
         }
-        hasChanged = widget.count.count_li != 0;
-        dummy();
     }
 
     public void countDownLHli(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_li;
             widget.countDownLHli();
-            countDataSource.saveCountli(count);
+            if (count.count_li < oldCount || count.count_li == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountli(count);
+            }
         }
-        hasChanged = widget.count.count_li != 0;
-        dummy();
     }
 
     public void countUpei(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ei;
             widget.countUpei();
-            countDataSource.saveCountei(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_ei > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountei(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHei(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ei;
             widget.countUpLHei();
-            countDataSource.saveCountei(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_ei > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountei(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownei(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ei;
             widget.countDownei();
-            countDataSource.saveCountei(count);
+            if (count.count_ei < oldCount || count.count_ei == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountei(count);
+            }
         }
-        hasChanged = widget.count.count_ei != 0;
-        dummy();
     }
 
     public void countDownLHei(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ei;
             widget.countDownLHei();
-            countDataSource.saveCountei(count);
+            if (count.count_ei < oldCount || count.count_ei == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountei(count);
+            }
         }
-        hasChanged = widget.count.count_ei != 0;
-        dummy();
     }
-
 
     // count functions for external counters
     public void countUpf1e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1e;
             widget.countUpf1e();
-            countDataSource.saveCountf1e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f1e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf1e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHf1e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1e;
             widget.countUpLHf1e();
-            countDataSource.saveCountf1e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f1e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf1e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf1e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1e;
             widget.countDownf1e();
-            countDataSource.saveCountf1e(count);
+            if (count.count_f1e < oldCount || count.count_f1e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf1e(count);
+            }
         }
-        hasChanged = widget.count.count_f1e != 0;
-        dummy();
     }
 
     public void countDownLHf1e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f1e;
             widget.countDownLHf1e();
-            countDataSource.saveCountf1e(count);
+            if (count.count_f1e < oldCount || count.count_f1e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf1e(count);
+            }
         }
-        hasChanged = widget.count.count_f1e != 0;
-        dummy();
     }
 
     public void countUpf2e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2e;
             widget.countUpf2e();
-            countDataSource.saveCountf2e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f2e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf2e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        dummy();
-        hasChanged = true;
     }
 
     public void countUpLHf2e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2e;
             widget.countUpLHf2e();
-            countDataSource.saveCountf2e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f2e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf2e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf2e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2e;
             widget.countDownf2e();
-            countDataSource.saveCountf2e(count);
+            if (count.count_f2e < oldCount || count.count_f2e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf2e(count);
+            }
         }
-        hasChanged = widget.count.count_f2e != 0;
-        dummy();
     }
 
     public void countDownLHf2e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f2e;
             widget.countDownLHf2e();
-            countDataSource.saveCountf2e(count);
+            if (count.count_f2e < oldCount || count.count_f2e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf2e(count);
+            }
         }
-        hasChanged = widget.count.count_f2e != 0;
-        dummy();
     }
 
     public void countUpf3e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3e;
             widget.countUpf3e();
-            countDataSource.saveCountf3e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f3e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf3e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHf3e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3e;
             widget.countUpLHf3e();
-            countDataSource.saveCountf3e(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_f3e > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountf3e(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownf3e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3e;
             widget.countDownf3e();
-            countDataSource.saveCountf3e(count);
+            if (count.count_f3e < oldCount || count.count_f3e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf3e(count);
+            }
         }
-
-        hasChanged = widget.count.count_f3e != 0;
-        dummy();
     }
 
     public void countDownLHf3e(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_f3e;
             widget.countDownLHf3e();
-            countDataSource.saveCountf3e(count);
+            if (count.count_f3e < oldCount || count.count_f3e == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountf3e(count);
+            }
         }
-
-        hasChanged = widget.count.count_f3e != 0;
-        dummy();
     }
 
     public void countUppe(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pe;
             widget.countUppe();
-            countDataSource.saveCountpe(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_pe > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountpe(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHpe(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pe;
             widget.countUpLHpe();
-            countDataSource.saveCountpe(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_pe > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountpe(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownpe(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pe;
             widget.countDownpe();
-            countDataSource.saveCountpe(count);
+            if (count.count_pe < oldCount || count.count_pe == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountpe(count);
+            }
         }
-
-        hasChanged = widget.count.count_pe != 0;
-        dummy();
     }
 
     public void countDownLHpe(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_pe;
             widget.countDownLHpe();
-            countDataSource.saveCountpe(count);
+            if (count.count_pe < oldCount || count.count_pe == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountpe(count);
+            }
         }
-
-        hasChanged = widget.count.count_pe != 0;
-        dummy();
     }
 
     public void countUple(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_le;
             widget.countUple();
-            countDataSource.saveCountle(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_le > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountle(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHle(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_le;
             widget.countUpLHle();
-            countDataSource.saveCountle(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_le > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountle(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownle(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_le;
             widget.countDownle();
-            countDataSource.saveCountle(count);
+            if (count.count_le < oldCount || count.count_le == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountle(count);
+            }
         }
-
-        hasChanged = widget.count.count_le != 0;
-        dummy();
     }
 
     public void countDownLHle(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_le;
             widget.countDownLHle();
-            countDataSource.saveCountle(count);
+            if (count.count_le < oldCount || count.count_le == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountle(count);
+            }
         }
-
-        hasChanged = widget.count.count_le != 0;
-        dummy();
     }
 
     public void countUpee(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
-
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ee;
             widget.countUpee();
-            countDataSource.saveCountee(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_ee > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountee(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countUpLHee(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ee;
             widget.countUpLHee();
-            countDataSource.saveCountee(count);
-            sectionDataSource.saveDateSection(section);
+            if (count.count_ee > oldCount)
+            {
+                buttonSound();
+                countDataSource.saveCountee(count);
+                sectionDataSource.saveDateSection(section);
+            }
         }
-        hasChanged = true;
-        dummy();
     }
 
     public void countDownee(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ee;
             widget.countDownee();
-            countDataSource.saveCountee(count);
+            if (count.count_ee < oldCount || count.count_ee == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountee(count);
+            }
         }
-
-        hasChanged = widget.count.count_ee != 0;
-        dummy();
     }
 
     public void countDownLHee(View view)
     {
-        buttonSound();
+        dummy();
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
+            oldCount = count.count_ee;
             widget.countDownLHee();
-            countDataSource.saveCountee(count);
+            if (count.count_ee < oldCount || count.count_ee == 0)
+            {
+                buttonSound();
+                countDataSource.saveCountee(count);
+            }
         }
-
-        hasChanged = widget.count.count_ee != 0;
-        dummy();
     }
 
-    // Call CountOptionsActivity with count_id and section_id
+    // Call CountOptionsActivity with count_id, section_id and itemposition
     public void edit(View view)
     {
-        // check for API-Level >= 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            disableProximitySensor(true);
-        }
-
         Intent intent = new Intent(CountingActivity.this, CountOptionsActivity.class);
         intent.putExtra("count_id", iid);
         intent.putExtra("section_id", section_id);
@@ -1322,7 +1401,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         //intent.putExtra("itemposition", spinner.getSelectedItemPosition());
         startActivity(intent);
     }
-    
+
     // Save activity state for getting back to CountingActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
