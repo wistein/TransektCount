@@ -96,6 +96,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             holder.deleteSection = (ImageButton) row.findViewById(R.id.deleteSection);
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
+            holder.txtRemark.setOnClickListener(mOnTitleClickListener);
             holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
 
             row.setTag(holder);

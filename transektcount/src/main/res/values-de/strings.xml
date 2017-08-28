@@ -145,16 +145,16 @@
     <string name="pref_sort_order">Sortierung</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
     <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
-    <string name="pref_sound">Tonalarm</string>
-    <string name="pref_sound_summary">Erzeuge einen Benachrichtigungston wenn ein Zählalarm ausgelöst wird.</string>
-    <string name="choose_alert">Benachrichtigungston</string>
-    <string name="explain_alert">Wähle einen Benachrichtigungston aus.</string>
+    <string name="pref_sound">Alarm-Sound</string>
+    <string name="pref_sound_summary">Erzeuge einen Sound wenn ein Zählalarm ausgelöst wird.</string>
+    <string name="choose_alert">Auswahl des Alarm-Sounds</string>
+    <string name="explain_alert">Wähle einen Sound für Alarme aus.</string>
+    <string name="pref_button_sound">Button-Sound</string>
+    <string name="pref_button_sound_summary">Erzeuge einen Sound wenn z.B. ein Zähl-Button getippt wird.</string>
+    <string name="choose_button_alert">Auswahl des Button-Sounds</string>
+    <string name="explain_button_alert">Wähle einen Sound für Button-Clicks aus.</string>
     <string name="pref_duplicate">Verhindere gleiche Listeneinträge</string>
     <string name="pref_duplicate_summary">Wähle diese Option, wenn Listeneinträge (Artnamen) eindeutig sein sollen.</string>
-    <string name="pref_button_sound">Zähler-Button Sound</string>
-    <string name="pref_button_sound_summary">Erzeuge einen Sound wenn ein Zähl-Button getippt wird.</string>
-    <string name="choose_button_alert">Button Sound</string>
-    <string name="explain_button_alert">Wähle einen Button-Sound aus.</string>
     <string name="screen_orientation">Ausrichtung in Landscape-Modus anstelle von Portrait-Modus.</string>
     <string name="titel_screen_orientation">Landscape statt Portrait</string>
 

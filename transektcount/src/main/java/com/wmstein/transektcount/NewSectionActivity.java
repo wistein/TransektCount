@@ -64,13 +64,12 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
         } else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         }
 
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
 
@@ -206,12 +205,11 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
         } else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         }
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
 

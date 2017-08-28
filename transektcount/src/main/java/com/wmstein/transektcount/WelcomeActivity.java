@@ -155,6 +155,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public String getcurDate()
     {
         Date date = new Date();
+        @SuppressLint("SimpleDateFormat") 
         DateFormat dform = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
         return dform.format(date);
     }
@@ -292,7 +293,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Head head;
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
-        head = headDataSource.getHead();
         head = headDataSource.getHead();
         getSupportActionBar().setTitle(head.transect_no);
         headDataSource.close();

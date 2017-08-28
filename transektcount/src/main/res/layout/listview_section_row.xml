@@ -6,6 +6,7 @@
               android:layout_height="wrap_content"
               android:background="@drawable/list_background"
               android:orientation="horizontal"
+              android:gravity="center_vertical"
               android:padding="5dp">
 
     <!-- Name of transect section -->
@@ -14,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_weight="3.5"
         android:id="@+id/txtTitle"
-        android:gravity="start"
+        android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:padding="4dp"
@@ -26,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_weight="6"
         android:id="@+id/txtRemark"
-        android:gravity="start"
+        android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:padding="4dp"/>
@@ -37,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:textColor="#FFFFFF"
-        android:gravity="end"
+        android:gravity="center_vertical|end"
         android:padding="4dp"
         android:id="@+id/txtDate"/>
 

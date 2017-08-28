@@ -23,7 +23,7 @@ import java.io.File;
 public class TransektCountApplication extends Application
 {
     private static String TAG = "transektcount";
-    public BitmapDrawable ob;
+    public BitmapDrawable bMapDraw;
     private Bitmap bMap;
     private static SharedPreferences prefs;
     int width;
@@ -34,7 +34,7 @@ public class TransektCountApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        ob = null;
+        bMapDraw = null;
         bMap = null;
         try
         {
@@ -45,23 +45,23 @@ public class TransektCountApplication extends Application
         }
     }
 
-    // The idea here is to keep ob around as a pre-prepared bitmap, only setting it up
+    // The idea here is to keep bMapDraw around as a pre-prepared bitmap, only setting it up
     // when the user's settings change or when the application starts up.
     public BitmapDrawable getBackground()
     {
-        if (ob == null)
+        if (bMapDraw == null)
         {
             return setBackground();
         }
         else
         {
-            return ob;
+            return bMapDraw;
         }
     }
 
     public BitmapDrawable setBackground()
     {
-        ob = null;
+        bMapDraw = null;
 
         String backgroundPref = prefs.getString("pref_back", "default");
         String pictPref = prefs.getString("imagePath", "");
@@ -143,9 +143,9 @@ public class TransektCountApplication extends Application
             }
         }
 
-        ob = new BitmapDrawable(this.getResources(), bMap);
+        bMapDraw = new BitmapDrawable(this.getResources(), bMap);
         bMap = null;
-        return ob;
+        return bMapDraw;
     }
 
     public static SharedPreferences getPrefs()
@@ -169,8 +169,7 @@ public class TransektCountApplication extends Application
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             //   height1 and width1 larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                && (halfWidth / inSampleSize) > reqWidth)
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth)
             {
                 inSampleSize *= 2;
             }

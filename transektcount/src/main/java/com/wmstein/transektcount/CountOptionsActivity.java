@@ -94,12 +94,11 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
         } else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         }
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         assert counting_screen != null;
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
@@ -419,12 +418,11 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
         } else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         }
+        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
     }
