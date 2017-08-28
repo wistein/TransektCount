@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,13 +22,13 @@ import android.widget.Toast;
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
  */
-public class SettingsActivity extends PreferenceActivity
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static String TAG = "transektcountPreferenceActivity";
     private static final int SELECT_PICTURE = 1;
-    String imageFilePath;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    private boolean screenOrientL; // option for screen orientation
     Uri alert_uri;
     Uri alert_button_uri;
 
@@ -39,6 +40,17 @@ public class SettingsActivity extends PreferenceActivity
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         Preference button = findPreference("button");
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
@@ -49,8 +61,6 @@ public class SettingsActivity extends PreferenceActivity
                 return true;
             }
         });
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Sound for alerts
         String strRingtonePreference = prefs.getString("alert_sound", "DEFAULT_SOUND");
@@ -121,7 +131,7 @@ public class SettingsActivity extends PreferenceActivity
 
 
     @Override
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "LongLogTag"})
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == SELECT_PICTURE && data != null && data.getData() != null)
@@ -147,11 +157,12 @@ public class SettingsActivity extends PreferenceActivity
                 }
 
                 //Link to the image
-                imageFilePath = cursor.getString(0);
+                String imageFilePath = cursor.getString(0);
                 cursor.close();
 
                 // save the image path
                 editor.putString("imagePath", imageFilePath);
+
                 //editor.commit();
                 try
                 {
@@ -198,4 +209,11 @@ public class SettingsActivity extends PreferenceActivity
         }
         return true;
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+    {
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+    }
+
 }

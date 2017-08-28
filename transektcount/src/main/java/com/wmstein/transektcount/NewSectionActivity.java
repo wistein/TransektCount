@@ -2,6 +2,7 @@ package com.wmstein.transektcount;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,6 +35,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     TransektCountApplication transektCount;
     SharedPreferences prefs;
 
+    private boolean screenOrientL; // option for screen orientation
     private boolean dupPref;
     private Bitmap bMap;
     private BitmapDrawable bg;
@@ -55,9 +57,20 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         dupPref = prefs.getBoolean("pref_duplicate", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen); //in activity_new_section.xml
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
 
@@ -186,12 +199,23 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
+
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        assert baseLayout != null;
         baseLayout.setBackground(null);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
 
-        dupPref = prefs.getBoolean("duplicate_counts", true);
+        dupPref = prefs.getBoolean("pref_duplicate", true);
     }
 
     /**

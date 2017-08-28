@@ -38,11 +38,13 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     private Context mContext;
     private Section sct;
     private Handler mHandler = new Handler();
+//    private Handler lHandler = new Handler();
 
     // preferences
     private boolean buttonSoundPref;
     private String buttonAlertSound;
     private SharedPreferences prefs;
+    private boolean screenOrientL; // option for screen orientation
 
     /*
      * So preferences can be loaded at the start, and also when a change is detected.
@@ -51,6 +53,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     {
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
         buttonAlertSound = prefs.getString("alert_button_sound", null);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
     // Constructor
@@ -134,20 +137,38 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         @Override
         public void onClick(final View v)
         {
+            getPrefs();
             buttonSound();
-            Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-            // pause for 100 msec to show toast immediately
-            mHandler.postDelayed(new Runnable()
+            if (screenOrientL)
             {
-                public void run()
+                Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
+                // pause for 100 msec to show toast immediately
+                mHandler.postDelayed(new Runnable()
                 {
-                    sct = (Section) v.getTag();
-                    Intent intent = new Intent(getContext(), CountingActivity.class);
-                    intent.putExtra("section_id", sct.id);
-                    mContext.startActivity(intent);
-                }
-            }, 100);
+                    public void run()
+                    {
+                        sct = (Section) v.getTag();
+                        Intent intent = new Intent(getContext(), CountingLActivity.class);
+                        intent.putExtra("section_id", sct.id);
+                        mContext.startActivity(intent);
+                    }
+                }, 100);
+            } else
+            {
+                Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
+                // pause for 100 msec to show toast immediately
+                mHandler.postDelayed(new Runnable()
+                {
+                    public void run()
+                    {
+                        sct = (Section) v.getTag();
+                        Intent intent = new Intent(getContext(), CountingActivity.class);
+                        intent.putExtra("section_id", sct.id);
+                        mContext.startActivity(intent);
+                    }
+                }, 100);
+            }
         }
     };
 

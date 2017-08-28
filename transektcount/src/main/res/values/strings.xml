@@ -39,7 +39,7 @@
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
-    <string name="noDb">Please put \'transektcount0.db\' on your /sdcard partition.</string>
+    <string name="noDb">Please put \'transektcount0.db\' in the basic directory of your /sdcard partition.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
@@ -155,6 +155,8 @@
     <string name="pref_button_sound_summary">Make a sound upon pressing the count up or count down buttons.</string>
     <string name="choose_button_alert">Button Sound</string>
     <string name="explain_button_alert">Choose a sound for buttons.</string>
+    <string name="screen_orientation">Show screen in Landscape Mode instead of Portrait Mode.</string>
+    <string name="titel_screen_orientation">Landscape instead of Portrait</string>
 
     <!-- CountOptionsActivity -->
     <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂, ♀</string>
@@ -209,6 +211,6 @@
     <string name="hintCountNotes">Species notes</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
-    <string name="getHelp">Sorry, there was a problem with your database. Please email if you need assistance, attaching your exported \'transektcount.db\'.</string>
+    <string name="getHelp">Sorry, there was a problem with your database. Please send an email if you need assistance, attaching your exported \'transektcount.db\'.</string>
 
 </resources>

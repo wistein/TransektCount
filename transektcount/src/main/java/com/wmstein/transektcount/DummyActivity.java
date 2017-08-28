@@ -20,7 +20,7 @@ public class DummyActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        transektCount = (TransektCountApplication) getApplication();
+//        transektCount = (TransektCountApplication) getApplication();
         exit();
     }
 

@@ -1,6 +1,7 @@
 package com.wmstein.transektcount;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -54,6 +55,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // preferences
     private boolean awakePref;
     private String sortPref;
+    private boolean screenOrientL; // option for screen orientation
 
     // the actual data
     private CountDataSource countDataSource;
@@ -81,9 +83,21 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         prefs.registerOnSharedPreferenceChangeListener(this);
         awakePref = prefs.getBoolean("pref_awake", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
+        assert listSpec_screen != null;
         listSpec_screen.setBackground(transektCount.getBackground());
+
+        //noinspection ConstantConditions
         getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
 
         spec_area = (LinearLayout) findViewById(R.id.listSpecLayout);
@@ -265,10 +279,12 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
+        assert listSpec_screen != null;
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);
         sortPref = prefs.getString("pref_sort_sp", "none");
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
 }

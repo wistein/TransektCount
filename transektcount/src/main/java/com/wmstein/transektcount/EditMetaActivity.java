@@ -1,11 +1,14 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +50,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     private MetaDataSource metaDataSource;
 
     // preferences
-    private boolean brightPref;
+    private boolean screenOrientL; // option for screen orientation
 
     LinearLayout head_area;
 
@@ -55,6 +58,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     EditMetaWidget etw;
 
     @Override
+    @SuppressLint("LongLogTag")
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -65,7 +69,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        brightPref = prefs.getBoolean("pref_bright", true);
+        boolean brightPref = prefs.getBoolean("pref_bright", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
         if (brightPref)
@@ -76,12 +81,28 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             getWindow().setAttributes(params);
         }
 
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        assert editHead_screen != null;
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
-        getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
+        try
+        {
+            getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
+        } catch (NullPointerException e)
+        {
+            Log.i(TAG, "NullPointerException: No Head Title!");
+        }
     }
 
     @Override
@@ -279,8 +300,18 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+        assert editHead_screen != null;
         editHead_screen.setBackground(null);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
     }

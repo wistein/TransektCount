@@ -47,9 +47,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /***************************************************************************************************
- * CountingActivity does the actual counting with 12 counters, checks for alerts,
- * calls CountOptionsActivity, calls EditSectionActivity, clones a section,
+ * CountingActivity does the actual counting on portrait layout with 12 counters, 
+ * checks for alerts, calls CountOptionsActivity, calls EditSectionActivity, clones a section,
  * switches screen off when pocketed and lets you send a message.
+ * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
  */
@@ -96,16 +97,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private List<CountingWidgetLH_e> countingWidgetsLH_e;
     private Spinner spinner;
     private int itemPosition = 0;
-    private boolean itemCounted = true;
     private int oldCount;
 
     private String[] idArray;
     private String[] nameArray;
     private String[] codeArray;
     private Integer[] imageArray;
-
-    //private SQLiteDatabase database;
-    //private DbHelper dbHandler;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
@@ -115,24 +112,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        Context context = this.getApplicationContext();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            section_id = extras.getInt("section_id");
-        }
-
-        if (savedInstanceState != null)
-        {
-            spinner.setSelection(savedInstanceState.getInt("itemPosition", 0));
-            iid = savedInstanceState.getInt("count_id");
-        }
-
-        sectionDataSource = new SectionDataSource(this);
-        countDataSource = new CountDataSource(this);
-        alertDataSource = new AlertDataSource(this);
 
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -147,6 +126,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             setContentView(R.layout.activity_counting);
         }
+
+        Context context = this.getApplicationContext();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            section_id = extras.getInt("section_id");
+        }
+
+        sectionDataSource = new SectionDataSource(this);
+        countDataSource = new CountDataSource(this);
+        alertDataSource = new AlertDataSource(this);
 
         // Set full brightness of screen
         if (brightPref)
@@ -182,6 +173,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             notes_area3 = (LinearLayout) findViewById(R.id.alertNotesLayout);
         }
 
+        if (savedInstanceState != null)
+        {
+                spinner.setSelection(savedInstanceState.getInt("itemPosition", 0)); //todo
+                iid = savedInstanceState.getInt("count_id");
+        }
+
         if (awakePref)
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -200,9 +197,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-    /*
-     * So preferences can be loaded at the start, and also when a change is detected.
-     */
+
+    // Used to load preferences at the start, and also when a change is detected.
     private void getPrefs()
     {
         awakePref = prefs.getBoolean("pref_awake", true);
@@ -257,7 +253,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             finish();
         }
 
-        getSupportActionBar().setTitle(section.name);
+        try
+        {
+            getSupportActionBar().setTitle(section.name);
+        } catch (NullPointerException e)
+        {
+            // nothing
+        }
 
         switch (sortPref)
         {
@@ -305,19 +307,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // 2. Head1, species selection spinner
         if (lhandPref) // if left-handed counting page
         {
-            spinner = (Spinner) findViewById(R.id.countHead1SpinnerLH);
+                spinner = (Spinner) findViewById(R.id.countHead1SpinnerLH);
         }
         else
         {
-            spinner = (Spinner) findViewById(R.id.countHead1Spinner);
+                spinner = (Spinner) findViewById(R.id.countHead1Spinner);
         }
 
-        CountingWidget_head1 adapter = new CountingWidget_head1(this,
-            R.layout.widget_counting_head1, idArray, nameArray, codeArray, imageArray);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(itemPosition);
-
-        spinnerListener();
+            CountingWidget_head1 adapter = new CountingWidget_head1(this,
+                R.layout.widget_counting_head1, idArray, nameArray, codeArray, imageArray);
+            spinner.setAdapter(adapter);
+            spinner.setSelection(itemPosition);
+            spinnerListener();
 
         if (awakePref)
         {
@@ -528,16 +529,17 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public void countUpf1i(View view)
     {
         dummy(); // start dummy activity to fix spinner's 1. misbehaviour: 
-        // no action when selecting previous species
+        // bug of spinner: no action by 1st click when previous species selected again
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
-            oldCount = count.count_f1i; // desperate workaround for 2. crazy spinner behaviour: 
+            // Desperate workaround for 2. crazy spinner behaviour: 
             // When returning from species that got no count to previous
             // selected species: 1st count button press is ignored,
             // so use button sound only for 2nd press when actually counted
-            // ToDo: complete fix instead of workaround
+            // ToDo: complete fix instead of workaround but up to now no idea.
+            oldCount = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             if (count.count_f1i > oldCount) // has actually counted up
             {
@@ -1395,10 +1397,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     public void dummy()
     {
         Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
-        //intent.putExtra("count_id", iid);
-        //intent.putExtra("section_id", section_id);
-        //intent.putExtra("section_name", section.name);
-        //intent.putExtra("itemposition", spinner.getSelectedItemPosition());
         startActivity(intent);
     }
 
@@ -1420,7 +1418,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             if (a.count_id == count_id && a.alert == count_value)
             {
                 row_alert = new AlertDialog.Builder(this);
-//                row_alert.setTitle(getString(R.string.alertTitle));
                 row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
                 row_alert.setMessage(a.alert_text);
                 row_alert.setNegativeButton("OK", new DialogInterface.OnClickListener()

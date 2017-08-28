@@ -2,7 +2,9 @@ package com.wmstein.transektcount;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +29,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
 
     // preferences
     private SharedPreferences prefs;
+    private boolean screenOrientL; // option for screen orientation
 
     private SectionDataSource sectionDataSource;
 
@@ -45,6 +48,14 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         brightPref = prefs.getBoolean("pref_bright", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         // Set full brightness of screen
         if (brightPref)
@@ -56,6 +67,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
+        //noinspection ConstantConditions
         list_view.setBackground(transektCount.getBackground());
         list = (ListView) findViewById(android.R.id.list);
     }
@@ -71,6 +83,18 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     protected void onResume()
     {
         super.onResume();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         sectionDataSource = new SectionDataSource(this);
         sectionDataSource.open();
         showData();
@@ -124,8 +148,10 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
+        assert list_view != null;
         list_view.setBackground(null);
         list_view.setBackground(transektCount.setBackground());
         TransektCountApplication.getPrefs();
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 }

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -62,6 +63,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     OptionsWidget curr_val_widget;
     EditNotesWidget enw;
     AddAlertWidget aa_widget;
+    private boolean brightPref;
+    private boolean screenOrientL; // option for screen orientation
 
     ArrayList<AlertCreateWidget> savedAlerts;
 
@@ -74,7 +77,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         transektCount = (TransektCountApplication) getApplication();
         prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        boolean brightPref = prefs.getBoolean("pref_bright", true);
+        brightPref = prefs.getBoolean("pref_bright", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
         if (brightPref)
@@ -86,7 +90,17 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         }
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+        assert counting_screen != null;
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
 
@@ -398,8 +412,19 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
+        assert counting_screen != null;
         counting_screen.setBackground(null);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        brightPref = prefs.getBoolean("pref_bright", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
     }

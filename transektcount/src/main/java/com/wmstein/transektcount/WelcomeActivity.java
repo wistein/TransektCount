@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -78,6 +80,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     // preferences
     private String sortPref;
+    private boolean screenOrientL; // option for screen orientation
 
     // following stuff for purging export db added by wmstein
     private SQLiteDatabase database;
@@ -98,18 +101,35 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
+        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        assert baseLayout != null;
+        baseLayout.setBackground(transektCount.getBackground());
 
         Head head;
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
         head = headDataSource.getHead();
 
-        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
-        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-        baseLayout.setBackground(transektCount.getBackground());
-
         // set transect number as title
-        getSupportActionBar().setTitle(head.transect_no);
+        try
+        {
+            getSupportActionBar().setTitle(head.transect_no);
+        } catch (NullPointerException e)
+        {
+            // nothing
+        }
 
         headDataSource.close();
 
@@ -252,6 +272,32 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        Head head;
+        headDataSource = new HeadDataSource(this);
+        headDataSource.open();
+        head = headDataSource.getHead();
+        head = headDataSource.getHead();
+        getSupportActionBar().setTitle(head.transect_no);
+        headDataSource.close();
+    }
+
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
@@ -259,7 +305,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");
-
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
     @Override
@@ -283,6 +329,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    public void onPause()
+    {
+        super.onPause();
     }
 
     public void onStop()
@@ -377,6 +428,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int total = 0;
         String date, start_tm, end_tm, kw;
         int yyyy, mm, dd;
+        int Kw = 0; // calendar week
 
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
@@ -452,25 +504,28 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
-                String language = Locale.getDefault().toString().substring(0, 2);
-                if (language.equals("de"))
+                if (!date.equals(""))
                 {
-                    yyyy = Integer.valueOf(date.substring(6, 10));
-                    mm = Integer.valueOf(date.substring(3, 5));
-                    dd = Integer.valueOf(date.substring(0, 2));
-                }
-                else
-                {
-                    yyyy = Integer.valueOf(date.substring(0, 4));
-                    mm = Integer.valueOf(date.substring(5, 7));
-                    dd = Integer.valueOf(date.substring(8, 10));
+                    String language = Locale.getDefault().toString().substring(0, 2);
+                    if (language.equals("de"))
+                    {
+                        yyyy = Integer.valueOf(date.substring(6, 10));
+                        mm = Integer.valueOf(date.substring(3, 5));
+                        dd = Integer.valueOf(date.substring(0, 2));
+                    }
+                    else
+                    {
+                        yyyy = Integer.valueOf(date.substring(0, 4));
+                        mm = Integer.valueOf(date.substring(5, 7));
+                        dd = Integer.valueOf(date.substring(8, 10));
+                    }
+
+                    // cal.set(2017, 3, 9); // 09.04.2017
+                    cal.set(yyyy, mm - 1, dd);
+                    Kw = cal.get(Calendar.WEEK_OF_YEAR);
                 }
 
-                // cal.set(2017, 3, 9); // 09.04.2017
-                cal.set(yyyy, mm - 1, dd);
-                int Kw = cal.get(Calendar.WEEK_OF_YEAR);
                 kw = String.valueOf(Kw);
-
                 String arrMeta[] =
                     {
                         transNo,

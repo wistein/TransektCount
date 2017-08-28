@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -73,8 +74,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private Bitmap bMap;
     private BitmapDrawable bg;
 
-    //added for duplicates check
     private boolean dupPref;
+    private boolean screenOrientL; // option for screen orientation
+
     String new_count_name = "";
     String oldname;
 
@@ -106,6 +108,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         {
             if (savedInstanceState.getSerializable("savedCounts") != null)
             {
+                //noinspection unchecked
                 savedCounts = (ArrayList<CountEditWidget>) savedInstanceState.getSerializable("savedCounts");
             }
         }
@@ -117,6 +120,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         boolean brightPref = prefs.getBoolean("pref_bright", true);
         dupPref = prefs.getBoolean("pref_duplicate", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
         if (brightPref)
@@ -128,7 +132,18 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+
+        assert counting_screen != null;
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
     }
@@ -571,13 +586,21 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
+        dupPref = prefs.getBoolean("pref_duplicate", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackgroundl, transektCount.width, transektCount.height);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        }
+        assert counting_screen != null;
         counting_screen.setBackground(null);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
-
-        //added for duplicates check
-        dupPref = prefs.getBoolean("duplicate_counts", true);
     }
 
     /**
