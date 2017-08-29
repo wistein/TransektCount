@@ -175,7 +175,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         if (savedInstanceState != null)
         {
-                spinner.setSelection(savedInstanceState.getInt("itemPosition", 0)); //todo
+                spinner.setSelection(savedInstanceState.getInt("itemPosition", 0));
                 iid = savedInstanceState.getInt("count_id");
         }
 
@@ -196,7 +196,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             enableProximitySensor();
         }
     }
-
 
     // Used to load preferences at the start, and also when a change is detected.
     private void getPrefs()

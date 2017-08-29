@@ -88,7 +88,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -162,7 +163,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         spec_area.addView(lmw);
 
         // display all the sorted counts by adding them to listSpecies layout
-        List<Section> sort_sections; // List of sorted sections
         List<Count> specs; // List of species
 
         int sect_id;
@@ -170,72 +170,65 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         countDataSource.open();
         sectionDataSource.open();
 
-        sort_sections = sectionDataSource.getAllSections(prefs);
-
-        for (Section sort_sect : sort_sections)
+        switch (sortPref)
         {
-            sect_id = sort_sect.id;
+        case "names_alpha":
+            specs = countDataSource.getAllCountsForSrtName();
+            break;
+        case "codes":
+            specs = countDataSource.getAllCountsForSrtCode();
+            break;
+        default:
+            specs = countDataSource.getAllCounts();
+            break;
+        }
 
-            switch (sortPref)
-            {
-            case "names_alpha":
-                specs = countDataSource.getAllSpecsForSectionSrtName(sect_id);
-                break;
-            case "codes":
-                specs = countDataSource.getAllSpecsForSectionSrtCode(sect_id);
-                break;
-            default:
-                specs = countDataSource.getAllSpecsForSection(sect_id);
-                break;
-            }
+        for (Count spec : specs)
+        {
+            ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
+            sect_id = widget.getSpec_sectionid(spec);
+            section = sectionDataSource.getSection(sect_id);
+            widget.setCount(spec, section);
 
-            for (Count spec : specs)
-            {
-                section = sectionDataSource.getSection(sect_id);
+            spec_countf1i = widget.getSpec_countf1i(spec);
+            spec_countf2i = widget.getSpec_countf2i(spec);
+            spec_countf3i = widget.getSpec_countf3i(spec);
+            spec_countpi = widget.getSpec_countpi(spec);
+            spec_countli = widget.getSpec_countli(spec);
+            spec_countei = widget.getSpec_countei(spec);
+            spec_countf1e = widget.getSpec_countf1e(spec);
+            spec_countf2e = widget.getSpec_countf2e(spec);
+            spec_countf3e = widget.getSpec_countf3e(spec);
+            spec_countpe = widget.getSpec_countpe(spec);
+            spec_countle = widget.getSpec_countle(spec);
+            spec_countee = widget.getSpec_countee(spec);
 
-                ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
-                widget.setCount(spec, section);
-                spec_countf1i = widget.getSpec_countf1i(spec);
-                spec_countf2i = widget.getSpec_countf2i(spec);
-                spec_countf3i = widget.getSpec_countf3i(spec);
-                spec_countpi = widget.getSpec_countpi(spec);
-                spec_countli = widget.getSpec_countli(spec);
-                spec_countei = widget.getSpec_countei(spec);
-                spec_countf1e = widget.getSpec_countf1e(spec);
-                spec_countf2e = widget.getSpec_countf2e(spec);
-                spec_countf3e = widget.getSpec_countf3e(spec);
-                spec_countpe = widget.getSpec_countpe(spec);
-                spec_countle = widget.getSpec_countle(spec);
-                spec_countee = widget.getSpec_countee(spec);
+            summf = summf + spec_countf1i;
+            summ = summ + spec_countf2i;
+            sumf = sumf + spec_countf3i;
+            sump = sump + spec_countpi;
+            suml = suml + spec_countli;
+            sumo = sumo + spec_countei;
+            summfe = summfe + spec_countf1e;
+            summe = summe + spec_countf2e;
+            sumfe = sumfe + spec_countf3e;
+            sumpe = sumpe + spec_countpe;
+            sumle = sumle + spec_countle;
+            sumoe = sumoe + spec_countee;
 
-                summf = summf + spec_countf1i;
-                summ = summ + spec_countf2i;
-                sumf = sumf + spec_countf3i;
-                sump = sump + spec_countpi;
-                suml = suml + spec_countli;
-                sumo = sumo + spec_countei;
-                summfe = summfe + spec_countf1e;
-                summe = summe + spec_countf2e;
-                sumfe = sumfe + spec_countf3e;
-                sumpe = sumpe + spec_countpe;
-                sumle = sumle + spec_countle;
-                sumoe = sumoe + spec_countee;
-
-                spec_area.addView(widget);
-            }
+            spec_area.addView(widget);
         }
 
         sumInt = summf + summ + sumf + sump + suml + sumo;
         sumExt = summfe + summe + sumfe + sumpe + sumle + sumoe;
-        
+
         // display the totals
         lsw = new ListSumWidget(this, null);
         lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe, sumInt, sumExt);
 
         spec_area.addView(lsw);
-
     }
-    
+
     @Override
     protected void onPause()
     {
@@ -283,7 +276,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);
-        sortPref = prefs.getString("pref_sort_sp", "none");
+        sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 

@@ -103,9 +103,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
-        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
-        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -113,6 +110,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
+        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
 
         assert baseLayout != null;
         baseLayout.setBackground(transektCount.getBackground());

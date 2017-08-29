@@ -32,6 +32,7 @@ $ 2.0.4
   % Version 2.0.4
   _ 27.08.2017
     * Option zum Umschalten zwischen Portrait- und Landscape-Modus hinzugefügt
+    * Ergebnisseite nach 1. Arten und 2. Abschnitten sortiert
     * Kleinere Fehler behoben
 
 $ 2.0.3

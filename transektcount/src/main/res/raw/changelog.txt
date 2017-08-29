@@ -32,6 +32,7 @@ $ 2.0.4
   % Version 2.0.4
   _ 2017-08-27
   	* Added option to switch between portrait and landscape mode
+  	* Results page sorted after 1. species and 2. sections
   	* Minor bug fixes
 
 $ 2.0.3

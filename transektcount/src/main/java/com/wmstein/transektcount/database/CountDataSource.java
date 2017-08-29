@@ -298,6 +298,87 @@ public class CountDataSource
         return counts;
     }
 
+    // Used by ListSpeciesActivity
+    public List<Count> getAllCountsForSrtName()
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+            + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
+    // Used by ListSpeciesActivity
+    public List<Count> getAllCountsForSrtCode()
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+            + " order by " + DbHelper.C_CODE + ", " + DbHelper.C_SECTION_ID, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
+    // Used by ListSpeciesActivity
+    public List<Count> getAllCounts()
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+            + " order by " + DbHelper.C_SECTION_ID, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
     // Used by CountingActivity
     public List<Count> getAllCountsForSectionSrtName(int section_id)
     {
@@ -584,87 +665,6 @@ public class CountDataSource
         Count count = cursorToCount(cursor);
         cursor.close();
         return count;
-    }
-
-    // Used by ListSpeciesActivity
-    public List<Count> getAllSpecsForSectionSrtName(int section_id)
-    {
-        List<Count> counts = new ArrayList<>();
-
-        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
-            + " WHERE " + DbHelper.C_SECTION_ID + " = " + section_id + " and ("
-            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-            + " order by " + DbHelper.C_NAME, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Count count = cursorToCount(cursor);
-            counts.add(count);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return counts;
-    }
-
-    // Used by ListSpeciesActivity
-    public List<Count> getAllSpecsForSectionSrtCode(int section_id)
-    {
-        List<Count> counts = new ArrayList<>();
-
-        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
-            + " WHERE " + DbHelper.C_SECTION_ID + " = " + section_id + " and ("
-            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-            + " order by " + DbHelper.C_CODE, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Count count = cursorToCount(cursor);
-            counts.add(count);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return counts;
-    }
-
-    // Used by ListSpeciesActivity
-    public List<Count> getAllSpecsForSection(int section_id)
-    {
-        List<Count> counts = new ArrayList<>();
-
-        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
-            + " WHERE " + DbHelper.C_SECTION_ID + " = " + section_id + " and ("
-            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-            + " order by " + DbHelper.C_ID, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Count count = cursorToCount(cursor);
-            counts.add(count);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return counts;
     }
 
     // Get resource ID from resource name
