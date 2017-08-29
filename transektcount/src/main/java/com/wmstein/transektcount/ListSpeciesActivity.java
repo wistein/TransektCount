@@ -215,8 +215,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             sumpe = sumpe + spec_countpe;
             sumle = sumle + spec_countle;
             sumoe = sumoe + spec_countee;
-
-            spec_area.addView(widget);
         }
 
         sumInt = summf + summ + sumf + sump + suml + sumo;
@@ -225,8 +223,30 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         // display the totals
         lsw = new ListSumWidget(this, null);
         lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe, sumInt, sumExt);
-
         spec_area.addView(lsw);
+
+        for (Count spec : specs)
+        {
+            ListSpeciesWidget widget = new ListSpeciesWidget(this, null);
+            sect_id = widget.getSpec_sectionid(spec);
+            section = sectionDataSource.getSection(sect_id);
+            widget.setCount(spec, section);
+
+            spec_countf1i = widget.getSpec_countf1i(spec);
+            spec_countf2i = widget.getSpec_countf2i(spec);
+            spec_countf3i = widget.getSpec_countf3i(spec);
+            spec_countpi = widget.getSpec_countpi(spec);
+            spec_countli = widget.getSpec_countli(spec);
+            spec_countei = widget.getSpec_countei(spec);
+            spec_countf1e = widget.getSpec_countf1e(spec);
+            spec_countf2e = widget.getSpec_countf2e(spec);
+            spec_countf3e = widget.getSpec_countf3e(spec);
+            spec_countpe = widget.getSpec_countpe(spec);
+            spec_countle = widget.getSpec_countle(spec);
+            spec_countee = widget.getSpec_countee(spec);
+
+            spec_area.addView(widget);
+        }
     }
 
     @Override
