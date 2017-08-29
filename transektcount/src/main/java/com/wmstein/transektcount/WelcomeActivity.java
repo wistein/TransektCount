@@ -106,7 +106,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -155,7 +156,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public String getcurDate()
     {
         Date date = new Date();
-        @SuppressLint("SimpleDateFormat") 
+        @SuppressLint("SimpleDateFormat")
         DateFormat dform = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
         return dform.format(date);
     }
@@ -509,15 +510,33 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     String language = Locale.getDefault().toString().substring(0, 2);
                     if (language.equals("de"))
                     {
-                        yyyy = Integer.valueOf(date.substring(6, 10));
-                        mm = Integer.valueOf(date.substring(3, 5));
-                        dd = Integer.valueOf(date.substring(0, 2));
+                        try
+                        {
+                            yyyy = Integer.valueOf(date.substring(6, 10));
+                            mm = Integer.valueOf(date.substring(3, 5));
+                            dd = Integer.valueOf(date.substring(0, 2));
+                        } catch (Exception e)
+                        {
+                            // wrong date format (English DB in German), use
+                            yyyy = Integer.valueOf(date.substring(0, 4));
+                            mm = Integer.valueOf(date.substring(5, 7));
+                            dd = Integer.valueOf(date.substring(8, 10));
+                        }
                     }
                     else
                     {
-                        yyyy = Integer.valueOf(date.substring(0, 4));
-                        mm = Integer.valueOf(date.substring(5, 7));
-                        dd = Integer.valueOf(date.substring(8, 10));
+                        try
+                        {
+                            yyyy = Integer.valueOf(date.substring(0, 4));
+                            mm = Integer.valueOf(date.substring(5, 7));
+                            dd = Integer.valueOf(date.substring(8, 10));
+                        } catch (Exception e)
+                        {
+                            // wrong date format (German DB in English), use
+                            yyyy = Integer.valueOf(date.substring(6, 10));
+                            mm = Integer.valueOf(date.substring(3, 5));
+                            dd = Integer.valueOf(date.substring(0, 2));
+                        }
                     }
 
                     // cal.set(2017, 3, 9); // 09.04.2017
@@ -548,13 +567,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrIE[] = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIE);
 
-                // Section, Section Notes, Species, Codes, Internal counts, External counts, Notes
+                // Species, Codes, Section, Section Notes, Internal counts, External counts, Notes
                 String arrCol1[] =
                     {
-                        getString(R.string.name_sect),
-                        getString(R.string.notes_sect),
                         getString(R.string.name_spec),
                         getString(R.string.code_spec),
+                        getString(R.string.name_sect),
+                        getString(R.string.notes_sect),
                         getString(R.string.countImagomfHint),
                         getString(R.string.countImagomHint),
                         getString(R.string.countImagofHint),
@@ -614,7 +633,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 int countmfe, countme, countfe, countpe, countle, countee;
                 String strcountmf, strcountm, strcountf, strcountp, strcountl, strcounte;
                 String strcountmfe, strcountme, strcountfe, strcountpe, strcountle, strcountee;
-                
+
                 curCSV.moveToFirst();
                 while (!curCSV.isAfterLast())
                 {
@@ -623,74 +642,74 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     sectName = section.name;
                     sectNotes = section.notes;
 
-                    countmf = curCSV.getInt(4); 
+                    countmf = curCSV.getInt(4);
                     if (countmf > 0)
                         strcountmf = Integer.toString(countmf);
                     else
-                        strcountmf ="";
+                        strcountmf = "";
                     countm = curCSV.getInt(5);
                     if (countm > 0)
                         strcountm = Integer.toString(countm);
                     else
-                        strcountm ="";
-                    
+                        strcountm = "";
+
                     countf = curCSV.getInt(6);
                     if (countf > 0)
                         strcountf = Integer.toString(countf);
                     else
-                        strcountf ="";
+                        strcountf = "";
                     countp = curCSV.getInt(7);
                     if (countp > 0)
                         strcountp = Integer.toString(countp);
                     else
-                        strcountp ="";
+                        strcountp = "";
                     countl = curCSV.getInt(8);
                     if (countl > 0)
                         strcountl = Integer.toString(countl);
                     else
-                        strcountl ="";
+                        strcountl = "";
                     counte = curCSV.getInt(9);
                     if (counte > 0)
                         strcounte = Integer.toString(counte);
                     else
-                        strcounte ="";
+                        strcounte = "";
                     countmfe = curCSV.getInt(10);
                     if (countmfe > 0)
                         strcountmfe = Integer.toString(countmfe);
                     else
-                        strcountmfe ="";
+                        strcountmfe = "";
                     countme = curCSV.getInt(11);
                     if (countme > 0)
                         strcountme = Integer.toString(countme);
                     else
-                        strcountme ="";
+                        strcountme = "";
                     countfe = curCSV.getInt(12);
                     if (countfe > 0)
                         strcountfe = Integer.toString(countfe);
                     else
-                        strcountfe ="";
+                        strcountfe = "";
                     countpe = curCSV.getInt(13);
                     if (countpe > 0)
                         strcountpe = Integer.toString(countpe);
                     else
-                        strcountpe ="";
+                        strcountpe = "";
                     countle = curCSV.getInt(14);
                     if (countle > 0)
                         strcountle = Integer.toString(countle);
                     else
-                        strcountle ="";
+                        strcountle = "";
                     countee = curCSV.getInt(15);
                     if (countee > 0)
                         strcountee = Integer.toString(countee);
                     else
-                        strcountee ="";
-                    
-                    String arrStr[] = 
+                        strcountee = "";
+
+                    String arrStr[] =
                         {
-                            sectName,              //section name
-                            sectNotes,             //section notes
                             curCSV.getString(2),   //species name
                             curCSV.getString(3),   //species code
+                            sectName,              //section name
+                            sectNotes,             //section note
                             strcountmf,            //count mf
                             strcountm,             //count m
                             strcountf,             //count f

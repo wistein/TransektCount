@@ -45,6 +45,13 @@
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
+    <string name="name_sect">Abschnitt</string>
+    <string name="code_spec">Spezies Code</string>
+    <string name="internal">Intern</string>
+    <string name="external">Extern</string>
+    <string name="rem_spec">Spez.-Bemerkung</string>
+    <string name="notes_sect">Ab.-Bemerkung</string>
+    <string name="name_spec">Spezies</string>
     <string name="sum">Summe:</string>
     <string name="kal_w">KW</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
@@ -54,13 +61,6 @@
     <string name="fileSize">Größe</string>
 
     <!-- EditMetaActivity -->
-    <string name="name_sect">Abschnitt</string>
-    <string name="notes_sect">Ab.-Bemerkungen</string>
-    <string name="name_spec">Spezies</string>
-    <string name="code_spec">Spezies Code</string>
-    <string name="internal">Intern</string>
-    <string name="external">Extern</string>
-    <string name="rem_spec">Bemerkungen</string>
     <string name="editHeadTitle">Meta-Daten</string>
     <string name="transectnumber">Transekt-Nr.</string>
     <string name="inspector">Kartierer(in)</string>

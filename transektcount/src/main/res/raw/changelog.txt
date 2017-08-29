@@ -34,6 +34,7 @@ $ 2.0.4
   	* Added option to switch between portrait and landscape mode
   	* Results page shows totals first
   	* Results page sorted by 1. species and 2. sections
+  	* CSV export table layout modified
   	* Minor bug fixes
 
 $ 2.0.3

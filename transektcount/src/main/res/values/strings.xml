@@ -45,6 +45,13 @@
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
+    <string name="name_sect">Section</string>
+    <string name="notes_sect">Section Note</string>
+    <string name="name_spec">Species</string>
+    <string name="code_spec">Species Code</string>
+    <string name="internal">Internal</string>
+    <string name="external">External</string>
+    <string name="rem_spec">Species Note</string>
     <string name="sum">Sum:</string>
     <string name="kal_w">CW</string>
     <string name="back_twice">Press again to exit</string>
@@ -54,13 +61,6 @@
     <string name="fileSize">Size</string>
 
     <!-- EditMetaActivity -->
-    <string name="name_sect">Section</string>
-    <string name="notes_sect">Section Notes</string>
-    <string name="name_spec">Species</string>
-    <string name="code_spec">Species Code</string>
-    <string name="internal">Internal</string>
-    <string name="external">External</string>
-    <string name="rem_spec">Notes</string>
     <string name="editHeadTitle">Meta Data</string>
     <string name="transectnumber">Transect No.</string>
     <string name="inspector">Inspector Name</string>
