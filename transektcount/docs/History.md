@@ -6,6 +6,7 @@
 - Added option to switch between portrait and landscape mode
 - Results page shows totals first
 - Results page sorted by 1. species and 2. sections
+- Show correct headline immediately after loading/resetting DB
 - CSV export table layout modified
 - Minor bug fixes
 

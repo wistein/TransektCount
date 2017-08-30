@@ -35,6 +35,7 @@ $ 2.0.4
     * Ergebnisseite zeigt Summen am Anfang
     * Ergebnisseite nach 1. Arten und 2. Abschnitten sortiert
   	* CSV-Export Tabellen-Layout geändert
+    * Zeige richtige Überschrift direkt nach Laden oder Zurücksetzen einer DB
     * Kleinere Fehler behoben
 
 $ 2.0.3

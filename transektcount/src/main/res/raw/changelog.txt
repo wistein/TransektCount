@@ -35,6 +35,7 @@ $ 2.0.4
   	* Results page shows totals first
   	* Results page sorted by 1. species and 2. sections
   	* CSV export table layout modified
+    * Show correct headline immediately after loading/resetting DB
   	* Minor bug fixes
 
 $ 2.0.3

@@ -1054,6 +1054,22 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         {
                             copy(infile, outfile);
                             Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+
+                            Head head;
+                            headDataSource = new HeadDataSource(getApplicationContext());
+                            headDataSource.open();
+                            head = headDataSource.getHead();
+
+                            // set transect number as title
+                            try
+                            {
+                                getSupportActionBar().setTitle(head.transect_no);
+                            } catch (NullPointerException e)
+                            {
+                                // nothing
+                            }
+
+                            headDataSource.close();
                         } catch (IOException e)
                         {
                             Log.e(TAG, "Failed to import database");
@@ -1138,6 +1154,22 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         copy(infile, outfile);
                         Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+
+                        Head head;
+                        headDataSource = new HeadDataSource(getApplicationContext());
+                        headDataSource.open();
+                        head = headDataSource.getHead();
+
+                        // set transect number as title
+                        try
+                        {
+                            getSupportActionBar().setTitle(head.transect_no);
+                        } catch (NullPointerException e)
+                        {
+                            // nothing
+                        }
+
+                        headDataSource.close();
                     } catch (IOException e)
                     {
                         Log.e(TAG, "Failed to import database");
