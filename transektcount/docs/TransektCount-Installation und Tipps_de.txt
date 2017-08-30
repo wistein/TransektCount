@@ -28,7 +28,8 @@ Alle Apps werden geprüft und durch F-Droid selbst kompiliert.
 Nachteilige Features wie Werbung, Tracking oder versteckte Kosten werden bei F-Droid in der Beschreibung einer App angeführt. 
 
 Die unter GitHub veröffentlichte apk-Datei (installierbare App) ist funktional identisch mit der von F-Droid. 
-Wegen unterschiedlicher Signaturen bei der Kompilation kann aber die App von GitHub nicht mit der apk-Datei von F-Droid upgedatet werden und umgekehrt. Es ist jeweils eine Neuinstallation erforderlich.
+Wegen unterschiedlicher Signaturen bei der Kompilation kann aber die App von GitHub nicht mit der apk-Datei von F-Droid upgedatet werden und umgekehrt. 
+Es ist jeweils eine Neuinstallation erforderlich.
 
 
 Tipps

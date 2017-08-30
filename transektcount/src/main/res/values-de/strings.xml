@@ -128,9 +128,10 @@
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>
     <string name="pref_bg">Hintergrund</string>
-    <string name="pref_bg_summ">Wähle Standard-, eigenen oder keinen Hintergrund.</string>
+    <string name="pref_bg_summ">Wähle Standard-, eigenes oder kein Hintergrundbild.</string>
     <string name="chooseImg">Eigenes Hintergrundbild</string>
     <string name="explainImg">Wähle ein Hintergrundbild aus, wenn ein eigenes Bild angezeigt werden soll.\nBitte beachten: Das Bild wird auf die darstellbare Fläche des Geräts skaliert.</string>
+    <string name="image_error">Hintergrundbild setzen fehlgeschlagen! Versuche es mit Galerie anstelle von File Manager.</string>
     <string name="pref_sort_order">Sortierung</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
     <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
@@ -154,7 +155,6 @@
     <string name="pref_awake_summ">Verhindert den Ruhezustand beim Zählen.</string>
     <string name="pref_bright">Bildschirm hell</string>
     <string name="pref_bright_summ">Setzt die TransektCount-Seiten zum Zählen und Editieren hell.</string>
-    <string name="image_error">Hintergrundbild setzen fehlgeschlagen! Versuche es mit der Gallery anstelle von File Manager.</string>
     <string name="pref_duplicate">Verhindere gleiche Listeneinträge</string>
     <string name="pref_duplicate_summary">Wähle diese Option, wenn Listeneinträge (Artnamen) eindeutig sein sollen.</string>
 

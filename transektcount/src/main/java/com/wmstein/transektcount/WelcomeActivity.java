@@ -112,7 +112,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
 
         assert baseLayout != null;
@@ -295,7 +294,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
         head = headDataSource.getHead();
-        getSupportActionBar().setTitle(head.transect_no);
+
+        // set transect number as title
+        try
+        {
+            getSupportActionBar().setTitle(head.transect_no);
+        } catch (NullPointerException e)
+        {
+            // nothing
+        }
+
         headDataSource.close();
     }
 
@@ -303,6 +311,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
+        assert baseLayout != null;
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");

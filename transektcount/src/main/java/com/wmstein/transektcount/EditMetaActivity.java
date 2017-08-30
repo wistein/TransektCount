@@ -7,8 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,13 +95,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
-        try
-        {
-            getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
-        } catch (NullPointerException e)
-        {
-            Log.i(TAG, "NullPointerException: No Head Title!");
-        }
+        //noinspection ConstantConditions
+        getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
     }
 
     @Override
@@ -115,6 +110,17 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         // build the Edit Meta Data screen
         // clear existing view
         head_area.removeAllViews();

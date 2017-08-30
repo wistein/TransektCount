@@ -13,7 +13,7 @@ The app demands for storage access permits which are needed for im-/exporting th
 Before using the app, please, read the documentation (provided in German and English).
 There are a detailed description for setting up and using the app as well as sample basic databases (transektcount0.db, transektcount0_Ab01.db and respective English versions) provided under https://github.com/wistein/TransektCount/tree/master/transektcount/docs.
 
-The app is available by F-Droid. The apk-file 'transektcount-release.apk' is also provided under https://github.com/wistein/TransektCount/tree/master/transektcount/apk.
+The app is available on F-Droid. The apk-file 'transektcount-release.apk' is also provided under https://github.com/wistein/TransektCount/tree/master/transektcount/apk.
 Please note that both versions are compiled from the same sources but signed differently and so cannot be mutually updated.
 
 It is usable with Android version 4.2.2 or newer.
