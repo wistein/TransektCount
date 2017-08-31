@@ -13,14 +13,6 @@
  * @see: http://code.google.com/p/android-change-log/
  * <p>
  * Changed by wmstein on 18.02.2016
- * <p>
- * Changed by wmstein on 18.02.2016
- * <p>
- * Changed by wmstein on 18.02.2016
- */
-
-/**
- * Changed by wmstein on 18.02.2016
  */
 
 package sheetrock.panda.changelog;
@@ -268,7 +260,7 @@ public class ChangeLog
                             + line.substring(1).trim() + "</div>\n");
                         break;
                     case '_':
-                        // line contains version title
+                        // line contains version subtitle
                         this.closeList();
                         sb.append("<div class='subtitle'>"
                             + line.substring(1).trim() + "</div>\n");
