@@ -11,7 +11,10 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.wmstein.transektcount.database.Count;
+import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
@@ -32,6 +35,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     private boolean screenOrientL; // option for screen orientation
 
     private SectionDataSource sectionDataSource;
+    private CountDataSource countDataSource;
 
     List<Section> sections;
     ListView list;
@@ -70,6 +74,9 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         //noinspection ConstantConditions
         list_view.setBackground(transektCount.getBackground());
         list = (ListView) findViewById(android.R.id.list);
+
+        // Test integrity of database
+        testDB();
     }
 
     public void deleteSection(Section sct)
@@ -77,6 +84,24 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.deleteSection(sct);
         showData();
         list.invalidate(); //force list to draw
+    }
+
+    // Test integrity of database
+    public void testDB()
+    {
+        Count count;
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
+        try
+        {
+            count = countDataSource.getCountById(1);
+        } catch (Exception e)
+        {
+            Toast.makeText(ListSectionActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+            countDataSource.close();
+            finish();
+        }
+        countDataSource.close();
     }
 
     @Override

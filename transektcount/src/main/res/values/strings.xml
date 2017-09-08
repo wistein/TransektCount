@@ -31,6 +31,7 @@
     <string name="saveFail">Your database could not be exported!</string>
     <string name="saveWin">Your database has been exported to the sdcard.</string>
     <string name="reset2basic">Your database has been resetted.</string>
+    <string name="resetFail">Your database could not be resetted!</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV File</string>
@@ -211,6 +212,6 @@
     <string name="hintCountNotes">Species notes</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
-    <string name="getHelp">Sorry, there was a problem with your database. Please send an email if you need assistance, attaching your exported \'transektcount.db\'.</string>
+    <string name="getHelp">Database problem!\nPlease send an email (see "App Info") if you need assistance, attaching your exported \'transektcount.db\'.</string>
 
 </resources>

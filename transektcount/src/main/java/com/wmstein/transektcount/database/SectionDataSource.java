@@ -151,13 +151,21 @@ public class SectionDataSource
         Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
             null, null, null, null, null);
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
+        try
         {
-            Section section = cursorToSect(cursor);
-            sections.add(section);
-            cursor.moveToNext();
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast())
+            {
+                Section section = cursorToSect(cursor);
+                sections.add(section);
+                cursor.moveToNext();
+            }
+        }catch (Exception e)
+        {
+            //
         }
+        
         // Make sure to close the cursor
         cursor.close();
         return sections;

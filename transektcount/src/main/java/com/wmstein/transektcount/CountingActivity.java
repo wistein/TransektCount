@@ -184,6 +184,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        // Test integrity of database
+        testDB();
+        
         PowerManager mPowerManager;
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -209,6 +212,24 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         alertSound = prefs.getString("alert_sound", null);
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
         buttonAlertSound = prefs.getString("alert_button_sound", null);
+    }
+
+    // Test integrity of database
+    public void testDB()
+    {
+        Count count;
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
+        try
+        {
+            count = countDataSource.getCountById(1);
+        } catch (Exception e)
+        {
+            Toast.makeText(CountingActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+            countDataSource.close();
+            finish();
+        }
+        countDataSource.close();
     }
 
     @SuppressLint("LongLogTag")

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -107,6 +108,26 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        
+        testDB();
+    }
+
+    // Test integrity of database
+    public void testDB()
+    {
+        Count count;
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
+        try
+        {
+            count = countDataSource.getCountById(1);
+        } catch (Exception e)
+        {
+            Toast.makeText(ListSpeciesActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+            countDataSource.close();
+            finish();
+        }
+        countDataSource.close();
     }
 
     @Override

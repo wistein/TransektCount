@@ -150,6 +150,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             cl.getLogDialog().show();
     }
 
+
     // Date for filename of Export-DB
     // by wmstein
     public String getcurDate()
@@ -290,6 +291,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
         Head head;
         headDataSource = new HeadDataSource(this);
         headDataSource.open();
@@ -452,8 +454,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         // open Section table for section name and notes
         sectionDataSource = new SectionDataSource(this);
         sectionDataSource.open();
-        countDataSource = new CountDataSource(this);
-        countDataSource.open();
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -599,8 +599,21 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     };
                 csvWrite.writeNext(arrCol1);
 
-                // build the species table array
                 Cursor curCSV;
+/*
+                // Test integrity of database
+                try
+                {
+                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        + " WHERE (" + DbHelper.C_COUNT_F1I + " > 0)", null);
+                } catch (Exception e)
+                {
+                    Toast.makeText(WelcomeActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+                    curCSV.close();
+                    finish();
+                }
+*/
+                // build the species table array
                 switch (sortPref) // sort mode species list
                 {
                 case "names_alpha":
@@ -811,10 +824,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 headDataSource.close();
                 metaDataSource.close();
                 sectionDataSource.close();
-                countDataSource.close();
 
                 Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
-            } catch (IOException e)
+            } catch (Exception e)
             {
                 Log.e(TAG, "Failed to export csv file");
                 Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
@@ -925,47 +937,55 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
     // clear DB values for basic DB
+    @SuppressLint({"LongLogTag"})
     public void clearDBValues()
     {
         // clear values in DB
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
 
-        String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
-            + DbHelper.C_COUNT_F1I + " = 0, "
-            + DbHelper.C_COUNT_F2I + " = 0, "
-            + DbHelper.C_COUNT_F3I + " = 0, "
-            + DbHelper.C_COUNT_PI + " = 0, "
-            + DbHelper.C_COUNT_LI + " = 0, "
-            + DbHelper.C_COUNT_EI + " = 0, "
-            + DbHelper.C_COUNT_F1E + " = 0, "
-            + DbHelper.C_COUNT_F2E + " = 0, "
-            + DbHelper.C_COUNT_F3E + " = 0, "
-            + DbHelper.C_COUNT_PE + " = 0, "
-            + DbHelper.C_COUNT_LE + " = 0, "
-            + DbHelper.C_COUNT_EE + " = 0, "
-            + DbHelper.C_NOTES + " = '';";
-        database.execSQL(sql);
+        try
+        {
+            String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
+                + DbHelper.C_COUNT_F1I + " = 0, "
+                + DbHelper.C_COUNT_F2I + " = 0, "
+                + DbHelper.C_COUNT_F3I + " = 0, "
+                + DbHelper.C_COUNT_PI + " = 0, "
+                + DbHelper.C_COUNT_LI + " = 0, "
+                + DbHelper.C_COUNT_EI + " = 0, "
+                + DbHelper.C_COUNT_F1E + " = 0, "
+                + DbHelper.C_COUNT_F2E + " = 0, "
+                + DbHelper.C_COUNT_F3E + " = 0, "
+                + DbHelper.C_COUNT_PE + " = 0, "
+                + DbHelper.C_COUNT_LE + " = 0, "
+                + DbHelper.C_COUNT_EE + " = 0, "
+                + DbHelper.C_NOTES + " = '';";
+            database.execSQL(sql);
 
-        sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
-            + DbHelper.S_CREATED_AT + " = '', "
-            + DbHelper.S_NOTES + " = '';";
-        database.execSQL(sql);
+            sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
+                + DbHelper.S_CREATED_AT + " = '', "
+                + DbHelper.S_NOTES + " = '';";
+            database.execSQL(sql);
 
-        sql = "UPDATE " + DbHelper.META_TABLE + " SET "
-            + DbHelper.M_TEMP + " = 0, "
-            + DbHelper.M_WIND + " = 0, "
-            + DbHelper.M_CLOUDS + " = 0, "
-            + DbHelper.M_DATE + " = '', "
-            + DbHelper.M_START_TM + " = '', "
-            + DbHelper.M_END_TM + " = '';";
-        database.execSQL(sql);
+            sql = "UPDATE " + DbHelper.META_TABLE + " SET "
+                + DbHelper.M_TEMP + " = 0, "
+                + DbHelper.M_WIND + " = 0, "
+                + DbHelper.M_CLOUDS + " = 0, "
+                + DbHelper.M_DATE + " = '', "
+                + DbHelper.M_START_TM + " = '', "
+                + DbHelper.M_END_TM + " = '';";
+            database.execSQL(sql);
 
-        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
-        database.execSQL(sql);
+            sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
+            database.execSQL(sql);
 
-        dbHandler.close();
-        Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+            dbHandler.close();
+            Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+        } catch (Exception e)
+        {
+            Log.e(TAG, "Failed to reset DB");
+            Toast.makeText(this, getString(R.string.resetFail), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**********************************************************************************************/

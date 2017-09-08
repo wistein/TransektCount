@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 /***********************************************
@@ -14,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper
 {
     static final String TAG = "TransektCount DB";
     public static final String DATABASE_NAME = "transektcount.db";
-    static final int DATABASE_VERSION = 1;
+    static final int DATABASE_VERSION = 2;
 
     // tables
     public static final String SECTION_TABLE = "sections";
@@ -47,6 +48,10 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String C_COUNT_EE = "count_ee";
     public static final String C_NOTES = "notes";
 
+    public static final String C_COUNT = "count"; //deprecated
+    public static final String C_COUNTA = "counta"; //deprecated
+
+
     public static final String A_ID = "_id";
     public static final String A_COUNT_ID = "count_id";
     public static final String A_ALERT = "alert";
@@ -65,7 +70,7 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String M_END_TM = "end_tm";
 
     private Context mContext;
-    private SQLiteDatabase db;
+//    private SQLiteDatabase db;
 
     // constructor
     public DbHelper(Context context)
@@ -78,7 +83,7 @@ public class DbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        //Log.i(TAG, "Creating database: " + DATABASE_NAME);
+        Log.i(TAG, "Creating database: " + DATABASE_NAME);
         String sql = "create table " + SECTION_TABLE + " ("
             + S_ID + " integer primary key, "
             + S_CREATED_AT + " int, "
@@ -147,15 +152,168 @@ public class DbHelper extends SQLiteOpenHelper
 
     // ******************************************************************************************
     // called if newVersion != oldVersion
-    // placeholder as class demands for it, see beeCount or 
-    // https://www.androidpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
+    // see https://www.androidpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        //nothing to upgrade
-        // getString() in Toast doesn't work here
-        //Toast.makeText(mContext.getApplicationContext(), getString(R.string.wait), Toast.LENGTH_LONG).show();
-        //Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_LONG).show();
+        if (oldVersion == 1)
+        {
+            version_2(db, oldVersion, newVersion);
+        }
+    }
+
+    public void version_2(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
+        String sql;
+        boolean colExist = false;
+
+        // add new extra columns to table counts without count_f1i and count_f1e as these are
+        //  still represented by count and counta
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F2I + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_f2i column added to counts!");
+        } catch (Exception e)
+        {
+            Log.i(TAG, "Column already present: " + e.toString());
+            colExist = true;
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F3I + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_f3i column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_PI + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_pi column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_LI + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_li column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_EI + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_ei column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F2E + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_f2e column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F3E + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_f3e column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_PE + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_pe column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_LE + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_le column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+        try
+        {
+            sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_EE + " int";
+            db.execSQL(sql);
+            Log.i(TAG, "Missing count_ee column added to counts!");
+        } catch (Exception e)
+        {
+            //
+        }
+
+        if (!colExist)
+        {
+            // rename table counts to counts_backup
+            sql = "alter table " + COUNT_TABLE + " rename to counts_backup";
+            db.execSQL(sql);
+            
+            // create new counts table
+            sql = "create table " + COUNT_TABLE + "("
+                + C_ID + " integer primary key, "
+                + C_SECTION_ID + " int, "
+                + C_NAME + " text, "
+                + C_CODE + " text, "
+                + C_COUNT_F1I + " int, "
+                + C_COUNT_F2I + " int, "
+                + C_COUNT_F3I + " int, "
+                + C_COUNT_PI + " int, "
+                + C_COUNT_LI + " int, "
+                + C_COUNT_EI + " int, "
+                + C_COUNT_F1E + " int, "
+                + C_COUNT_F2E + " int, "
+                + C_COUNT_F3E + " int, "
+                + C_COUNT_PE + " int, "
+                + C_COUNT_LE + " int, "
+                + C_COUNT_EE + " int, "
+                + C_NOTES + " text default NULL)";
+            db.execSQL(sql);
+
+            // insert the old data into counts
+            sql = "INSERT INTO " + COUNT_TABLE + " SELECT "
+                + C_ID + ","
+                + C_SECTION_ID + ","
+                + C_NAME + ","
+                + C_CODE + ","
+                + C_COUNT + ","
+                + C_COUNT_F2I + ","
+                + C_COUNT_F3I + ","
+                + C_COUNT_PI + ","
+                + C_COUNT_LI + ","
+                + C_COUNT_EI + ","
+                + C_COUNTA + ","
+                + C_COUNT_F2E + ","
+                + C_COUNT_F3E + ","
+                + C_COUNT_PE + ","
+                + C_COUNT_LE + ","
+                + C_COUNT_EE + ","
+                + C_NOTES + " FROM counts_backup";
+            db.execSQL(sql);
+
+            sql = "DROP TABLE counts_backup";
+            db.execSQL(sql);
+
+            Log.i(TAG, "Upgraded database to version 2!");
+        }
     }
 
 }

@@ -31,6 +31,7 @@
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
+    <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export DB</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
@@ -211,6 +212,6 @@
     <string name="hintCountNotes">Spezies Notizen</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsumme</string>
-    <string name="getHelp">Leider gibt es ein Problem mit Deiner Datenbank. Bitte sende eine E-Mail mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
+    <string name="getHelp">Datenbankproblem!\nBitte sende eine E-Mail (siehe "App-Info") mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
 
 </resources>
