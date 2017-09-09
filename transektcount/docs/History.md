@@ -1,7 +1,11 @@
 # History
 
 #### TransektCount Copyright (C) 2016-2017, Wilhelm Stein
-  
+
+#### Version 2.0.5 (2017-09-08)
+- Added database version control to be compatible with old database structure prior version 2.0.0
+- Fix crash when loading database of old structure prior version 2.0.0
+
 #### Version 2.0.4 (2017-08-29)
 - Added option to switch between portrait and landscape mode
 - Results page shows totals first

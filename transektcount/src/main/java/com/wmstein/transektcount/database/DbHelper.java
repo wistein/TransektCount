@@ -70,7 +70,6 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String M_END_TM = "end_tm";
 
     private Context mContext;
-//    private SQLiteDatabase db;
 
     // constructor
     public DbHelper(Context context)

@@ -600,19 +600,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrCol1);
 
                 Cursor curCSV;
-/*
-                // Test integrity of database
-                try
-                {
-                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE (" + DbHelper.C_COUNT_F1I + " > 0)", null);
-                } catch (Exception e)
-                {
-                    Toast.makeText(WelcomeActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
-                    curCSV.close();
-                    finish();
-                }
-*/
+
                 // build the species table array
                 switch (sortPref) // sort mode species list
                 {
