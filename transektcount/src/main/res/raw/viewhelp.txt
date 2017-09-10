@@ -30,7 +30,7 @@ $ 10
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
   ! The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
   _ 
-  ! The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on https://github.com/wistein/TransektCount. 
+  ! The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. 
 
 $ 9
   % 2. Set up
@@ -40,7 +40,7 @@ $ 9
   ! Save this by clicking the save icon. Changes can be applied at any time later.
   !
   ! To create a species list for the first transect section from scratch click the (+)-Button in the head line of “List of Transect Sections”, enter a name and click SAVE AND EDIT. Use the (+)-Button in the head line of the section editor to add species, each with name and code (5 digits, including leading zeros). When finished click SAVE SECTION or the save icon.
-  ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering according to Karsholt/Razowski, as used e.g. in the German Lepiforum (http://www.lepiforum.de). 
+  ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering according to Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>). 
   _ 
   ! Sect 01      (example part of a section list)
   ! ---------------------------------------------
@@ -56,7 +56,7 @@ $ 9
   ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
   ! (e.g.: Sect 02, Sect 03,...).
   _ 
-  ! Alternatively, you can just import an example Basic DB from https://github.com/wistein/TransektCount/tree/master/transektcount/docs out of your home directory and edit it suitably.
+  ! Alternatively, you can download an example Basic DB from <a href="https://github.com/wistein/TransektCount/tree/master/transektcount/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/transektcount/docs</a>, copy it to your home directory and import and edit it suitably.
   _ 
   ! When you have created the section lists for all transect sections, the database is ready for export as a "Basic Database".
   ! Therefore you find the function "Export as Basic DB" in the menu of the starting page.
@@ -125,7 +125,7 @@ $ 7
   ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This saves energy, prohibits unwanted input and recalls the app into its current state immediately.
   _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
-  ! With a free tool like "SQliteBrowser" (sqlitebrowser.org) you may examine the db-file.
+  ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the db-file.
   _ 
   ! You may import the .csv-file as a
   ! - comma-delimited text file with 

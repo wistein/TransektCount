@@ -23,10 +23,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
@@ -41,7 +39,6 @@ import java.util.Locale;
 public class ViewHelp
 {
     private final Context context;
-    private String lastVersion, thisVersion;
 
     // this is the key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
@@ -69,21 +66,6 @@ public class ViewHelp
     private ViewHelp(Context context, SharedPreferences sp)
     {
         this.context = context;
-
-        // get version numbers
-        this.lastVersion = sp.getString(VERSION_KEY, NO_VERSION);
-        Log.d(TAG, "lastVersion: " + lastVersion);
-        try
-        {
-            this.thisVersion = context.getPackageManager().getPackageInfo(
-                context.getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e)
-        {
-            this.thisVersion = NO_VERSION;
-            Log.e(TAG, "could not get version name from manifest!");
-            e.printStackTrace();
-        }
-        Log.d(TAG, "appVersion: " + this.thisVersion);
     }
 
     /*********************************************************
@@ -117,8 +99,7 @@ public class ViewHelp
                     R.string.viewhelp_ok_button),
                 new DialogInterface.OnClickListener()
                 {
-                    public void onClick(DialogInterface dialog,
-                                        int which)
+                    public void onClick(DialogInterface dialog, int which)
                     {
                     }
                 });

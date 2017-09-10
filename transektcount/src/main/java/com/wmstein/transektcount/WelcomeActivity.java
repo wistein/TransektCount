@@ -215,6 +215,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         else if (id == R.id.viewHelp)
         {
             vh.getFullLogDialog().show();
+//            startActivity(new Intent(this, HelpDialog.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.changeLog)

@@ -30,7 +30,7 @@ $ 10
   ! Datenbanken können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden.
   ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder vom Smartphone geordnet abgelesen oder für eigene Bearbeitung auf einen PC übertragen und weiterverarbeitet werden.
   _ 
-  ! Die App ist Open Source (https://github.com/wistein/TransektCount), enthält weder Tracking- noch Werbefunktionen und fordert nur Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind. 
+  ! Die App ist Open Source (<a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>), enthält weder Tracking- noch Werbefunktionen und fordert nur Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind. 
 
 $ 9
   % 2. Einrichtung
@@ -41,7 +41,7 @@ $ 9
   ! Dann erzeugt man die Artenliste für den 1. Transektabschnitt. Aufruf mittels (+)-Button bzw. Funktion "Neuer Abschnitt" aus dem Menü der Seite "Liste Transektabschn."
   ! Nach Eingabe der Abschnittbezeichnung SPEICHERN UND EDITIEREN tippen, um per Abschnitts-Editor die relevanten Arten per (+)-Button hinzuzufügen. Für jede Art Name und Code (5-stellig, mit führenden Nullen) eingeben und mit ABSCHN. SPEICHERN abschließen.
   _ 
-  ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski, und werden ebenfalls in der Kartiereranleitung und im Lepiforum (http://www.lepiforum.de) verwendet.
+  ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski, und werden ebenfalls in der Kartiereranleitung und im Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>) verwendet.
   _ 
   ! Ab 01        (Beispiel einer Abschnittsliste)
   ! ---------------------------------------------
@@ -56,8 +56,7 @@ $ 9
   ! Nun kann man für die weiteren Transektabschnitte diese erzeugte Abschnitts-Artenliste kopieren (im Menü der Zählerseite: "Abschnittsliste Duplizieren") und dabei jeweils entsprechend benennen 
   ! (z.B.: Ab 02, Ab 03,...).
   _ 
-  ! Alternativ kann eine Beispiel-Basis-DB aus https://github.com/wistein/TransektCount/tree/master/transektcount/docs 
-vom Home-Verzeichnis importiert und angepasst werden.
+  ! Alternativ kann eine Beispiel-Basis-DB aus <a href="https://github.com/wistein/TransektCount/tree/master/transektcount/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/transektcount/docs</a> heruntergeladen, ins Home-Verzeichnis kopiert und von dort importiert und dann angepasst werden.
   _ 
   ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig vorbereitet und sollte nun als leere Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
@@ -120,7 +119,7 @@ $ 7
   ! Ab Android-Version 5.0.1 wird in der Zähler-Ansicht die Anzeige mit Hilfe des Näherungssensors temporär abgeschaltet, z.B. wenn das Handy eingesteckt wird (spart Strom, verhindert versehentliche Eingaben und die App ist schneller wieder bereit).
   _ 
   ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"- bzw. -.csv-Dateien auf einen PC übertragen.
-  ! Dort kann mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (sqlitebrowser.org) die .db-Datei bearbeitet werden.
+  ! Dort kann mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) die .db-Datei bearbeitet werden.
   ! Die .csv-Datei kann für die weitere Bearbeitung als Textdatei in Excel importiert werden. Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze auf
   ! - Komma als Trennzeichen,
   ! - Anführungszeichen zur Texterkennung und
