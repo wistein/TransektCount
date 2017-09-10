@@ -23,8 +23,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
@@ -39,10 +41,10 @@ import java.util.Locale;
 public class ViewHelp
 {
     private final Context context;
+    private String thisVersion;
 
     // this is the key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
-
     private static final String NO_VERSION = "";
 
     /**
@@ -66,6 +68,18 @@ public class ViewHelp
     private ViewHelp(Context context, SharedPreferences sp)
     {
         this.context = context;
+
+        // get version numbers
+        try
+        {
+            this.thisVersion = context.getPackageManager().getPackageInfo(
+                context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e)
+        {
+            this.thisVersion = NO_VERSION;
+            Log.e(TAG, "could not get version name from manifest!");
+            e.printStackTrace();
+        }
     }
 
     /*********************************************************
@@ -73,24 +87,20 @@ public class ViewHelp
      */
     public AlertDialog getFullLogDialog()
     {
-        return this.getDialog(true);
+        return this.getDialog();
     }
 
-    private AlertDialog getDialog(boolean full)
+    private AlertDialog getDialog()
     {
         WebView wv = new WebView(this.context);
 
         wv.setBackgroundColor(Color.BLACK);
-        wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
-            null);
+        wv.loadDataWithBaseURL(null, this.getLog(), "text/html", "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
-            new ContextThemeWrapper(
-                this.context, android.R.style.Theme_Holo_Dialog));
-        builder.setTitle(
-            context.getResources().getString(
-                full ? R.string.viewhelp_full_title
-                    : R.string.viewhelp_title))
+            new ContextThemeWrapper(this.context, android.R.style.Theme_Holo_Dialog));
+        builder.setTitle(context.getResources().getString(
+                R.string.viewhelp_full_title) + " " + thisVersion + ")")
             .setView(wv)
             .setCancelable(false)
             // OK button
@@ -103,19 +113,6 @@ public class ViewHelp
                     {
                     }
                 });
-
-        if (!full)
-        {
-            // "more ..." button
-            builder.setNegativeButton(R.string.changelog_show_full,
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        getFullLogDialog().show();
-                    }
-                });
-        }
 
         return builder.create();
     }
@@ -131,7 +128,7 @@ public class ViewHelp
     private Listmode listMode = Listmode.NONE;
     private StringBuffer sb = null;
 
-    private String getLog(boolean full)
+    private String getLog()
     {
         // read viewhelp.txt file
         sb = new StringBuffer();

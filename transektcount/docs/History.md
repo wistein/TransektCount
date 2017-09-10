@@ -6,6 +6,7 @@
 - Added links in App Info and Help pages
 - Added database version control to be compatible with old database structure prior version 2.0.0
 - Fix crash when loading database of old structure prior version 2.0.0
+- Bugfixes
 
 #### Version 2.0.4 (2017-08-29)
 - Added option to switch between portrait and landscape mode

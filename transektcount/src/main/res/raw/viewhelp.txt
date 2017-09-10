@@ -21,16 +21,16 @@
   </head>
   <body>
 $ 10
-  % 1. Introduction
+  %1. Introduction
   !
-  ! This counting app should support you when monitoring your transect. 
-  ! It can substitute your field book and pencil, and with a modern smartphone you carry a camera for pictures of interesting species anyway.
+  !This counting app should support you when monitoring your transect. 
+  !It can substitute your field book and pencil, and with a modern smartphone you carry a camera for pictures of interesting species anyway.
   _ 
-  ! The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.
-  ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
-  ! The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
+  !The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.
+  !Databases can be individually created and adapted regarding transect sections and expected butterfly species.
+  !The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
   _ 
-  ! The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. 
+  !The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. 
 
 $ 9
   % 2. Set up

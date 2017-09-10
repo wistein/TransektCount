@@ -42,6 +42,7 @@ $ 2.0.5
   	* Links in App-Info- und Help-Seiten eingefügt
     * Versionskontrolle für Datenbank hinzugefügt, um mit alter Datenbankstruktur (vor Version 2.0.0) kompatibel zu sein
     * Fix gegen Absturz beim Laden einer Datenbank in alter Struktur (vor 2.0.0)
+    * Einige Fehler behoben
 
 $ 2.0.4
   % Version 2.0.4

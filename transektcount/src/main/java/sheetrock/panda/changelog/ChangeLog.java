@@ -45,7 +45,6 @@ public class ChangeLog
 
     // this is the key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
-
     private static final String NO_VERSION = "";
 
     /**
@@ -128,8 +127,7 @@ public class ChangeLog
         WebView wv = new WebView(this.context);
 
         wv.setBackgroundColor(Color.BLACK);
-        wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8",
-            null);
+        wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
             new ContextThemeWrapper(
@@ -146,8 +144,7 @@ public class ChangeLog
                     R.string.changelog_ok_button),
                 new DialogInterface.OnClickListener()
                 {
-                    public void onClick(DialogInterface dialog,
-                                        int which)
+                    public void onClick(DialogInterface dialog, int which)
                     {
                         updateVersionInPreferences();
                     }

@@ -126,7 +126,7 @@ public class EditMetaWidget extends LinearLayout
         else if (!text.trim().matches(regEx))
             return 100;
         else
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
     }
 
     // get wind with plausi
@@ -138,7 +138,7 @@ public class EditMetaWidget extends LinearLayout
         else if (!text.trim().matches(regEx))
             return 100;
         else
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
     }
 
     // get clouds with plausi
@@ -150,7 +150,7 @@ public class EditMetaWidget extends LinearLayout
         else if (!text.trim().matches(regEx))
             return 200;
         else
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
     }
 
     public String getWidgetDate2()

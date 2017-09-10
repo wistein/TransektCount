@@ -42,6 +42,7 @@ $ 2.0.5
   	* Added links in App Info and Help pages
   	* Added database version control to be compatible with old database structure prior version 2.0.0
   	* Fix crash when loading database of old structure prior version 2.0.0
+  	* Bugfixes
 
 $ 2.0.4
   % Version 2.0.4

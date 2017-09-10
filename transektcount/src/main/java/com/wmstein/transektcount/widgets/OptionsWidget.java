@@ -208,11 +208,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf1i.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -221,11 +221,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf2i.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -234,11 +234,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf3i.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -247,11 +247,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberpi.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -260,11 +260,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberli.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -273,11 +273,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberei.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -287,11 +287,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf1e.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -300,11 +300,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf2e.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -313,11 +313,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberf3e.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -326,11 +326,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberpe.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -339,11 +339,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberle.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -352,11 +352,11 @@ public class OptionsWidget extends LinearLayout
         String text = numberee.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 

@@ -42,17 +42,17 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
     }
 
     // this is set to return 0 if it can't parse a value from the box in order
-    // that transektcount doesn't crash
+    //   that transektcount doesn't crash
     public int getAlertValue()
     {
         String text = alert_value.getText().toString();
         if (isEmpty(text))
         {
-            return Integer.valueOf(0);
+            return 0;
         }
         else
         {
-            return Integer.parseInt(text);
+            return Integer.parseInt(text.replaceAll("[\\D]",""));
         }
     }
 
@@ -74,7 +74,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
     public void setAlertId(int id)
     {
         alert_id = id;
-        deleteButton.setTag(Integer.valueOf(id));
+        deleteButton.setTag(id);
     }
 
     /**
