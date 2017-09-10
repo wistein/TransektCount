@@ -2,7 +2,8 @@
 
 #### TransektCount Copyright (C) 2016-2017, Wilhelm Stein
 
-#### Version 2.0.5 (2017-09-08)
+#### Version 2.0.5 (2017-09-10)
+- Added links in App Info and Help pages
 - Added database version control to be compatible with old database structure prior version 2.0.0
 - Fix crash when loading database of old structure prior version 2.0.0
 
