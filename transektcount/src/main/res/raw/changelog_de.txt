@@ -36,6 +36,11 @@
   _
     ! Geeignet für Android 4.2 (JellyBean) oder neuer
 
+$ 2.0.6
+  % Version 2.0.6
+  _ 11.09.2017
+  	* Systemlog-Meldungen nur noch im Debug-Modus
+
 $ 2.0.5
   % Version 2.0.5
   _ 10.09.2017

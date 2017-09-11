@@ -65,7 +65,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         // Sound for alerts
         String strRingtonePreference = prefs.getString("alert_sound", "DEFAULT_SOUND");
         alert_uri = Uri.parse(strRingtonePreference);
-        //Log.i(TAG,"ALERT_URI: " + String.valueOf(alert_uri));
+        if (MyDebug.LOG)
+            Log.d(TAG,"ALERT_URI: " + String.valueOf(alert_uri));
 
         Preference alert_sound = findPreference("alert_sound");
         alert_sound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -151,7 +152,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     cursor.moveToFirst(); // blows up here if file manager used
                 } catch (Exception e)
                 {
-                    Log.e(TAG, "Failed to select image: " + e.toString());
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "Failed to select image: " + e.toString());
                     Toast.makeText(this, getString(R.string.image_error), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -166,10 +168,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 //editor.commit();
                 try
                 {
-                    Log.i(TAG, "IMAGE (in Settings): " + imageFilePath);
+                    if (MyDebug.LOG)
+                        Log.d(TAG, "IMAGE (in Settings): " + imageFilePath);
                 } catch (Exception e)
                 {
-                    Log.e(TAG, "Failed to upload image: " + e.toString());
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "Failed to upload image: " + e.toString());
                     Toast.makeText(this, getString(R.string.image_error), Toast.LENGTH_LONG).show();
                 }
             }

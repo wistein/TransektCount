@@ -22,7 +22,7 @@ import java.io.File;
  */
 public class TransektCountApplication extends Application
 {
-    private static String TAG = "transektcount";
+    private static String TAG = "TransektCountApplication";
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;
     private static SharedPreferences prefs;
@@ -41,7 +41,8 @@ public class TransektCountApplication extends Application
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
         } catch (Exception e)
         {
-            Log.e(TAG, e.toString());
+            if (MyDebug.LOG)
+                Log.e(TAG, e.toString());
         }
     }
 

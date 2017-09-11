@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.wmstein.transektcount.MyDebug;
+
 
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
@@ -82,7 +84,8 @@ public class DbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        Log.i(TAG, "Creating database: " + DATABASE_NAME);
+        if (MyDebug.LOG)
+            Log.d(TAG, "Creating database: " + DATABASE_NAME);
         String sql = "create table " + SECTION_TABLE + " ("
             + S_ID + " integer primary key, "
             + S_CREATED_AT + " int, "
@@ -146,7 +149,8 @@ public class DbHelper extends SQLiteOpenHelper
         values2.put(M_END_TM, "");
         db.insert(META_TABLE, null, values2);
 
-        //Log.i(TAG, "Success!");
+        if (MyDebug.LOG)
+            Log.d(TAG, "Success!");
     }
 
     // ******************************************************************************************
@@ -172,17 +176,20 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F2I + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_f2i column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_f2i column added to counts!");
         } catch (Exception e)
         {
-            Log.i(TAG, "Column already present: " + e.toString());
+            if (MyDebug.LOG)
+                Log.e(TAG, "Column already present: " + e.toString());
             colExist = true;
         }
         try
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F3I + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_f3i column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_f3i column added to counts!");
         } catch (Exception e)
         {
             //
@@ -191,7 +198,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_PI + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_pi column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_pi column added to counts!");
         } catch (Exception e)
         {
             //
@@ -200,7 +208,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_LI + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_li column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_li column added to counts!");
         } catch (Exception e)
         {
             //
@@ -209,7 +218,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_EI + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_ei column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_ei column added to counts!");
         } catch (Exception e)
         {
             //
@@ -218,7 +228,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F2E + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_f2e column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_f2e column added to counts!");
         } catch (Exception e)
         {
             //
@@ -227,7 +238,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_F3E + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_f3e column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_f3e column added to counts!");
         } catch (Exception e)
         {
             //
@@ -236,7 +248,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_PE + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_pe column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_pe column added to counts!");
         } catch (Exception e)
         {
             //
@@ -245,7 +258,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_LE + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_le column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_le column added to counts!");
         } catch (Exception e)
         {
             //
@@ -254,7 +268,8 @@ public class DbHelper extends SQLiteOpenHelper
         {
             sql = "alter table " + COUNT_TABLE + " add column " + C_COUNT_EE + " int";
             db.execSQL(sql);
-            Log.i(TAG, "Missing count_ee column added to counts!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Missing count_ee column added to counts!");
         } catch (Exception e)
         {
             //
@@ -311,7 +326,8 @@ public class DbHelper extends SQLiteOpenHelper
             sql = "DROP TABLE counts_backup";
             db.execSQL(sql);
 
-            Log.i(TAG, "Upgraded database to version 2!");
+            if (MyDebug.LOG)
+                Log.d(TAG, "Upgraded database to version 2");
         }
     }
 

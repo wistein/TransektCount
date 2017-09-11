@@ -412,7 +412,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             String isDblCode = "";
             int childcount; //No. of species in list
             childcount = counts_area.getChildCount();
-            //Log.i(TAG, "childcount: " + String.valueOf(childcount));
+            if (MyDebug.LOG)
+                Log.d(TAG, "childcount: " + String.valueOf(childcount));
 
             // check for unique species names
             if (dupPref)
@@ -425,20 +426,22 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                     for (int i = 0; i < childcount; i++)
                     {
                         CountEditWidget cew = (CountEditWidget) counts_area.getChildAt(i);
-//                        if (isNotEmpty(cew.getCountName()))
                         if (isNotEmpty(cew.getCountName()) && isNotEmpty(cew.getCountCode()))
                         {
-                            //Log.i(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
+                            if (MyDebug.LOG)
+                                Log.d(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
                             // create or save
                             if (cew.countId == 0)
                             {
-                                //Log.i(TAG, "Creating!");
+                                if (MyDebug.LOG)
+                                    Log.d(TAG, "Creating!");
                                 //returns newCount
                                 countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode());
                             }
                             else
                             {
-                                //Log.i(TAG, "Updating!");
+                                if (MyDebug.LOG)
+                                    Log.d(TAG, "Updating!");
                                 countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode());
                             }
                             retValue = true;
@@ -494,11 +497,13 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            //Log.i(TAG, "sname = " + sname);
+            if (MyDebug.LOG)
+                Log.d(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
                 isDblName = true;
-                //Log.i(TAG, "Double name = " + sname);
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Double name = " + sname);
                 break;
             }
         }
@@ -553,10 +558,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else
         {
-            //Log.i(TAG, "(2) View tag was " + String.valueOf(deleteAnAlert));
-            // before removing this widget it is necessary to do the following:
-            // (1) Check the user is sure they want to delete it and, if so...
-            // (2) Delete the associated alert from the database.
+            // Before removing this widget it is necessary to do the following:
+            //   (1) Check the user is sure they want to delete it and, if so...
+            //   (2) Delete the associated alert from the database.
             areYouSure = new AlertDialog.Builder(this);
             areYouSure.setTitle(getString(R.string.deleteCount));
             areYouSure.setMessage(getString(R.string.reallyDeleteCount));

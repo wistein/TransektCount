@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -184,11 +185,13 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            //Log.i(TAG, "sname = " + sname);
+            if (MyDebug.LOG)
+                Log.d(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
                 isDblName = true;
-                //Log.i(TAG, "Double name = " + sname);
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Double name = " + sname);
                 break;
             }
         }

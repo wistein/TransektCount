@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2017, Wilhelm Stein
 
+#### Version 2.0.6 (2017-09-11)
+- Write log only when MyDebug=true
+
 #### Version 2.0.5 (2017-09-10)
 - Added links in App Info and Help pages
 - Added database version control to be compatible with old database structure prior version 2.0.0

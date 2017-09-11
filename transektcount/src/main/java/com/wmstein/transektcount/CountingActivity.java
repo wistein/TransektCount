@@ -262,13 +262,15 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         alertDataSource.open();
 
         // load and show the data
-        Log.i(TAG, "Section ID: " + String.valueOf(section_id));
+        if (MyDebug.LOG)
+            Log.d(TAG, "Section ID: " + String.valueOf(section_id));
         try
         {
             section = sectionDataSource.getSection(section_id);
         } catch (CursorIndexOutOfBoundsException e)
         {
-            Log.e(TAG, "Problem loading section: " + e.toString());
+            if (MyDebug.LOG)
+                Log.e(TAG, "Problem loading section: " + e.toString());
             Toast.makeText(CountingActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
             finish();
         }
@@ -278,7 +280,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             getSupportActionBar().setTitle(section.name);
         } catch (NullPointerException e)
         {
-            // nothing
+            if (MyDebug.LOG)
+                Log.e(TAG, "Problem setting title bar: " + e.toString());
         }
 
         switch (sortPref)
@@ -1643,11 +1646,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            //Log.i(TAG, "sname = " + sname);
+            if (MyDebug.LOG)
+                Log.d(TAG, "sname = " + sname);
             if (newname.equals(sname))
             {
                 isDblName = true;
-                //Log.i(TAG, "Double name = " + sname);
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Double name = " + sname);
                 break;
             }
         }

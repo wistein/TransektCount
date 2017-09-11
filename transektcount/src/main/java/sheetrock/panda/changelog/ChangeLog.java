@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
+import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
 import java.io.BufferedReader;
@@ -46,6 +47,7 @@ public class ChangeLog
     // this is the key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
     private static final String NO_VERSION = "";
+    private static final String TAG = "ChangeLog";
 
     /**
      * Constructor <p/>
@@ -69,7 +71,8 @@ public class ChangeLog
 
         // get version numbers
         this.lastVersion = sp.getString(VERSION_KEY, NO_VERSION);
-        Log.d(TAG, "lastVersion: " + lastVersion);
+        if (MyDebug.LOG)
+            Log.d(TAG, "lastVersion: " + lastVersion);
         try
         {
             this.thisVersion = context.getPackageManager().getPackageInfo(
@@ -77,10 +80,11 @@ public class ChangeLog
         } catch (NameNotFoundException e)
         {
             this.thisVersion = NO_VERSION;
-            Log.e(TAG, "could not get version name from manifest!");
-            e.printStackTrace();
+            if (MyDebug.LOG)
+                Log.e(TAG, "could not get version name from manifest.", e);
         }
-        Log.d(TAG, "appVersion: " + this.thisVersion);
+        if (MyDebug.LOG)
+            Log.d(TAG, "appVersion: " + this.thisVersion);
     }
 
     /**
@@ -324,7 +328,5 @@ public class ChangeLog
         }
         this.listMode = Listmode.NONE;
     }
-
-    private static final String TAG = "ChangeLog";
 
 }

@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
+import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
 import java.io.BufferedReader;
@@ -46,6 +47,9 @@ public class ViewHelp
     // this is the key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
     private static final String NO_VERSION = "";
+    private Listmode listMode = Listmode.NONE;
+    private StringBuffer sb = null;
+    private static final String TAG = "ViewHelp";
 
     /**
      * Constructor  <p/>
@@ -77,8 +81,8 @@ public class ViewHelp
         } catch (PackageManager.NameNotFoundException e)
         {
             this.thisVersion = NO_VERSION;
-            Log.e(TAG, "could not get version name from manifest!");
-            e.printStackTrace();
+            if (MyDebug.LOG)
+                Log.e(TAG, "could not get version name from manifest!", e);
         }
     }
 
@@ -124,9 +128,6 @@ public class ViewHelp
     {
         NONE, ORDERED, UNORDERED,
     }
-
-    private Listmode listMode = Listmode.NONE;
-    private StringBuffer sb = null;
 
     private String getLog()
     {
@@ -231,7 +232,5 @@ public class ViewHelp
         }
         this.listMode = Listmode.NONE;
     }
-
-    private static final String TAG = "ViewHelp";
-
+    
 }

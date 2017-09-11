@@ -287,7 +287,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             }
             else
             {
-                Log.i(TAG, "Failed to save alert: " + acw.getAlertId());
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Failed to save alert: " + acw.getAlertId());
             }
         }
     }
@@ -363,7 +364,8 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                         dynamic_widget_area.removeView((AlertCreateWidget) markedForDelete.getParent().getParent());
                     } catch (Exception e)
                     {
-                        Log.i(TAG, "Failed to delete a widget: " + e.toString());
+                        if (MyDebug.LOG)
+                            Log.e(TAG, "Failed to delete a widget: " + e.toString());
                     }
                 }
             });
