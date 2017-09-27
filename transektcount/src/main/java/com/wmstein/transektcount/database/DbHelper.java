@@ -71,13 +71,13 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String M_START_TM = "start_tm";
     public static final String M_END_TM = "end_tm";
 
-    private Context mContext;
+//    private Context mContext;
 
     // constructor
     public DbHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.mContext = context;
+//        this.mContext = context;
     }
 
     // called once on database creation
@@ -161,11 +161,11 @@ public class DbHelper extends SQLiteOpenHelper
     {
         if (oldVersion == 1)
         {
-            version_2(db, oldVersion, newVersion);
+            version_2(db);
         }
     }
 
-    public void version_2(SQLiteDatabase db, int oldVersion, int newVersion)
+    private void version_2(SQLiteDatabase db)
     {
         String sql;
         boolean colExist = false;

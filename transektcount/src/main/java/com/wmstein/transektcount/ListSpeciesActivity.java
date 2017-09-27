@@ -150,7 +150,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     {
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
-        int sumInt = 0, sumExt = 0;
+        int sumInt, sumExt;
 
         headDataSource.open();
         metaDataSource.open();

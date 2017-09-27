@@ -21,13 +21,14 @@ import android.widget.TextView;
  * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
  * to have the text font size in it automatically fit to match the screen width. Credits go largely
  * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
- * rewritten to match android coding standards and our MBC. This version upgrades the original
- * "AutoFitTextView" to now also be adaptable to height and to accept the different TextView types
- * (Button, TextClock etc.)
+ * rewritten to match android coding standards and our MBC. 
+ * 
+ * This version upgrades the original "AutoFitTextView" to now also be adaptable to height and to 
+ * accept the different TextView types (Button, TextClock etc.)
  *
  * @author pheuschk
  *         createDate: 18.04.2013
- *         <p>
+ *         
  *         Modified for TransektCount by wmstein since 18.03.2016
  *         Bug fixed (height of single character), cleaned of unused code and context comments changed
  */
@@ -131,8 +132,7 @@ public class AutoFitText extends android.support.v7.widget.AppCompatTextView
         // added by wmstein to control height
         mTestView.setMaxHeight(targetFieldHeight);
 
-        /*************************** Converging algorithm 1 ***********************************/
-        // only a single line
+        // Converging only a single line
         for (float testSize; (upperTextSize - lowerTextSize) > mThreshold; )
         {
 

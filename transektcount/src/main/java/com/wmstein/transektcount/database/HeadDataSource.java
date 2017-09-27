@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.List;
-
 /***********************************
  * Created by wmstein on 31.03.2016.
  */
@@ -21,8 +19,6 @@ public class HeadDataSource
         DbHelper.H_TRANSECT_NO,
         DbHelper.H_INSPECTOR_NAME,
     };
-
-    public List<Head> head_list;
 
     public HeadDataSource(Context context)
     {

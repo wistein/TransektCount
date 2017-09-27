@@ -29,8 +29,6 @@ public class SectionDataSource
         DbHelper.S_NOTES
     };
 
-    public List<Section> section_list;
-
     public SectionDataSource(Context context)
     {
         dbHandler = new DbHelper(context);

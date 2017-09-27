@@ -37,7 +37,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     SharedPreferences prefs;
 
     private boolean screenOrientL; // option for screen orientation
-    private boolean dupPref;
     private Bitmap bMap;
     private BitmapDrawable bg;
 
@@ -57,7 +56,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        dupPref = prefs.getBoolean("pref_duplicate", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen); //in activity_new_section.xml
@@ -215,8 +213,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
-
-        dupPref = prefs.getBoolean("pref_duplicate", true);
     }
 
     /**

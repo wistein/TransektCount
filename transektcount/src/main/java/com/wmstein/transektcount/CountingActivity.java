@@ -89,7 +89,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     // the actual data
     private Count count;
     private Section section;
-    private List<Count> counts;
     private List<Alert> alerts;
     private List<CountingWidget_i> countingWidgets_i;
     private List<CountingWidget_e> countingWidgets_e;
@@ -238,8 +237,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
-        Context context = this.getApplicationContext();
-
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -287,21 +284,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         switch (sortPref)
         {
         case "names_alpha":
-            counts = countDataSource.getAllCountsForSectionSrtName(section.id);
             idArray = countDataSource.getAllIdsForSectionSrtName(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtName(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtName(section.id, "code");
             imageArray = countDataSource.getAllImagesForSectionSrtName(section.id);
             break;
         case "codes":
-            counts = countDataSource.getAllCountsForSectionSrtCode(section.id);
             idArray = countDataSource.getAllIdsForSectionSrtCode(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "code");
             imageArray = countDataSource.getAllImagesForSectionSrtCode(section.id);
             break;
         default:
-            counts = countDataSource.getAllCountsForSection(section.id);
             idArray = countDataSource.getAllIdsForSection(section.id);
             nameArray = countDataSource.getAllStringsForSection(section.id, "name");
             codeArray = countDataSource.getAllStringsForSection(section.id, "code");
@@ -472,7 +466,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("section_id", section_id);
         editor.putInt("count_id", iid);
-        editor.commit();
+        editor.apply();
 
         // close the data sources
         sectionDataSource.close();

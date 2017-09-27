@@ -33,7 +33,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         alert_value = (EditText) findViewById(R.id.alert_value);
         alert_id = 0;
         deleteButton = (ImageButton) findViewById(R.id.delete_button);
-        deleteButton.setTag(Integer.valueOf(0));
+        deleteButton.setTag(0);
     }
 
     public String getAlertName()

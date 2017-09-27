@@ -668,7 +668,7 @@ public class CountDataSource
     }
 
     // Get resource ID from resource name
-    public int getResId(String rName)
+    private int getResId(String rName)
     {
         try
         {

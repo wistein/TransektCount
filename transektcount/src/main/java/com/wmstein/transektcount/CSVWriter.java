@@ -34,17 +34,17 @@ import java.io.Writer;
 public class CSVWriter implements Closeable, Flushable
 {
     //The character used for escaping quotes.
-    public static final char DEFAULT_ESCAPE_CHARACTER = '"';
+    private static final char DEFAULT_ESCAPE_CHARACTER = '"';
     //The default separator to use if none is supplied to the constructor.
-    public static final char DEFAULT_SEPARATOR = ',';
+    private static final char DEFAULT_SEPARATOR = ',';
     //The default quote character to use if none is supplied to the constructor.
-    public static final char DEFAULT_QUOTE_CHARACTER = '"';
+    private static final char DEFAULT_QUOTE_CHARACTER = '"';
     //The quote constant to use when you wish to suppress all quoting.
-    public static final char NO_QUOTE_CHARACTER = '\u0000';
+    private static final char NO_QUOTE_CHARACTER = '\u0000';
     //The escape constant to use when you wish to suppress all escaping.
-    public static final char NO_ESCAPE_CHARACTER = '\u0000';
+    private static final char NO_ESCAPE_CHARACTER = '\u0000';
     //Default line terminator.
-    public static final String DEFAULT_LINE_END = "\n";
+    private static final String DEFAULT_LINE_END = "\n";
 
     private Writer rawWriter;
     private PrintWriter pw;
@@ -126,7 +126,7 @@ public class CSVWriter implements Closeable, Flushable
      * @param applyQuotesToAll true if all values are to be quoted.  false applies quotes only
      *                         to values which contain the separator, escape, quote or new line characters.
      */
-    public void writeNext(String[] nextLine, boolean applyQuotesToAll)
+    private void writeNext(String[] nextLine, boolean applyQuotesToAll)
     {
 
         if (nextLine == null)

@@ -38,7 +38,6 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     private Context mContext;
     private Section sct;
     private Handler mHandler = new Handler();
-//    private Handler lHandler = new Handler();
 
     // preferences
     private boolean buttonSoundPref;
@@ -242,7 +241,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
      * @return {@code true} if the CharSequence is
      * not empty and not null and not whitespace
      */
-    public static boolean isNotBlank(final CharSequence cs)
+    private static boolean isNotBlank(final CharSequence cs)
     {
         return !isBlank(cs);
     }
@@ -262,7 +261,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
      * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is null, empty or whitespace
      */
-    public static boolean isBlank(final CharSequence cs)
+    private static boolean isBlank(final CharSequence cs)
     {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0)

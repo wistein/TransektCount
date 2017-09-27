@@ -48,7 +48,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
 
     private Count count;
     private int count_id;
-    private List<Alert> alerts;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
     private View markedForDelete;

@@ -304,9 +304,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     // Compare count names for duplicates and returns name of 1. duplicate found
     public String compCountNames()
     {
-        String name = "";
+        String name;
         String isDblName = "";
-        cmpCountNames = new ArrayList<String>();
+        cmpCountNames = new ArrayList<>();
 
         int childcount = counts_area.getChildCount();
         // for all CountEditWidgets
@@ -329,9 +329,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     // Compare count codes for duplicates and returns name of 1. duplicate found
     public String compCountCodes()
     {
-        String code = "";
+        String code;
         String isDblCode = "";
-        cmpCountCodes = new ArrayList<String>();
+        cmpCountCodes = new ArrayList<>();
 
         int childcount = counts_area.getChildCount();
         // for all CountEditWidgets
@@ -363,7 +363,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public boolean saveData()
     {
         // save section notes only if they have changed
-        boolean savesection = false;
+        boolean savesection;
 
         String newtitle = etw.getSectionName();
 
@@ -408,8 +408,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             sectionDataSource.saveSection(section);
 
             // save counts (species list)
-            String isDblName = "";
-            String isDblCode = "";
+            String isDblName;
+            String isDblCode;
             int childcount; //No. of species in list
             childcount = counts_area.getChildCount();
             if (MyDebug.LOG)
@@ -467,12 +467,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " 
                     + section.name + "!", Toast.LENGTH_SHORT).show();
             }
-/*
-            else
-            {
-                Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
-            }
-*/
         }
         return retValue;
     }

@@ -67,13 +67,6 @@ public class AlertDataSource
         return newalert;
     }
 
-    public void deleteAlert(Alert alert)
-    {
-        int id = alert.id;
-        System.out.println("Alert deleted with id: " + id);
-        database.delete(DbHelper.ALERT_TABLE, DbHelper.A_ID + " = " + id, null);
-    }
-
     public void deleteAlertById(int id)
     {
         System.out.println("Alert deleted with id: " + id);

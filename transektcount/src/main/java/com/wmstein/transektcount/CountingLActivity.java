@@ -94,7 +94,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     // the actual data
     private Count count;
     private Section section;
-    private List<Count> counts;
     private List<Alert> alerts;
     private List<CountingWidget_i> countingWidgets_i;
     private List<CountingWidget_e> countingWidgets_e;
@@ -189,6 +188,9 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        // Test integrity of database
+        testDB();
+
         PowerManager mPowerManager;
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -217,13 +219,29 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         buttonAlertSound = prefs.getString("alert_button_sound", null);
     }
 
+    // Test integrity of database
+    public void testDB()
+    {
+        Count count;
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
+        try
+        {
+            count = countDataSource.getCountById(1);
+        } catch (Exception e)
+        {
+            Toast.makeText(CountingLActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+            countDataSource.close();
+            finish();
+        }
+        countDataSource.close();
+    }
+
     @SuppressLint("LongLogTag")
     @Override
     protected void onResume()
     {
         super.onResume();
-
-        Context context = this.getApplicationContext();
 
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -272,21 +290,18 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         switch (sortPref)
         {
         case "names_alpha":
-            counts = countDataSource.getAllCountsForSectionSrtName(section.id);
             idArray = countDataSource.getAllIdsForSectionSrtName(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtName(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtName(section.id, "code");
             imageArray = countDataSource.getAllImagesForSectionSrtName(section.id);
             break;
         case "codes":
-            counts = countDataSource.getAllCountsForSectionSrtCode(section.id);
             idArray = countDataSource.getAllIdsForSectionSrtCode(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "code");
             imageArray = countDataSource.getAllImagesForSectionSrtCode(section.id);
             break;
         default:
-            counts = countDataSource.getAllCountsForSection(section.id);
             idArray = countDataSource.getAllIdsForSection(section.id);
             nameArray = countDataSource.getAllStringsForSection(section.id, "name");
             codeArray = countDataSource.getAllStringsForSection(section.id, "code");
@@ -457,7 +472,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("section_id", section_id);
         editor.putInt("count_id", iid);
-        editor.commit();
+        editor.apply();
 
         // close the data sources
         sectionDataSource.close();

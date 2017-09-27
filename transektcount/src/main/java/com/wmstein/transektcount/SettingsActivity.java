@@ -180,8 +180,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
         else if (resultCode == Activity.RESULT_OK)
         {
-            Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            String ringtone = null;
+            Uri uri = null;
+            if (data != null)
+            {
+                uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            }
+            String ringtone;
             if (uri != null)
             {
                 ringtone = uri.toString();

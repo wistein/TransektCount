@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -52,7 +51,7 @@ public class ChangeLog
     /**
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
-     * @param context
+     * @param context   the context
      */
     public ChangeLog(Context context)
     {
@@ -62,7 +61,7 @@ public class ChangeLog
     /**
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
-     * @param context
+     * @param context   the context
      * @param sp      the shared preferences to store the last version name into
      */
     private ChangeLog(Context context, SharedPreferences sp)
@@ -177,15 +176,7 @@ public class ChangeLog
             .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(VERSION_KEY, thisVersion);
-        // on SDK-Versions > 9 you should use this:
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD)
-        {
-            editor.commit();
-        }
-        else
-        {
-            editor.apply();
-        }
+        editor.apply();
     }
 
     /**************************************************************************
@@ -257,35 +248,43 @@ public class ChangeLog
                     case '%':
                         // line contains version title
                         this.closeList();
-                        sb.append("<div class='title'>"
-                            + line.substring(1).trim() + "</div>\n");
+                        sb.append("<div class='title'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
                         break;
                     case '_':
                         // line contains version subtitle
                         this.closeList();
-                        sb.append("<div class='subtitle'>"
-                            + line.substring(1).trim() + "</div>\n");
+                        sb.append("<div class='subtitle'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
                         break;
                     case '!':
                         // line contains free text
                         this.closeList();
-                        sb.append("<div class='freetext'>"
-                            + line.substring(1).trim() + "</div>\n");
+                        sb.append("<div class='freetext'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
                         break;
                     case '#':
                         // line contains numbered list item
                         this.openList(Listmode.ORDERED);
-                        sb.append("<li>" + line.substring(1).trim() + "</li>\n");
+                        sb.append("<li>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</li>\n");
                         break;
                     case '*':
                         // line contains bullet list item
                         this.openList(Listmode.UNORDERED);
-                        sb.append("<li>" + line.substring(1).trim() + "</li>\n");
+                        sb.append("<li>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</li>\n");
                         break;
                     default:
                         // no special character: just use line as is
                         this.closeList();
-                        sb.append(line + "\n");
+                        sb.append(line);
+                        sb.append("\n");
                     }
                 }
             }

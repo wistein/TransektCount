@@ -209,11 +209,11 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         if (lng.equals("de"))
         {
-            dform = new SimpleDateFormat("dd.MM.yyyy");
+            dform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
         }
         else
         {
-            dform = new SimpleDateFormat("yyyy-MM-dd");
+            dform = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         }
         return dform.format(date);
     }
@@ -223,7 +223,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     public String getcurTime()
     {
         Date date = new Date();
-        DateFormat dform = new SimpleDateFormat("HH:mm");
+        DateFormat dform = new SimpleDateFormat("HH:mm", Locale.GERMAN);
         return dform.format(date);
     }
 

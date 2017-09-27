@@ -24,7 +24,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
-import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -87,7 +86,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private DbHelper dbHandler;
 
     SectionDataSource sectionDataSource;
-    CountDataSource countDataSource;
     HeadDataSource headDataSource;
     MetaDataSource metaDataSource;
 
@@ -441,7 +439,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int temp, wind, clouds;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
-        int total = 0;
+        int total;
         String date, start_tm, end_tm, kw;
         int yyyy, mm, dd;
         int Kw = 0; // calendar week
