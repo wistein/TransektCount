@@ -153,6 +153,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     {
         super.onResume();
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            section_id = extras.getInt("section_id");
+        }
+
         // build the Edit Section screen
         // clear any existing views
         counts_area.removeAllViews();

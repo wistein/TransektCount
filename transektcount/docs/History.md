@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2017, Wilhelm Stein
 
+#### Version 2.1.0 (2017-09-27)
+- Code adapted and compiled for Android 7.1
+- Minor code improvements
+- Bug fixes
+
 #### Version 2.0.6 (2017-09-11)
 - Write log only when MyDebug=true
 

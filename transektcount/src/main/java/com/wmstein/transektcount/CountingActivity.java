@@ -237,6 +237,17 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
+        prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        getPrefs();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            section_id = extras.getInt("section_id");
+            iid = extras.getInt("count_id");
+        }
+
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -261,6 +272,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // load and show the data
         if (MyDebug.LOG)
             Log.d(TAG, "Section ID: " + String.valueOf(section_id));
+        
         try
         {
             section = sectionDataSource.getSection(section_id);

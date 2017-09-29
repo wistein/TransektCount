@@ -38,8 +38,10 @@
 
 $ 2.1.0
   % Version 2.1.0
-  _ 2017-09-27
+  _ 2017-09-29
   	* Code adapted and compiled for Android 7.1
+		* Minor code improvements
+  	* Bug fixes
 
 $ 2.0.6
   % Version 2.0.6
@@ -52,7 +54,7 @@ $ 2.0.5
   	* Added links in App Info and Help pages
   	* Added database version control to be compatible with old database structure prior version 2.0.0
   	* Fix crash when loading database of old structure prior version 2.0.0
-  	* Bugfixes
+  	* Bug fixes
 
 $ 2.0.4
   % Version 2.0.4
