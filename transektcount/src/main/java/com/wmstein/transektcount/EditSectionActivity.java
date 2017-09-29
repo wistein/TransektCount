@@ -159,6 +159,24 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             section_id = extras.getInt("section_id");
         }
 
+        // Load preferences
+        transektCount = (TransektCountApplication) getApplication();
+        prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+        boolean brightPref = prefs.getBoolean("pref_bright", true);
+        dupPref = prefs.getBoolean("pref_duplicate", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
+
         // build the Edit Section screen
         // clear any existing views
         counts_area.removeAllViews();

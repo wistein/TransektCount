@@ -260,6 +260,15 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             enableProximitySensor();
         }
 
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
+
         // build the counting screen
         // clear any existing views
         notes_area1.removeAllViews();
