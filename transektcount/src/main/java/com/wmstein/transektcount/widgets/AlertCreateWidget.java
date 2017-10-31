@@ -52,7 +52,13 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 

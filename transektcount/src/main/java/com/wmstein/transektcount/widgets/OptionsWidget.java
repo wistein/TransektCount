@@ -212,7 +212,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -225,7 +231,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -238,7 +250,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -251,7 +269,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -264,7 +288,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -277,7 +307,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -291,7 +327,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -304,7 +346,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -317,7 +365,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -330,7 +384,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -343,7 +403,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
@@ -356,7 +422,13 @@ public class OptionsWidget extends LinearLayout
         }
         else
         {
-            return Integer.parseInt(text.replaceAll("[\\D]",""));
+            try
+            {
+                return Integer.parseInt(text.replaceAll("[\\D]",""));
+            } catch (NumberFormatException e)
+            {
+                return 0;
+            }
         }
     }
 
