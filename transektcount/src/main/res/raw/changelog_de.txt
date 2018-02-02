@@ -40,6 +40,7 @@ $ 2.1.1
   % Version 2.1.1
   _ 31.10.2017
   	* Code für Entwicklungsumgebung Android Studio 3.0 angepasst
+  	* Docs: Einführende Prasentation hinzugefügt
   	* Fehler behoben
 
 $ 2.1.0

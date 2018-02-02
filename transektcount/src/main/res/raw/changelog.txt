@@ -40,6 +40,7 @@ $ 2.1.1
   % Version 2.1.1
   _ 2017-10-31
   	* Dev. environment adapted for Android Studio 3.0
+  	* Docs: German Introductary presentation added
   	* Bug fixes
 
 $ 2.1.0
