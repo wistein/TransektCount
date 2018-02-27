@@ -35,7 +35,7 @@ import java.util.List;
 
 /*************************************************************************
  * Edit the current section list (change, delete) and insert new species
- * EditSectionActivity is called from CountingActivity.
+ * EditSectionActivity is called from ListSectionActivity or CountingActivity.
  * Uses CountEditWidget.java, EditTitleWidget.java, EditNotesWidget.java,
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.

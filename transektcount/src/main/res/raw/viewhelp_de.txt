@@ -35,7 +35,7 @@ $ 10
 $ 9
   %2. Einrichtung
   !
-  !Vor der erstmaligen Verwendung muss einmalig eine leere Datenbank (Basis-DB) angelegt oder importiert werden. Im ersten Fall werden zunächst die Meta-Daten zum Transekt eingegeben. 
+  !Vor der erstmaligen Verwendung sollten die App-Einstellungen den eigenen Wünschen angepasst werden. Dann muss einmalig eine leere Datenbank (Basis-DB) angelegt oder importiert werden. Im ersten Fall werden zunächst die Meta-Daten zum Transekt eingegeben. 
   !Dazu auf BEGEHUNG VORBEREITEN tippen und zumindest Transekt-Nr. und Kartierername eingeben und speichern. Die Meta-Daten können jederzeit weiter bearbeitet werden.
   ! 
   !Dann erzeugt man die Artenliste für den 1. Transektabschnitt. Aufruf mittels (+)-Button bzw. Funktion "Neuer Abschnitt" aus dem Menü der Seite "Liste Transektabschn."
@@ -69,12 +69,12 @@ $ 8
   %3. Benutzung
   !
   !Beginne mit TRANSEKTABSCHNITTE. Hier wird die Tabelle mit allen Transektabschnitten angezeigt.
-  !Wähle den zutreffenden Transektabschnitt. Es erscheint die Zählerseite für die erste Art in der sortierten Abschnittsliste. Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern. 
+  !Wähle den zutreffenden Transektabschnitt durch tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Abschnittsliste. Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern. 
   !Zum Zählen tippe jeweils auf den entsprechenden "+"-Button der gesichteten Kategorie (♂ od. ♀, ♂, ♀, Puppe, Raupe, Ei) der Art.
   !Mit den "-"-Buttons kann ggf. korrigiert werden.
   !Beim Speichern der Zählung werden ebenfalls Datum und Uhrzeit abschnitts-spezifisch gespeichert. Das Datum und ggf. eine Bemerkung zum Abschnitt erscheinen anschließend in der Liste der Transektabschnitte und zeigen deren erfolgreiche Begehung an.     
   _ 
-  !Mit dem Bleistift-Button in der Kopfzeile der Zählerseite wird die Abschnitt-editieren-Seite aufgerufen. Hier lassen sich Bemerkungen zum Abschnitt hinzufügen sowie Name und Art-Einträge editieren. Abschnittsbemerkungen werden unterhalb der Kopfzeile angezeigt.
+  !Mit dem Bleistift-Button in der Kopfzeile der Zählerseite (sowie mit Bleistift-Button pro Abschnitt in der Abschnittsübersicht) wird die Abschnitt-editieren-Seite aufgerufen. Hier lassen sich Bemerkungen zum Abschnitt hinzufügen sowie Name und Art-Einträge editieren. Abschnittsbemerkungen werden unterhalb der Kopfzeile angezeigt.
   _
   !Der Bleistift-Button unter der Spezies-Namenszeile auf der Zählerseite ruft die Art-editieren-Seite auf. Hier können Art-spezifische Bemerkungen hinzugefügt und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden.
   !Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen des eingestellten Zahl von Faltern Summer aller ♂ und ♀) im internen Zählbereich einen entsprechenden Hinweis anzeigen (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.

@@ -21,7 +21,7 @@ public class MetaDataSource
         DbHelper.M_CLOUDS,
         DbHelper.M_DATE,
         DbHelper.M_START_TM,
-        DbHelper.M_END_TM,
+        DbHelper.M_END_TM
     };
 
     public MetaDataSource(Context context)

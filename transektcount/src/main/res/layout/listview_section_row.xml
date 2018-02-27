@@ -13,8 +13,9 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="3.5"
+        android:layout_weight="3"
         android:id="@+id/txtTitle"
+        android:singleLine="true"
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -27,6 +28,7 @@
         android:layout_width="0dp"
         android:layout_weight="6"
         android:id="@+id/txtRemark"
+        android:singleLine="true"
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
@@ -42,7 +44,18 @@
         android:padding="4dp"
         android:id="@+id/txtDate"/>
 
-    <!-- Delete botton -->
+    <!-- Edit button -->
+    <ImageButton
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:id="@+id/editSection"
+        android:gravity="center_vertical|end"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_gravity="bottom|end|top"
+        android:layout_margin="1dp"/>
+
+    <!-- Delete button -->
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="0dp"

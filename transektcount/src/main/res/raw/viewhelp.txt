@@ -35,7 +35,7 @@ $ 10
 $ 9
   % 2. Set up
   !
-  ! Before initial use you must set up an empty basic database (Basic DB) or import and adapt an example Basic DB.
+  ! Before initial use you should adapt the settings to your liking. Then you must set up an empty basic database (Basic DB) or import and adapt an example Basic DB.
   ! In the first case, you enter the meta data of the transect. Click on PREPARE INSPECTION and enter at least the transect-No. and the inspectors name. 
   ! Save this by clicking the save icon. Changes can be applied at any time later.
   !
@@ -69,16 +69,14 @@ $ 8
   % 3. Usage
   !
   ! Start with TRANSECT SECTIONS.  
-  ! Select the relevant transect section. The counting page for the first species in the sorted section list appears.
+  ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
   ! As counting of butterflies ought to be distinguished between those within the imaginary count area and butterflies outside this area you have 2 separate sets of counters (Internal and External of Counting Area). 
   ! To count just tip on the appropriate (+)-Button of the corresponding species. The (-)-Buttons allows for corrections.
   ! Each count is stored immediately. While storing the count the current date and time will be stored either. The date and a possible section remark will then be shown in the list of sections and indicate a successful inspection of that section.
   _ 
-  ! The Pencil-Button in the app bar of the counting page opens the section editing page for adding remarks for the section and editing names of section and species. The section related remarks will be shown at the end of the species list and within the section list.
-  _ 
   ! To select another species just tip on the scroll down list on top of the counting page.
   _ 
-  ! The Pencil-Button in the app bar of the counting page opens the section editing page for adding remarks for the section, adding species or editing the names of section and species. The section related remarks will be shown on top of the species list and within the section list.
+  ! The Pencil-Button in the app bar of the counting page (as well as the Pencil-Button per section in the sections list) opens the section editing page for adding remarks for the section, adding species or editing the names of section and species. The section related remarks will be shown on top of the species list and within the section list.
   _ 
   ! The Pencil-Button beneath the species name row of the counting page opens the species editing page that lets you add remarks for each species and set its counters to any value. Here you may also set pop-up alerts which show up while reaching a set number of butterflies on the corresponding internal counters (sum of all ♂ and ♀) e.g. to realize already on site if a certain species is more abundant than on a previous inspection.
   _ 

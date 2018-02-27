@@ -38,7 +38,7 @@ import java.util.List;
  * uses optionsWidget.java and widget_options.xml
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Adapted and changed by wmstein since 18.02.2016
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {

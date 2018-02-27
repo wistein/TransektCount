@@ -17,7 +17,7 @@ public class HeadDataSource
     private String[] allColumns = {
         DbHelper.H_ID,
         DbHelper.H_TRANSECT_NO,
-        DbHelper.H_INSPECTOR_NAME,
+        DbHelper.H_INSPECTOR_NAME
     };
 
     public HeadDataSource(Context context)

@@ -31,7 +31,7 @@ import static java.lang.Long.toHexString;
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountSectionListAdapter";
+    private static final String TAG = "transektcountSectListAdapt";
     private Context context;
     private int layoutResourceId;
     private List<Section> sections = null;
@@ -70,6 +70,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         TextView txtTitle;
         TextView txtRemark;
         TextView txtDate;
+        ImageButton editSection;
         ImageButton deleteSection;
     }
 
@@ -92,10 +93,12 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             holder.txtTitle = (TextView) row.findViewById(R.id.txtTitle);
             holder.txtRemark = (TextView) row.findViewById(R.id.txtRemark);
             holder.txtDate = (TextView) row.findViewById(R.id.txtDate);
+            holder.editSection = (ImageButton) row.findViewById(R.id.editSection);
             holder.deleteSection = (ImageButton) row.findViewById(R.id.deleteSection);
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
             holder.txtRemark.setOnClickListener(mOnTitleClickListener);
+            holder.editSection.setOnClickListener(mOnEditClickListener);
             holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
 
             row.setTag(holder);
@@ -109,17 +112,18 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         holder.txtTitle.setTag(section);
         holder.txtRemark.setTag(section);
         holder.txtDate.setTag(section);
+        holder.editSection.setTag(section);
         holder.deleteSection.setTag(section);
         holder.txtTitle.setText(section.name);
         holder.txtRemark.setText(section.notes);
 
-        // Meldung contains Date as Long value
-        // Meld is Meldung as Hex-String  
-        Long Meldung = section.DatNum();
-        String Meld = toHexString(Meldung);
+        // LongDate contains Date as Long value
+        // HexDate is LongDate as Hex-String  
+        Long LongDate = section.DatNum();
+        String HexDate = toHexString(LongDate);
 
         // Provides Date of Section list, if any      
-        if (Meld.equals("0"))
+        if (HexDate.equals("0"))
         {
             holder.txtDate.setText("");
         }
@@ -169,6 +173,22 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
                     }
                 }, 100);
             }
+        }
+    };
+
+    // Edit section by clicking on edit button
+    private View.OnClickListener mOnEditClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(final View v)
+        {
+            getPrefs();
+            buttonSound();
+            
+            sct = (Section) v.getTag();
+            Intent intent = new Intent(getContext(), EditSectionActivity.class);
+            intent.putExtra("section_id", sct.id);
+            mContext.startActivity(intent);
         }
     };
 
