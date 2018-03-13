@@ -11,6 +11,13 @@
     </item>
 
     <item
+        android:id="@+id/menuTakePhoto"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="@string/takePhoto"
+        app:showAsAction="always">
+    </item>
+
+    <item
         android:id="@+id/menu_list1_item"
         android:icon="@drawable/ic_core_overflow"
         android:title=""

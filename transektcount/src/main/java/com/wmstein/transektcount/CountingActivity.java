@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.CursorIndexOutOfBoundsException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -13,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -53,10 +56,11 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
+ * Latest changes on 2018-03-11
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountCountingActivity";
+    private static final String TAG = "transektcountCountAct";
     private AlertDialog.Builder row_alert;
 
     private TransektCountApplication transektCount;
@@ -1434,8 +1438,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     // Call DummyActivity to overcome Spinner deficiency for repeated item
     public void dummy()
     {
-        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
+//        startActivity(intent);
     }
 
     // Save activity state for getting back to CountingActivity
@@ -1525,6 +1529,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.counting, menu);
         return true;
     }
@@ -1550,6 +1555,34 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             startActivity(intent);
             return true;
         }
+        else if (id == R.id.menuTakePhoto)
+        {
+            //todo: With default Camera app ok, but with OpenCamera does not write photo file 
+			//      after taking picture
+            Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> activities = packageManager.queryIntentActivities(camIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+            boolean isIntentSafe = activities.size() > 0;
+
+            if (isIntentSafe)
+            {
+                String title = getResources().getString(R.string.chooserTitle);
+                Intent chooser = Intent.createChooser(camIntent, title);
+                if (camIntent.resolveActivity(getPackageManager()) != null)
+                {
+                    try
+                    {
+                        startActivityForResult(chooser, 111);
+                    } catch (Exception e)
+                    {
+                        Toast.makeText(CountingActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            return true;
+        }
         else if (id == R.id.menuClone)
         {
             cloneSection();
@@ -1569,6 +1602,25 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         return super.onOptionsItemSelected(item);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 111)
+        {
+            if (resultCode == RESULT_OK)
+            {
+            }
+            else if (resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
+            }
+            else
+            {
+                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
+            }
+
+        }
+    }
+    
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         getPrefs();

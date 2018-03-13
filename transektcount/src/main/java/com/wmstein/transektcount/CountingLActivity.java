@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.CursorIndexOutOfBoundsException;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -13,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -58,10 +61,11 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
+ * Latest changes on 2018-03-11
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountCountingLActivity";
+    private static final String TAG = "transektcountCountLAct";
     private AlertDialog.Builder row_alert;
 
     private TransektCountApplication transektCount;
@@ -204,7 +208,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
     }
 
-
     // Used to load preferences at the start, and also when a change is detected.
     private void getPrefs()
     {
@@ -287,6 +290,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         // load and show the data
         if (MyDebug.LOG)
             Log.d(TAG, "Section ID: " + String.valueOf(section_id));
+        
         try
         {
             section = sectionDataSource.getSection(section_id);
@@ -1555,6 +1559,32 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             startActivity(intent);
             return true;
         }
+        else if (id == R.id.menuTakePhoto)
+        {
+            Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> activities = packageManager.queryIntentActivities(camIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+            boolean isIntentSafe = activities.size() > 0;
+
+            if (isIntentSafe)
+            {
+                String title = getResources().getString(R.string.chooserTitle);
+                Intent chooser = Intent.createChooser(camIntent, title);
+                if (camIntent.resolveActivity(getPackageManager()) != null)
+                {
+                    try
+                    {
+                        startActivityForResult(chooser, 112);
+                    } catch (Exception e)
+                    {
+                        Toast.makeText(CountingLActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            return true;
+        }
         else if (id == R.id.menuClone)
         {
             cloneSection();
@@ -1572,6 +1602,25 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 112)
+        {
+            if (resultCode == RESULT_OK)
+            {
+            }
+            else if (resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
+            }
+            else
+            {
+                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
+            }
+
+        }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)

@@ -88,6 +88,10 @@
     <string name="alertTitle">Count %1$d reached!</string>
     <string name="cloneButton">Duplicate Section List</string>
     <string name="newName">You must enter a name for the new list.</string>
+    <string name="noPhotoPermit">The right to take photos is missing.</string>
+    <string name="chooserTitle">Select photo app</string>
+    <string name="notTakenPhoto">Picture was not taken.</string>
+    <string name="takePhoto">Take photo</string>
     <string name="newCopyCreated">has been created!</string>
 
     <!-- CountingActivity Menu -->

@@ -36,10 +36,12 @@
   _
     ! Geeignet für Android 4.2 (JellyBean) oder neuer
 
-$ 2.1.2
-  % Version 2.1.2
-  _ 27.02.2018
+$ 2.1.3
+  % Version 2.1.3
+  _ 11.03.2018
   	* Funktion Abschnitt editieren in Abschnittsliste integriert
+  	* Kamera-Button in Menüleiste der Zählseite hinzugefügt
+  	* Fehler behoben
 
 $ 2.1.1
   % Version 2.1.1
