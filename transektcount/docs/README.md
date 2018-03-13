@@ -45,7 +45,7 @@ The development history is listed in History.md in /docs.
 
 Source file structure is for compilation by Android Studio.
 
-##### Availability
+#### Availability
 The app is available on F-Droid under  
 https://f-droid.org/packages/com.wmstein.transektcount/.
 
