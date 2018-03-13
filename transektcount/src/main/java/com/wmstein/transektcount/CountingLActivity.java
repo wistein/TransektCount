@@ -1608,18 +1608,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     {
         if (requestCode == 112)
         {
-            if (resultCode == RESULT_OK)
+            if (resultCode != RESULT_OK)
             {
+                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT).show();
             }
-            else if (resultCode == RESULT_CANCELED)
-            {
-                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
-            }
-            else
-            {
-                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT);
-            }
-
         }
     }
 
