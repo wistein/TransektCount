@@ -3,26 +3,61 @@
 TransektCount is an Android app that supports transect counters in nature preserving projects according to the Butterfly Monitoring Scheme methodology. 
 It allows a species-specific counting per transect section. 
 
-The integrated database is organized according to a single transect inspection. That means, a new (prepared and importable) basic database instance will be used per inspection.
+### Features
 
-Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
-The recorded data results (meta data, counts and remarks) may either be read on the smartphone or exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into MS Excel.
+- The integrated database is organized according to a single transect inspection. 
+That means, you will use a new database instance per inspection by importing a prepared basic Database.
+- Databases can be individually created and adapted within the app regarding meta data, transect sections 
+and expected butterfly species.
+- You may use an individual species list per transect section.
+- There is a prepared basic database with most of the expected species as a starting point in /docs.
+- Editor for the transect sections to setup or adapt its species
+- Editor for meta data to prepare an inspection
+- Editor for species remark or bulk count entry
+- Counting page with scroll menu to select species
+- Count input per internal/external counting area and here each with separate counters for ♂♀, ♂, ♀, 
+pupa, larva or egg.
+- Results are prepared for easy readout to transfer them to science4you entry masks.
+- Results are shown with meta data, remarks, totals and species results per section.
+- Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, 
+e.g. by importing a csv-file into a spreadsheet like MS Excel.
+- The integrated help contains a detailed userguide.
 
-The app demands for storage access permits which are needed for im-/exporting the counting data, the permit to write settings (to set screen brightness) and the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer). 
+### Prerequisites
+The app demands for 
+- storage access permit which is needed for im-/exporting the counting data, 
+- the permit to write settings for setting the screen brightness and 
+- the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer). 
 
-Before using the app, please, read the documentation (provided in German and English).
-There are a detailed description for setting up and using the app as well as sample basic databases (transektcount0.db, transektcount0_Ab01.db and respective English versions) provided under https://github.com/wistein/TransektCount/tree/master/transektcount/docs.
+The app is usable with Android version 4.2.2 or newer.
 
-The app is available on F-Droid. The apk-file 'transektcount-release.apk' is also provided under https://github.com/wistein/TransektCount/tree/master/transektcount/apk.
-Please note that both versions are compiled from the same sources but signed differently and so cannot be mutually updated.
+### General
+#### Documentation
+Documentation is provided under  
+https://github.com/wistein/TransektCount/tree/master/transektcount/docs.
 
-It is usable with Android version 4.2.2 or newer.
+Please read the userguide (provided in German and English) or consult its contents in the app's help 
+before using the app.  
+There are further documents e.g. for setting up and using the app as well as sample basic databases 
+(transektcount0.db, transektcount0_Ab01.db and respective English versions) provided under /docs.
+
+The development history is listed in History.md in /docs.
 
 Source file structure is for compilation by Android Studio.
 
+##### Availability
+The app is available on F-Droid under  
+https://f-droid.org/packages/com.wmstein.transektcount/.
+
+The apk-file 'transektcount-release.apk' is also provided in the GitHub repository under  
+https://github.com/wistein/TransektCount/tree/master/transektcount/apk.
+
+Please note that both versions are compiled from the same sources but signed differently and so cannot 
+be mutually updated.
+
 ### License:
 
-Copyright 2016-2017 Wilhelm Stein (wistein)
+Copyright 2016-2018 Wilhelm Stein (wistein)
 
 TransektCount is licensed under the Apache License, Version 2.0 (the "License");
 you may not use any of its files except in compliance with the License.

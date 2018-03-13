@@ -1,6 +1,16 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2017, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
+
+#### Version 2.1.4 (2018-03-13)
+- Edit section now also integrated in section list
+- Added a camera button in counting menu
+- Bug fixes
+
+#### Version 2.1.1 (2017-10-31)
+- Dev. environment adapted for Android Studio 3.0
+- Docs: German Introductary presentation added
+- Bug fixes
 
 #### Version 2.1.0 (2017-09-27)
 - Code adapted and compiled for Android 7.1
