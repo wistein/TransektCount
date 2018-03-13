@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -17,7 +19,7 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 213
+        versionCode 214
     }
 
     buildTypes {
