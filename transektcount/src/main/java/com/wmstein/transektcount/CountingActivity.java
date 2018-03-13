@@ -1438,8 +1438,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     // Call DummyActivity to overcome Spinner deficiency for repeated item
     public void dummy()
     {
-//        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
+        startActivity(intent);
     }
 
     // Save activity state for getting back to CountingActivity
