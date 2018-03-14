@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 2.1.4 (2018-03-13)
+#### Version 2.1.5 (2018-03-14)
 - Edit section now also integrated in section list
 - Added a camera button in counting menu
 - Bug fixes

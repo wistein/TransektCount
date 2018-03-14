@@ -36,11 +36,12 @@
   _
     ! Suitable for Android 4.2 (JellyBean) or newer
 
-$ 2.1.4
-  % Version 2.1.4
-  _ 2018-03-13
+$ 2.1.5
+  % Version 2.1.5
+  _ 2018-03-14
   	* Edit section now integrated in section list
   	* Added a camera button in counting menu
+  	* Added missing compiler configuration files to GitHub repository
   	* Bug fixes
 
 $ 2.1.1

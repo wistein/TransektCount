@@ -1576,7 +1576,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 {
                     try
                     {
-                        startActivityForResult(chooser, 112);
+                        startActivity(chooser);
                     } catch (Exception e)
                     {
                         Toast.makeText(CountingLActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
@@ -1602,17 +1602,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == 112)
-        {
-            if (resultCode != RESULT_OK)
-            {
-                Toast.makeText(this, getString(R.string.notTakenPhoto), Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
