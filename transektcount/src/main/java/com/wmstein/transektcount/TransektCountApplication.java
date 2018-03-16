@@ -18,14 +18,14 @@ import java.io.File;
 
 /**********************************************************
  * Based on BeeCountApplication.java by milo on 14/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Adopted by wmstein on 18.02.2016, last change on 16.03.2018
  */
 public class TransektCountApplication extends Application
 {
-    private static String TAG = "TransektCountApplication";
+    private static String TAG = "TransektCountAppl";
+    private static SharedPreferences prefs;
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;
-    private static SharedPreferences prefs;
     int width;
     int height;
 
