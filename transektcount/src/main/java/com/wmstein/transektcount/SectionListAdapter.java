@@ -10,6 +10,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,8 @@ import static java.lang.Long.toHexString;
 /*********************************************************
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
- * Changes and additions for TransektCount by wmstein since 18.02.2016
+ * Adopted with additions for TransektCount by wmstein since 2016-02-18
+ * Last edited on 2018-03-18
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -74,8 +76,9 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         ImageButton deleteSection;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
         View row = convertView;
         SectionHolder holder;

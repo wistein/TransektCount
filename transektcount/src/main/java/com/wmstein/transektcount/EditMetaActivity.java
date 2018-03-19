@@ -33,7 +33,8 @@ import java.util.Locale;
 
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
- * Created by wmstein on 31.03.2016.
+ * Created by wmstein on 2016-03-31,
+ * last edited on 2018-03-18
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -91,7 +92,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
-        assert editHead_screen != null;
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
@@ -315,7 +315,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         }
 
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        assert editHead_screen != null;
         editHead_screen.setBackground(null);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);

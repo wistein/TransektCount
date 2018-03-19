@@ -103,74 +103,63 @@ public class CountingWidget_i extends RelativeLayout
     // Count up/down and set value on screen
     public void countUpf1i()
     {
-        count.increase_f1i(); // increase count.count_f1i
-        countCountf1i.setText(String.valueOf(count.count_f1i));
+        // increase count_f1i
+        countCountf1i.setText(String.valueOf(count.increase_f1i()));
     }
 
     public void countDownf1i()
     {
-        count.safe_decrease_f1i();
-        countCountf1i.setText(String.valueOf(count.count_f1i));
+        countCountf1i.setText(String.valueOf(count.safe_decrease_f1i()));
     }
 
     public void countUpf2i()
     {
-        count.increase_f2i();
-        countCountf2i.setText(String.valueOf(count.count_f2i));
+        countCountf2i.setText(String.valueOf(count.increase_f2i()));
     }
 
     public void countDownf2i()
     {
-        count.safe_decrease_f2i();
-        countCountf2i.setText(String.valueOf(count.count_f2i));
+        countCountf2i.setText(String.valueOf(count.safe_decrease_f2i()));
     }
 
     public void countUpf3i()
     {
-        count.increase_f3i();
-        countCountf3i.setText(String.valueOf(count.count_f3i));
+        countCountf3i.setText(String.valueOf(count.increase_f3i()));
     }
 
     public void countDownf3i()
     {
-        count.safe_decrease_f3i();
-        countCountf3i.setText(String.valueOf(count.count_f3i));
+        countCountf3i.setText(String.valueOf(count.safe_decrease_f3i()));
     }
 
     public void countUppi()
     {
-        count.increase_pi();
-        countCountpi.setText(String.valueOf(count.count_pi));
+        countCountpi.setText(String.valueOf(count.increase_pi()));
     }
 
     public void countDownpi()
     {
-        count.safe_decrease_pi();
-        countCountpi.setText(String.valueOf(count.count_pi));
+        countCountpi.setText(String.valueOf(count.safe_decrease_pi()));
     }
 
     public void countUpli()
     {
-        count.increase_li();
-        countCountli.setText(String.valueOf(count.count_li));
+        countCountli.setText(String.valueOf(count.increase_li()));
     }
 
     public void countDownli()
     {
-        count.safe_decrease_li();
-        countCountli.setText(String.valueOf(count.count_li));
+        countCountli.setText(String.valueOf(count.safe_decrease_li()));
     }
 
     public void countUpei()
     {
-        count.increase_ei();
-        countCountei.setText(String.valueOf(count.count_ei));
+        countCountei.setText(String.valueOf(count.increase_ei()));
     }
 
     public void countDownei()
     {
-        count.safe_decrease_ei();
-        countCountei.setText(String.valueOf(count.count_ei));
+        countCountei.setText(String.valueOf(count.safe_decrease_ei()));
     }
 
 }

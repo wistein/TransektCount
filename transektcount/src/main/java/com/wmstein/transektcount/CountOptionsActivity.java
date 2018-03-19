@@ -38,7 +38,8 @@ import java.util.List;
  * uses optionsWidget.java and widget_options.xml
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
- * Adapted and changed by wmstein since 18.02.2016
+ * Adapted and changed by wmstein since 2016-02-18,
+ * last edited on 2018-03-18
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -98,7 +99,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        assert counting_screen != null;
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
 
@@ -140,7 +140,15 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         alertDataSource.open();
 
         count = countDataSource.getCountById(count_id);
-        getSupportActionBar().setTitle(count.name);
+
+        try
+        {
+            getSupportActionBar().setTitle(count.name);
+        } catch (NullPointerException e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "Problem setting title bar: " + e.toString());
+        }
 
         List<Alert> alerts = alertDataSource.getAllAlertsForCount(count_id);
 
@@ -412,7 +420,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = (ScrollView) findViewById(R.id.count_options);
-        assert counting_screen != null;
         counting_screen.setBackground(null);
         brightPref = prefs.getBoolean("pref_bright", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);

@@ -1,6 +1,12 @@
 package com.wmstein.transektcount;
 
-/**
+import java.io.Closeable;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+
+/*************************************************************************
  * Copyright 2015 Bytecode Pty Ltd.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +20,14 @@ package com.wmstein.transektcount;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-import java.io.Closeable;
-import java.io.Flushable;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-
-/******************************************************************
- * Based on "A very simple CSV writer" by
  *
+ * Based on "A very simple CSV writer" by
  * @author Glen Smith
- *         <p>
- *         The following code is an extraction of the library of Glen Smith
- *         and provides only the functions needed here.
- *         Modified by wmstein
+ * 
+ * Reduced to needed functions with modifications for TourCount by wmstein
+ * Last edited on 2018-03-18
  */
+
 public class CSVWriter implements Closeable, Flushable
 {
     //The character used for escaping quotes.

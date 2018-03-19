@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.io.File;
 
 /**********************************************************
+ * Handle background image and prefs 
+ * 
  * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, last change on 16.03.2018
  */
@@ -75,15 +77,15 @@ public class TransektCountApplication extends Application
         width = size.x;
         height = size.y;
 
-        if (backgroundPref.equals("none"))
+        switch (backgroundPref)
         {
+        case "none":
             // black screen
             bMap = null;
             bMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             bMap.eraseColor(Color.BLACK);
-        }
-        else if (backgroundPref.equals("custom"))
-        {
+            break;
+        case "custom":
             if (!(pictPref.equals("")))
             {
                 if (new File(pictPref).isFile())
@@ -104,7 +106,8 @@ public class TransektCountApplication extends Application
                         if (screenOrientL)
                         {
                             bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                        } else
+                        }
+                        else
                         {
                             bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
                         }
@@ -116,7 +119,8 @@ public class TransektCountApplication extends Application
                     if (screenOrientL)
                     {
                         bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                    } else
+                    }
+                    else
                     {
                         bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
                     }
@@ -128,21 +132,23 @@ public class TransektCountApplication extends Application
                 if (screenOrientL)
                 {
                     bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                } else
+                }
+                else
                 {
                     bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
                 }
             }
-        }
-        else if (backgroundPref.equals("default"))
-        {
+            break;
+        case "default":
             if (screenOrientL)
             {
                 bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-            } else
+            }
+            else
             {
                 bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
             }
+            break;
         }
 
         bMapDraw = new BitmapDrawable(this.getResources(), bMap);

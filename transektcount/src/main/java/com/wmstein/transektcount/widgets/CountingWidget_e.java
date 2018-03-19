@@ -103,74 +103,62 @@ public class CountingWidget_e extends RelativeLayout
     // Count up/down and set value on screen
     public void countUpf1e()
     {
-        count.increase_f1e();
-        countCountf1e.setText(String.valueOf(count.count_f1e));
+        countCountf1e.setText(String.valueOf(count.increase_f1e()));
     }
 
     public void countDownf1e()
     {
-        count.safe_decrease_f1e();
-        countCountf1e.setText(String.valueOf(count.count_f1e));
+        countCountf1e.setText(String.valueOf(count.safe_decrease_f1e()));
     }
 
     public void countUpf2e()
     {
-        count.increase_f2e();
-        countCountf2e.setText(String.valueOf(count.count_f2e));
+        countCountf2e.setText(String.valueOf(count.increase_f2e()));
     }
 
     public void countDownf2e()
     {
-        count.safe_decrease_f2e();
-        countCountf2e.setText(String.valueOf(count.count_f2e));
+        countCountf2e.setText(String.valueOf(count.safe_decrease_f2e()));
     }
 
     public void countUpf3e()
     {
-        count.increase_f3e();
-        countCountf3e.setText(String.valueOf(count.count_f3e));
+        countCountf3e.setText(String.valueOf(count.increase_f3e()));
     }
 
     public void countDownf3e()
     {
-        count.safe_decrease_f3e();
-        countCountf3e.setText(String.valueOf(count.count_f3e));
+        countCountf3e.setText(String.valueOf(count.safe_decrease_f3e()));
     }
 
     public void countUppe()
     {
-        count.increase_pe();
-        countCountpe.setText(String.valueOf(count.count_pe));
+        countCountpe.setText(String.valueOf(count.increase_pe()));
     }
 
     public void countDownpe()
     {
-        count.safe_decrease_pe();
-        countCountpe.setText(String.valueOf(count.count_pe));
+        countCountpe.setText(String.valueOf(count.safe_decrease_pe()));
     }
 
     public void countUple()
     {
-        count.increase_le();
-        countCountle.setText(String.valueOf(count.count_le));
+        countCountle.setText(String.valueOf(count.increase_le()));
     }
 
     public void countDownle()
     {
-        count.safe_decrease_le();
-        countCountle.setText(String.valueOf(count.count_le));
+        countCountle.setText(String.valueOf(count.safe_decrease_le()));
     }
 
     public void countUpee()
     {
-        count.increase_ee();
-        countCountee.setText(String.valueOf(count.count_ee));
+        countCountee.setText(String.valueOf(count.increase_ee()));
     }
 
     public void countDownee()
     {
-        count.safe_decrease_ee();
-        countCountee.setText(String.valueOf(count.count_ee));
+        countCountee.setText(String.valueOf(count.safe_decrease_ee()));
     }
 
 }

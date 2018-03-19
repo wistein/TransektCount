@@ -5,6 +5,7 @@
 package com.wmstein.transektcount.widgets;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,18 +51,19 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent)
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent)
     {
-        return getCustomView(position, convertView, parent);
+        return getCustomView(position, parent);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
-        return getCustomView(position, convertView, parent);
+        return getCustomView(position, parent);
     }
 
-    public View getCustomView(int position, View convertView, ViewGroup parent)
+    private View getCustomView(int position, ViewGroup parent)
     {
         View row = inflater.inflate(R.layout.widget_counting_head1, parent, false);
 

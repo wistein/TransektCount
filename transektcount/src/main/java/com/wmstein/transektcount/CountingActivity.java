@@ -56,7 +56,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Latest changes on 2018-03-11
+ * Latest changes on 2018-03-18
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -195,11 +195,17 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
+            try
             {
-                mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "WAKE LOCK");
+                if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
+                {
+                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "WAKE LOCK");
+                }
+                enableProximitySensor();
+            } catch (Exception e)
+            {
+                // do nothing
             }
-            enableProximitySensor();
         }
     }
 
@@ -484,7 +490,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            disableProximitySensor(true);
+            disableProximitySensor();
         }
 
         // save section id in case it is lost on pause
@@ -570,15 +576,17 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
      */
     public void countUpf1i(View view)
     {
-        dummy(); // start dummy activity to fix spinner's 1. misbehaviour: 
-        // bug of spinner: no action by 1st click when previous species selected again
+        // run dummy activity to fix spinner's 1. misbehaviour: 
+        //  no action by 1st click when previous species selected again
+        dummy();
+        
         int count_id = Integer.valueOf(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
-            // Desperate workaround for 2. crazy spinner behaviour: 
-            // When returning from species that got no count to previous
-            // selected species: 1st count button press is ignored,
+            // Desperate workaround for spinner's 2. misbehaviour: 
+            // When returning from species that got no count to previous selected species: 
+            // 1st count button press is ignored,
             // so use button sound only for 2nd press when actually counted
             // ToDo: complete fix instead of workaround but up to now no idea.
             oldCount = count.count_f1i;
@@ -1547,7 +1555,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             // check for API-Level >= 21
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                disableProximitySensor(true);
+                disableProximitySensor();
             }
 
             Intent intent = new Intent(CountingActivity.this, EditSectionActivity.class);
@@ -1557,8 +1565,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
         else if (id == R.id.menuTakePhoto)
         {
-            //todo: With default Camera app ok, but with OpenCamera does not write photo file 
-			//      after taking picture
             Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
             PackageManager packageManager = getPackageManager();
@@ -1722,7 +1728,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     // Check for API-Level 21 or above is done previously
     @SuppressLint("NewApi")
-    private void disableProximitySensor(boolean waitForFarState)
+    private void disableProximitySensor()
     {
         if (mProximityWakeLock == null)
         {
@@ -1730,7 +1736,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
         if (mProximityWakeLock.isHeld())
         {
-            int flags = waitForFarState ? PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY : 0;
+            int flags = PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY;
             mProximityWakeLock.release(flags);
         }
     }

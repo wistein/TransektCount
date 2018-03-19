@@ -380,48 +380,6 @@ public class CountDataSource
     }
 
     // Used by CountingActivity
-    public List<Count> getAllCountsForSectionSrtName(int section_id)
-    {
-        List<Count> counts = new ArrayList<>();
-
-        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
-            + " WHERE " + DbHelper.C_SECTION_ID + " = " + section_id + " order by "
-            + DbHelper.C_NAME, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Count count = cursorToCount(cursor);
-            counts.add(count);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return counts;
-    }
-
-    // Used by CountingActivity
-    public List<Count> getAllCountsForSectionSrtCode(int section_id)
-    {
-        List<Count> counts = new ArrayList<>();
-
-        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
-            + " WHERE " + DbHelper.C_SECTION_ID + " = " + section_id + " order by "
-            + DbHelper.C_CODE, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            Count count = cursorToCount(cursor);
-            counts.add(count);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        return counts;
-    }
-
-    // Used by CountingActivity
     public String[] getAllIdsForSection(int section_id)
     {
         Cursor cursor = database.query(COUNT_TABLE, allColumns,

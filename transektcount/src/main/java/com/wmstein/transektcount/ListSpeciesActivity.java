@@ -27,11 +27,12 @@ import java.util.List;
 
 /****************************************************
  * ListSpeciesActivity shows list of counting results
- * Created by wmstein on 15.03.2016
+ * Created by wmstein on 2016-03-15,
+ * last edited on 2018-03-18
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountListSpeciesActivity";
+    private static String TAG = "transektcountListSpecAct"; // for future use
     TransektCountApplication transektCount;
     SharedPreferences prefs;
 
@@ -96,7 +97,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         }
 
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
-        assert listSpec_screen != null;
         listSpec_screen.setBackground(transektCount.getBackground());
 
         //noinspection ConstantConditions
@@ -313,7 +313,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
-        assert listSpec_screen != null;
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);

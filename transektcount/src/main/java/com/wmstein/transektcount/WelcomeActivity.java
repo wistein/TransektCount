@@ -53,7 +53,8 @@ import sheetrock.panda.changelog.ViewHelp;
  * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
  * <p/>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
- * Changes and additions for TransektCount by wmstein since 18.02.2016
+ * Changes and additions for TransektCount by wmstein since 2016-02-18,
+ * last edited on 2018-03-18
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -111,8 +112,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
 
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-
-        assert baseLayout != null;
         baseLayout.setBackground(transektCount.getBackground());
 
         Head head;
@@ -312,7 +311,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
-        assert baseLayout != null;
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");

@@ -39,13 +39,14 @@ import java.util.List;
  * Uses CountEditWidget.java, EditTitleWidget.java, EditNotesWidget.java,
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Changed by wmstein since 2016-02-16,
+ * last edited on 2018-03-18
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     TransektCountApplication transektCount;
     SharedPreferences prefs;
-    public static String TAG = "TransektCountEditSectionActivity";
+    public static String TAG = "TransektCountEditSectAct";
 
     // the actual data
     Section section;
@@ -142,7 +143,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        assert counting_screen != null;
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
     }
@@ -617,7 +617,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        assert counting_screen != null;
         counting_screen.setBackground(null);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);

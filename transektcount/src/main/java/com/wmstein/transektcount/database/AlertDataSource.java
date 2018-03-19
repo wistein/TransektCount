@@ -40,7 +40,7 @@ public class AlertDataSource
         dbHandler.close();
     }
 
-    public Alert createAlert(int count_id, int alert_value, String alert_text)
+    public void createAlert(int count_id, int alert_value, String alert_text)
     {
         ContentValues values = new ContentValues();
         values.put(DbHelper.A_COUNT_ID, count_id);
@@ -51,10 +51,7 @@ public class AlertDataSource
         Cursor cursor = database.query(DbHelper.ALERT_TABLE,
             allColumns, DbHelper.A_ID + " = " + insertId, null,
             null, null, null);
-        cursor.moveToFirst();
-        Alert newAlert = cursorToAlert(cursor);
         cursor.close();
-        return newAlert;
     }
 
     private Alert cursorToAlert(Cursor cursor)

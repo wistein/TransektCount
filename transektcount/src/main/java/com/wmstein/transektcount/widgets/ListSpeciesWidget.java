@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
  * ListSpeciesWidget shows count info area for a species
  * ListSpeciesActivity shows the result page
  * Created for TransektCount by wmstein on 15.03.2016
- * and modifications till 07.01.2017
+ * Last edited on 2018-03-18
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -41,19 +41,6 @@ public class ListSpeciesWidget extends RelativeLayout
     private TextView specCountle;
     private TextView specCountee;
 
-    public int spec_sectionid;
-    public int spec_countf1i;
-    public int spec_countf2i;
-    public int spec_countf3i;
-    public int spec_countpi;
-    public int spec_countli;
-    public int spec_countei;
-    public int spec_countf1e;
-    public int spec_countf2e;
-    public int spec_countf3e;
-    public int spec_countpe;
-    public int spec_countle;
-    public int spec_countee;
     public Section section;
 
     public ListSpeciesWidget(Context context, AttributeSet attrs)
@@ -120,80 +107,67 @@ public class ListSpeciesWidget extends RelativeLayout
     //Parameters spec_* for use in ListSpeciesActivity
     public int getSpec_sectionid(Count spec)
     {
-        spec_sectionid = spec.section_id;
-        return spec_sectionid;
+        return spec.section_id;
     }
 
     public int getSpec_countf1i(Count spec)
     {
-        spec_countf1i = spec.count_f1i;
-        return spec_countf1i;
+        return spec.count_f1i;
     }
 
     public int getSpec_countf2i(Count spec)
     {
-        spec_countf2i = spec.count_f2i;
-        return spec_countf2i;
+        return spec.count_f2i;
     }
 
     public int getSpec_countf3i(Count spec)
     {
-        spec_countf3i = spec.count_f3i;
-        return spec_countf3i;
+        return spec.count_f3i;
     }
 
     public int getSpec_countpi(Count spec)
     {
-        spec_countpi = spec.count_pi;
-        return spec_countpi;
+        return spec.count_pi;
     }
 
     public int getSpec_countli(Count spec)
     {
-        spec_countli = spec.count_li;
-        return spec_countli;
+        return spec.count_li;
     }
 
     public int getSpec_countei(Count spec)
     {
-        spec_countei = spec.count_ei;
-        return spec_countei;
+        return spec.count_ei;
     }
 
     public int getSpec_countf1e(Count spec)
     {
-        spec_countf1e = spec.count_f1e;
-        return spec_countf1e;
+        return spec.count_f1e;
     }
 
     public int getSpec_countf2e(Count spec)
     {
-        spec_countf2e = spec.count_f2e;
-        return spec_countf2e;
+        return spec.count_f2e;
     }
 
     public int getSpec_countf3e(Count spec)
     {
-        spec_countf3e = spec.count_f3e;
-        return spec_countf3e;
+        return spec.count_f3e;
     }
 
     public int getSpec_countpe(Count spec)
     {
-        spec_countpe = spec.count_pe;
-        return spec_countpe;
+        return spec.count_pe;
     }
 
     public int getSpec_countle(Count spec)
     {
-        spec_countle = spec.count_le;
-        return spec_countle;
+        return spec.count_le;
     }
 
     public int getSpec_countee(Count spec)
     {
-        spec_countee = spec.count_ee;
-        return spec_countee;
+        return spec.count_ee;
     }
 
     public void setImage(Count newcount)

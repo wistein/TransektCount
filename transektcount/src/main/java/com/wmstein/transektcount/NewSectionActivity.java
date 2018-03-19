@@ -28,7 +28,8 @@ import java.util.List;
  * uses activity_new_section
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
- * changed by wmstein on 18.02.2016
+ * changed by wmstein since 2016-02-16,
+ * last edited on 2018-03-18
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -201,7 +202,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
 
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
-        assert baseLayout != null;
         baseLayout.setBackground(null);
         if (screenOrientL)
         {
