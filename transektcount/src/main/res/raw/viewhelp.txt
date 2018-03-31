@@ -35,11 +35,12 @@ $ 10
 $ 9
   % 2. Set up
   !
-  ! Before initial use you should adapt the settings to your liking. Then you must set up an empty basic database (Basic DB) or import and adapt an example Basic DB.
-  ! In the first case, you enter the meta data of the transect. Click on PREPARE INSPECTION and enter at least the transect-No. and the inspectors name. 
-  ! Save this by clicking the save icon. Changes can be applied at any time later.
-  !
-  ! To create a species list for the first transect section from scratch click the (+)-Button in the head line of “List of Transect Sections”, enter a name and click SAVE AND EDIT. Use the (+)-Button in the head line of the section editor to add species, each with name and code (5 digits, including leading zeros). When finished click SAVE SECTION or the save icon.
+  ! Before initial use you should adapt the settings to your liking. Then you should edit the prepared species list of the 1. transect section of the internal database with the section editor. Add further species by clicking the (+)-Button in the head line of “Transect Sections”. 
+  _ 
+  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect. Examples for download are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to your home directory /storage/emulated/0 (or /sdcard0 or /sdcard0, it differs between smartphone models and Android versions) and import and edit them suitably.
+  _ 
+  ! To edit the species list of the first section click the Edit-Button in the section line of “Transect Sections”. Use the (+)-Button in the head line of the section editor to add species, each with name and code (5 digits, including leading zeros). When finished click SAVE SECTION or the save icon. This list can be changed or supplemented anytime afterwards.
+  _ 
   ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering according to Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>). 
   _ 
   ! Sect 01      (example part of a section list)
@@ -50,31 +51,30 @@ $ 9
   ! Pieris na./ra.-compl.	07000*
   ! ...
   _ 
-  ! The appended *-symbol at code 07000 marks a species group whose code advisably should be the largest code of its members.
-  ! This list can be changed or supplemented anytime afterwards.
+  ! The appended *-symbol at code 07000 marks a species complex whose code advisably should be the largest code of its members. 
   _ 
-  ! Once this list is complete, you can copy it for all remaining transect sections (section counting page menu: "Duplicate Section List") and name each accordingly 
+  ! In the next step, you could enter some meta data like transect-No. or inspectors name. Click on PREPARE INSPECTION and save the input by clicking the save icon. 
+  _ 
+  ! Once this list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Duplicate Section List" and name each accordingly 
   ! (e.g.: Sect 02, Sect 03,...).
   _ 
-  ! Alternatively, you can download an example Basic DB from <a href="https://github.com/wistein/TransektCount/tree/master/transektcount/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/transektcount/docs</a>, copy it to your home directory and import and edit it suitably.
+  ! When you have created the section lists for all transect sections and entered the main meta data, the database is ready for export as a "Basic Database".
+  ! For that you find the function "Export as Basic DB" in the menu of the starting page.
+  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) in your home directory.
+  ! The Basic DB does not contain any inspection related data and serves als a template for future inspections. It can also be exported again later, e.g. after changes of lists. Exporting as Basic DB ignores all counts, notes and inspection-related meta data.    
   _ 
-  ! When you have created the section lists for all transect sections, the database is ready for export as a "Basic Database".
-  ! Therefore you find the function "Export as Basic DB" in the menu of the starting page.
-  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) within the home directory /sdcard (or /sdcard0, or /storage/emulated/0, it differs between smartphone models and Android versions).
-  ! The Basic Database "transektcount0.db" will be used as a template for further transect inspections in future. You may export the Basic DB anytime later, e.g. when you modified its structure or inserted new species. All inspection related data will be ignored for an export as Basic DB.
-  _ 
-  ! You may set up more features in the settings menu, like left-hand use or button sound.
+  ! To prepare a certain monitoring inspection you will only need to enter the inspection-specific meta data.  
   
 $ 8
   % 3. Usage
   !
-  ! Start with TRANSECT SECTIONS.  
+  ! Start with TRANSECT SECTIONS. The screen will show the table with all sections. 
   ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
   ! As counting of butterflies ought to be distinguished between those within the imaginary count area and butterflies outside this area you have 2 separate sets of counters (Internal and External of Counting Area). 
   ! To count just tip on the appropriate (+)-Button of the corresponding species. The (-)-Buttons allows for corrections.
   ! Each count is stored immediately. While storing the count the current date and time will be stored either. The date and a possible section remark will then be shown in the list of sections and indicate a successful inspection of that section.
   _ 
-  ! To select another species just tip on the scroll down list on top of the counting page.
+  ! To select another species just tip on the butterfly icon of the scroll down list on top of the counting page.
   _ 
   ! The Pencil-Button in the app bar of the counting page (as well as the Pencil-Button per section in the sections list) opens the section editing page for adding remarks for the section, adding species or editing the names of section and species. The section related remarks will be shown on top of the species list and within the section list.
   _ 
@@ -95,34 +95,31 @@ $ 7
   !
   ! The menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
   _ 
-  ! The "Settings" page can be reached from some pages of the app.
-  ! Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page. 
+  ! The "Settings" page can be reached from some pages of the app. Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page. 
   ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
-  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB from "/sdcard/transektcount0.db". 
+  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB. 
   _ 
-  ! Internally, TransektCount stores the data always in a single, equally named SQlite-DB file in the app's own storage area. As this file cannot be read or changed directly by the user, exporting the data to files in a user reachable storage area is necessary.
+  ! Android-specifically, TransektCount stores the data always in a single, equally named SQlite-DB file in the app's own storage area. As this file cannot be read or changed directly by the user, exporting the data to files in a user reachable storage area is necessary.
   _ 
   ! By “Export Basic DB” you may export the DB as empty "Basic DB" which is reasonable, when to take into account changes of the transect structure or new species you may have entered.
   _ 
-  ! "Import Basic DB" always reads die file "/sdcard/transektcount0.db"
+  ! "Import Basic DB" always reads die file "transektcount0.db" from /storage/emulated/0.
   _ 
-  ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects. To achieve this you may create transect-specific Basic DBs which may be renamed by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
+  ! Exporting the current database (Export DB) writes a copy of the complete DB to /storage/emulated/0/transektcount_YYYY-MM-DD_hhmmss.db. For your own purpose you can rename the exported TransektCount DB files by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
   _ 
-  ! Exporting the current database (Export DB) writes a copy of the complete DB to /sdcard/transektcount_YYYY-MM-DD_hhmmss.db. For your own purpose you can rename the exported TransektCount DB files within the previously mentioned conventions.
+  ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects. 
   _ 
-  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /sdcard/transektcount_YYYY-MM-DD_hhmmss.csv.
+  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /storage/emulated/0/transektcount_YYYY-MM-DD_hhmmss.csv.
   _ 
-  ! Under "App Info" you may find the email address of the author, the history of the app and the license note.
+  ! The (+)-Button in the menu of the "Transect Sections" page allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect. But a better substitute for this might be to copy an existing section list and adapt it.
   _ 
-  ! The menu of the "List of Transect Sections" allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect.
-  _ 
-  ! The counting page of a selected section provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
+  ! The counting page provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
   ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This saves energy, prohibits unwanted input and recalls the app into its current state immediately.
   _ 
-  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files to a PC. 
+  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files from /storage/emulated/0 to a PC. 
   ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the db-file.
   _ 
   ! You may import the .csv-file as a

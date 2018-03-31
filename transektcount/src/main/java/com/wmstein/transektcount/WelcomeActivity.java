@@ -24,6 +24,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
+import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -111,8 +112,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
+
+        // Test if database has correct version to avoid crash after update
+        CountDataSource countDataSource = new CountDataSource(this);
+        countDataSource.open();
+        metaDataSource = new MetaDataSource(this);
+        metaDataSource.open();
+        try
+        {
+            countDataSource.testCountDB();
+            metaDataSource.testMetaDB();
+        } catch (Exception e)
+        {
+            exportTestDb(); // export old db to transektcount_test.db
+            importTestDb(); // re-import transektcount_test.db with version control
+            deleteTestDb(); // delete transektcount_test.db
+        }
+        countDataSource.close();
+        metaDataSource.close();
 
         Head head;
         headDataSource = new HeadDataSource(this);
@@ -310,7 +329,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
-        ScrollView baseLayout = (ScrollView) findViewById(R.id.baseLayout);
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");
@@ -348,6 +367,114 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public void onStop()
     {
         super.onStop();
+    }
+
+    // Exports DB for version conversion
+    @SuppressLint({"SdCardPath", "LongLogTag"})
+    private void exportTestDb()
+    {
+        String srcPath = "/data/data/com.wmstein.transektcount/databases";
+        String dstPath = "/data/data/com.wmstein.transektcount/files";
+        try
+        {
+            srcPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "srcPath error: " + e.toString());
+        }
+        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
+
+        try
+        {
+            dstPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "dstPath error: " + e.toString());
+        }
+        dstPath = dstPath.substring(0, dstPath.lastIndexOf("/")) + "/files";
+
+        infile = new File(srcPath + "/transektcount.db");
+        outfile = new File(dstPath + "/transektcount_test" + ".db");
+
+        try
+        {
+            copy(infile, outfile);
+        } catch (IOException e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "Failed to copy database");
+            Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**************************************************************************************************/
+    @SuppressLint({"SdCardPath", "LongLogTag"})
+    // created by wmstein
+    private void importTestDb()
+    {
+        // reload file after negativ version test for conversion
+        String srcPath = "/data/data/com.wmstein.transektcount/files";
+        try
+        {
+            srcPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "srcPath error: " + e.toString());
+        }
+
+        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/files";
+
+        String destPath = "/data/data/com.wmstein.transektcount/databases";
+        try
+        {
+            destPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "destPath error: " + e.toString());
+        }
+
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
+
+        infile = new File(destPath + "/transektcount_test.db");
+        outfile = new File(destPath + "/transektcount.db");
+
+        try
+        {
+            copy(infile, outfile);
+        } catch (IOException e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "Failed to import database");
+        }
+    }
+
+    private void deleteTestDb()
+    {
+        @SuppressLint("SdCardPath")
+        String destPath = "/data/data/com.wmstein.transektcount/files";
+        try
+        {
+            destPath = getFilesDir().getPath();
+        } catch (Exception e)
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "destPath error: " + e.toString());
+        }
+
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/files";
+        infile = new File(destPath + "/transektcount_test.db");
+
+        boolean d0 = false;
+        // delete test db
+        d0 = infile.delete();
+        if (d0)
+        {
+            Toast.makeText(this, getString(R.string.convDb), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**************************************************************************
@@ -434,7 +561,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Head head;
         Meta meta;
         String transNo, inspecName;
-        int temp, wind, clouds;
+        int tempe, wind, clouds;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
         int total;
@@ -505,7 +632,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 transNo = head.transect_no;
                 inspecName = head.inspector_name;
                 meta = metaDataSource.getMeta();
-                temp = meta.temp;
+                tempe = meta.tempe;
                 wind = meta.wind;
                 clouds = meta.clouds;
                 date = meta.date;
@@ -559,7 +686,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         transNo,
                         inspecName,
-                        String.valueOf(temp),
+                        String.valueOf(tempe),
                         String.valueOf(wind),
                         String.valueOf(clouds),
                         date,
@@ -961,7 +1088,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.META_TABLE + " SET "
-                + DbHelper.M_TEMP + " = 0, "
+                + DbHelper.M_TEMPE + " = 0, "
                 + DbHelper.M_WIND + " = 0, "
                 + DbHelper.M_CLOUDS + " = 0, "
                 + DbHelper.M_DATE + " = '', "

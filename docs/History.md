@@ -2,7 +2,15 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 2.1.5 (2018-03-14)
+#### Version 3.0.0 (2018-03-30)
+- Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
+- First use now creates a direct usable internal DB with common european species
+- Small optimizations on the results page
+- Database version 3 (change of a column name for compiler warning) 
+- Documentation adapted
+- Bug fixes
+
+#### Version 2.1.6 (2018-03-19)
 - Edit section now also integrated in section list
 - Added a camera button in counting menu
 - Bug fixes

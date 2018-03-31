@@ -38,7 +38,6 @@
             android:orientation="horizontal">
 
             <!-- Name of transect section txtSectName -->
-            <!-- android:textColor="#FFFFFF" is controlled by ListSpeciesWidget.java -->
             <TextView
                 android:id="@+id/txtSectName"
                 android:layout_width="0dp"
@@ -47,7 +46,7 @@
                 android:gravity="start|center_vertical"
                 android:padding="4sp"
                 android:textSize="17sp"
-                android:textColor="#BFFFFF"
+                android:textColor="#ffff80"
                 android:textStyle="bold"/>
 
             <Space
@@ -87,13 +86,13 @@
             android:orientation="horizontal">
 
             <!-- Remark of transect section -->
-            <!-- android:textColor="#FFFFFF" is controlled by ListSpeciesWidget.java -->
             <TextView
                 android:id="@+id/txtSectRem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5.8"
                 android:gravity="start|top"
+                android:textColor="#ffff80"
                 android:padding="4sp"
                 android:textSize="14sp"/>
 
@@ -103,7 +102,6 @@
                 android:layout_weight="0.4"/>
 
             <!-- Remark of species -->
-            <!-- android:textColor="#FFFFFF" is controlled by ListSpeciesWidget.java -->
             <TextView
                 android:id="@+id/txtSpecRem"
                 android:layout_width="0dp"
@@ -111,7 +109,7 @@
                 android:layout_weight="5.8"
                 android:gravity="start|top"
                 android:padding="4sp"
-                android:textColor="#FFFFFF"
+                android:textColor="#BFFFFF"
                 android:textSize="14sp"/>
         </LinearLayout>
 

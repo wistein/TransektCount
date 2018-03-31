@@ -146,7 +146,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         // display the editable meta data
         etw = new EditMetaWidget(this, null);
         etw.setWidgetMeta1(getString(R.string.temperature));
-        etw.setWidgetItem1(meta.temp);
+        etw.setWidgetItem1(meta.tempe);
         etw.setWidgetMeta2(getString(R.string.wind));
         etw.setWidgetItem2(meta.wind);
         etw.setWidgetMeta3(getString(R.string.clouds));
@@ -253,8 +253,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         headDataSource.saveHead(head);
 
         // Save meta data
-        meta.temp = etw.getWidgetItem1();
-        if (meta.temp > 50 || meta.temp < 0)
+        meta.tempe = etw.getWidgetItem1();
+        if (meta.tempe > 50 || meta.tempe < 0)
         {
             Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
             return false;

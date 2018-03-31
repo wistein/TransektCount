@@ -5,7 +5,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_new_section">Neuer Abschnitt</string>
     <string name="title_activity_meta">Meta-Daten</string>
-    <string name="title_activity_list_section">Liste Transektabschn.</string>
+    <string name="title_activity_list_section">Transektabschnitte</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_dummy">DummyActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
@@ -20,8 +20,8 @@
     <string name="customTooBig">Leider ist der interne Speicher für das gewählte Hintergrundbild zu klein.</string>
 
     <!-- WelcomeActivity -->
-    <string name="hello">Eine App für\'s Tagfaltermonitoring\n\nUnterstützt die artspezifische Erfassung von Schmetterlingen in Transektabschnitten.\n\nEine Anleitung zur App gibt es unter dem Menüpunkt \"Hilfe\".</string>
-    <string name="viewSectionButton">Transektabschnitte</string>
+    <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
+    <string name="viewSectionButton">Zählen</string>
     <string name="viewSpeciesButton">Ergebnis anzeigen</string>
     <string name="editMetaButton">Begehung vorbereiten</string>
     <string name="newSectTitle">Neuer Abschnitt</string>
@@ -37,6 +37,7 @@
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
     <string name="resetDBMenu">Reset Daten</string>
     <string name="loadFileMenu">Import DB</string>
+    <string name="convDb">Die Datanbank wurde in die aktuelle Version konvertiert.</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
@@ -217,5 +218,7 @@
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsumme</string>
     <string name="getHelp">Datenbankproblem!\nBitte sende eine E-Mail (siehe "App-Info") mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
+    <string name="createDB">Noch keine Datenbank erstellt!\nBitte mindestens die Artenliste für einen Transektabschnitt erstellen.</string>
+    <string name="sect01">Ab 01</string>
 
 </resources>

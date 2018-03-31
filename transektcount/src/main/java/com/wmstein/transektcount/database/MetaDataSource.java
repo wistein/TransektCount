@@ -16,7 +16,7 @@ public class MetaDataSource
     private DbHelper dbHandler;
     private String[] allColumns = {
         DbHelper.M_ID,
-        DbHelper.M_TEMP,
+        DbHelper.M_TEMPE,
         DbHelper.M_WIND,
         DbHelper.M_CLOUDS,
         DbHelper.M_DATE,
@@ -43,7 +43,7 @@ public class MetaDataSource
     {
         ContentValues dataToInsert = new ContentValues();
         dataToInsert.put(DbHelper.M_ID, meta.id);
-        dataToInsert.put(DbHelper.M_TEMP, meta.temp);
+        dataToInsert.put(DbHelper.M_TEMPE, meta.tempe);
         dataToInsert.put(DbHelper.M_WIND, meta.wind);
         dataToInsert.put(DbHelper.M_CLOUDS, meta.clouds);
         dataToInsert.put(DbHelper.M_DATE, meta.date);
@@ -56,7 +56,7 @@ public class MetaDataSource
     {
         Meta meta = new Meta();
         meta.id = cursor.getInt(cursor.getColumnIndex(DbHelper.M_ID));
-        meta.temp = cursor.getInt(cursor.getColumnIndex(DbHelper.M_TEMP));
+        meta.tempe = cursor.getInt(cursor.getColumnIndex(DbHelper.M_TEMPE));
         meta.wind = cursor.getInt(cursor.getColumnIndex(DbHelper.M_WIND));
         meta.clouds = cursor.getInt(cursor.getColumnIndex(DbHelper.M_CLOUDS));
         meta.date = cursor.getString(cursor.getColumnIndex(DbHelper.M_DATE));
@@ -68,7 +68,8 @@ public class MetaDataSource
     public Meta getMeta()
     {
         Meta meta;
-        Cursor cursor = database.query(DbHelper.META_TABLE, allColumns, String.valueOf(1), null, null, null, null);
+        Cursor cursor = database.query(DbHelper.META_TABLE, allColumns, String.valueOf(1), 
+            null, null, null, null);
         cursor.moveToFirst();
         meta = cursorToMeta(cursor);
         // Make sure to close the cursor
@@ -76,5 +77,13 @@ public class MetaDataSource
         return meta;
     }
 
+    // tests if database (META_TABLE) is intact otherwise produces SQliteException 
+    public void testMetaDB()
+    {
+        Cursor cursor = database.query(DbHelper.META_TABLE, allColumns, String.valueOf(1), 
+            null, null, null, null);
+        cursor.moveToFirst();
+        cursor.close();
+    }
 
 }

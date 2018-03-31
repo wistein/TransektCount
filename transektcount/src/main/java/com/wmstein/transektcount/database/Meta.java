@@ -6,7 +6,7 @@ package com.wmstein.transektcount.database;
 public class Meta
 {
     public int id;
-    public int temp;
+    public int tempe;
     public int wind;
     public int clouds;
     public String date;

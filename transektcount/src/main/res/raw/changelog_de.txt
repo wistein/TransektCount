@@ -36,6 +36,22 @@
   _
     ! Geeignet für Android 4.2 (JellyBean) oder neuer
 
+$ 3.0.0
+  % Version 3.0.0
+  _ 29.03.2018
+  	* Projekt-Anpassungen für Android Studio 3.1, Gradle 3.1.0 und SDK 27 (Android 8.1)
+  	* Erstmaliger Start erzeugt nun direkt nutzbare interne DB mit verbreiteten europäischen Arten 
+  	* Kleine Optimierungen in der Ergebnisseite
+  	* Datenbank-Version 3 (Änderung eines Spaltennamens wg. Compiler-Warnung) 
+  	* Dokumentation angepasst
+  	* Fehler behoben
+
+$ 2.1.7
+  % Version 2.1.7
+  _ 22.03.2018
+  	* Design der Startseite geändert 
+  	* Fehler behoben
+
 $ 2.1.6
   % Version 2.1.6
   _ 19.03.2018

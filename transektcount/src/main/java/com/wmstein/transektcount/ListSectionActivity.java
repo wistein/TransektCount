@@ -11,10 +11,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.wmstein.transektcount.database.Count;
-import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
@@ -24,7 +21,7 @@ import java.util.List;
  * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2018-03-18
+ * last edited on 2018-03-30
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -36,8 +33,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     private boolean screenOrientL; // option for screen orientation
 
     private SectionDataSource sectionDataSource;
-    private CountDataSource countDataSource;
-
     List<Section> sections;
     ListView list;
 
@@ -57,7 +52,8 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -71,13 +67,10 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
             getWindow().setAttributes(params);
         }
 
-        LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
+        LinearLayout list_view = findViewById(R.id.list_view);
         //noinspection ConstantConditions
         list_view.setBackground(transektCount.getBackground());
-        list = (ListView) findViewById(android.R.id.list);
-
-        // Test integrity of database
-        testDB();
+        list = findViewById(android.R.id.list);
     }
 
     public void deleteSection(Section sct)
@@ -85,24 +78,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.deleteSection(sct);
         showData();
         list.invalidate(); //force list to draw
-    }
-
-    // Test integrity of database
-    public void testDB()
-    {
-        Count count;
-        countDataSource = new CountDataSource(this);
-        countDataSource.open();
-        try
-        {
-            count = countDataSource.getCountById(1);
-        } catch (Exception e)
-        {
-            Toast.makeText(ListSectionActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
-            countDataSource.close();
-            finish();
-        }
-        countDataSource.close();
     }
 
     @Override
@@ -116,7 +91,8 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -138,7 +114,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     {
         sections = sectionDataSource.getAllSections(prefs);
         SectionListAdapter adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections);
-        ListView lv = (ListView) findViewById(android.R.id.list);
+        ListView lv = findViewById(android.R.id.list);
         lv.setAdapter(adapter);
     }
 
@@ -170,10 +146,10 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         return super.onOptionsItemSelected(item);
     }
 
-    
+
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        LinearLayout list_view = (LinearLayout) findViewById(R.id.list_view);
+        LinearLayout list_view = findViewById(R.id.list_view);
         list_view.setBackground(null);
         list_view.setBackground(transektCount.setBackground());
         TransektCountApplication.getPrefs();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
+  - widget_counting_lhe.xml (left-handed) is used by CountingWidget.java
   ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
   -->
 
@@ -57,6 +58,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/f1eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagomfHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHf1e"
                 android:layout_width="0dp"
@@ -74,22 +91,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/f1eNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countImagomfHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -136,6 +137,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/f2eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagomHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHf2e"
                 android:layout_width="0dp"
@@ -153,22 +170,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/f2eNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countImagomHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -215,6 +216,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/f3eNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countImagofHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHf3e"
                 android:layout_width="0dp"
@@ -232,22 +249,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/f3eNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countImagofHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -294,6 +295,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/peNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countPupaHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHpe"
                 android:layout_width="0dp"
@@ -311,22 +328,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/peNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countPupaHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -373,6 +374,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/leNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countLarvaHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHle"
                 android:layout_width="0dp"
@@ -390,22 +407,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/leNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countLarvaHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -452,6 +453,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
+            <TextView
+                android:id="@+id/eeNameLH"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textColor="#bfffff"
+                android:hint="@string/countOvoHint"
+                android:layout_marginStart="5dp"
+                android:layout_weight="4.8"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/countCountLHee"
                 android:layout_width="0dp"
@@ -469,22 +486,6 @@
                 android:layout_gravity="center|top"
                 android:gravity="center_vertical|center_horizontal"
                 android:inputType="number"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
-            <TextView
-                android:id="@+id/eeNameLH"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="17sp"
-                android:textColor="#bfffff"
-                android:hint="@string/countOvoHint"
-                android:layout_marginStart="5dp"
-                android:layout_weight="4.8"/>
         </LinearLayout>
 
     </LinearLayout>

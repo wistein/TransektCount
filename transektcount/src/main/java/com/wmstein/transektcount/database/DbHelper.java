@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.wmstein.transektcount.MyDebug;
+import com.wmstein.transektcount.R;
 
 
 /***********************************************
@@ -15,9 +16,10 @@ import com.wmstein.transektcount.MyDebug;
  */
 public class DbHelper extends SQLiteOpenHelper
 {
-    static final String TAG = "TransektCount DB";
+    static final String TAG = "TransektCount DBHelper";
     public static final String DATABASE_NAME = "transektcount.db";
-    static final int DATABASE_VERSION = 2;
+    static final int DATABASE_VERSION = 3;
+    private Context mContext;
 
     // tables
     public static final String SECTION_TABLE = "sections";
@@ -50,9 +52,8 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String C_COUNT_EE = "count_ee";
     public static final String C_NOTES = "notes";
 
-    public static final String C_COUNT = "count"; //deprecated
-    public static final String C_COUNTA = "counta"; //deprecated
-
+    private static final String C_COUNT = "count"; //deprecated in version 2
+    private static final String C_COUNTA = "counta"; //deprecated in version 2
 
     public static final String A_ID = "_id";
     public static final String A_COUNT_ID = "count_id";
@@ -64,20 +65,20 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String H_INSPECTOR_NAME = "inspector_name";
 
     public static final String M_ID = "_id";
-    public static final String M_TEMP = "temp";
+    public static final String M_TEMPE = "tempe";
     public static final String M_WIND = "wind";
     public static final String M_CLOUDS = "clouds";
     public static final String M_DATE = "date";
     public static final String M_START_TM = "start_tm";
     public static final String M_END_TM = "end_tm";
 
-//    private Context mContext;
+    private static final String M_TEMP = "temp";
 
     // constructor
     public DbHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-//        this.mContext = context;
+        this.mContext = context;
     }
 
     // called once on database creation
@@ -109,7 +110,7 @@ public class DbHelper extends SQLiteOpenHelper
             + C_COUNT_PE + " int, "
             + C_COUNT_LE + " int, "
             + C_COUNT_EE + " int, "
-            + C_NOTES + " text default NULL)";
+            + C_NOTES + " text)";
         db.execSQL(sql);
         sql = "create table " + ALERT_TABLE + " ("
             + A_ID + " integer primary key, "
@@ -124,7 +125,7 @@ public class DbHelper extends SQLiteOpenHelper
         db.execSQL(sql);
         sql = "create table " + META_TABLE + " ("
             + M_ID + " integer primary key, "
-            + M_TEMP + " int, "
+            + M_TEMPE + " int, "
             + M_WIND + " int, "
             + M_CLOUDS + " int, "
             + M_DATE + " text, "
@@ -132,16 +133,17 @@ public class DbHelper extends SQLiteOpenHelper
             + M_END_TM + " text)";
         db.execSQL(sql);
 
-        //create empty row for HEAD_TABLE and META_TABLE
+        //create empty row for HEAD_TABLE
         ContentValues values1 = new ContentValues();
         values1.put(H_ID, 1);
         values1.put(H_TRANSECT_NO, "");
         values1.put(H_INSPECTOR_NAME, "");
         db.insert(HEAD_TABLE, null, values1);
 
+        //create empty row for META_TABLE
         ContentValues values2 = new ContentValues();
         values2.put(M_ID, 1);
-        values2.put(M_TEMP, 0);
+        values2.put(M_TEMPE, 0);
         values2.put(M_WIND, 0);
         values2.put(M_CLOUDS, 0);
         values2.put(M_DATE, "");
@@ -149,8 +151,57 @@ public class DbHelper extends SQLiteOpenHelper
         values2.put(M_END_TM, "");
         db.insert(META_TABLE, null, values2);
 
+        //create initial data for SECTION_TABLE
+        initialSection(db);
+
+        //create initial data for COUNT_TABLE
+        initialCounts(db);
+
         if (MyDebug.LOG)
             Log.d(TAG, "Success!");
+    }
+
+    private void initialSection(SQLiteDatabase db)
+    {
+        ContentValues values3;
+        values3 = new ContentValues();
+        values3.put(S_ID, 1);
+        values3.put(S_CREATED_AT, 0);
+        values3.put(S_NAME, mContext.getResources().getString(R.string.sect01));
+        values3.put(S_NOTES, "");
+        db.insert(SECTION_TABLE, null, values3);
+
+    }
+
+    // initial data for COUNT_TABLE
+    private void initialCounts(SQLiteDatabase db)
+    {
+        String[] specs, codes;
+        specs = mContext.getResources().getStringArray(R.array.initSpecs);
+        codes = mContext.getResources().getStringArray(R.array.initCodes);
+
+        for (int i = 1; i < specs.length; i++)
+        {
+            ContentValues values4 = new ContentValues();
+            values4.put(C_ID, i);
+            values4.put(C_SECTION_ID, 1);
+            values4.put(C_NAME, specs[i]);
+            values4.put(C_CODE, codes[i]);
+            values4.put(C_COUNT_F1I, 0);
+            values4.put(C_COUNT_F2I, 0);
+            values4.put(C_COUNT_F3I, 0);
+            values4.put(C_COUNT_PI, 0);
+            values4.put(C_COUNT_LI, 0);
+            values4.put(C_COUNT_EI, 0);
+            values4.put(C_COUNT_F1E, 0);
+            values4.put(C_COUNT_F2E, 0);
+            values4.put(C_COUNT_F3E, 0);
+            values4.put(C_COUNT_PE, 0);
+            values4.put(C_COUNT_LE, 0);
+            values4.put(C_COUNT_EE, 0);
+            values4.put(C_NOTES, "");
+            db.insert(COUNT_TABLE, null, values4);
+        }
     }
 
     // ******************************************************************************************
@@ -159,12 +210,18 @@ public class DbHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        if (oldVersion == 2)
+        {
+            version_3(db);
+        }
         if (oldVersion == 1)
         {
             version_2(db);
+            version_3(db);
         }
     }
 
+    // Adds new count columns to TABLE:COUNT
     private void version_2(SQLiteDatabase db)
     {
         String sql;
@@ -280,7 +337,7 @@ public class DbHelper extends SQLiteOpenHelper
             // rename table counts to counts_backup
             sql = "alter table " + COUNT_TABLE + " rename to counts_backup";
             db.execSQL(sql);
-            
+
             // create new counts table
             sql = "create table " + COUNT_TABLE + "("
                 + C_ID + " integer primary key, "
@@ -329,6 +386,42 @@ public class DbHelper extends SQLiteOpenHelper
             if (MyDebug.LOG)
                 Log.d(TAG, "Upgraded database to version 2");
         }
+    }
+    
+    // Changes column temp to tempe as 'temp' seems to have a reserved term conflict  
+    private void version_3(SQLiteDatabase db)
+    {
+        String sql;
+        sql = "alter table " + META_TABLE + " rename to meta_backup";
+        db.execSQL(sql);
+
+        // create new meta table
+        sql = "create table " + META_TABLE + " ("
+            + M_ID + " integer primary key, "
+            + M_TEMPE + " int, "
+            + M_WIND + " int, "
+            + M_CLOUDS + " int, "
+            + M_DATE + " text, "
+            + M_START_TM + " text, "
+            + M_END_TM + " text)";
+        db.execSQL(sql);
+
+        // insert the old data into meta
+        sql = "INSERT INTO " + META_TABLE + " SELECT "
+            + M_ID + ", "
+            + M_TEMP + ", "
+            + M_WIND + ", "
+            + M_CLOUDS + ", "
+            + M_DATE + ", "
+            + M_START_TM + ", "
+            + M_END_TM + " FROM meta_backup";
+        db.execSQL(sql);
+
+        sql = "DROP TABLE meta_backup";
+        db.execSQL(sql);
+
+        if (MyDebug.LOG)
+            Log.d(TAG, "Upgraded database to version 3");
     }
 
 }

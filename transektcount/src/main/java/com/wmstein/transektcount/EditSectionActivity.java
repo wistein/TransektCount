@@ -219,7 +219,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // load the counts data
         counts = countDataSource.getAllCountsForSection(section.id);
 
-        // display all the counts by adding them to countCountLayout
+        // display all the counts by adding them to CountEditWidget
         for (Count count : counts)
         {
             // widget

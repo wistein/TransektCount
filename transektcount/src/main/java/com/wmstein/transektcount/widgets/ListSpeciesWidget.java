@@ -3,6 +3,7 @@ package com.wmstein.transektcount.widgets;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,13 +72,33 @@ public class ListSpeciesWidget extends RelativeLayout
     public void setCount(Count spec, Section section)
     {
         txtSectName.setText(section.name);
-        txtSectName.setTextColor(0xffffffff); // white
-        txtSectRem.setText(section.notes);
-        txtSectRem.setTextColor(0xffffffff);
         txtSpecName.setText(spec.name);
-        // get picSpecies
-        setImage(spec);
-        txtSpecRem.setText(spec.notes);
+        setImage(spec); // get picSpecies
+
+        if (!section.notes.isEmpty())
+        {
+            txtSectRem.setText(section.notes);
+            txtSectRem.setVisibility(View.VISIBLE);
+        }
+        else if (!spec.notes.isEmpty())
+        {
+            txtSectRem.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            txtSectRem.setVisibility(View.GONE);
+        }
+
+        if (!spec.notes.isEmpty())
+        {
+            txtSpecRem.setText(spec.notes);
+            txtSpecRem.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            txtSpecRem.setVisibility(View.GONE);
+        }
+        
         if (spec.count_f1i > 0)
         specCountf1i.setText(String.valueOf(spec.count_f1i));
         if (spec.count_f2i > 0)
@@ -179,7 +200,6 @@ public class ListSpeciesWidget extends RelativeLayout
         {
             picSpecies.setImageResource(resId);
         }
-
     }
 
     // Get resource ID from resource name

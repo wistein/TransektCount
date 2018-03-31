@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -40,19 +39,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
     Head head;
     Meta meta;
-
-    public int spec_countf1i;
-    public int spec_countf2i;
-    public int spec_countf3i;
-    public int spec_countpi;
-    public int spec_countli;
-    public int spec_countei;
-    public int spec_countf1e;
-    public int spec_countf2e;
-    public int spec_countf3e;
-    public int spec_countpe;
-    public int spec_countle;
-    public int spec_countee;
 
     // preferences
     private boolean awakePref;
@@ -108,26 +94,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-        
-        testDB();
-    }
-
-    // Test integrity of database
-    public void testDB()
-    {
-        Count count;
-        countDataSource = new CountDataSource(this);
-        countDataSource.open();
-        try
-        {
-            count = countDataSource.getCountById(1);
-        } catch (Exception e)
-        {
-            Toast.makeText(ListSpeciesActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
-            countDataSource.close();
-            finish();
-        }
-        countDataSource.close();
     }
 
     @Override
@@ -170,7 +136,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         // display the editable meta data
         lmw = new ListMetaWidget(this, null);
         lmw.setWidgetLMeta1(getString(R.string.temperature));
-        lmw.setWidgetLItem1(meta.temp);
+        lmw.setWidgetLItem1(meta.tempe);
         lmw.setWidgetLMeta2(getString(R.string.wind));
         lmw.setWidgetLItem2(meta.wind);
         lmw.setWidgetLMeta3(getString(R.string.clouds));
@@ -203,6 +169,19 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             specs = countDataSource.getAllCounts();
             break;
         }
+
+        int spec_countf1i;
+        int spec_countf2i;
+        int spec_countf3i;
+        int spec_countpi;
+        int spec_countli;
+        int spec_countei;
+        int spec_countf1e;
+        int spec_countf2e;
+        int spec_countf3e;
+        int spec_countpe;
+        int spec_countle;
+        int spec_countee;
 
         for (Count spec : specs)
         {
@@ -252,20 +231,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             sect_id = widget.getSpec_sectionid(spec);
             section = sectionDataSource.getSection(sect_id);
             widget.setCount(spec, section);
-
-            spec_countf1i = widget.getSpec_countf1i(spec);
-            spec_countf2i = widget.getSpec_countf2i(spec);
-            spec_countf3i = widget.getSpec_countf3i(spec);
-            spec_countpi = widget.getSpec_countpi(spec);
-            spec_countli = widget.getSpec_countli(spec);
-            spec_countei = widget.getSpec_countei(spec);
-            spec_countf1e = widget.getSpec_countf1e(spec);
-            spec_countf2e = widget.getSpec_countf2e(spec);
-            spec_countf3e = widget.getSpec_countf3e(spec);
-            spec_countpe = widget.getSpec_countpe(spec);
-            spec_countle = widget.getSpec_countle(spec);
-            spec_countee = widget.getSpec_countee(spec);
-
             spec_area.addView(widget);
         }
     }

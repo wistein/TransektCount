@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_new_section">New Section</string>
     <string name="title_activity_meta">Meta Data</string>
-    <string name="title_activity_list_section">List of Transect Sections</string>
+    <string name="title_activity_list_section">Transect Sections</string>
     <string name="title_activity_counting">CountingActivity</string>
     <string name="title_activity_dummy">DummyActivity</string>
     <string name="title_activity_list_species">ListSpeciesActivity</string>
@@ -20,8 +20,8 @@
     <string name="customTooBig">Sorry, trying to set the background image has caused an out of memory error.</string>
 
     <!-- WelcomeActivity -->
-    <string name="hello">Butterfly Monitoring App\n\nSupports species-specific counting of butterflies in transect sections.\n\nYou can find instructions for the App under the menu \"Help\".</string>
-    <string name="viewSectionButton">Transect Sections</string>
+    <string name="hello">Species-specific counting of\n\nbutterflies in transect sections</string>
+    <string name="viewSectionButton">Counting</string>
     <string name="viewSpeciesButton">Show Results</string>
     <string name="editMetaButton">Prepare Inspection</string>
     <string name="newSectTitle">New Section</string>
@@ -37,6 +37,7 @@
     <string name="exportCSVMenu">Export Data -> CSV File</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="loadFileMenu">Import DB</string>
+    <string name="convDb">Your database has been converted to current version.</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
@@ -217,5 +218,7 @@
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
     <string name="getHelp">Database problem!\nPlease send an email (see "App Info") if you need assistance, attaching your exported \'transektcount.db\'.</string>
+    <string name="createDB">Still no database created!\nPlease create at least the species list for 1 transect section.</string>
+    <string name="sect01">Sect 01</string>
 
 </resources>

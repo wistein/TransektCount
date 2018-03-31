@@ -1,40 +1,38 @@
 # TransektCount
 
-TransektCount is an Android app that supports transect counters in nature preserving projects according to the Butterfly Monitoring Scheme methodology. 
+TransektCount is an Android app that supports transect counters in nature preserving projects according to the European Butterfly Monitoring Scheme methodology. 
 It allows a species-specific counting per transect section. 
 
 ### Features
 
-- The integrated database is organized according to a single transect inspection. 
+- Data recording is organized according to a single transect inspection. 
 That means, you will use a new database instance per inspection by importing a prepared basic Database.
-- Databases can be individually created and adapted within the app regarding meta data, transect sections 
-and expected butterfly species.
+- Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
 - You may use an individual species list per transect section.
-- There is a prepared basic database with most of the expected species as a starting point in /docs.
+- It contains a prepared basic database with some of the expected species as a starting point.
 - Editor for the transect sections to setup or adapt its species
 - Editor for meta data to prepare an inspection
 - Editor for species remark or bulk count entry
 - Counting page with scroll menu to select species
-- Count input per internal/external counting area and here each with separate counters for ♂♀, ♂, ♀, 
-pupa, larva or egg.
+- Count input per internal/external counting area and here each with separate counters for ♂♀, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to science4you entry masks.
 - Results are shown with meta data, remarks, totals and species results per section.
-- Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, 
-e.g. by importing a csv-file into a spreadsheet like MS Excel.
+- Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet like MS Excel.
 - The integrated help contains a detailed userguide.
 
 ### Prerequisites
 The app demands for 
 - storage access permit which is needed for im-/exporting the counting data, 
-- the permit to write settings for setting the screen brightness and 
-- the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer). 
+- the permit to write settings for setting the screen brightness, 
+- the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer) and
+- the smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
 
 The app is usable with Android version 4.2.2 or newer.
 
 ### General
 #### Documentation
 Documentation is provided under  
-https://github.com/wistein/TransektCount/tree/master/transektcount/docs.
+https://github.com/wistein/TransektCount/tree/master/docs.
 
 Please read the userguide (provided in German and English) or consult its contents in the app's help 
 before using the app.  

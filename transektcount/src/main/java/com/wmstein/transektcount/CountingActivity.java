@@ -153,27 +153,27 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         if (lhandPref) // if left-handed counting page
         {
-            LinearLayout counting_screen = (LinearLayout) findViewById(R.id.countingScreenLH);
+            LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
             counting_screen.setBackground(transektCount.getBackground());
-            notes_area1 = (LinearLayout) findViewById(R.id.sectionNotesLayoutLH);
-            head_area2 = (LinearLayout) findViewById(R.id.countHead2LayoutLH);
-            count_area_i = (LinearLayout) findViewById(R.id.countCountiLayoutLH);
-            head_area3 = (LinearLayout) findViewById(R.id.countHead3LayoutLH);
-            count_area_e = (LinearLayout) findViewById(R.id.countCounteLayoutLH);
-            notes_area2 = (LinearLayout) findViewById(R.id.countNotesLayoutLH);
-            notes_area3 = (LinearLayout) findViewById(R.id.alertNotesLayoutLH);
+            notes_area1 = findViewById(R.id.sectionNotesLayoutLH);
+            head_area2 = findViewById(R.id.countHead2LayoutLH);
+            count_area_i = findViewById(R.id.countCountiLayoutLH);
+            head_area3 = findViewById(R.id.countHead3LayoutLH);
+            count_area_e = findViewById(R.id.countCounteLayoutLH);
+            notes_area2 = findViewById(R.id.countNotesLayoutLH);
+            notes_area3 = findViewById(R.id.alertNotesLayoutLH);
         }
         else
         {
-            LinearLayout counting_screen = (LinearLayout) findViewById(R.id.countingScreen);
+            LinearLayout counting_screen = findViewById(R.id.countingScreen);
             counting_screen.setBackground(transektCount.getBackground());
-            notes_area1 = (LinearLayout) findViewById(R.id.sectionNotesLayout);
-            head_area2 = (LinearLayout) findViewById(R.id.countHead2Layout);
-            count_area_i = (LinearLayout) findViewById(R.id.countCountiLayout);
-            head_area3 = (LinearLayout) findViewById(R.id.countHead3Layout);
-            count_area_e = (LinearLayout) findViewById(R.id.countCounteLayout);
-            notes_area2 = (LinearLayout) findViewById(R.id.countNotesLayout);
-            notes_area3 = (LinearLayout) findViewById(R.id.alertNotesLayout);
+            notes_area1 = findViewById(R.id.sectionNotesLayout);
+            head_area2 = findViewById(R.id.countHead2Layout);
+            count_area_i = findViewById(R.id.countCountiLayout);
+            head_area3 = findViewById(R.id.countHead3Layout);
+            count_area_e = findViewById(R.id.countCounteLayout);
+            notes_area2 = findViewById(R.id.countNotesLayout);
+            notes_area3 = findViewById(R.id.alertNotesLayout);
         }
 
         if (savedInstanceState != null)
@@ -187,9 +187,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        // Test integrity of database
-        testDB();
-        
         PowerManager mPowerManager;
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -221,24 +218,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         alertSound = prefs.getString("alert_sound", null);
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
         buttonAlertSound = prefs.getString("alert_button_sound", null);
-    }
-
-    // Test integrity of database
-    public void testDB()
-    {
-        Count count;
-        countDataSource = new CountDataSource(this);
-        countDataSource.open();
-        try
-        {
-            count = countDataSource.getCountById(1);
-        } catch (Exception e)
-        {
-            Toast.makeText(CountingActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
-            countDataSource.close();
-            finish();
-        }
-        countDataSource.close();
     }
 
     @SuppressLint("LongLogTag")
@@ -355,11 +334,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // 2. Head1, species selection spinner
         if (lhandPref) // if left-handed counting page
         {
-                spinner = (Spinner) findViewById(R.id.countHead1SpinnerLH);
+                spinner = findViewById(R.id.countHead1SpinnerLH);
         }
         else
         {
-                spinner = (Spinner) findViewById(R.id.countHead1Spinner);
+                spinner = findViewById(R.id.countHead1Spinner);
         }
 
             CountingWidget_head1 adapter = new CountingWidget_head1(this,
@@ -1624,12 +1603,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         final EditText input = new EditText(this);
         // Specify the type of input expected
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-/*        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            input.setShowSoftInputOnFocus(true);
-        }
-*/
         builder.setView(input);
 
         // Set up the buttons

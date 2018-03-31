@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.wmstein.transektcount"
           xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           android:largeHeap="true"
-          android:versionName="2.1.6">
+          android:versionName="2.1.8">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- Permission needed for screen brightness setting -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+                     tools:ignore="ProtectedPermissions"/>
     <!-- Permission needed for screen set on/off -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     

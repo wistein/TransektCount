@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Section;
 
@@ -39,7 +37,6 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     private List<Section> sections = null;
     private Context mContext;
     private Section sct;
-    private Handler mHandler = new Handler();
 
     // preferences
     private boolean buttonSoundPref;
@@ -93,11 +90,11 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new SectionHolder();
-            holder.txtTitle = (TextView) row.findViewById(R.id.txtTitle);
-            holder.txtRemark = (TextView) row.findViewById(R.id.txtRemark);
-            holder.txtDate = (TextView) row.findViewById(R.id.txtDate);
-            holder.editSection = (ImageButton) row.findViewById(R.id.editSection);
-            holder.deleteSection = (ImageButton) row.findViewById(R.id.deleteSection);
+            holder.txtTitle = row.findViewById(R.id.txtTitle);
+            holder.txtRemark = row.findViewById(R.id.txtRemark);
+            holder.txtDate = row.findViewById(R.id.txtDate);
+            holder.editSection = row.findViewById(R.id.editSection);
+            holder.deleteSection = row.findViewById(R.id.deleteSection);
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
             holder.txtRemark.setOnClickListener(mOnTitleClickListener);
@@ -149,32 +146,17 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
 
             if (screenOrientL)
             {
-                Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
-                // pause for 100 msec to show toast immediately
-                mHandler.postDelayed(new Runnable()
-                {
-                    public void run()
-                    {
-                        sct = (Section) v.getTag();
-                        Intent intent = new Intent(getContext(), CountingLActivity.class);
-                        intent.putExtra("section_id", sct.id);
-                        mContext.startActivity(intent);
-                    }
-                }, 100);
-            } else
+                sct = (Section) v.getTag();
+                Intent intent = new Intent(getContext(), CountingLActivity.class);
+                intent.putExtra("section_id", sct.id);
+                mContext.startActivity(intent);
+            }
+            else
             {
-                Toast.makeText(mContext, mContext.getString(R.string.wait), Toast.LENGTH_SHORT).show();
-                // pause for 100 msec to show toast immediately
-                mHandler.postDelayed(new Runnable()
-                {
-                    public void run()
-                    {
-                        sct = (Section) v.getTag();
-                        Intent intent = new Intent(getContext(), CountingActivity.class);
-                        intent.putExtra("section_id", sct.id);
-                        mContext.startActivity(intent);
-                    }
-                }, 100);
+                sct = (Section) v.getTag();
+                Intent intent = new Intent(getContext(), CountingActivity.class);
+                intent.putExtra("section_id", sct.id);
+                mContext.startActivity(intent);
             }
         }
     };
@@ -187,7 +169,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         {
             getPrefs();
             buttonSound();
-            
+
             sct = (Section) v.getTag();
             Intent intent = new Intent(getContext(), EditSectionActivity.class);
             intent.putExtra("section_id", sct.id);
@@ -305,5 +287,5 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     {
         getPrefs();
     }
-    
+
 }
