@@ -439,7 +439,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
 
-        infile = new File(destPath + "/transektcount_test.db");
+        infile = new File(srcPath + "/transektcount_test.db");
         outfile = new File(destPath + "/transektcount.db");
 
         try
