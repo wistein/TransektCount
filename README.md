@@ -48,7 +48,7 @@ The app is available on F-Droid under
 https://f-droid.org/packages/com.wmstein.transektcount/.
 
 The apk-file 'transektcount-release.apk' is also provided in the GitHub repository under  
-https://github.com/wistein/TransektCount/tree/master/transektcount/apk.
+https://github.com/wistein/TransektCount/tree/master/apk.
 
 Please note that both versions are compiled from the same sources but signed differently and so cannot 
 be mutually updated.
