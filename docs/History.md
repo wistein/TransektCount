@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
+#### Version 3.0.1 (2018-04-01)
+- Corrected wrong GitHub Tag
+
 #### Version 3.0.0 (2018-03-30)
 - Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
 - First use now creates a direct usable internal DB with common european species
