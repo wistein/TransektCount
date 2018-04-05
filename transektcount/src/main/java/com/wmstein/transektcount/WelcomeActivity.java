@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
-import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -55,7 +55,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * <p/>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2018-03-18
+ * last edited on 2018-04-04
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -66,6 +66,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     ChangeLog cl;
     ViewHelp vh;
     private static final int FILE_CHOOSER = 11;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
     private Handler mHandler = new Handler();
 
     public boolean doubleBackToExitPressedOnce;
@@ -115,39 +117,29 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
 
-        // Test if database has correct version to avoid crash after update
-        CountDataSource countDataSource = new CountDataSource(this);
-        countDataSource.open();
-        metaDataSource = new MetaDataSource(this);
-        metaDataSource.open();
-        try
-        {
-            countDataSource.testCountDB();
-            metaDataSource.testMetaDB();
-        } catch (Exception e)
-        {
-            exportTestDb(); // export old db to transektcount_test.db
-            importTestDb(); // re-import transektcount_test.db with version control
-            deleteTestDb(); // delete transektcount_test.db
-        }
-        countDataSource.close();
-        metaDataSource.close();
-
-        Head head;
-        headDataSource = new HeadDataSource(this);
-        headDataSource.open();
-        head = headDataSource.getHead();
-
         // set transect number as title
+        Head head;
+        String tname;
         try
         {
-            getSupportActionBar().setTitle(head.transect_no);
+            headDataSource = new HeadDataSource(this);
+            headDataSource.open();
+            head = headDataSource.getHead();
+            tname = head.transect_no;
+            headDataSource.close();
+        } catch (SQLiteException e)
+        {
+            tname = getString(R.string.errorDb);
+            Toast.makeText(this, R.string.corruptDb, Toast.LENGTH_LONG).show();
+        }
+        
+        try
+        {
+            getSupportActionBar().setTitle(tname);
         } catch (NullPointerException e)
         {
             // nothing
         }
-
-        headDataSource.close();
 
         // if API level > 23 permission request is necessary
         int REQUEST_CODE_STORAGE = 123; // Identifier for permission request Android 6.0
@@ -369,114 +361,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         super.onStop();
     }
 
-    // Exports DB for version conversion
-    @SuppressLint({"SdCardPath", "LongLogTag"})
-    private void exportTestDb()
-    {
-        String srcPath = "/data/data/com.wmstein.transektcount/databases";
-        String dstPath = "/data/data/com.wmstein.transektcount/files";
-        try
-        {
-            srcPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "srcPath error: " + e.toString());
-        }
-        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
-
-        try
-        {
-            dstPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "dstPath error: " + e.toString());
-        }
-        dstPath = dstPath.substring(0, dstPath.lastIndexOf("/")) + "/files";
-
-        infile = new File(srcPath + "/transektcount.db");
-        outfile = new File(dstPath + "/transektcount_test" + ".db");
-
-        try
-        {
-            copy(infile, outfile);
-        } catch (IOException e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "Failed to copy database");
-            Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**************************************************************************************************/
-    @SuppressLint({"SdCardPath", "LongLogTag"})
-    // created by wmstein
-    private void importTestDb()
-    {
-        // reload file after negativ version test for conversion
-        String srcPath = "/data/data/com.wmstein.transektcount/files";
-        try
-        {
-            srcPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "srcPath error: " + e.toString());
-        }
-
-        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/files";
-
-        String destPath = "/data/data/com.wmstein.transektcount/databases";
-        try
-        {
-            destPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "destPath error: " + e.toString());
-        }
-
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-
-        infile = new File(srcPath + "/transektcount_test.db");
-        outfile = new File(destPath + "/transektcount.db");
-
-        try
-        {
-            copy(infile, outfile);
-        } catch (IOException e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "Failed to import database");
-        }
-    }
-
-    private void deleteTestDb()
-    {
-        @SuppressLint("SdCardPath")
-        String destPath = "/data/data/com.wmstein.transektcount/files";
-        try
-        {
-            destPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "destPath error: " + e.toString());
-        }
-
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/files";
-        infile = new File(destPath + "/transektcount_test.db");
-
-        boolean d0 = false;
-        // delete test db
-        d0 = infile.delete();
-        if (d0)
-        {
-            Toast.makeText(this, getString(R.string.convDb), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     /**************************************************************************
      * The seven functions below are for exporting and importing the database.
      * They've been put here because no database should be open at this point.
@@ -486,22 +370,33 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
     {
+        // if API level > 23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
+        
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
-        String destPath = "/data/data/com.wmstein.transektcount/files";
+        String srcPath = "/data/data/com.wmstein.transektcount/files";
 
         try
         {
-            destPath = getFilesDir().getPath();
+            srcPath = getFilesDir().getPath();
         } catch (Exception e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "destPath error: " + e.toString());
+                Log.e(TAG, "srcPath error: " + e.toString());
         }
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        infile = new File(destPath + "/transektcount.db");
+        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
+        infile = new File(srcPath + "/transektcount.db");
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -551,6 +446,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
     {
+        // if API level > 23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
@@ -956,23 +861,33 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // modified by wmstein
     public void exportBasisDb()
     {
+        // if API level > 23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
         tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
-        String destPath = "/data/data/com.wmstein.transektcount/files";
+        String srcPath = "/data/data/com.wmstein.transektcount/files";
 
         try
         {
-            destPath = getFilesDir().getPath();
+            srcPath = getFilesDir().getPath();
         } catch (Exception e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "destPath error: " + e.toString());
+                Log.e(TAG, "srcPath error: " + e.toString());
         }
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        infile = new File(destPath + "/transektcount.db");
+        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
+        infile = new File(srcPath + "/transektcount.db");
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -1007,7 +922,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 copy(infile, tmpfile);
 
                 // clear DB values for basic DB
-                clearDBValues();
+                boolean r_ok = clearDBValues();
+                if (r_ok)
+                    Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
 
                 // write Basis DB
                 copy(infile, outfile);
@@ -1039,13 +956,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.confirmResetDB).setCancelable(false).setPositiveButton(R.string.deleteButton, new DialogInterface.OnClickListener()
+        builder.setMessage(R.string.confirmResetDB);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.deleteButton, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                clearDBValues();
+                boolean r_ok = clearDBValues();
+                if (r_ok)
+                    Toast.makeText(getApplicationContext(), getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
             }
-        }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
+        });
+        builder.setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
@@ -1058,11 +980,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     // clear DB values for basic DB
     @SuppressLint({"LongLogTag"})
-    public void clearDBValues()
+    public boolean clearDBValues()
     {
         // clear values in DB
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
+        boolean r_ok = true; // gets false when reset fails
 
         try
         {
@@ -1100,13 +1023,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             database.execSQL(sql);
 
             dbHandler.close();
-            Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
         } catch (Exception e)
         {
             if (MyDebug.LOG)
                 Log.e(TAG, "Failed to reset DB");
             Toast.makeText(this, getString(R.string.resetFail), Toast.LENGTH_LONG).show();
+            r_ok = false;
         }
+        return r_ok;
     }
 
     /**********************************************************************************************/
@@ -1141,7 +1065,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (!fileSelected.equals(""))
         {
             infile = new File(fileSelected);
-            // destPath = "/data/data/com.wmstein.transektcount/files"
+            // destPath = "/data/data/com.wmstein.transektcount/databases"
             String destPath = this.getFilesDir().getPath();
             try
             {
@@ -1239,6 +1163,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {
+        // permission to read db
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasReadStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (hasReadStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+        
         //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
         infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
         String destPath = "/data/data/com.wmstein.transektcount/files";

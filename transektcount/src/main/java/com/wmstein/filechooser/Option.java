@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
  * Option is part of filechooser.
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
- * Adopted by wmstein on 18.06.2016, last change on 19.03.2018
+ * Adopted by wmstein on 2016-06-18, 
+ * last change on 2018-04-05
  */
 
 public class Option implements Comparable<Option>
@@ -14,17 +15,13 @@ public class Option implements Comparable<Option>
     private String name;
     private String data;
     private String path;
-    private boolean folder;
-    private boolean parent;
     private boolean back;
 
-    public Option(String n, String d, String p, boolean folder, boolean parent, boolean back)
+    public Option(String n, String d, String p, boolean back)
     {
         name = n;
         data = d;
         path = p;
-        this.folder = folder;
-        this.parent = parent;
         this.back = back;
     }
 
@@ -51,17 +48,7 @@ public class Option implements Comparable<Option>
         else
             throw new IllegalArgumentException();
     }
-
-    public boolean isFolder()
-    {
-        return folder;
-    }
-
-    public boolean isParent()
-    {
-        return parent;
-    }
-
+    
     public boolean isBack()
     {
         return back;

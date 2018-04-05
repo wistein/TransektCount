@@ -23,10 +23,9 @@ That means, you will use a new database instance per inspection by importing a p
 ### Prerequisites
 The app demands for 
 - storage access permit which is needed for im-/exporting the counting data, 
-- the permit to write settings for setting the screen brightness, 
-- the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer) and
-- the smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
+- the permit to keep the device awake.
 
+The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 4.2.2 or newer.
 
 ### General

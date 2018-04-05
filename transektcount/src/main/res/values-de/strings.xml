@@ -27,9 +27,9 @@
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
-    <string name="noCard">Die Sdcard kann nicht verwendet werden!</string>
+    <string name="noCard">Das Basis-Verzeichnis des Speichers kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
-    <string name="saveWin">Die Datenbank wurde auf die Sdcard exportiert.</string>
+    <string name="saveWin">Die Datenbank wurde ins Basis-Verzeichnis exportiert.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export DB</string>
@@ -41,7 +41,9 @@
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte lege eine Kopie der Datenbankdatei \"transektcount0.db\" auf die /sdcard Partition.</string>
+    <string name="noDb">Bitte kopiere die Datenbankdatei \"tourcount0.db\" ins Basis-Verzeichnis des Speichers.</string>
+    <string name="errorDb">DB-Fehler!</string>
+    <string name="corruptDb">Datenbankfehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TourCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>

@@ -27,9 +27,9 @@
     <string name="newSectTitle">New Section</string>
     <string name="changeLogTitle">App Info</string>
     <string name="viewHelpTitle">Help</string>
-    <string name="noCard">Your sdcard could not be accessed!</string>
+    <string name="noCard">Your Basic Directory could not be accessed!</string>
     <string name="saveFail">Your database could not be exported!</string>
-    <string name="saveWin">Your database has been exported to the sdcard.</string>
+    <string name="saveWin">Your database has been exported to your Basic Directory.</string>
     <string name="reset2basic">Your database has been resetted.</string>
     <string name="resetFail">Your database could not be resetted!</string>
     <string name="exportMenu">Export DB</string>
@@ -41,7 +41,9 @@
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
-    <string name="noDb">Please put \'transektcount0.db\' in the basic directory of your /sdcard partition.</string>
+    <string name="noDb">Please put \'transektcount0.db\' in the Basic Directory of your memory.</string>
+    <string name="errorDb">DB Error!</string>
+    <string name="corruptDb">Database error! If problem remains after restart and after import of a different TourCount-DB, please de-install and re-install the app.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>

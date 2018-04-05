@@ -7,7 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 /***********************************
- * Created by wmstein on 31.03.2016.
+ * Created by wmstein on 2016-03-31,
+ * last edited on 2018-04-04.
  */
 public class MetaDataSource
 {
@@ -75,15 +76,6 @@ public class MetaDataSource
         // Make sure to close the cursor
         cursor.close();
         return meta;
-    }
-
-    // tests if database (META_TABLE) is intact otherwise produces SQliteException 
-    public void testMetaDB()
-    {
-        Cursor cursor = database.query(DbHelper.META_TABLE, allColumns, String.valueOf(1), 
-            null, null, null, null);
-        cursor.moveToFirst();
-        cursor.close();
     }
 
 }

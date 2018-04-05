@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
  * ListSpeciesWidget shows count info area for a species
  * ListSpeciesActivity shows the result page
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2018-03-18
+ * Last edited on 2018-04-05
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -50,23 +50,23 @@ public class ListSpeciesWidget extends RelativeLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_list_species, this, true);
-        txtSectName = (TextView) findViewById(R.id.txtSectName);
-        txtSectRem = (TextView) findViewById(R.id.txtSectRem);
-        txtSpecName = (TextView) findViewById(R.id.txtSpecName);
-        txtSpecRem = (TextView) findViewById(R.id.txtSpecRem);
-        picSpecies = (ImageView) findViewById(R.id.picSpecies);
-        specCountf1i = (TextView) findViewById(R.id.specCountf1i);
-        specCountf2i = (TextView) findViewById(R.id.specCountf2i);
-        specCountf3i = (TextView) findViewById(R.id.specCountf3i);
-        specCountpi = (TextView) findViewById(R.id.specCountpi);
-        specCountli = (TextView) findViewById(R.id.specCountli);
-        specCountei = (TextView) findViewById(R.id.specCountei);
-        specCountf1e = (TextView) findViewById(R.id.specCountf1e);
-        specCountf2e = (TextView) findViewById(R.id.specCountf2e);
-        specCountf3e = (TextView) findViewById(R.id.specCountf3e);
-        specCountpe = (TextView) findViewById(R.id.specCountpe);
-        specCountle = (TextView) findViewById(R.id.specCountle);
-        specCountee = (TextView) findViewById(R.id.specCountee);
+        txtSectName = findViewById(R.id.txtSectName);
+        txtSectRem = findViewById(R.id.txtSectRem);
+        txtSpecName = findViewById(R.id.txtSpecName);
+        txtSpecRem = findViewById(R.id.txtSpecRem);
+        picSpecies = findViewById(R.id.picSpecies);
+        specCountf1i = findViewById(R.id.specCountf1i);
+        specCountf2i = findViewById(R.id.specCountf2i);
+        specCountf3i = findViewById(R.id.specCountf3i);
+        specCountpi = findViewById(R.id.specCountpi);
+        specCountli = findViewById(R.id.specCountli);
+        specCountei = findViewById(R.id.specCountei);
+        specCountf1e = findViewById(R.id.specCountf1e);
+        specCountf2e = findViewById(R.id.specCountf2e);
+        specCountf3e = findViewById(R.id.specCountf3e);
+        specCountpe = findViewById(R.id.specCountpe);
+        specCountle = findViewById(R.id.specCountle);
+        specCountee = findViewById(R.id.specCountee);
     }
 
     public void setCount(Count spec, Section section)
@@ -75,56 +75,69 @@ public class ListSpeciesWidget extends RelativeLayout
         txtSpecName.setText(spec.name);
         setImage(spec); // get picSpecies
 
-        if (!section.notes.isEmpty())
+        if (section.notes != null)
         {
-            txtSectRem.setText(section.notes);
-            txtSectRem.setVisibility(View.VISIBLE);
-        }
-        else if (!spec.notes.isEmpty())
-        {
-            txtSectRem.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            txtSectRem.setVisibility(View.GONE);
+            if (!section.notes.isEmpty())
+            {
+                txtSectRem.setText(section.notes);
+                txtSectRem.setVisibility(View.VISIBLE);
+            }
+            else if (spec.notes != null)
+            {
+                if (!spec.notes.isEmpty())
+                {
+                    txtSectRem.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    txtSectRem.setVisibility(View.GONE);
+                }
+            }
+            else
+            {
+                txtSectRem.setVisibility(View.GONE);
+            }
         }
 
-        if (!spec.notes.isEmpty())
+        if (spec.notes != null)
         {
-            txtSpecRem.setText(spec.notes);
-            txtSpecRem.setVisibility(View.VISIBLE);
+            if (!spec.notes.isEmpty())
+            {
+                txtSpecRem.setText(spec.notes);
+                txtSpecRem.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                txtSpecRem.setVisibility(View.GONE);
+            }
         }
-        else
-        {
-            txtSpecRem.setVisibility(View.GONE);
-        }
-        
+
         if (spec.count_f1i > 0)
-        specCountf1i.setText(String.valueOf(spec.count_f1i));
+            specCountf1i.setText(String.valueOf(spec.count_f1i));
         if (spec.count_f2i > 0)
-        specCountf2i.setText(String.valueOf(spec.count_f2i));
+            specCountf2i.setText(String.valueOf(spec.count_f2i));
         if (spec.count_f3i > 0)
-        specCountf3i.setText(String.valueOf(spec.count_f3i));
+            specCountf3i.setText(String.valueOf(spec.count_f3i));
         if (spec.count_pi > 0)
-        specCountpi.setText(String.valueOf(spec.count_pi));
+            specCountpi.setText(String.valueOf(spec.count_pi));
         if (spec.count_li > 0)
-        specCountli.setText(String.valueOf(spec.count_li));
+            specCountli.setText(String.valueOf(spec.count_li));
         if (spec.count_ei > 0)
-        specCountei.setText(String.valueOf(spec.count_ei));
+            specCountei.setText(String.valueOf(spec.count_ei));
         if (spec.count_f1e > 0)
-        specCountf1e.setText(String.valueOf(spec.count_f1e));
+            specCountf1e.setText(String.valueOf(spec.count_f1e));
         if (spec.count_f2e > 0)
-        specCountf2e.setText(String.valueOf(spec.count_f2e));
+            specCountf2e.setText(String.valueOf(spec.count_f2e));
         if (spec.count_f3e > 0)
-        specCountf3e.setText(String.valueOf(spec.count_f3e));
+            specCountf3e.setText(String.valueOf(spec.count_f3e));
         if (spec.count_pe > 0)
-        specCountpe.setText(String.valueOf(spec.count_pe));
+            specCountpe.setText(String.valueOf(spec.count_pe));
         if (spec.count_le > 0)
-        specCountle.setText(String.valueOf(spec.count_le));
+            specCountle.setText(String.valueOf(spec.count_le));
         if (spec.count_ee > 0)
-        specCountee.setText(String.valueOf(spec.count_ee));
+            specCountee.setText(String.valueOf(spec.count_ee));
     }
-    
+
     //Parameters spec_* for use in ListSpeciesActivity
     public int getSpec_sectionid(Count spec)
     {

@@ -3,13 +3,10 @@
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           android:largeHeap="true"
-          android:versionName="3.0.1">
+          android:versionName="3.0.2">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- Permission needed for screen brightness setting -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-                     tools:ignore="ProtectedPermissions"/>
     <!-- Permission needed for screen set on/off -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     
@@ -18,6 +15,7 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="TransektCount"
+        android:resizeableActivity="false"
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomeActivity"
@@ -133,7 +131,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
-
+<!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity
         <uses-library
             android:name="com.sec.android.app.multiwindow"
             android:required="false"/>
@@ -153,7 +151,7 @@
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:resource="@dimen/app_minimumsize_h"/>
-
+-->
     </application>
 
 </manifest>

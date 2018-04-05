@@ -33,7 +33,8 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 2016-02-18,
+ * last edited on 2018-04-04.
  */
 public class CountDataSource
 {
@@ -291,23 +292,6 @@ public class CountDataSource
         String where = C_ID + " = ?";
         String[] whereArgs = {String.valueOf(id)};
         database.update(COUNT_TABLE, dataToInsert, where, whereArgs);
-    }
-
-    // tests if database (COUNT_TABLE) is intact otherwise produces SQliteException 
-    public void testCountDB()
-    {
-        Cursor cursor = database.query(COUNT_TABLE, allColumns,
-            null, null, null, null, null);
-
-        cursor.moveToFirst();
-        int i = 0;
-        while (!cursor.isAfterLast())
-        {
-            i++;
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
     }
 
     // Used by EditSectionActivity and CountingActivity

@@ -23,10 +23,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * AdvFileChooser lets you select files from sdcard directory.
+ * AdvFileChooser lets you select files from user's basic directory.
  * It will be called within WelcomeActivity and uses FileArrayAdapter and Option.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
- * Adopted by wmstein on 2016-06-18, last change on 2018-03-18
+ * Adopted by wmstein on 2016-06-18,
+ * last change on 2018-04-05
  */
 
 public class AdvFileChooser extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -81,7 +82,7 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
             }
         }
 
-        // currentDir = new File ("/sdcard/")
+        // currentDir = new File ("/storage/emulated/0/")
         currentDir = new File(Environment.getExternalStorageDirectory().getPath());
         fill(currentDir);
     }
@@ -97,11 +98,10 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
         return super.onKeyDown(keyCode, event);
     }
 
-    // List only files in /sdcard
+    // List only files in user's home directory
     private void fill(File f)
     {
         File[] dirs = null;
-        String fileDate;
 
         if (fileFilter != null)
             dirs = f.listFiles(fileFilter);
@@ -119,7 +119,7 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
                 {
                     fls.add(new Option(ff.getName(), getString(R.string.fileSize) + ": "
                         + ff.length() + " B,  " + getString(R.string.date) + ": "
-                        + dform.format(ff.lastModified()), ff.getAbsolutePath(), false, false, false));
+                        + dform.format(ff.lastModified()), ff.getAbsolutePath(), false));
                 }
             }
         } catch (Exception e)
@@ -128,7 +128,7 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
         }
 
         Collections.sort(fls);
-        ListView listView = (ListView) findViewById(R.id.lvFiles);
+        ListView listView = findViewById(R.id.lvFiles);
 
         adapter = new FileArrayAdapter(listView.getContext(), R.layout.file_view, fls);
         listView.setAdapter(adapter);
@@ -151,7 +151,7 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
 
     private void doSelect(final Option o)
     {
-        //onFileClick(o);
+        // onFileClick(o);
         File fileSelected = new File(o.getPath());
         Intent intent = new Intent();
         intent.putExtra("fileSelected", fileSelected.getAbsolutePath());

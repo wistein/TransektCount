@@ -17,7 +17,8 @@ import java.util.List;
  * FileArrayAdapter is part of filechooser.
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
- * Adopted by wmstein on 18.06.2016, last change on 19.03.2018
+ * Adopted by wmstein on 2016-06-18, 
+ * last change on 2018-04-05
  */
 
 public class FileArrayAdapter extends ArrayAdapter<Option>
@@ -27,8 +28,7 @@ public class FileArrayAdapter extends ArrayAdapter<Option>
     private int id;
     private List<Option> items;
 
-    public FileArrayAdapter(Context context, int textViewResourceId,
-                            List<Option> objects)
+    public FileArrayAdapter(Context context, int textViewResourceId, List<Option> objects)
     {
         super(context, textViewResourceId, objects);
         c = context;
@@ -55,9 +55,9 @@ public class FileArrayAdapter extends ArrayAdapter<Option>
         final Option o = items.get(position);
         if (o != null)
         {
-            ImageView im = (ImageView) v.findViewById(R.id.img1);
-            TextView t1 = (TextView) v.findViewById(R.id.TextView01);
-            TextView t2 = (TextView) v.findViewById(R.id.TextView02);
+            ImageView im = v.findViewById(R.id.img1);
+            TextView t1 = v.findViewById(R.id.TextView01);
+            TextView t2 = v.findViewById(R.id.TextView02);
 
             String name = o.getName().toLowerCase();
             if (name.endsWith(".db"))
