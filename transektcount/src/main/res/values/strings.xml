@@ -43,7 +43,7 @@
     <string name="importWin">Your database has been imported.</string>
     <string name="noDb">Please put \'transektcount0.db\' in the Basic Directory of your memory.</string>
     <string name="errorDb">DB Error!</string>
-    <string name="corruptDb">Database error! If problem remains after restart and after import of a different TourCount-DB, please de-install and re-install the app.</string>
+    <string name="corruptDb">Database error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import an Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>

@@ -24,7 +24,7 @@ import java.io.Writer;
  * Based on "A very simple CSV writer" by
  * @author Glen Smith
  * 
- * Reduced to needed functions with modifications for TourCount by wmstein
+ * Reduced to needed functions with modifications for TransektCount by wmstein
  * Last edited on 2018-03-18
  */
 

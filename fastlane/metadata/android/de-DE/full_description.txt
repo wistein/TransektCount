@@ -27,4 +27,7 @@ Die App kann ab Android-Version 4.2.2 oder neuer verwendet werden.
 Dokumentation ist unter
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge. TourCount unterstützt das Species-spezifische und individuell lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur. Beide Apps verwenden die Europäische Kodierung der Schmetterlinge nach Karsholt/Razowski und beinhalten somit nur europäische Schmetterlingsabbildungen.
+TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge. 
+Die 2. App, TourCount, unterstützt das Species-spezifische und individuell lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur. 
+
+Beide Apps verwenden die Europäische Kodierung der Schmetterlinge nach Karsholt/Razowski und beinhalten somit nur europäische Schmetterlingsabbildungen.

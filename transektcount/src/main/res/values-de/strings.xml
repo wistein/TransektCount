@@ -41,9 +41,9 @@
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte kopiere die Datenbankdatei \"tourcount0.db\" ins Basis-Verzeichnis des Speichers.</string>
+    <string name="noDb">Bitte kopiere die Datenbankdatei \"transektcount0.db\" ins Basis-Verzeichnis des Speichers.</string>
     <string name="errorDb">DB-Fehler!</string>
-    <string name="corruptDb">Datenbankfehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TourCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
+    <string name="corruptDb">Datenbankfehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
