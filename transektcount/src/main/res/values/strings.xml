@@ -72,7 +72,7 @@
     <string name="wind">Wind (0-4)</string>
     <string name="clouds">Clouds (%)</string>
     <string name="starttm">Time from</string>
-    <string name="hinttm">Tap here</string>
+    <string name="hinttm">Click here</string>
     <string name="endtm">until</string>
     <string name="valTemp">Unrealistic temperature</string>
     <string name="valWind">Wind out of range</string>

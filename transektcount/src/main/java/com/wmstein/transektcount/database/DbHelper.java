@@ -356,7 +356,7 @@ public class DbHelper extends SQLiteOpenHelper
                 + C_COUNT_PE + " int, "
                 + C_COUNT_LE + " int, "
                 + C_COUNT_EE + " int, "
-                + C_NOTES + " text default NULL)";
+                + C_NOTES + " text)";
             db.execSQL(sql);
 
             // insert the old data into counts

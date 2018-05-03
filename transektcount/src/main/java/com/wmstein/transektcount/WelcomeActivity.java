@@ -922,9 +922,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 copy(infile, tmpfile);
 
                 // clear DB values for basic DB
-                boolean r_ok = clearDBValues();
-                if (r_ok)
-                    Toast.makeText(this, getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+                clearDBValues();
 
                 // write Basis DB
                 copy(infile, outfile);

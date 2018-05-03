@@ -68,7 +68,8 @@ $ 9
 $ 8
   %3. Benutzung
   !
-  ! Beginne mit TRANSEKTABSCHNITTE. Hier wird die Tabelle mit allen Transektabschnitten angezeigt.
+  ! Beginne mit BEGEHUNG VORBEREITEN. Gib die relevanten Metadaten der Transektbegehung ein. Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden. Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden.  
+  ! TRANSEKTABSCHNITTE. Hier wird die Tabelle mit allen Transektabschnitten angezeigt.
   ! Wähle den zutreffenden Transektabschnitt durch tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Abschnittsliste. Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern. 
   ! Zum Zählen tippe jeweils auf den entsprechenden "+"-Button der gesichteten Kategorie (♂ od. ♀, ♂, ♀, Puppe, Raupe, Ei) der Art.
   ! Mit den "-"-Buttons kann ggf. korrigiert werden.

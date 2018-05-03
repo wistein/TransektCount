@@ -6,253 +6,246 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginLeft="5dp"
-              android:layout_marginTop="5dp"
               android:layout_marginRight="5dp"
-              android:paddingStart="5dp"
-              android:paddingEnd="5dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/rounded_corner"
+              android:orientation="vertical"
               android:paddingBottom="5dp"
-              android:background="@drawable/rounded_corner">
+              android:paddingEnd="5dp"
+              android:paddingStart="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="0dp">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <TextView
+                android:id="@+id/widgetTemp1"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
                 android:paddingEnd="5dp"
-                android:paddingTop="0dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetMeta1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:id="@+id/widgetItem1"
-                    android:inputType="phone"
-                    android:background="@drawable/count_background"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
                 android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/widgetTemp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:inputType="phone"
+                android:paddingBottom="5dp"
                 android:paddingEnd="5dp"
-                android:paddingTop="0dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetMeta2"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:inputType="phone"
-                    android:id="@+id/widgetItem2"
-                    android:background="@drawable/count_background"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingTop="0dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetMeta3"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:inputType="phone"
-                    android:id="@+id/widgetItem3"
-                    android:background="@drawable/count_background"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingEnd="5dp"
             android:paddingStart="5dp"
+            android:paddingTop="0dp">
+
+            <TextView
+                android:id="@+id/widgetWind1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/widgetWind2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:inputType="phone"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="5dp"
+            android:paddingTop="0dp">
+
+            <TextView
+                android:id="@+id/widgetClouds1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/widgetClouds2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:inputType="phone"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:paddingEnd="5dp"
             android:paddingTop="0dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <TextView
+                android:id="@+id/widgetDate1"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
                 android:paddingEnd="5dp"
-                android:paddingTop="0dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetDate1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetDate2"
-                    android:clickable="true"
-                    android:onClick="getSDate"
-                    android:background="@drawable/count_background"
-                    android:hint="@string/hinttm"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="0.8"
-                android:layout_height="wrap_content"
                 android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/widgetDate2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:hint="@string/hinttm"
+                android:longClickable="true"
+                android:paddingBottom="5dp"
                 android:paddingEnd="5dp"
-                android:paddingTop="0dp">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetTime1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetItem4"
-                    android:clickable="true"
-                    android:onClick="getSTime"
-                    android:background="@drawable/count_background"
-                    android:hint="@string/hinttm"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="0.8"
-                android:layout_height="wrap_content"
                 android:paddingStart="5dp"
-                android:paddingTop="0dp">
+                android:paddingTop="5dp"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetTime2"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp"
-                    android:gravity="start|top"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:orientation="vertical"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="0dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:id="@+id/widgetItem5"
-                    android:clickable="true"
-                    android:onClick="getETime"
-                    android:background="@drawable/count_background"
-                    android:hint="@string/hinttm"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/widgetSTime1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/widgetSTime2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:hint="@string/hinttm"
+                android:longClickable="true"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:orientation="vertical"
+            android:paddingStart="5dp"
+            android:paddingTop="0dp">
+
+            <TextView
+                android:id="@+id/widgetETime1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/widgetETime2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/count_background"
+                android:hint="@string/hinttm"
+                android:longClickable="true"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
         </LinearLayout>
 
     </LinearLayout>

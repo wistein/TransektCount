@@ -15,18 +15,18 @@ import com.wmstein.transektcount.R;
  */
 public class EditMetaWidget extends LinearLayout
 {
-    TextView widget_meta1; // temperature
-    EditText widget_item1;
-    TextView widget_meta2; // wind
-    EditText widget_item2;
-    TextView widget_meta3; // clouds
-    EditText widget_item3;
+    TextView widget_temp1; // temperature
+    EditText widget_temp2;
+    TextView widget_wind1; // wind
+    EditText widget_wind2;
+    TextView widget_clouds1; // clouds
+    EditText widget_clouds2;
     TextView widget_date1; // date
     TextView widget_date2;
-    TextView widget_time1; // start_tm
-    TextView widget_item4;
-    TextView widget_time2; // end_tm
-    TextView widget_item5;
+    TextView widget_stime1; // start-time
+    TextView widget_stime2;
+    TextView widget_etime1; // end-time
+    TextView widget_etime2;
 
     String regEx = "^[0-9]*$"; // plausi for numeric input
 
@@ -35,52 +35,52 @@ public class EditMetaWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_meta, this, true);
-        widget_meta1 = (TextView) findViewById(R.id.widgetMeta1);
-        widget_item1 = (EditText) findViewById(R.id.widgetItem1);
-        widget_meta2 = (TextView) findViewById(R.id.widgetMeta2);
-        widget_item2 = (EditText) findViewById(R.id.widgetItem2);
-        widget_meta3 = (TextView) findViewById(R.id.widgetMeta3);
-        widget_item3 = (EditText) findViewById(R.id.widgetItem3);
-        widget_date1 = (TextView) findViewById(R.id.widgetDate1);
-        widget_date2 = (TextView) findViewById(R.id.widgetDate2);
-        widget_time1 = (TextView) findViewById(R.id.widgetTime1);
-        widget_item4 = (TextView) findViewById(R.id.widgetItem4);
-        widget_time2 = (TextView) findViewById(R.id.widgetTime2);
-        widget_item5 = (TextView) findViewById(R.id.widgetItem5);
+        widget_temp1 = findViewById(R.id.widgetTemp1);
+        widget_temp2 = findViewById(R.id.widgetTemp2);
+        widget_wind1 = findViewById(R.id.widgetWind1);
+        widget_wind2 = findViewById(R.id.widgetWind2);
+        widget_clouds1 = findViewById(R.id.widgetClouds1);
+        widget_clouds2 = findViewById(R.id.widgetClouds2);
+        widget_date1 = findViewById(R.id.widgetDate1);
+        widget_date2 = findViewById(R.id.widgetDate2);
+        widget_stime1 = findViewById(R.id.widgetSTime1);
+        widget_stime2 = findViewById(R.id.widgetSTime2);
+        widget_etime1 = findViewById(R.id.widgetETime1);
+        widget_etime2 = findViewById(R.id.widgetETime2);
     }
 
     // Following the SETS
     // temperature
-    public void setWidgetMeta1(String title)
+    public void setWidgetTemp1(String title)
     {
-        widget_meta1.setText(title);
+        widget_temp1.setText(title);
     }
 
-    public void setWidgetItem1(int name)
+    public void setWidgetTemp2(int name)
     {
-        widget_item1.setText(String.valueOf(name));
+        widget_temp2.setText(String.valueOf(name));
     }
 
     // wind
-    public void setWidgetMeta2(String title)
+    public void setWidgetWind1(String title)
     {
-        widget_meta2.setText(title);
+        widget_wind1.setText(title);
     }
 
-    public void setWidgetItem2(int name)
+    public void setWidgetWind2(int name)
     {
-        widget_item2.setText(String.valueOf(name));
+        widget_wind2.setText(String.valueOf(name));
     }
 
     // clouds
-    public void setWidgetMeta3(String title)
+    public void setWidgetClouds1(String title)
     {
-        widget_meta3.setText(title);
+        widget_clouds1.setText(title);
     }
 
-    public void setWidgetItem3(int name)
+    public void setWidgetClouds2(int name)
     {
-        widget_item3.setText(String.valueOf(name));
+        widget_clouds2.setText(String.valueOf(name));
     }
 
     // date
@@ -95,32 +95,32 @@ public class EditMetaWidget extends LinearLayout
     }
 
     // start_tm
-    public void setWidgetTime1(String title)
+    public void setWidgetSTime1(String title)
     {
-        widget_time1.setText(title);
+        widget_stime1.setText(title);
     }
 
-    public void setWidgetItem4(String name)
+    public void setWidgetSTime2(String name)
     {
-        widget_item4.setText(name);
+        widget_stime2.setText(name);
     }
 
     // end_tm
-    public void setWidgetTime2(String title)
+    public void setWidgetETime1(String title)
     {
-        widget_time2.setText(title);
+        widget_etime1.setText(title);
     }
 
-    public void setWidgetItem5(String name)
+    public void setWidgetETime2(String name)
     {
-        widget_item5.setText(name);
+        widget_etime2.setText(name);
     }
 
     // following the GETS
     // get temperature with plausi
-    public int getWidgetItem1()
+    public int getWidgetTemp()
     {
-        String text = widget_item1.getText().toString();
+        String text = widget_temp2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))
@@ -136,9 +136,9 @@ public class EditMetaWidget extends LinearLayout
     }
 
     // get wind with plausi
-    public int getWidgetItem2()
+    public int getWidgetWind()
     {
-        String text = widget_item2.getText().toString();
+        String text = widget_wind2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))
@@ -154,9 +154,9 @@ public class EditMetaWidget extends LinearLayout
     }
 
     // get clouds with plausi
-    public int getWidgetItem3()
+    public int getWidgetClouds()
     {
-        String text = widget_item3.getText().toString();
+        String text = widget_clouds2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))
@@ -171,25 +171,28 @@ public class EditMetaWidget extends LinearLayout
             }
     }
 
-    public String getWidgetDate2()
+    // get get date
+    public String getWidgetDate()
     {
         return widget_date2.getText().toString();
     }
 
-    public String getWidgetItem4()
+    // get start time
+    public String getWidgetSTime()
     {
-        return widget_item4.getText().toString();
+        return widget_stime2.getText().toString();
     }
 
-    public String getWidgetItem5()
+    // get stop time
+    public String getWidgetETime()
     {
-        return widget_item5.getText().toString();
+        return widget_etime2.getText().toString();
     }
 
-    // Following the HINTS
+    // set the hint
     public void setHint(String hint)
     {
-        widget_meta1.setHint(hint);
+        widget_temp1.setHint(hint);
     }
 
     /**

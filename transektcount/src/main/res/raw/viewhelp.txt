@@ -68,7 +68,8 @@ $ 9
 $ 8
   % 3. Usage
   !
-  ! Start with TRANSECT SECTIONS. The screen will show the table with all sections. 
+  ! Start with PREPARE INSPECTION. Fill in the relevant meta data for the specific transect inspection. You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. Finish with the SAVE-button. 
+  ! Then select TRANSECT SECTIONS. The screen will show the table with all sections. 
   ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
   ! As counting of butterflies ought to be distinguished between those within the imaginary count area and butterflies outside this area you have 2 separate sets of counters (Internal and External of Counting Area). 
   ! To count just tip on the appropriate (+)-Button of the corresponding species. The (-)-Buttons allows for corrections.

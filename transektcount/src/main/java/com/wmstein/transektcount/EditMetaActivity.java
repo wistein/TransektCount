@@ -1,7 +1,8 @@
 package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -13,10 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Head;
@@ -28,24 +30,27 @@ import com.wmstein.transektcount.widgets.EditMetaWidget;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2018-03-18
+ * last edited on 2018-05-03
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountEditMetaActivity";
+    private static String TAG = "transektcountEditMetaAct";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
 
-    Head head;
-    Meta meta;
+    private Head head;
+    private Meta meta;
     private Bitmap bMap;
     private BitmapDrawable bg;
+
+    private Calendar pdate, ptime;
 
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
@@ -53,10 +58,11 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     // preferences
     private boolean screenOrientL; // option for screen orientation
 
-    LinearLayout head_area;
+    private LinearLayout head_area;
+    private TextView sDate, sTime, eTime;
 
-    EditHeadWidget ehw;
-    EditMetaWidget etw;
+    private EditHeadWidget ehw;
+    private EditMetaWidget etw;
 
     @Override
     @SuppressLint("LongLogTag")
@@ -65,7 +71,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_head);
 
-        head_area = (LinearLayout) findViewById(R.id.edit_head);
+        head_area = findViewById(R.id.edit_head);
 
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -85,13 +91,14 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
+        ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
@@ -99,6 +106,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
     }
 
+    
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
@@ -117,10 +125,12 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
         // build the Edit Meta Data screen
         // clear existing view
         head_area.removeAllViews();
@@ -145,18 +155,18 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         // display the editable meta data
         etw = new EditMetaWidget(this, null);
-        etw.setWidgetMeta1(getString(R.string.temperature));
-        etw.setWidgetItem1(meta.tempe);
-        etw.setWidgetMeta2(getString(R.string.wind));
-        etw.setWidgetItem2(meta.wind);
-        etw.setWidgetMeta3(getString(R.string.clouds));
-        etw.setWidgetItem3(meta.clouds);
+        etw.setWidgetTemp1(getString(R.string.temperature));
+        etw.setWidgetTemp2(meta.tempe);
+        etw.setWidgetWind1(getString(R.string.wind));
+        etw.setWidgetWind2(meta.wind);
+        etw.setWidgetClouds1(getString(R.string.clouds));
+        etw.setWidgetClouds2(meta.clouds);
         etw.setWidgetDate1(getString(R.string.date));
         etw.setWidgetDate2(meta.date);
-        etw.setWidgetTime1(getString(R.string.starttm));
-        etw.setWidgetItem4(meta.start_tm);
-        etw.setWidgetTime2(getString(R.string.endtm));
-        etw.setWidgetItem5(meta.end_tm);
+        etw.setWidgetSTime1(getString(R.string.starttm));
+        etw.setWidgetSTime2(meta.start_tm);
+        etw.setWidgetETime1(getString(R.string.endtm));
+        etw.setWidgetETime2(meta.end_tm);
         head_area.addView(etw);
 
         // check for focus
@@ -170,40 +180,129 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             ehw.requestFocus();
         }
 
-    }
+        pdate = Calendar.getInstance();
+        ptime = Calendar.getInstance();
 
-    // getSDate()
-    public void getSDate(View view)
-    {
-        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-            .hideSoftInputFromWindow(view.getWindowToken(), 0);
-        TextView sDate = (TextView) this.findViewById(R.id.widgetDate2);
-        sDate.setText(getcurDate());
-    }
+        sDate = this.findViewById(R.id.widgetDate2);
+        sTime = this.findViewById(R.id.widgetSTime2);
+        eTime = this.findViewById(R.id.widgetETime2);
 
-    // getSTime()
-    public void getSTime(View view)
-    {
-        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-            .hideSoftInputFromWindow(view.getWindowToken(), 0);
-        TextView sTime = (TextView) this.findViewById(R.id.widgetItem4);
-        sTime.setText(getcurTime());
-    }
+        // get current date by click
+        sDate.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Date date = new Date();
+                sDate.setText(getformDate(date));
+            }
+        });
 
-    // getETime()
-    public void getETime(View view)
-    {
-        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
-            .hideSoftInputFromWindow(view.getWindowToken(), 0);
-        TextView eTime = (TextView) this.findViewById(R.id.widgetItem5);
-        eTime.setText(getcurTime());
+        // get date picker result
+        final DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener()
+        {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+            {
+                pdate.set(Calendar.YEAR, year);
+                pdate.set(Calendar.MONTH, monthOfYear);
+                pdate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                Date date = pdate.getTime();
+                sDate.setText(getformDate(date));
+            }
+        };
+
+        // select date by long click
+        sDate.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                new DatePickerDialog(EditMetaActivity.this, dpd,
+                    pdate.get(Calendar.YEAR),
+                    pdate.get(Calendar.MONTH),
+                    pdate.get(Calendar.DAY_OF_MONTH)).show();
+                return true;
+            }
+        });
+
+        // get current start time
+        sTime.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Date date = new Date();
+                sTime.setText(getformTime(date));
+            }
+        });
+
+        // get start time picker result
+        final TimePickerDialog.OnTimeSetListener stpd = new TimePickerDialog.OnTimeSetListener()
+        {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+            {
+                ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                ptime.set(Calendar.MINUTE, minute);
+                Date date = ptime.getTime();
+                sTime.setText(getformTime(date));
+            }
+        };
+
+        // select start time
+        sTime.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                new TimePickerDialog(EditMetaActivity.this, stpd,
+                    ptime.get(Calendar.HOUR_OF_DAY),
+                    ptime.get(Calendar.MINUTE),
+                    true).show();
+                return true;
+            }
+        });
+
+        // get current end time
+        eTime.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Date date = new Date();
+                eTime.setText(getformTime(date));
+            }
+        });
+
+        // get start time picker result
+        final TimePickerDialog.OnTimeSetListener etpd = new TimePickerDialog.OnTimeSetListener()
+        {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+            {
+                ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                ptime.set(Calendar.MINUTE, minute);
+                Date date = ptime.getTime();
+                eTime.setText(getformTime(date));
+            }
+        };
+
+        // select end time
+        eTime.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                new TimePickerDialog(EditMetaActivity.this, etpd,
+                    ptime.get(Calendar.HOUR_OF_DAY),
+                    ptime.get(Calendar.MINUTE),
+                    true).show();
+                return true;
+            }
+        });
     }
 
     // formatted date
-    // by wmstein
-    public String getcurDate()
+    public String getformDate(Date date)
     {
-        Date date = new Date();
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
 
@@ -218,12 +317,10 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         return dform.format(date);
     }
 
-    // Date for start_tm and end_tm
-    // by wmstein
-    public String getcurTime()
+    // date for start_tm and end_tm
+    public String getformTime(Date date)
     {
-        Date date = new Date();
-        DateFormat dform = new SimpleDateFormat("HH:mm", Locale.GERMAN);
+        DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
         return dform.format(date);
     }
 
@@ -253,27 +350,27 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         headDataSource.saveHead(head);
 
         // Save meta data
-        meta.tempe = etw.getWidgetItem1();
+        meta.tempe = etw.getWidgetTemp();
         if (meta.tempe > 50 || meta.tempe < 0)
         {
             Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
             return false;
         }
-        meta.wind = etw.getWidgetItem2();
+        meta.wind = etw.getWidgetWind();
         if (meta.wind > 4 || meta.wind < 0)
         {
             Toast.makeText(this, getString(R.string.valWind), Toast.LENGTH_SHORT).show();
             return false;
         }
-        meta.clouds = etw.getWidgetItem3();
+        meta.clouds = etw.getWidgetClouds();
         if (meta.clouds > 100 || meta.clouds < 0)
         {
             Toast.makeText(this, getString(R.string.valClouds), Toast.LENGTH_SHORT).show();
             return false;
         }
-        meta.date = etw.getWidgetDate2();
-        meta.start_tm = etw.getWidgetItem4();
-        meta.end_tm = etw.getWidgetItem5();
+        meta.date = etw.getWidgetDate();
+        meta.start_tm = etw.getWidgetSTime();
+        meta.end_tm = etw.getWidgetETime();
 
         metaDataSource.saveMeta(meta);
         return true;
@@ -309,7 +406,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }

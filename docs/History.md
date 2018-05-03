@@ -2,6 +2,18 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
+#### Version 3.0.3 (2018-05-01)
+- Additional manual input for date, start-time and stop-time with long press
+- Project changes for Android Studio 3.1.2 and Gradle 3.1.2
+- Code cleaning
+- Bug fixes
+
+#### Version 3.0.2 (2018-04-05)
+- Unnecessary permission WRITE_SETTINGS removed
+- Disabled multi-window-mode (Android 7+) for incompatible pull-down-menu (Spinner)
+- Code cleaning
+- Bug fixes
+
 #### Version 3.0.1 (2018-04-01)
 - Corrected wrong GitHub Tag
 

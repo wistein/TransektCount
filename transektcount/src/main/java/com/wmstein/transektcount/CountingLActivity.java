@@ -121,21 +121,12 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     {
         super.onCreate(savedInstanceState);
 
+        Context context = this.getApplicationContext();
+
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         getPrefs();
-
-        if (lhandPref) // if left-handed counting page
-        {
-            setContentView(R.layout.activity_counting_lh);
-        }
-        else
-        {
-            setContentView(R.layout.activity_counting);
-        }
-
-        Context context = this.getApplicationContext();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -147,17 +138,9 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         countDataSource = new CountDataSource(this);
         alertDataSource = new AlertDataSource(this);
 
-        // Set full brightness of screen
-        if (brightPref)
-        {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-            params.screenBrightness = 1.0f;
-            getWindow().setAttributes(params);
-        }
-
         if (lhandPref) // if left-handed counting page
         {
+            setContentView(R.layout.activity_counting_lh);
             LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
             counting_screen.setBackground(transektCount.getBackground());
             notes_area1 = findViewById(R.id.sectionNotesLayoutLH);
@@ -170,6 +153,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
         else
         {
+            setContentView(R.layout.activity_counting);
             LinearLayout counting_screen = findViewById(R.id.countingScreen);
             counting_screen.setBackground(transektCount.getBackground());
             notes_area1 = findViewById(R.id.sectionNotesLayout);
@@ -179,6 +163,15 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             count_area_e = findViewById(R.id.countCounteLayout);
             notes_area2 = findViewById(R.id.countNotesLayout);
             notes_area3 = findViewById(R.id.alertNotesLayout);
+        }
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
         }
 
         if (savedInstanceState != null)
@@ -192,11 +185,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        PowerManager mPowerManager;
         // check for API-Level >= 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             try
             {
                 if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
