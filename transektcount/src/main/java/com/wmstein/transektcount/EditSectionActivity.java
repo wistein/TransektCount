@@ -40,7 +40,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2018-03-18
+ * last edited on 2018-07-13
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -454,18 +454,19 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                         {
                             if (MyDebug.LOG)
                                 Log.d(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
-                            // create or save
+                            // create or update
                             if (cew.countId == 0)
                             {
                                 if (MyDebug.LOG)
                                     Log.d(TAG, "Creating!");
-                                //returns newCount
+                                // creates new species entry
                                 countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode());
                             }
                             else
                             {
                                 if (MyDebug.LOG)
                                     Log.d(TAG, "Updating!");
+                                // updates species name and code
                                 countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode());
                             }
                             retValue = true;

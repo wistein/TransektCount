@@ -56,7 +56,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Latest changes on 2018-03-18
+ * Latest changes on 2018-07-13
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -1585,7 +1585,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // cloneSection() with check for double names
-    // modified by wmstein on 10.04.2016
     private void cloneSection()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -1627,8 +1626,11 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 for (Count c : countDataSource.getAllCountsForSection(section_id))
                 {
                     Count newCount = countDataSource.createCount(newSection.id, c.name, c.code);
-                    newCount.notes = c.notes;
-                    countDataSource.saveCount(newCount);
+                    if (newCount != null)
+                    {
+                        newCount.notes = c.notes;
+                        countDataSource.saveCount(newCount);
+                    }
                 }
 
                 // Exit this and go to the list of new sections

@@ -34,7 +34,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2018-04-04.
+ * last edited on 2018-07-13.
  */
 public class CountDataSource
 {
@@ -79,31 +79,36 @@ public class CountDataSource
     // Used by EditSectionActivity and CountingActivity
     public Count createCount(int section_id, String name, String code)
     {
-        ContentValues values = new ContentValues();
-        values.put(C_SECTION_ID, section_id);
-        values.put(C_NAME, name);
-        values.put(C_CODE, code);
-        values.put(C_COUNT_F1I, 0);
-        values.put(C_COUNT_F2I, 0);
-        values.put(C_COUNT_F3I, 0);
-        values.put(C_COUNT_PI, 0);
-        values.put(C_COUNT_LI, 0);
-        values.put(C_COUNT_EI, 0);
-        values.put(C_COUNT_F1E, 0);
-        values.put(C_COUNT_F2E, 0);
-        values.put(C_COUNT_F3E, 0);
-        values.put(C_COUNT_PE, 0);
-        values.put(C_COUNT_LE, 0);
-        values.put(C_COUNT_EE, 0);
-        // notes should be default null and so is not created here
+        if (database.isOpen())
+        {
+            ContentValues values = new ContentValues();
+            values.put(C_SECTION_ID, section_id);
+            values.put(C_NAME, name);
+            values.put(C_CODE, code);
+            values.put(C_COUNT_F1I, 0);
+            values.put(C_COUNT_F2I, 0);
+            values.put(C_COUNT_F3I, 0);
+            values.put(C_COUNT_PI, 0);
+            values.put(C_COUNT_LI, 0);
+            values.put(C_COUNT_EI, 0);
+            values.put(C_COUNT_F1E, 0);
+            values.put(C_COUNT_F2E, 0);
+            values.put(C_COUNT_F3E, 0);
+            values.put(C_COUNT_PE, 0);
+            values.put(C_COUNT_LE, 0);
+            values.put(C_COUNT_EE, 0);
+            // notes should be default null and so is not created here
 
-        int insertId = (int) database.insert(COUNT_TABLE, null, values);
-        Cursor cursor = database.query(COUNT_TABLE,
-            allColumns, C_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Count newCount = cursorToCount(cursor);
-        cursor.close();
-        return newCount;
+            int insertId = (int) database.insert(COUNT_TABLE, null, values);
+            Cursor cursor = database.query(COUNT_TABLE,
+                allColumns, C_ID + " = " + insertId, null, null, null, null);
+            cursor.moveToFirst();
+            Count newCount = cursorToCount(cursor);
+            cursor.close();
+            return newCount;
+        }
+        else
+            return null;
     }
     
     private Count cursorToCount(Cursor cursor)
@@ -286,12 +291,15 @@ public class CountDataSource
     // Used by EditSectionActivity
     public void updateCountName(int id, String name, String code)
     {
-        ContentValues dataToInsert = new ContentValues();
-        dataToInsert.put(C_NAME, name);
-        dataToInsert.put(C_CODE, code);
-        String where = C_ID + " = ?";
-        String[] whereArgs = {String.valueOf(id)};
-        database.update(COUNT_TABLE, dataToInsert, where, whereArgs);
+        if (database.isOpen())
+        {
+            ContentValues dataToInsert = new ContentValues();
+            dataToInsert.put(C_NAME, name);
+            dataToInsert.put(C_CODE, code);
+            String where = C_ID + " = ?";
+            String[] whereArgs = {String.valueOf(id)};
+            database.update(COUNT_TABLE, dataToInsert, where, whereArgs);
+        }
     }
 
     // Used by EditSectionActivity and CountingActivity

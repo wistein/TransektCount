@@ -15,7 +15,8 @@ import java.util.List;
 
 /********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
+ * Adopted for TransektCount by wmstein on 2016-02-18,
+ * last edited on 2018-07-13
  */
 public class SectionDataSource
 {
@@ -88,12 +89,15 @@ public class SectionDataSource
 
     public void saveSection(Section section)
     {
-        ContentValues dataToInsert = new ContentValues();
-        dataToInsert.put(DbHelper.S_NAME, section.name);
-        dataToInsert.put(DbHelper.S_NOTES, section.notes);
-        String where = DbHelper.S_ID + " = ?";
-        String[] whereArgs = {String.valueOf(section.id)};
-        database.update(DbHelper.SECTION_TABLE, dataToInsert, where, whereArgs);
+        if (database.isOpen())
+        {
+            ContentValues dataToInsert = new ContentValues();
+            dataToInsert.put(DbHelper.S_NAME, section.name);
+            dataToInsert.put(DbHelper.S_NOTES, section.notes);
+            String where = DbHelper.S_ID + " = ?";
+            String[] whereArgs = {String.valueOf(section.id)};
+            database.update(DbHelper.SECTION_TABLE, dataToInsert, where, whereArgs);
+        }
     }
 
     /******************/

@@ -3,7 +3,7 @@
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           android:largeHeap="true"
-          android:versionName="3.0.3">
+          android:versionName="3.0.4">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -17,6 +17,7 @@
         android:label="TransektCount"
         android:resizeableActivity="false"
         android:theme="@style/AppTheme">
+        
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/app_name"
@@ -27,6 +28,7 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
+        
         <activity
             android:name="com.wmstein.filechooser.AdvFileChooser"
             android:label="@string/app_name"
@@ -35,6 +37,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name=".NewSectionActivity"
             android:label="@string/title_activity_new_section"
@@ -45,6 +48,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ListSectionActivity"/>
         </activity>
+        
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
@@ -53,6 +57,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name=".ListSectionActivity"
             android:label="@string/title_activity_list_section"
@@ -62,6 +67,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name=".EditMetaActivity"
             android:label="@string/title_activity_meta"
@@ -72,6 +78,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name=".ListSpeciesActivity"
             android:label="@string/title_activity_list_species"
@@ -82,6 +89,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
+        
         <activity
             android:name=".CountingActivity"
             android:label="@string/title_activity_counting"
@@ -93,6 +101,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ListSectionActivity"/>
         </activity>
+        
         <activity
             android:name=".CountingLActivity"
             android:label="@string/title_activity_counting"
@@ -104,6 +113,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ListSectionActivity"/>
         </activity>
+        
         <activity
             android:name=".CountOptionsActivity"
             android:label="@string/title_activity_count_options"
@@ -113,6 +123,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
+        
         <activity
             android:name=".DummyActivity"
             android:label="@string/title_activity_dummy"
@@ -122,6 +133,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
+        
         <activity
             android:name=".EditSectionActivity"
             android:label="@string/title_activity_edit_section"
@@ -131,6 +143,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
+        
 <!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity
         <uses-library
             android:name="com.sec.android.app.multiwindow"
