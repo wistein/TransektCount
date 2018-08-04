@@ -74,9 +74,9 @@
     <string name="starttm">Time from</string>
     <string name="hinttm">Click here</string>
     <string name="endtm">until</string>
-    <string name="valTemp">Unrealistic temperature</string>
-    <string name="valWind">Wind out of range</string>
-    <string name="valClouds">Clouds out of range</string>
+    <string name="valTemp">Unrealistic temperature!</string>
+    <string name="valWind">Wind out of range!</string>
+    <string name="valClouds">Clouds out of range!</string>
     <string name="date">Date</string>
 
     <!-- NewSectionActivity -->
@@ -103,7 +103,6 @@
     <string name="confirmDelete">Are you sure you want to delete this list?</string>
     <string name="willAlert">- %1$s will show alert at  %2$d.</string>
     <string name="deleteButton">Delete</string>
-    <string name="cancelButton">Cancel</string>
     <string name="action_share">Share</string>
     <string name="send_to">Share notes</string>
 
@@ -138,7 +137,7 @@
     <string name="pref_bg">Background</string>
     <string name="pref_bg_summ">Choose default, custom or no background image.</string>
     <string name="chooseImg">Custom Image</string>
-    <string name="explainImg">Select the background image to be used when a custom image is selected.\nPlease mind: The image will be scaled to the screen area of the device.</string>
+    <string name="explainImg">Select an own background image per Android Gallery app to replace the default background.\nPlease mind: The image will be scaled to the screen area of the device.</string>
     <string name="image_error">Error setting custom image! Please try using the gallery rather than a file manager.</string>
     <string name="pref_sort_order">Sorting</string>
     <string name="pref_sort_order_summ">Sort order of your section list.</string>
@@ -187,7 +186,6 @@
     <string name="deleteAlert">Delete Alert</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>
     <string name="yesDeleteIt">Delete</string>
-    <string name="noCancel">Cancel</string>
 
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Counting Result</string>
@@ -219,8 +217,19 @@
     <string name="hintCountNotes">Species notes</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
-    <string name="getHelp">Database problem!\nPlease send an email (see "App Info") if you need assistance, attaching your exported \'transektcount.db\'.</string>
+    <string name="getHelp">Database problem! Please mail your exported \'transektcount_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
     <string name="createDB">Still no database created!\nPlease create at least the species list for 1 transect section.</string>
     <string name="sect01">Sect 01</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Permissions -->
+    <string name="perm_required">Permissions Required</string>
+    <string name="app_settings">App Settings</string>
+    <string name="perm_hint">In order to import and export database files, access to storage is necessary.</string>
+    <string name="perm_hint1">Please enable the missing permission for the app in the phone settings.</string>
+    <string name="perm_declined">Permissions declined</string>
+    <string name="retry">Retry</string>
+    <string name="permission_please">TransektCount needs storage permission in order to use a custom background.</string>
 
 </resources>

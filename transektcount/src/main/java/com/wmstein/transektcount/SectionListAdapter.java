@@ -196,7 +196,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
                         ((ListSectionActivity) mContext).deleteSection(sct);
                     }
                 }
-            ).setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener()
+            ).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int id)
                     {

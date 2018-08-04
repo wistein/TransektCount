@@ -39,7 +39,7 @@ import java.util.List;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2018-03-18
+ * last edited on 2018-08-04
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -254,6 +254,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     public void saveData()
     {
         // don't crash if the user hasn't filled things in...
+        // Snackbar doesn't appear so Toast 
         Toast.makeText(CountOptionsActivity.this, getString(R.string.sectSaving) + " " + count.name + "!", Toast.LENGTH_SHORT).show();
         count.count_f1i = curr_val_widget.getParameterValuef1i();
         count.count_f2i = curr_val_widget.getParameterValuef2i();
@@ -376,7 +377,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                     }
                 }
             });
-            areYouSure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
+            areYouSure.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {

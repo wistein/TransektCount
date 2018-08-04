@@ -9,8 +9,10 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wmstein.transektcount.database.AlertDataSource;
@@ -40,7 +43,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2018-07-13
+ * last edited on 2018-08-04
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -396,7 +399,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             //check if this is not a duplicate of an existing name
             if (compSectionNames(newtitle))
             {
-                Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                showSnackbarRed(newtitle + " " + getString(R.string.isdouble));
                 savesection = false;
             }
             else
@@ -407,7 +411,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else
         {
-            Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
+            showSnackbarRed(newtitle + " " + getString(R.string.isempty));
             savesection = false;
         }
 
@@ -473,22 +478,25 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                         }
                         else
                         {
-                            Toast.makeText(this, getString(R.string.isempt), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(this, getString(R.string.isempt), Toast.LENGTH_SHORT).show();
+                            showSnackbarRed(getString(R.string.isempt));
                             retValue = false;
                         }
                     }
                 }
                 else
                 {
-                    Toast.makeText(this, getString(R.string.spname) + " " + isDblName + " "
-                        + getString(R.string.orcode) + " " + isDblCode + " " 
-                        + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " 
+//                      + isDblCode + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                    showSnackbarRed(getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " + isDblCode + " "
+                        + getString(R.string.isdouble));
                     retValue = false;
                 }
             }
 
             if (retValue)
             {
+                // Snackbar doesn't appear, so Toast is used
                 Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " 
                     + section.name + "!", Toast.LENGTH_SHORT).show();
             }
@@ -593,7 +601,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                     new_count_name = "";
                 }
             });
-            areYouSure.setNegativeButton(R.string.noCancel, new DialogInterface.OnClickListener()
+            areYouSure.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
@@ -603,6 +611,15 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             areYouSure.show();
         }
         getCountNames();
+    }
+
+    private void showSnackbarRed(String str) // bold red text
+    {
+        View view = findViewById(R.id.editingScreen);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" +  str + "</font></b>"), Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        sB.show();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)

@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -37,7 +38,7 @@ import java.util.Locale;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2018-05-03
+ * last edited on 2018-08-04
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -353,19 +354,31 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         meta.tempe = etw.getWidgetTemp();
         if (meta.tempe > 50 || meta.tempe < 0)
         {
-            Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.valTemp), Toast.LENGTH_SHORT).show();
+            Snackbar sB = Snackbar.make(etw, Html.fromHtml("<font color=\"#ff0000\"><b>" +  getString(R.string.valTemp) + "</font></b>"), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            sB.show();
             return false;
         }
         meta.wind = etw.getWidgetWind();
         if (meta.wind > 4 || meta.wind < 0)
         {
-            Toast.makeText(this, getString(R.string.valWind), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.valWind), Toast.LENGTH_SHORT).show();
+            Snackbar sB = Snackbar.make(etw, Html.fromHtml("<font color=\"#ff0000\"><b>" +  getString(R.string.valWind) + "</font></b>"), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            sB.show();
             return false;
         }
         meta.clouds = etw.getWidgetClouds();
         if (meta.clouds > 100 || meta.clouds < 0)
         {
-            Toast.makeText(this, getString(R.string.valClouds), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.valClouds), Toast.LENGTH_SHORT).show();
+            Snackbar sB = Snackbar.make(etw, Html.fromHtml("<font color=\"#ff0000\"><b>" +  getString(R.string.valClouds) + "</font></b>"), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            sB.show();
             return false;
         }
         meta.date = etw.getWidgetDate();

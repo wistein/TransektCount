@@ -16,12 +16,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
@@ -50,18 +54,29 @@ import sheetrock.panda.changelog.ViewHelp;
 
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
- * import/export/help/info methods and
+ * import/export/help/info methods and starts
  * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
- * <p/>
+ * It uses further PermissionDialogFragment.
+ * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2018-04-04
+ * last edited on 2018-08-04
  */
-public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
-    private static String TAG = "TransektCountWelcomeActivity";
+    private static String TAG = "TransektCountWelcomeAct";
     TransektCountApplication transektCount;
     SharedPreferences prefs;
+
+    // Permission dispatcher mode: 
+    //  1 = use location service (not used)
+    //  2 = end location service (not used)
+    //  3 = export DB
+    //  4 = export DB -> CSV
+    //  5 = export basic DB
+    //  6 = import DB
+    //  7 = import basic DB
+    private int modePerm;
 
     ChangeLog cl;
     ViewHelp vh;
@@ -130,7 +145,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         } catch (SQLiteException e)
         {
             tname = getString(R.string.errorDb);
-            Toast.makeText(this, R.string.corruptDb, Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, R.string.corruptDb, Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.corruptDb));
         }
         
         try
@@ -328,6 +344,52 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
+    // Part of permission handling
+    @Override
+    public void permissionCaptureFragment()
+    {
+        if (isStoPermissionGranted()) // current storage permission state granted
+        {
+            switch (modePerm)
+            {
+            case 3: // write DB
+                doExportDB();
+                break;
+
+            case 4: // write DB2CSV
+                doExportDb2CSV();
+                break;
+
+            case 5: // write basic DB
+                doExportBasisDb();
+                break;
+
+            case 6: // read DB
+                doImportDB();
+                break;
+
+            case 7: // read basic DB
+                doImportBasisDB();
+                break;
+            }
+        }
+        else
+        {
+            if (modePerm != 2)
+                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
+        }
+    }
+
+    // if API level > 23 test for permissions granted
+    private boolean isStoPermissionGranted()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        }
+        return true;
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -370,16 +432,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
     {
-        // if API level > 23
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        }
-
+        // Export DB with permission check
+        modePerm = 3;
+        permissionCaptureFragment(); // calls doExportDB()
+    }
+    
+    private void doExportDB()
+    {
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
@@ -420,7 +479,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.noCard));
         }
         else
         {
@@ -429,12 +489,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             {
                 // export db
                 copy(infile, outfile);
-                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+                showSnackbar(getString(R.string.saveWin));
             } catch (IOException e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to copy database");
-                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+                showSnackbarRed(getString(R.string.saveFail));
             }
         }
     }
@@ -445,6 +507,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // and purged export in csv-format
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
+    {
+        // Export DB -> CSV with permission check
+        modePerm = 4;
+        permissionCaptureFragment();
+    }
+    
+    private void doExportDb2CSV()
     {
         // if API level > 23
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -509,7 +578,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.noCard));
+            
         }
         else
         {
@@ -846,12 +917,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 metaDataSource.close();
                 sectionDataSource.close();
 
-                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+                showSnackbar(getString(R.string.saveWin));
+                
             } catch (Exception e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to export csv file");
-                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+                showSnackbarRed(getString(R.string.saveFail));
             }
         }
     }
@@ -861,16 +935,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // modified by wmstein
     public void exportBasisDb()
     {
-        // if API level > 23
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        }
+        // Export Basic DB with permission check
+        modePerm = 5;
+        permissionCaptureFragment();
+    }
 
+    private void doExportBasisDb()
+    {
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
@@ -911,7 +982,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.noCard));
         }
         else
         {
@@ -934,13 +1006,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 boolean d0 = tmpfile.delete();
                 if (d0)
                 {
-                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
+                    showSnackbar(getString(R.string.saveWin));
                 }
             } catch (IOException e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to export Basic DB");
-                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
+                showSnackbarRed(getString(R.string.saveFail));
             }
         }
     }
@@ -962,7 +1036,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             {
                 boolean r_ok = clearDBValues();
                 if (r_ok)
-                    Toast.makeText(getApplicationContext(), getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+                {
+//                    Toast.makeText(getApplicationContext(), getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
+                    showSnackbar(getString(R.string.reset2basic));
+                }
             }
         });
         builder.setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
@@ -1025,7 +1102,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.e(TAG, "Failed to reset DB");
-            Toast.makeText(this, getString(R.string.resetFail), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, getString(R.string.resetFail), Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.resetFail));
             r_ok = false;
         }
         return r_ok;
@@ -1037,6 +1115,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // based on android-file-chooser from Google Code Archive.
     // Created by wmstein
     public void loadFile()
+    {
+        // Import DB with permission check
+        modePerm = 6;
+        permissionCaptureFragment(); // calls doImportDB()
+    }
+
+    private void doImportDB()
     {
         Intent intent = new Intent(this, AdvFileChooser.class);
         ArrayList<String> extensions = new ArrayList<>();
@@ -1111,14 +1196,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         if (MyDebug.LOG)
                             Log.d(TAG, "No sdcard access");
-                        Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+                        showSnackbarRed(getString(R.string.noCard));
                     }
                     else
                     {
                         try
                         {
                             copy(infile, outfile);
-                            Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+                            showSnackbar(getString(R.string.importWin));
 
                             Head head;
                             headDataSource = new HeadDataSource(getApplicationContext());
@@ -1139,7 +1226,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         {
                             if (MyDebug.LOG)
                                 Log.e(TAG, "Failed to import database");
-                            Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
+                            showSnackbarRed(getString(R.string.importFail));
                         }
                     }
                     // END
@@ -1161,16 +1249,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {
-        // permission to read db
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasReadStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (hasReadStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        }
-        
+        // Import basic DB with permission check
+        modePerm = 7;
+        permissionCaptureFragment(); // calls doImportBasisDB()
+    }
+
+    private void doImportBasisDB()
+    {
         //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
         infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
         String destPath = "/data/data/com.wmstein.transektcount/files";
@@ -1187,7 +1272,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         outfile = new File(destPath + "/transektcount.db");
         if (!(infile.exists()))
         {
-            Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
+            showSnackbar(getString(R.string.noDb));
             return;
         }
 
@@ -1224,14 +1310,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 {
                     if (MyDebug.LOG)
                         Log.d(TAG, "No sdcard access");
-                    Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
+                    showSnackbarRed(getString(R.string.noCard));
                 }
                 else
                 {
                     try
                     {
                         copy(infile, outfile);
-                        Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
+                        showSnackbar(getString(R.string.importWin));
 
                         Head head;
                         headDataSource = new HeadDataSource(getApplicationContext());
@@ -1252,7 +1340,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         if (MyDebug.LOG)
                             Log.e(TAG, "Failed to import database");
-                        Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
+                        showSnackbarRed(getString(R.string.importFail));
                     }
                 }
                 // END
@@ -1287,4 +1376,22 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         out.close();
     }
 
+    private void showSnackbar(String str) // green text
+    {
+        View view = findViewById(R.id.baseLayout);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#00ff00\">" + str + "</font>"), Snackbar.LENGTH_SHORT);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        sB.show();
+    }
+
+    private void showSnackbarRed(String str) // bold red text
+    {
+        View view = findViewById(R.id.baseLayout);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        sB.show();
+    }
+    
 }

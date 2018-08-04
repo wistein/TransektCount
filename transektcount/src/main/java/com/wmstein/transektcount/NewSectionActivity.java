@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wmstein.transektcount.database.Section;
@@ -29,7 +32,7 @@ import java.util.List;
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2018-03-18
+ * last edited on 2018-08-04
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -59,7 +62,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         prefs.registerOnSharedPreferenceChangeListener(this);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
-        LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen); //in activity_new_section.xml
+        ScrollView baseLayout = findViewById(R.id.newsectScreen); //in activity_new_section.xml
 
         if (screenOrientL)
         {
@@ -139,7 +142,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
             //check if this is not a duplicate of an existing name
             if (compSectionNames(sect_name))
             {
-                Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
                 return;
             }
             else
@@ -149,11 +153,12 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         }
         else
         {
-            Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
+            showSnackbarRed(sect_name + " " + getString(R.string.isempty));
             return;
         }
 
-        // Huzzah!
+        // Toast, as snackbar doesn't show up
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
         // Edit the new section.
@@ -199,7 +204,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        LinearLayout baseLayout = (LinearLayout) findViewById(R.id.newsectScreen);
+        ScrollView baseLayout = findViewById(R.id.newsectScreen);
 
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
         baseLayout.setBackground(null);
@@ -215,6 +220,14 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         baseLayout.setBackground(bg);
     }
 
+    private void showSnackbarRed(String str) // bold red text
+    {
+        View view = findViewById(R.id.newsectScreen);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        sB.show();
+    }
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004

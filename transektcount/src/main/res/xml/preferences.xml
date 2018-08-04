@@ -4,6 +4,11 @@
     <PreferenceCategory
         android:title="@string/prefs_appearance">
         android:key="key_prefs_appearance">
+        <Preference
+            android:title="@string/chooseImg"
+            android:icon="@drawable/ic_image_black_48dp"
+            android:key="button"
+            android:summary="@string/explainImg"/>
         <ListPreference
             android:key="pref_back"
             android:icon="@drawable/ic_wallpaper_black_48dp"
@@ -11,11 +16,6 @@
             android:summary="@string/pref_bg_summ"
             android:entries="@array/pref_bg_entries"
             android:entryValues="@array/pref_bg_values"/>
-        <Preference
-            android:title="@string/chooseImg"
-            android:icon="@drawable/ic_image_black_48dp"
-            android:key="button"
-            android:summary="@string/explainImg"/>
         <ListPreference
             android:key="pref_sort"
             android:icon="@drawable/ic_reorder_black_48dp"

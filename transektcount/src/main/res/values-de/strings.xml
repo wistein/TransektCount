@@ -74,7 +74,7 @@
     <string name="starttm">Zeit von</string>
     <string name="hinttm">Tippe hier</string>
     <string name="endtm">bis</string>
-    <string name="valTemp">Unrealistische Temperatur</string>
+    <string name="valTemp">Unrealistische Temperatur!</string>
     <string name="valWind">Wind überprüfen!</string>
     <string name="valClouds">Wolken überprüfen!</string>
     <string name="date">Datum</string>
@@ -103,7 +103,6 @@
     <string name="confirmDelete">Soll die Liste wirklich gelöscht werden?</string>
     <string name="willAlert">- %1$s wird bei %2$d ein Signal geben.</string>
     <string name="deleteButton">Löschen</string>
-    <string name="cancelButton">Abbrechen</string>
     <string name="action_share">Mitteilen</string>
     <string name="send_to">Versenden</string>
 
@@ -138,7 +137,7 @@
     <string name="pref_bg">Hintergrund</string>
     <string name="pref_bg_summ">Wähle Standard-, eigenes oder kein Hintergrundbild.</string>
     <string name="chooseImg">Eigenes Hintergrundbild</string>
-    <string name="explainImg">Wähle ein Hintergrundbild aus, wenn ein eigenes Bild angezeigt werden soll.\nBitte beachten: Das Bild wird auf die darstellbare Fläche des Geräts skaliert.</string>
+    <string name="explainImg">Wähle ein eigenes Hintergrundbild per Android-Galerie-App aus, falls der Standard-Hintergrund ersetzt werden soll.\nBitte beachten: Das Bild wird auf die darstellbare Fläche des Geräts skaliert.</string>
     <string name="image_error">Hintergrundbild setzen fehlgeschlagen! Versuche es mit Galerie anstelle von File Manager.</string>
     <string name="pref_sort_order">Sortierung</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
@@ -187,7 +186,6 @@
     <string name="deleteAlert">Lösche Alarm</string>
     <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
     <string name="yesDeleteIt">Löschen</string>
-    <string name="noCancel">Abbrechen</string>
 
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Zählergebnis</string>
@@ -219,8 +217,19 @@
     <string name="hintCountNotes">Spezies Notizen</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsumme</string>
-    <string name="getHelp">Datenbankproblem!\nBitte sende eine E-Mail (siehe "App-Info") mit Deiner exportierten \"transektcount.db\", falls Du Hilfe brauchst.</string>
+    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>
     <string name="createDB">Noch keine Datenbank erstellt!\nBitte mindestens die Artenliste für einen Transektabschnitt erstellen.</string>
     <string name="sect01">Ab 01</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel">Abbrechen</string>
+
+    <!-- Permissions -->
+    <string name="perm_required">Berechtigungen benötigt</string>
+    <string name="perm_hint">Um Datendateien zu im- und exportieren, sind in TransektCount Speicherzugriffsberechtigungen erforderlich. </string>
+    <string name="perm_hint1">Bitte erteile die fehlende Berechtigung für die App in den Smartphone-Einstellungen.</string>
+    <string name="app_settings">App-Einstellungen</string>
+    <string name="perm_declined">Berechtigungen abgelehnt</string>
+    <string name="retry">Wiederholen</string>
+    <string name="permission_please">TransektCount benötigt die Speicher-Lese-Berechtigung um einen anderen Hintergrund auszuwählen.</string>
 
 </resources>

@@ -38,8 +38,12 @@
 
 $ 3.0.4
   % Version 3.0.4
-  _ 2018-07-13
+  _ 2018-08-04
     * Additional butterfly pictures
+		* Where applicable toasts replaced with snackbars
+  	* Permission handling for Settings
+  	* Some code cleaning
+  	* Fix for crash in permission handling of Android >= Marshmallow
   	* Fix for crash in "Edit Species List" functionality
     
 $ 3.0.3

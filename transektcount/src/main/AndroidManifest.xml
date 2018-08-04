@@ -9,14 +9,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- Permission needed for screen set on/off -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    
+
+    <!-- multiwindow crashes when rotating the screen, 
+         reason: spinner in CountingActivity, 
+         solution: android:resizeableActivity="false" prohibits multi-window-mode -->
     <application
         android:name=".TransektCountApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="TransektCount"
+        android:supportsRtl="true"
         android:resizeableActivity="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         
         <activity
             android:name=".WelcomeActivity"
@@ -25,7 +30,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
         

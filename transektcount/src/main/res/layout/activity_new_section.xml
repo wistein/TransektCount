@@ -1,50 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_new_section.xml is used by NewSectionActivity.java -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/newsectScreen"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
-    <Space
-        android:layout_width="10dp"
-        android:layout_height="30dp"/>
-
-    <EditText
-        android:id="@+id/newsectName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/labelNewsect"
-        android:inputType="textCapSentences"
-        android:padding="5dp"
-        android:textSize="20sp">
-    </EditText>
-
-    <Space
-        android:layout_width="10dp"
-        android:layout_height="20dp"/>
+<ScrollView android:id="@+id/newsectScreen"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/newsectSaveButton"
-            android:layout_margin="5dp"
-            android:layout_width="280dp"
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="30dp"/>
+
+        <EditText
+            android:id="@+id/newsectName"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="35dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="@string/labelNewsect"
+            android:inputType="textCapSentences"
             android:maxLines="1"
-            android:onClick="saveSection"
-            android:text="@string/labelNewsectSaveButton">
-        </Button>
+            android:padding="5dp"
+            android:textSize="20sp">
+        </EditText>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="20dp"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/newsectSaveButton"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:maxLines="1"
+                android:onClick="saveSection"
+                android:text="@string/labelNewsectSaveButton">
+            </Button>
+        </LinearLayout>
+        
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
 

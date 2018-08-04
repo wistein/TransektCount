@@ -16,7 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -61,7 +63,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Latest changes on 2018-07-13
+ * Latest changes on 2018-08-04
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -275,7 +277,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         {
             if (MyDebug.LOG)
                 Log.e(TAG, "Problem loading section: " + e.toString());
-            Toast.makeText(CountingLActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+//            Toast.makeText(CountingLActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
+            showSnackbarRed(getString(R.string.getHelp));
             finish();
         }
 
@@ -348,6 +351,23 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+    }
+
+    private void showSnackbarRed(String str)
+    {
+        View view;
+        if (lhandPref) // if left-handed counting page
+        {
+            view = findViewById(R.id.countingScreenLH);
+        }
+        else
+        {
+            view = findViewById(R.id.countingScreen);
+        }
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" +  str + "</font></b>"), Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        sB.show();
     }
 
     // Spinner listener
@@ -564,7 +584,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             // When returning from species that got no count to previous selected species: 
             // 1st count button press is ignored,
             // so use button sound only for 2nd press when actually counted
-            // ToDo: complete fix instead of workaround but up to now no idea.
+            // ToDo: complete fix instead of workaround by spinner replacement
             oldCount = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             if (count.count_f1i > oldCount) // has actually counted up
@@ -1558,7 +1578,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                         startActivity(chooser);
                     } catch (Exception e)
                     {
-                        Toast.makeText(CountingLActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(CountingLActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
+                        showSnackbarRed(getString(R.string.noPhotoPermit));
                     }
                 }
             }
@@ -1599,12 +1620,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         final EditText input = new EditText(this);
         // Specify the type of input expected
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-/*        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            input.setShowSoftInputOnFocus(true);
-        }
-*/
         builder.setView(input);
 
         // Set up the buttons
@@ -1619,14 +1634,16 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 //check if this is not empty 
                 if (m_Text.isEmpty())
                 {
-                    Toast.makeText(CountingLActivity.this, getString(R.string.newName), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CountingLActivity.this, getString(R.string.newName), Toast.LENGTH_SHORT).show();
+                    showSnackbarRed(getString(R.string.newName));
                     return;
                 }
 
                 //check if this is not a duplicate of an existing name
                 if (compSectionNames(m_Text))
                 {
-                    Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
+                    showSnackbarRed(m_Text + " " + getString(R.string.isdouble));
                     return;
                 }
 

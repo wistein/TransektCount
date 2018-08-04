@@ -1,14 +1,17 @@
 package com.wmstein.transektcount;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -21,7 +24,7 @@ import android.widget.Toast;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2018-03-18
+ * Last edited on 2018-08-04
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -32,6 +35,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private boolean screenOrientL; // option for screen orientation
     Uri alert_uri;
     Uri alert_button_uri;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     @SuppressLint("CommitPrefEdits")
@@ -97,6 +101,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         editor = prefs.edit(); // will be committed on pause
 
+        // permission to read db
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            int hasReadStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (hasReadStoragePermission != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
     }
 
     @Override
@@ -131,7 +144,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         this.startActivityForResult(intent, requestCode);
     }
 
-
     @Override
     @SuppressLint({"CommitPrefEdits", "LongLogTag"})
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -146,7 +158,17 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                  * The try is here because this action fails if the user uses a file manager; 
                  * the gallery seems to work nicely, though.
                  */
-                Cursor cursor = getContentResolver().query(_uri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+                Cursor cursor = null;
+                try
+                {
+                    cursor = getContentResolver().query(_uri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+                }
+                catch (java.lang.SecurityException e)
+                {
+                    Toast.makeText(this, getString(R.string.permission_please), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
                 try
                 {
                     cursor.moveToFirst(); // blows up here if file manager used
@@ -163,19 +185,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 cursor.close();
 
                 // save the image path
-                editor.putString("imagePath", imageFilePath);
-
-                //editor.commit();
-                try
-                {
-                    if (MyDebug.LOG)
-                        Log.d(TAG, "IMAGE (in Settings): " + imageFilePath);
-                } catch (Exception e)
-                {
-                    if (MyDebug.LOG)
-                        Log.e(TAG, "Failed to upload image: " + e.toString());
-                    Toast.makeText(this, getString(R.string.image_error), Toast.LENGTH_LONG).show();
-                }
+                editor.putString("imagePath", imageFilePath); 
             }
         }
         else if (resultCode == Activity.RESULT_OK)
@@ -216,6 +226,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

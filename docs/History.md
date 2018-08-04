@@ -2,8 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.4 (2018-06-19)
+#### Version 3.0.4 (2018-08-04)
 - Additional butterfly pictures
+- Where applicable toasts replaced with snackbars
+- Permission handling for Settings
+- Some code cleaning
+- Fix for crash in permission handling of Android >= Marshmallow
 - Fix for crash in "Edit Species List" functionality
 
 #### Version 3.0.3 (2018-05-01)
