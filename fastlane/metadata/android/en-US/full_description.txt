@@ -27,4 +27,7 @@ The app is usable with Android version 4.2.2 or newer.
 Documentation is provided under  
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-TransektCount is one of two apps for European butterfly monitoring. TourCount supports species-specific and individually localized counting of butterflies on any tour in nature. Both apps use a European coding scheme for butterflies and thus contain only European butterfly pictures.
+TransektCount is one of two apps for European butterfly monitoring. 
+The 2. app, TourCount, supports species-specific and individually localized counting of butterflies on any tour in nature. 
+
+Both apps use the coding scheme of Karsholt/Razowski for European butterflies and thus contain only European butterfly pictures.

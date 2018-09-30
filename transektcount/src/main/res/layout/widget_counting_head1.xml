@@ -7,7 +7,7 @@
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="45dp"
+             android:layout_height="50dp"
              android:layout_marginLeft="2dp"
              android:layout_marginRight="2dp"
              android:layout_marginTop="5dp"
@@ -16,7 +16,7 @@
              android:orientation="vertical"
              android:paddingTop="1dp"
              android:paddingBottom="1dp"
-             android:paddingEnd="5dp"
+             android:paddingEnd="0dp"
              android:paddingStart="5dp">
 
     <TableRow
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:textSize="17sp"/>
+            android:textSize="45sp"/>
 
         <TextView
             android:id="@+id/countName"
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="1dp"
             android:gravity="center_vertical"
-            android:layout_weight="6"
+            android:layout_weight="4.5"
             android:hint="@string/countNameHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#bfffff"
@@ -55,7 +55,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_marginStart="1dp"
-            android:layout_weight="1.8"
+            android:layout_weight="2"
             android:hint="@string/countCodeHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#bfffff"
@@ -70,7 +70,7 @@
             android:id="@+id/pSpecies"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2.7"
+            android:layout_weight="2.5"
             android:gravity="center_vertical|center_horizontal"
             android:paddingBottom="1dp"
             android:paddingEnd="1dp"
