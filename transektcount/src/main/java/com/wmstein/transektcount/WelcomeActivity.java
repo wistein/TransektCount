@@ -176,7 +176,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
 
     // Date for filename of Export-DB
-    // by wmstein
     public String getcurDate()
     {
         Date date = new Date();
@@ -870,10 +869,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // Internal counts, External counts, Total
                 String arrCol2[] =
                     {
-                        "",
-                        "",
-                        "",
-                        "",
+                        "", "", "", "",
                         getString(R.string.countImagomfHint),
                         getString(R.string.countImagomHint),
                         getString(R.string.countImagofHint),

@@ -1,5 +1,5 @@
-TransektCount dient Transektzählern in Naturschutzprojekten gemäß der European Butterfly Monitoring Scheme-Methode. 
-Es unterstützt das Spezies-spezifische Zählen pro Transektabschnitt. 
+TransektCount dient Transektzählern bei Transektbegehungen. 
+Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
 Eigenschaften
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
@@ -28,6 +28,6 @@ Dokumentation ist unter
 https://github.com/wistein/TransektCount/tree/master/docs.
 
 TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge. 
-Die 2. App, TourCount, unterstützt das Species-spezifische und individuell lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur. 
+Die 2. App, TourCount, unterstützt das Species-spezifische und individuell GPS-lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur. 
 
 Beide Apps verwenden die Kodierung der Europäischen Schmetterlinge nach Karsholt/Razowski und beinhalten somit nur europäische Schmetterlingsabbildungen.
