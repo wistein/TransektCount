@@ -190,10 +190,10 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
                 {
-                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "WAKE LOCK");
+                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "TransektCount:WAKELOCK");
                 }
                 enableProximitySensor();
-            } catch (Exception e)
+            } catch (NullPointerException e)
             {
                 // do nothing
             }
@@ -373,20 +373,26 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long aid)
             {
-                head_area2.removeAllViews();
-                count_area_i.removeAllViews();
-                head_area3.removeAllViews();
-                count_area_e.removeAllViews();
-                notes_area2.removeAllViews();
-                notes_area3.removeAllViews();
+                try // prevent app crash when spinner is rapidly repeatedly pressed
+                {
+                    head_area2.removeAllViews();
+                    count_area_i.removeAllViews();
+                    head_area3.removeAllViews();
+                    count_area_e.removeAllViews();
+                    notes_area2.removeAllViews();
+                    notes_area3.removeAllViews();
 
-                String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
-                iid = Integer.parseInt(sid);
-                itemPosition = position;
+                    String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
+                    iid = Integer.parseInt(sid);
+                    itemPosition = position;
 
-                count = countDataSource.getCountById(iid);
-                countingScreen(count);
-                //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
+                    count = countDataSource.getCountById(iid);
+                    countingScreen(count);
+                    //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
+                } catch (Exception e)
+                {
+                    // do nothing
+                }
             }
 
             @Override

@@ -195,10 +195,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             {
                 if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
                 {
-                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "WAKE LOCK");
+                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "TransektCount:WAKELOCK");
                 }
                 enableProximitySensor();
-            } catch (Exception e)
+            } catch (NullPointerException e)
             {
                 // do nothing
             }
@@ -378,6 +378,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long aid)
             {
+                try // prevent app crash when spinner is rapidly repeatedly pressed
+                {
                 head_area2.removeAllViews();
                 count_area_i.removeAllViews();
                 head_area3.removeAllViews();
@@ -392,6 +394,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 count = countDataSource.getCountById(iid);
                 countingScreen(count);
                 //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
+                } catch (Exception e)
+                {
+                    // do nothing
+                }
             }
 
             @Override

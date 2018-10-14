@@ -2,10 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.5 (2018-08-11)
+#### Version 3.0.5 (2018-08-14)
 - Additional butterfly pictures
 - Some pictures edited to show both sides of wings
 - Some docs updated
+- Fix for crash when species selector is rapidly repeatedly pressed
 
 #### Version 3.0.4 (2018-08-04)
 - Additional butterfly pictures
