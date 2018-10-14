@@ -378,7 +378,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long aid)
             {
-                try // prevent app crash when spinner is rapidly repeatedly pressed
+                try
                 {
                 head_area2.removeAllViews();
                 count_area_i.removeAllViews();
@@ -396,7 +396,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
                 } catch (Exception e)
                 {
-                    // do nothing
+                    // Exception may occur when permissions are changed while activity is paused
+                    //  or when spinner is rapidly repeatedly pressed
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "SpinnerListener: " + e.toString());
                 }
             }
 
