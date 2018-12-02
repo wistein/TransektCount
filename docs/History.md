@@ -2,11 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.5 (2018-08-14)
+#### Version 3.0.5 (2018-12-01)
 - Additional butterfly pictures
 - Some pictures edited to show both sides of wings
-- Some docs updated
+- Cosmetic changes to several app pages
 - Fix for crash when species selector is rapidly repeatedly pressed
+- Docs updated
 
 #### Version 3.0.4 (2018-08-04)
 - Additional butterfly pictures
@@ -191,7 +192,7 @@
 
 #### Version 1.0.0 (2016-02-12)
 ##### 1. Release.
-TransektCount originally derives partly from BeeCount by knirirr
+TransektCount code originally derives partly from BeeCount by knirirr
 (https://github.com/knirirr/BeeCount.git)
 
 Main features comprise

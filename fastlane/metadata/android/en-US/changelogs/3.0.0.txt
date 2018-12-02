@@ -1,0 +1,7 @@
+Version 3.0.0 (2018-03-30)
+- Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
+- First use now creates a direct usable internal DB with common european species
+- Small optimizations on the results page
+- Database version 3 (change of a column name for compiler warning) 
+- Documentation adapted
+- Bug fixes
