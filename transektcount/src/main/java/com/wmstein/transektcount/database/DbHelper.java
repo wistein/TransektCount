@@ -13,12 +13,13 @@ import com.wmstein.transektcount.R;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * Last edited on 2019-02-02
  */
 public class DbHelper extends SQLiteOpenHelper
 {
-    static final String TAG = "TransektCount DBHelper";
-    public static final String DATABASE_NAME = "transektcount.db";
-    static final int DATABASE_VERSION = 3;
+    private static final String TAG = "TransektCount DBHelper";
+    private static final String DATABASE_NAME = "transektcount.db";
+    private static final int DATABASE_VERSION = 3;
     private Context mContext;
 
     // tables

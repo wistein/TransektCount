@@ -20,7 +20,8 @@ import java.io.File;
  * Handle background image and prefs 
  * 
  * Based on BeeCountApplication.java by milo on 14/05/2014.
- * Adopted by wmstein on 18.02.2016, last change on 16.03.2018
+ * Adopted by wmstein on 18.02.2016, 
+ * last edit on 2019-02-02
  */
 public class TransektCountApplication extends Application
 {
@@ -71,6 +72,7 @@ public class TransektCountApplication extends Application
         boolean screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        assert wm != null;
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);

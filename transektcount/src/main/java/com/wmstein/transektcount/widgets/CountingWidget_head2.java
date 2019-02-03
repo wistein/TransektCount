@@ -17,6 +17,7 @@ import com.wmstein.transektcount.database.Count;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
+ * Last edited on 2019-02-02
  */
 public class CountingWidget_head2 extends RelativeLayout
 {
@@ -32,7 +33,7 @@ public class CountingWidget_head2 extends RelativeLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_counting_head2, this, true);
-        countHead2 = (TextView) findViewById(R.id.countHead2);
+        countHead2 = findViewById(R.id.countHead2);
     }
 
 
@@ -41,7 +42,7 @@ public class CountingWidget_head2 extends RelativeLayout
         // set TextView countHead2
         countHead2.setText(getContext().getString(R.string.countInternalHint));
         // set ImageButton Edit
-        ImageButton editButton = (ImageButton) findViewById(R.id.buttonEdit);
+        ImageButton editButton = findViewById(R.id.buttonEdit);
         editButton.setTag(count.id);
     }
 

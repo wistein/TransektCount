@@ -5,15 +5,15 @@ Eigenschaften
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
 - Datenbanken können innerhalb der App individuell erstellt und angepasst werden bezüglich Meta-Daten, Transektabschnitten und zu erwartenden Arten.
 - Pro Transektabschnitt kann eine angepasste Artenliste erstellt werden.
-- Die App enthält eine vorbereitete Datenbank mit den häufigsten zu erwartenden Arten als Ausgangspunkt.
+- Die App enthält eine vorbereitete Datenbank mit den häufigsten in Deutschland zu erwartenden Arten als Ausgangspunkt.
 - Editor für die Einrichtung der Transektabschnitte mit Arten
 - Editor für Meta-Daten zur Vorbereitung einer Begehung
 - Editor für Spezies-Bemerkung und Zählerstände
 - Zählerseite mit Scroll-Menü zur Artauswahl
 - Zähleingabe getrennt für intern/extern Zählbereiche und jeweils separat für ♂ oder ♀, ♂, ♀, Puppe, Raupe oder Ei.
-- Ergebnisseite für komfortabel aufbereitete Anzeige zur Übertragung in die science4you-Eingabemaske.
+- Ergebnisseite für komfortabel aufbereitete Anzeige zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (www.tmd-daten.de).
 - Ergebnisseite zeigt Meta-Daten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
-- Das Ergebnis kann als SQLite-Datei oder im CSV-Format ausgegeben werden (zwecks transfer und Weiterverwendung auf einem PC.
+- Das Ergebnis kann als SQLite-Datei oder im CSV-Format ausgegeben werden (zwecks Transfer und Weiterverwendung auf einem PC.
 - Hilfe enthält eine detaillierte Benutzeranleitung.
 
 Voraussetzungen

@@ -43,7 +43,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2018-08-04
+ * last edited on 2019-02-02
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -96,8 +96,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         countIds = new ArrayList<>();
         savedCounts = new ArrayList<>();
 
-        notes_area2 = (LinearLayout) findViewById(R.id.editingNotesLayout);
-        counts_area = (LinearLayout) findViewById(R.id.editingCountsLayout);
+        notes_area2 = findViewById(R.id.editingNotesLayout);
+        counts_area = findViewById(R.id.editingCountsLayout);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -135,7 +135,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             getWindow().setAttributes(params);
         }
 
-        ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
+        ScrollView counting_screen = findViewById(R.id.editingScreen);
 
         if (screenOrientL)
         {
@@ -624,7 +624,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        ScrollView counting_screen = (ScrollView) findViewById(R.id.editingScreen);
+        ScrollView counting_screen = findViewById(R.id.editingScreen);
         dupPref = prefs.getBoolean("pref_duplicate", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
         if (screenOrientL)
@@ -643,9 +643,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is not empty ("") and not null.
-     * <p>
+     * 
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -662,7 +662,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * <p>
+     * 
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

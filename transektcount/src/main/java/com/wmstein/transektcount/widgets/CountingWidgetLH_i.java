@@ -18,6 +18,7 @@ import com.wmstein.transektcount.database.Count;
 /**********************************
  * Interface for widget_counting_lhi.xml
  * Created by wmstein on 06.09.2016
+ * Last edited on 2019-02-02
  */
 public class CountingWidgetLH_i extends RelativeLayout
 {
@@ -44,18 +45,18 @@ public class CountingWidgetLH_i extends RelativeLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_counting_lhi, this, true);
-        namef1i = (TextView) findViewById(R.id.f1iNameLH);
-        namef2i = (TextView) findViewById(R.id.f2iNameLH);
-        namef3i = (TextView) findViewById(R.id.f3iNameLH);
-        namepi = (TextView) findViewById(R.id.piNameLH);
-        nameli = (TextView) findViewById(R.id.liNameLH);
-        nameei = (TextView) findViewById(R.id.eiNameLH);
-        countCountf1i = (AutoFitText) findViewById(R.id.countCountLHf1i);
-        countCountf2i = (AutoFitText) findViewById(R.id.countCountLHf2i);
-        countCountf3i = (AutoFitText) findViewById(R.id.countCountLHf3i);
-        countCountpi = (AutoFitText) findViewById(R.id.countCountLHpi);
-        countCountli = (AutoFitText) findViewById(R.id.countCountLHli);
-        countCountei = (AutoFitText) findViewById(R.id.countCountLHei);
+        namef1i = findViewById(R.id.f1iNameLH);
+        namef2i = findViewById(R.id.f2iNameLH);
+        namef3i = findViewById(R.id.f3iNameLH);
+        namepi = findViewById(R.id.piNameLH);
+        nameli = findViewById(R.id.liNameLH);
+        nameei = findViewById(R.id.eiNameLH);
+        countCountf1i = findViewById(R.id.countCountLHf1i);
+        countCountf2i = findViewById(R.id.countCountLHf2i);
+        countCountf3i = findViewById(R.id.countCountLHf3i);
+        countCountpi = findViewById(R.id.countCountLHpi);
+        countCountli = findViewById(R.id.countCountLHli);
+        countCountei = findViewById(R.id.countCountLHei);
     }
 
     public void setCountLHi(Count newcount)
@@ -74,29 +75,29 @@ public class CountingWidgetLH_i extends RelativeLayout
         countCountpi.setText(String.valueOf(count.count_pi));
         countCountli.setText(String.valueOf(count.count_li));
         countCountei.setText(String.valueOf(count.count_ei));
-        ImageButton countUpf1eButton = (ImageButton) findViewById(R.id.buttonUpLHf1i);
+        ImageButton countUpf1eButton = findViewById(R.id.buttonUpLHf1i);
         countUpf1eButton.setTag(count.id);
-        ImageButton countUpf2eButton = (ImageButton) findViewById(R.id.buttonUpLHf2i);
+        ImageButton countUpf2eButton = findViewById(R.id.buttonUpLHf2i);
         countUpf2eButton.setTag(count.id);
-        ImageButton countUpf3eButton = (ImageButton) findViewById(R.id.buttonUpLHf3i);
+        ImageButton countUpf3eButton = findViewById(R.id.buttonUpLHf3i);
         countUpf3eButton.setTag(count.id);
-        ImageButton countUppeButton = (ImageButton) findViewById(R.id.buttonUpLHpi);
+        ImageButton countUppeButton = findViewById(R.id.buttonUpLHpi);
         countUppeButton.setTag(count.id);
-        ImageButton countUpleButton = (ImageButton) findViewById(R.id.buttonUpLHli);
+        ImageButton countUpleButton = findViewById(R.id.buttonUpLHli);
         countUpleButton.setTag(count.id);
-        ImageButton countUpeeButton = (ImageButton) findViewById(R.id.buttonUpLHei);
+        ImageButton countUpeeButton = findViewById(R.id.buttonUpLHei);
         countUpeeButton.setTag(count.id);
-        ImageButton countDownf1eButton = (ImageButton) findViewById(R.id.buttonDownLHf1i);
+        ImageButton countDownf1eButton = findViewById(R.id.buttonDownLHf1i);
         countDownf1eButton.setTag(count.id);
-        ImageButton countDownf2eButton = (ImageButton) findViewById(R.id.buttonDownLHf2i);
+        ImageButton countDownf2eButton = findViewById(R.id.buttonDownLHf2i);
         countDownf2eButton.setTag(count.id);
-        ImageButton countDownf3eButton = (ImageButton) findViewById(R.id.buttonDownLHf3i);
+        ImageButton countDownf3eButton = findViewById(R.id.buttonDownLHf3i);
         countDownf3eButton.setTag(count.id);
-        ImageButton countDownpeButton = (ImageButton) findViewById(R.id.buttonDownLHpi);
+        ImageButton countDownpeButton = findViewById(R.id.buttonDownLHpi);
         countDownpeButton.setTag(count.id);
-        ImageButton countDownleButton = (ImageButton) findViewById(R.id.buttonDownLHli);
+        ImageButton countDownleButton = findViewById(R.id.buttonDownLHli);
         countDownleButton.setTag(count.id);
-        ImageButton countDowneeButton = (ImageButton) findViewById(R.id.buttonDownLHei);
+        ImageButton countDowneeButton = findViewById(R.id.buttonDownLHei);
         countDowneeButton.setTag(count.id);
     }
 

@@ -13,6 +13,7 @@ import com.wmstein.transektcount.R;
 /****************************************************
  * Created by milo on 26/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * Last edited on 2019-02-02
  */
 public class NotesWidget extends LinearLayout
 {
@@ -26,7 +27,7 @@ public class NotesWidget extends LinearLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_notes, this, true);
-        textView = (TextView) findViewById(R.id.notes_text);
+        textView = findViewById(R.id.notes_text);
     }
 
     public void setNotes(String notes)

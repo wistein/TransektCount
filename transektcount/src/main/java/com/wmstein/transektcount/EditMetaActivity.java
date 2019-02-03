@@ -38,7 +38,7 @@ import java.util.Locale;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2018-08-04
+ * last edited on 2019-02-02
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -414,7 +414,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        ScrollView editHead_screen = (ScrollView) findViewById(R.id.editHeadScreen);
+        ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
         if (screenOrientL)
         {
@@ -434,9 +434,9 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is not empty ("") and not null.
-     * <p>
+     * 
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -453,7 +453,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * <p>
+     * 
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

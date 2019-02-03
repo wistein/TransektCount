@@ -32,7 +32,7 @@ import java.util.List;
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2018-08-04
+ * last edited on 2019-02-02
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -78,7 +78,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         sectionDataSource = new SectionDataSource(this);
 
-        newsectName = (EditText) findViewById(R.id.newsectName); //in activity_new_section.xml
+        newsectName = findViewById(R.id.newsectName); //in activity_new_section.xml
         newsectName.setTextColor(Color.WHITE);
         newsectName.setHintTextColor(Color.argb(255, 170, 170, 170));
     }

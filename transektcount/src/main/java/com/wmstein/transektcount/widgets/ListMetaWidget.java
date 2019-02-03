@@ -11,7 +11,7 @@ import com.wmstein.transektcount.R;
 /****************************************************
  * ListMetaWidget.java used by ListSpeciesActivity.java
  * Created by wmstein for TransektCount on 03.04.2016,
- * modified till 07.01.2017
+ * Last edited on 2019-02-02
  */
 public class ListMetaWidget extends LinearLayout
 {
@@ -33,18 +33,18 @@ public class ListMetaWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_list_meta, this, true);
-        widget_lmeta1 = (TextView) findViewById(R.id.widgetLMeta1);
-        widget_litem1 = (TextView) findViewById(R.id.widgetLItem1);
-        widget_lmeta2 = (TextView) findViewById(R.id.widgetLMeta2);
-        widget_litem2 = (TextView) findViewById(R.id.widgetLItem2);
-        widget_lmeta3 = (TextView) findViewById(R.id.widgetLMeta3);
-        widget_litem3 = (TextView) findViewById(R.id.widgetLItem3);
-        widget_ldate1 = (TextView) findViewById(R.id.widgetLDate1);
-        widget_ldate2 = (TextView) findViewById(R.id.widgetLDate2);
-        widget_ltime1 = (TextView) findViewById(R.id.widgetLTime1);
-        widget_litem4 = (TextView) findViewById(R.id.widgetLItem4);
-        widget_ltime2 = (TextView) findViewById(R.id.widgetLTime2);
-        widget_litem5 = (TextView) findViewById(R.id.widgetLItem5);
+        widget_lmeta1 = findViewById(R.id.widgetLMeta1);
+        widget_litem1 = findViewById(R.id.widgetLItem1);
+        widget_lmeta2 = findViewById(R.id.widgetLMeta2);
+        widget_litem2 = findViewById(R.id.widgetLItem2);
+        widget_lmeta3 = findViewById(R.id.widgetLMeta3);
+        widget_litem3 = findViewById(R.id.widgetLItem3);
+        widget_ldate1 = findViewById(R.id.widgetLDate1);
+        widget_ldate2 = findViewById(R.id.widgetLDate2);
+        widget_ltime1 = findViewById(R.id.widgetLTime1);
+        widget_litem4 = findViewById(R.id.widgetLItem4);
+        widget_ltime2 = findViewById(R.id.widgetLTime2);
+        widget_litem5 = findViewById(R.id.widgetLItem5);
     }
 
     // Following the SETS

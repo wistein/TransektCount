@@ -17,6 +17,7 @@ import com.wmstein.transektcount.R;
  * Used by EditSectionActivity and widget_edit_title.xml
  * Created by by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * Last edited on 2019-02-02
  */
 public class EditTitleWidget extends LinearLayout
 {
@@ -28,8 +29,8 @@ public class EditTitleWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_title, this, true);
-        widget_title = (TextView) findViewById(R.id.widgeteditTitle);
-        section_name = (EditText) findViewById(R.id.editsectionName);
+        widget_title = findViewById(R.id.widgeteditTitle);
+        section_name = findViewById(R.id.editsectionName);
     }
 
     public void setWidgetTitle(String title)

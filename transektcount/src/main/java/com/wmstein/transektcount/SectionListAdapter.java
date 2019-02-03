@@ -27,14 +27,14 @@ import static java.lang.Long.toHexString;
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2018-03-18
+ * Last edited on 2019-02-02
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountSectListAdapt";
     private Context context;
     private int layoutResourceId;
-    private List<Section> sections = null;
+    private List<Section> sections;
     private Context mContext;
     private Section sct;
 

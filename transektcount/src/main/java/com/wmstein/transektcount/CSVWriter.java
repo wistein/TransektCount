@@ -8,13 +8,13 @@ import java.io.Writer;
 
 /*************************************************************************
  * Copyright 2015 Bytecode Pty Ltd.
- * <p>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import java.io.Writer;
  * @author Glen Smith
  * 
  * Reduced to needed functions with modifications for TransektCount by wmstein
- * Last edited on 2018-03-18
+ * Last edited on 2019-02-02
  */
 
 public class CSVWriter implements Closeable, Flushable
@@ -188,7 +188,7 @@ public class CSVWriter implements Closeable, Flushable
      * @param line - element of data to check for special characters.
      * @return true if the line contains the quote, escape, separator, newline or return.
      */
-    protected boolean stringContainsSpecialCharacters(String line)
+    private boolean stringContainsSpecialCharacters(String line)
     {
         return line.indexOf(quotechar) != -1 || line.indexOf(escapechar) != -1 || line.indexOf(separator) != -1 || line.contains(DEFAULT_LINE_END) || line.contains("\r");
     }
@@ -199,7 +199,7 @@ public class CSVWriter implements Closeable, Flushable
      * @param nextElement - element to process.
      * @return a StringBuilder with the elements data.
      */
-    protected StringBuilder processLine(String nextElement)
+    private StringBuilder processLine(String nextElement)
     {
         StringBuilder sb = new StringBuilder(nextElement.length() * 2); // this is for the worse case where all elements have to be escaped.
         for (int j = 0; j < nextElement.length(); j++)
@@ -237,10 +237,8 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Flush underlying stream to writer.
-     *
-     * @throws IOException if bad things happen
      */
-    public void flush() throws IOException
+    public void flush()
     {
         pw.flush();
     }

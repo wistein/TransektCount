@@ -7,8 +7,9 @@ package com.wmstein.transektcount;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-/************************************************************
+/**************************************************************************************
  * Dummy to overcome Spinner deficiency
+ * Re-initializes Spinner to work as exspected when repeatedly used in calling activity
  * Created by wmstein on 28.12.2016
  */
 public class DummyActivity extends AppCompatActivity

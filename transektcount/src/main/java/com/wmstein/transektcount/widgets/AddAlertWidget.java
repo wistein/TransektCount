@@ -11,6 +11,7 @@ import com.wmstein.transektcount.R;
 /****************************************************
  * Created by milo on 01/06/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * Last edited on 2019-02-02
  */
 public class AddAlertWidget extends LinearLayout
 {
@@ -22,7 +23,7 @@ public class AddAlertWidget extends LinearLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_add_alert, this, true);
-        textView = (TextView) findViewById(R.id.add_alert_text);
+        textView = findViewById(R.id.add_alert_text);
     }
 
 }

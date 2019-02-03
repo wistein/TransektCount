@@ -15,6 +15,7 @@ import java.io.Serializable;
  * This is the widget for creating an alert in the CountOptionsActivity.
  * Created by milo on 02/06/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * Last edited on 2019-02-02
  */
 public class AlertCreateWidget extends LinearLayout implements Serializable
 {
@@ -29,10 +30,10 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_alert_create, this, true);
-        alert_name = (EditText) findViewById(R.id.alert_name);
-        alert_value = (EditText) findViewById(R.id.alert_value);
+        alert_name = findViewById(R.id.alert_name);
+        alert_value = findViewById(R.id.alert_value);
         alert_id = 0;
-        deleteButton = (ImageButton) findViewById(R.id.delete_button);
+        deleteButton = findViewById(R.id.delete_button);
         deleteButton.setTag(0);
     }
 

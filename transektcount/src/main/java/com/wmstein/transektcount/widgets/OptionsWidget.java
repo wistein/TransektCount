@@ -12,35 +12,36 @@ import com.wmstein.transektcount.R;
 /***********************************************************************
  * Edit options for species
  * used by CountOptionsActivity in conjunction with widget_options.xml
- * Created by wmstein on 2016-02-16, last edited on 2018-03-18
+ * Created by wmstein on 2016-02-16
+ * Last edited on 2019-02-02
  */
 public class OptionsWidget extends LinearLayout
 {
     private TextView instructionsf1i;
-    private TextView numberf1i;
+    private EditText numberf1i;
     private TextView instructionsf2i;
-    private TextView numberf2i;
+    private EditText numberf2i;
     private TextView instructionsf3i;
-    private TextView numberf3i;
+    private EditText numberf3i;
     private TextView instructionspi;
-    private TextView numberpi;
+    private EditText numberpi;
     private TextView instructionsli;
-    private TextView numberli;
+    private EditText numberli;
     private TextView instructionsei;
-    private TextView numberei;
+    private EditText numberei;
 
     private TextView instructionsf1e;
-    private TextView numberf1e;
+    private EditText numberf1e;
     private TextView instructionsf2e;
-    private TextView numberf2e;
+    private EditText numberf2e;
     private TextView instructionsf3e;
-    private TextView numberf3e;
+    private EditText numberf3e;
     private TextView instructionspe;
-    private TextView numberpe;
+    private EditText numberpe;
     private TextView instructionsle;
-    private TextView numberle;
+    private EditText numberle;
     private TextView instructionsee;
-    private TextView numberee;
+    private EditText numberee;
 
     public OptionsWidget(Context context, AttributeSet attrs)
     {
@@ -50,32 +51,32 @@ public class OptionsWidget extends LinearLayout
         inflater.inflate(R.layout.widget_options, this, true);
         
         //For transect internal counters
-        instructionsf1i = (TextView) findViewById(R.id.help_textf1i);
-        numberf1i = (EditText) findViewById(R.id.count_parameter_editf1i);
-        instructionsf2i = (TextView) findViewById(R.id.help_textf2i);
-        numberf2i = (EditText) findViewById(R.id.count_parameter_editf2i);
-        instructionsf3i = (TextView) findViewById(R.id.help_textf3i);
-        numberf3i = (EditText) findViewById(R.id.count_parameter_editf3i);
-        instructionspi = (TextView) findViewById(R.id.help_textpi);
-        numberpi = (EditText) findViewById(R.id.count_parameter_editpi);
-        instructionsli = (TextView) findViewById(R.id.help_textli);
-        numberli = (EditText) findViewById(R.id.count_parameter_editli);
-        instructionsei = (TextView) findViewById(R.id.help_textei);
-        numberei = (EditText) findViewById(R.id.count_parameter_editei);
+        instructionsf1i = findViewById(R.id.help_textf1i);
+        numberf1i = findViewById(R.id.count_parameter_editf1i);
+        instructionsf2i = findViewById(R.id.help_textf2i);
+        numberf2i = findViewById(R.id.count_parameter_editf2i);
+        instructionsf3i = findViewById(R.id.help_textf3i);
+        numberf3i = findViewById(R.id.count_parameter_editf3i);
+        instructionspi = findViewById(R.id.help_textpi);
+        numberpi = findViewById(R.id.count_parameter_editpi);
+        instructionsli = findViewById(R.id.help_textli);
+        numberli = findViewById(R.id.count_parameter_editli);
+        instructionsei = findViewById(R.id.help_textei);
+        numberei = findViewById(R.id.count_parameter_editei);
         
         //For transect external counters
-        instructionsf1e = (TextView) findViewById(R.id.help_textf1e);
-        numberf1e = (EditText) findViewById(R.id.counta_parameter_editf1e);
-        instructionsf2e = (TextView) findViewById(R.id.help_textf2e);
-        numberf2e = (EditText) findViewById(R.id.counta_parameter_editf2e);
-        instructionsf3e = (TextView) findViewById(R.id.help_textf3e);
-        numberf3e = (EditText) findViewById(R.id.counta_parameter_editf3e);
-        instructionspe = (TextView) findViewById(R.id.help_textpe);
-        numberpe = (EditText) findViewById(R.id.counta_parameter_editpe);
-        instructionsle = (TextView) findViewById(R.id.help_textle);
-        numberle = (EditText) findViewById(R.id.counta_parameter_editle);
-        instructionsee = (TextView) findViewById(R.id.help_textee);
-        numberee = (EditText) findViewById(R.id.counta_parameter_editee);
+        instructionsf1e = findViewById(R.id.help_textf1e);
+        numberf1e = findViewById(R.id.counta_parameter_editf1e);
+        instructionsf2e = findViewById(R.id.help_textf2e);
+        numberf2e = findViewById(R.id.counta_parameter_editf2e);
+        instructionsf3e = findViewById(R.id.help_textf3e);
+        numberf3e = findViewById(R.id.counta_parameter_editf3e);
+        instructionspe = findViewById(R.id.help_textpe);
+        numberpe = findViewById(R.id.counta_parameter_editpe);
+        instructionsle = findViewById(R.id.help_textle);
+        numberle = findViewById(R.id.counta_parameter_editle);
+        instructionsee = findViewById(R.id.help_textee);
+        numberee = findViewById(R.id.counta_parameter_editee);
     }
 
     public void setInstructionsf1i(String i)

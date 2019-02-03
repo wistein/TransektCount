@@ -63,7 +63,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Latest changes on 2018-08-04
+ * Last edit on 2019-02-02
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -593,7 +593,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             // When returning from species that got no count to previous selected species: 
             // 1st count button press is ignored,
             // so use button sound only for 2nd press when actually counted
-            // ToDo: complete fix instead of workaround by spinner replacement
+            // ToDo: instead of workaround complete fix by spinner replacement
             oldCount = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             if (count.count_f1i > oldCount) // has actually counted up
@@ -1748,9 +1748,9 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * <p/>
+     * 
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true

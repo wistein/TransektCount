@@ -12,7 +12,7 @@ import com.wmstein.transektcount.R;
  * ListSumWidget shows count totals area
  * ListSpeciesActivity shows the result page
  * Created for TransektCount by wmstein on 15.03.2016
- * and modifications till 07.01.2017
+ * Last edited on 2019-02-02
  */
 public class ListSumWidget extends LinearLayout
 {
@@ -39,20 +39,20 @@ public class ListSumWidget extends LinearLayout
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_sum_species, this, true);
-        sumCountf1i = (TextView) findViewById(R.id.sumCountf1i);
-        sumCountf2i = (TextView) findViewById(R.id.sumCountf2i);
-        sumCountf3i = (TextView) findViewById(R.id.sumCountf3i);
-        sumCountpi = (TextView) findViewById(R.id.sumCountpi);
-        sumCountli = (TextView) findViewById(R.id.sumCountli);
-        sumCountei = (TextView) findViewById(R.id.sumCountei);
-        sumCountf1e = (TextView) findViewById(R.id.sumCountf1e);
-        sumCountf2e = (TextView) findViewById(R.id.sumCountf2e);
-        sumCountf3e = (TextView) findViewById(R.id.sumCountf3e);
-        sumCountpe = (TextView) findViewById(R.id.sumCountpe);
-        sumCountle = (TextView) findViewById(R.id.sumCountle);
-        sumCountee = (TextView) findViewById(R.id.sumCountee);
-        sumIndInt = (TextView) findViewById(R.id.sumIndInt);
-        sumIndExt = (TextView) findViewById(R.id.sumIndExt);
+        sumCountf1i = findViewById(R.id.sumCountf1i);
+        sumCountf2i = findViewById(R.id.sumCountf2i);
+        sumCountf3i = findViewById(R.id.sumCountf3i);
+        sumCountpi = findViewById(R.id.sumCountpi);
+        sumCountli = findViewById(R.id.sumCountli);
+        sumCountei = findViewById(R.id.sumCountei);
+        sumCountf1e = findViewById(R.id.sumCountf1e);
+        sumCountf2e = findViewById(R.id.sumCountf2e);
+        sumCountf3e = findViewById(R.id.sumCountf3e);
+        sumCountpe = findViewById(R.id.sumCountpe);
+        sumCountle = findViewById(R.id.sumCountle);
+        sumCountee = findViewById(R.id.sumCountee);
+        sumIndInt = findViewById(R.id.sumIndInt);
+        sumIndExt = findViewById(R.id.sumIndExt);
     }
 
     public void setSum(int summf, int summ, int sumf, int sump, int suml, int sumo, 

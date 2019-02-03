@@ -19,6 +19,7 @@ import com.wmstein.transektcount.database.Count;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
+ * Last edited on 2019-02-02
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
@@ -40,7 +41,7 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
 
     public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] codeArray, Integer[] imageArray)
     {
-        super(context, R.layout.widget_counting_head1, R.id.countName, nameArray);
+        super(context, resource, R.id.countName, nameArray);
         this.context = context;
         this.idArray = idArray;
         this.contentArray1 = nameArray;
@@ -67,16 +68,16 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
     {
         View row = inflater.inflate(R.layout.widget_counting_head1, parent, false);
 
-        countId = (TextView) row.findViewById(R.id.countId);
+        countId = row.findViewById(R.id.countId);
         countId.setText(idArray[position]);
 
-        countName = (TextView) row.findViewById(R.id.countName);
+        countName = row.findViewById(R.id.countName);
         countName.setText(contentArray1[position]);
 
-        countCode = (TextView) row.findViewById(R.id.countCode);
+        countCode = row.findViewById(R.id.countCode);
         countCode.setText(contentArray2[position]);
 
-        pSpecies = (ImageView) row.findViewById(R.id.pSpecies);
+        pSpecies = row.findViewById(R.id.pSpecies);
         pSpecies.setImageResource(imageArray[position]);
 
         return row;

@@ -60,13 +60,12 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2018-08-04
+ * last edited on 2019-02-02
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
     private static String TAG = "TransektCountWelcomeAct";
     TransektCountApplication transektCount;
-    SharedPreferences prefs;
 
     // Permission dispatcher mode: 
     //  1 = use location service (not used)
@@ -90,20 +89,19 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // import/export stuff
     File infile;
     File outfile;
-    File tmpfile;
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
     String state = Environment.getExternalStorageState();
     AlertDialog alert;
 
     // preferences
+    SharedPreferences prefs;
     private String sortPref;
     private boolean screenOrientL; // option for screen orientation
 
-    // following stuff for purging export db added by wmstein
+    // db handling
     private SQLiteDatabase database;
     private DbHelper dbHandler;
-
     SectionDataSource sectionDataSource;
     HeadDataSource headDataSource;
     MetaDataSource metaDataSource;
@@ -438,23 +436,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     
     private void doExportDB()
     {
-        boolean mExternalStorageAvailable;
-        boolean mExternalStorageWriteable;
-        String state = Environment.getExternalStorageState();
-        
+        // outfile -> /storage/emulated/0/transektcount_yyyy-MM-dd_HHmmss.db
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
-        String srcPath = "/data/data/com.wmstein.transektcount/files";
-
-        try
-        {
-            srcPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "srcPath error: " + e.toString());
-        }
-        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
-        infile = new File(srcPath + "/transektcount.db");
+        
+        // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
+        String inPath = getApplicationContext().getFilesDir().getPath();
+        inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
+        infile = new File(inPath);
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -514,16 +502,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     
     private void doExportDb2CSV()
     {
-        // if API level > 23
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasWriteStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        }
-
+        // outfile -> /storage/emulated/0/transektcount_yyyy-MM-dd_HHmmss.csv
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
@@ -938,23 +917,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     private void doExportBasisDb()
     {
-        boolean mExternalStorageAvailable;
-        boolean mExternalStorageWriteable;
-        String state = Environment.getExternalStorageState();
-        tmpfile = new File("/data/data/com.wmstein.transektcount/files/transektcount_tmp.db");
+        // tmpfile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
+        String tmpPath = getApplicationContext().getFilesDir().getPath();
+        tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
+        File tmpfile = new File(tmpPath);
+        
+        // outfile -> /storage/emulated/0/transektcount0.db
         outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
-        String srcPath = "/data/data/com.wmstein.transektcount/files";
 
-        try
-        {
-            srcPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "srcPath error: " + e.toString());
-        }
-        srcPath = srcPath.substring(0, srcPath.lastIndexOf("/")) + "/databases";
-        infile = new File(srcPath + "/transektcount.db");
+        // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
+        String inPath = getApplicationContext().getFilesDir().getPath();
+        inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
+        infile = new File(inPath);
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -1020,8 +994,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // created by wmstein
     public void resetToBasisDb()
     {
-        // a confirm dialogue before anything else takes place
-        // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
+        // confirm dialogue before anything else takes place
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmResetDB);
@@ -1144,23 +1117,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (!fileSelected.equals(""))
         {
             infile = new File(fileSelected);
-            // destPath = "/data/data/com.wmstein.transektcount/databases"
+            
+            // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
             String destPath = this.getFilesDir().getPath();
-            try
-            {
-                destPath = getFilesDir().getPath();
-            } catch (Exception e)
-            {
-                if (MyDebug.LOG)
-                    Log.e(TAG, "destPath error: " + e.toString());
-            }
-            destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-            //outfile = "/data/data/com.wmstein.transektcount/databases/transektcount.db"
-            outfile = new File(destPath + "/transektcount.db");
+            destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
+            outfile = new File(destPath);
 
-            // a confirm dialogue before anything else takes place
-            // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
-            // could make the dialog central in the popup - to do later
+            // confirm dialogue before anything else takes place
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setMessage(R.string.confirmDBImport)
@@ -1252,20 +1215,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     private void doImportBasisDB()
     {
-        //infile = new File("/data/data/com.wmstein.transektcount/databases/transektcount0.db");
+        // infile <- /storage/emulated/0/transektcount0.db
         infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
-        String destPath = "/data/data/com.wmstein.transektcount/files";
-        try
-        {
-            destPath = getFilesDir().getPath();
-        } catch (Exception e)
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "destPath error: " + e.toString());
-        }
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
-        //outfile = new File("/data/data/com.wmstein.transektcount/databases/transektcount.db");
-        outfile = new File(destPath + "/transektcount.db");
+        
+        // outfile -> /data/data/com.wmstein.transektcount//databases/transektcount.db
+        String destPath = getApplicationContext().getFilesDir().getPath();
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
+        outfile = new File(destPath);
         if (!(infile.exists()))
         {
 //            Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
@@ -1273,8 +1229,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             return;
         }
 
-        // a confirm dialogue before anything else takes place
-        // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
+        // confirm dialogue before anything else takes place
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmBasisImport)

@@ -12,6 +12,7 @@ import com.wmstein.transektcount.R;
 /*******************************************************
  * Used by EditSectionActivity and widget_edit_notes.xml
  * Created by wmstein on 23.10.2016
+ * Last edited on 2019-02-02
  */
 public class EditNotesWidget extends LinearLayout
 {
@@ -23,8 +24,8 @@ public class EditNotesWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_notes, this, true);
-        widget_notes = (TextView) findViewById(R.id.widgetNotes);
-        section_notes = (EditText) findViewById(R.id.sectionNotes);
+        widget_notes = findViewById(R.id.widgetNotes);
+        section_notes = findViewById(R.id.sectionNotes);
     }
 
     public void setWidgetNotes(String title)

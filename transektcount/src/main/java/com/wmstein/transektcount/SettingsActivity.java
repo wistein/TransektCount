@@ -24,7 +24,7 @@ import android.widget.Toast;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2018-08-04
+ * Last edited on 2019-02-02
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -158,7 +158,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                  * The try is here because this action fails if the user uses a file manager; 
                  * the gallery seems to work nicely, though.
                  */
-                Cursor cursor = null;
+                Cursor cursor;
                 try
                 {
                     cursor = getContentResolver().query(_uri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);

@@ -58,7 +58,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Latest changes on 2018-08-04
+ * Last edit on 2019-02-02
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -571,7 +571,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     /************************
      * The functions below are triggered by the count buttons
      * and righthand/lefthand (LH) views
-     * <p>
+     *
      * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
      */
     public void countUpf1i(View view)
@@ -588,7 +588,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             // When returning from species that got no count to previous selected species: 
             // 1st count button press is ignored,
             // so use button sound only for 2nd press when actually counted
-            // ToDo: complete fix instead of workaround by spinner replacement
+            // ToDo: instead of workaround complete fix by spinner replacement
             oldCount = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             if (count.count_f1i > oldCount) // has actually counted up

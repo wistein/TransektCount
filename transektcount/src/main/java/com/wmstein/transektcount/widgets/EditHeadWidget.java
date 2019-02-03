@@ -12,6 +12,7 @@ import com.wmstein.transektcount.R;
 /*****************************************************************
  * EditHeadWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 31.03.2016.
+ * Last edited on 2019-02-02
  */
 public class EditHeadWidget extends LinearLayout
 {
@@ -25,10 +26,10 @@ public class EditHeadWidget extends LinearLayout
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_edit_head, this, true);
-        widget_no = (TextView) findViewById(R.id.widgetNo);
-        widget_no1 = (EditText) findViewById(R.id.widgetNo1);
-        widget_name = (TextView) findViewById(R.id.widgetName);
-        widget_name1 = (EditText) findViewById(R.id.widgetName1);
+        widget_no = findViewById(R.id.widgetNo);
+        widget_no1 = findViewById(R.id.widgetNo1);
+        widget_name = findViewById(R.id.widgetName);
+        widget_name1 = findViewById(R.id.widgetName1);
     }
 
     public void setWidgetNo(String title)
