@@ -1,0 +1,7 @@
+Version 3.0.4 (04.08.2018)
+- Zusätzliche Schmetterlingsabbildungen
+- Wo sinnvoll, Toasts gegen Snackbars getauscht
+- Permission-Handling für Settings
+- Kleinere Code-Bereinigungen
+- Absturz-Fehler im Permission-Handling von Android >= Marshmallow behoben
+- Absturz-Fehler im Modul "Edit Speziesliste" behoben

@@ -96,6 +96,7 @@
     <string name="notTakenPhoto">Picture was not taken.</string>
     <string name="takePhoto">Take photo</string>
     <string name="newCopyCreated">has been created!</string>
+    <string name="addAlertButton">Add alert button</string>
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Edit List</string>

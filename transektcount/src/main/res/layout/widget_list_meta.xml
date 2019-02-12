@@ -42,7 +42,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLMeta1"
@@ -55,6 +54,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem1"
                     android:background="@drawable/list_background"
@@ -76,7 +76,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLMeta2"
@@ -89,6 +88,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem2"
                     android:background="@drawable/list_background"
@@ -109,7 +109,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLMeta3"
@@ -122,6 +121,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:id="@+id/widgetLItem3"
                     android:background="@drawable/list_background"
@@ -151,7 +151,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLDate1"
@@ -164,6 +163,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLDate2"
@@ -186,7 +186,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLTime1"
@@ -199,6 +198,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLItem4"
@@ -220,7 +220,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLTime2"
@@ -233,6 +232,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:id="@+id/widgetLItem5"

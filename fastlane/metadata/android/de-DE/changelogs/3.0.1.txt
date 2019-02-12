@@ -1,0 +1,8 @@
+Version 3.0.1 (01.04.2018)
+ - Projekt-Anpassungen für Android Studio 3.1, Gradle 3.1.0 und SDK 27 (Android 8.1)
+ - Erstmaliger Start erzeugt nun direkt nutzbare interne DB mit verbreiteten europäischen Arten 
+ - Kleine Optimierungen in der Ergebnisseite
+ - Datenbank-Version 3 (Änderung eines Spaltennamens wg. Compiler-Warnung) 
+ - Dokumentation angepasst
+ - GitHub-Tag korrigiert
+ - Fehler behoben

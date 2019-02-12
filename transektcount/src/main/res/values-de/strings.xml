@@ -96,6 +96,7 @@
     <string name="notTakenPhoto">Foto wurde nicht aufgenommen.</string>
     <string name="takePhoto">Foto aufnehmen</string>
     <string name="newCopyCreated">wurde erstellt!</string>
+    <string name="addAlertButton">Alarm hinzufügen</string>
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Liste bearbeiten</string>

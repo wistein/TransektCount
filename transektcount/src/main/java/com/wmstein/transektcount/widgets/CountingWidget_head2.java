@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
+import java.util.Objects;
+
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class CountingWidget_head2 extends RelativeLayout
 {
@@ -32,7 +34,7 @@ public class CountingWidget_head2 extends RelativeLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_counting_head2, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_head2, this, true);
         countHead2 = findViewById(R.id.countHead2);
     }
 

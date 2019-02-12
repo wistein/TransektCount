@@ -10,11 +10,12 @@ import android.widget.LinearLayout;
 import com.wmstein.transektcount.R;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /****************************************************
- * Created by milo on 04/06/2014.
+ * CountEditWidget ist used by EditSectionActivity
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class CountEditWidget extends LinearLayout implements Serializable
 {
@@ -28,7 +29,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_edit_count, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_count, this, true);
         countName = findViewById(R.id.countName);
         countCode = findViewById(R.id.countCode);
         deleteButton = findViewById(R.id.deleteCount);

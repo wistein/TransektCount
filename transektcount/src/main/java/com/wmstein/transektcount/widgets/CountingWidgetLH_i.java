@@ -15,10 +15,12 @@ import com.wmstein.transektcount.AutoFitText;
 import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
+import java.util.Objects;
+
 /**********************************
  * Interface for widget_counting_lhi.xml
  * Created by wmstein on 06.09.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class CountingWidgetLH_i extends RelativeLayout
 {
@@ -44,7 +46,7 @@ public class CountingWidgetLH_i extends RelativeLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_counting_lhi, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_lhi, this, true);
         namef1i = findViewById(R.id.f1iNameLH);
         namef2i = findViewById(R.id.f2iNameLH);
         namef3i = findViewById(R.id.f3iNameLH);

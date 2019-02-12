@@ -10,12 +10,13 @@ import android.widget.LinearLayout;
 import com.wmstein.transektcount.R;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**************************************************************************
  * This is the widget for creating an alert in the CountOptionsActivity.
  * Created by milo on 02/06/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class AlertCreateWidget extends LinearLayout implements Serializable
 {
@@ -29,7 +30,7 @@ public class AlertCreateWidget extends LinearLayout implements Serializable
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_alert_create, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_alert_create, this, true);
         alert_name = findViewById(R.id.alert_name);
         alert_value = findViewById(R.id.alert_value);
         alert_id = 0;

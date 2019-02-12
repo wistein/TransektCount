@@ -22,7 +22,7 @@ Die App benötigt
 - Einstellungsschreibrechte zwecks Helligkeitssteuerung des Bildschirms, 
 - Recht zur Verhinderung des Ruhezustands (ab Android 5.0.1 oder neuer).
 Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1920 x 1024 pixels haben. 
-Die App kann ab Android-Version 4.2.2 oder neuer verwendet werden.
+Die App kann ab Android-Version 4.4 (KitKat) oder neuer verwendet werden.
 
 Dokumentation ist unter
 https://github.com/wistein/TransektCount/tree/master/docs.

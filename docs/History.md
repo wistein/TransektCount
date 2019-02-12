@@ -2,9 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.7 (2019-02-02)
+#### Version 3.0.7 (2019-02-12)
 - Some code cleaning
-- Project adaption for Android Studio 3.3 and Gradle 4.10.1
+- Project adaption for Android Studio 3.3.1 and Gradle 4.10.1
+- Minimum Android version changed to 4.4 KitKat 
 
 #### Version 3.0.6 (2018-12-16)
 - Additional butterfly pictures
@@ -34,14 +35,12 @@
 - Bug fixes
 
 #### Version 3.0.1 (2018-04-01)
-- Corrected wrong GitHub Tag
-
-#### Version 3.0.0 (2018-03-30)
 - Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
 - First use now creates a direct usable internal DB with common european species
 - Small optimizations on the results page
 - Database version 3 (change of a column name for compiler warning) 
 - Documentation adapted
+- Corrected wrong GitHub Tag
 - Bug fixes
 
 #### Version 2.1.6 (2018-03-19)

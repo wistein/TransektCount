@@ -13,12 +13,13 @@ import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.Section;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 /*******************************************************
  * ListSpeciesWidget shows count info area for a species
  * ListSpeciesActivity shows the result page
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2018-04-05
+ * Last edited on 2019-02-12
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -49,7 +50,7 @@ public class ListSpeciesWidget extends RelativeLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_list_species, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_list_species, this, true);
         txtSectName = findViewById(R.id.txtSectName);
         txtSectRem = findViewById(R.id.txtSectRem);
         txtSpecName = findViewById(R.id.txtSpecName);

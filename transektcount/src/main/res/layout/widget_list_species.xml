@@ -34,7 +34,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <!-- Name of transect section txtSectName -->
@@ -66,18 +66,25 @@
                 android:textSize="17sp"
                 android:textStyle="bold"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
             <ImageView
                 android:id="@+id/picSpecies"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:gravity="center_vertical|center_horizontal"
                 android:paddingBottom="0dp"
                 android:paddingEnd="0dp"
                 android:paddingStart="0dp"
                 android:paddingTop="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/p00000"/>
+                android:src="@drawable/p00000"
+                tools:ignore="ContentDescription"/>
+
         </LinearLayout>
 
         <LinearLayout

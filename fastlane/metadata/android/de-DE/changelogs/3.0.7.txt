@@ -1,0 +1,4 @@
+Version 3.0.7 (12.02.2019)
+- Code-Bereinigungen
+- Projekt-Anpassung für Android Studio 3.3 und Gradle 4.10.1
+- Minimale Android-Version geändert in 4.4 (KitKat)

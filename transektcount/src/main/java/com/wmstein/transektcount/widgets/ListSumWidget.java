@@ -8,11 +8,13 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
+import java.util.Objects;
+
 /****************************************************
  * ListSumWidget shows count totals area
  * ListSpeciesActivity shows the result page
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class ListSumWidget extends LinearLayout
 {
@@ -38,7 +40,7 @@ public class ListSumWidget extends LinearLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_sum_species, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_sum_species, this, true);
         sumCountf1i = findViewById(R.id.sumCountf1i);
         sumCountf2i = findViewById(R.id.sumCountf2i);
         sumCountf3i = findViewById(R.id.sumCountf3i);

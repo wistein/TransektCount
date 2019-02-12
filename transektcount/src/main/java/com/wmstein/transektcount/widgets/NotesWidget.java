@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
+import java.util.Objects;
+
 /****************************************************
  * Created by milo on 26/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class NotesWidget extends LinearLayout
 {
@@ -26,7 +28,7 @@ public class NotesWidget extends LinearLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_notes, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_notes, this, true);
         textView = findViewById(R.id.notes_text);
     }
 

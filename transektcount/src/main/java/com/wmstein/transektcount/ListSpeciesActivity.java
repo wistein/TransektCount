@@ -27,7 +27,7 @@ import java.util.List;
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2018-03-18
+ * last edited on 2019-02-12
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -82,13 +82,13 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
+        ScrollView listSpec_screen = findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
 
         //noinspection ConstantConditions
         getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
 
-        spec_area = (LinearLayout) findViewById(R.id.listSpecLayout);
+        spec_area = findViewById(R.id.listSpecLayout);
 
         if (awakePref)
         {
@@ -277,7 +277,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        ScrollView listSpec_screen = (ScrollView) findViewById(R.id.listSpecScreen);
+        ScrollView listSpec_screen = findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(null);
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);

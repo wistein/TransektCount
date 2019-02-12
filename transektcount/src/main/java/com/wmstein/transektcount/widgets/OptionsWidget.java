@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import com.wmstein.transektcount.R;
 
+import java.util.Objects;
+
 /***********************************************************************
  * Edit options for species
  * used by CountOptionsActivity in conjunction with widget_options.xml
  * Created by wmstein on 2016-02-16
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-12
  */
 public class OptionsWidget extends LinearLayout
 {
@@ -48,7 +50,7 @@ public class OptionsWidget extends LinearLayout
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.widget_options, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.widget_options, this, true);
         
         //For transect internal counters
         instructionsf1i = findViewById(R.id.help_textf1i);
