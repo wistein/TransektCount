@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.7 (2019-02-23)
+#### Version 3.0.7 (2019-02-27)
 - Additional butterfly pictures
 - Some code cleaning
 - Some minor screen design changes
