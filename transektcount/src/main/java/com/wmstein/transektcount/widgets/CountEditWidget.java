@@ -13,13 +13,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /****************************************************
- * CountEditWidget ist used by EditSectionActivity
+ * CountEditWidget is used by EditSectionActivity
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-12
+ * Last edited on 2019-03-23
  */
 public class CountEditWidget extends LinearLayout implements Serializable
 {
     private transient EditText countName;
+    private transient EditText countNameG;
     private transient EditText countCode;
     private ImageButton deleteButton;
     public int countId;
@@ -31,6 +32,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_count, this, true);
         countName = findViewById(R.id.countName);
+        countNameG = findViewById(R.id.countNameG);
         countCode = findViewById(R.id.countCode);
         deleteButton = findViewById(R.id.deleteCount);
         deleteButton.setTag(0);
@@ -44,6 +46,16 @@ public class CountEditWidget extends LinearLayout implements Serializable
     public void setCountName(String name)
     {
         countName.setText(name);
+    }
+
+    public String getCountNameG()
+    {
+        return countNameG.getText().toString();
+    }
+
+    public void setCountNameG(String name)
+    {
+        countNameG.setText(name);
     }
 
     public String getCountCode()

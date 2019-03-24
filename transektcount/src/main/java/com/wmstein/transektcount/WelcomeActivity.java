@@ -655,13 +655,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrEmpt);
 
                 // Intern, extern
-                String arrIE[] = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                String arrIE[] = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIE);
 
                 // Species, Codes, Section, Section Notes, Internal counts, External counts, Notes
                 String arrCol1[] =
                     {
                         getString(R.string.name_spec),
+                        getString(R.string.name_spec_g),
                         getString(R.string.code_spec),
                         getString(R.string.name_sect),
                         getString(R.string.notes_sect),
@@ -799,6 +800,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     String arrStr[] =
                         {
                             curCSV.getString(2),   //species name
+                            curCSV.getString(17),   //species name_g
                             curCSV.getString(3),   //species code
                             sectName,              //section name
                             sectNotes,             //section note
@@ -842,13 +844,13 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrEmpt2);
 
                 // Intern, extern
-                String arrIEsum[] = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                String arrIEsum[] = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIEsum);
 
                 // Internal counts, External counts, Total
                 String arrCol2[] =
                     {
-                        "", "", "", "",
+                        "", "", "", "", "",
                         getString(R.string.countImagomfHint),
                         getString(R.string.countImagomHint),
                         getString(R.string.countImagofHint),
@@ -868,7 +870,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // write total sum
                 String arrSum[] =
                     {
-                        "", "", "",
+                        "", "", "", "",
                         getString(R.string.sum),
                         Integer.toString(summf),
                         Integer.toString(summ),

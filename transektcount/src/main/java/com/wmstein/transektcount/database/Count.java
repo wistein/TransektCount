@@ -2,7 +2,8 @@ package com.wmstein.transektcount.database;
 
 /********************************************
  * Based on Count.java by milo on 05/05/2014.
- * adopted and modified by wmstein since 18.02.2016
+ * adopted and modified by wmstein since 2016-02-18
+ * last edited on 2019-03-22
  */
 public class Count
 {
@@ -23,6 +24,7 @@ public class Count
     public int count_le;
     public int count_ee;
     public String notes;
+    public String name_g;
 
     public int increase_f1i()
     {

@@ -6,8 +6,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:baselineAligned="false"
               android:background="@drawable/corner"
+              android:baselineAligned="false"
               android:orientation="horizontal"
               android:padding="3dp"
               tools:context=".ListSpeciesActivity">
@@ -34,19 +34,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:orientation="horizontal">
 
             <!-- Name of transect section txtSectName -->
             <TextView
                 android:id="@+id/txtSectName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="start|center_vertical"
                 android:padding="4sp"
-                android:textSize="17sp"
                 android:textColor="#ffff80"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <Space
@@ -54,17 +54,42 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>
 
-            <!-- Name of species -->
-            <TextView
-                android:id="@+id/txtSpecName"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:gravity="start"
-                android:padding="4sp"
-                android:textColor="#BFFFFF"
-                android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:orientation="vertical">
+
+                <!-- Name of species -->
+                <TextView
+                    android:id="@+id/txtSpecName"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="start"
+                    android:padding="4sp"
+                    android:hint="@string/countNameHint"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#BFFFFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <!-- Local name of species -->
+                <TextView
+                    android:id="@+id/txtSpecNameG"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="start"
+                    android:padding="4sp"
+                    android:hint="@string/countNameHintG"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#A7C2C2"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"
@@ -75,7 +100,7 @@
                 android:id="@+id/picSpecies"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="2.5"
                 android:gravity="center_vertical|center_horizontal"
                 android:paddingBottom="0dp"
                 android:paddingEnd="0dp"
@@ -99,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5.8"
                 android:gravity="start|top"
-                android:textColor="#ffff80"
                 android:padding="4sp"
+                android:textColor="#ffff80"
                 android:textSize="14sp"/>
 
             <Space
@@ -274,8 +299,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -297,8 +322,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -320,8 +345,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -343,8 +368,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -366,8 +391,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -389,8 +414,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -552,8 +577,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -575,8 +600,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -598,8 +623,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -621,8 +646,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -644,8 +669,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"
@@ -667,8 +692,8 @@
                 android:padding="0dp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Space
                 android:layout_width="0dp"

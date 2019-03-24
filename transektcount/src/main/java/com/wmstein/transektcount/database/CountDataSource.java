@@ -28,13 +28,14 @@ import static com.wmstein.transektcount.database.DbHelper.C_COUNT_PE;
 import static com.wmstein.transektcount.database.DbHelper.C_COUNT_PI;
 import static com.wmstein.transektcount.database.DbHelper.C_ID;
 import static com.wmstein.transektcount.database.DbHelper.C_NAME;
+import static com.wmstein.transektcount.database.DbHelper.C_NAME_G;
 import static com.wmstein.transektcount.database.DbHelper.C_NOTES;
 import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2018-07-13.
+ * last edited on 2019-02-22.
  */
 public class CountDataSource
 {
@@ -58,7 +59,8 @@ public class CountDataSource
         C_COUNT_PE,
         C_COUNT_LE,
         C_COUNT_EE,
-        C_NOTES
+        C_NOTES,
+        C_NAME_G
     };
 
     public CountDataSource(Context context)
@@ -77,7 +79,7 @@ public class CountDataSource
     }
 
     // Used by EditSectionActivity and CountingActivity
-    public Count createCount(int section_id, String name, String code)
+    public Count createCount(int section_id, String name, String code, String name_g)
     {
         if (database.isOpen())
         {
@@ -97,6 +99,7 @@ public class CountDataSource
             values.put(C_COUNT_PE, 0);
             values.put(C_COUNT_LE, 0);
             values.put(C_COUNT_EE, 0);
+            values.put(C_NAME_G, name_g);
             // notes should be default null and so is not created here
 
             int insertId = (int) database.insert(COUNT_TABLE, null, values);
@@ -131,6 +134,7 @@ public class CountDataSource
         newcount.count_le = cursor.getInt(cursor.getColumnIndex(C_COUNT_LE));
         newcount.count_ee = cursor.getInt(cursor.getColumnIndex(C_COUNT_EE));
         newcount.notes = cursor.getString(cursor.getColumnIndex(C_NOTES));
+        newcount.name_g = cursor.getString(cursor.getColumnIndex(C_NAME_G));
         return newcount;
     }
 
@@ -163,6 +167,7 @@ public class CountDataSource
         dataToInsert.put(C_COUNT_LE, count.count_le);
         dataToInsert.put(C_COUNT_EE, count.count_ee);
         dataToInsert.put(C_NOTES, count.notes);
+        dataToInsert.put(C_NAME_G, count.name_g);
         String where = C_ID + " = ?";
         String[] whereArgs = {String.valueOf(count.id)};
         database.update(COUNT_TABLE, dataToInsert, where, whereArgs);
@@ -289,13 +294,14 @@ public class CountDataSource
     }
 
     // Used by EditSectionActivity
-    public void updateCountName(int id, String name, String code)
+    public void updateCountName(int id, String name, String code, String name_g)
     {
         if (database.isOpen())
         {
             ContentValues dataToInsert = new ContentValues();
             dataToInsert.put(C_NAME, name);
             dataToInsert.put(C_CODE, code);
+            dataToInsert.put(C_NAME_G, name_g);
             String where = C_ID + " = ?";
             String[] whereArgs = {String.valueOf(id)};
             database.update(COUNT_TABLE, dataToInsert, where, whereArgs);
@@ -336,6 +342,33 @@ public class CountDataSource
             + C_COUNT_F3E + " > 0 or " + C_COUNT_PE + " > 0 or "
             + C_COUNT_LE + " > 0 or " + C_COUNT_EE + " > 0)"
             + " order by " + C_NAME + ", " + C_SECTION_ID, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
+    // Used by ListSpeciesActivity
+    public List<Count> getAllCountsForSrtNameG()
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + C_COUNT_F1I + " > 0 or " + C_COUNT_F2I + " > 0 or "
+            + C_COUNT_F3I + " > 0 or " + C_COUNT_PI + " > 0 or "
+            + C_COUNT_LI + " > 0 or " + C_COUNT_EI + " > 0 or "
+            + C_COUNT_F1E + " > 0 or " + C_COUNT_F2E + " > 0 or "
+            + C_COUNT_F3E + " > 0 or " + C_COUNT_PE + " > 0 or "
+            + C_COUNT_LE + " > 0 or " + C_COUNT_EE + " > 0)"
+            + " order by " + C_NAME_G + ", " + C_SECTION_ID, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
@@ -447,6 +480,28 @@ public class CountDataSource
     }
 
     // Used by CountingActivity
+    public String[] getAllIdsForSectionSrtNameG(int section_id)
+    {
+        Cursor cursor = database.rawQuery("select ROWID from " + COUNT_TABLE
+            + " WHERE " + C_SECTION_ID + " = " + section_id + " order by "
+            + C_NAME_G, null);
+
+        String[] idArray = new String[cursor.getCount()];
+        cursor.moveToFirst();
+        int i = 0;
+        while (!cursor.isAfterLast())
+        {
+            int uid = cursor.getInt(0);
+            idArray[i] = Integer.toString(uid);
+            i++;
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return idArray;
+    }
+
+    // Used by CountingActivity
     public String[] getAllIdsForSectionSrtCode(int section_id)
     {
         Cursor cursor = database.rawQuery("select ROWID from " + COUNT_TABLE
@@ -496,6 +551,30 @@ public class CountDataSource
         Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
             + " WHERE " + C_SECTION_ID + " = " + section_id + " order by "
             + C_NAME, null);
+
+        String[] uArray = new String[cursor.getCount()];
+
+        cursor.moveToFirst();
+        int i = 0;
+        while (!cursor.isAfterLast())
+        {
+            String uname = cursor.getString(cursor.getColumnIndex(sname));
+            uArray[i] = uname;
+            i++;
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return uArray;
+    }
+
+    // Used by CountingActivity
+    public String[] getAllStringsForSectionSrtNameG(int section_id, String sname)
+    {
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + C_SECTION_ID + " = " + section_id + " order by "
+            + C_NAME_G, null);
 
         String[] uArray = new String[cursor.getCount()];
 
@@ -575,6 +654,40 @@ public class CountDataSource
         Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
             + " WHERE " + C_SECTION_ID + " = " + section_id + " order by "
             + C_NAME, null);
+
+        Integer[] imageArray = new Integer[cursor.getCount()];
+        cursor.moveToFirst();
+        int i = 0;
+        while (!cursor.isAfterLast())
+        {
+            String ucode = cursor.getString(cursor.getColumnIndex("code"));
+
+            String rname = "p" + ucode; // species picture resource name
+            int resId = getResId(rname);
+            int resId0 = getResId("p00000");
+
+            if (resId != 0)
+            {
+                imageArray[i] = resId;
+            }
+            else
+            {
+                imageArray[i] = resId0;
+            }
+            i++;
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return imageArray;
+    }
+
+    // Used by CountingActivity
+    public Integer[] getAllImagesForSectionSrtNameG(int section_id)
+    {
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + C_SECTION_ID + " = " + section_id + " order by "
+            + C_NAME_G, null);
 
         Integer[] imageArray = new Integer[cursor.getCount()];
         cursor.moveToFirst();

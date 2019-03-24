@@ -55,7 +55,8 @@
     <string name="external">Extern</string>
     <string name="rem_spec">Spez.-Bemerkung</string>
     <string name="notes_sect">Ab.-Bemerkung</string>
-    <string name="name_spec">Spezies</string>
+    <string name="name_spec">Spezies-Name</string>
+    <string name="name_spec_g">Deutscher Name</string>
     <string name="sum">Summe:</string>
     <string name="kal_w">KW</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
@@ -182,6 +183,7 @@
     <string name="addSomeAlerts">Jeder Art können Alarme zugewiesen werden, die ausgelöst werden, wenn die jeweils vorgegebene Anzahl an intern gezählten Faltern erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
     <string name="alertName">Neuer Alarm</string>
     <string name="countName">Neue Art</string>
+    <string name="countNameG">Neue Art (deutscher Name)</string>
     <string name="countCode">Code</string>
     <string name="notesSpecies">Bemerkung zur Art</string>
     <string name="deleteAlert">Lösche Alarm</string>
@@ -201,6 +203,7 @@
     <!-- other stuff -->
     <string name="charZero">0</string>
     <string name="countNameHint">Art-Name</string>
+    <string name="countNameHintG">Art-Name (deutsch)</string>
     <string name="countCodeHint">Code</string>
     <string name="countInternalHint">Innerhalb des Zählbereichs</string>
     <string name="countExternalHint">Außerhalb des Zählbereichs</string>

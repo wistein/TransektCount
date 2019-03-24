@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class CountingWidget_head3 extends RelativeLayout
 {
-    public static String TAG = "transektcountCountingWidget_head1";
+    public static String TAG = "transektcountCountingWidget_head3";
 
     private TextView countHead3;
 

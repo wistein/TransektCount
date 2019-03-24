@@ -2,11 +2,14 @@
 
 #### TransektCount Copyright (C) 2016-2018, Wilhelm Stein
 
-#### Version 3.0.7 (2019-02-27)
+#### Version 3.0.7 (2019-03-23)
+- Database structure supplemented for local butterfly names
+- Example databases adapted for local butterfly names
+- Exported results include local butterfly names
 - Additional butterfly pictures
 - Some code cleaning
 - Some minor screen design changes
-- Project adaption for Android Studio 3.3.1 and Gradle 4.10.1
+- Project adaption for Android Studio 3.3.2 and Gradle 4.10.1
 - Minimum Android version changed to 4.4 KitKat 
 
 #### Version 3.0.6 (2018-12-16)

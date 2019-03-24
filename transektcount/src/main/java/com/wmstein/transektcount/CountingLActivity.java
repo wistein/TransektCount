@@ -111,6 +111,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
     private String[] idArray;
     private String[] nameArray;
+    private String[] nameArrayG;
     private String[] codeArray;
     private Integer[] imageArray;
 
@@ -297,18 +298,21 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             idArray = countDataSource.getAllIdsForSectionSrtName(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtName(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtName(section.id, "code");
+            nameArrayG = countDataSource.getAllStringsForSectionSrtName(section.id, "name_g");
             imageArray = countDataSource.getAllImagesForSectionSrtName(section.id);
             break;
         case "codes":
             idArray = countDataSource.getAllIdsForSectionSrtCode(section.id);
             nameArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "name");
             codeArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "code");
+            nameArrayG = countDataSource.getAllStringsForSectionSrtCode(section.id, "name_g");
             imageArray = countDataSource.getAllImagesForSectionSrtCode(section.id);
             break;
         default:
             idArray = countDataSource.getAllIdsForSection(section.id);
             nameArray = countDataSource.getAllStringsForSection(section.id, "name");
             codeArray = countDataSource.getAllStringsForSection(section.id, "code");
+            nameArrayG = countDataSource.getAllStringsForSection(section.id, "name_g");
             imageArray = countDataSource.getAllImagesForSection(section.id);
             break;
         }
@@ -342,7 +346,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
 
             CountingWidget_head1 adapterL = new CountingWidget_head1(this,
-                R.layout.widget_counting_head1, idArray, nameArray, codeArray, imageArray);
+                R.layout.widget_counting_head1, idArray, nameArray, nameArrayG, codeArray, imageArray);
             spinnerL.setAdapter(adapterL);
             spinnerL.setSelection(itemPosition);
             spinnerListenerL();
@@ -1662,7 +1666,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 sectionDataSource.saveSection(newSection);
                 for (Count c : countDataSource.getAllCountsForSection(section_id))
                 {
-                    Count newCount = countDataSource.createCount(newSection.id, c.name, c.code);
+                    Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
                     if (newCount != null)
                     {
                         newCount.notes = c.notes;

@@ -51,7 +51,8 @@
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
     <string name="name_sect">Section</string>
     <string name="notes_sect">Section Note</string>
-    <string name="name_spec">Species</string>
+    <string name="name_spec">Species Name</string>
+    <string name="name_spec_g">English Name</string>
     <string name="code_spec">Species Code</string>
     <string name="internal">Internal</string>
     <string name="external">External</string>
@@ -182,6 +183,7 @@
     <string name="addSomeAlerts">Each species may have alerts which will be triggered when the given number of butterfly counts reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
     <string name="alertName">New Alert</string>
     <string name="countName">New Species</string>
+    <string name="countNameG">New Species (English name)</string>
     <string name="countCode">Code</string>
     <string name="notesSpecies">Species Notes</string>
     <string name="deleteAlert">Delete Alert</string>
@@ -201,6 +203,7 @@
     <!-- other stuff -->
     <string name="charZero">0</string>
     <string name="countNameHint">Name of Species</string>
+    <string name="countNameHintG">Name of Species (English)</string>
     <string name="countCodeHint">Code</string>
     <string name="countInternalHint">Internal of Counting Area</string>
     <string name="countExternalHint">External of Counting Area</string>

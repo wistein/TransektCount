@@ -16,10 +16,10 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 
 /*******************************************************
- * ListSpeciesWidget shows count info area for a species
- * ListSpeciesActivity shows the result page
+ * ListSpeciesWidget shows count info area for a species.
+ * ListSpeciesActivity shows the result page.
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2019-02-12
+ * Last edited on 2019-03-23
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -28,6 +28,7 @@ public class ListSpeciesWidget extends RelativeLayout
     private TextView txtSectName;
     private TextView txtSectRem;
     private TextView txtSpecName;
+    private TextView txtSpecNameG;
     private ImageView picSpecies;
     private TextView specCountf1i;
     private TextView specCountf2i;
@@ -54,6 +55,7 @@ public class ListSpeciesWidget extends RelativeLayout
         txtSectName = findViewById(R.id.txtSectName);
         txtSectRem = findViewById(R.id.txtSectRem);
         txtSpecName = findViewById(R.id.txtSpecName);
+        txtSpecNameG = findViewById(R.id.txtSpecNameG);
         txtSpecRem = findViewById(R.id.txtSpecRem);
         picSpecies = findViewById(R.id.picSpecies);
         specCountf1i = findViewById(R.id.specCountf1i);
@@ -74,6 +76,18 @@ public class ListSpeciesWidget extends RelativeLayout
     {
         txtSectName.setText(section.name);
         txtSpecName.setText(spec.name);
+        if (spec.name_g != null)
+        {
+            if (!spec.name_g.isEmpty())
+            {
+                txtSpecNameG.setText(spec.name_g);
+            }
+            else
+            {
+                txtSpecNameG.setText("");
+            }
+        }
+        
         setImage(spec); // get picSpecies
 
         if (section.notes != null)

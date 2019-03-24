@@ -43,7 +43,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2019-02-02
+ * last edited on 2019-03-23
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -64,7 +64,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     LinearLayout notes_area2;
     EditTitleWidget etw;
     EditNotesWidget enw;
-    private View markedForDelete;
+    private View viewMarkedForDelete;
     private int idToDelete;
     AlertDialog.Builder areYouSure;
 
@@ -228,6 +228,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             // widget
             CountEditWidget cew = new CountEditWidget(this, null);
             cew.setCountName(count.name);
+            cew.setCountNameG(count.name_g);
             cew.setCountCode(count.code);
             cew.setCountId(count.id);
             counts_area.addView(cew);
@@ -465,14 +466,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                                 if (MyDebug.LOG)
                                     Log.d(TAG, "Creating!");
                                 // creates new species entry
-                                countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode());
+                                countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode(), cew.getCountNameG());
                             }
                             else
                             {
                                 if (MyDebug.LOG)
                                     Log.d(TAG, "Updating!");
                                 // updates species name and code
-                                countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode());
+                                countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode(), cew.getCountNameG());
                             }
                             retValue = true;
                         }
@@ -576,12 +577,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
      * of the alert itself, to make sure that they're available inside the code for the alert dialog by
      * which they will be deleted.
      */
-        markedForDelete = view;
+        viewMarkedForDelete = view;
         idToDelete = (Integer) view.getTag();
         if (idToDelete == 0)
         {
-            // the actual CountEditWidget is two levels up from the button in which it is embedded
-            counts_area.removeView((CountEditWidget) view.getParent().getParent());
+            // the actual CountEditWidget is 3 levels up from the button in which it is embedded
+            counts_area.removeView((CountEditWidget) view.getParent().getParent().getParent());
         }
         else
         {
@@ -597,7 +598,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 {
                     // go ahead for the delete
                     countDataSource.deleteCountById(idToDelete);
-                    counts_area.removeView((CountEditWidget) markedForDelete.getParent().getParent());
+                    counts_area.removeView((CountEditWidget) viewMarkedForDelete.getParent().getParent().getParent());
                     new_count_name = "";
                 }
             });

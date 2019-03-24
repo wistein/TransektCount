@@ -19,7 +19,7 @@ import com.wmstein.transektcount.database.Count;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2019-02-12
+ * Last edited on 2019-02-23
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
@@ -28,17 +28,19 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
     private String[] idArray;
     private String[] contentArray1;
     private String[] contentArray2;
+    private String[] contentArray3;
     private Integer[] imageArray;
 
     public Count count;
     LayoutInflater inflater;
 
-    public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] codeArray, Integer[] imageArray)
+    public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] nameArrayG, String[] codeArray, Integer[] imageArray)
     {
         super(context, resource, R.id.countName, nameArray);
         this.idArray = idArray;
         this.contentArray1 = nameArray;
         this.contentArray2 = codeArray;
+        this.contentArray3 = nameArrayG;
         this.imageArray = imageArray;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -59,21 +61,24 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
 
     private View getCustomView(int position, ViewGroup parent)
     {
-        View row = inflater.inflate(R.layout.widget_counting_head1, parent, false);
+        View head1 = inflater.inflate(R.layout.widget_counting_head1, parent, false);
 
-        TextView countId = row.findViewById(R.id.countId);
+        TextView countId = head1.findViewById(R.id.countId); // used for spinner interface  
         countId.setText(idArray[position]);
 
-        TextView countName = row.findViewById(R.id.countName);
+        TextView countName = head1.findViewById(R.id.countName);
         countName.setText(contentArray1[position]);
 
-        TextView countCode = row.findViewById(R.id.countCode);
+        TextView countNameg = head1.findViewById(R.id.countNameg);
+        countNameg.setText(contentArray3[position]);
+
+        TextView countCode = head1.findViewById(R.id.countCode);
         countCode.setText(contentArray2[position]);
 
-        ImageView pSpecies = row.findViewById(R.id.pSpecies);
+        ImageView pSpecies = head1.findViewById(R.id.pSpecies);
         pSpecies.setImageResource(imageArray[position]);
 
-        return row;
+        return head1;
     }
 
 }

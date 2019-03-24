@@ -9,17 +9,22 @@ import android.util.Log;
 import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
+import java.util.Locale;
+
 
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-02
+ * Adopted for TransektCount by wmstein on 2016-02-18
+ * Last edited on 2019-03-22
  */
 public class DbHelper extends SQLiteOpenHelper
 {
     private static final String TAG = "TransektCount DBHelper";
     private static final String DATABASE_NAME = "transektcount.db";
-    private static final int DATABASE_VERSION = 3;
+    //DATABASE_VERSION 2: New count columns added to COUNT_TABLE for sexes and stadiums
+    //DATABASE_VERSION 3: Column temp changed to tempe as 'temp' seems to have a reserved term conflict
+    //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names 
+    private static final int DATABASE_VERSION = 4;
     private Context mContext;
 
     // tables
@@ -52,6 +57,7 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String C_COUNT_LE = "count_le";
     public static final String C_COUNT_EE = "count_ee";
     public static final String C_NOTES = "notes";
+    public static final String C_NAME_G = "name_g";
 
     private static final String C_COUNT = "count"; //deprecated in version 2
     private static final String C_COUNTA = "counta"; //deprecated in version 2
@@ -111,7 +117,8 @@ public class DbHelper extends SQLiteOpenHelper
             + C_COUNT_PE + " int, "
             + C_COUNT_LE + " int, "
             + C_COUNT_EE + " int, "
-            + C_NOTES + " text)";
+            + C_NOTES + " text, "
+            + C_NAME_G + " text)";
         db.execSQL(sql);
         sql = "create table " + ALERT_TABLE + " ("
             + A_ID + " integer primary key, "
@@ -177,10 +184,12 @@ public class DbHelper extends SQLiteOpenHelper
     // initial data for COUNT_TABLE
     private void initialCounts(SQLiteDatabase db)
     {
-        String[] specs, codes;
+        String[] specs, codes, specs_g;
         specs = mContext.getResources().getStringArray(R.array.initSpecs);
         codes = mContext.getResources().getStringArray(R.array.initCodes);
 
+            specs_g = mContext.getResources().getStringArray(R.array.initSpecs_g);
+        
         for (int i = 1; i < specs.length; i++)
         {
             ContentValues values4 = new ContentValues();
@@ -201,6 +210,7 @@ public class DbHelper extends SQLiteOpenHelper
             values4.put(C_COUNT_LE, 0);
             values4.put(C_COUNT_EE, 0);
             values4.put(C_NOTES, "");
+            values4.put(C_NAME_G, specs_g[i]);
             db.insert(COUNT_TABLE, null, values4);
         }
     }
@@ -211,14 +221,20 @@ public class DbHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        if (oldVersion == 3)
+        {
+            version_4(db);
+        }
         if (oldVersion == 2)
         {
             version_3(db);
+            version_4(db);
         }
         if (oldVersion == 1)
         {
             version_2(db);
             version_3(db);
+            version_4(db);
         }
     }
 
@@ -362,22 +378,22 @@ public class DbHelper extends SQLiteOpenHelper
 
             // insert the old data into counts
             sql = "INSERT INTO " + COUNT_TABLE + " SELECT "
-                + C_ID + ","
-                + C_SECTION_ID + ","
-                + C_NAME + ","
-                + C_CODE + ","
-                + C_COUNT + ","
-                + C_COUNT_F2I + ","
-                + C_COUNT_F3I + ","
-                + C_COUNT_PI + ","
-                + C_COUNT_LI + ","
-                + C_COUNT_EI + ","
-                + C_COUNTA + ","
-                + C_COUNT_F2E + ","
-                + C_COUNT_F3E + ","
-                + C_COUNT_PE + ","
-                + C_COUNT_LE + ","
-                + C_COUNT_EE + ","
+                + C_ID + ", "
+                + C_SECTION_ID + ", "
+                + C_NAME + ", "
+                + C_CODE + ", "
+                + C_COUNT + ", "
+                + C_COUNT_F2I + ", "
+                + C_COUNT_F3I + ", "
+                + C_COUNT_PI + ", "
+                + C_COUNT_LI + ", "
+                + C_COUNT_EI + ", "
+                + C_COUNTA + ", "
+                + C_COUNT_F2E + ", "
+                + C_COUNT_F3E + ", "
+                + C_COUNT_PE + ", "
+                + C_COUNT_LE + ", "
+                + C_COUNT_EE + ", "
                 + C_NOTES + " FROM counts_backup";
             db.execSQL(sql);
 
@@ -423,6 +439,17 @@ public class DbHelper extends SQLiteOpenHelper
 
         if (MyDebug.LOG)
             Log.d(TAG, "Upgraded database to version 3");
+    }
+
+    // Add column C_NAME_G
+    private void version_4(SQLiteDatabase db)
+    {
+        String sql;
+        sql = "alter table " + COUNT_TABLE + " add column " + C_NAME_G + " text";
+        db.execSQL(sql);
+
+        if (MyDebug.LOG)
+            Log.d(TAG, "Upgraded database to version 4");
     }
 
 }
