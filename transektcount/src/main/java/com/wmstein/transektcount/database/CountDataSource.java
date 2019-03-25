@@ -35,7 +35,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2019-02-22.
+ * last edited on 2019-03-25.
  */
 public class CountDataSource
 {
@@ -99,8 +99,8 @@ public class CountDataSource
             values.put(C_COUNT_PE, 0);
             values.put(C_COUNT_LE, 0);
             values.put(C_COUNT_EE, 0);
+            values.put(C_NOTES, "");
             values.put(C_NAME_G, name_g);
-            // notes should be default null and so is not created here
 
             int insertId = (int) database.insert(COUNT_TABLE, null, values);
             Cursor cursor = database.query(COUNT_TABLE,

@@ -187,8 +187,7 @@ public class DbHelper extends SQLiteOpenHelper
         String[] specs, codes, specs_g;
         specs = mContext.getResources().getStringArray(R.array.initSpecs);
         codes = mContext.getResources().getStringArray(R.array.initCodes);
-
-            specs_g = mContext.getResources().getStringArray(R.array.initSpecs_g);
+        specs_g = mContext.getResources().getStringArray(R.array.initSpecs_g);
         
         for (int i = 1; i < specs.length; i++)
         {

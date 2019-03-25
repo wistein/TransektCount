@@ -658,7 +658,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 String arrIE[] = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIE);
 
-                // Species, Codes, Section, Section Notes, Internal counts, External counts, Notes
+                // Species Name, Local Name, Code, Section, Section Note, Internal Counts, External Counts, Spec.-Note
                 String arrCol1[] =
                     {
                         getString(R.string.name_spec),

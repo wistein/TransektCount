@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- widget_list_species.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
-     Shows purged list of species counts -->
+<!-- widget_list_species.xml 
+    used by ListSpeciesWidget.java and ListSpeciesActivity.java.
+    Shows purged list of species counts -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
@@ -24,9 +25,10 @@
         <!-- Line -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
+            android:layout_height="4px"
             android:background="@android:color/white"
-            android:paddingTop="2dp"/>
+            android:paddingTop="2dp"
+            tools:ignore="PxUsage"/>
 
         <Space
             android:layout_width="match_parent"
