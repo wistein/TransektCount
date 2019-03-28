@@ -19,11 +19,12 @@ CREATE TABLE counts
   count_le int DEFAULT 0,
   count_ee int DEFAULT 0,
   notes text DEFAULT "",
+  name_g text DEFAULT "",
   PRIMARY KEY(_id)
 );
 
-INSERT INTO counts (section_id, name, code)
-  SELECT section_id, name, code
+INSERT INTO counts (section_id, name, code, name_g)
+  SELECT section_id, name, code, name_g
   FROM counts_old
   order by section_id, code;
 
