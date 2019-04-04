@@ -19,7 +19,7 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 307
+        versionCode 308
     }
 
     buildTypes {

@@ -230,6 +230,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             cew.setCountName(count.name);
             cew.setCountNameG(count.name_g);
             cew.setCountCode(count.code);
+            cew.setPSpec(count);
             cew.setCountId(count.id);
             counts_area.addView(cew);
         }

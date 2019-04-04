@@ -5,11 +5,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.wmstein.transektcount.R;
+import com.wmstein.transektcount.database.Count;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /****************************************************
@@ -22,6 +25,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
     private transient EditText countName;
     private transient EditText countNameG;
     private transient EditText countCode;
+    private final transient ImageView pSpecies;
     private ImageButton deleteButton;
     public int countId;
 
@@ -34,6 +38,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
         countName = findViewById(R.id.countName);
         countNameG = findViewById(R.id.countNameG);
         countCode = findViewById(R.id.countCode);
+        pSpecies = findViewById(R.id.pSpec);
         deleteButton = findViewById(R.id.deleteCount);
         deleteButton.setTag(0);
     }
@@ -72,6 +77,31 @@ public class CountEditWidget extends LinearLayout implements Serializable
     {
         countId = id;
         deleteButton.setTag(id);
+    }
+
+    public void setPSpec(Count spec)
+    {
+        String rname = "p" + spec.code; // species picture resource name
+
+        int resId = getResId(rname);
+        if (resId != 0)
+        {
+            pSpecies.setImageResource(resId);
+        }
+    }
+
+    // Get resource ID from resource name
+    private int getResId(String rName)
+    {
+        try
+        {
+            Class res = R.drawable.class;
+            Field idField = res.getField(rName);
+            return idField.getInt(null);
+        } catch (Exception e)
+        {
+            return 0;
+        }
     }
 
 }

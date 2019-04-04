@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
+#### Version 3.0.8 (2019-04-04)
+- Butterfly icons added to section editor
+
 #### Version 3.0.7 (2019-03-23)
 - Database structure supplemented for local butterfly names
 - Example databases adapted for local butterfly names
