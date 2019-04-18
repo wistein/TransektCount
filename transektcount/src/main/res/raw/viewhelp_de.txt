@@ -39,17 +39,20 @@ $ 9
   _  
   ! Alternativ kann auch eine umfassendere Basis-Datenbank für ein Transekt importiert und angepasst werden. Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, ins Home-Verzeichnis /storage/emulated/0, (oder /sdcard0 bzw. /sdcard, ist je nach Smartphone-Modell und Android-Version unterschiedlich) kopiert und von dort importiert und dann angepasst werden.
   _ 
-  ! Zum editieren der Artenliste des 1. Transektabschnitts den Edit-Button in der Abschnittszeile der "Transektabschnitte" klicken. Den (+)-Button in der Kopfzeile des Abschnittseditors verwenden, um eine neue Art hinzuzufügen. Für jede Art Name und Code (5-stellig, mit führenden Nullen) eingeben und mit ABSCHN. SPEICHERN abschließen. Die Liste kann nachträglich ergänzt oder geändert werden.
-  _ 
-  ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski und werden ebenfalls in der Kartiereranleitung und im Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>) verwendet.
+  ! Zum editieren der Artenliste des 1. Transektabschnitts den Bleistift-Button in der Abschnittszeile der "Transektabschnitte" klicken. Den (+)-Button in der Kopfzeile des Abschnittseditors verwenden, um eine neue Art per Scroll-Down-Auswahlliste hinzuzufügen. Am Ende der Scroll-Down-Liste kann eine nicht vorhandene Art (NN) hinzugefügt werden, die anschließend editiert wird (Name, ggf. deutscher Name und 5-stelliger Code mit führenden Nullen). Mit ABSCHN. SPEICHERN abschließen. Die Liste kann nachträglich ergänzt oder geändert werden.
   _ 
   !Ab 01        (Beispiel einer Abschnittsliste)
   !---------------------------------------------
   !...
-  !Pieris napi ................ 07000
-  !Pieris rapae .............. 06998
-  !Pieris na./ra.-Kompl.	07000*
+  ! Pieris rapae .............. 06998
+  ! Kleiner Kohlweißling 
+  ! Pieris napi ................ 07000
+  ! Grünaderweißling
+  ! Pieris na./ra.-Kompl.	07000*
+  ! Weißlinge-Komplex
   !...
+  _ 
+  ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski und werden ebenfalls in der Kartiereranleitung und im Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>) verwendet.
   _ 
   ! Das am Code 07000 angehängte *-Symbol kennzeichnet einen Artkomplex, für dessen Code sinnvollerweise der größere Code innerhalb dieser Gruppe genommen wird. 
   _ 

@@ -3,7 +3,7 @@
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           android:largeHeap="true"
-          android:versionName="3.0.8">
+          android:versionName="3.1.0">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -147,28 +147,38 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity"/>
         </activity>
-        
-<!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity
-        <uses-library
-            android:name="com.sec.android.app.multiwindow"
-            android:required="false"/>
 
-        <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true"/>
-        <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-            android:resource="@dimen/app_defaultsize_w"/>
-        <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-            android:resource="@dimen/app_defaultsize_h"/>
-        <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-            android:resource="@dimen/app_minimumsize_w"/>
-        <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-            android:resource="@dimen/app_minimumsize_h"/>
--->
+        <activity
+            android:name=".AddSpeciesActivity"
+            android:label="@string/title_activity_add_species"
+            android:parentActivityName=".EditSectionActivity"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="EditSectionActivity"/>
+        </activity>
+
+        <!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity
+                <uses-library
+                    android:name="com.sec.android.app.multiwindow"
+                    android:required="false"/>
+        
+                <meta-data
+                    android:name="com.sec.android.support.multiwindow"
+                    android:value="true"/>
+                <meta-data
+                    android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+                    android:resource="@dimen/app_defaultsize_w"/>
+                <meta-data
+                    android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+                    android:resource="@dimen/app_defaultsize_h"/>
+                <meta-data
+                    android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+                    android:resource="@dimen/app_minimumsize_w"/>
+                <meta-data
+                    android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+                    android:resource="@dimen/app_minimumsize_h"/>
+        -->
     </application>
 
 </manifest>

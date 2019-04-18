@@ -11,6 +11,7 @@
     <string name="title_activity_list_species">ListSpeciesActivity</string>
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
+    <string name="title_activity_add_species">AddSpeciesActivity</string>
     <string name="hello_world">Hello!</string>
 
     <!-- generic -->
@@ -122,6 +123,9 @@
     <string name="isempty">Section name is missing!</string>
     <string name="empty">No species in list!</string>
     <string name="labelEditsectSaveButton">Save Section</string>
+
+    <!-- AddSpeciesActivity -->
+    <string name="addTitle">Add Species</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>

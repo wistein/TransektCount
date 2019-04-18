@@ -7,6 +7,7 @@ Eigenschaften
 - Pro Transektabschnitt kann eine angepasste Artenliste erstellt werden.
 - Die App enthält eine vorbereitete Datenbank mit den häufigsten in Deutschland zu erwartenden Arten als Ausgangspunkt.
 - Editor für die Einrichtung der Transektabschnitte mit Arten
+- Hinzufügen neuer Arten per Scroll-Down-Auswahl aus einer umfassenden internen Artenliste
 - Editor für Meta-Daten zur Vorbereitung einer Begehung
 - Editor für Spezies-Bemerkung und Zählerstände
 - Zählerseite mit Scroll-Menü zur Artauswahl

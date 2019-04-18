@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
@@ -43,7 +43,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2019-03-23
+ * last edited on 2019-04-18
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -53,17 +53,15 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     // the actual data
     Section section;
-    List<Count> counts;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
-    private AlertDataSource alertDataSource;
 
     int section_id;
-    LinearLayout counts_area;
-    LinearLayout notes_area2;
-    EditTitleWidget etw;
-    EditNotesWidget enw;
+    private LinearLayout counts_area;
+    private LinearLayout notes_area2;
+    private EditTitleWidget etw;
+    private EditNotesWidget enw;
     private View viewMarkedForDelete;
     private int idToDelete;
     AlertDialog.Builder areYouSure;
@@ -75,10 +73,13 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public ArrayList<Integer> countIds;
     public ArrayList<CountEditWidget> savedCounts;
 
+    private final Handler mHandler = new Handler();
+
     private Bitmap bMap;
     private BitmapDrawable bg;
 
     private boolean dupPref;
+    private String sortPref;
     private boolean screenOrientL; // option for screen orientation
 
     String new_count_name = "";
@@ -124,6 +125,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
         boolean brightPref = prefs.getBoolean("pref_bright", true);
         dupPref = prefs.getBoolean("pref_duplicate", true);
+        sortPref = prefs.getString("pref_sort_sp", "none");
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
@@ -140,7 +142,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -190,8 +193,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.open();
         countDataSource = new CountDataSource(this);
         countDataSource.open();
-        alertDataSource = new AlertDataSource(this);
-        alertDataSource.open();
 
         // load the sections data
         section = sectionDataSource.getSection(section_id);
@@ -219,8 +220,20 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.requestFocus();
         notes_area2.addView(enw);
 
-        // load the counts data
-        counts = countDataSource.getAllCountsForSection(section.id);
+        // load the sorted species data
+        List<Count> counts;
+        switch (sortPref)
+        {
+        case "names_alpha":
+            counts = countDataSource.getAllSpeciesForSectionSrtName(section.id);
+            break;
+        case "codes":
+            counts = countDataSource.getAllSpeciesForSectionSrtCode(section.id);
+            break;
+        default:
+            counts = countDataSource.getAllCountsForSection(section.id);
+            break;
+        }
 
         // display all the counts by adding them to CountEditWidget
         for (Count count : counts)
@@ -244,10 +257,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-    /*
-     * Before these widgets can be serialised they must be removed from their parent, or else
-     * trying to add them to a new parent causes a crash because they've already got one.
-     */
+        /*
+         * Before these widgets can be serialised they must be removed from their parent, or else
+         * trying to add them to a new parent causes a crash because they've already got one.
+         */
         super.onSaveInstanceState(outState);
         for (CountEditWidget cew : savedCounts)
         {
@@ -264,7 +277,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // close the data sources
         sectionDataSource.close();
         countDataSource.close();
-        alertDataSource.close();
     }
 
     @Override
@@ -299,17 +311,29 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else if (id == R.id.newCount)
         {
-            newCount(findViewById(R.id.editingCountsLayout));
+            Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
+
+            // pause for 100 msec to show toast
+            mHandler.postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
+                    intent.putExtra("section_id", section_id);
+                    startActivity(intent);
+                }
+            }, 100);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void getCountNames()
     {
-    /*
-     * The plan here is that names, codes and ids arrays contain the entries in the same
-     * order, so I can link count and code name to its id by knowing the index.
-     */
+        /*
+         * The plan here is that names, codes and ids arrays contain the entries in the same
+         * order, so I can link count and code name to its id by knowing the index.
+         */
         countNames.clear();
         countCodes.clear();
         countIds.clear();
@@ -444,7 +468,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             int childcount; //No. of species in list
             childcount = counts_area.getChildCount();
             if (MyDebug.LOG)
-                Log.d(TAG, "childcount: " + String.valueOf(childcount));
+                Log.d(TAG, "childcount: " + childcount);
 
             // check for unique species names
             if (dupPref)
@@ -460,22 +484,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                         if (isNotEmpty(cew.getCountName()) && isNotEmpty(cew.getCountCode()))
                         {
                             if (MyDebug.LOG)
-                                Log.d(TAG, "cew: " + String.valueOf(cew.countId) + ", " + cew.getCountName());
-                            // create or update
-                            if (cew.countId == 0)
-                            {
-                                if (MyDebug.LOG)
-                                    Log.d(TAG, "Creating!");
-                                // creates new species entry
-                                countDataSource.createCount(section_id, cew.getCountName(), cew.getCountCode(), cew.getCountNameG());
-                            }
-                            else
-                            {
-                                if (MyDebug.LOG)
-                                    Log.d(TAG, "Updating!");
-                                // updates species name and code
-                                countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode(), cew.getCountNameG());
-                            }
+                                Log.d(TAG, "cew: " + cew.countId + ", " + cew.getCountName());
+
+                            // updates species name and code
+                            countDataSource.updateCountName(cew.countId, cew.getCountName(), cew.getCountCode(), cew.getCountNameG());
                             retValue = true;
                         }
                         else
@@ -499,7 +511,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             if (retValue)
             {
                 // Snackbar doesn't appear, so Toast is used
-                Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " " 
+                Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " "
                     + section.name + "!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -539,45 +551,31 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         return isDblName;
     }
 
-    // Scroll to end of view, by wmstein
-    public void ScrollToEndOfView(View scrlV)
-    {
-        int scroll_amount = scrlV.getBottom();
-        int scrollY = scroll_amount;
-        boolean pageend = false;
-        while (!pageend)
-        {
-            scrlV.scrollTo(0, scroll_amount);              //scroll
-            scroll_amount = scroll_amount + scroll_amount; //increase scroll_amount 
-            scrollY = scrollY + scrlV.getScrollY();        //scroll position 1. row
-            if (scroll_amount > scrollY)
-            {
-                pageend = true;
-            }
-        }
-    }
-
-    // add new CountEditWidget to view
+    // Start AddSpeciesActivity to add a new species to the species list
     public void newCount(View view)
     {
-        CountEditWidget cew = new CountEditWidget(this, null);
-        counts_area.addView(cew); // adds a child view cew
-        // Scroll to end of view, added by wmstein
-        View scrollV = findViewById(R.id.editingScreen);
-        ScrollToEndOfView(scrollV);
-        // set focus to cew, added by wmstein
-        cew.requestFocus();
-        savedCounts.add(cew);
+        Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
+
+        // pause for 100 msec to show toast
+        mHandler.postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
+                intent.putExtra("section_id", section_id);
+                startActivity(intent);
+            }
+        }, 100);
     }
 
-    // purging counts (with associated alerts)
+    // purging species (with associated alerts)
     public void deleteCount(View view)
     {
-    /*
-     * These global variables keep a track of the view containing an alert to be deleted and also the id
-     * of the alert itself, to make sure that they're available inside the code for the alert dialog by
-     * which they will be deleted.
-     */
+        /*
+         * These global variables keep a track of the view containing an alert to be deleted and also the id
+         * of the alert itself, to make sure that they're available inside the code for the alert dialog by
+         * which they will be deleted.
+         */
         viewMarkedForDelete = view;
         idToDelete = (Integer) view.getTag();
         if (idToDelete == 0)
@@ -598,7 +596,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
                     // go ahead for the delete
-                    countDataSource.deleteCountById(idToDelete);
+                    countDataSource.deleteCountById(idToDelete); // includes associated alerts
                     counts_area.removeView((CountEditWidget) viewMarkedForDelete.getParent().getParent().getParent());
                     new_count_name = "";
                 }
@@ -618,7 +616,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private void showSnackbarRed(String str) // bold red text
     {
         View view = findViewById(R.id.editingScreen);
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" +  str + "</font></b>"), Snackbar.LENGTH_LONG);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
@@ -632,7 +630,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         if (screenOrientL)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
+        }
+        else
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -645,9 +644,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     * <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     * 
+     * <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -664,7 +663,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * 
+     * <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

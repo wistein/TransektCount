@@ -6,6 +6,7 @@ Features
 - You may use an individual species list per transect section.
 - It contains a prepared basic database with most of the expected species as a starting point.
 - Editor for the transect sections to setup or adapt its species
+- Add new species to the list by scroll-down-selection from a comprehensive internal species list. 
 - Editor for meta data to prepare an inspection
 - Editor for species remark or bulk count entry
 - Counting page with scroll menu to select species

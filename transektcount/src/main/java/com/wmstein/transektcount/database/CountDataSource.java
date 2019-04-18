@@ -328,6 +328,50 @@ public class CountDataSource
         return counts;
     }
 
+    // Used by EditSectionActivity
+    public List<Count> getAllSpeciesForSectionSrtCode(int section_id)
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + C_SECTION_ID + " = " + section_id
+            + ") order by " + C_CODE, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
+    // Used by EditSectionActivity
+    public List<Count> getAllSpeciesForSectionSrtName(int section_id)
+    {
+        List<Count> counts = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + C_SECTION_ID + " = " + section_id
+            + ") order by " + C_NAME, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Count count = cursorToCount(cursor);
+            counts.add(count);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return counts;
+    }
+
     // Used by ListSpeciesActivity
     public List<Count> getAllCountsForSrtName()
     {

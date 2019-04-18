@@ -1,0 +1,303 @@
+/*
+ * Copyright (c) 2019. Wilhelm Stein, Bonn, Germany.
+ */
+
+package com.wmstein.transektcount;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import com.wmstein.transektcount.database.Count;
+import com.wmstein.transektcount.database.CountDataSource;
+import com.wmstein.transektcount.widgets.SpeciesAddWidget;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+/************************************************************************
+ * AddSpeciesActivity lets you insert a new species into a section's species list
+ * AddSpeciesActivity is called from EditSectionActivity
+ * Uses SpeciesAddWidget.java, widget_add_spec.xml.
+ *
+ * Created for TourCount by wmstein on 2019-04-12,
+ * last edited on 2019-04-18
+ */
+public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+{
+    private static final String TAG = "TransektCountAddSpecAct";
+    private TransektCountApplication transektCount;
+
+    private LinearLayout add_area;
+
+    // the actual data
+    private CountDataSource countDataSource;
+
+    int section_id;
+    private String[] idArray; // Id list of missing species
+    ArrayList<String> namesCompleteArrayList, namesGCompleteArrayList, codesCompleteArrayList; // complete ArrayLists of species
+    String specName, specCode, specNameG; // selected species
+
+    private Bitmap bMap;
+    private BitmapDrawable bg;
+
+    private boolean screenOrientL; // option for landscape screen orientation
+    private boolean brightPref;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        transektCount = (TransektCountApplication) getApplication();
+        SharedPreferences prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        brightPref = prefs.getBoolean("pref_bright", true);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        setContentView(R.layout.activity_add_species);
+        ScrollView add_screen = findViewById(R.id.addScreen);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
+
+        bMap = transektCount.decodeBitmap(R.drawable.abackground, transektCount.width, transektCount.height);
+        bg = new BitmapDrawable(add_screen.getResources(), bMap);
+        add_screen.setBackground(bg);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            section_id = extras.getInt("section_id");
+        }
+
+        add_area = findViewById(R.id.addSpecLayout);
+        
+        // Load complete species ArrayList from arrays.xml (lists are sorted by code)
+        namesCompleteArrayList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.selSpecs)));
+        namesGCompleteArrayList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.selSpecs_g)));
+        codesCompleteArrayList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.selCodes)));
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        SharedPreferences prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        brightPref = prefs.getBoolean("pref_bright", true);
+
+        // Set full brightness of screen
+        if (brightPref)
+        {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
+
+        // clear any existing views
+        add_area.removeAllViews();
+
+        // setup the data sources
+        countDataSource = new CountDataSource(this);
+        countDataSource.open();
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.addTitle);
+
+        // get the list of only new species not already contained in the species counting list
+        List<Count> counts;
+        ArrayList<String> specCodesContainedList = new ArrayList<>(); // code list of contained species
+
+        counts = countDataSource.getAllCountsForSection(section_id); // get species of the counting list
+
+        // build code ArrayList of already contained species
+        for (Count count : counts)
+        {
+            specCodesContainedList.add(count.code);
+        }
+        
+        // build lists of missing species
+        int specCodesContainedListSize = specCodesContainedList.size();
+        int posSpec;
+        
+        // for already contained species reduce complete arraylists
+        for (int i = 0; i < specCodesContainedListSize; i++)
+        {
+            if (codesCompleteArrayList.contains(specCodesContainedList.get(i)))
+            {
+                // Remove species with code x from missing species lists.
+                // Prerequisites: exactly correlated arrays of selCodes, selSpecs and selSpecs_g
+                //   for all localisations
+                specCode = specCodesContainedList.get(i);
+                posSpec = codesCompleteArrayList.indexOf(specCode);
+
+                namesCompleteArrayList.remove(posSpec);
+                namesGCompleteArrayList.remove(posSpec);
+                codesCompleteArrayList.remove(specCode);
+            }
+        }
+
+        idArray = setIdsSelSpecs(codesCompleteArrayList); // create idArray from codeArray
+
+        // load the species data into the widgets
+        int i;
+        for (i = 0; i < codesCompleteArrayList.size(); i++)
+        {
+            SpeciesAddWidget saw = new SpeciesAddWidget(this, null);
+
+            saw.setSpecName(namesCompleteArrayList.get(i));
+            saw.setSpecNameG(namesGCompleteArrayList.get(i));
+            saw.setSpecCode(codesCompleteArrayList.get(i));
+            saw.setPSpec(codesCompleteArrayList.get(i));
+            saw.setSpecId(idArray[i]);
+            add_area.addView(saw);
+        }
+
+    } // end of Resume
+
+
+    // create idArray from codeArray
+    private String[] setIdsSelSpecs(ArrayList<String> speccodesm)
+    {
+        int i;
+        idArray = new String[speccodesm.size()];
+        for (i = 0; i < speccodesm.size(); i++)
+        {
+            idArray[i] = String.valueOf(i + 1);
+        }
+        return idArray;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        // close the data sources
+        countDataSource.close();
+    }
+
+    public void saveAndExit(View view)
+    {
+        if (saveData(view))
+        {
+            super.finish();
+        }
+    }
+
+    private boolean saveData(View view)
+    {
+        // save added species to species list
+        boolean retValue = true;
+
+        int idToAdd = (Integer) view.getTag();
+        SpeciesAddWidget saw1 = (SpeciesAddWidget) add_area.getChildAt(idToAdd);
+
+        specName = saw1.getSpecName();
+        specCode = saw1.getSpecCode();
+        specNameG = saw1.getSpecNameG();
+
+        try
+        {
+            countDataSource.createCount(section_id, specName, specCode, specNameG);
+        } catch (Exception e)
+        {
+            retValue = false;
+        }
+        return retValue;
+    }
+
+    /*
+     * Add the selected species to the species list
+     */
+    public void addCount(View view)
+    {
+        if (saveData(view))
+        {
+            super.finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.add_species, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.home)
+        {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            assert intent != null;
+            intent.putExtra("section_id", section_id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            NavUtils.navigateUpTo(this, intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+    {
+        ScrollView add_screen = findViewById(R.id.addScreen);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        bMap = transektCount.decodeBitmap(R.drawable.abackground, transektCount.width, transektCount.height);
+        add_screen.setBackground(null);
+        bg = new BitmapDrawable(add_screen.getResources(), bMap);
+        add_screen.setBackground(bg);
+    }
+
+}

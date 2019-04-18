@@ -301,10 +301,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         }
     }
 
-    /*
-     * Scroll to end of view
-     * by wmstein
-     */
+    // Scroll to end of view, by wmstein
     public void ScrollToEndOfView(View scrlV)
     {
         int scroll_amount = scrlV.getBottom();
@@ -312,7 +309,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         boolean pageend = false;
         while (!pageend)
         {
-            scrlV.scrollTo(0, scroll_amount);              //scroll
+            scrlV.scrollTo(0, scroll_amount);           //scroll
             scroll_amount = scroll_amount + scroll_amount; //increase scroll_amount
             scrollY = scrollY + scrlV.getScrollY();        //scroll position of 1. row
             if (scroll_amount > scrollY)
