@@ -12,7 +12,6 @@
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="title_activity_add_species">AddSpeciesActivity</string>
-    <string name="hello_world">Hallo!</string>
 
     <!-- generic -->
     <string name="app_name">TransektCount</string>
@@ -38,7 +37,6 @@
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
     <string name="resetDBMenu">Reset Daten</string>
     <string name="loadFileMenu">Import DB</string>
-    <string name="convDb">Die Datanbank wurde in die aktuelle Version konvertiert.</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
@@ -95,7 +93,6 @@
     <string name="newName">Bitte einen Namen für die neue Liste eingeben.</string>
     <string name="noPhotoPermit">Kamera-Berechtigung ist erforderlich.</string>
     <string name="chooserTitle">Wähle eine Foto-App</string>
-    <string name="notTakenPhoto">Foto wurde nicht aufgenommen.</string>
     <string name="takePhoto">Foto aufnehmen</string>
     <string name="newCopyCreated">wurde erstellt!</string>
     <string name="addAlertButton">Alarm hinzufügen</string>
@@ -121,7 +118,6 @@
     <string name="orcode"> oder Code</string>
     <string name="isempt">Name oder Code ist leer!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
-    <string name="empty">Kein Eintrag vorhanden!</string>
     <string name="labelEditsectSaveButton">Abschn. speichern</string>
 
     <!-- AddSpeciesActivity -->
@@ -135,7 +131,6 @@
 
     <!-- ViewHelp -->
     <string name="viewhelp_full_title">Hilfe (TransektCount Ver. </string>
-    <string name="viewhelp_title">Was kann die App?</string>
     <string name="viewhelp_ok_button">OK</string>
 
     <!-- Preferences -->
@@ -226,9 +221,7 @@
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsumme</string>
     <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>
-    <string name="createDB">Noch keine Datenbank erstellt!\nBitte mindestens die Artenliste für einen Transektabschnitt erstellen.</string>
     <string name="sect01">Ab 01</string>
-    <string name="ok_button">OK</string>
     <string name="cancel">Abbrechen</string>
 
     <!-- Permissions -->

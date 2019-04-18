@@ -12,7 +12,6 @@
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="title_activity_add_species">AddSpeciesActivity</string>
-    <string name="hello_world">Hello!</string>
 
     <!-- generic -->
     <string name="app_name">TransektCount</string>
@@ -38,7 +37,6 @@
     <string name="exportCSVMenu">Export Data -> CSV File</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="loadFileMenu">Import DB</string>
-    <string name="convDb">Your database has been converted to current version.</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
@@ -95,7 +93,6 @@
     <string name="newName">You must enter a name for the new list.</string>
     <string name="noPhotoPermit">The right to take photos is missing.</string>
     <string name="chooserTitle">Select photo app</string>
-    <string name="notTakenPhoto">Picture was not taken.</string>
     <string name="takePhoto">Take photo</string>
     <string name="newCopyCreated">has been created!</string>
     <string name="addAlertButton">Add alert button</string>
@@ -121,7 +118,6 @@
     <string name="orcode"> or code</string>
     <string name="isempt">Name or Code is empty!</string>
     <string name="isempty">Section name is missing!</string>
-    <string name="empty">No species in list!</string>
     <string name="labelEditsectSaveButton">Save Section</string>
 
     <!-- AddSpeciesActivity -->
@@ -135,7 +131,6 @@
 
     <!-- ViewHelp -->
     <string name="viewhelp_full_title">Help (TransektCount Ver. </string>
-    <string name="viewhelp_title">What can the app do?</string>
     <string name="viewhelp_ok_button">OK</string>
 
     <!-- Preferences -->
@@ -226,9 +221,7 @@
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
     <string name="getHelp">Database problem! Please mail your exported \'transektcount_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
-    <string name="createDB">Still no database created!\nPlease create at least the species list for 1 transect section.</string>
     <string name="sect01">Sect 01</string>
-    <string name="ok_button">OK</string>
     <string name="cancel">Cancel</string>
 
     <!-- Permissions -->

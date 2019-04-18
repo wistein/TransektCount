@@ -28,10 +28,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-/************************************************************************
+/********************************************************************************
  * AddSpeciesActivity lets you insert a new species into a section's species list
  * AddSpeciesActivity is called from EditSectionActivity
  * Uses SpeciesAddWidget.java, widget_add_spec.xml.
+ * 
+ * The sorting order of the species to add cannot be changed, as it is determined 
+ * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
  * last edited on 2019-04-18
@@ -139,7 +142,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         List<Count> counts;
         ArrayList<String> specCodesContainedList = new ArrayList<>(); // code list of contained species
 
-        counts = countDataSource.getAllCountsForSection(section_id); // get species of the counting list
+        counts = countDataSource.getAllSpeciesForSectionSrtCode(section_id); // get species of the section counting list
 
         // build code ArrayList of already contained species
         for (Count count : counts)

@@ -35,7 +35,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2019-03-25.
+ * last edited on 2019-04-18.
  */
 public class CountDataSource
 {
