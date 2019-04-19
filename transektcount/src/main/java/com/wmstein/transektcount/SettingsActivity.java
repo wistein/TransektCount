@@ -24,7 +24,7 @@ import android.widget.Toast;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-02
+ * Last edited on 2019-04-19
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -71,7 +71,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         String strRingtonePreference = prefs.getString("alert_sound", "DEFAULT_SOUND");
         alert_uri = Uri.parse(strRingtonePreference);
         if (MyDebug.LOG)
-            Log.d(TAG,"ALERT_URI: " + String.valueOf(alert_uri));
+            Log.d(TAG,"ALERT_URI: " + alert_uri);
 
         Preference alert_sound = findPreference("alert_sound");
         alert_sound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
@@ -217,12 +217,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
+        if (item.getItemId() == android.R.id.home)
         {
-        case android.R.id.home:
             startActivity(new Intent(this, WelcomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            break;
-        default:
+        }
+        else
+        {
             return super.onOptionsItemSelected(item);
         }
         return true;

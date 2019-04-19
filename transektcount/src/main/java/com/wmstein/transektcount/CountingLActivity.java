@@ -63,14 +63,12 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2019-02-02
+ * Last edit on 2019-04-19
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountCountLAct";
-    private AlertDialog.Builder row_alert;
 
-    private TransektCountApplication transektCount;
     private SharedPreferences prefs;
 
     private int section_id;
@@ -109,12 +107,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     private int itemPosition = 0;
     private int oldCount;
 
-    private String[] idArray;
-    private String[] nameArray;
-    private String[] nameArrayG;
-    private String[] codeArray;
-    private Integer[] imageArray;
-
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
@@ -126,7 +118,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
         Context context = this.getApplicationContext();
 
-        transektCount = (TransektCountApplication) getApplication();
+        TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         getPrefs();
@@ -269,7 +261,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
         // load and show the data
         if (MyDebug.LOG)
-            Log.d(TAG, "Section ID: " + String.valueOf(section_id));
+            Log.d(TAG, "Section ID: " + section_id);
         
         try
         {
@@ -292,6 +284,12 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 Log.e(TAG, "Problem setting title bar: " + e.toString());
         }
 
+        String[] idArray;
+        String[] nameArray;
+        String[] nameArrayG;
+        String[] codeArray;
+        Integer[] imageArray;
+        
         switch (sortPref)
         {
         case "names_alpha":
@@ -1476,7 +1474,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         {
             if (a.count_id == count_id && a.alert == count_value)
             {
-                row_alert = new AlertDialog.Builder(this);
+                AlertDialog.Builder row_alert = new AlertDialog.Builder(this);
                 row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
                 row_alert.setMessage(a.alert_text);
                 row_alert.setNegativeButton("OK", new DialogInterface.OnClickListener()
@@ -1518,6 +1516,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
     }
 
+    // If the user has set the preference for button sound, then sound it here.
     private void buttonSound()
     {
         if (buttonSoundPref)
@@ -1623,7 +1622,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     }
 
     // cloneSection() with check for double names
-    // modified by wmstein on 10.04.2016
     private void cloneSection()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -1694,7 +1692,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     }
 
     // Compare section names for duplicates and return state of duplicate found
-    // created by wmstein on 10.04.2016
     private boolean compSectionNames(String newname)
     {
         boolean isDblName = false;

@@ -37,7 +37,7 @@ import java.util.Objects;
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2019-04-18
+ * last edited on 2019-04-19
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -52,7 +52,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     int section_id;
     private String[] idArray; // Id list of missing species
     ArrayList<String> namesCompleteArrayList, namesGCompleteArrayList, codesCompleteArrayList; // complete ArrayLists of species
-    String specName, specCode, specNameG; // selected species
+    private String specCode;
 
     private Bitmap bMap;
     private BitmapDrawable bg;
@@ -233,9 +233,9 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         int idToAdd = (Integer) view.getTag();
         SpeciesAddWidget saw1 = (SpeciesAddWidget) add_area.getChildAt(idToAdd);
 
-        specName = saw1.getSpecName();
+        String specName = saw1.getSpecName();
         specCode = saw1.getSpecCode();
-        specNameG = saw1.getSpecNameG();
+        String specNameG = saw1.getSpecNameG();
 
         try
         {
@@ -248,7 +248,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     }
 
     /*
-     * Add the selected species to the species list
+     * Save the selected species to the species list
      */
     public void addCount(View view)
     {

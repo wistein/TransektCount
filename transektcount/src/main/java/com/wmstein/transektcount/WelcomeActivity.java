@@ -60,7 +60,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2019-02-02
+ * last edited on 2019-04-19
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -568,7 +568,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
 
                 // set header according to table representation in MS Excel
-                String arrCol[] =
+                String[] arrCol =
                     {
                         getString(R.string.transectnumber),
                         getString(R.string.inspector),
@@ -636,7 +636,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 }
 
                 kw = String.valueOf(Kw);
-                String arrMeta[] =
+                String[] arrMeta =
                     {
                         transNo,
                         inspecName,
@@ -651,15 +651,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrMeta);
 
                 // Empty row
-                String arrEmpt[] = {};
+                String[] arrEmpt = {};
                 csvWrite.writeNext(arrEmpt);
 
                 // Intern, extern
-                String arrIE[] = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                String[] arrIE = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIE);
 
                 // Species Name, Local Name, Code, Section, Section Note, Internal Counts, External Counts, Spec.-Note
-                String arrCol1[] =
+                String[] arrCol1 =
                     {
                         getString(R.string.name_spec),
                         getString(R.string.name_spec_g),
@@ -797,7 +797,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     else
                         strcountee = "";
 
-                    String arrStr[] =
+                    String[] arrStr =
                         {
                             curCSV.getString(2),   //species name
                             curCSV.getString(17),   //species name_g
@@ -840,15 +840,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     summfe + summe + sumfe + sumpe + sumle + sumoe;
 
                 // Empty row
-                String arrEmpt2[] = {};
+                String[] arrEmpt2 = {};
                 csvWrite.writeNext(arrEmpt2);
 
                 // Intern, extern
-                String arrIEsum[] = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                String[] arrIEsum = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIEsum);
 
                 // Internal counts, External counts, Total
-                String arrCol2[] =
+                String[] arrCol2 =
                     {
                         "", "", "", "", "",
                         getString(R.string.countImagomfHint),
@@ -868,7 +868,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.writeNext(arrCol2);
 
                 // write total sum
-                String arrSum[] =
+                String[] arrSum =
                     {
                         "", "", "", "",
                         getString(R.string.sum),

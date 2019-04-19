@@ -21,7 +21,7 @@ import java.util.List;
  * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2019-02-02
+ * last edited on 2019-04-19
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -68,7 +68,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         LinearLayout list_view = findViewById(R.id.list_view);
-        //noinspection ConstantConditions
         list_view.setBackground(transektCount.getBackground());
         list = findViewById(android.R.id.list);
     }
