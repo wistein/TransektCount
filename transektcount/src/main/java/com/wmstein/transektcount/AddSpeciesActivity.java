@@ -4,6 +4,7 @@
 
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +34,12 @@ import java.util.Objects;
  * AddSpeciesActivity lets you insert a new species into a section's species list
  * AddSpeciesActivity is called from EditSectionActivity
  * Uses SpeciesAddWidget.java, widget_add_spec.xml.
- * 
+ *
  * The sorting order of the species to add cannot be changed, as it is determined 
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2019-04-19
+ * last edited on 2019-04-22
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -49,9 +51,14 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     // the actual data
     private CountDataSource countDataSource;
 
-    int section_id;
-    private String[] idArray; // Id list of missing species
-    ArrayList<String> namesCompleteArrayList, namesGCompleteArrayList, codesCompleteArrayList; // complete ArrayLists of species
+    private int section_id;
+    
+    // Id list of missing species
+    private String[] idArray;
+
+    // complete ArrayLists of species
+    ArrayList<String> namesCompleteArrayList, namesGCompleteArrayList, codesCompleteArrayList;
+
     private String specCode;
 
     private Bitmap bMap;
@@ -101,9 +108,11 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         {
             section_id = extras.getInt("section_id");
         }
+        if (MyDebug.LOG)
+            Log.e(TAG, "onCreate getIntent Section Id = " + section_id);
 
         add_area = findViewById(R.id.addSpecLayout);
-        
+
         // Load complete species ArrayList from arrays.xml (lists are sorted by code)
         namesCompleteArrayList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.selSpecs)));
         namesGCompleteArrayList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.selSpecs_g)));
@@ -138,22 +147,25 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.addTitle);
 
-        // get the list of only new species not already contained in the species counting list
+        // list of only new species not already contained in the species counting list
         List<Count> counts;
-        ArrayList<String> specCodesContainedList = new ArrayList<>(); // code list of contained species
 
-        counts = countDataSource.getAllSpeciesForSectionSrtCode(section_id); // get species of the section counting list
+        // code list of contained species
+        ArrayList<String> specCodesContainedList = new ArrayList<>();
+        
+        // get species of the section counting list
+        counts = countDataSource.getAllSpeciesForSectionSrtCode(section_id);
 
         // build code ArrayList of already contained species
         for (Count count : counts)
         {
             specCodesContainedList.add(count.code);
         }
-        
+
         // build lists of missing species
         int specCodesContainedListSize = specCodesContainedList.size();
         int posSpec;
-        
+
         // for already contained species reduce complete arraylists
         for (int i = 0; i < specCodesContainedListSize; i++)
         {
@@ -205,7 +217,17 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
+        outState.putInt("section_id", section_id);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        if (savedInstanceState.getInt("section_id") != 0)
+            section_id = savedInstanceState.getInt("section_id");
+        if (MyDebug.LOG)
+            Log.e(TAG, "savedInstanceState Section Id = " + section_id);
     }
 
     @Override
@@ -266,6 +288,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         return true;
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -277,11 +300,18 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
             assert intent != null;
-            intent.putExtra("section_id", section_id);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             NavUtils.navigateUpTo(this, intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        finish();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)

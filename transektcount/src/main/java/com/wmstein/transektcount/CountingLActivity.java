@@ -63,7 +63,7 @@ import java.util.List;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2019-04-19
+ * Last edit on 2019-04-22
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -1550,6 +1550,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     }
 
     // Handle menu selections
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -1565,8 +1566,14 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 disableProximitySensor();
             }
 
+            // store section_id into SharedPreferences
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("section_id", section_id);
+            editor.commit();
+            if (MyDebug.LOG)
+                Log.e(TAG, "Sect Id = " + section_id);
+
             Intent intent = new Intent(CountingLActivity.this, EditSectionActivity.class);
-            intent.putExtra("section_id", section_id);
             startActivity(intent);
             return true;
         }

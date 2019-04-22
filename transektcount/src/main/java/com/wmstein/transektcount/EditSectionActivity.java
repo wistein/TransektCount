@@ -43,7 +43,7 @@ import java.util.List;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2019-04-18
+ * last edited on 2019-04-22
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -57,7 +57,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
 
-    int section_id;
     private LinearLayout counts_area;
     private LinearLayout notes_area2;
     private EditTitleWidget etw;
@@ -78,8 +77,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private Bitmap bMap;
     private BitmapDrawable bg;
 
+    private int section_id;
+    private boolean brightPref;
     private boolean dupPref;
-    private String sortPref;
     private boolean screenOrientL; // option for screen orientation
 
     String new_count_name = "";
@@ -100,14 +100,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         notes_area2 = findViewById(R.id.editingNotesLayout);
         counts_area = findViewById(R.id.editingCountsLayout);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            section_id = extras.getInt("section_id");
-        }
-
         /*
-         * Restore any edit widgets the user has added previously
+         * Restore any edit widgets the user has added previously and the section id
          */
         if (savedInstanceState != null)
         {
@@ -123,9 +117,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        boolean brightPref = prefs.getBoolean("pref_bright", true);
-        dupPref = prefs.getBoolean("pref_duplicate", true);
-        sortPref = prefs.getString("pref_sort_sp", "none");
+        brightPref = prefs.getBoolean("pref_bright", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
@@ -159,20 +151,16 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     {
         super.onResume();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            section_id = extras.getInt("section_id");
-        }
-
         // Load preferences
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        boolean brightPref = prefs.getBoolean("pref_bright", true);
-        dupPref = prefs.getBoolean("pref_duplicate", true);
+        brightPref = prefs.getBoolean("pref_bright", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        dupPref = prefs.getBoolean("pref_duplicate", true);
+        String sortPref = prefs.getString("pref_sort_sp", "none");
+        section_id = prefs.getInt("section_id", 1);
 
         // Set full brightness of screen
         if (brightPref)
@@ -193,7 +181,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.open();
         countDataSource = new CountDataSource(this);
         countDataSource.open();
-
+        
         // load the sections data
         section = sectionDataSource.getSection(section_id);
         oldname = section.name;
@@ -261,12 +249,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
          * Before these widgets can be serialised they must be removed from their parent, or else
          * trying to add them to a new parent causes a crash because they've already got one.
          */
-        super.onSaveInstanceState(outState);
         for (CountEditWidget cew : savedCounts)
         {
             ((ViewGroup) cew.getParent()).removeView(cew);
         }
         outState.putSerializable("savedCounts", savedCounts);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -297,7 +285,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         if (id == R.id.home)
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
-            intent.putExtra("section_id", section_id);
+            assert intent != null;
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             NavUtils.navigateUpTo(this, intent);
         }
@@ -442,13 +430,13 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             savesection = false;
         }
 
-        // Always add notes if the user has written some...
+        // add notes if the user has written some...
         String newnotes = enw.getSectionNotes();
         if (isNotEmpty(newnotes) && savesection)
         {
             section.notes = newnotes;
         }
-        //...if they haven't, only save if the current notes have a value
+        // ...or save if the current notes have a value
         else
         {
             if (isNotEmpty(section.notes))

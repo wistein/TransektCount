@@ -1,5 +1,6 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,7 @@ import static java.lang.Long.toHexString;
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2019-02-02
+ * Last edited on 2019-02-22
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -164,6 +166,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     // Edit section by clicking on edit button
     private View.OnClickListener mOnEditClickListener = new View.OnClickListener()
     {
+        @SuppressLint({"LongLogTag", "ApplySharedPref"})
         @Override
         public void onClick(final View v)
         {
@@ -171,8 +174,17 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             buttonSound();
 
             sct = (Section) v.getTag();
+            
+            // Store section_id into SharedPreferences.
+            // That makes sure that the current selected section can be retrieved 
+            // by EditSectionActivity when returning from AddSpeciesActivity
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("section_id", sct.id);
+            editor.commit();
+            if (MyDebug.LOG)
+                Log.e(TAG, "Sect Id = " + sct.id);
+
             Intent intent = new Intent(getContext(), EditSectionActivity.class);
-            intent.putExtra("section_id", sct.id);
             mContext.startActivity(intent);
         }
     };
@@ -209,6 +221,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         }
     };
 
+    // button sound
     private void buttonSound()
     {
         if (buttonSoundPref)

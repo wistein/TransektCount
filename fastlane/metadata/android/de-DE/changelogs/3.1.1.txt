@@ -1,0 +1,2 @@
+Version 3.1.1 (22.04.2019)
+- Absturzfehler bei Rückkehr von Spezies hinzufügen behoben
