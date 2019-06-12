@@ -6,7 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:src="@drawable/ic_launcher"/>
+                android:src="@drawable/ic_launcher"
+                tools:ignore="ContentDescription"/>
 
             <TextView
                 android:id="@+id/welcomeTitle"
@@ -59,38 +61,30 @@
             android:layout_weight="2.5"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="2"/>
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/editMetaButton"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:onClick="editMeta"
                 android:src="@android:drawable/ic_menu_edit"
-                />
+                tools:ignore="ContentDescription"/>
 
             <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
+                android:layout_width="15dp"
+                android:layout_height="0dp"/>
 
             <TextView
                 android:id="@+id/editMetaButtonText"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="8"
                 android:backgroundTint="#333333"
                 android:onClick="editMeta"
                 android:text="@string/editMetaButton"
@@ -104,44 +98,35 @@
             android:layout_weight="0.1"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="2"/>
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/viewSectionButton"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:onClick="viewSections"
                 android:src="@drawable/ic_count_white"
-                />
+                tools:ignore="ContentDescription"/>
 
             <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
+                android:layout_width="15dp"
+                android:layout_height="0dp"/>
 
             <TextView
                 android:id="@+id/viewSectionButtonText"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="8"
                 android:textStyle="bold"
                 android:backgroundTint="#333333"
                 android:onClick="viewSections"
                 android:text="@string/viewSectionButton"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <Space
@@ -150,44 +135,35 @@
             android:layout_weight="0.1"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="2"/>
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/viewSpeciesButton"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:onClick="viewSpecies"
                 android:src="@android:drawable/ic_menu_view"
-                />
+                tools:ignore="ContentDescription"/>
 
             <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
+                android:layout_width="15dp"
+                android:layout_height="0dp"/>
 
             <TextView
                 android:id="@+id/viewSpeciesButtonText"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="8"
                 android:textStyle="bold"
                 android:backgroundTint="#333333"
                 android:onClick="viewSpecies"
                 android:text="@string/viewSpeciesButton"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <Space
