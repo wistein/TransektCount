@@ -161,10 +161,12 @@
         <item comment="03948">Adscita geryon</item>
         <item comment="03951">Adscita mannii</item>
         <item comment="03956">Adscita statices</item>
+        <item comment="03956*">Adscita-Compl.</item>
         <item comment="03959">Aglaope infausta</item>
         <item comment="03967">Zygaena cynarae</item>
         <item comment="03973">Zygaena minos</item>
         <item comment="03974">Zygaena purpuralis</item>
+        <item comment="03974*">Zygaena min./pur.-Compl.</item>
         <item comment="03979">Zygaena fausta</item>
         <item comment="03980">Zygaena carniolica</item>
         <item comment="03983">Zygaena loti</item>
@@ -221,6 +223,7 @@
         <item comment="06919">Carterocephalus palaemon</item>
         <item comment="06923">Thymelicus lineola</item>
         <item comment="06924">Thymelicus sylvestris</item>
+        <item comment="06924*">Thym. lin./syl.-Compl.</item>
         <item comment="06925">Thymelicus acteon</item>
         <item comment="06928">Hesperia comma</item>
         <item comment="06930">Ochlodes sylvanus</item>
@@ -231,12 +234,14 @@
         <item comment="06960">Papilio machaon</item>
         <item comment="06966">Leptidea sinapis</item>
         <item comment="06967">Leptidea reali</item>
+        <item comment="06967*">Lept. sin./reali-Compl.</item>
         <item comment="06973">Anthocharis cardamines</item>
         <item comment="06993">Aporia crataegi</item>
         <item comment="06995">Pieris brassicae</item>
         <item comment="06997">Pieris mannii</item>
         <item comment="06998">Pieris rapae</item>
-        <item comment="07000">Pieria napi</item>
+        <item comment="07000">Pieris napi</item>
+        <item comment="07000*">Pieris rap./nap.-Compl.</item>
         <item comment="07001">Pieris bryoniae</item>
         <item comment="07004">Pontia callidice</item>
         <item comment="07005">Pontia daplidice</item>
@@ -247,6 +252,7 @@
         <item comment="07017">Colias myrmidone</item>
         <item comment="07021">Colias hyale</item>
         <item comment="07022">Colias alfacariensis</item>
+        <item comment="07022*">Colias hya./alfac.-Compl.</item>
         <item comment="07024">Gonepteryx rhamni</item>
         <item comment="07030">Hamearis lucina</item>
         <item comment="07034">Lycaena phlaeas</item>
@@ -279,12 +285,14 @@
         <item comment="07127">Plebejus argus</item>
         <item comment="07128">Plebejus idas</item>
         <item comment="07129">Plebejus argyrognomon</item>
+        <item comment="07129*">Pl. arg./idas/argy.-Compl.</item>
         <item comment="07131">Agriades optilete</item>
         <item comment="07139">Agriades glandon</item>
         <item comment="07141">Agriades orbitulus</item>
         <item comment="07143">Aricia eumedon</item>
         <item comment="07145">Aricia agestis</item>
         <item comment="07146">Polyommatus artaxerxes</item>
+        <item comment="07146*">Polyom. ages./arta.-Compl.</item>
         <item comment="07152">Polyommatus semiargus</item>
         <item comment="07157">Polyommatus dorylas</item>
         <item comment="07160">Polyommatus amandus</item>
@@ -325,6 +333,7 @@
         <item comment="07280">Melitaea aurelia</item>
         <item comment="07281">Melitaea britomartis</item>
         <item comment="07283">Melitaea athalia</item>
+        <item comment="07283*">Melit. aur./brit./ath.-Compl.</item>
         <item comment="07286">Limenitis populi</item>
         <item comment="07287">Limenitis camilla</item>
         <item comment="07288">Limenitis reducta</item>
@@ -366,6 +375,7 @@
         <item comment="07427">Minois dryas</item>
         <item comment="07429">Hipparchia fagi</item>
         <item comment="07430">Hipparchia alcyone</item>
+        <item comment="07430*">Hipp. fagi/alcy.-Compl.</item>
         <item comment="07436">Hipparchia semele</item>
         <item comment="07441">Hipparchia statilinus</item>
         <item comment="07445">Arethusana arethusa</item>
@@ -429,10 +439,12 @@
         <item comment="03948">Cistus forester</item>
         <item comment="03951">Dock forester</item>
         <item comment="03956">Forester</item>
+        <item comment="03956*">Adscita-compl.</item>
         <item comment="03959">Hedge burnet</item>
         <item comment="03967">Calcareous burnet</item>
         <item comment="03973">03973</item>
         <item comment="03974">Transparent burnet</item>
+        <item comment="03974*">Zygaena min./pur.-compl.</item>
         <item comment="03979">03979</item>
         <item comment="03980">Crepuscular burnet</item>
         <item comment="03983">Slender burnet</item>
@@ -489,6 +501,7 @@
         <item comment="06919">Chequered skipper</item>
         <item comment="06923">Essex skipper</item>
         <item comment="06924">Small skipper</item>
+        <item comment="06924*">Thym. lin./syl.-compl.</item>
         <item comment="06925">Lulworth skipper</item>
         <item comment="06928">Silver-spotted skipper</item>
         <item comment="06930">Large skipper</item>
@@ -499,12 +512,14 @@
         <item comment="06960">Swallowtail</item>
         <item comment="06966">Wood white</item>
         <item comment="06967">Real\'s wood white</item>
+        <item comment="06967*">Wood white-compl.</item>
         <item comment="06973">Orange tip</item>
         <item comment="06993">Black-veined white</item>
         <item comment="06995">Large white</item>
         <item comment="06997">Southern small white</item>
         <item comment="06998">Small white</item>
         <item comment="07000">Green-veined white</item>
+        <item comment="07000*">Pieris rap./nap.-compl.</item>
         <item comment="07001">Mountain green-veined white</item>
         <item comment="07004">Peak white</item>
         <item comment="07005">Bath white</item>
@@ -515,6 +530,7 @@
         <item comment="07017">Danube clouded yellow</item>
         <item comment="07021">Pale clouded yellow</item>
         <item comment="07022">Berger\'s clouded yellow</item>
+        <item comment="07022*">Colias hya./alfac.-compl.</item>
         <item comment="07024">Common brimstone</item>
         <item comment="07030">Duke of Burgundy</item>
         <item comment="07034">Small copper</item>
@@ -547,12 +563,14 @@
         <item comment="07127">Silver-studded blue</item>
         <item comment="07128">Idas blue</item>
         <item comment="07129">Reverdin\'s blue</item>
+        <item comment="07129*">Pl. arg./idas/argy.-compl.</item>
         <item comment="07131">Cranberry blue</item>
         <item comment="07139">Arctic blue</item>
         <item comment="07141">Alpine argus</item>
         <item comment="07143">Geranium argus</item>
         <item comment="07145">Brown argus</item>
         <item comment="07146">Northern brown argus</item>
+        <item comment="07146*">Polyom. ages./arta.-compl.</item>
         <item comment="07152">Mazarine blue</item>
         <item comment="07157">Turquoise blue</item>
         <item comment="07160">Amanda\'s blue</item>
@@ -593,6 +611,7 @@
         <item comment="07280">Nickerl\'s fritillary</item>
         <item comment="07281">Assmann\'s fritillary</item>
         <item comment="07283">Heath fritillary</item>
+        <item comment="07283*">Melit. aur./brit./ath.-compl.</item>
         <item comment="07286">Poplar admiral</item>
         <item comment="07287">White admiral</item>
         <item comment="07288">Southern white admiral</item>
@@ -634,6 +653,7 @@
         <item comment="07427">Dryad</item>
         <item comment="07429">Woodland grayling</item>
         <item comment="07430">Rock grayling</item>
+        <item comment="07430*">Hipp. fagi/alcy.-compl.</item>
         <item comment="07436">Grayling</item>
         <item comment="07441">Tree grayling</item>
         <item comment="07445">False grayling</item>
@@ -697,10 +717,12 @@
         <item>03948</item>
         <item>03951</item>
         <item>03956</item>
+        <item>03956*</item>
         <item>03959</item>
         <item>03967</item>
         <item>03973</item>
         <item>03974</item>
+        <item>03974*</item>
         <item>03979</item>
         <item>03980</item>
         <item>03983</item>
@@ -757,6 +779,7 @@
         <item>06919</item>
         <item>06923</item>
         <item>06924</item>
+        <item>06924*</item>
         <item>06925</item>
         <item>06928</item>
         <item>06930</item>
@@ -767,12 +790,14 @@
         <item>06960</item>
         <item>06966</item>
         <item>06967</item>
+        <item>06967*</item>
         <item>06973</item>
         <item>06993</item>
         <item>06995</item>
         <item>06997</item>
         <item>06998</item>
         <item>07000</item>
+        <item>07000*</item>
         <item>07001</item>
         <item>07004</item>
         <item>07005</item>
@@ -783,6 +808,7 @@
         <item>07017</item>
         <item>07021</item>
         <item>07022</item>
+        <item>07022*</item>
         <item>07024</item>
         <item>07030</item>
         <item>07034</item>
@@ -815,12 +841,14 @@
         <item>07127</item>
         <item>07128</item>
         <item>07129</item>
+        <item>07129*</item>
         <item>07131</item>
         <item>07139</item>
         <item>07141</item>
         <item>07143</item>
         <item>07145</item>
         <item>07146</item>
+        <item>07146*</item>
         <item>07152</item>
         <item>07157</item>
         <item>07160</item>
@@ -861,6 +889,7 @@
         <item>07280</item>
         <item>07281</item>
         <item>07283</item>
+        <item>07283*</item>
         <item>07286</item>
         <item>07287</item>
         <item>07288</item>
@@ -902,6 +931,7 @@
         <item>07427</item>
         <item>07429</item>
         <item>07430</item>
+        <item>07430*</item>
         <item>07436</item>
         <item>07441</item>
         <item>07445</item>

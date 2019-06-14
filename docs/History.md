@@ -2,6 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
+#### Version 3.1.2 (2019-06-14)
+- Project adaption for Gradle 3.4.1 and Gradle 5.1.1
+- Minimal changes to starting page
+- Minor text corrections
+- Allow adding some species complexes to section lists
+
 #### Version 3.1.1 (2019-04-22)
 - Bugfix: Crashed when returning from adding species without adding one
 

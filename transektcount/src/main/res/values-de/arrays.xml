@@ -83,10 +83,12 @@
         <item comment="03948">Sonnenröschen-Grünwidderchen</item>
         <item comment="03951">Südwestdeutsches Grünwidderchen</item>
         <item comment="03956">Ampfer-Grünwidderchen</item>
+        <item comment="03956*">Adscita-Kompl.</item>
         <item comment="03959">Trauerwidderchen</item>
         <item comment="03967">Haarstrang-Widderchen</item>
         <item comment="03973">Bibernell-Widderchen</item>
         <item comment="03974">Thymian-Widderchen</item>
+        <item comment="03974*">Zygaena min./pur.-Kompl.</item>
         <item comment="03979">Bergkronwicken-Widderchen</item>
         <item comment="03980">Esparsetten-Widderchen</item>
         <item comment="03983">Beilfleck-Widderchen</item>
@@ -143,6 +145,7 @@
         <item comment="06919">Gelbwürfeliger Dickkopffalter</item>
         <item comment="06923">Schwarzkolbiger Braundickkopffalter</item>
         <item comment="06924">Braunkolbiger Braundickkopffalter</item>
+        <item comment="06924*">Thym. lin./syl.-Kompl.</item>
         <item comment="06925">Mattscheckiger Braundickkopffalter</item>
         <item comment="06928">Komma-Dickkopffalter</item>
         <item comment="06930">Rostfarbiger Dickkopffalter</item>
@@ -153,12 +156,14 @@
         <item comment="06960">Schwalbenschwanz</item>
         <item comment="06966">Tintenfleck-Weißling</item>
         <item comment="06967">Reals Tintenfleck-Weißling</item>
+        <item comment="06967*">Lept. sin./reali-Kompl.</item>
         <item comment="06973">Aurorafalter</item>
         <item comment="06993">Baumweißling</item>
         <item comment="06995">Großer Kohlweißling</item>
         <item comment="06997">Karstweißling</item>
         <item comment="06998">Kleiner Kohlweißling</item>
         <item comment="07000">Grünader-Weißling</item>
+        <item comment="07000*">Pieris rap./nap.-Kompl.</item>
         <item comment="07001">Bergweißling</item>
         <item comment="07004">Alpenweißling</item>
         <item comment="07005">Westlicher Resedafalter</item>
@@ -169,6 +174,7 @@
         <item comment="07017">Regensburger Gelbling</item>
         <item comment="07021">Goldene Acht</item>
         <item comment="07022">Hufeisenklee-Gelbling</item>
+        <item comment="07022*">Colias hya./alfac.-Kompl.</item>
         <item comment="07024">Zitronenfalter</item>
         <item comment="07030">Schlüsselblumen-Würfelfalter</item>
         <item comment="07034">Kleiner Feuerfalter</item>
@@ -201,12 +207,14 @@
         <item comment="07127">Argus-Bläuling</item>
         <item comment="07128">Idas-Bläuling</item>
         <item comment="07129">Kronwicken-Bläuling</item>
+        <item comment="07129*">Pl. arg./idas/argy.-Kompl.</item>
         <item comment="07131">Hochmoor-Bläuling</item>
         <item comment="07139">Dunkler Alpenbläuling</item>
         <item comment="07141">Heller Alpenbläuling</item>
         <item comment="07143">Storchschnabel-Bläuling</item>
         <item comment="07145">Kleiner Sonnenröschen-Bläuling</item>
         <item comment="07146">Großer Sonnenröschen-Bläuling</item>
+        <item comment="07146*">Polyom. ages./arta.-Kompl.</item>
         <item comment="07152">Rotklee-Bläuling</item>
         <item comment="07157">Großer Wundklee-Bläuling</item>
         <item comment="07160">Vogelwicken-Bläuling</item>
@@ -247,6 +255,7 @@
         <item comment="07280">Ehrenpreis-Scheckenfalter </item>
         <item comment="07281">Östlicher Scheckenfalter</item>
         <item comment="07283">Wachtelweizen-Scheckenfalter</item>
+        <item comment="07283*">Melit. aur./brit./ath.-Kompl.</item>
         <item comment="07286">Großer Eisvogel</item>
         <item comment="07287">Kleiner Eisvogel</item>
         <item comment="07288">Blauschwarzer Eisvogel</item>
@@ -288,6 +297,7 @@
         <item comment="07427">Blauäugiger Waldportier</item>
         <item comment="07429">Großer Waldportier</item>
         <item comment="07430">Kleiner Waldportier</item>
+        <item comment="07430*">Hipp. fagi/alcy.-Kompl.</item>
         <item comment="07436">Rostbinde</item>
         <item comment="07441">Kleine Rostbinde</item>
         <item comment="07445">Rotbindiger Samtfalter</item>
