@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
+#### Version 3.1.3 (2019-06-22)
+- Added/changed butterfly pictures
+
 #### Version 3.1.2 (2019-06-14)
 - Project adaption for Gradle 3.4.1 and Gradle 5.1.1
 - Minimal changes to starting page
