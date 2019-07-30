@@ -27,7 +27,7 @@ import java.util.List;
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2019-02-12
+ * last edited on 2019-07-30
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -116,7 +116,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     {
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
-        int sumInt, sumExt;
+        int sumInt, sumExt, sumSpec;
 
         headDataSource.open();
         metaDataSource.open();
@@ -170,6 +170,8 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             break;
         }
 
+        sumSpec = countDataSource.getDiffSpec(); // get number of different species
+       
         int spec_countf1i;
         int spec_countf2i;
         int spec_countf3i;
@@ -217,12 +219,12 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
             sumoe = sumoe + spec_countee;
         }
 
-        sumInt = summf + summ + sumf + sump + suml + sumo;
-        sumExt = summfe + summe + sumfe + sumpe + sumle + sumoe;
+        sumInt = summf + summ + sumf + sump + suml + sumo; // sum of internal counts
+        sumExt = summfe + summe + sumfe + sumpe + sumle + sumoe; // sum of external counts
 
         // display the totals
         lsw = new ListSumWidget(this, null);
-        lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe, sumInt, sumExt);
+        lsw.setSum(summf, summ, sumf, sump, suml, sumo, summfe, summe, sumfe, sumpe, sumle, sumoe, sumInt, sumExt, sumSpec);
         spec_area.addView(lsw);
 
         for (Count spec : specs)

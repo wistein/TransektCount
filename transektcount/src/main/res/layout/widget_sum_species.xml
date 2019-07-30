@@ -664,5 +664,64 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtDiffTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:gravity="start|top"
+                android:padding="2sp"
+                android:text="@string/difftotal"
+                android:textColor="#BFFFFF"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
+
+            <!-- sumint -->
+            <TextView
+                android:id="@+id/sumDiffInd"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/count_background"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:hint="@string/charZero"
+                android:padding="0dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:maxLines="1"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9.84"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
     </LinearLayout>
 </LinearLayout>

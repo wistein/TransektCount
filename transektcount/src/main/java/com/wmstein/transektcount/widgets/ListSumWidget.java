@@ -10,11 +10,11 @@ import com.wmstein.transektcount.R;
 
 import java.util.Objects;
 
-/****************************************************
- * ListSumWidget shows count totals area
- * ListSpeciesActivity shows the result page
+/**********************************************************
+ * ListSumWidget shows count totals area in the result page 
+ * created by ListSpeciesActivity
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2019-02-12
+ * Last edited on 2019-07-30
  */
 public class ListSumWidget extends LinearLayout
 {
@@ -34,6 +34,7 @@ public class ListSumWidget extends LinearLayout
     private TextView sumCountee;
     private TextView sumIndInt;
     private TextView sumIndExt;
+    private TextView sumDiffInd;
     
     public ListSumWidget(Context context, AttributeSet attrs)
     {
@@ -55,11 +56,12 @@ public class ListSumWidget extends LinearLayout
         sumCountee = findViewById(R.id.sumCountee);
         sumIndInt = findViewById(R.id.sumIndInt);
         sumIndExt = findViewById(R.id.sumIndExt);
+        sumDiffInd = findViewById(R.id.sumDiffInd);
     }
 
     public void setSum(int summf, int summ, int sumf, int sump, int suml, int sumo, 
                        int summfe, int summe, int sumfe, int sumpe, int sumle, int sumoe,
-                       int sumInt, int sumExt)
+                       int sumInt, int sumExt, int sumDiff)
     {
         sumCountf1i.setText(String.valueOf(summf));
         sumCountf2i.setText(String.valueOf(summ));
@@ -75,6 +77,7 @@ public class ListSumWidget extends LinearLayout
         sumCountee.setText(String.valueOf(sumoe));
         sumIndInt.setText(String.valueOf(sumInt));
         sumIndExt.setText(String.valueOf(sumExt));
+        sumDiffInd.setText(String.valueOf(sumDiff));
     }
     
 }

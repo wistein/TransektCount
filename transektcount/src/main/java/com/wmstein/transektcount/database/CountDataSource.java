@@ -35,7 +35,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2019-04-18.
+ * last edited on 2019-07-30.
  */
 public class CountDataSource
 {
@@ -478,6 +478,30 @@ public class CountDataSource
         // Make sure to close the cursor
         cursor.close();
         return counts;
+    }
+    
+    // Used by ListSpeciesActivity
+    public int getDiffSpec()
+    {
+        int cntSpec = 0;
+        Cursor cursor = database.rawQuery("select DISTINCT " + C_CODE + " from " + COUNT_TABLE
+            + " WHERE " + " ("
+            + C_COUNT_F1I + " > 0 or " + C_COUNT_F2I + " > 0 or "
+            + C_COUNT_F3I + " > 0 or " + C_COUNT_PI + " > 0 or "
+            + C_COUNT_LI + " > 0 or " + C_COUNT_EI + " > 0 or "
+            + C_COUNT_F1E + " > 0 or " + C_COUNT_F2E + " > 0 or "
+            + C_COUNT_F3E + " > 0 or " + C_COUNT_PE + " > 0 or "
+            + C_COUNT_LE + " > 0 or " + C_COUNT_EE + " > 0)", null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            cntSpec++;
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return cntSpec;
     }
 
     // Used by CountingActivity

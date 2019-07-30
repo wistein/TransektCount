@@ -198,6 +198,7 @@
     <string name="txt_p">Pupa</string>
     <string name="txt_l">Larva</string>
     <string name="txt_e">Egg</string>
+    <string name="difftotal">Totals of Different Species Counted:</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
@@ -206,9 +207,9 @@
     <string name="countCodeHint">Code</string>
     <string name="countInternalHint">Internal of Counting Area</string>
     <string name="countExternalHint">External of Counting Area</string>
-    <string name="countInternalSum">Totals for Internal Species</string>
-    <string name="countExternalSum">Totals for External Species</string>
-    <string name="totalInternal">Totals Internal / External</string>
+    <string name="countInternalSum">Totals for Internal Species:</string>
+    <string name="countExternalSum">Totals for External Species:</string>
+    <string name="totalInternal">Totals Internal / External:</string>
     <string name="countImagomfHint">Butterfly ♂, ♀</string>
     <string name="countImagomHint">Butterfly ♂</string>
     <string name="countImagofHint">Butterfly ♀</string>
