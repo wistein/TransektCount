@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wmstein.filechooser.AdvFileChooser;
+import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
@@ -105,6 +106,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     SectionDataSource sectionDataSource;
     HeadDataSource headDataSource;
     MetaDataSource metaDataSource;
+    CountDataSource countDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -516,7 +518,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int tempe, wind, clouds;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
-        int total;
+        int total, sumSpec;
         String date, start_tm, end_tm, kw;
         int yyyy, mm, dd;
         int Kw = 0; // calendar week
@@ -534,6 +536,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         sectionDataSource = new SectionDataSource(this);
         sectionDataSource.open();
 
+        countDataSource = new CountDataSource(this);
+        
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
             // We can read and write the media
@@ -681,6 +685,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         getString(R.string.rem_spec)
                     };
                 csvWrite.writeNext(arrCol1);
+
+                countDataSource.open();
+                sumSpec = countDataSource.getDiffSpec(); // get number of different species
+                countDataSource.close();
 
                 Cursor curCSV;
 
@@ -838,12 +846,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 total = summf + summ + sumf + sump + suml + sumo +
                     summfe + summe + sumfe + sumpe + sumle + sumoe;
-
+                
                 // Empty row
                 String[] arrEmpt2 = {};
                 csvWrite.writeNext(arrEmpt2);
 
-                // Intern, extern
+                // Internal, external
                 String[] arrIEsum = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIEsum);
 
@@ -870,7 +878,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // write total sum
                 String[] arrSum =
                     {
-                        "", "", "", "",
+                        "", getString(R.string.sumSpec), Integer.toString(sumSpec), "",
                         getString(R.string.sum),
                         Integer.toString(summf),
                         Integer.toString(summ),

@@ -56,7 +56,8 @@
     <string name="notes_sect">Ab.-Bemerkung</string>
     <string name="name_spec">Spezies-Name</string>
     <string name="name_spec_g">Deutscher Name</string>
-    <string name="sum">Summe:</string>
+    <string name="sum">Summen:</string>
+    <string name="sumSpec">Arten:</string>
     <string name="kal_w">KW</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
 

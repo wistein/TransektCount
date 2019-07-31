@@ -56,7 +56,8 @@
     <string name="internal">Internal</string>
     <string name="external">External</string>
     <string name="rem_spec">Species Note</string>
-    <string name="sum">Sum:</string>
+    <string name="sum">Totals:</string>
+    <string name="sumSpec">Diff. Species:</string>
     <string name="kal_w">CW</string>
     <string name="back_twice">Press again to exit</string>
 
