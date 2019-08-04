@@ -61,7 +61,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2019-04-19
+ * last edited on 2019-08-04
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -526,18 +526,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
 
-        // open Head and Meta table for head and meta info
-        headDataSource = new HeadDataSource(this);
-        headDataSource.open();
-        metaDataSource = new MetaDataSource(this);
-        metaDataSource.open();
-
-        // open Section table for section name and notes
-        sectionDataSource = new SectionDataSource(this);
-        sectionDataSource.open();
-
-        countDataSource = new CountDataSource(this);
-        
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
             // We can read and write the media
@@ -586,10 +574,19 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     };
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
+                // open Head table for head info
+                headDataSource = new HeadDataSource(this);
+                headDataSource.open();
                 head = headDataSource.getHead();
+                headDataSource.close();
                 transNo = head.transect_no;
                 inspecName = head.inspector_name;
+
+                // open Meta table for meta info
+                metaDataSource = new MetaDataSource(this);
+                metaDataSource.open();
                 meta = metaDataSource.getMeta();
+                metaDataSource.close();
                 tempe = meta.tempe;
                 wind = meta.wind;
                 clouds = meta.clouds;
@@ -686,6 +683,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     };
                 csvWrite.writeNext(arrCol1);
 
+                countDataSource = new CountDataSource(this);
                 countDataSource.open();
                 sumSpec = countDataSource.getDiffSpec(); // get number of different species
                 countDataSource.close();
@@ -734,6 +732,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 int countmfe, countme, countfe, countpe, countle, countee;
                 String strcountmf, strcountm, strcountf, strcountp, strcountl, strcounte;
                 String strcountmfe, strcountme, strcountfe, strcountpe, strcountle, strcountee;
+
+                // open Section table for section name and notes
+                sectionDataSource = new SectionDataSource(this);
+                sectionDataSource.open();
 
                 curCSV.moveToFirst();
                 while (!curCSV.isAfterLast())
@@ -843,6 +845,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     curCSV.moveToNext();
                 }
                 curCSV.close();
+                sectionDataSource.close();
 
                 total = summf + summ + sumf + sump + suml + sumo +
                     summfe + summe + sumfe + sumpe + sumle + sumoe;
@@ -898,9 +901,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 csvWrite.close();
                 dbHandler.close();
-                headDataSource.close();
-                metaDataSource.close();
-                sectionDataSource.close();
 
 //                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                 showSnackbar(getString(R.string.saveWin));

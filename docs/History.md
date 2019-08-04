@@ -2,10 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
-#### Version 3.1.3 (2019-07-31)
+#### Version 3.1.3 (2019-08-04)
 - Added/changed butterfly pictures
-- Results page with total of different species counted
-- Exported csv-file with total of different species counted
+- Added total of different species counted to results page
+- Added total of different species counted to exported csv-file
 
 #### Version 3.1.2 (2019-06-14)
 - Project adaption for Gradle 3.4.1 and Gradle 5.1.1

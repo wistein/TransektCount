@@ -453,7 +453,7 @@ public class CountDataSource
         return counts;
     }
 
-    // Used by ListSpeciesActivity
+    // Used by ListSpeciesActivity and WelcomeActivity
     public List<Count> getAllCounts()
     {
         List<Count> counts = new ArrayList<>();
