@@ -1,0 +1,2 @@
+Version 3.1.4 (2019-08-22)
+- Date and time of first count for a section

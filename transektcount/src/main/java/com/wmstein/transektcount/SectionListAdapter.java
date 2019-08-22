@@ -131,8 +131,8 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         }
         else
         {
-            // section.getDate fetches date as string from created_at 
-            holder.txtDate.setText(section.getDate());
+            // section.getDateTime fetches date and time as string from created_at 
+            holder.txtDate.setText(section.getDateTime());
         }
         return row;
     }

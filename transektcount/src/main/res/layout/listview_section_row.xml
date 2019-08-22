@@ -27,13 +27,13 @@
         android:layout_width="0dp"
         android:layout_weight="5"
         android:id="@+id/txtRemark"
-        android:singleLine="true"
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
+        android:maxLines="2"
         android:padding="4dp"/>
 
-    <!-- Date of first count -->
+    <!-- Date and time of first count -->
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
@@ -41,6 +41,7 @@
         android:textColor="#FFFFFF"
         android:gravity="center_vertical|end"
         android:padding="4dp"
+        android:maxLines="2"
         android:id="@+id/txtDate"/>
 
     <!-- Edit button -->

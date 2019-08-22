@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
+#### Version 3.1.4 (2019-08-22)
+- Date and time of first count for a section
+
 #### Version 3.1.3 (2019-08-04)
 - Added/changed butterfly pictures
 - Added total of different species counted to results page

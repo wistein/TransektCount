@@ -7,6 +7,7 @@ import java.util.Date;
 /****************************************************
  * Based on Project.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
+ * last edited on 2019-08-22
  */
 public class Section
 {
@@ -15,11 +16,11 @@ public class Section
     public String name;
     public String notes;
 
-    //Get Date from DB table sections field created_at
-    public String getDate()
+    //Get date and time from DB table sections field created_at
+    public String getDateTime()
     {
         Date date = new Date(created_at);
-        DateFormat df = SimpleDateFormat.getDateInstance();
+        DateFormat df = SimpleDateFormat.getDateTimeInstance();
         return df.format(date);
     }
 

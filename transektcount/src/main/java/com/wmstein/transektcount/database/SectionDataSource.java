@@ -16,7 +16,7 @@ import java.util.List;
 /********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2018-07-13
+ * last edited on 2019-08-22
  */
 public class SectionDataSource
 {
@@ -103,14 +103,17 @@ public class SectionDataSource
     /******************/
     public void saveDateSection(Section section)
     {
-        Date date = new Date();
-        long timeMsec = date.getTime();
+        if (section.created_at == 0)
+        {
+            Date date = new Date();
+            long timeMsec = date.getTime();
 
-        ContentValues values = new ContentValues();
-        values.put(DbHelper.S_CREATED_AT, timeMsec);
-        String where = DbHelper.S_ID + " = ?";
-        String[] whereArgs = {String.valueOf(section.id)};
-        database.update(DbHelper.SECTION_TABLE, values, where, whereArgs);
+            ContentValues values = new ContentValues();
+            values.put(DbHelper.S_CREATED_AT, timeMsec);
+            String where = DbHelper.S_ID + " = ?";
+            String[] whereArgs = {String.valueOf(section.id)};
+            database.update(DbHelper.SECTION_TABLE, values, where, whereArgs);
+        }
     }
 
     public List<Section> getAllSections(SharedPreferences prefs)
