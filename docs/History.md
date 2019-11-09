@@ -2,16 +2,19 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
-#### Version 3.1.4 (2019-08-22)
+#### Version 3.1.4 (2019-11-08)
 - Date and time of first count for a section
-
+- Undercutting of species name in results page corrected
+- Changing a list name no longer produces new list
+- Project adaption for Android Studio 3.5.2 and Gradle 5.4.1
+ 
 #### Version 3.1.3 (2019-08-04)
 - Added/changed butterfly pictures
 - Added total of different species counted to results page
 - Added total of different species counted to exported csv-file
 
 #### Version 3.1.2 (2019-06-14)
-- Project adaption for Gradle 3.4.1 and Gradle 5.1.1
+- Project adaption for Android Studio 3.4.1 and Gradle 5.1.1
 - Minimal changes to starting page
 - Minor text corrections
 - Allow adding some species complexes to section lists

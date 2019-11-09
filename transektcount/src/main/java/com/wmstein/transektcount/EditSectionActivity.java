@@ -35,6 +35,7 @@ import com.wmstein.transektcount.widgets.EditTitleWidget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /*************************************************************************
  * Edit the current section list (change, delete) and insert new species
@@ -53,6 +54,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     // the actual data
     Section section;
+    Section section_Backup;
 
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
@@ -187,7 +189,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         oldname = section.name;
         try
         {
-            getSupportActionBar().setTitle(oldname);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(oldname);
         } catch (NullPointerException e)
         {
             Log.i(TAG, "NullPointerException: No section name!");
@@ -407,10 +409,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         boolean savesection;
 
         String newtitle = etw.getSectionName();
-
         if (isNotEmpty(newtitle))
         {
             //check if this is not a duplicate of an existing name
+            section_Backup = section; // backup current section as compSectionNames replaces current section with last section
             if (compSectionNames(newtitle))
             {
 //                Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
@@ -419,9 +421,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             }
             else
             {
-                section.name = newtitle;
+                section_Backup.name = newtitle;
                 savesection = true;
             }
+            section = section_Backup;
         }
         else
         {
