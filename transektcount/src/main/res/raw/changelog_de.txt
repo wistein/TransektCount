@@ -44,10 +44,10 @@
 
 $ 3.1.4
   % Version 3.1.4
-  _ 08.11.2019
+  _ 09.11.2019
   	* Datum und Zeit des ersten Eintrags für Abschnitt
 		* Unterschneidung der Artnamen auf der Ergebnisseite korrigiert
-		* Das Ändern eines Listennamens erzeugt nicht mehr eine neue Liste
+		* Das Ändern eines Listennamens erzeugt keine neue Liste mehr
 		* Projekt-Anpassung für Android Studio 3.5.2 und Gradle 5.4.1
 
 $ 3.1.3

@@ -4,8 +4,8 @@
 
 #### Version 3.1.4 (2019-11-08)
 - Date and time of first count for a section
-- Undercutting of species name in results page corrected
-- Changing a list name no longer produces new list
+- Undercutting of species names in results page corrected
+- Changing a list name no longer produces a new list
 - Project adaption for Android Studio 3.5.2 and Gradle 5.4.1
  
 #### Version 3.1.3 (2019-08-04)
