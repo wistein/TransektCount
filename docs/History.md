@@ -2,10 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
-#### Version 3.1.4 (2019-11-08)
+#### Version 3.1.4 (2019-11-25)
 - Date and time of first count for a section
 - Undercutting of species names in results page corrected
-- Changing a list name no longer produces a new list
+- Bug fixed for changing a section list name
 - Project adaption for Android Studio 3.5.2 and Gradle 5.4.1
  
 #### Version 3.1.3 (2019-08-04)

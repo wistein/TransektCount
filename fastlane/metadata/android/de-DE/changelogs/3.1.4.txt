@@ -1,5 +1,5 @@
-Version 3.1.4 (09.11.2019)
-- Datum und Zeit des ersten Eintrags für Abschnitt
+Version 3.1.4 (25.11.2019)
+- Datum und Zeit des ersten Eintrags für einen Abschnitt
 - Unterschneidung der Artnamen auf der Ergebnisseite korrigiert
-- Das Ändern eines Listennamens erzeugt keine neue Liste mehr
+- Bug beim Ändern eines Listennamens behoben
 - Projekt-Anpassung für Android Studio 3.5.2 und Gradle 5.4.1
