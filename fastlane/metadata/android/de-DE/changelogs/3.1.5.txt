@@ -1,0 +1,6 @@
+Version 3.1.5 (08.12.2019)
+- Datum und Zeit des ersten Eintrags für einen Abschnitt
+- Unterschneidung der Artnamen auf der Ergebnisseite korrigiert
+- Bug beim Ändern eines Listennamens behoben
+- Projekt-Anpassung für Android Studio 3.5.3 und Gradle 5.4.1
+- Änderungen in AndroidManifest.xml und build.gradle
