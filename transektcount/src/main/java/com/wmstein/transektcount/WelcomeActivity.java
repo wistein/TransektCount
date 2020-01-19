@@ -175,14 +175,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     }
 
 
-    // Date for filename of Export-DB
-    public String getcurDate()
-    {
-        Date date = new Date();
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dform = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-        return dform.format(date);
-    }
+    public static String getcurDate() {
+		Date date = new Date();
+		@SuppressLint("SimpleDateFormat")
+		DateFormat dform = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+		return dform.format(date);
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
