@@ -15,11 +15,11 @@ import java.util.Objects;
 /****************************************************
  * Created by milo on 26/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-12
+ * Last edited on 2020-01-26
  */
 public class NotesWidget extends LinearLayout
 {
-    public static String TAG = "TransektCount Notes Widget";
+    private static final String TAG = "TransektCount Notes Widget";
     public String section_notes;
     private TextView textView;
 

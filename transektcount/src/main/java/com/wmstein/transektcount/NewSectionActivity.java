@@ -32,12 +32,12 @@ import java.util.List;
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2019-02-02
+ * last edited on 2020-01-26
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "TransektCountNewSectionActivity";
-    TransektCountApplication transektCount;
+    private static final String TAG = "TransektCountNewSectionActivity";
+    private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
     private boolean screenOrientL; // option for screen orientation

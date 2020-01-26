@@ -12,7 +12,7 @@
  * @author: Karsten Priegnitz
  * @see: http://code.google.com/p/android-change-log/
  * <p>
- * Changed by wmstein on 18.02.2016
+ * Changed by wmstein on 2020-01-26
  */
 
 package sheetrock.panda.changelog;
@@ -39,14 +39,14 @@ import java.util.Locale;
 
 public class ChangeLog
 {
+    private static final String TAG = "ChangeLog";
 
     private final Context context;
     private String lastVersion, thisVersion;
 
-    // this is the key for storing the version name in SharedPreferences
+    // key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
     private static final String NO_VERSION = "";
-    private static final String TAG = "ChangeLog";
 
     /**
      * Constructor <p/>

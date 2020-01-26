@@ -38,12 +38,12 @@ import java.util.Locale;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2019-02-02
+ * last edited on 2020-01-26
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountEditMetaAct";
-    TransektCountApplication transektCount;
+    private static final String TAG = "transektcountEditMetaAct";
+    private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
     private Head head;
@@ -302,7 +302,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // formatted date
-    public String getformDate(Date date)
+    public static String getformDate(Date date)
     {
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
@@ -319,7 +319,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // date for start_tm and end_tm
-    public String getformTime(Date date)
+    public static String getformTime(Date date)
     {
         DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
         return dform.format(date);

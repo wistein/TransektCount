@@ -44,13 +44,14 @@ import java.util.Objects;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2019-04-22
+ * last edited on 2020-01-26
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    TransektCountApplication transektCount;
+    public static final String TAG = "TransektCntEditSectAct";
+    private static TransektCountApplication transektCount;
+    
     SharedPreferences prefs;
-    public static String TAG = "TransektCountEditSectAct";
 
     // the actual data
     Section section;

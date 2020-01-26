@@ -15,6 +15,7 @@
  * <p>
  * Adaptation for ViewHelp:
  * Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
+ * Last edited on 2020-01-26
  */
 
 package sheetrock.panda.changelog;
@@ -41,14 +42,14 @@ import java.util.Locale;
 
 public class ViewHelp
 {
+    private static final String TAG = "ViewHelp";
+
     private final Context context;
     private String thisVersion;
 
-    // this is the key for storing the version name in SharedPreferences
     private static final String NO_VERSION = "";
     private Listmode listMode = Listmode.NONE;
     private StringBuffer sb = null;
-    private static final String TAG = "ViewHelp";
 
     /**
      * Constructor  <p/>

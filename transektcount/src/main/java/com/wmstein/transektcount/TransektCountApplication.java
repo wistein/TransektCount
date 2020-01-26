@@ -21,17 +21,16 @@ import java.io.File;
  * 
  * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2019-02-02
+ * last edit on 2020-01-26
  */
 public class TransektCountApplication extends Application
 {
-    private static String TAG = "TransektCountAppl";
+    private static final String TAG = "TransektCountAppl";
     private static SharedPreferences prefs;
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;
     int width;
     int height;
-
 
     @Override
     public void onCreate()
@@ -79,6 +78,7 @@ public class TransektCountApplication extends Application
         width = size.x;
         height = size.y;
 
+        assert backgroundPref != null;
         switch (backgroundPref)
         {
         case "none":
@@ -88,6 +88,7 @@ public class TransektCountApplication extends Application
             bMap.eraseColor(Color.BLACK);
             break;
         case "custom":
+            assert pictPref != null;
             if (!(pictPref.equals("")))
             {
                 if (new File(pictPref).isFile())

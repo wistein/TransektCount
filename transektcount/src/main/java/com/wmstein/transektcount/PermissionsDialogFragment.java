@@ -25,7 +25,7 @@ import android.support.v7.app.AlertDialog;
 
 public class PermissionsDialogFragment extends DialogFragment
 {
-    private final int PERMISSION_REQUEST_CODE = 101;
+    private static final int PERMISSION_REQUEST_CODE = 101;
 
     private Context context;
     private PermissionsGrantedCallback listener;

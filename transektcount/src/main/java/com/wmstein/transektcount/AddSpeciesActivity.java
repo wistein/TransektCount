@@ -39,12 +39,12 @@ import java.util.Objects;
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2019-04-22
+ * last edited on 2020-01-26
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "TransektCountAddSpecAct";
-    private TransektCountApplication transektCount;
+    private static TransektCountApplication transektCount;
 
     private LinearLayout add_area;
 

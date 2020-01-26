@@ -15,7 +15,7 @@ import java.util.Locale;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2019-03-22
+ * Last edited on 2020-01-26
  */
 public class DbHelper extends SQLiteOpenHelper
 {

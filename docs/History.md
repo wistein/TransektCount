@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
 
+#### Version 3.1.6 (2020-01-26)
+- Code optimized for storage and power efficiency
+
 #### Version 3.1.5 (2019-12-08)
 - Date and time of first count for a section
 - Undercutting of species names in results page corrected

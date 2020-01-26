@@ -19,11 +19,11 @@ import java.util.Objects;
 
 /**********************************
  * Created by wmstein on 06.12.2016
- * Last edited on 2019-02-12
+ * Last edited on 2020-01-26
  */
 public class CountingWidgetLH_e extends RelativeLayout
 {
-    public static String TAG = "transektcountCountingWidgetLH_e";
+    private static final String TAG = "transektcountCountingWidgetLH_e";
 
     private TextView namef1e;
     private TextView namef2e;

@@ -11,7 +11,7 @@ Eigenschaften
 - Editor für Meta-Daten zur Vorbereitung einer Begehung
 - Editor für Spezies-Bemerkung und Zählerstände
 - Zählerseite mit Scroll-Menü zur Artauswahl
-- Zähleingabe getrennt für intern/extern Zählbereiche und jeweils separat für ♂ oder ♀, ♂, ♀, Puppe, Raupe oder Ei.
+- Zähleingabe getrennt für intern/extern Zählbereiche und jeweils separat für ♂ oder ♀ unbestimmt, ♂, ♀, Puppe, Raupe oder Ei.
 - Ergebnisseite für komfortabel aufbereitete Anzeige zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (www.tmd-daten.de).
 - Ergebnisseite zeigt Meta-Daten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
 - Das Ergebnis kann als SQLite-Datei oder im CSV-Format ausgegeben werden (zwecks Transfer und Weiterverwendung auf einem PC.
@@ -22,7 +22,7 @@ Die App benötigt
 - Speicherzugriffsrecht zwecks Im- und Export der Zähldaten, 
 - Einstellungsschreibrechte zwecks Helligkeitssteuerung des Bildschirms, 
 - Recht zur Verhinderung des Ruhezustands (ab Android 5.0.1 oder neuer).
-Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1920 x 1024 pixels haben. 
+Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1920 x 1024 Pixel haben. 
 Die App kann ab Android-Version 4.4 (KitKat) oder neuer verwendet werden.
 
 Dokumentation ist unter

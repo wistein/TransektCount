@@ -29,18 +29,20 @@ import android.widget.TextView;
  * @author pheuschk
  *         createDate: 18.04.2013
  *         
- *         Modified for TransektCount by wmstein since 18.03.2016
- *         Bug fixed (height of single character), cleaned of unused code and context comments changed
+ * Modified for TransektCount by wmstein since 18.03.2016
+ * Bug fixed (height of single character), cleaned of unused code and context comments changed
+ * last edited by wmstein on 2020-01-26
  */
+
 @SuppressWarnings("unused")
 public class AutoFitText extends android.support.v7.widget.AppCompatTextView
 {
-    private static String TAG = "transektcountAutoFitText";
+    private static final String TAG = "transektcountAutoFitText";
     /**
      * Global min and max for text size. Remember: values are in pixels!
      */
-    final int MIN_TEXT_SIZE = 8;   // was 10
-    final int MAX_TEXT_SIZE = 100; // was 400, best: 80?
+    final static int MIN_TEXT_SIZE = 8;   // was 10
+    final static int MAX_TEXT_SIZE = 100; // was 400, best: 80?
 
     /**
      * A dummy {@link TextView} to test the text size without actually showing anything to the user
@@ -64,7 +66,7 @@ public class AutoFitText extends android.support.v7.widget.AppCompatTextView
      * Defines how close we want to be to the factual size of the Text-field. Lower values mean
      * higher precision but also exponentially higher computing cost (more loop runs)
      */
-    final float mThreshold = 0.5f; // original was 0.5f
+    final static float mThreshold = 0.5f; // original was 0.5f
 
     /**
      * Constructor for call without attributes --> invoke constructor with AttributeSet null

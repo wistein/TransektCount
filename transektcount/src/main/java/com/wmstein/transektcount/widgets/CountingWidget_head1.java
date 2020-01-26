@@ -19,11 +19,11 @@ import com.wmstein.transektcount.database.Count;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2019-02-23
+ * Last edited on 2020-01-26
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
-    public static String TAG = "transektcountCountingWidget_head1";
+    public static final String TAG = "transektcountCountingWidget_head1";
 
     private String[] idArray;
     private String[] contentArray1;

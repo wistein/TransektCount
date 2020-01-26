@@ -24,18 +24,18 @@ import android.widget.Toast;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-04-19
+ * Last edited on 2020-01-26
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountPreferenceActivity";
+    private static final String TAG = "transektcountPreferenceActivity";
     private static final int SELECT_PICTURE = 1;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     private boolean screenOrientL; // option for screen orientation
     Uri alert_uri;
     Uri alert_button_uri;
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     @SuppressLint("CommitPrefEdits")

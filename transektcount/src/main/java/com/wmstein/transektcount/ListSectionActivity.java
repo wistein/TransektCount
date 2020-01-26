@@ -21,12 +21,12 @@ import java.util.List;
  * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2019-04-19
+ * last edited on 2020-01-26
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "TransektCountListSectAct";
-    TransektCountApplication transektCount;
+    private static final String TAG = "TransektCountListSectAct";
+    private static TransektCountApplication transektCount;
 
     // preferences
     private SharedPreferences prefs;

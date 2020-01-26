@@ -27,12 +27,12 @@ import java.util.List;
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2019-07-30
+ * last edited on 2020-01-26
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountListSpecAct"; // for future use
-    TransektCountApplication transektCount;
+    private static final String TAG = "transektcountListSpecAct"; // for future use
+    private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
     LinearLayout spec_area;

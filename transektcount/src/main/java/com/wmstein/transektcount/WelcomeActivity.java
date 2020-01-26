@@ -61,12 +61,12 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2019-08-04
+ * last edited on 2020-01-26
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
-    private static String TAG = "TransektCountWelcomeAct";
-    TransektCountApplication transektCount;
+    private static final String TAG = "TransektCountWelcomeAct";
+    private static TransektCountApplication transektCount;
 
     // Permission dispatcher mode: 
     //  1 = use location service (not used)
@@ -81,7 +81,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     ChangeLog cl;
     ViewHelp vh;
     private static final int FILE_CHOOSER = 11;
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     private Handler mHandler = new Handler();
 
@@ -176,7 +175,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
 
     // Date for filename of Export-DB
-    public String getcurDate()
+    public static String getcurDate()
     {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat")
@@ -1321,7 +1320,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     /**********************************************************************************************/
     // copy file block-wise
     // http://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
-    public void copy(File src, File dst) throws IOException
+    public static void copy(File src, File dst) throws IOException
     {
         FileInputStream in = new FileInputStream(src);
         FileOutputStream out = new FileOutputStream(dst);

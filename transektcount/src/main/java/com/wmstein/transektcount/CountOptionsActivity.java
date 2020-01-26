@@ -39,12 +39,13 @@ import java.util.List;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2019-04-19
+ * last edited on 2020-01-26
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static String TAG = "transektcountCountOptionsActivity";
-    TransektCountApplication transektCount;
+    private static final String TAG = "transektcountCountOptionsActivity";
+    private static TransektCountApplication transektCount;
+    
     SharedPreferences prefs;
 
     private Count count;

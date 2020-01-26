@@ -19,11 +19,11 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2019-02-12
+ * Last edited on 2020-01-26
  */
 public class CountingWidget_head2 extends RelativeLayout
 {
-    public static String TAG = "transektcountCountingWidget_head2";
+    private static final String TAG = "transektcountCountingWidget_head2";
 
     private TextView countHead2;
 
