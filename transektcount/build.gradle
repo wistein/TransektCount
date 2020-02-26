@@ -1,15 +1,5 @@
 apply plugin: 'com.android.application'
 
-buildscript {
-    repositories {
-        jcenter()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-    }
-}
-
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -25,6 +15,11 @@ android {
     buildTypes {
         release {
             zipAlignEnabled true
+            minifyEnabled true
+
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
     }
 
@@ -42,14 +37,14 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+    google()
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:design:28.0.0'
-}
-
-repositories {
-    jcenter()
-    google()
 }

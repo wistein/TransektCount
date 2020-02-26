@@ -10,16 +10,16 @@ Android Smartphone with high resolution screen
 
 ### Android Studio Components
 Android SDK with
-- Android Platforms: 6.0, 7.1, 8.1
+- Android Platforms: 6.0, 7.1, 8.1, 9
 - SDK Tools: Android Emulator, Android SDK Platform-Tools, Android SDK Tools, Android Support Library, Google USB Driver, Intel x86 Emulator Accelerator, Android Support Repository, Google Repository
 - Plugins: .ignore, Android Support, CVS Integration, EditorConfig, Git Integration, GitHub, Gradle, Groovy, hg4idea, I18n for Java, IntelliLang, Java Bytecode Decompiler, JUnit, Properties Support, SDK Updater, Subversion Integration, Task Management, Terminal 
 
 ### External Libraries (part of or imported by Android Studio)
-- Android API 27 Platform
+- Android API 28 Platform
 - Java jdk1.8.0_152 (or current version) 
-- com.android.support:appcompat-v7:27.1.1
-- com.android.support:support-v4:27.1.1
-- com.android.support:design:27.1.1
+- com.android.support:appcompat-v7:28.0.0
+- com.android.support:support-v4:28.0.0
+- com.android.support:design:28.0.0
 
 ## Start the Project
 Get the project source by downloading the master.zip.
