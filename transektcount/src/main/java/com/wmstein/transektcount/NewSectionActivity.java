@@ -1,5 +1,6 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -7,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -21,22 +20,27 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 /*********************************************************
  * Create a new empty transect section list (NewCount)
- * uses activity_new_section
+ * uses activity_new_section.xml
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2020-01-26
+ * last edited on 2020-04-15
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "TransektCountNewSectionActivity";
+    private static final String TAG = "TransektCountNewSectAct";
     private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
@@ -48,8 +52,9 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     ViewGroup layout;
     EditText newsectName;
     private SectionDataSource sectionDataSource;
-    List<Section> sections;
+    List<Section> sections = new ArrayList<>();
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -89,12 +94,12 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         super.onResume();
 
         sectionDataSource.open();
-        // To show the keyboard
+        // Show the keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
     }
@@ -130,6 +135,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     }
 
     // Save section with plausi-check for empty or duplicate section name
+    @SuppressLint("ApplySharedPref")
     public void saveSection(View view)
     {
         // first, the section name
@@ -142,36 +148,42 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
             //check if this is not a duplicate of an existing name
             if (compSectionNames(sect_name))
             {
-//                Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
                 showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
                 return;
             }
             else
             {
                 sectionDataSource.createSection(sect_name); // might need to escape the name
+                if (MyDebug.LOG)
+                    Log.d(TAG, "sect_name = " + sect_name);
             }
         }
         else
         {
-//            Toast.makeText(NewSectionActivity.this, sect_name + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
             showSnackbarRed(sect_name + " " + getString(R.string.isempty));
             return;
         }
 
-        // Toast, as snackbar doesn't show up
+        // Toast here, as snackbar doesn't show up
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
         // Edit the new section.
         int section_id;
         section = sectionDataSource.getSectionByName(sect_name);
         section_id = section.id;
+
+        // Store section_id into SharedPreferences.
+        // That makes sure that the current selected section can be retrieved 
+        // by EditSectionActivity
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("section_id", section_id);
+        editor.commit();
+        
+        if (MyDebug.LOG)
+            Log.d(TAG, "sect_id = " + section_id);
         Intent intent = new Intent(NewSectionActivity.this, EditSectionActivity.class);
         intent.putExtra("section_id", section_id);
         startActivity(intent);
-
-        // Show the new section.
-        //Intent intent = new Intent(NewSectionActivity.this, ListSectionActivity.class);
-        //startActivity(intent);
     }
 
     // Compare section names for duplicates and return TRUE when duplicate found
@@ -202,6 +214,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         return isDblName;
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView baseLayout = findViewById(R.id.newsectScreen);
@@ -228,6 +241,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
     }
+    
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004

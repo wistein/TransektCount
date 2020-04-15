@@ -54,7 +54,7 @@ be mutually updated.
 
 ### License:
 
-Copyright 2016-2019 Wilhelm Stein (wistein)
+Copyright 2016-2020 Wilhelm Stein (wistein)
 
 TransektCount is licensed under the Apache License, Version 2.0 (the "License");
 you may not use any of its files except in compliance with the License.

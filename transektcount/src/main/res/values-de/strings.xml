@@ -27,9 +27,9 @@
     <string name="newSectTitle">Neuer Abschnitt</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
-    <string name="noCard">Das Basis-Verzeichnis des Speichers kann nicht verwendet werden!</string>
+    <string name="noCard">Das TransektCount files-Directory kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
-    <string name="saveWin">Die Datenbank wurde ins Basis-Verzeichnis exportiert.</string>
+    <string name="saveWin">Die Datenbank wurde ins TransektCount files-Verzeichnis exportiert.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export akt. DB</string>
@@ -40,7 +40,7 @@
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importWin">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte kopiere die Datenbankdatei \"transektcount0.db\" ins Basis-Verzeichnis des Speichers.</string>
+    <string name="noDb">Bitte kopiere \"transektcount0.db\" in das Verzeichnis Android/data/com.wmstein.transektcount/files.</string>
     <string name="errorDb">DB-Fehler!</string>
     <string name="corruptDb">Datenbankfehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="importButton">Import</string>

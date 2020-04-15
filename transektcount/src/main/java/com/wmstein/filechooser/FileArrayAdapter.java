@@ -1,7 +1,6 @@
 package com.wmstein.filechooser;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +12,23 @@ import com.wmstein.transektcount.R;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * FileArrayAdapter is part of filechooser.
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
  * Adopted by wmstein on 2016-06-18, 
- * last change on 2018-04-05
+ * last change on 2020-04-09
  */
 
 public class FileArrayAdapter extends ArrayAdapter<Option>
 {
-
     private Context c;
     private int id;
     private List<Option> items;
 
-    public FileArrayAdapter(Context context, int textViewResourceId, List<Option> objects)
+    FileArrayAdapter(Context context, int textViewResourceId, List<Option> objects)
     {
         super(context, textViewResourceId, objects);
         c = context;
@@ -50,6 +50,7 @@ public class FileArrayAdapter extends ArrayAdapter<Option>
         {
             LayoutInflater vi = (LayoutInflater) c
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert vi != null;
             v = vi.inflate(id, null);
         }
         final Option o = items.get(position);

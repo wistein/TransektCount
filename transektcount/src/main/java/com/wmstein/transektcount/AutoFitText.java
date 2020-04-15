@@ -35,7 +35,7 @@ import android.widget.TextView;
  */
 
 @SuppressWarnings("unused")
-public class AutoFitText extends android.support.v7.widget.AppCompatTextView
+public class AutoFitText extends androidx.appcompat.widget.AppCompatTextView
 {
     private static final String TAG = "transektcountAutoFitText";
     /**

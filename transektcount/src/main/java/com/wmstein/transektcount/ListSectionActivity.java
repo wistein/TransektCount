@@ -1,11 +1,10 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -17,15 +16,17 @@ import com.wmstein.transektcount.database.SectionDataSource;
 
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /***************************************************************************************************
  * Shows the list of selectable sections
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2020-01-26
+ * last edited on 2020-04-09
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "TransektCountListSectAct";
+    //private static final String TAG = "TransektCountListSectAct";
     private static TransektCountApplication transektCount;
 
     // preferences
@@ -36,6 +37,7 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
     List<Section> sections;
     ListView list;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -79,12 +81,13 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         list.invalidate(); //force list to draw
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume()
     {
         super.onResume();
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
         if (screenOrientL)

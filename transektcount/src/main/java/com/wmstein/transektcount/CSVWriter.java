@@ -25,7 +25,7 @@ import java.io.Writer;
  * @author Glen Smith
  * 
  * Reduced to needed functions with modifications for TransektCount by wmstein
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-09
  */
 
 public class CSVWriter implements Closeable, Flushable
@@ -117,15 +117,11 @@ public class CSVWriter implements Closeable, Flushable
 
     /**
      * Writes the next line to the file.
-     *
      * @param nextLine         a string array with each comma-separated element as a separate
      *                         entry.
-     * @param applyQuotesToAll true if all values are to be quoted.  false applies quotes only
-     *                         to values which contain the separator, escape, quote or new line characters.
      */
-    private void writeNext(String[] nextLine, boolean applyQuotesToAll)
+    void writeNext(String[] nextLine)
     {
-
         if (nextLine == null)
         {
             return;
@@ -140,14 +136,12 @@ public class CSVWriter implements Closeable, Flushable
             }
 
             String nextElement = nextLine[i];
-
             if (nextElement == null)
             {
                 continue;
             }
 
-            Boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement);
-
+            boolean stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement);
             if (stringContainsSpecialCharacters && quotechar != NO_QUOTE_CHARACTER)
             {
                 sb.append(quotechar);
@@ -169,17 +163,6 @@ public class CSVWriter implements Closeable, Flushable
         }
         sb.append(lineEnd);
         pw.write(sb.toString());
-    }
-
-    /**
-     * Writes the next line to the file.
-     *
-     * @param nextLine a string array with each comma-separated element as a separate
-     *                 entry.
-     */
-    public void writeNext(String[] nextLine)
-    {
-        writeNext(nextLine, true);
     }
 
     /**

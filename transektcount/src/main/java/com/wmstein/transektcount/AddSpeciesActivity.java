@@ -11,8 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +28,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+
 /********************************************************************************
  * AddSpeciesActivity lets you insert a new species into a section's species list
  * AddSpeciesActivity is called from EditSectionActivity
@@ -39,7 +40,7 @@ import java.util.Objects;
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2020-01-26
+ * last edited on 2020-04-09
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -67,6 +68,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     private boolean screenOrientL; // option for landscape screen orientation
     private boolean brightPref;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -310,10 +312,11 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
     @Override
     public void onBackPressed()
     {
-        Intent intent = NavUtils.getParentActivityIntent(this);
+        //Intent intent = NavUtils.getParentActivityIntent(this);
         finish();
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView add_screen = findViewById(R.id.addScreen);

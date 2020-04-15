@@ -2,15 +2,12 @@ package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +29,11 @@ import com.wmstein.transektcount.widgets.OptionsWidget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 /************************************************************
  * Edit options for counting species
@@ -39,11 +41,11 @@ import java.util.List;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2020-01-26
+ * last edited on 2020-0-09
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountCountOptionsActivity";
+    private static final String TAG = "transektcountCntOptAct";
     private static TransektCountApplication transektCount;
     
     SharedPreferences prefs;
@@ -69,6 +71,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
 
     ArrayList<AlertCreateWidget> savedAlerts;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -119,6 +122,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         {
             if (savedInstanceState.getSerializable("savedAlerts") != null)
             {
+                // savedAlerts = (ArrayList<AlertCreateWidget>) savedInstanceState.getSerializable("savedAlerts");
                 savedAlerts = (ArrayList<AlertCreateWidget>) savedInstanceState.getSerializable("savedAlerts");
             }
         }
@@ -144,7 +148,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
 
         try
         {
-            getSupportActionBar().setTitle(count.name);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(count.name);
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
@@ -219,7 +223,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(@NonNull Bundle outState)
     {
     /*
      * Before these widgets can be serialised they must be removed from their parent, or else
@@ -255,7 +259,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     public void saveData()
     {
         // don't crash if the user hasn't filled things in...
-        // Snackbar doesn't appear so Toast 
+        // Toast here, as snackbar doesn't show up
         Toast.makeText(CountOptionsActivity.this, getString(R.string.sectSaving) + " " + count.name + "!", Toast.LENGTH_SHORT).show();
         count.count_f1i = curr_val_widget.getParameterValuef1i();
         count.count_f2i = curr_val_widget.getParameterValuef2i();
@@ -358,29 +362,20 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
             areYouSure = new AlertDialog.Builder(this);
             areYouSure.setTitle(getString(R.string.deleteAlert));
             areYouSure.setMessage(getString(R.string.reallyDeleteAlert));
-            areYouSure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
-            {
-                @SuppressLint("LongLogTag")
-                public void onClick(DialogInterface dialog, int whichButton)
+            areYouSure.setPositiveButton(R.string.yesDeleteIt, (dialog, whichButton) -> {
+                // go ahead for the delete
+                try
                 {
-                    // go ahead for the delete
-                    try
-                    {
-                        alertDataSource.deleteAlertById(deleteAnAlert);
-                        dynamic_widget_area.removeView((AlertCreateWidget) markedForDelete.getParent().getParent());
-                    } catch (Exception e)
-                    {
-                        if (MyDebug.LOG)
-                            Log.e(TAG, "Failed to delete a widget: " + e.toString());
-                    }
+                    alertDataSource.deleteAlertById(deleteAnAlert);
+                    dynamic_widget_area.removeView((AlertCreateWidget) markedForDelete.getParent().getParent());
+                } catch (Exception e)
+                {
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "Failed to delete a widget: " + e.toString());
                 }
             });
-            areYouSure.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int whichButton)
-                {
-                    // Cancelled.
-                }
+            areYouSure.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+                // Cancelled.
             });
             areYouSure.show();
         }
@@ -404,6 +399,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         if (id == R.id.home)
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
+            assert intent != null;
             intent.putExtra("section_id", section_id);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             NavUtils.navigateUpTo(this, intent);
@@ -416,6 +412,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = findViewById(R.id.count_options);

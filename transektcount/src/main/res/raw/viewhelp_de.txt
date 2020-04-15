@@ -37,7 +37,7 @@ $ 9
   !
   ! Vor der erstmaligen Verwendung sollten die App-Einstellungen den eigenen Wünschen angepasst werden. Dann sollte die vorbereitete Artenliste des 1. Transekt-Abschnitts mittels Abschnitts-Editor editiert werden. Weitere Arten per (+)-Button hinzufügen.
   _  
-  ! Alternativ kann auch eine umfassendere Basis-Datenbank für ein Transekt importiert und angepasst werden. Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, ins Home-Verzeichnis /storage/emulated/0, (oder /sdcard0 bzw. /sdcard, ist je nach Smartphone-Modell und Android-Version unterschiedlich) kopiert und von dort importiert und dann angepasst werden.
+  ! Alternativ kann auch eine umfassendere Basis-Datenbank für ein Transekt importiert und angepasst werden. Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, in das App-Datenverzeichnis /storage/emulated/0/Android/data/com.wmstein.transektcount/files kopiert und von dort importiert und dann angepasst werden. Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. 
   _ 
   ! Zum editieren der Artenliste des 1. Transektabschnitts den Bleistift-Button in der Abschnittszeile der "Transektabschnitte" klicken. Den (+)-Button in der Kopfzeile des Abschnittseditors verwenden, um eine neue Art per Scroll-Down-Auswahlliste hinzuzufügen. Am Ende der Scroll-Down-Liste kann eine nicht vorhandene Art (NN) hinzugefügt werden, die anschließend editiert wird (Name, ggf. deutscher Name und 5-stelliger Code mit führenden Nullen). Mit ABSCHN. SPEICHERN abschließen. Die Liste kann nachträglich ergänzt oder geändert werden.
   _ 
@@ -63,7 +63,7 @@ $ 9
   _ 
   ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig vorbereitet und sollte nun als Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
-  ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0.db) im Home-Verzeichnis abgelegt.
+  ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0.db) im Daten-Verzeichnis der App (/storage/emulated/0/Android/data/com.wmstein.transektcount/files) abgelegt.
   ! Die Basis-DB enthält keine begehungs-spezifischen Daten und dient als Vorlage für zukünftige Begehungen. Die Basis-DB kann auch später, z.B. nach Änderungen an Listen, erneut exportiert werden (alle begehungsspezifischen Daten werden dabei ignoriert).  
   _  
   ! Zur Begehungsvorbereitung werden nur noch die Begehungs-spezifischen Meta-Daten eingegeben. 
@@ -107,30 +107,32 @@ $ 7
   _ 
   ! Der Export der DB als Basis-DB ist sinnvoll, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten hinzugefügt wurden. 
   _ 
-  ! Die Funktion „Import Basis-DB“ liest immer die Datei "transektcount0.db" von /storage/emulated/0/ ein.
+  ! Die Funktion „Import Basis-DB“ liest immer die Datei "transektcount0.db" von /storage/emulated/0/Android/data/com.wmstein.transektcount/files ein.
   _ 
-  ! Der Export der aktuellen Datenbank (Export DB) schreibt eine Kopie der DB nach "/storage/emulated/0/transektcount_JJJJ-MM-TT_hhmmss.db". Für die eigene Verwendung kann eine exportierte DB-Datei mittels File Manager umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw. (Der Dateiname muss immer mit „transektcount“ beginnen, ansonsten kann die Datei nicht importiert werden.)
+  ! Der Export der aktuellen Datenbank (Export DB) schreibt eine Kopie der DB nach "/storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_JJJJ-MM-TT_hhmmss.db". Für die eigene Verwendung kann eine exportierte DB-Datei mittels File Manager umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw. (Der Dateiname muss immer mit „transektcount“ beginnen, ansonsten kann die Datei nicht importiert werden.)
   _ 
   ! Der Import einer beliebigen, zuvor exportierten TransektCount-DB ist sinnvoll, wenn mehrere Transekte begangen werden. 
   _ 
-  ! Die Funktion „Export Daten -> CSV-Datei“ scheibt die Zählergebnisse in eine aufbereitete MS Excel-kompatible Datei nach "/storage/emulated/0/transektcount_JJJJ-MM-TT_hhmmss.csv".
+  ! Die Funktion „Export Daten -> CSV-Datei“ scheibt die Zählergebnisse in eine aufbereitete MS Excel-kompatible Datei nach "/storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_JJJJ-MM-TT_hhmmss.csv".
   _ 
   ! Der (+)-Button im Menü der Seite "Transektabschnitte" erlaubt das Anlegen einer neuen Abschnittsliste. Diese Funktion wird aber nur beim erstmaligen Anlegen der Datenbank oder bei Anpassungen des Transekts benötigt. Eine bessere Alternative dazu kann das Kopieren einer vorhandenen Abschnittsliste sein.  
   _ 
   !In der Zähler-Ansicht eines ausgewählten Transektabschnitts kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden. Diese Funktion empfiehlt sich, wie unter "2. Einrichtung" beschrieben, bei erstmaligem Anlegen der Datenbankstruktur.
   !In dieser Ansicht kann auch über das Mitteilungssymbol eine Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
   _ 
-  ! Ab Android-Version 5.0.1 wird in der Zähler-Ansicht die Anzeige mit Hilfe des Näherungssensors temporär abgeschaltet, z.B. wenn das Handy eingesteckt wird (spart Strom, verhindert versehentliche Eingaben und die App ist schneller wieder bereit).
+  ! Ab Android-Version 5.0.1 wird in der Zähler-Ansicht die Anzeige mit Hilfe des Näherungssensors temporär abgeschaltet, solange das Handy eingesteckt wird oder nahe am Körper gehalten wird (das spart Strom und verhindert versehentliche Eingaben).
   _ 
-  ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"- bzw. -.csv-Dateien von /storage/emulated/0 auf einen PC übertragen.
-  ! Dort kann mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) die .db-Datei bearbeitet werden.
+  ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"- bzw. -.csv-Dateien von /storage/emulated/0/Android/data/com.wmstein.transektcount/files auf einen PC übertragen.
+  ! Dort können mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) die .db-Dateien bearbeitet werden.
   _ 
-  ! Die .csv-Datei kann für die weitere Bearbeitung als Textdatei in Excel importiert werden. Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze auf
+  ! Die .csv-Datei (Komma-getrennte Textdatei) kann für die weitere Bearbeitung in MS Excel (oder kompatible Software) importiert werden. Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze auf
+  _
   ! - Komma als Trennzeichen,
   ! - Anführungszeichen zur Texterkennung und
   ! - Dateiursprung im Format "Unicode UTF-8"
   ! zu achten.
-  ! 
+  _
+  ! Die Tabelle ist optimiert für die einfache Übertragung der Zählergebnisse in die Tagfalter-Monitoring Webseite.
   
 $ END_OF_VIEW_HELP
   </body>

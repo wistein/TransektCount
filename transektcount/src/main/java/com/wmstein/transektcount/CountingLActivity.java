@@ -3,7 +3,6 @@ package com.wmstein.transektcount;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
@@ -32,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
@@ -50,6 +48,10 @@ import com.wmstein.transektcount.widgets.NotesWidget;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 /***************************************************************************************************
  * CountingLActivity does the same as CountingActivity except doing it in the context of 
@@ -59,11 +61,11 @@ import java.util.List;
  * 
  * CountingLActivity does the actual counting on landscape layout with 12 counters, 
  * checks for alerts, calls CountOptionsActivity, calls EditSectionActivity, clones a section,
- * switches screen off when pocketed and lets you send a message.
+ * switches screen off when device is pocketed and lets you send a message.
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2020-01-26
+ * Last edit on 2020-04-09
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -186,6 +188,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             try
             {
+                assert mPowerManager != null;
                 if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
                 {
                     mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "TransektCount:WAKELOCK");
@@ -270,14 +273,13 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         {
             if (MyDebug.LOG)
                 Log.e(TAG, "Problem loading section: " + e.toString());
-//            Toast.makeText(CountingLActivity.this, getString(R.string.getHelp), Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.getHelp));
             finish();
         }
 
         try
         {
-            getSupportActionBar().setTitle(section.name);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(section.name);
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
@@ -395,7 +397,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
                 count = countDataSource.getCountById(iid);
                 countingScreen(count);
-                //Toast.makeText(CountingActivity.this, "1. " + count.name, Toast.LENGTH_SHORT).show();
+                if (MyDebug.LOG)
+                    Toast.makeText(getApplicationContext(), "1. " + count.name, Toast.LENGTH_SHORT).show();
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
@@ -587,7 +590,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         //  no action by 1st click when previous species selected again
         dummy();
         
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -613,7 +616,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf1i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -634,7 +637,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf1i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -651,7 +654,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf1i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -668,7 +671,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpf2i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -687,7 +690,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf2i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -706,7 +709,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf2i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -723,7 +726,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf2i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -740,7 +743,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpf3i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -759,7 +762,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf3i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -778,7 +781,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf3i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -795,7 +798,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf3i(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -812,7 +815,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUppi(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -830,7 +833,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHpi(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -848,7 +851,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownpi(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -865,7 +868,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHpi(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -882,7 +885,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpli(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -900,7 +903,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHli(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -918,7 +921,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownli(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -935,7 +938,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHli(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -952,7 +955,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpei(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -970,7 +973,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHei(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -988,7 +991,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownei(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
         {
@@ -1005,7 +1008,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHei(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_i widget = getCountFromIdLH_i(count_id);
         if (widget != null)
         {
@@ -1023,7 +1026,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpf1e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1041,7 +1044,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf1e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1059,7 +1062,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf1e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1076,7 +1079,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf1e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1093,7 +1096,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpf2e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1111,7 +1114,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf2e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1129,7 +1132,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf2e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1146,7 +1149,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf2e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1163,7 +1166,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpf3e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1181,7 +1184,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHf3e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1199,7 +1202,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownf3e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1216,7 +1219,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHf3e(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1233,7 +1236,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUppe(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1251,7 +1254,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHpe(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1269,7 +1272,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownpe(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1286,7 +1289,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHpe(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1303,7 +1306,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUple(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1321,7 +1324,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHle(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1339,7 +1342,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownle(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1356,7 +1359,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHle(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1373,7 +1376,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpee(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1391,7 +1394,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countUpLHee(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1409,7 +1412,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownee(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_e widget = getCountFromId_e(count_id);
         if (widget != null)
         {
@@ -1426,7 +1429,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     public void countDownLHee(View view)
     {
         dummy();
-        int count_id = Integer.valueOf(view.getTag().toString());
+        int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidgetLH_e widget = getCountFromIdLH_e(count_id);
         if (widget != null)
         {
@@ -1459,7 +1462,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
     // Save activity state for getting back to CountingActivity
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
 
@@ -1477,12 +1480,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                 AlertDialog.Builder row_alert = new AlertDialog.Builder(this);
                 row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
                 row_alert.setMessage(a.alert_text);
-                row_alert.setNegativeButton("OK", new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
-                        // Cancelled.
-                    }
+                row_alert.setNegativeButton("OK", (dialog, whichButton) -> {
+                    // Cancelled.
                 });
                 row_alert.show();
                 soundAlert();
@@ -1597,7 +1596,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
                         startActivity(chooser);
                     } catch (Exception e)
                     {
-//                        Toast.makeText(CountingLActivity.this, getString(R.string.noPhotoPermit), Toast.LENGTH_SHORT).show();
                         showSnackbarRed(getString(R.string.noPhotoPermit));
                     }
                 }
@@ -1641,59 +1639,45 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // enter new section title
+            String m_Text = input.getText().toString();
+
+            //check if this is not empty 
+            if (m_Text.isEmpty())
             {
-                // enter new section title
-                String m_Text = input.getText().toString();
-
-                //check if this is not empty 
-                if (m_Text.isEmpty())
-                {
-//                    Toast.makeText(CountingLActivity.this, getString(R.string.newName), Toast.LENGTH_SHORT).show();
-                    showSnackbarRed(getString(R.string.newName));
-                    return;
-                }
-
-                //check if this is not a duplicate of an existing name
-                if (compSectionNames(m_Text))
-                {
-//                    Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
-                    showSnackbarRed(m_Text + " " + getString(R.string.isdouble));
-                    return;
-                }
-
-                // Creating the new section
-                Section newSection = sectionDataSource.createSection(m_Text);
-                newSection.notes = section.notes;
-                sectionDataSource.saveSection(newSection);
-                for (Count c : countDataSource.getAllCountsForSection(section_id))
-                {
-                    Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
-                    if (newCount != null)
-                    {
-                        newCount.notes = c.notes;
-                        countDataSource.saveCount(newCount);
-                    }
-                }
-
-                // Exit this and go to the list of new sections
-                Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CountingLActivity.this, ListSectionActivity.class);
-                startActivity(intent);
+                showSnackbarRed(getString(R.string.newName));
+                return;
             }
+
+            //check if this is not a duplicate of an existing name
+            if (compSectionNames(m_Text))
+            {
+                showSnackbarRed(m_Text + " " + getString(R.string.isdouble));
+                return;
+            }
+
+            // Creating the new section
+            Section newSection = sectionDataSource.createSection(m_Text);
+            newSection.notes = section.notes;
+            sectionDataSource.saveSection(newSection);
+            for (Count c : countDataSource.getAllCountsForSection(section_id))
+            {
+                Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
+                if (newCount != null)
+                {
+                    newCount.notes = c.notes;
+                    countDataSource.saveCount(newCount);
+                }
+            }
+
+            // Exit this and go to the list of new sections
+            Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CountingLActivity.this, ListSectionActivity.class);
+            startActivity(intent);
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         builder.show();
     }
@@ -1734,7 +1718,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
         if (!mProximityWakeLock.isHeld())
         {
-            mProximityWakeLock.acquire();
+            mProximityWakeLock.acquire(30*60*1000L /*30 minutes*/);
         }
     }
 

@@ -2,7 +2,6 @@ package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -10,9 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +21,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Section;
@@ -37,6 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+
 /*************************************************************************
  * Edit the current section list (change, delete) and insert new species
  * EditSectionActivity is called from ListSectionActivity or CountingActivity.
@@ -44,7 +45,7 @@ import java.util.Objects;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2020-01-26
+ * last edited on 2020-04-09
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -88,11 +89,11 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     String new_count_name = "";
     String oldname;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_edit_section);
 
         countNames = new ArrayList<>();
@@ -246,7 +247,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         /*
          * Before these widgets can be serialised they must be removed from their parent, or else
@@ -302,17 +303,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else if (id == R.id.newCount)
         {
-            Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
+            // a Snackbar here comes incomplete
+            Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-            // pause for 100 msec to show toast
-            mHandler.postDelayed(new Runnable()
-            {
-                public void run()
-                {
-                    Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
-                    intent.putExtra("section_id", section_id);
-                    startActivity(intent);
-                }
+            // Trick: Pause for 100 msec to show toast
+            mHandler.postDelayed(() -> {
+                Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
+                intent.putExtra("section_id", section_id);
+                startActivity(intent);
             }, 100);
             return true;
         }
@@ -416,7 +414,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             section_Backup = section; // backup current section as compSectionNames replaces current section with last section
             if (compSectionNames(newtitle))
             {
-//                Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
                 showSnackbarRed(newtitle + " " + getString(R.string.isdouble));
                 savesection = false;
             }
@@ -429,7 +426,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else
         {
-//            Toast.makeText(EditSectionActivity.this, newtitle + " " + getString(R.string.isempty), Toast.LENGTH_SHORT).show();
             showSnackbarRed(newtitle + " " + getString(R.string.isempty));
             savesection = false;
         }
@@ -484,7 +480,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                         }
                         else
                         {
-//                            Toast.makeText(this, getString(R.string.isempt), Toast.LENGTH_SHORT).show();
                             showSnackbarRed(getString(R.string.isempt));
                             retValue = false;
                         }
@@ -492,8 +487,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 }
                 else
                 {
-//                    Toast.makeText(this, getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " 
-//                      + isDblCode + " " + getString(R.string.isdouble), Toast.LENGTH_SHORT).show();
                     showSnackbarRed(getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " + isDblCode + " "
                         + getString(R.string.isdouble));
                     retValue = false;
@@ -502,7 +495,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
             if (retValue)
             {
-                // Snackbar doesn't appear, so Toast is used
+                // Toast here, as snackbar doesn't show up
                 Toast.makeText(EditSectionActivity.this, getString(R.string.sectSaving) + " "
                     + section.name + "!", Toast.LENGTH_SHORT).show();
             }
@@ -546,17 +539,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     // Start AddSpeciesActivity to add a new species to the species list
     public void newCount(View view)
     {
-        Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
+        // a Snackbar here comes incomplete
+        Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-        // pause for 100 msec to show toast
-        mHandler.postDelayed(new Runnable()
-        {
-            public void run()
-            {
-                Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
-                intent.putExtra("section_id", section_id);
-                startActivity(intent);
-            }
+        // Trick: Pause for 100 msec to show toast
+        mHandler.postDelayed(() -> {
+            Intent intent = new Intent(EditSectionActivity.this, AddSpeciesActivity.class);
+            intent.putExtra("section_id", section_id);
+            startActivity(intent);
         }, 100);
     }
 
@@ -583,22 +573,14 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             areYouSure = new AlertDialog.Builder(this);
             areYouSure.setTitle(getString(R.string.deleteCount));
             areYouSure.setMessage(getString(R.string.reallyDeleteCount));
-            areYouSure.setPositiveButton(R.string.yesDeleteIt, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int whichButton)
-                {
-                    // go ahead for the delete
-                    countDataSource.deleteCountById(idToDelete); // includes associated alerts
-                    counts_area.removeView((CountEditWidget) viewMarkedForDelete.getParent().getParent().getParent());
-                    new_count_name = "";
-                }
+            areYouSure.setPositiveButton(R.string.yesDeleteIt, (dialog, whichButton) -> {
+                // go ahead for the delete
+                countDataSource.deleteCountById(idToDelete); // includes associated alerts
+                counts_area.removeView((CountEditWidget) viewMarkedForDelete.getParent().getParent().getParent());
+                new_count_name = "";
             });
-            areYouSure.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int whichButton)
-                {
-                    // Cancelled.
-                }
+            areYouSure.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+                // Cancelled.
             });
             areYouSure.show();
         }
@@ -614,6 +596,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         sB.show();
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView counting_screen = findViewById(R.id.editingScreen);

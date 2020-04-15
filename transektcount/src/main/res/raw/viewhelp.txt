@@ -37,7 +37,7 @@ $ 9
   !
   ! Before initial use you should adapt the settings to your liking. Then you should edit the prepared species list of the 1. transect section of the internal database with the section editor. Add further species by clicking the (+)-Button in the head line of “Transect Sections”. 
   _ 
-  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect. Examples for download are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to your home directory /storage/emulated/0 (or /sdcard0 or /sdcard0, it differs between smartphone models and Android versions) and import and edit them suitably.
+  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect. Examples for download are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app's directory /storage/emulated/0/Android/data/com.wmstein.transektcount/files which is created during the first start of the app. Now import and edit them suitably.
   _ 
   ! To edit the species list of the first section click the Edit-Button in the section line of “Transect Sections”. Add an entry by the (+)-Button in the head line of the section editor and select the species from the scroll-down list. At the end of this list you may select a non-existing species (NN). This can then be edited by entering its scientific name, common name and code (five-digit with leading zeros). When finished click SAVE SECTION or the save icon. This list can be changed or supplemented anytime afterwards.
   _ 
@@ -63,7 +63,7 @@ $ 9
   _ 
   ! When you have created the section lists for all transect sections and entered the main meta data, the database is ready for export as a "Basic Database".
   ! For that you find the function "Export as Basic DB" in the menu of the starting page.
-  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) in your home directory.
+  ! After that you have a copy of the empty database saved as "Basic Database" (transektcount0.db) in the app's files directory (/storage/emulated/0/Android/data/com.wmstein.transektcount/files).
   ! The Basic DB does not contain any inspection related data and serves als a template for future inspections. It can also be exported again later, e.g. after changes of lists. Exporting as Basic DB ignores all counts, notes and inspection-related meta data.    
   _ 
   ! To prepare a certain monitoring inspection you will only need to enter the inspection-specific meta data.  
@@ -109,31 +109,31 @@ $ 7
   _ 
   ! By “Export Basic DB” you may export the DB as empty "Basic DB" which is reasonable, when to take into account changes of the transect structure or new species you may have entered.
   _ 
-  ! "Import Basic DB" always reads die file "transektcount0.db" from /storage/emulated/0.
+  ! "Import Basic DB" always reads die file "transektcount0.db" from /storage/emulated/0/Android/data/com.wmstein.transektcount/files.
   _ 
-  ! Exporting the current database (Export DB) writes a copy of the complete DB to /storage/emulated/0/transektcount_YYYY-MM-DD_hhmmss.db. For your own purpose you can rename the exported TransektCount DB files by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
+  ! Exporting the current database (Export DB) writes a copy of the complete DB to /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_YYYY-MM-DD_hhmmss.db. For your own purpose you can rename the exported TransektCount DB files by a file manager into e.g. transektcount1.db, transektcount2.db, etc. (Mind: The db file name must start with the string “transektcount”, otherwise it cannot be imported).
   _ 
   ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects. 
   _ 
-  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /storage/emulated/0/transektcount_YYYY-MM-DD_hhmmss.csv.
+  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a MS Excel readable .csv-file to /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_YYYY-MM-DD_hhmmss.csv.
   _ 
   ! The (+)-Button in the menu of the "Transect Sections" page allows you to create new section lists. This function will be used only while creating the Basic DB or for changes in a transect. But a better substitute for this might be to copy an existing section list and adapt it.
   _ 
   ! The counting page provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
-  ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket. This saves energy, prohibits unwanted input and recalls the app into its current state immediately.
+  ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket or held closed to the body. This saves energy, prohibits unwanted input and recalls the app into its current state immediately when used again.
   _ 
-  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files from /storage/emulated/0 to a PC. 
-  ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the db-file.
+  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files from /storage/emulated/0/Android/data/com.wmstein.transektcount/files to a PC. 
+  ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
   _ 
   ! You may import the .csv-file as a
   ! - comma-delimited text file with 
   ! - quotations marks for textfield recognition and 
   ! - file origin “Unicode UTF-8”
-  ! into Excel for further processing. 
-  ! 
-  ! This table is optimized for easy transmission of the results into the Monitoring web page.
+  ! into MS Excel (or compatible programs) for further processing. 
+  _
+  ! This table is optimized for easy transmission of the results into the butterly monitoring web page.
   
 $ END_OF_VIEW_HELP
   </body>

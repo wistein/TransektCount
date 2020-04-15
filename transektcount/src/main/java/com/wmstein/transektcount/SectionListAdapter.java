@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +21,15 @@ import com.wmstein.transektcount.database.Section;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 import static java.lang.Long.toHexString;
 
 /*********************************************************
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2019-02-22
+ * Last edited on 2020-04-09
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -200,21 +200,11 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             // could make the dialog central in the popup - to do later
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage(sct.name + ": " + mContext.getString(R.string.confirmDelete)).setCancelable(false).setPositiveButton(R.string.deleteButton, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        // perform the deleting in the activity
-                        ((ListSectionActivity) mContext).deleteSection(sct);
-                    }
-                }
-            ).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        dialog.cancel();
-                    }
-                }
+            builder.setMessage(sct.name + ": " + mContext.getString(R.string.confirmDelete)).setCancelable(false).setPositiveButton(R.string.deleteButton, (dialog, id) -> {
+                // perform the deleting in the activity
+                ((ListSectionActivity) mContext).deleteSection(sct);
+            }
+            ).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel()
             );
             AlertDialog alert = builder.create();
             alert.show();

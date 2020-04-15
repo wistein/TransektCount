@@ -15,7 +15,7 @@ import java.util.Locale;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-09
  */
 public class DbHelper extends SQLiteOpenHelper
 {
@@ -31,17 +31,17 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String SECTION_TABLE = "sections";
     public static final String COUNT_TABLE = "counts";
     public static final String ALERT_TABLE = "alerts";
-    public static final String HEAD_TABLE = "head";
+    static final String HEAD_TABLE = "head";
     public static final String META_TABLE = "meta";
 
     // fields
-    public static final String S_ID = "_id";
+    static final String S_ID = "_id";
     public static final String S_CREATED_AT = "created_at";
-    public static final String S_NAME = "name";
+    static final String S_NAME = "name";
     public static final String S_NOTES = "notes";
 
-    public static final String C_ID = "_id";
-    public static final String C_SECTION_ID = "section_id";
+    static final String C_ID = "_id";
+    static final String C_SECTION_ID = "section_id";
     public static final String C_NAME = "name";
     public static final String C_CODE = "code";
     public static final String C_COUNT_F1I = "count_f1i";
@@ -57,21 +57,21 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String C_COUNT_LE = "count_le";
     public static final String C_COUNT_EE = "count_ee";
     public static final String C_NOTES = "notes";
-    public static final String C_NAME_G = "name_g";
+    static final String C_NAME_G = "name_g";
 
     private static final String C_COUNT = "count"; //deprecated in version 2
     private static final String C_COUNTA = "counta"; //deprecated in version 2
 
-    public static final String A_ID = "_id";
-    public static final String A_COUNT_ID = "count_id";
-    public static final String A_ALERT = "alert";
-    public static final String A_ALERT_TEXT = "alert_text";
+    static final String A_ID = "_id";
+    static final String A_COUNT_ID = "count_id";
+    static final String A_ALERT = "alert";
+    static final String A_ALERT_TEXT = "alert_text";
 
-    public static final String H_ID = "_id";
-    public static final String H_TRANSECT_NO = "transect_no";
-    public static final String H_INSPECTOR_NAME = "inspector_name";
+    static final String H_ID = "_id";
+    static final String H_TRANSECT_NO = "transect_no";
+    static final String H_INSPECTOR_NAME = "inspector_name";
 
-    public static final String M_ID = "_id";
+    static final String M_ID = "_id";
     public static final String M_TEMPE = "tempe";
     public static final String M_WIND = "wind";
     public static final String M_CLOUDS = "clouds";

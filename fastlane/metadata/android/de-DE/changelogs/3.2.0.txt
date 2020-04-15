@@ -1,0 +1,7 @@
+Version 3.2.0 (2020-04-15)
+- Code angepasst für eingeschränkten Speicher-Zugriff von Android 10
+- Verwendung von AndroidX-Bibliotheken
+- Bug bei Anlegen einer neuen Abschnittsliste behoben  
+- Hilfetext angepasst
+- Einige kleine Code-Verbesserungen
+- Projekt-Anpassung für Android Studio 3.6.2

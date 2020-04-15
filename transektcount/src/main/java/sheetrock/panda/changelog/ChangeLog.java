@@ -1,25 +1,24 @@
-/**
- * Copyright (C) 2011-2013, Karsten Priegnitz
- * <p>
- * Permission to use, copy, modify, and distribute this piece of software
- * for any purpose with or without fee is hereby granted, provided that
- * the above copyright notice and this permission notice appear in the
- * source code of all copies.
- * <p>
- * It would be appreciated if you mention the author in your change log,
- * contributors list or the like.
- *
- * @author: Karsten Priegnitz
- * @see: http://code.google.com/p/android-change-log/
- * <p>
- * Changed by wmstein on 2020-01-26
+/*********************************************************************
+ Copyright (C) 2011-2013, Karsten Priegnitz
+ <p>
+ Permission to use, copy, modify, and distribute this piece of software
+ for any purpose with or without fee is hereby granted, provided that
+ the above copyright notice and this permission notice appear in the
+ source code of all copies.
+ <p>
+ It would be appreciated if you mention the author in your change log,
+ contributors list or the like.
+
+ @author: Karsten Priegnitz
+ @see: http://code.google.com/p/android-change-log/
+ <p>
+ Changed by wmstein on 2020-04-09
  */
 
 package sheetrock.panda.changelog;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
@@ -55,6 +54,9 @@ public class ChangeLog
      */
     public ChangeLog(Context context)
     {
+//        SharedPreferences prefs = TransektCountApplication.getPrefs();
+//        prefs = TransektCountApplication.getPrefs();
+
         this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
@@ -145,25 +147,13 @@ public class ChangeLog
             .setPositiveButton(
                 context.getResources().getString(
                     R.string.changelog_ok_button),
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        updateVersionInPreferences();
-                    }
-                });
+                (dialog, which) -> updateVersionInPreferences());
 
         if (!full)
         {
             // "more ..." button
             builder.setNegativeButton(R.string.changelog_show_full,
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        getFullLogDialog().show();
-                    }
-                });
+                (dialog, id) -> getFullLogDialog().show());
         }
 
         return builder.create();
@@ -172,8 +162,7 @@ public class ChangeLog
     private void updateVersionInPreferences()
     {
         // save new version number to preferences
-        SharedPreferences sp = PreferenceManager
-            .getDefaultSharedPreferences(context);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(VERSION_KEY, thisVersion);
         editor.apply();

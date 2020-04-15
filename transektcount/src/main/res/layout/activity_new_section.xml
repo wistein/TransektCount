@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_new_section.xml is used by NewSectionActivity.java -->
 
-<ScrollView android:id="@+id/newsectScreen"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newsectScreen"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -26,7 +27,8 @@
             android:inputType="textCapSentences"
             android:maxLines="1"
             android:padding="5dp"
-            android:textSize="20sp">
+            android:textSize="20sp"
+            tools:ignore="Autofill">
         </EditText>
 
         <Space

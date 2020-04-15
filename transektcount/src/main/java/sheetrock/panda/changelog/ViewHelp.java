@@ -15,14 +15,13 @@
  * <p>
  * Adaptation for ViewHelp:
  * Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-09
  */
 
 package sheetrock.panda.changelog;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -54,7 +53,6 @@ public class ViewHelp
     /**
      * Constructor  <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
-     *
      * @param context   context
      */
     public ViewHelp(Context context)
@@ -65,9 +63,7 @@ public class ViewHelp
     /**
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
-     *
      * @param context   context
-     * @param sp      the shared preferences to store the last version name into
      */
     private ViewHelp(Context context, SharedPreferences sp)
     {
@@ -111,11 +107,7 @@ public class ViewHelp
             .setPositiveButton(
                 context.getResources().getString(
                     R.string.viewhelp_ok_button),
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                    }
+                (dialog, which) -> {
                 });
 
         return builder.create();

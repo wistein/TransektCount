@@ -1,13 +1,13 @@
 package com.wmstein.filechooser;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Option is part of filechooser.
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
  * Adopted by wmstein on 2016-06-18, 
- * last change on 2018-04-05
+ * last change on 2020-04-09
  */
 
 public class Option implements Comparable<Option>
@@ -35,7 +35,7 @@ public class Option implements Comparable<Option>
         return data;
     }
 
-    public String getPath()
+    String getPath()
     {
         return path;
     }
@@ -49,7 +49,7 @@ public class Option implements Comparable<Option>
             throw new IllegalArgumentException();
     }
     
-    public boolean isBack()
+    boolean isBack()
     {
         return back;
     }

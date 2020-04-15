@@ -1,9 +1,9 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -24,14 +24,16 @@ import com.wmstein.transektcount.widgets.ListSumWidget;
 
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2020-01-26
+ * last edited on 2020-04-09
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountListSpecAct"; // for future use
+    //private static final String TAG = "transektcountListSpecAct"; // for future use
     private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
@@ -55,6 +57,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     ListMetaWidget lmw;
     ListSumWidget lsw;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

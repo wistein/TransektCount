@@ -42,6 +42,16 @@
   _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, erfolgt die Bereitstellung der im Rahmen der Lizenz verbreiteten Software OHNE GEWÄHR ODER VORBEHALTE – ganz gleich, ob ausdrücklich oder stillschweigend. Informationen über die jeweiligen Bedingungen für Genehmigungen und Einschränkungen im Rahmen der Lizenz finden Sie in der Lizenz.
   _
 
+$ 3.2.0
+  % Version 3.2.0
+  _ 15.04.2020
+		* Code angepasst für eingeschränkten Speicher-Zugriff von Android 10
+		* Verwendung von AndroidX-Bibliotheken
+		* Bug bei Anlegen einer neuen Abschnittsliste behoben  
+		* Hilfetext angepasst
+		* Einige kleine Code-Verbesserungen
+		* Projekt-Anpassung für Android Studio 3.6.2
+
 $ 3.1.6
   % Version 3.1.6
   _ 26.02.2020

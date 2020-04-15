@@ -3,7 +3,6 @@ package com.wmstein.transektcount;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,10 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
@@ -49,7 +45,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
 
@@ -61,14 +60,14 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2020-01-26
+ * last edited on 2020-04-14
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
     private static final String TAG = "TransektCountWelcomeAct";
     private static TransektCountApplication transektCount;
 
-    // Permission dispatcher mode: 
+    // Permission dispatcher mode modePerm: 
     //  1 = use location service (not used)
     //  2 = end location service (not used)
     //  3 = export DB
@@ -107,6 +106,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     MetaDataSource metaDataSource;
     CountDataSource countDataSource;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -144,13 +144,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         } catch (SQLiteException e)
         {
             tname = getString(R.string.errorDb);
-//            Toast.makeText(this, R.string.corruptDb, Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.corruptDb));
         }
         
         try
         {
-            getSupportActionBar().setTitle(tname);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(tname);
         } catch (NullPointerException e)
         {
             // nothing
@@ -171,8 +170,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         vh = new ViewHelp(this); // by wmstein
         if (cl.firstRun())
             cl.getLogDialog().show();
-    }
 
+        // test for existence of directory /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
+        infile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount0.db");
+        if (!infile.exists())
+            exportBasisDb(); // create directory and initial Basis DB
+    }
 
     // Date for filename of Export-DB
     public static String getcurDate()
@@ -237,7 +240,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         else if (id == R.id.viewHelp)
         {
             vh.getFullLogDialog().show();
-//            startActivity(new Intent(this, HelpDialog.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.changeLog)
@@ -259,14 +261,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-            // pause for 100 msec to show toast
-            mHandler.postDelayed(new Runnable()
-            {
-                public void run()
-                {
-                    startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                }
-            }, 100);
+            // Trick: Pause for 100 msec to show toast
+            mHandler.postDelayed(() -> 
+                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -286,23 +283,19 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
-        // pause for 100 msec to show toast
-        mHandler.postDelayed(new Runnable()
-        {
-            public void run()
-            {
-                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-        }, 100);
+        // Trick: Pause for 100 msec to show toast
+        mHandler.postDelayed(() -> 
+            startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
 
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume()
     {
         super.onResume();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
@@ -323,7 +316,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         // set transect number as title
         try
         {
-            getSupportActionBar().setTitle(head.transect_no);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
         } catch (NullPointerException e)
         {
             // nothing
@@ -334,7 +327,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        //LinearLayout baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
@@ -400,15 +392,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(new Runnable()
-        {
-
-            @Override
-            public void run()
-            {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
     public void onPause()
@@ -437,8 +421,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     
     private void doExportDB()
     {
-        // outfile -> /storage/emulated/0/transektcount_yyyy-MM-dd_HHmmss.db
-        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".db");
+        // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.db
+        outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".db");
         
         // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
@@ -467,7 +451,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.noCard));
         }
         else
@@ -477,13 +460,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             {
                 // export db
                 copy(infile, outfile);
-//                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                 showSnackbar(getString(R.string.saveWin));
             } catch (IOException e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to copy database");
-//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
                 showSnackbarRed(getString(R.string.saveFail));
             }
         }
@@ -503,8 +484,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     
     private void doExportDb2CSV()
     {
-        // outfile -> /storage/emulated/0/transektcount_yyyy-MM-dd_HHmmss.csv
-        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount_" + getcurDate() + ".csv");
+        // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.csv
+        outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
         String sectName;
@@ -547,7 +528,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.noCard));
             
         }
@@ -603,30 +583,30 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         try
                         {
-                            yyyy = Integer.valueOf(date.substring(6, 10));
-                            mm = Integer.valueOf(date.substring(3, 5));
-                            dd = Integer.valueOf(date.substring(0, 2));
+                            yyyy = Integer.parseInt(date.substring(6, 10));
+                            mm = Integer.parseInt(date.substring(3, 5));
+                            dd = Integer.parseInt(date.substring(0, 2));
                         } catch (Exception e)
                         {
                             // wrong date format (English DB in German), use
-                            yyyy = Integer.valueOf(date.substring(0, 4));
-                            mm = Integer.valueOf(date.substring(5, 7));
-                            dd = Integer.valueOf(date.substring(8, 10));
+                            yyyy = Integer.parseInt(date.substring(0, 4));
+                            mm = Integer.parseInt(date.substring(5, 7));
+                            dd = Integer.parseInt(date.substring(8, 10));
                         }
                     }
                     else
                     {
                         try
                         {
-                            yyyy = Integer.valueOf(date.substring(0, 4));
-                            mm = Integer.valueOf(date.substring(5, 7));
-                            dd = Integer.valueOf(date.substring(8, 10));
+                            yyyy = Integer.parseInt(date.substring(0, 4));
+                            mm = Integer.parseInt(date.substring(5, 7));
+                            dd = Integer.parseInt(date.substring(8, 10));
                         } catch (Exception e)
                         {
                             // wrong date format (German DB in English), use
-                            yyyy = Integer.valueOf(date.substring(6, 10));
-                            mm = Integer.valueOf(date.substring(3, 5));
-                            dd = Integer.valueOf(date.substring(0, 2));
+                            yyyy = Integer.parseInt(date.substring(6, 10));
+                            mm = Integer.parseInt(date.substring(3, 5));
+                            dd = Integer.parseInt(date.substring(0, 2));
                         }
                     }
 
@@ -689,21 +669,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 Cursor curCSV;
 
-                // build the species table array
-                switch (sortPref) // sort mode species list
+                // build the species table array according to sort mode for species list
+                if ("codes".equals(sortPref))
                 {
-                case "names_alpha":
-                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_NAME, null);
-                    break;
-                case "codes":
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                         + " WHERE ("
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -713,8 +681,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
                         + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
                         + " order by " + DbHelper.C_CODE, null);
-                    break;
-                default:
+                }
+                else
+                {
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                         + " WHERE ("
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -724,7 +693,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
                         + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
                         + " order by " + DbHelper.C_NAME, null);
-                    break;
                 }
 
                 int countmf, countm, countf, countp, countl, counte;
@@ -749,6 +717,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         strcountmf = Integer.toString(countmf);
                     else
                         strcountmf = "";
+
                     countm = curCSV.getInt(5);
                     if (countm > 0)
                         strcountm = Integer.toString(countm);
@@ -760,46 +729,55 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         strcountf = Integer.toString(countf);
                     else
                         strcountf = "";
+
                     countp = curCSV.getInt(7);
                     if (countp > 0)
                         strcountp = Integer.toString(countp);
                     else
                         strcountp = "";
+
                     countl = curCSV.getInt(8);
                     if (countl > 0)
                         strcountl = Integer.toString(countl);
                     else
                         strcountl = "";
+
                     counte = curCSV.getInt(9);
                     if (counte > 0)
                         strcounte = Integer.toString(counte);
                     else
                         strcounte = "";
+
                     countmfe = curCSV.getInt(10);
                     if (countmfe > 0)
                         strcountmfe = Integer.toString(countmfe);
                     else
                         strcountmfe = "";
+
                     countme = curCSV.getInt(11);
                     if (countme > 0)
                         strcountme = Integer.toString(countme);
                     else
                         strcountme = "";
+
                     countfe = curCSV.getInt(12);
                     if (countfe > 0)
                         strcountfe = Integer.toString(countfe);
                     else
                         strcountfe = "";
+
                     countpe = curCSV.getInt(13);
                     if (countpe > 0)
                         strcountpe = Integer.toString(countpe);
                     else
                         strcountpe = "";
+
                     countle = curCSV.getInt(14);
                     if (countle > 0)
                         strcountle = Integer.toString(countle);
                     else
                         strcountle = "";
+
                     countee = curCSV.getInt(15);
                     if (countee > 0)
                         strcountee = Integer.toString(countee);
@@ -901,14 +879,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 csvWrite.close();
                 dbHandler.close();
 
-//                Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                 showSnackbar(getString(R.string.saveWin));
                 
             } catch (Exception e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to export csv file");
-//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
                 showSnackbarRed(getString(R.string.saveFail));
             }
         }
@@ -916,7 +892,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     /**********************************************************************************************/
     @SuppressLint({"SdCardPath", "LongLogTag"})
-    // modified by wmstein
     public void exportBasisDb()
     {
         // Export Basic DB with permission check
@@ -931,8 +906,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
         File tmpfile = new File(tmpPath);
         
-        // outfile -> /storage/emulated/0/transektcount0.db
-        outfile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
+        // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
+        outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount0.db");
 
         // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
@@ -961,7 +936,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.d(TAG, "No sdcard access");
-//            Toast.makeText(this, getString(R.string.noCard), Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.noCard));
         }
         else
@@ -985,14 +959,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 boolean d0 = tmpfile.delete();
                 if (d0)
                 {
-//                    Toast.makeText(this, getString(R.string.saveWin), Toast.LENGTH_SHORT).show();
                     showSnackbar(getString(R.string.saveWin));
                 }
             } catch (IOException e)
             {
                 if (MyDebug.LOG)
                     Log.e(TAG, "Failed to export Basic DB");
-//                Toast.makeText(this, getString(R.string.saveFail), Toast.LENGTH_LONG).show();
                 showSnackbarRed(getString(R.string.saveFail));
             }
         }
@@ -1000,7 +972,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     /**********************************************************************************************/
     // Clear all relevant DB values, reset to basic DB 
-    // created by wmstein
     public void resetToBasisDb()
     {
         // confirm dialogue before anything else takes place
@@ -1008,25 +979,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmResetDB);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.deleteButton, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                boolean r_ok = clearDBValues();
-                if (r_ok)
-                {
-//                    Toast.makeText(getApplicationContext(), getString(R.string.reset2basic), Toast.LENGTH_SHORT).show();
-                    showSnackbar(getString(R.string.reset2basic));
-                }
-            }
+        builder.setPositiveButton(R.string.deleteButton, (dialog, id) -> {
+            boolean r_ok = clearDBValues();
+            if (r_ok)
+                showSnackbar(getString(R.string.reset2basic));
         });
-        builder.setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
         alert = builder.create();
         alert.show();
     }
@@ -1080,7 +1038,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             if (MyDebug.LOG)
                 Log.e(TAG, "Failed to reset DB");
-//            Toast.makeText(this, getString(R.string.resetFail), Toast.LENGTH_LONG).show();
             showSnackbarRed(getString(R.string.resetFail));
             r_ok = false;
         }
@@ -1110,23 +1067,29 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         startActivityForResult(intent, FILE_CHOOSER);
     }
 
-    @SuppressLint("LongLogTag")
     @Override
     // Function is part of loadFile() and processes the result of AdvFileChooser
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        super.onActivityResult(requestCode, resultCode, data);
+        
         String fileSelected = "";
         if ((requestCode == FILE_CHOOSER) && (resultCode == -1))
         {
             fileSelected = data.getStringExtra("fileSelected");
-            //Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
+            if (MyDebug.LOG)
+            {
+                Log.e(TAG, "File selected: " + fileSelected);
+                Toast.makeText(this, fileSelected, Toast.LENGTH_SHORT).show();
+            }
         }
 
         //infile = selected File
+        assert fileSelected != null;
         if (!fileSelected.equals(""))
         {
             infile = new File(fileSelected);
-            
+
             // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
             String destPath = this.getFilesDir().getPath();
             destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
@@ -1136,10 +1099,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setMessage(R.string.confirmDBImport)
-                .setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int id)
-                {
+                .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) -> {
                     // START
                     // replace this with another function rather than this lazy c&p
                     if (Environment.MEDIA_MOUNTED.equals(state))
@@ -1164,7 +1124,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         if (MyDebug.LOG)
                             Log.d(TAG, "No sdcard access");
-//                        Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
                         showSnackbarRed(getString(R.string.noCard));
                     }
                     else
@@ -1172,7 +1131,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         try
                         {
                             copy(infile, outfile);
-//                            Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
                             showSnackbar(getString(R.string.importWin));
 
                             Head head;
@@ -1183,7 +1141,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                             // set transect number as title
                             try
                             {
-                                getSupportActionBar().setTitle(head.transect_no);
+                                Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
                             } catch (NullPointerException e)
                             {
                                 // nothing
@@ -1194,19 +1152,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         {
                             if (MyDebug.LOG)
                                 Log.e(TAG, "Failed to import database");
-//                            Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
                             showSnackbarRed(getString(R.string.importFail));
                         }
                     }
                     // END
-                }
-            }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    dialog.cancel();
-                }
-            });
+                }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
             alert = builder.create();
             alert.show();
         }
@@ -1224,8 +1174,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     private void doImportBasisDB()
     {
-        // infile <- /storage/emulated/0/transektcount0.db
-        infile = new File(Environment.getExternalStorageDirectory() + "/transektcount0.db");
+        // infile <- /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
+        infile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount0.db");
         
         // outfile -> /data/data/com.wmstein.transektcount//databases/transektcount.db
         String destPath = getApplicationContext().getFilesDir().getPath();
@@ -1233,7 +1183,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         outfile = new File(destPath);
         if (!(infile.exists()))
         {
-//            Toast.makeText(this, getString(R.string.noDb), Toast.LENGTH_LONG).show();
             showSnackbar(getString(R.string.noDb));
             return;
         }
@@ -1242,10 +1191,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmBasisImport)
-            .setCancelable(false).setPositiveButton(R.string.importButton, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
+            .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) -> {
                 // START
                 // replace this with another function rather than this lazy c&p
                 if (Environment.MEDIA_MOUNTED.equals(state))
@@ -1270,7 +1216,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 {
                     if (MyDebug.LOG)
                         Log.d(TAG, "No sdcard access");
-//                    Toast.makeText(getApplicationContext(), getString(R.string.noCard), Toast.LENGTH_LONG).show();
                     showSnackbarRed(getString(R.string.noCard));
                 }
                 else
@@ -1278,7 +1223,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     try
                     {
                         copy(infile, outfile);
-//                        Toast.makeText(getApplicationContext(), getString(R.string.importWin), Toast.LENGTH_SHORT).show();
                         showSnackbar(getString(R.string.importWin));
 
                         Head head;
@@ -1289,7 +1233,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         // set transect number as title
                         try
                         {
-                            getSupportActionBar().setTitle(head.transect_no);
+                            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
                         } catch (NullPointerException e)
                         {
                             // nothing
@@ -1300,19 +1244,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     {
                         if (MyDebug.LOG)
                             Log.e(TAG, "Failed to import database");
-//                        Toast.makeText(getApplicationContext(), getString(R.string.importFail), Toast.LENGTH_LONG).show();
                         showSnackbarRed(getString(R.string.importFail));
                     }
                 }
                 // END
-            }
-        }).setNegativeButton(R.string.importCancelButton, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                dialog.cancel();
-            }
-        });
+            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
         alert = builder.create();
         alert.show();
     }

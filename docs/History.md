@@ -1,6 +1,14 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2019, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
+
+#### Version 3.2.0 (2020-04-15)
+- Code adapted for restricted Storage Access of Android 10
+- Use of AndroidX libraries
+- Bugfix for adding new section
+- Help text updated
+- Many minor code refinements
+- Project adaption for Android Studio 3.6.2
 
 #### Version 3.1.6 (2020-02-26)
 - Code optimized for storage and power efficiency
