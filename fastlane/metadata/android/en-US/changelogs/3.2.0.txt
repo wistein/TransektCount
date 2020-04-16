@@ -1,7 +1,0 @@
-Version 3.2.0 (2020-04-15)
-- Code adapted for restricted Storage Access of Android 10
-- Use of AndroidX libraries
-- Bugfix for adding new section
-- Help text updated
-- Many minor code refinements
-- Project adaption for Android Studio 3.6.2

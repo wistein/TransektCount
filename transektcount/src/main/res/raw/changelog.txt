@@ -1,4 +1,12 @@
 <html>
+<!--
+% Title
+& bold red
+_ Subtitle
+! free text
+# numbered list item
+* bullet list item
+-->
   <head>
     <style type='text/css'>
       a            { color:#a0a0e0 }
@@ -9,6 +17,13 @@
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
+      div.boldredtext { 
+          color:#FF0000; 
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:start }
       div.subtitle { 
           color:#C0F0C0; 
           font-size:0.8em; 
@@ -25,9 +40,9 @@
   _
   _ email: stein.wm@web.de
   _
-  % Attention: Modified directory! 
-  	! For compatibility reasons with Android 10 file acces had to be changed to a app-specific directoy. Further infos see Help.
-  % ------------------------------
+  & Attention: Modified directory! 
+  	! For compatibility reasons with Android 10 file access had to be changed to an app-specific directoy. Now database files (.db) are stored in /storage/emulated/0/Android/data/com.wmstein.transektcount/files/. For further infos see Help.
+  & ------------------------------
   _
   	! TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. 
   _ 
@@ -46,12 +61,12 @@
   _ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   _
 
-$ 3.2.0
-  % Version 3.2.0
-  _ 2020-04-15
+$ 3.2.1
+  % Version 3.2.1
+  _ 2020-04-16
 		* Code adapted for restricted Storage Access of Android 10
 		* Use of AndroidX libraries
-		* Bugfix for adding new section
+		* Bugfixes for adding new section
 		* Help text updated
 		* Many minor code refinements
 		* Project adaption for Android Studio 3.6.2

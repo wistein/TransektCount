@@ -239,6 +239,13 @@ public class ChangeLog
                         sb.append(line.substring(1).trim());
                         sb.append("</div>\n");
                         break;
+                    case '&':
+                        // line contains bold red text
+                        this.closeList();
+                        sb.append("<div class='boldredtext'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
+                        break;
                     case '_':
                         // line contains version subtitle
                         this.closeList();
