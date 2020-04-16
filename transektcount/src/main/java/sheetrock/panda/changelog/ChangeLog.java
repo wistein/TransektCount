@@ -1,4 +1,6 @@
-/*********************************************************************
+package sheetrock.panda.changelog;
+
+/**********************************************************************
  Copyright (C) 2011-2013, Karsten Priegnitz
  <p>
  Permission to use, copy, modify, and distribute this piece of software
@@ -12,17 +14,14 @@
  @author: Karsten Priegnitz
  @see: http://code.google.com/p/android-change-log/
  <p>
- Changed by wmstein on 2020-04-09
+ Last change by wmstein on 2020-04-16
  */
-
-package sheetrock.panda.changelog;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
@@ -35,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
+
+import androidx.preference.PreferenceManager;
 
 public class ChangeLog
 {
@@ -54,9 +55,6 @@ public class ChangeLog
      */
     public ChangeLog(Context context)
     {
-//        SharedPreferences prefs = TransektCountApplication.getPrefs();
-//        prefs = TransektCountApplication.getPrefs();
-
         this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
@@ -64,14 +62,14 @@ public class ChangeLog
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
      * @param context   the context
-     * @param sp      the shared preferences to store the last version name into
+     * @param prefs      the shared preferences to store the last version name into
      */
-    private ChangeLog(Context context, SharedPreferences sp)
+    private ChangeLog(Context context, SharedPreferences prefs)
     {
         this.context = context;
 
         // get version numbers
-        this.lastVersion = sp.getString(VERSION_KEY, NO_VERSION);
+        this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (MyDebug.LOG)
             Log.d(TAG, "lastVersion: " + lastVersion);
         try
@@ -162,8 +160,8 @@ public class ChangeLog
     private void updateVersionInPreferences()
     {
         // save new version number to preferences
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sp.edit();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
         editor.putString(VERSION_KEY, thisVersion);
         editor.apply();
     }

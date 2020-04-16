@@ -40,7 +40,7 @@ import androidx.core.app.NavUtils;
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2020-04-09
+ * last edited on 2020-04-15
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -175,7 +175,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
             {
                 // Remove species with code x from missing species lists.
                 // Prerequisites: exactly correlated arrays of selCodes, selSpecs and selSpecs_g
-                //   for all localisations
+                //   for all localisations of arrays.xml
                 specCode = specCodesContainedList.get(i);
                 posSpec = codesCompleteArrayList.indexOf(specCode);
 

@@ -1,4 +1,6 @@
-/**
+package sheetrock.panda.changelog;
+
+/************************************************************************
  * Based on ChangeLog.java
  * Copyright (C) 2011-2013, Karsten Priegnitz
  * <p>
@@ -14,18 +16,13 @@
  * @see: http://code.google.com/p/android-change-log/
  * <p>
  * Adaptation for ViewHelp:
- * Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
- * Last edited on 2020-04-09
+ * Last edited by wmstein on 2020-04-16
  */
-
-package sheetrock.panda.changelog;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
@@ -52,20 +49,19 @@ public class ViewHelp
 
     /**
      * Constructor  <p/>
-     * Retrieves the version names and stores the new version name in SharedPreferences
      * @param context   context
-     */
+     *
     public ViewHelp(Context context)
     {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context));
+        this(context);
     }
-
+*/
     /**
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
      * @param context   context
      */
-    private ViewHelp(Context context, SharedPreferences sp)
+    public ViewHelp(Context context)
     {
         this.context = context;
 

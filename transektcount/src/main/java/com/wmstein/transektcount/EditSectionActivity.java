@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,8 +40,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
 /*************************************************************************
- * Edit the current section list (change, delete) and insert new species
- * EditSectionActivity is called from ListSectionActivity or CountingActivity.
+ * Edit the current section list (change, delete and insert new species)
+ * EditSectionActivity is called from ListSectionActivity, NewSectionActivity 
+ * or CountingActivity.
  * Uses CountEditWidget.java, EditTitleWidget.java, EditNotesWidget.java,
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
@@ -82,6 +84,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     private BitmapDrawable bg;
 
     private int section_id;
+    private String section_notes;
     private boolean brightPref;
     private boolean dupPref;
     private boolean screenOrientL; // option for screen orientation
@@ -165,6 +168,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         dupPref = prefs.getBoolean("pref_duplicate", true);
         String sortPref = prefs.getString("pref_sort_sp", "none");
         section_id = prefs.getInt("section_id", 1);
+        section_notes = prefs.getString("section_notes", "");
 
         // Set full brightness of screen
         if (brightPref)
@@ -204,7 +208,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         notes_area2.addView(etw);
 
         // display editable section notes; the same class
-        // is being used for both due to being lazy
         enw = new EditNotesWidget(this, null);
         enw.setSectionNotes(section.notes);
         enw.setWidgetNotes(getString(R.string.notesHere));
@@ -247,6 +250,15 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     }
 
     @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        if (isNotEmpty(savedInstanceState.getString("section_notes")))
+        {
+            section_notes = savedInstanceState.getString("section_notes");
+        }
+    }
+    
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         /*
@@ -258,6 +270,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             ((ViewGroup) cew.getParent()).removeView(cew);
         }
         outState.putSerializable("savedCounts", savedCounts);
+        outState.putString("section_notes", enw.getSectionNotes());
         super.onSaveInstanceState(outState);
     }
 
@@ -279,6 +292,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         return true;
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -303,8 +317,16 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         else if (id == R.id.newCount)
         {
+            // Save edited notes first
+            section.notes = enw.getSectionNotes();
+            if (isNotEmpty(section.notes))
+                sectionDataSource.saveSectionNotes(section);
+            
             // a Snackbar here comes incomplete
-            Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
+            // Show toast on top, as is does not show over the keyboard
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP| Gravity.CENTER, 0, 100);
+            toast.show();
 
             // Trick: Pause for 100 msec to show toast
             mHandler.postDelayed(() -> {
@@ -405,7 +427,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public boolean saveData()
     {
         // save section notes only if they have changed
-        boolean savesection;
+        boolean saveSectionState;
 
         String newtitle = etw.getSectionName();
         if (isNotEmpty(newtitle))
@@ -415,38 +437,38 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             if (compSectionNames(newtitle))
             {
                 showSnackbarRed(newtitle + " " + getString(R.string.isdouble));
-                savesection = false;
+                saveSectionState = false;
             }
             else
             {
                 section_Backup.name = newtitle;
-                savesection = true;
+                saveSectionState = true;
             }
             section = section_Backup;
         }
         else
         {
             showSnackbarRed(newtitle + " " + getString(R.string.isempty));
-            savesection = false;
+            saveSectionState = false;
         }
 
         // add notes if the user has written some...
-        String newnotes = enw.getSectionNotes();
-        if (isNotEmpty(newnotes) && savesection)
+        section_notes = enw.getSectionNotes();
+        if (isNotEmpty(section_notes) && saveSectionState)
         {
-            section.notes = newnotes;
+            section.notes = section_notes;
         }
         // ...or save if the current notes have a value
         else
         {
             if (isNotEmpty(section.notes))
             {
-                section.notes = newnotes;
+                section.notes = section_notes;
             }
         }
 
         boolean retValue = false;
-        if (savesection)
+        if (saveSectionState)
         {
             sectionDataSource.saveSection(section);
 
@@ -537,10 +559,19 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     }
 
     // Start AddSpeciesActivity to add a new species to the species list
+    @SuppressLint("ApplySharedPref")
     public void newCount(View view)
     {
+        // Save edited section notes
+        section.notes = enw.getSectionNotes();
+        if (isNotEmpty(section.notes))
+            sectionDataSource.saveSectionNotes(section);
+
         // a Snackbar here comes incomplete
-        Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
+        // Show toast on top, as is does not show over the keyboard
+        Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP| Gravity.CENTER, 0, 100);
+        toast.show();
 
         // Trick: Pause for 100 msec to show toast
         mHandler.postDelayed(() -> {
