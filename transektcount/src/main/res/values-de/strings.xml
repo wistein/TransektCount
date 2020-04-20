@@ -70,7 +70,7 @@
     <string name="transectnumber">Transekt-Nr.</string>
     <string name="inspector">Kartierer(in)</string>
     <string name="temperature">Temp. (°C)</string>
-    <string name="wind">Wind (0-4)</string>
+    <string name="wind">Wind (0–4)</string>
     <string name="clouds">Wolken (%)</string>
     <string name="starttm">Zeit von</string>
     <string name="hinttm">Tippe hier</string>
@@ -137,10 +137,7 @@
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>
     <string name="pref_bg">Hintergrund</string>
-    <string name="pref_bg_summ">Wähle Standard-, eigenes oder kein Hintergrundbild.</string>
-    <string name="chooseImg">Eigenes Hintergrundbild</string>
-    <string name="explainImg">Wähle ein eigenes Hintergrundbild per Android-Galerie-App aus, falls der Standard-Hintergrund ersetzt werden soll.\nBitte beachten: Das Bild wird auf die darstellbare Fläche des Geräts skaliert.</string>
-    <string name="image_error">Hintergrundbild setzen fehlgeschlagen! Versuche es mit Galerie anstelle von File Manager.</string>
+    <string name="pref_bg_summ">Wähle Standard- oder kein Hintergrundbild.</string>
     <string name="pref_sort_order">Sortierung</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
     <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
@@ -151,14 +148,10 @@
     <string name="screen_orientation">Ausrichtung in Landscape-Modus anstelle von Portrait-Modus.</string>
     <string name="titel_screen_orientation">Landscape statt Portrait</string>
     <string name="prefs_sound">Sound</string>
-    <string name="pref_sound">Alarm-Sound</string>
-    <string name="pref_sound_summary">Erzeuge einen Sound wenn ein Zählalarm ausgelöst wird.</string>
-    <string name="choose_alert">Auswahl des Alarm-Sounds</string>
-    <string name="explain_alert">Wähle einen Sound für Alarme aus.</string>
+    <string name="pref_alert_sound">Alarm-Sound</string>
+    <string name="pref_alert_sound_summary">Erzeuge einen Sound wenn ein Zählalarm ausgelöst wird.</string>
     <string name="pref_button_sound">Button-Sound</string>
     <string name="pref_button_sound_summary">Erzeuge einen Sound wenn z.B. ein Zähl-Button getippt wird.</string>
-    <string name="choose_button_alert">Auswahl des Button-Sounds</string>
-    <string name="explain_button_alert">Wähle einen Sound für Button-Clicks aus.</string>
     <string name="prefs_counting">Zählen</string>
     <string name="pref_awake">Lass Bildschirm an</string>
     <string name="pref_awake_summ">Verhindert den Ruhezustand beim Zählen.</string>

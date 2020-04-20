@@ -19,12 +19,10 @@ import java.util.Objects;
  * ListSpeciesWidget shows count info area for a species.
  * ListSpeciesActivity shows the result page.
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
-    private static final String TAG = "transektcountListSpeciesWidget";
-
     private TextView txtSectName;
     private TextView txtSectRem;
     private TextView txtSpecName;

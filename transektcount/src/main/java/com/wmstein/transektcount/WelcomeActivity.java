@@ -60,7 +60,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2020-04-14
+ * last edited on 2020-04-20
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -855,24 +855,92 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                     };
                 csvWrite.writeNext(arrCol2);
 
+                String strsummf, strsumm, strsumf, strsump, strsuml, strsumo, 
+                    strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe, strtotal;
+                
+                if (summf > 0)
+                    strsummf = Integer.toString(summf);
+                else
+                    strsummf = "";
+                
+                if (summ > 0)
+                    strsumm = Integer.toString(summ);
+                else
+                    strsumm = "";
+                
+                if (sumf > 0)
+                    strsumf = Integer.toString(sumf);
+                else
+                    strsumf = "";
+                
+                if (sump > 0)
+                    strsump = Integer.toString(sump);
+                else
+                    strsump = "";
+                
+                if (suml > 0)
+                    strsuml = Integer.toString(suml);
+                else
+                    strsuml = "";
+                
+                if (sumo > 0)
+                    strsumo = Integer.toString(sumo);
+                else
+                    strsumo = "";
+
+                if (summfe > 0)
+                    strsummfe = Integer.toString(summfe);
+                else
+                    strsummfe = "";
+
+                if (summ > 0)
+                    strsumme = Integer.toString(summe);
+                else
+                    strsumme = "";
+
+                if (sumfe > 0)
+                    strsumfe = Integer.toString(sumfe);
+                else
+                    strsumfe = "";
+
+                if (sumpe > 0)
+                    strsumpe = Integer.toString(sumpe);
+                else
+                    strsumpe = "";
+
+                if (sumle > 0)
+                    strsumle = Integer.toString(sumle);
+                else
+                    strsumle = "";
+
+                if (sumoe > 0)
+                    strsumoe = Integer.toString(sumoe);
+                else
+                    strsumoe = "";
+
+                if (total > 0)
+                    strtotal = Integer.toString(total);
+                else
+                    strtotal = "";
+                
                 // write total sum
                 String[] arrSum =
                     {
-                        "", getString(R.string.sumSpec), Integer.toString(sumSpec), "",
+                        "", "", getString(R.string.sumSpec), Integer.toString(sumSpec), 
                         getString(R.string.sum),
-                        Integer.toString(summf),
-                        Integer.toString(summ),
-                        Integer.toString(sumf),
-                        Integer.toString(sump),
-                        Integer.toString(suml),
-                        Integer.toString(sumo),
-                        Integer.toString(summfe),
-                        Integer.toString(summe),
-                        Integer.toString(sumfe),
-                        Integer.toString(sumpe),
-                        Integer.toString(sumle),
-                        Integer.toString(sumoe),
-                        Integer.toString(total)
+                        strsummf,
+                        strsumm,
+                        strsumf,
+                        strsump,
+                        strsuml,
+                        strsumo,
+                        strsummfe,
+                        strsumme,
+                        strsumfe,
+                        strsumpe,
+                        strsumle,
+                        strsumoe,
+                        strtotal
                     };
                 csvWrite.writeNext(arrSum);
 

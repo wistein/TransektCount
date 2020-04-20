@@ -115,7 +115,7 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     }
 
     // fill ListSpeciesWidget with relevant counts and sections data
-    public void loadData()
+    private void loadData()
     {
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;

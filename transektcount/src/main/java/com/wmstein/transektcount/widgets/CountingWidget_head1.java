@@ -5,7 +5,6 @@
 package com.wmstein.transektcount.widgets;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +15,15 @@ import android.widget.TextView;
 import com.wmstein.transektcount.R;
 import com.wmstein.transektcount.database.Count;
 
+import androidx.annotation.NonNull;
+
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
-    public static final String TAG = "transektcountCountingWidget_head1";
-
     private String[] idArray;
     private String[] contentArray1;
     private String[] contentArray2;
@@ -32,7 +31,7 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
     private Integer[] imageArray;
 
     public Count count;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
     public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] nameArrayG, String[] codeArray, Integer[] imageArray)
     {

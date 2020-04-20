@@ -21,7 +21,6 @@ import androidx.annotation.NonNull;
  * Adopted by wmstein on 2016-06-18, 
  * last change on 2020-04-09
  */
-
 public class FileArrayAdapter extends ArrayAdapter<Option>
 {
     private Context c;

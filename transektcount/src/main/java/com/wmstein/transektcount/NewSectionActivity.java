@@ -99,12 +99,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     protected void onPause()
     {
         super.onPause();

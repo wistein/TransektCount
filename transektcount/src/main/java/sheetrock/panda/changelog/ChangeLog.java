@@ -1,22 +1,5 @@
 package sheetrock.panda.changelog;
 
-/**********************************************************************
- Copyright (C) 2011-2013, Karsten Priegnitz
- <p>
- Permission to use, copy, modify, and distribute this piece of software
- for any purpose with or without fee is hereby granted, provided that
- the above copyright notice and this permission notice appear in the
- source code of all copies.
- <p>
- It would be appreciated if you mention the author in your change log,
- contributors list or the like.
-
- @author: Karsten Priegnitz
- @see: http://code.google.com/p/android-change-log/
- <p>
- Last change by wmstein on 2020-04-16
- */
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,6 +20,22 @@ import java.util.Locale;
 
 import androidx.preference.PreferenceManager;
 
+/**********************************************************************
+ Copyright (C) 2011-2013, Karsten Priegnitz
+ <p>
+ Permission to use, copy, modify, and distribute this piece of software
+ for any purpose with or without fee is hereby granted, provided that
+ the above copyright notice and this permission notice appear in the
+ source code of all copies.
+ <p>
+ It would be appreciated if you mention the author in your change log,
+ contributors list or the like.
+
+ @author: Karsten Priegnitz
+ @see: http://code.google.com/p/android-change-log/
+ <p>
+ Last change by wmstein on 2020-04-17
+ */
 public class ChangeLog
 {
     private static final String TAG = "ChangeLog";

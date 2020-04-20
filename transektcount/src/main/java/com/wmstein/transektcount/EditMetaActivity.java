@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 /***************************************************************
@@ -106,12 +105,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
     }
     
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-    }
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume()

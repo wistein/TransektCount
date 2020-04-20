@@ -13,12 +13,10 @@ import java.util.Objects;
 /****************************************************
  * EditHeadWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 03.04.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class ListHeadWidget extends LinearLayout
 {
-    private static final String TAG = "transektcountListHeadWidget";
-
     private TextView widget_lno;    // used for transect_no title
     private TextView widget_lno1;   // used for transect_no
     private TextView widget_lname;  // used for inspector_name title

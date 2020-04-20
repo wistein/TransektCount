@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml English strings -->
+<?xml version="1.0" encoding="utf-8"?><!-- strings.xml English strings -->
 <resources>
 
     <string name="action_settings">Settings</string>
@@ -70,7 +69,7 @@
     <string name="transectnumber">Transect No.</string>
     <string name="inspector">Inspector Name</string>
     <string name="temperature">Temp. (°C)</string>
-    <string name="wind">Wind (0-4)</string>
+    <string name="wind">Wind (0–4)</string>
     <string name="clouds">Clouds (%)</string>
     <string name="starttm">Time from</string>
     <string name="hinttm">Click here</string>
@@ -137,10 +136,7 @@
     <!-- Preferences -->
     <string name="prefs_appearance">Appearance</string>
     <string name="pref_bg">Background</string>
-    <string name="pref_bg_summ">Choose default, custom or no background image.</string>
-    <string name="chooseImg">Custom Image</string>
-    <string name="explainImg">Select an own background image per Android Gallery app to replace the default background.\nPlease mind: The image will be scaled to the screen area of the device.</string>
-    <string name="image_error">Error setting custom image! Please try using the gallery rather than a file manager.</string>
+    <string name="pref_bg_summ">Choose default or no background image.</string>
     <string name="pref_sort_order">Sorting</string>
     <string name="pref_sort_order_summ">Sort order of your section list.</string>
     <string name="pref_sort_order_sp_summ">Sort order of your species list.</string>
@@ -151,14 +147,10 @@
     <string name="screen_orientation">Show screen in Landscape Mode instead of Portrait Mode.</string>
     <string name="titel_screen_orientation">Landscape instead of Portrait</string>
     <string name="prefs_sound">Sound</string>
-    <string name="pref_sound">Audible alerts</string>
-    <string name="pref_sound_summary">Sound an audible alert when an alert is triggered.</string>
-    <string name="choose_alert">Choose an audible alert sound</string>
-    <string name="explain_alert">Choose a sound for alerts.</string>
+    <string name="pref_alert_sound">Audible alerts</string>
+    <string name="pref_alert_sound_summary">Sound an audible alert when an alert is triggered.</string>
     <string name="pref_button_sound">Button sounds</string>
     <string name="pref_button_sound_summary">Make a sound upon pressing e.g. a count button.</string>
-    <string name="choose_button_alert">Button Sound</string>
-    <string name="explain_button_alert">Choose a sound for pressing buttons.</string>
     <string name="prefs_counting">Counting</string>
     <string name="pref_awake">Keep screen on</string>
     <string name="pref_awake_summ">Prevent screen from sleeping whilst counting.</string>
@@ -234,5 +226,8 @@
     <string name="perm_declined">Permissions declined</string>
     <string name="retry">Retry</string>
     <string name="permission_please">TransektCount needs storage permission in order to use a custom background.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

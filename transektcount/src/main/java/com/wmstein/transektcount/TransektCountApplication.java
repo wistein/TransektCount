@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -16,12 +15,14 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import androidx.preference.PreferenceManager;
+
 /**********************************************************
  * Handle background image and prefs 
  * 
  * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2020-01-26
+ * last edit on 2020-04-17
  */
 public class TransektCountApplication extends Application
 {
@@ -78,7 +79,6 @@ public class TransektCountApplication extends Application
         width = size.x;
         height = size.y;
 
-        assert backgroundPref != null;
         switch (backgroundPref)
         {
         case "none":
@@ -88,7 +88,6 @@ public class TransektCountApplication extends Application
             bMap.eraseColor(Color.BLACK);
             break;
         case "custom":
-            assert pictPref != null;
             if (!(pictPref.equals("")))
             {
                 if (new File(pictPref).isFile())

@@ -92,10 +92,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     private String sortPref;
     private boolean fontPref;
     private boolean lhandPref; // true for lefthand mode of counting screen
-    private boolean soundPref;
+    private boolean alertSoundPref;
     private boolean buttonSoundPref;
     private String alertSound;
-    private String buttonAlertSound;
+    private String buttonSound;
 
     // the actual data
     private Count count;
@@ -209,10 +209,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list on counting page
         fontPref = prefs.getBoolean("pref_note_font", false);
         lhandPref = prefs.getBoolean("pref_left_hand", false); // left-handed counting page
-        soundPref = prefs.getBoolean("pref_sound", false);
+        alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
         alertSound = prefs.getString("alert_sound", null);
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
-        buttonAlertSound = prefs.getString("alert_button_sound", null);
+        buttonSound = prefs.getString("button_sound", null);
     }
 
     @SuppressLint("LongLogTag")
@@ -603,7 +603,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf1i(); // count up and set value on screen
             if (count.count_f1i > oldCount) // has actually counted up
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
                 // save the data
@@ -624,7 +624,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf1i();
             if (count.count_f1i > oldCount) // has actually counted up
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
                 // save the data
@@ -645,7 +645,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf1i();
             if (count.count_f1i < oldCount || count.count_f1i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1i(count);
             }
         }
@@ -662,7 +662,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf1i();
             if (count.count_f1i < oldCount || count.count_f1i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1i(count);
             }
         }
@@ -679,7 +679,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf2i();
             if (count.count_f2i > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
@@ -698,7 +698,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf2i();
             if (count.count_f2i > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
@@ -717,7 +717,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf2i();
             if (count.count_f2i < oldCount || count.count_f2i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2i(count);
             }
         }
@@ -734,7 +734,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf2i();
             if (count.count_f2i < oldCount || count.count_f2i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2i(count);
             }
         }
@@ -751,7 +751,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf3i();
             if (count.count_f3i > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
@@ -770,7 +770,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf3i();
             if (count.count_f3i > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
@@ -789,7 +789,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf3i();
             if (count.count_f3i < oldCount || count.count_f3i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3i(count);
             }
         }
@@ -806,7 +806,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf3i();
             if (count.count_f3i < oldCount || count.count_f3i == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3i(count);
             }
         }
@@ -823,7 +823,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUppi();
             if (count.count_pi > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -841,7 +841,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHpi();
             if (count.count_pi > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -859,7 +859,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownpi();
             if (count.count_pi < oldCount || count.count_pi == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpi(count);
             }
         }
@@ -876,7 +876,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHpi();
             if (count.count_pi < oldCount || count.count_pi == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpi(count);
             }
         }
@@ -893,7 +893,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpli();
             if (count.count_li > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -911,7 +911,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHli();
             if (count.count_li > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -929,7 +929,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownli();
             if (count.count_li < oldCount || count.count_li == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountli(count);
             }
         }
@@ -946,7 +946,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHli();
             if (count.count_li < oldCount || count.count_li == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountli(count);
             }
         }
@@ -963,7 +963,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpei();
             if (count.count_ei > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -981,7 +981,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHei();
             if (count.count_ei > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -999,7 +999,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownei();
             if (count.count_ei < oldCount || count.count_ei == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountei(count);
             }
         }
@@ -1016,7 +1016,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHei();
             if (count.count_ei < oldCount || count.count_ei == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountei(count);
             }
         }
@@ -1034,7 +1034,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf1e();
             if (count.count_f1e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1052,7 +1052,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf1e();
             if (count.count_f1e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1070,7 +1070,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf1e();
             if (count.count_f1e < oldCount || count.count_f1e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1e(count);
             }
         }
@@ -1087,7 +1087,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf1e();
             if (count.count_f1e < oldCount || count.count_f1e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf1e(count);
             }
         }
@@ -1104,7 +1104,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf2e();
             if (count.count_f2e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1122,7 +1122,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf2e();
             if (count.count_f2e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1140,7 +1140,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf2e();
             if (count.count_f2e < oldCount || count.count_f2e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2e(count);
             }
         }
@@ -1157,7 +1157,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf2e();
             if (count.count_f2e < oldCount || count.count_f2e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf2e(count);
             }
         }
@@ -1174,7 +1174,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpf3e();
             if (count.count_f3e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1192,7 +1192,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHf3e();
             if (count.count_f3e > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1210,7 +1210,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownf3e();
             if (count.count_f3e < oldCount || count.count_f3e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3e(count);
             }
         }
@@ -1227,7 +1227,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHf3e();
             if (count.count_f3e < oldCount || count.count_f3e == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountf3e(count);
             }
         }
@@ -1244,7 +1244,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUppe();
             if (count.count_pe > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1262,7 +1262,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHpe();
             if (count.count_pe > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1280,7 +1280,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownpe();
             if (count.count_pe < oldCount || count.count_pe == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpe(count);
             }
         }
@@ -1297,7 +1297,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHpe();
             if (count.count_pe < oldCount || count.count_pe == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountpe(count);
             }
         }
@@ -1314,7 +1314,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUple();
             if (count.count_le > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1332,7 +1332,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHle();
             if (count.count_le > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1350,7 +1350,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownle();
             if (count.count_le < oldCount || count.count_le == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountle(count);
             }
         }
@@ -1367,7 +1367,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHle();
             if (count.count_le < oldCount || count.count_le == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountle(count);
             }
         }
@@ -1384,7 +1384,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpee();
             if (count.count_ee > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1402,7 +1402,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countUpLHee();
             if (count.count_ee > oldCount)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
@@ -1420,7 +1420,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownee();
             if (count.count_ee < oldCount || count.count_ee == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountee(count);
             }
         }
@@ -1437,7 +1437,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             widget.countDownLHee();
             if (count.count_ee < oldCount || count.count_ee == 0)
             {
-                buttonSound();
+                soundButtonSound();
                 countDataSource.saveCountee(count);
             }
         }
@@ -1493,7 +1493,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     // If the user has set the preference for an audible alert, then sound it here.
     private void soundAlert()
     {
-        if (soundPref)
+        if (alertSoundPref)
         {
             try
             {
@@ -1516,16 +1516,16 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     }
 
     // If the user has set the preference for button sound, then sound it here.
-    private void buttonSound()
+    private void soundButtonSound()
     {
         if (buttonSoundPref)
         {
             try
             {
                 Uri notification;
-                if (isNotBlank(buttonAlertSound) && buttonAlertSound != null)
+                if (isNotBlank(buttonSound) && buttonSound != null)
                 {
-                    notification = Uri.parse(buttonAlertSound);
+                    notification = Uri.parse(buttonSound);
                 }
                 else
                 {

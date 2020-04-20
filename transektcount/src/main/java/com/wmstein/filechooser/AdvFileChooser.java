@@ -101,7 +101,8 @@ public class AdvFileChooser extends Activity implements SharedPreferences.OnShar
 
         this.setTitle(getString(R.string.currentDir) + ": " + f.getName());
         List<Option> fls = new ArrayList<>();
-        @SuppressLint("SimpleDateFormat") DateFormat dform = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dform = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try
         {
             assert dirs != null;

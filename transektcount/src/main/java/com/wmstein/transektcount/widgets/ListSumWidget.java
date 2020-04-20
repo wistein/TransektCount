@@ -14,12 +14,10 @@ import java.util.Objects;
  * ListSumWidget shows count totals area in the result page 
  * created by ListSpeciesActivity
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class ListSumWidget extends LinearLayout
 {
-    private static final String TAG = "transektcountListSumWidget";
-
     private TextView sumCountf1i;
     private TextView sumCountf2i;
     private TextView sumCountf3i;

@@ -20,9 +20,8 @@ import androidx.fragment.app.DialogFragment;
  * licensed under the MIT License.
  * 
  * Adopted for TourCount by wistein on 2018-06-20,
- * last edited on 2020-04-09.
+ * last edited on 2020-04-17.
  */
-
 public class PermissionsDialogFragment extends DialogFragment
 {
     private static final int PERMISSION_REQUEST_CODE = 101;

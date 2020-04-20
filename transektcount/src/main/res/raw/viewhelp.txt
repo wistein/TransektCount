@@ -9,6 +9,9 @@
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
+      div.smalltext    { 
+          color:#F0F0F0; 
+          font-size:0.7em }
       div.subtitle { 
           color:#C0F0C0; 
           font-size:1.0em;
@@ -30,31 +33,34 @@ $ 10
   !Databases can be individually created and adapted regarding transect sections and expected butterfly species.
   !The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
   _ 
-  !The app is open source has no tracking or advertising functions, demands only for access permits which are needed for the app's serviceability and is published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. 
+  !The app is open source (published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>), has no tracking or advertising functions, demands only for permissions which are needed for recording the counting data (access rights for storage). 
 
 $ 9
   % 2. Setting up
   !
-  ! Before initial use you should adapt the settings to your liking. Then you should edit the prepared species list of the 1. transect section of the internal database with the section editor. Add further species by clicking the (+)-Button in the head line of “Transect Sections”. 
+  ! Before initial use you should adapt the settings to your liking. 
   _ 
-  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect. Examples .db-files for download are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app's directory /storage/emulated/0/Android/data/com.wmstein.transektcount/files which is created during the first start of the app. Now import and edit them suitably. When de-installing TransektCount this directory will be deleted. So it is recommended to backup these .db-files to a safe place. 
+  !Then you should edit the prepared species list of the 1. transect section of the internal database with the section editor. Add further species by clicking the (+)-Button in the head line of “Transect Sections”. 
   _ 
-  ! To edit the species list of the first section click the Edit-Button in the section line of “Transect Sections”. Add an entry by the (+)-Button in the head line of the section editor and select the species from the scroll-down list. At the end of this list you may select a non-existing species (NN). This can then be edited by entering its scientific name, common name and code (five-digit with leading zeros). When finished click SAVE SECTION or the save icon. This list can be changed or supplemented anytime afterwards.
+  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect. Example .db-files for download are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app's directory /storage/emulated/0/Android/data/com.wmstein.transektcount/files which is created during the first start of the app. Now import and edit them suitably. When de-installing TransektCount this directory will be deleted. So it is recommended to backup these .db-files to a safe place. 
+  _ 
+  ! To edit the species list of the first section click the Edit-Button in the section line of “Transect Sections”. Add an entry by the (+)-Button in the head line of the section editor and select the species from the scroll-down list. At the end of this list you may select a non-existing species (NN). This can then be edited by entering its scientific name, code (five-digit with leading zeros and possibly common name, see Liste Tagfalter Europas.pdf (butterflies) or Liste Nachtfalter Europas.pdf (moth)<a href="https://github.com/wistein/TourCount/tree/master/docs" target="_blank">https://github.com/wistein/TourCount/tree/master/docs</a>). When finished click SAVE SECTION or the save icon. This list can be changed or supplemented anytime afterwards.
   _ 
   ! Sect 01      (example part of a section list)
   ! ---------------------------------------------
   ! ...
   ! Pieris rapae .............. 06998
-  ! Small white
+  ) Small white
   ! Pieris napi ................ 07000
-  ! Green-veined white
+  ) Green-veined white
   ! Pieris na./ra.-compl.	07000*
-  ! Small whites complex
+  ) Small whites complex
   ! ...
   _ 
   ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering according to Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="http://www.lepiforum.de" target="_blank">http://www.lepiforum.det</a>). 
   _ 
-  ! The appended *-symbol at code 07000 marks a species complex whose code advisably should be the largest code of its members. 
+  ! An appended *-symbol marks a group of similar species. Practically choose the biggest code of a species of this group for sorting.
+  ! Click "Save List" to store the input into the database. This list can be changed or supplemented anytime afterwards.
   _ 
   ! In the next step, you could enter some meta data like transect-No. or inspectors name. Click on PREPARE INSPECTION and save the input by clicking the save icon. 
   _ 
@@ -101,7 +107,6 @@ $ 7
   ! The menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
   _ 
   ! The "Settings" page can be reached from some pages of the app. Here you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page. 
-  ! Selecting an own background picture can be achieved by the Gallery App, accessible in the left side menu of the background option (if applicable wipe from left edge).
   _ 
   ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB. 
   _ 
@@ -123,14 +128,16 @@ $ 7
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
   ! From Android 5.0.1 on, the counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket or held closed to the body. This saves energy, prohibits unwanted input and recalls the app into its current state immediately when used again.
+  ! The menu of the counting page provides a "Share" function for sending notes using a standard app, like SMS or email.
   _ 
   ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" or csv-files from /storage/emulated/0/Android/data/com.wmstein.transektcount/files to a PC. 
   ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
   _ 
   ! You may import the .csv-file as a
-  ! - comma-delimited text file with 
-  ! - quotations marks for textfield recognition and 
-  ! - file origin “Unicode UTF-8”
+  ! - comma-delimited text file 
+  ! - with quotations marks for textfield recognition,  
+  ! - file origin “Unicode UTF-8” and
+  ! - all data as text
   ! into MS Excel (or compatible programs) for further processing. 
   _
   ! This table is optimized for easy transmission of the results into the butterly monitoring web page.

@@ -16,7 +16,7 @@ package sheetrock.panda.changelog;
  * @see: http://code.google.com/p/android-change-log/
  * <p>
  * Adaptation for ViewHelp:
- * Last edited by wmstein on 2020-04-16
+ * Last edited by wmstein on 2020-04-17
  */
 
 import android.app.AlertDialog;
@@ -42,24 +42,13 @@ public class ViewHelp
 
     private final Context context;
     private String thisVersion;
-
     private static final String NO_VERSION = "";
     private Listmode listMode = Listmode.NONE;
     private StringBuffer sb = null;
 
     /**
-     * Constructor  <p/>
-     * @param context   context
-     *
-    public ViewHelp(Context context)
-    {
-        this(context);
-    }
-*/
-    /**
      * Constructor <p/>
      * Retrieves the version names and stores the new version name in SharedPreferences
-     * @param context   context
      */
     public ViewHelp(Context context)
     {
@@ -166,6 +155,11 @@ public class ViewHelp
                     sb.append("<div class='freetext'>");
                     sb.append(line.substring(1).trim());
                     sb.append("</div>\n");
+                    break;
+                case ')':
+                    // line contains small text
+                    this.closeList();
+                    sb.append("<div class='smalltext'>").append(line.substring(1).trim()).append("</div>\n");
                     break;
                 case '#':
                     // line contains numbered list item

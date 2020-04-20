@@ -20,12 +20,10 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_i.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class CountingWidget_i extends RelativeLayout
 {
-    private static final String TAG = "transektcountCountingWidget_i";
-
     private TextView namef1i;
     private TextView namef2i;
     private TextView namef3i;

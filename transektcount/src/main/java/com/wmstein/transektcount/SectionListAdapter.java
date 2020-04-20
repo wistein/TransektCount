@@ -42,7 +42,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
 
     // preferences
     private boolean buttonSoundPref;
-    private String buttonAlertSound;
+    private String buttonSound;
     private SharedPreferences prefs;
     private boolean screenOrientL; // option for screen orientation
 
@@ -52,7 +52,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     private void getPrefs()
     {
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
-        buttonAlertSound = prefs.getString("alert_button_sound", null);
+        buttonSound = prefs.getString("button_sound", null);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
@@ -144,7 +144,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         public void onClick(final View v)
         {
             getPrefs();
-            buttonSound();
+            soundButtonSound();
 
             if (screenOrientL)
             {
@@ -171,7 +171,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         public void onClick(final View v)
         {
             getPrefs();
-            buttonSound();
+            soundButtonSound();
 
             sct = (Section) v.getTag();
             
@@ -212,16 +212,16 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     };
 
     // button sound
-    private void buttonSound()
+    private void soundButtonSound()
     {
         if (buttonSoundPref)
         {
             try
             {
                 Uri notification;
-                if (isNotBlank(buttonAlertSound) && buttonAlertSound != null)
+                if (isNotBlank(buttonSound) && buttonSound != null)
                 {
-                    notification = Uri.parse(buttonAlertSound);
+                    notification = Uri.parse(buttonSound);
                 }
                 else
                 {

@@ -19,14 +19,11 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-01-26
+ * Last edited on 2020-04-17
  */
 public class CountingWidget_head2 extends RelativeLayout
 {
-    private static final String TAG = "transektcountCountingWidget_head2";
-
     private TextView countHead2;
-
     public Count count;
 
     public CountingWidget_head2(Context context, AttributeSet attrs)
@@ -37,7 +34,6 @@ public class CountingWidget_head2 extends RelativeLayout
         Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_head2, this, true);
         countHead2 = findViewById(R.id.countHead2);
     }
-
 
     public void setCountHead2(Count count)
     {

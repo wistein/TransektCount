@@ -1,4 +1,4 @@
-Version 3.2.1 (2020-04-16)
+Version 3.2.1 (16.04.2020)
 - Code angepasst für eingeschränkten Speicher-Zugriff von Android 10
 - Verwendung von AndroidX-Bibliotheken
 - Bugs bei Anlegen einer neuen Abschnittsliste behoben  
