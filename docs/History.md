@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
 
+#### Version 3.2.3 (2020-04-22)
+- Background picture better scaled for long displays
+- Strings cleared up
+
 #### Version 3.2.2 (2020-04-20)
 - Preferences adapted for Android 10
 - .CSV-Export: In Totals line suppression of zeros 

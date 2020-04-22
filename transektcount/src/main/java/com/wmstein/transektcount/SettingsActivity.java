@@ -28,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     private boolean screenOrientL; // option for screen orientation
+    
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
@@ -35,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.settings);
 

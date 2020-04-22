@@ -17,9 +17,9 @@ import com.wmstein.transektcount.database.Count;
 import java.util.Objects;
 
 /****************************************************
- * Interface for widget_counting_head1.xml
+ * Interface for widget_counting_head2.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-04-17
+ * Last edited on 2020-04-20
  */
 public class CountingWidget_head2 extends RelativeLayout
 {

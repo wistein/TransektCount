@@ -2,6 +2,8 @@
 <!-- strings.xml German strings -->
 <resources>
 
+    <!-- generic -->
+    <string name="app_name">TransektCount</string>
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_new_section">Neuer Abschnitt</string>
     <string name="title_activity_meta">Meta-Daten</string>
@@ -12,12 +14,6 @@
     <string name="title_activity_count_options">CountOptionsActivity</string>
     <string name="title_activity_edit_section">EditSectionActivity</string>
     <string name="title_activity_add_species">AddSpeciesActivity</string>
-
-    <!-- generic -->
-    <string name="app_name">TransektCount</string>
-    <string name="customMissing">Dein Hintergrundbild wurde nicht gefunden; es wird der Standard-Hintergrund verwendet.</string>
-    <string name="customNotDefined">Es wurde kein Hintergrundbild gewählt; es wird der Standard-Hintergrund verwendet.</string>
-    <string name="customTooBig">Leider ist der interne Speicher für das gewählte Hintergrundbild zu klein.</string>
 
     <!-- WelcomeActivity -->
     <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>

@@ -11,9 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.Toast;
-
-import java.io.File;
 
 import androidx.preference.PreferenceManager;
 
@@ -22,7 +19,7 @@ import androidx.preference.PreferenceManager;
  * 
  * Based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2020-04-17
+ * last edit on 2020-04-22
  */
 public class TransektCountApplication extends Application
 {
@@ -68,7 +65,6 @@ public class TransektCountApplication extends Application
         bMapDraw = null;
 
         String backgroundPref = prefs.getString("pref_back", "default");
-        String pictPref = prefs.getString("imagePath", "");
         boolean screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
@@ -87,68 +83,33 @@ public class TransektCountApplication extends Application
             bMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             bMap.eraseColor(Color.BLACK);
             break;
-        case "custom":
-            if (!(pictPref.equals("")))
-            {
-                if (new File(pictPref).isFile())
-                {
-                    // This should hopefully stop crashes caused by large image files.
-                    try
-                    {
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inJustDecodeBounds = false;
-                        options.inPreferredConfig = Bitmap.Config.RGB_565;
-                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N)
-                            options.inDither = true;
-                        bMap = BitmapFactory.decodeFile(pictPref, options);
-                    } catch (OutOfMemoryError e)
-                    {
-                        Toast.makeText(this, getString(R.string.customTooBig), Toast.LENGTH_LONG).show();
-                        bMap = null;
-                        if (screenOrientL)
-                        {
-                            bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                        }
-                        else
-                        {
-                            bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
-                        }
-                    }
-                }
-                else
-                {
-                    Toast.makeText(this, getString(R.string.customMissing), Toast.LENGTH_LONG).show();
-                    if (screenOrientL)
-                    {
-                        bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                    }
-                    else
-                    {
-                        bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
-                    }
-                }
-            }
-            else
-            {
-                Toast.makeText(this, getString(R.string.customNotDefined), Toast.LENGTH_LONG).show();
-                if (screenOrientL)
-                {
-                    bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-                }
-                else
-                {
-                    bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
-                }
-            }
-            break;
         case "default":
             if (screenOrientL)
             {
-                bMap = decodeBitmap(R.drawable.transektcount_picturel, width, height);
-            }
-            else
+                // landscape
+                if ((double) width/height < 1.8)
+                {
+                    // normal screen size
+                    bMap = decodeBitmap(R.drawable.transektcount_picture_ln, width, height);
+                }
+                else
+                {
+                    // long screen
+                    bMap = decodeBitmap(R.drawable.transektcount_picture_ll, width, height);
+                }
+            } else
             {
-                bMap = decodeBitmap(R.drawable.transektcount_picture, width, height);
+                // portrait
+                if ((double) height/width < 1.8)
+                {
+                    // normal screen
+                    bMap = decodeBitmap(R.drawable.transektcount_picture_pn, width, height);
+                }
+                else
+                {
+                    // long screen
+                    bMap = decodeBitmap(R.drawable.transektcount_picture_pl, width, height);
+                }
             }
             break;
         }
@@ -158,12 +119,7 @@ public class TransektCountApplication extends Application
         return bMapDraw;
     }
 
-    public static SharedPreferences getPrefs()
-    {
-        return prefs;
-    }
-
-    // Scale bitmap
+    // Scale background bitmap
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
     {
         // Raw height and width of image
@@ -199,14 +155,12 @@ public class TransektCountApplication extends Application
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        try
-        {
-            return BitmapFactory.decodeResource(getResources(), resId, options);
-        } catch (OutOfMemoryError e)
-        {
-            Toast.makeText(getApplicationContext(), getString(R.string.customTooBig), Toast.LENGTH_LONG).show();
-            return null;
-        }
+        return BitmapFactory.decodeResource(getResources(), resId, options);
+    }
+
+    public static SharedPreferences getPrefs()
+    {
+        return prefs;
     }
 
 }

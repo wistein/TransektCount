@@ -61,11 +61,18 @@ _ Subtitle
   _ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   _
 
+$ 3.2.3
+  % Version 3.2.3
+  _ 2020-04-22
+		* Background picture better scaled for long displays
+		* Strings cleared up
+
 $ 3.2.2
   % Version 3.2.2
   _ 2020-04-20
 		* Preferences adapted for Android 10
 		* .CSV-Export: In Totals line suppression of zeros 
+		* Strings cleared up
 		* Docs updated
 
 $ 3.2.1
