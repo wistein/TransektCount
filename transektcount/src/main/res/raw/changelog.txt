@@ -40,7 +40,7 @@ _ Subtitle
   _
   _ email: stein.wm@web.de
   _
-  & Attention: Modified directory! 
+  & Attention: Since version 3.2.0 modified file directory! 
   	! For compatibility reasons with Android 10 file access had to be changed to an app-specific directoy. Now database files (.db) are stored in /storage/emulated/0/Android/data/com.wmstein.transektcount/files/. For further infos see Help.
   & ------------------------------
   _

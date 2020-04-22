@@ -40,7 +40,7 @@ _ Subtitle
   _
   _ email: stein.wm@web.de
   _
-  & Achtung: Geändertes Verzeichnis!
+  & Achtung: Seit Version 3.2.0 Geändertes Dateiverzeichnis!
     ! Wegen der Kompatibilität mit Android 10 musste der Dateizugriff auf ein App-spezifisches Verzeichnis geändert werden. Datenbank-Dateien (.db) liegen nun in /storage/emulated/0/Android/data/com.wmstein.transektcount/files/. Weitere Infos in der Hilfe.
   & --------------------------------
   _
