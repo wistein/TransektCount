@@ -1,0 +1,2 @@
+Version 3.2.4 (29.04.2020)
+- Weitere Schmetterlingsabbildungen integriert

@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
 
+#### Version 3.2.4 (2020-04-29)
+- More butterfly pictures integrated
+
 #### Version 3.2.3 (2020-04-22)
 - Background picture better scaled for long displays
 - Strings cleared up
