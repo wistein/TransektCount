@@ -63,8 +63,9 @@ _ Subtitle
 
 $ 3.2.4
   % Version 3.2.4
-  _ 29.04.2020
+  _ 06.05.2020
 		* Weitere Schmetterlingsabbildungen integriert
+		* Integrierte Auswahlliste der Arten vergrößert
 
 $ 3.2.3
   % Version 3.2.3
