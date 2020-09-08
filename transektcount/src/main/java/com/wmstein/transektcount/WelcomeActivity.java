@@ -60,7 +60,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2020-04-20
+ * last edited on 2020-05-21
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -893,7 +893,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 else
                     strsummfe = "";
 
-                if (summ > 0)
+                if (summe > 0)
                     strsumme = Integer.toString(summe);
                 else
                     strsumme = "";

@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
 
+#### Version 3.2.5 (2020-09-09)
+- Bug fix in csv-export
+- Project adaption for Android Studio 4.0.1 and Gradle 6.1.1
+
 #### Version 3.2.4 (2020-05-06)
 - More butterfly pictures integrated
 - Initial integrated list of species enlarged

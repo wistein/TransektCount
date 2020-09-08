@@ -1,0 +1,3 @@
+Version 3.2.5 (09.09.2020)
+- Fehler in csv-Export behoben
+- Projekt-Anpassung für Android Studio 4.0.1 and Gradle 6.1.1
