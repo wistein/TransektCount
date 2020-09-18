@@ -194,7 +194,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         enw.setSectionNotes(count.notes);
         enw.setWidgetNotes(getString(R.string.notesSpecies));
         enw.setHint(getString(R.string.notesHint));
-        enw.requestFocus();
+//        enw.requestFocus();
 
         static_widget_area.addView(enw);
 

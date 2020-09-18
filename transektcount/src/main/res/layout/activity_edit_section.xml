@@ -1,69 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- activity_edit_section is used by EditSectionActivity.java in conjunction with 
+<?xml version="1.0" encoding="utf-8"?><!-- activity_edit_section is used by EditSectionActivity.java in conjunction with 
     widget_edit_title.xml, widget_edit_notes.xml and widget_edit_count.xml -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:id="@+id/editingScreen"
-            android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editSect"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- insert section title and notes -->
+    <LinearLayout
+        android:id="@+id/editingNotesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:fillViewport="true"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <Space
+        android:layout_width="10dp"
+        android:layout_height="5dp" />
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
 
-        <!-- insert section title and notes -->
-        <LinearLayout
-            android:id="@+id/editingNotesLayout"
-            android:orientation="vertical"
-            android:fillViewport="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
+        <Button
+            android:id="@+id/addNewCountButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:onClick="newCount"
+            android:text="@string/labelNewCountButton">
+        </Button>
+
+        <Button
+            android:id="@+id/newsectSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:onClick="saveAndExit"
+            android:text="@string/labelEditsectSaveButton">
+        </Button>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="10dp"
+        android:layout_height="5dp" />
+
+    <ScrollView
+        android:id="@+id/editingScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <!-- insert counts as they are created in here -->
         <LinearLayout
             android:id="@+id/editingCountsLayout"
-            android:orientation="vertical"
-            android:fillViewport="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="10dp"/>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:shrinkColumns="*"
-            android:stretchColumns="*">
-
-            <Button
-                android:id="@+id/addNewCountButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="newCount"
-                android:layout_weight="1"
-                android:text="@string/labelNewCountButton"
-                android:maxLines="1">
-            </Button>
-
-            <Button
-                android:id="@+id/newsectSaveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="saveAndExit"
-                android:layout_weight="1"
-                android:text="@string/labelEditsectSaveButton"
-                android:maxLines="1">
-            </Button>
+            android:orientation="vertical">
         </LinearLayout>
-        
-    </LinearLayout>
-    
-</ScrollView>
+    </ScrollView>
 
+</LinearLayout>

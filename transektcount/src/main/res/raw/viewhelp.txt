@@ -110,7 +110,7 @@ $ 7
   _ 
   ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB. 
   _ 
-  ! Android-specifically, TransektCount stores the data always in a single, equally named SQlite-DB file in the app's own storage area. As this file cannot be read or changed directly by the user, exporting the data to files in a user reachable storage area is necessary.
+  ! Android-specifically, TransektCount stores the data always in a single, equally named SQlite-DB file in the app's own protected storage area. As this file cannot be read or changed directly by the user, exporting the data to files in a user accessible storage area is necessary.
   _ 
   ! By “Export Basic DB” you may export the DB as empty "Basic DB" which is reasonable, when to take into account changes of the transect structure or new species you may have entered.
   _ 

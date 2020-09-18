@@ -61,7 +61,7 @@
     <string name="fileSize">Size</string>
 
     <!-- EditMetaActivity -->
-    <string name="editHeadTitle">Meta Data</string>
+    <string name="editHeadTitle">Meta Data of Inspection</string>
     <string name="transectnumber">Transect No.</string>
     <string name="inspector">Inspector Name</string>
     <string name="temperature">Temp. (°C)</string>
@@ -103,8 +103,8 @@
     <string name="send_to">Share notes</string>
 
     <!-- EditSectionActivity -->
-    <string name="titleEdit">List Name (Transect section)</string>
-    <string name="notesHere">List Notes</string>
+    <string name="titleEdit">Name of Transect Section)</string>
+    <string name="notesHere">Transect Section Notes</string>
     <string name="notesHint">Type notes here&#8230;</string>
     <string name="deleteCount">Delete Item</string>
     <string name="reallyDeleteCount">Are you sure? This count will be deleted immediately.</string>

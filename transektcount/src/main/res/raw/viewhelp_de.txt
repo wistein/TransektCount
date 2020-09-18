@@ -89,10 +89,10 @@ $ 8
   ! Mit dem Bleistift-Button in der Kopfzeile der Zählerseite (sowie mit Bleistift-Button pro Abschnitt in der Abschnittsübersicht) wird die Abschnitt-editieren-Seite aufgerufen. Hier lassen sich Bemerkungen zum Abschnitt hinzufügen sowie Name und Art-Einträge editieren. Abschnittsbemerkungen werden unterhalb der Kopfzeile angezeigt.
   _
   ! Der Bleistift-Button unter der Spezies-Namenszeile auf der Zählerseite ruft die Art-editieren-Seite auf. Hier können Art-spezifische Bemerkungen hinzugefügt und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden.
-  ! Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen des eingestellten Zahl von Faltern Summer aller ♂ und ♀) im internen Zählbereich einen entsprechenden Hinweis anzeigen (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.
-  ! Ein Art-spezifischer Kommentar wird anschließend auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet.
+  ! Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen der eingestellten Zahl von Faltern (Summe aller ♂ und ♀) im internen Zählbereich einen entsprechenden Hinweis anzeigen (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.
+  ! Ein ggf. eingegebener Art-spezifischer Kommentar wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet.
   _ 
-  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke. TransektCount sollte möglichst über seine Startseite verlassen werden, damit die Datenbank geschlossen ist.
+  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke. TransektCount sollte möglichst über seine Startseite verlassen werden, damit die Datenbank sicher geschlossen ist.
   _ 
   ! Einige App-Seiten haben Funktions-Icons in der Kopfzeile und/oder ein spezifisches Kontext-Menü, das jeweils mit dem 3-Punkt-Symbol oben rechts aufgerufen werden kann.
   _ 
@@ -107,9 +107,9 @@ $ 7
   _ 
   !Die Seite „Einstellungen“ wird von einigen App-Seiten aus erreicht. Hier können das Aussehen und Verhalten dem eigenen Geschmack angepasst werden, z. B. Sounds, Alarme, Sortierfolge der Listen oder Rechts-/Linkshänder-Darstellung der Zählerseite. 
   _ 
-  ! Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Daten“ die begehungsspezifischen Metadaten und alle Zähldaten gelöscht werden. Alternativ kann die angelegte Basis-Datenbank importiert werden.
+  ! Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Daten“ die begehungsspezifischen Metadaten und alle Zählerdaten gelöscht werden. Alternativ kann die angelegte Basis-Datenbank importiert werden.
   _ 
-  ! TransektCount arbeitet Android-spezifisch intern immer mit einer gleichnamigen DB-Datei im App-eigenen, für den Anwender gesperrten Speicherbereich. Deshalb sind Export und Import der Datenbanken in/von durch den Anwender erreichbaren Speicherbereich erforderlich. Auch die Verwendung verschiedener Anwenderdateien ist nur per Im- und Export möglich.
+  ! TransektCount arbeitet Android-spezifisch intern immer mit einer gleichnamigen SQLite-DB-Datei im App-eigenen, für den Anwender gesperrten Speicherbereich. Deshalb sind DB-Export in den und DB-Import aus dem Anwender erreichbaren Speicherbereich erforderlich. Auch die Verwendung verschiedener Anwender-DB-Dateien (z. B. für verschiedene Transekte) ist nur per Im- und Export möglich.
   _ 
   ! Der Export der DB als Basis-DB ist sinnvoll, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten hinzugefügt wurden. 
   _ 
@@ -136,10 +136,10 @@ $ 7
   ! - Komma als Trennzeichen,
   ! - Anführungszeichen zur Texterkennung, 
   ! - Dateiursprung im Format "Unicode UTF-8" und
-	! - alle Daten als Text
+  ! - alle Daten als Text
   ! zu achten.
   _
-  ! Die Tabelle ist optimiert für die einfache Übertragung der Zählergebnisse in die Tagfalter-Monitoring Webseite.
+  ! Die Tabelle ist optimiert für eine möglichst einfache Übertragung der Zählergebnisse in die Tagfalter-Monitoring Webseite.
   
 $ END_OF_VIEW_HELP
   </body>

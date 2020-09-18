@@ -8,8 +8,8 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 325
-        versionName = "3.2.5"
+        versionCode 326
+        versionName = "3.2.6"
     }
 
     buildTypes {
@@ -48,8 +48,8 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
 }

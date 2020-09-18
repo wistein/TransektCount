@@ -135,8 +135,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             params.screenBrightness = 1.0f;
             getWindow().setAttributes(params);
         }
-
-        ScrollView counting_screen = findViewById(R.id.editingScreen);
+        
+        LinearLayout counting_screen = findViewById(R.id.editSect);
+//        ScrollView counting_screen = findViewById(R.id.editingScreen); // old layout
 
         if (screenOrientL)
         {
@@ -212,7 +213,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.setSectionNotes(section.notes);
         enw.setWidgetNotes(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
-        enw.requestFocus();
+//        enw.requestFocus();
         notes_area2.addView(enw);
 
         // load the sorted species data

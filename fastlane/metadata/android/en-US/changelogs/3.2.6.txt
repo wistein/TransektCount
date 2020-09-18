@@ -1,0 +1,4 @@
+Version 3.2.6 (2020-09-18)
+- Some wordings improved
+- Clearer layout for Edit Transect Section
+- Outdated code names updated

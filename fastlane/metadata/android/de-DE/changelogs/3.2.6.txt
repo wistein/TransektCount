@@ -1,0 +1,4 @@
+Version 3.2.6 (18.09.2020)
+- Einige Texte verbessert
+- Übersichtlicheres Layout für Transektabschnitt-Editor
+- Veraltete Code-Bezeichnungen aktualisiert

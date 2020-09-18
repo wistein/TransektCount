@@ -2,7 +2,7 @@
 <!-- listview_section_row.xml is used by ListSectionActivity.java.
      Shows Line of List of transect sections -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@drawable/list_background"
               android:orientation="horizontal"

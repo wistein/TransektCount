@@ -40,7 +40,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -74,7 +74,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -107,7 +107,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -149,7 +149,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -184,7 +184,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -218,7 +218,7 @@
                 android:paddingTop="0dp">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:textStyle="bold"

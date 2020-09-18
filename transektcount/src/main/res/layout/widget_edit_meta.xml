@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/widgetTemp1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"
@@ -71,7 +71,7 @@
 
             <TextView
                 android:id="@+id/widgetWind1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"
@@ -105,7 +105,7 @@
 
             <TextView
                 android:id="@+id/widgetClouds1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"
@@ -149,7 +149,7 @@
 
             <TextView
                 android:id="@+id/widgetDate1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"
@@ -186,7 +186,7 @@
 
             <TextView
                 android:id="@+id/widgetSTime1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"
@@ -222,7 +222,7 @@
 
             <TextView
                 android:id="@+id/widgetETime1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:paddingBottom="5dp"

@@ -9,14 +9,14 @@
               android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <!-- insert the section notes in here -->
         <LinearLayout
             android:id="@+id/sectionNotesLayout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:orientation="vertical"
@@ -33,7 +33,7 @@
         <!-- insert spinner widget_counting_head1 here -->
         <Spinner
             android:id="@+id/countHead1Spinner"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
 
@@ -48,7 +48,7 @@
         <!-- insert head2 in here -->
         <LinearLayout
             android:id="@+id/countHead2Layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:orientation="vertical"
@@ -67,14 +67,14 @@
                     android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <!-- insert the internal counts in here -->
                 <LinearLayout
                     android:id="@+id/countCountiLayout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:orientation="vertical"
@@ -90,7 +90,7 @@
 
                 <LinearLayout
                     android:id="@+id/countHead3Layout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:orientation="vertical"
@@ -107,7 +107,7 @@
                 <!-- insert the external counts in here -->
                 <LinearLayout
                     android:id="@+id/countCounteLayout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:orientation="vertical">
@@ -124,7 +124,7 @@
                 <!-- insert the species notes in here -->
                 <LinearLayout
                     android:id="@+id/countNotesLayout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:orientation="vertical"
@@ -133,7 +133,7 @@
                 <!-- insert the alert notes in here -->
                 <LinearLayout
                     android:id="@+id/alertNotesLayout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:orientation="vertical"
