@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +46,7 @@ import androidx.core.app.NavUtils;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2020-04-09
+ * last edited on 2020-09-19
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -631,7 +630,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        ScrollView counting_screen = findViewById(R.id.editingScreen);
+        LinearLayout counting_screen = findViewById(R.id.editSect);
+//        ScrollView counting_screen = findViewById(R.id.editingScreen);
         dupPref = prefs.getBoolean("pref_duplicate", true);
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
         if (screenOrientL)
