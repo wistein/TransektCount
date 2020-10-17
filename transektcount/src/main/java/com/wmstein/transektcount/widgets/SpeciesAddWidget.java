@@ -99,7 +99,7 @@ public class SpeciesAddWidget extends LinearLayout implements Serializable
     {
         try
         {
-            Class res = R.drawable.class;
+            Class<R.drawable> res = R.drawable.class;
             Field idField = res.getField(rName);
             return idField.getInt(null);
         } catch (Exception e)

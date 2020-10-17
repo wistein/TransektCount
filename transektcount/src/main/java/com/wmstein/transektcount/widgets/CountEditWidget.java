@@ -22,11 +22,11 @@ import java.util.Objects;
  */
 public class CountEditWidget extends LinearLayout implements Serializable
 {
-    private transient EditText countName;
-    private transient EditText countNameG;
-    private transient EditText countCode;
+    private final transient EditText countName;
+    private final transient EditText countNameG;
+    private final transient EditText countCode;
     private final transient ImageView pSpecies;
-    private ImageButton deleteButton;
+    private final ImageButton deleteButton;
     public int countId;
 
     public CountEditWidget(Context context, AttributeSet attrs)
@@ -95,7 +95,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
     {
         try
         {
-            Class res = R.drawable.class;
+            Class<R.drawable> res = R.drawable.class;
             Field idField = res.getField(rName);
             return idField.getInt(null);
         } catch (Exception e)

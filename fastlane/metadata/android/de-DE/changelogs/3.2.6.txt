@@ -1,4 +1,7 @@
-Version 3.2.6 (18.09.2020)
+Version 3.2.6 (17.10.2020)
 - Einige Texte verbessert
 - Übersichtlicheres Layout für Transektabschnitt-Editor
 - Veraltete Code-Bezeichnungen aktualisiert
+- Verwendung von Android Studio 4.1 mit build:gradle:4.0.2 
+  anstelle von 4.1 (da dort Bilder-Ladefunktion defekt)
+ 

@@ -63,10 +63,12 @@ _ Subtitle
 
 $ 3.2.6
   % Version 3.2.6
-  _ 2020-09-18
+  _ 2020-10-17
 		* Some wordings improved
 		* Clearer layout for Edit Transect Section
 		* Outdated code names updated
+		* Using Android Studio 4.1 with build:gradle:4.0.2 instead of 4.1
+		  (as loading picture function is broken there) 
 
 $ 3.2.5
   % Version 3.2.5

@@ -23,24 +23,24 @@ import java.util.Objects;
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
-    private TextView txtSectName;
-    private TextView txtSectRem;
-    private TextView txtSpecName;
-    private TextView txtSpecNameG;
-    private ImageView picSpecies;
-    private TextView specCountf1i;
-    private TextView specCountf2i;
-    private TextView specCountf3i;
-    private TextView specCountpi;
-    private TextView specCountli;
-    private TextView specCountei;
-    private TextView txtSpecRem;
-    private TextView specCountf1e;
-    private TextView specCountf2e;
-    private TextView specCountf3e;
-    private TextView specCountpe;
-    private TextView specCountle;
-    private TextView specCountee;
+    private final TextView txtSectName;
+    private final TextView txtSectRem;
+    private final TextView txtSpecName;
+    private final TextView txtSpecNameG;
+    private final ImageView picSpecies;
+    private final TextView specCountf1i;
+    private final TextView specCountf2i;
+    private final TextView specCountf3i;
+    private final TextView specCountpi;
+    private final TextView specCountli;
+    private final TextView specCountei;
+    private final TextView txtSpecRem;
+    private final TextView specCountf1e;
+    private final TextView specCountf2e;
+    private final TextView specCountf3e;
+    private final TextView specCountpe;
+    private final TextView specCountle;
+    private final TextView specCountee;
 
     public Section section;
 
@@ -233,7 +233,7 @@ public class ListSpeciesWidget extends RelativeLayout
     {
         try
         {
-            Class res = R.drawable.class;
+            Class<R.drawable> res = R.drawable.class;
             Field idField = res.getField(rName);
             return idField.getInt(null);
         } catch (Exception e)

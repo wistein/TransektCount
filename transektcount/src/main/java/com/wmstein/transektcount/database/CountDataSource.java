@@ -41,8 +41,8 @@ public class CountDataSource
 {
     // Database fields
     private SQLiteDatabase database;
-    private DbHelper dbHandler;
-    private String[] allColumns = {
+    private final DbHelper dbHandler;
+    private final String[] allColumns = {
         C_ID,
         C_SECTION_ID,
         C_NAME,
@@ -835,7 +835,7 @@ public class CountDataSource
     {
         try
         {
-            Class res = R.drawable.class;
+            Class<R.drawable> res = R.drawable.class;
             Field idField = res.getField(rName);
             return idField.getInt(null);
         } catch (Exception e)

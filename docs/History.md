@@ -2,10 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
 
-#### Version 3.2.6 (2020-09-18)
+#### Version 3.2.6 (2020-10-17)
 - Some wordings improved
 - Clearer layout for Edit Transect Section
 - Outdated code names updated
+- Using Android Studio 4.1 with build:gradle:4.0.2 instead of 4.1
+  (as loading picture function is broken there) 
 
 #### Version 3.2.5 (2020-09-09)
 - Bug fix in csv-export
