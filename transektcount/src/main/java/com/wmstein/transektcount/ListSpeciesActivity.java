@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2020-04-09
+ * last edited on 2020-10-18
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -88,7 +88,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         ScrollView listSpec_screen = findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
 
-        //noinspection ConstantConditions
         getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
 
         spec_area = findViewById(R.id.listSpecLayout);
@@ -289,5 +288,5 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
-
+    
 }

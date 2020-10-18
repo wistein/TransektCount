@@ -46,7 +46,7 @@ import androidx.core.app.NavUtils;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2020-09-19
+ * last edited on 2020-10-18
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {

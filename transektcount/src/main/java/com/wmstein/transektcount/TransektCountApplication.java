@@ -15,25 +15,28 @@ import android.view.WindowManager;
 import androidx.preference.PreferenceManager;
 
 /**********************************************************
- * Handle background image and prefs 
+ * Handle background image, prefs and get image ids 
  * 
- * Based on BeeCountApplication.java by milo on 14/05/2014.
+ * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2020-04-22
+ * last edit on 2020-10-18
  */
 public class TransektCountApplication extends Application
 {
     private static final String TAG = "TransektCountAppl";
     private static SharedPreferences prefs;
+    private static Context context;
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;
     int width;
     int height;
+    int resID;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
+        TransektCountApplication.context = getApplicationContext();
         bMapDraw = null;
         bMap = null;
         try
@@ -46,6 +49,12 @@ public class TransektCountApplication extends Application
         }
     }
 
+    // Provide access to Application Context
+    public static Context getAppContext()
+    {
+        return TransektCountApplication.context;
+    }
+    
     // The idea here is to keep bMapDraw around as a pre-prepared bitmap, only setting it up
     // when the user's settings change or when the application starts up.
     public BitmapDrawable getBackground()
@@ -161,6 +170,21 @@ public class TransektCountApplication extends Application
     public static SharedPreferences getPrefs()
     {
         return prefs;
+    }
+
+
+    // Get resource ID from resource name
+    public int getResId(String rName) // non-static method
+    {
+        try
+        {
+            resID = getAppContext().getResources().getIdentifier(rName, "drawable", 
+                getAppContext().getPackageName());
+            return resID;
+        } catch (Exception e)
+        {
+            return 0;
+        }
     }
 
 }

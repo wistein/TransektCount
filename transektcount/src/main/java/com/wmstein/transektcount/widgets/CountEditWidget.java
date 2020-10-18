@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.wmstein.transektcount.R;
+import com.wmstein.transektcount.TransektCountApplication;
 import com.wmstein.transektcount.database.Count;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 /****************************************************
  * CountEditWidget is used by EditSectionActivity
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-03-23
+ * Last edited on 2020-10-18
  */
 public class CountEditWidget extends LinearLayout implements Serializable
 {
@@ -83,24 +83,13 @@ public class CountEditWidget extends LinearLayout implements Serializable
     {
         String rname = "p" + spec.code; // species picture resource name
 
-        int resId = getResId(rname);
+        // make instance of class TransektCountApplication to reference non-static method 
+        TransektCountApplication transektCountApp = new TransektCountApplication();
+
+        int resId = transektCountApp.getResId(rname);
         if (resId != 0)
         {
             pSpecies.setImageResource(resId);
-        }
-    }
-
-    // Get resource ID from resource name
-    private int getResId(String rName)
-    {
-        try
-        {
-            Class<R.drawable> res = R.drawable.class;
-            Field idField = res.getField(rName);
-            return idField.getInt(null);
-        } catch (Exception e)
-        {
-            return 0;
         }
     }
 

@@ -23,6 +23,7 @@ import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.widgets.SpeciesAddWidget;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -334,6 +335,20 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         add_screen.setBackground(null);
         bg = new BitmapDrawable(add_screen.getResources(), bMap);
         add_screen.setBackground(bg);
+    }
+
+    // Get resource ID from resource name
+    public static int getResId(String rName)
+    {
+        try
+        {
+            Class<R.drawable> res = R.drawable.class;
+            Field idField = res.getField(rName);
+            return idField.getInt(null);
+        } catch (Exception e)
+        {
+            return 0;
+        }
     }
 
 }

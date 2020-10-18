@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.wmstein.transektcount.R;
+import com.wmstein.transektcount.TransektCountApplication;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2019-07-30.
+ * last edited on 2020-10-18.
  */
 public class CountDataSource
 {
@@ -62,6 +61,8 @@ public class CountDataSource
         C_NOTES,
         C_NAME_G
     };
+
+    private final TransektCountApplication transektCountApp = new TransektCountApplication();
 
     public CountDataSource(Context context)
     {
@@ -697,8 +698,8 @@ public class CountDataSource
             String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = getResId(rname);
-            int resId0 = getResId("p00000");
+            int resId = transektCountApp.getResId(rname);
+            int resId0 = transektCountApp.getResId("p00000");
             
             if (resId != 0)
             {
@@ -731,8 +732,8 @@ public class CountDataSource
             String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = getResId(rname);
-            int resId0 = getResId("p00000");
+            int resId = transektCountApp.getResId(rname);
+            int resId0 = transektCountApp.getResId("p00000");
 
             if (resId != 0)
             {
@@ -765,8 +766,8 @@ public class CountDataSource
             String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = getResId(rname);
-            int resId0 = getResId("p00000");
+            int resId = transektCountApp.getResId(rname);
+            int resId0 = transektCountApp.getResId("p00000");
 
             if (resId != 0)
             {
@@ -799,8 +800,8 @@ public class CountDataSource
             String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = getResId(rname);
-            int resId0 = getResId("p00000");
+            int resId = transektCountApp.getResId(rname);
+            int resId0 = transektCountApp.getResId("p00000");
 
             if (resId != 0)
             {
@@ -828,20 +829,6 @@ public class CountDataSource
         Count count = cursorToCount(cursor);
         cursor.close();
         return count;
-    }
-
-    // Get resource ID from resource name
-    private int getResId(String rName)
-    {
-        try
-        {
-            Class<R.drawable> res = R.drawable.class;
-            Field idField = res.getField(rName);
-            return idField.getInt(null);
-        } catch (Exception e)
-        {
-            return 0;
-        }
     }
 
 }
