@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Last edited 2021-01-26 -->
+
 <manifest package="com.wmstein.transektcount"
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +23,7 @@
         android:supportsRtl="true"
         android:resizeableActivity="false"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         
         <activity
             android:name=".WelcomeActivity"
@@ -35,7 +37,7 @@
         
         <activity
             android:name="com.wmstein.filechooser.AdvFileChooser"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_filechooser"
             android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

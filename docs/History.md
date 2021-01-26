@@ -1,12 +1,12 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2020, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2021, Wilhelm Stein
 
-#### Version 3.2.6 (2020-10-18)
+#### Version 3.2.6 (2021-01-26)
 - Some wordings improved
 - Clearer layout for Edit Transect Section
 - Outdated code names updated
-- Project adaption for Android Studio 4.1 and Gradle 6.5
+- Project adaption for Android Studio 4.1.2 and Gradle 6.5
 - Fix for broken loading picture function since Gradle 6.5
 
 #### Version 3.2.5 (2020-09-09)

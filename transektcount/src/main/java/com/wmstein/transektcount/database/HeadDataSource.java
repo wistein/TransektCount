@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 /***********************************
  * Created by wmstein on 31.03.2016.
+ * Last edited 2021-01-26
  */
 public class HeadDataSource
 {
     // Database fields
     private SQLiteDatabase database;
-    private DbHelper dbHandler;
-    private String[] allColumns = {
+    private final DbHelper dbHandler;
+    private final String[] allColumns = {
         DbHelper.H_ID,
         DbHelper.H_TRANSECT_NO,
         DbHelper.H_INSPECTOR_NAME

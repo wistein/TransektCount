@@ -34,14 +34,15 @@ import androidx.preference.PreferenceManager;
  @author: Karsten Priegnitz
  @see: http://code.google.com/p/android-change-log/
  <p>
- Last change by wmstein on 2020-04-17
+ Last change by wmstein on 2021-01-26
  */
 public class ChangeLog
 {
     private static final String TAG = "ChangeLog";
 
     private final Context context;
-    private String lastVersion, thisVersion;
+    private final String lastVersion;
+    private String thisVersion;
 
     // key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";

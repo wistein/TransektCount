@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**********************************
- * Created by milo on 05/05/2014.
- * Changed by wmstein on 18.02.2016
+ * Created by milo on 2014-05-05.
+ * Changed by wmstein on 2016-02-18
+ * Last edited 2021-01-26
  */
 public class AlertDataSource
 {
     // Database fields
     private SQLiteDatabase database;
-    private DbHelper dbHandler;
-    private String[] allColumns = {
+    private final DbHelper dbHandler;
+    private final String[] allColumns = {
         DbHelper.A_ID,
         DbHelper.A_COUNT_ID,
         DbHelper.A_ALERT,

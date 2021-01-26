@@ -20,22 +20,22 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_e.xml
  * Created by wmstein on 18.12.2016
- * Last edited on 2020-04-17
+ * Last edited on 202-01-26
  */
 public class CountingWidget_e extends RelativeLayout
 {
-    private TextView namef1e;
-    private TextView namef2e;
-    private TextView namef3e;
-    private TextView namepe;
-    private TextView namele;
-    private TextView nameee;
-    private AutoFitText countCountf1e; // external counters
-    private AutoFitText countCountf2e;
-    private AutoFitText countCountf3e;
-    private AutoFitText countCountpe;
-    private AutoFitText countCountle;
-    private AutoFitText countCountee;
+    private final TextView namef1e;
+    private final TextView namef2e;
+    private final TextView namef3e;
+    private final TextView namepe;
+    private final TextView namele;
+    private final TextView nameee;
+    private final AutoFitText countCountf1e; // external counters
+    private final AutoFitText countCountf2e;
+    private final AutoFitText countCountf3e;
+    private final AutoFitText countCountpe;
+    private final AutoFitText countCountle;
+    private final AutoFitText countCountee;
 
     public Count count;
 

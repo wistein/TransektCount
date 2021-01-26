@@ -29,15 +29,15 @@ import static java.lang.Long.toHexString;
  * SectionListAdapter is called from ListSectionActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2020-04-09
+ * Last edited on 2021-01-26
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountSectListAdapt";
-    private Context context;
-    private int layoutResourceId;
-    private List<Section> sections;
-    private Context mContext;
+    private final Context context;
+    private final int layoutResourceId;
+    private final List<Section> sections;
+    private final Context mContext;
     private Section sct;
 
     // preferences
@@ -138,7 +138,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     }
 
     // Start counting by clicking on title
-    private View.OnClickListener mOnTitleClickListener = new View.OnClickListener()
+    private final View.OnClickListener mOnTitleClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(final View v)
@@ -164,7 +164,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     };
 
     // Edit section by clicking on edit button
-    private View.OnClickListener mOnEditClickListener = new View.OnClickListener()
+    private final View.OnClickListener mOnEditClickListener = new View.OnClickListener()
     {
         @SuppressLint({"LongLogTag", "ApplySharedPref"})
         @Override
@@ -190,7 +190,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     };
 
     // Delete section by clicking on delete button
-    private View.OnClickListener mOnDeleteClickListener = new View.OnClickListener()
+    private final View.OnClickListener mOnDeleteClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)

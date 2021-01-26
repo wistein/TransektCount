@@ -36,7 +36,7 @@ _ Subtitle
   <body>
 
   % TransektCount
-  _ Copyright (C) 2016-2020, Wilhelm Stein
+  _ Copyright (C) 2016-2021, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
@@ -63,11 +63,11 @@ _ Subtitle
 
 $ 3.2.6
   % Version 3.2.6
-  _ 18.10.2020
+  _ 26.01.2021
 		* Einige Texte verbessert
 		* Übersichtlicheres Layout für Transektabschnitt-Editor
 		* Veraltete Code-Bezeichnungen aktualisiert
-		* Projekt-Anpassung für Android Studio 4.1 und Gradle 6.5
+		* Projekt-Anpassung für Android Studio 4.1.2 und Gradle 6.5
 		* Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
 
 $ 3.2.5

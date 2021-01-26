@@ -1,5 +1,6 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,12 +20,13 @@ import androidx.preference.PreferenceManager;
  * 
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2020-10-18
+ * last edit on 2021-01-26
  */
 public class TransektCountApplication extends Application
 {
     private static final String TAG = "TransektCountAppl";
     private static SharedPreferences prefs;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;

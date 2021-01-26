@@ -29,11 +29,12 @@ import androidx.appcompat.app.AppCompatActivity;
 /****************************************************
  * ListSpeciesActivity shows list of counting results
  * Created by wmstein on 2016-03-15,
- * last edited on 2020-10-18
+ * last edited on 2021-01-26
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     //private static final String TAG = "transektcountListSpecAct"; // for future use
+    @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 

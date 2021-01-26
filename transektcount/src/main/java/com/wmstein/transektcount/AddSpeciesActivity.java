@@ -23,7 +23,6 @@ import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.widgets.SpeciesAddWidget;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,11 +40,12 @@ import androidx.core.app.NavUtils;
  * by 3 interdependent and correlated arrays in arrays.xml
  *
  * Created for TourCount by wmstein on 2019-04-12,
- * last edited on 2020-04-15
+ * last edited on 2021-01-26
  */
 public class AddSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "TransektCountAddSpecAct";
+    @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
 
     private LinearLayout add_area;
@@ -336,19 +336,5 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         bg = new BitmapDrawable(add_screen.getResources(), bMap);
         add_screen.setBackground(bg);
     }
-
-    // Get resource ID from resource name
-    public static int getResId(String rName)
-    {
-        try
-        {
-            Class<R.drawable> res = R.drawable.class;
-            Field idField = res.getField(rName);
-            return idField.getInt(null);
-        } catch (Exception e)
-        {
-            return 0;
-        }
-    }
-
+    
 }

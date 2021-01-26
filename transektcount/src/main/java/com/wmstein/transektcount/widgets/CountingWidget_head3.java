@@ -17,11 +17,11 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_head3.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-04-17
+ * Last edited on 2021-01-26
  */
 public class CountingWidget_head3 extends RelativeLayout
 {
-    private TextView countHead3;
+    private final TextView countHead3;
 
     public CountingWidget_head3(Context context, AttributeSet attrs)
     {

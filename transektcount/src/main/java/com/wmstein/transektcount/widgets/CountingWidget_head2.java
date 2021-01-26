@@ -19,11 +19,11 @@ import java.util.Objects;
 /****************************************************
  * Interface for widget_counting_head2.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-04-20
+ * Last edited on 2021-01-26
  */
 public class CountingWidget_head2 extends RelativeLayout
 {
-    private TextView countHead2;
+    private final TextView countHead2;
     public Count count;
 
     public CountingWidget_head2(Context context, AttributeSet attrs)

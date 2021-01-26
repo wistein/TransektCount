@@ -9,13 +9,10 @@ import android.util.Log;
 import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
-import java.util.Locale;
-
-
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2020-04-09
+ * Last edited on 2021-01-26
  */
 public class DbHelper extends SQLiteOpenHelper
 {
@@ -25,7 +22,7 @@ public class DbHelper extends SQLiteOpenHelper
     //DATABASE_VERSION 3: Column temp changed to tempe as 'temp' seems to have a reserved term conflict
     //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names 
     private static final int DATABASE_VERSION = 4;
-    private Context mContext;
+    private final Context mContext;
 
     // tables
     public static final String SECTION_TABLE = "sections";

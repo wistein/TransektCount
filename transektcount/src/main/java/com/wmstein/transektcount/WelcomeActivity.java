@@ -60,11 +60,12 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2020-05-21
+ * last edited on 2021-01-26
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
     private static final String TAG = "TransektCountWelcomeAct";
+    @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
 
     // Permission dispatcher mode modePerm: 
@@ -81,7 +82,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     ViewHelp vh;
     private static final int FILE_CHOOSER = 11;
 
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     public boolean doubleBackToExitPressedOnce;
 

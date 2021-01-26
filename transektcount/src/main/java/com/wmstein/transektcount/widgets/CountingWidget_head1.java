@@ -20,18 +20,18 @@ import androidx.annotation.NonNull;
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2020-04-17
+ * Last edited on 2021-01-26
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
-    private String[] idArray;
-    private String[] contentArray1;
-    private String[] contentArray2;
-    private String[] contentArray3;
-    private Integer[] imageArray;
+    private final String[] idArray;
+    private final String[] contentArray1;
+    private final String[] contentArray2;
+    private final String[] contentArray3;
+    private final Integer[] imageArray;
 
     public Count count;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] nameArrayG, String[] codeArray, Integer[] imageArray)
     {

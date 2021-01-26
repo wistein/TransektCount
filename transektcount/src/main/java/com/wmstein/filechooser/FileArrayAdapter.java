@@ -19,13 +19,13 @@ import androidx.annotation.NonNull;
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
  * Adopted by wmstein on 2016-06-18, 
- * last change on 2020-04-09
+ * last change on 2021-01-26
  */
 public class FileArrayAdapter extends ArrayAdapter<Option>
 {
-    private Context c;
-    private int id;
-    private List<Option> items;
+    private final Context c;
+    private final int id;
+    private final List<Option> items;
 
     FileArrayAdapter(Context context, int textViewResourceId, List<Option> objects)
     {

@@ -15,35 +15,35 @@ import java.util.Objects;
  * Edit options for species
  * used by CountOptionsActivity in conjunction with widget_options.xml
  * Created by wmstein on 2016-02-16
- * Last edited on 2019-02-12
+ * Last edited on 2021-01-26
  */
 public class OptionsWidget extends LinearLayout
 {
-    private TextView instructionsf1i;
-    private EditText numberf1i;
-    private TextView instructionsf2i;
-    private EditText numberf2i;
-    private TextView instructionsf3i;
-    private EditText numberf3i;
-    private TextView instructionspi;
-    private EditText numberpi;
-    private TextView instructionsli;
-    private EditText numberli;
-    private TextView instructionsei;
-    private EditText numberei;
+    private final TextView instructionsf1i;
+    private final EditText numberf1i;
+    private final TextView instructionsf2i;
+    private final EditText numberf2i;
+    private final TextView instructionsf3i;
+    private final EditText numberf3i;
+    private final TextView instructionspi;
+    private final EditText numberpi;
+    private final TextView instructionsli;
+    private final EditText numberli;
+    private final TextView instructionsei;
+    private final EditText numberei;
 
-    private TextView instructionsf1e;
-    private EditText numberf1e;
-    private TextView instructionsf2e;
-    private EditText numberf2e;
-    private TextView instructionsf3e;
-    private EditText numberf3e;
-    private TextView instructionspe;
-    private EditText numberpe;
-    private TextView instructionsle;
-    private EditText numberle;
-    private TextView instructionsee;
-    private EditText numberee;
+    private final TextView instructionsf1e;
+    private final EditText numberf1e;
+    private final TextView instructionsf2e;
+    private final EditText numberf2e;
+    private final TextView instructionsf3e;
+    private final EditText numberf3e;
+    private final TextView instructionspe;
+    private final EditText numberpe;
+    private final TextView instructionsle;
+    private final EditText numberle;
+    private final TextView instructionsee;
+    private final EditText numberee;
 
     public OptionsWidget(Context context, AttributeSet attrs)
     {

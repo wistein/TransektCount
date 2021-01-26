@@ -34,7 +34,7 @@ import static com.wmstein.transektcount.database.DbHelper.C_SECTION_ID;
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2020-10-18.
+ * last edited on 2021-01-26.
  */
 public class CountDataSource
 {
@@ -400,7 +400,7 @@ public class CountDataSource
         return counts;
     }
 
-    // Used by ListSpeciesActivity
+    // Prepared for future use by ListSpeciesActivity
     public List<Count> getAllCountsForSrtNameG()
     {
         List<Count> counts = new ArrayList<>();
@@ -548,7 +548,7 @@ public class CountDataSource
         return idArray;
     }
 
-    // Used by CountingActivity
+    // Prepared for future use by ListSpeciesActivity
     public String[] getAllIdsForSectionSrtNameG(int section_id)
     {
         Cursor cursor = database.rawQuery("select ROWID from " + COUNT_TABLE
@@ -637,7 +637,7 @@ public class CountDataSource
         return uArray;
     }
 
-    // Used by CountingActivity
+    // Prepared for future use by ListSpeciesActivity
     public String[] getAllStringsForSectionSrtNameG(int section_id, String sname)
     {
 
@@ -751,7 +751,7 @@ public class CountDataSource
         return imageArray;
     }
 
-    // Used by CountingActivity
+    // Prepared for future use by ListSpeciesActivity
     public Integer[] getAllImagesForSectionSrtNameG(int section_id)
     {
         Cursor cursor = database.rawQuery("select * from " + COUNT_TABLE

@@ -27,7 +27,6 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 /*********************************************************
@@ -36,11 +35,12 @@ import androidx.appcompat.app.AppCompatActivity;
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2020-04-15
+ * last edited on 2021-01-26
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "TransektCountNewSectAct";
+    @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 

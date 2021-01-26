@@ -7,14 +7,14 @@ import androidx.annotation.NonNull;
  * It will be called within AdvFileChooser.
  * Based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
  * Adopted by wmstein on 2016-06-18, 
- * last change on 2020-04-09
+ * last change on 2021-01-26
  */
 public class Option implements Comparable<Option>
 {
-    private String name;
-    private String data;
-    private String path;
-    private boolean back;
+    private final String name;
+    private final String data;
+    private final String path;
+    private final boolean back;
 
     public Option(String n, String d, String p, boolean back)
     {

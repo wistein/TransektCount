@@ -16,14 +16,14 @@ import java.util.List;
 /********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2020-04-16
+ * last edited on 2021-01-26
  */
 public class SectionDataSource
 {
     // Database fields
     private SQLiteDatabase database;
-    private DbHelper dbHandler;
-    private String[] allColumns = {
+    private final DbHelper dbHandler;
+    private final String[] allColumns = {
         DbHelper.S_ID,
         DbHelper.S_CREATED_AT,
         DbHelper.S_NAME,

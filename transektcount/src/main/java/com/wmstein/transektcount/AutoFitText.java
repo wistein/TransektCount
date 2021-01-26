@@ -31,12 +31,12 @@ import android.widget.TextView;
  *         
  * Modified for TransektCount by wmstein since 18.03.2016
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
- * last edited by wmstein on 2020-01-26
+ * last edited by wmstein on 2021-01-26
  */
 
-@SuppressWarnings("unused")
 public class AutoFitText extends androidx.appcompat.widget.AppCompatTextView
 {
+    // Prepared for future debugging use
     private static final String TAG = "transektcountAutoFitText";
     /**
      * Global min and max for text size. Remember: values are in pixels!
@@ -47,7 +47,7 @@ public class AutoFitText extends androidx.appcompat.widget.AppCompatTextView
     /**
      * A dummy {@link TextView} to test the text size without actually showing anything to the user
      */
-    private TextView mTestView;
+    private final TextView mTestView;
 
     /**
      * A dummy {@link Paint} to test the text size without actually showing anything to the user

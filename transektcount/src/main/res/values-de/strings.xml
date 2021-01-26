@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml German strings -->
+<!-- strings.xml German strings
+     last edited 2021-01-26 -->
 <resources>
 
     <!-- generic -->
@@ -8,12 +9,6 @@
     <string name="title_activity_new_section">Neuer Abschnitt</string>
     <string name="title_activity_meta">Meta-Daten</string>
     <string name="title_activity_list_section">Transektabschnitte</string>
-    <string name="title_activity_counting">CountingActivity</string>
-    <string name="title_activity_dummy">DummyActivity</string>
-    <string name="title_activity_list_species">ListSpeciesActivity</string>
-    <string name="title_activity_count_options">CountOptionsActivity</string>
-    <string name="title_activity_edit_section">EditSectionActivity</string>
-    <string name="title_activity_add_species">AddSpeciesActivity</string>
 
     <!-- WelcomeActivity -->
     <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>

@@ -15,13 +15,13 @@ import java.util.Objects;
 /****************************************************
  * Created by milo on 26/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2020-04-17
+ * Last edited on 2021-01-26
  */
 public class NotesWidget extends LinearLayout
 {
     private static final String TAG = "TransektCntNotesWidget";
     public String section_notes;
-    private TextView textView;
+    private final TextView textView;
 
     public NotesWidget(Context context, AttributeSet attrs)
     {

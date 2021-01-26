@@ -41,11 +41,12 @@ import androidx.core.app.NavUtils;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2020-0-09
+ * last edited on 2021-01-26
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountCntOptAct";
+    @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
     
     SharedPreferences prefs;
@@ -122,7 +123,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         {
             if (savedInstanceState.getSerializable("savedAlerts") != null)
             {
-                // savedAlerts = (ArrayList<AlertCreateWidget>) savedInstanceState.getSerializable("savedAlerts");
+                //noinspection unchecked
                 savedAlerts = (ArrayList<AlertCreateWidget>) savedInstanceState.getSerializable("savedAlerts");
             }
         }

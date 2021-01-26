@@ -1,24 +1,5 @@
 package sheetrock.panda.changelog;
 
-/************************************************************************
- * Based on ChangeLog.java
- * Copyright (C) 2011-2013, Karsten Priegnitz
- * <p>
- * Permission to use, copy, modify, and distribute this piece of software
- * for any purpose with or without fee is hereby granted, provided that
- * the above copyright notice and this permission notice appear in the
- * source code of all copies.
- * <p>
- * It would be appreciated if you mention the author in your change log,
- * contributors list or the like.
- *
- * @author: Karsten Priegnitz
- * @see: http://code.google.com/p/android-change-log/
- * <p>
- * Adaptation for ViewHelp:
- * Last edited by wmstein on 2020-04-17
- */
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -36,6 +17,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
 
+/************************************************************************
+ * Based on ChangeLog.java
+ * Copyright (C) 2011-2013, Karsten Priegnitz
+ * <p>
+ * Permission to use, copy, modify, and distribute this piece of software
+ * for any purpose with or without fee is hereby granted, provided that
+ * the above copyright notice and this permission notice appear in the
+ * source code of all copies.
+ * <p>
+ * It would be appreciated if you mention the author in your change log,
+ * contributors list or the like.
+ *
+ * @author: Karsten Priegnitz
+ * @see: http://code.google.com/p/android-change-log/
+ * <p>
+ * Adaptation for ViewHelp:
+ * Last edited by wmstein on 2021-01-26
+ */
 public class ViewHelp
 {
     private static final String TAG = "ViewHelp";

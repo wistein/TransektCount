@@ -25,7 +25,7 @@ import java.io.Writer;
  * @author Glen Smith
  * 
  * Reduced to needed functions with modifications for TransektCount by wmstein
- * Last edited on 2020-04-09
+ * Last edited on 2021-01-26
  */
 
 public class CSVWriter implements Closeable, Flushable
@@ -43,12 +43,12 @@ public class CSVWriter implements Closeable, Flushable
     //Default line terminator.
     private static final String DEFAULT_LINE_END = "\n";
 
-    private Writer rawWriter;
-    private PrintWriter pw;
-    private char separator;
-    private char quotechar;
-    private char escapechar;
-    private String lineEnd;
+    private final Writer rawWriter;
+    private final PrintWriter pw;
+    private final char separator;
+    private final char quotechar;
+    private final char escapechar;
+    private final String lineEnd;
 
     /**
      * Constructs CSVWriter using a comma for the separator.

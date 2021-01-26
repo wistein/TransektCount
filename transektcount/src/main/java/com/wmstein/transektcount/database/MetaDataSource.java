@@ -8,14 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 /***********************************
  * Created by wmstein on 2016-03-31,
- * last edited on 2018-04-04.
+ * last edited on 2021-01-26.
  */
 public class MetaDataSource
 {
     // Database fields
     private SQLiteDatabase database;
-    private DbHelper dbHandler;
-    private String[] allColumns = {
+    private final DbHelper dbHandler;
+    private final String[] allColumns = {
         DbHelper.M_ID,
         DbHelper.M_TEMPE,
         DbHelper.M_WIND,

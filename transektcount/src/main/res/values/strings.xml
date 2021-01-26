@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!-- strings.xml English strings -->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- strings.xml English strings
+     last edited 2021-01-26 -->
 <resources>
 
     <!-- generic -->
@@ -7,12 +9,13 @@
     <string name="title_activity_new_section">New Section</string>
     <string name="title_activity_meta">Meta Data</string>
     <string name="title_activity_list_section">Transect Sections</string>
-    <string name="title_activity_counting">CountingActivity</string>
-    <string name="title_activity_dummy">DummyActivity</string>
-    <string name="title_activity_list_species">ListSpeciesActivity</string>
-    <string name="title_activity_count_options">CountOptionsActivity</string>
-    <string name="title_activity_edit_section">EditSectionActivity</string>
-    <string name="title_activity_add_species">AddSpeciesActivity</string>
+    <string name="title_activity_counting" translatable="false">CountingActivity</string>
+    <string name="title_activity_dummy" translatable="false">DummyActivity</string>
+    <string name="title_activity_list_species" translatable="false">ListSpeciesActivity</string>
+    <string name="title_activity_count_options" translatable="false">CountOptionsActivity</string>
+    <string name="title_activity_edit_section" translatable="false">EditSectionActivity</string>
+    <string name="title_activity_add_species" translatable="false">AddSpeciesActivity</string>
+    <string name="title_activity_filechooser" translatable="false">AdvFileChooser</string>
 
     <!-- WelcomeActivity -->
     <string name="hello">Species-specific counting of\n\nbutterflies in transect sections</string>
