@@ -63,12 +63,13 @@ _ Subtitle
 
 $ 3.2.6
   % Version 3.2.6
-  _ 26.01.2021
+  _ 11.04.2021
 		* Einige Texte verbessert
 		* Übersichtlicheres Layout für Transektabschnitt-Editor
 		* Veraltete Code-Bezeichnungen aktualisiert
-		* Projekt-Anpassung für Android Studio 4.1.2 und Gradle 6.5
+		* Projekt-Anpassung für Android Studio 4.1.3 und Gradle 6.5
 		* Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
+		* Einige Abbildungen ergänzt/überarbeitet
 
 $ 3.2.5
   % Version 3.2.5
