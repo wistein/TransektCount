@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2021, Wilhelm Stein
 
+#### Version 3.2.7 (2021-06-05)
+- Project adaption for Android Studio 4.2.1 and Gradle 6.7.1
+- Compiled with SDK Ver. 30 for targetSdkVersion 29 (targetSdkVersion 30 prevents installation from "unknown sources" and inhibits testing of the own compilation under Android 11!)
+
 #### Version 3.2.6 (2021-04-11)
 - Some wordings improved
 - Clearer layout for Edit Transect Section
@@ -9,6 +13,7 @@
 - Project adaption for Android Studio 4.1.3 and Gradle 6.5
 - Fix for broken loading picture function since Gradle 6.5
 - Some pictures added/improved
+- Species family names updated where appropriate
 
 #### Version 3.2.5 (2020-09-09)
 - Bug fix in csv-export
