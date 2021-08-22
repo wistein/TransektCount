@@ -1,0 +1,5 @@
+Version 3.2.8 (2021-08-22)
+- Project adaption for Android Studio 2020.3.1 and Gradle 7.0.1
+- Some missing butterfly pictures added
+- Outdated species names corrected (in app and example DBs)
+- Bug in "New section" or "Duplicate Section List" corrected

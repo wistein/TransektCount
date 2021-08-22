@@ -12,6 +12,7 @@ import com.wmstein.transektcount.R;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
@@ -134,7 +135,7 @@ public class SectionDataSource
 
         String orderBy;
         String sortString = prefs.getString("pref_sort", "name_asc");
-        switch (sortString)
+        switch (Objects.requireNonNull(sortString))
         {
         case "name_desc":
             orderBy = DbHelper.S_NAME + " DESC";

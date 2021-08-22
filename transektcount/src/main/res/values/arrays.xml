@@ -43,7 +43,7 @@
         <item comment="06955">Parnassius apollo</item>
         <item comment="06958">Iphiclides podalirius</item>
         <item comment="06960">Papilio machaon</item>
-        <item comment="06966">Leptidea sinapis</item>
+        <item comment="06966">Leptidea sinapis&#47;juvern.</item>
         <item comment="06973">Anthocharis cardamines</item>
         <item comment="06993">Aporia crataegi</item>
         <item comment="06995">Pieris brassicae</item>
@@ -58,7 +58,7 @@
         <item comment="07037">Lycaena virgaureae</item>
         <item comment="07039">Lycaena tityrus</item>
         <item comment="07047">Thecla betulae</item>
-        <item comment="07049">Neozephyrus quercus</item>
+        <item comment="07049">Favonius quercus</item>
         <item comment="07058">Callophrys rubi</item>
         <item comment="07063">Satyrium pruni</item>
         <item comment="07093">Cupido argiades</item>
@@ -342,7 +342,7 @@
         <item comment="06955">Parnassius apollo</item>
         <item comment="06958">Iphiclides podalirius</item>
         <item comment="06960">Papilio machaon</item>
-        <item comment="06966">Leptidea sinapis</item>
+        <item comment="06966">Leptidea sinapis&#47;juvern.</item>
         <item comment="06967">Leptidea reali</item>
         <item comment="06967*">Lept. sin./reali-Compl.</item>
         <item comment="06973">Anthocharis cardamines</item>
@@ -373,7 +373,7 @@
         <item comment="07040">Lycaena alciphron</item>
         <item comment="07041">Lycaena hippothoe</item>
         <item comment="07047">Thecla betulae</item>
-        <item comment="07049">Neozephyrus quercus</item>
+        <item comment="07049">Favonius quercus</item>
         <item comment="07058">Callophrys rubi</item>
         <item comment="07062">Satyriuim w-album</item>
         <item comment="07063">Satyrium pruni</item>

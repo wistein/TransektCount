@@ -189,7 +189,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         List<Section> sectionList = sectionDataSource.getAllSectionNames();
 
-        int childcount = sectionList.size() + 1;
+        // int childcount = sectionList.size() + 1;  erzeugte Indexfehler
+        int childcount = sectionList.size();
         // for all Sections
         for (int i = 1; i < childcount; i++)
         {
