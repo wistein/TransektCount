@@ -1,5 +1,6 @@
-Version 3.2.8 (22.08.2021)
-- Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.1
+Version 3.2.8 (17.09.2021)
+- Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.2
 - Einige fehlende Schmetterlingsabbildungen ergänzt
+- Einige weitere Nachtfalterarten mit Abbildungen hinzugefügt
 - Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
-- Bug in "Neuer Abschnitt" oder "Abschnitts-Artenliste duplizieren" korrigiert
+- Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
