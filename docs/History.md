@@ -2,10 +2,13 @@
 
 #### TransektCount Copyright (C) 2016-2021, Wilhelm Stein
 
-#### Version 3.2.8 (2021-09-17)
+#### Version 3.2.9 (2021-09-17)
 - Project adaption for Android Studio 2020.3.1 and Gradle 7.0.2
-- Some missing butterfly pictures added
 - Some new moth species with pictures added
+
+#### Version 3.2.8 (2021-08-22)
+- Project adaption for Android Studio 2020.3.1 and Gradle 7.0.1
+- Some missing butterfly pictures added
 - Outdated species names corrected (within app and example DBs)
 - Bugs in "New section" and "Duplicate Section List" corrected
 

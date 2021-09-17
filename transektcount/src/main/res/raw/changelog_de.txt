@@ -61,12 +61,17 @@ _ Subtitle
   _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, erfolgt die Bereitstellung der im Rahmen der Lizenz verbreiteten Software OHNE GEWÄHR ODER VORBEHALTE – ganz gleich, ob ausdrücklich oder stillschweigend. Informationen über die jeweiligen Bedingungen für Genehmigungen und Einschränkungen im Rahmen der Lizenz finden Sie in der Lizenz.
   _
 
-$ 3.2.8
-  % Version 3.2.8
+$ 3.2.9
+  % Version 3.2.9
   _ 17.09.2021
 		* Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.2
-		* Einige fehlende Schmetterlingsabbildungen ergänzt
 		* Einige weitere Nachtfalterarten mit Abbildungen hinzugefügt 
+
+$ 3.2.8
+  % Version 3.2.8
+  _ 22.08.2021
+		* Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.1
+		* Einige fehlende Schmetterlingsabbildungen ergänzt
 		* Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
 		* Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
 

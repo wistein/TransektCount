@@ -1,0 +1,3 @@
+Version 3.2.9 (2021-09-17)
+- Project adaption for Android Studio 2020.3.1 and Gradle 7.0.2
+- Some new moth species with pictures added
