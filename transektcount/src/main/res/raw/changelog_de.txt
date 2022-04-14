@@ -1,5 +1,6 @@
 <html>
 <!--
+Formattierungsbefehle:
 % Title
 & bold red
 _ Subtitle
@@ -36,7 +37,7 @@ _ Subtitle
   <body>
 
   % TransektCount
-  _ Copyright (C) 2016-2021, Wilhelm Stein
+  _ Copyright (C) 2016-2022, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
@@ -54,18 +55,38 @@ _ Subtitle
   _
     ! Geeignet für Android 4.4 (KitKat) oder neuer
   _ 
+    ! License
+  _ 
   _ Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser Datei nur in Übereinstimmung mit der Lizenz erlaubt. Eine Kopie der Lizenz erhalten Sie auf 
   _ 
   _ <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">http://www.apache.org/licenses/LICENSE-2.0</a>
   _ 
-  _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, erfolgt die Bereitstellung der im Rahmen der Lizenz verbreiteten Software OHNE GEWÄHR ODER VORBEHALTE – ganz gleich, ob ausdrücklich oder stillschweigend. Informationen über die jeweiligen Bedingungen für Genehmigungen und Einschränkungen im Rahmen der Lizenz finden Sie in der Lizenz.
+  _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, wird die Software unter der Lizenz so wie sie ist ("AS IS") OHNE JEGLICHE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GEWÄHRLEISTUNGSANSPRÜCHE übertragen. Siehe in Bezug auf die einzelnen Rechte und Einschränkungen die Bestimmungen des Lizenztexts.
   _
+
+    ! App-Icon und App-Hintergrundbilder von Wilhelm Stein.
+  _ 
+    ! Schmetterlings-Abbildungen: 
+    * Hyles gallii erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
+    * Carcharodus lavatherae erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2
+  _
+    ! Alle anderen Schmetterlings-Abbildungen von Wilhelm Stein. 
+  _ 
+    ! Keine Abbildung dieser App darf für kommerzielle Zwecke ohne ausdrückliche Erlaubnis des Autors verwendet werden. Allerdings dürfen Abbildungen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren als Wilhelm Stein, die jeweiligen Copyright-Bedingungen der anderen Autoren. 
+  _ 
+  
+$ 3.3.0
+  % Version 3.3.0
+  _ 14.04.2022
+		* Einige weitere Falterarten mit Abbildungen hinzugefügt
+		* Update der Copyright und Lizenztexte
 
 $ 3.2.9
   % Version 3.2.9
-  _ 17.09.2021
-		* Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.2
-		* Einige weitere Nachtfalterarten mit Abbildungen hinzugefügt 
+  _ 03.03.2022
+		* Projekt Anpassung für Android Studio 2021.1.1 und Gradle 7.2
+		* Kompiliert für SDK-Version 31 (benötigt für aktuelle Bibliotheken)
+		* Einige weitere Nachtfalterarten mit Abbildungen hinzugefügt
 
 $ 3.2.8
   % Version 3.2.8

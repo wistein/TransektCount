@@ -54,7 +54,7 @@ be mutually updated.
 
 ### License:
 
-Copyright 2016-2021 Wilhelm Stein (wistein)
+Copyright 2016-2022 Wilhelm Stein (wistein)
 
 TransektCount is licensed under the Apache License, Version 2.0 (the "License");
 you may not use any of its files except in compliance with the License.
@@ -68,6 +68,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-App icon and app background picture: wistein
+App icon and app background pictures by Wilhelm Stein.
 
-All butterfly pictures: wistein
+Butterfly pictures:
+- p06855.png derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
+- p06884.png derived from https://en.wikipedia.org/wiki/Carcharodus_lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2
+- all other butterfly pictures by Wilhelm Stein. 
+
+No picture of this work may be used for commercial purposes without the written permission of the author; however, any part may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by authors other than Wilhelm Stein remain the copyright of those authors and should not be reproduced other than with their permission.

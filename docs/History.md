@@ -1,10 +1,15 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2021, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
-#### Version 3.2.9 (2021-09-17)
-- Project adaption for Android Studio 2020.3.1 and Gradle 7.0.2
-- Some new moth species with pictures added
+#### Version 3.3.0 (2022-04-14)
+- Some more species with pictures added
+- Copyright regarding pictures supplemented
+
+#### Version 3.2.9 (2023-03-03)
+- Project adaption for Android Studio 2021.1.1 and Gradle 7.2
+- Compiled for SDK version 31 (needed for current libs)
+- Some more moths species with pictures added
 
 #### Version 3.2.8 (2021-08-22)
 - Project adaption for Android Studio 2020.3.1 and Gradle 7.0.1
