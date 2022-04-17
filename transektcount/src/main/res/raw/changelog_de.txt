@@ -55,31 +55,35 @@ _ Subtitle
   _
     ! Geeignet für Android 4.4 (KitKat) oder neuer
   _ 
-    ! License
+    ! Lizenz
   _ 
   _ Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser Datei nur in Übereinstimmung mit der Lizenz erlaubt. Eine Kopie der Lizenz erhalten Sie auf 
   _ 
   _ <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">http://www.apache.org/licenses/LICENSE-2.0</a>
   _ 
   _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, wird die Software unter der Lizenz so wie sie ist ("AS IS") OHNE JEGLICHE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GEWÄHRLEISTUNGSANSPRÜCHE übertragen. Siehe in Bezug auf die einzelnen Rechte und Einschränkungen die Bestimmungen des Lizenztexts.
-  _
-
-    ! App-Icon und App-Hintergrundbilder von Wilhelm Stein.
   _ 
+    ! Integrierter Code von externen Quellen:
+    * Grundlegende Zählerfunktionen basieren auf BeeCount, (C) 2016 Milo Thurston (knirirr ), Apache License, Version 2.0, https://github.com/knirirr/BeeCount
+    * AutoFitText.java, modifiziert, original code from author: pheuschk, 18.04.2013, Open Source, https://pastebin.com/raw/e6WyrwSN
+    * ChangeLog.java, modifiziert, Original-Code (C) 2011-2013, Karsten Priegnitz, Other Open Source, https://github.com/koem/android-change-log/
+    * CSVWriter.java, modifiziert, Original-Code (C) 2015 Bytecode Pty Ltd., Apache License, Version 2.0
+    * filechooser basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
+  _
     ! Schmetterlings-Abbildungen: 
-    * Hyles gallii erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
-    * Carcharodus lavatherae erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2
+    * Carcharodus lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
+    * Hyles gallii (A.R. Pittaway, non-commercial use allowed), erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
   _
-    ! Alle anderen Schmetterlings-Abbildungen von Wilhelm Stein. 
-  _ 
-    ! Keine Abbildung dieser App darf für kommerzielle Zwecke ohne ausdrückliche Erlaubnis des Autors verwendet werden. Allerdings dürfen Abbildungen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren als Wilhelm Stein, die jeweiligen Copyright-Bedingungen der anderen Autoren. 
+    ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
+	! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren. 
   _ 
   
 $ 3.3.0
   % Version 3.3.0
-  _ 14.04.2022
+  _ 17.04.2022
 		* Einige weitere Falterarten mit Abbildungen hinzugefügt
 		* Update der Copyright und Lizenztexte
+    * Update von Docs
 
 $ 3.2.9
   % Version 3.2.9

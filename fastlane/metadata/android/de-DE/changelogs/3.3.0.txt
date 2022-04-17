@@ -1,3 +1,4 @@
-Version 3.3.0 (14.04.2022)
+Version 3.3.0 (17.04.2022)
 - Einige weitere Falterarten mit Abbildungen hinzugefügt
 - Update der Copyright und Lizenztexte
+- Update von Docs 

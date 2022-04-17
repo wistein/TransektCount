@@ -1,3 +1,4 @@
-Version 3.3.0 (2022-04-14)
+Version 3.3.0 (2022-04-17)
 - Some more species with pictures added
 - Copyright and license texts updated
+- Documents updated

@@ -140,7 +140,7 @@ $ 7
   ! - all data as text
   ! into MS Excel (or compatible programs) for further processing. 
   _
-  ! This table is optimized for easy transmission of the results into the butterly monitoring web page.
+  ! This table is optimized for easy transmission of the results into the butterfly monitoring web page like <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>).
   
 $ END_OF_VIEW_HELP
   </body>

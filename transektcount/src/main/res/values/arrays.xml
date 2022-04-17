@@ -336,6 +336,7 @@
         <item comment="06884">Muschampia lavatherae</item>
         <item comment="06885">Muschampia floccifera</item>
         <item comment="06891">Spialia sertorius</item>
+        <item comment="06899">Pyrgus carthami</item>
         <item comment="06902">Pyrgus cacaliae</item>
         <item comment="06904">Pyrgus malvae</item>
         <item comment="06906">Pyrgus serratulae</item>
@@ -649,6 +650,7 @@
         <item comment="06884">Marbled skipper</item>
         <item comment="06885">Tufted skipper</item>
         <item comment="06891">Red-underwing skipper</item>
+        <item comment="06899">Safflower skipper</item>
         <item comment="06902">Dusky grizzled skipper</item>
         <item comment="06904">Grizzled skipper</item>
         <item comment="06906">Olive skipper</item>
@@ -962,6 +964,7 @@
         <item>06884</item>
         <item>06885</item>
         <item>06891</item>
+        <item>06899</item>
         <item>06902</item>
         <item>06904</item>
         <item>06906</item>

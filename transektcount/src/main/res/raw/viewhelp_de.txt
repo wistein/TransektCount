@@ -139,7 +139,7 @@ $ 7
   ! - alle Daten als Text
   ! zu achten.
   _
-  ! Die Tabelle ist optimiert für eine möglichst einfache Übertragung der Zählergebnisse in die Tagfalter-Monitoring Webseite.
+  ! Die Tabelle ist optimiert für eine möglichst einfache Übertragung der Zählergebnisse in eine Tagfalter-Monitoring Webseite, <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>).
   
 $ END_OF_VIEW_HELP
   </body>

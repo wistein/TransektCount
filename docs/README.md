@@ -68,11 +68,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-App icon and app background pictures by Wilhelm Stein.
+Integrated code from external references:
+- Counting functions based on BeeCount, (C) 2016 Milo Thurston (knirirr), 
+  Apache License, Version 2.0, https://github.com/knirirr/BeeCount
+- AutoFitText.java, modified, original code from author: pheuschk, 18.04.2013, 
+  Open Source, https://pastebin.com/raw/e6WyrwSN
+- ChangeLog.java, modified, original code (C) 2011-2013, Karsten Priegnitz, 
+  Other Open Source, https://github.com/koem/android-change-log/
+- CSVWriter.java, modified, original code (C) 2015 Bytecode Pty Ltd., 
+  Apache License, Version 2.0
+- filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
 
-Butterfly pictures:
-- p06855.png derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
+Butterfly pictures: 
 - p06884.png derived from https://en.wikipedia.org/wiki/Carcharodus_lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2
-- all other butterfly pictures by Wilhelm Stein. 
+- p06855.png derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
+- all other pictures, app icon and background (C) Wilhelm Stein. 
 
-No picture of this work may be used for commercial purposes without the written permission of the author; however, any part may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by authors other than Wilhelm Stein remain the copyright of those authors and should not be reproduced other than with their permission.
+Pictures of this work may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
