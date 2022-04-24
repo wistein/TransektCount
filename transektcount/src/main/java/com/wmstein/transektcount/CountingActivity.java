@@ -60,7 +60,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2020-04-08
+ * Last edit on 2022-04-23
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -167,8 +167,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         if (savedInstanceState != null)
         {
-                spinner.setSelection(savedInstanceState.getInt("itemPosition", 0));
-                iid = savedInstanceState.getInt("count_id");
+            spinner.setSelection(savedInstanceState.getInt("itemPosition", 0));
+            iid = savedInstanceState.getInt("count_id");
         }
 
         if (awakePref)
@@ -266,7 +266,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         } catch (CursorIndexOutOfBoundsException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem loading section: " + e.toString());
+                Log.e(TAG, "Problem loading section: " + e);
             showSnackbarRed(getString(R.string.getHelp));
             finish();
         }
@@ -277,7 +277,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem setting title bar: " + e.toString());
+                Log.e(TAG, "Problem setting title bar: " + e);
         }
 
         String[] idArray;
@@ -285,7 +285,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         String[] nameArrayG;
         String[] codeArray;
         Integer[] imageArray;
-        
+
         switch (sortPref)
         {
         case "names_alpha":
@@ -332,18 +332,18 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // 2. Head1, species selection spinner
         if (lhandPref) // if left-handed counting page
         {
-                spinner = findViewById(R.id.countHead1SpinnerLH);
+            spinner = findViewById(R.id.countHead1SpinnerLH);
         }
         else
         {
-                spinner = findViewById(R.id.countHead1Spinner);
+            spinner = findViewById(R.id.countHead1Spinner);
         }
 
-            CountingWidget_head1 adapter = new CountingWidget_head1(this,
-                R.layout.widget_counting_head1, idArray, nameArray, nameArrayG, codeArray, imageArray);
-            spinner.setAdapter(adapter);
-            spinner.setSelection(itemPosition);
-            spinnerListener();
+        CountingWidget_head1 adapter = new CountingWidget_head1(this,
+            R.layout.widget_counting_head1, idArray, nameArray, nameArrayG, codeArray, imageArray);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(itemPosition);
+        spinnerListener();
 
         if (awakePref)
         {
@@ -362,7 +362,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             view = findViewById(R.id.countingScreen);
         }
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" +  str + "</font></b>"), Snackbar.LENGTH_LONG);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
@@ -398,7 +398,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.LOG)
-                        Log.e(TAG, "SpinnerListener: " + e.toString());
+                        Log.e(TAG, "SpinnerListener: " + e);
                 }
             }
 
@@ -1713,7 +1713,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         if (!mProximityWakeLock.isHeld())
         {
-            mProximityWakeLock.acquire(30*60*1000L /*30 minutes*/);
+            mProximityWakeLock.acquire(30 * 60 * 1000L /*30 minutes*/);
         }
     }
 
@@ -1735,9 +1735,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * <p/>
+     * 
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true

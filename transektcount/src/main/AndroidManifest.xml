@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Last edited 2021-01-26 -->
+<!-- Last edited 2022-04-23 -->
 
 <manifest package="com.wmstein.transektcount"
           xmlns:android="http://schemas.android.com/apk/res/android"
@@ -102,20 +102,6 @@
             android:label="@string/title_activity_counting"
             android:launchMode="singleTop"
             android:parentActivityName=".ListSectionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListSectionActivity"/>
-        </activity>
-        
-        <activity
-            android:name=".CountingLActivity"
-            android:label="@string/title_activity_counting"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ListSectionActivity"
-            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity">
             <meta-data
@@ -126,31 +112,19 @@
         <activity
             android:name=".CountOptionsActivity"
             android:label="@string/title_activity_count_options"
-            android:parentActivityName=".CountingActivity"
             android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="CountingActivity"/>
         </activity>
         
         <activity
             android:name=".DummyActivity"
             android:label="@string/title_activity_dummy"
-            android:parentActivityName=".CountingActivity"
             android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="CountingActivity"/>
         </activity>
         
         <activity
             android:name=".EditSectionActivity"
             android:label="@string/title_activity_edit_section"
-            android:parentActivityName=".CountingActivity"
             android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="CountingActivity"/>
         </activity>
 
         <activity

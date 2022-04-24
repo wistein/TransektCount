@@ -143,11 +143,17 @@
         <item comment="04000">Sumpfhornklee-Widderchen</item>
         <item comment="04044">Großer Birken-Glasflügler</item>
         <item comment="04151">Weidenbohrer</item>
+		<item comment="04731">-</item>
         <item comment="05562">Waldreben-Fensterfleckchen</item>
         <item comment="05751">Rhabarberzünsler</item>
         <item comment="06241">Rispengraszünsler</item>
+		<item comment="06243">-</item>
 		<item comment="06253">Weißer Graszünsler</item>
+		<item comment="06258">-</item>
+		<item comment="06267">-</item>
+		<item comment="06350">-</item>
         <item comment="06416">Seerosenzünsler</item>
+		<item comment="06499">Rübsaatpfeifer</item>
         <item comment="06601">Olivbrauner Zünsler</item>
         <item comment="06604">Goldzünsler</item>
         <item comment="06605">Purpurroter Zünsler</item>
@@ -386,6 +392,7 @@
 		<item comment="08330">Dunkelbrauner Haarbüschelspanner</item>
         <item comment="08411">Waldreben-Blattspanner</item>
 		<item comment="08447">Kleiner Frostspanner</item>
+		<item comment="08622">Sandheiden-Johanniskrautspanner</item>
         <item comment="08631">Schwarzspanner</item>
         <item comment="08698">Erpelschwanz-Raufußspinner</item>
         <item comment="08750">Mondvogel</item>
@@ -397,6 +404,7 @@
         <item comment="09056">Gammaeule</item>
 		<item comment="09338">Hornkraut-Tageulchen</item>
 		<item comment="09417">Morpheus-Staubeule</item>
+		<item comment="09771">Ackerrand-Grasbüscheleule</item>
 		<item comment="09917">Gemüseeule</item>
 		<item comment="10000">Weißfleck-Graseule</item>
 		<item comment="10001">Kapuzen-Graseule</item>

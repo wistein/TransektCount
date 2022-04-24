@@ -146,20 +146,10 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             getPrefs();
             soundButtonSound();
 
-            if (screenOrientL)
-            {
-                sct = (Section) v.getTag();
-                Intent intent = new Intent(getContext(), CountingLActivity.class);
-                intent.putExtra("section_id", sct.id);
-                mContext.startActivity(intent);
-            }
-            else
-            {
                 sct = (Section) v.getTag();
                 Intent intent = new Intent(getContext(), CountingActivity.class);
                 intent.putExtra("section_id", sct.id);
                 mContext.startActivity(intent);
-            }
         }
     };
 
@@ -238,7 +228,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
 
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * <p/>
+     * 
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false
@@ -257,9 +247,9 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * <p/>
+     * 
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true

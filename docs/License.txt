@@ -16,9 +16,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * Integrated code from external references:
- *  - Counting functions based on BeeCount, (C) 2016 Milo Thurston (knirirr ), 
+ *  - Counting functions based on BeeCount, (C) 2016 Milo Thurston (knirirr), 
  *    Apache License, Version 2.0, https://github.com/knirirr/BeeCount
  *  - AutoFitText.java, modified, original code from author: pheuschk, 18.04.2013, 
  *    Open Source, https://pastebin.com/raw/e6WyrwSN
@@ -33,6 +33,10 @@
  *    derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
  *  - Hyles gallii (A.R. Pittaway, non-commercial use allowed), derived from 
  *    https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
+ *  - Crambus pascuella, Olaf Leillinger, GNU Free Documentation License, derived from 
+ *    https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
+ *  - Evergestis extimalis, Adam Furlepa, CC BY-SA 3.0, derived from
+ *    https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
  *  - All other pictures, app icon and background (C) Wilhelm Stein. 
  * 
  * Pictures of this work by Wilhelm Stein may be used for research or other 
