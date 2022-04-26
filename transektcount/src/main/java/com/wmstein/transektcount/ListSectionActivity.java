@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
@@ -99,6 +100,10 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
 
         sectionDataSource = new SectionDataSource(this);
         sectionDataSource.open();
