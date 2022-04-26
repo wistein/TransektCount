@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.util.Objects;
+
 import androidx.preference.PreferenceManager;
 
 /**********************************************************
@@ -20,7 +22,7 @@ import androidx.preference.PreferenceManager;
  * 
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2021-01-26
+ * last edit on 2022-04-26
  */
 public class TransektCountApplication extends Application
 {
@@ -86,7 +88,7 @@ public class TransektCountApplication extends Application
         width = size.x;
         height = size.y;
 
-        switch (backgroundPref)
+        switch (Objects.requireNonNull(backgroundPref))
         {
         case "none":
             // black screen

@@ -60,7 +60,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2021-01-26
+ * last edited on 2022-04-26
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -112,7 +112,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
 
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -128,6 +127,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        setContentView(R.layout.activity_welcome);
 
         ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
@@ -308,6 +309,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
 
         Head head;
         headDataSource = new HeadDataSource(this);

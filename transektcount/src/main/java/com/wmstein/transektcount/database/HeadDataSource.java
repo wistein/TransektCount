@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 /***********************************
  * Created by wmstein on 31.03.2016.
- * Last edited 2021-01-26
+ * Last edited 2022-04-26
  */
 public class HeadDataSource
 {
@@ -45,6 +46,7 @@ public class HeadDataSource
         database.update(DbHelper.HEAD_TABLE, dataToInsert, null, null);
     }
 
+    @SuppressLint("Range")
     private Head cursorToHead(Cursor cursor)
     {
         Head head = new Head();

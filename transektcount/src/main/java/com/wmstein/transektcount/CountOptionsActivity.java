@@ -41,7 +41,7 @@ import androidx.core.app.NavUtils;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2021-01-26
+ * last edited on 2022-04-26
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -153,7 +153,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem setting title bar: " + e.toString());
+                Log.e(TAG, "Problem setting title bar: " + e);
         }
 
         List<Alert> alerts = alertDataSource.getAllAlertsForCount(count_id);
@@ -372,7 +372,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                 } catch (Exception e)
                 {
                     if (MyDebug.LOG)
-                        Log.e(TAG, "Failed to delete a widget: " + e.toString());
+                        Log.e(TAG, "Failed to delete a widget: " + e);
                 }
             });
             areYouSure.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {

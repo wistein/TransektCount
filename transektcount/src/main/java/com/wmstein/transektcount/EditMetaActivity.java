@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -102,7 +103,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
-        getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.editHeadTitle));
     }
     
     @SuppressLint("SourceLockedOrientationActivity")

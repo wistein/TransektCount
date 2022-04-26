@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 /***********************************
  * Created by wmstein on 2016-03-31,
- * last edited on 2021-01-26.
+ * last edited on 2022-04-26.
  */
 public class MetaDataSource
 {
@@ -53,6 +54,7 @@ public class MetaDataSource
         database.update(DbHelper.META_TABLE, dataToInsert, null, null);
     }
 
+    @SuppressLint("Range")
     private Meta cursorToMeta(Cursor cursor)
     {
         Meta meta = new Meta();
