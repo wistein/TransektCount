@@ -12,7 +12,7 @@ import com.wmstein.transektcount.R;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2021-01-26
+ * Last edited on 2022-04-26
  */
 public class DbHelper extends SQLiteOpenHelper
 {
@@ -251,7 +251,7 @@ public class DbHelper extends SQLiteOpenHelper
         } catch (Exception e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Column already present: " + e.toString());
+                Log.e(TAG, "Column already present: " + e);
             colExist = true;
         }
         try

@@ -60,12 +60,12 @@ import androidx.appcompat.app.AppCompatActivity;
  * which produces a crash for a null object reference when forced to use another orientation.
  * 
  * CountingLActivity does the actual counting on landscape layout with 12 counters, 
- * checks for alerts, calls CountOptionsActivity, calls EditSectionActivity, clones a section,
+ * checks for alerts, calls CountOptionsLActivity, EditSectionLActivity and DummyLActivity, clones a section,
  * switches screen off when device is pocketed and lets you send a message.
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2020-04-09
+ * Last edit on 2020-04-30
  */
 public class CountingLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -117,7 +117,6 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         Context context = this.getApplicationContext();
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
@@ -173,8 +172,8 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
         if (savedInstanceState != null)
         {
-                spinnerL.setSelection(savedInstanceState.getInt("itemPosition", 0));
-                iid = savedInstanceState.getInt("count_id");
+            spinnerL.setSelection(savedInstanceState.getInt("itemPosition", 0));
+            iid = savedInstanceState.getInt("count_id");
         }
 
         if (awakePref)
@@ -272,7 +271,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         } catch (CursorIndexOutOfBoundsException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem loading section: " + e.toString());
+                Log.e(TAG, "Problem loading section: " + e);
             showSnackbarRed(getString(R.string.getHelp));
             finish();
         }
@@ -283,7 +282,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem setting title bar: " + e.toString());
+                Log.e(TAG, "Problem setting title bar: " + e);
         }
 
         String[] idArray;
@@ -291,7 +290,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         String[] nameArrayG;
         String[] codeArray;
         Integer[] imageArray;
-        
+
         switch (sortPref)
         {
         case "names_alpha":
@@ -338,18 +337,18 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         // 2. Head1, species selection spinner
         if (lhandPref) // if left-handed counting page
         {
-                spinnerL = findViewById(R.id.countHead1SpinnerLH);
+            spinnerL = findViewById(R.id.countHead1SpinnerLH);
         }
         else
         {
-                spinnerL = findViewById(R.id.countHead1Spinner);
+            spinnerL = findViewById(R.id.countHead1Spinner);
         }
 
-            CountingWidget_head1 adapterL = new CountingWidget_head1(this,
-                R.layout.widget_counting_head1, idArray, nameArray, nameArrayG, codeArray, imageArray);
-            spinnerL.setAdapter(adapterL);
-            spinnerL.setSelection(itemPosition);
-            spinnerListenerL();
+        CountingWidget_head1 adapterL = new CountingWidget_head1(this,
+            R.layout.widget_counting_head1, idArray, nameArray, nameArrayG, codeArray, imageArray);
+        spinnerL.setAdapter(adapterL);
+        spinnerL.setSelection(itemPosition);
+        spinnerListenerL();
 
         if (awakePref)
         {
@@ -368,7 +367,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         {
             view = findViewById(R.id.countingScreen);
         }
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" +  str + "</font></b>"), Snackbar.LENGTH_LONG);
+        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
@@ -384,27 +383,27 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             {
                 try
                 {
-                head_area2.removeAllViews();
-                count_area_i.removeAllViews();
-                head_area3.removeAllViews();
-                count_area_e.removeAllViews();
-                notes_area2.removeAllViews();
-                notes_area3.removeAllViews();
+                    head_area2.removeAllViews();
+                    count_area_i.removeAllViews();
+                    head_area3.removeAllViews();
+                    count_area_e.removeAllViews();
+                    notes_area2.removeAllViews();
+                    notes_area3.removeAllViews();
 
-                String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
-                iid = Integer.parseInt(sid);
-                itemPosition = position;
+                    String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
+                    iid = Integer.parseInt(sid);
+                    itemPosition = position;
 
-                count = countDataSource.getCountById(iid);
-                countingScreen(count);
-                if (MyDebug.LOG)
-                    Toast.makeText(getApplicationContext(), "1. " + count.name, Toast.LENGTH_SHORT).show();
+                    count = countDataSource.getCountById(iid);
+                    countingScreen(count);
+                    if (MyDebug.LOG)
+                        Toast.makeText(getApplicationContext(), "1. " + count.name, Toast.LENGTH_SHORT).show();
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.LOG)
-                        Log.e(TAG, "SpinnerListener: " + e.toString());
+                        Log.e(TAG, "SpinnerListener: " + e);
                 }
             }
 
@@ -581,7 +580,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     /************************
      * The functions below are triggered by the count buttons
      * and righthand/lefthand (LH) views
-     * <p>
+     *
      * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
      */
     public void countUpf1i(View view)
@@ -1443,10 +1442,10 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
         }
     }
 
-    // Call CountOptionsActivity with count_id, section_id and itemposition
+    // Call CountOptionsLActivity with count_id, section_id and itemposition
     public void edit(View view)
     {
-        Intent intent = new Intent(CountingLActivity.this, CountOptionsActivity.class);
+        Intent intent = new Intent(CountingLActivity.this, CountOptionsLActivity.class);
         intent.putExtra("count_id", iid);
         intent.putExtra("section_id", section_id);
         intent.putExtra("itemposition", spinnerL.getSelectedItemPosition());
@@ -1544,6 +1543,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.counting, menu);
         return true;
     }
@@ -1572,7 +1572,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             if (MyDebug.LOG)
                 Log.e(TAG, "Sect Id = " + section_id);
 
-            Intent intent = new Intent(CountingLActivity.this, EditSectionActivity.class);
+            Intent intent = new Intent(CountingLActivity.this, EditSectionLActivity.class);
             startActivity(intent);
             return true;
         }
@@ -1673,7 +1673,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
             // Exit this and go to the list of new sections
             Toast.makeText(CountingLActivity.this, m_Text + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CountingLActivity.this, ListSectionActivity.class);
+            Intent intent = new Intent(CountingLActivity.this, ListSectionLActivity.class);
             startActivity(intent);
         });
 
@@ -1718,7 +1718,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
         if (!mProximityWakeLock.isHeld())
         {
-            mProximityWakeLock.acquire(30*60*1000L /*30 minutes*/);
+            mProximityWakeLock.acquire(30 * 60 * 1000L /*30 minutes*/);
         }
     }
 
@@ -1771,7 +1771,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
 
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * <p/>
+     * 
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false

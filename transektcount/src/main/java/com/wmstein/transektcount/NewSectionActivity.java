@@ -3,7 +3,6 @@ package com.wmstein.transektcount;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,10 +31,10 @@ import androidx.appcompat.app.AppCompatActivity;
 /*********************************************************
  * Create a new empty transect section list (NewCount)
  * uses activity_new_section.xml
- * NewSectionActivity is called from ListSectionActivity.
+ * NewSection(P)Activity is called from ListSection(P)Activity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -44,7 +43,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     private static TransektCountApplication transektCount;
     SharedPreferences prefs;
 
-    private boolean screenOrientL; // option for screen orientation
     private Bitmap bMap;
     private BitmapDrawable bg;
 
@@ -65,18 +63,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         ScrollView baseLayout = findViewById(R.id.newsectScreen); //in activity_new_section.xml
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
@@ -213,16 +201,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView baseLayout = findViewById(R.id.newsectScreen);
-
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
         baseLayout.setBackground(null);
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(baseLayout.getResources(), bMap);
         baseLayout.setBackground(bg);
@@ -240,9 +219,9 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is not empty ("") and not null.
-     * <p>
+     * 
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -259,7 +238,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * <p>
+     * 
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

@@ -41,10 +41,6 @@ _ Subtitle
   _
   _ email: stein.wm@web.de
   _
-  & Attention: Since version 3.2.0 modified file directory! 
-  	! For compatibility reasons with Android 10 file access had to be changed to an app-specific directoy. Now database files (.db) are stored in /storage/emulated/0/Android/data/com.wmstein.transektcount/files/. For further infos see Help.
-  & ------------------------------
-  _
   	! TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. 
   _ 
   	! TransektCount is one of two Apps for European butterfly monitoring.
@@ -71,12 +67,22 @@ _ Subtitle
     * filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   _ 
     ! Butterfly pictures: 
-    * Carcharodus lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2, derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
+    * Carcharodus lavatherae, Author Dumi, GNU Free Documentation License, version 1.2, derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
+    * Crambus pascuella, Author: Olaf Leillinger, GNU Free Documentation License, derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
+    * Evergestis extimalis, Author: Adam Furlepa, CC BY-SA 3.0, derived from https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
     * Hyles gallii (A.R. Pittaway, non-commercial use allowed), derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
+    * Pediasia contaminella, Author: Ben Sale, Creative Commons Attribution 2.0 Generic License, derived from https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
   _
     ! All other pictures, app icon and background (C) Wilhelm Stein. 
 	! Pictures of this work by Wilhelm Stein may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
+
+$ 3.3.1
+  % Version 3.3.1
+  _ 2022-04-30
+		* Some more species with pictures added
+		* Code changes for better portrait/landscape handling
+		* Docs updated
 
 $ 3.3.0
   % Version 3.3.0

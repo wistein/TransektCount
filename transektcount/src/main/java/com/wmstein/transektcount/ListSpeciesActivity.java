@@ -2,7 +2,6 @@ package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,13 +22,14 @@ import com.wmstein.transektcount.widgets.ListSpeciesWidget;
 import com.wmstein.transektcount.widgets.ListSumWidget;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/****************************************************
- * ListSpeciesActivity shows list of counting results
+/***********************************************************
+ * ListSpeciesActivity shows results list of counted Species
  * Created by wmstein on 2016-03-15,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class ListSpeciesActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -46,7 +46,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
     // preferences
     private boolean awakePref;
     private String sortPref;
-    private boolean screenOrientL; // option for screen orientation
 
     // the actual data
     private CountDataSource countDataSource;
@@ -75,21 +74,11 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         prefs.registerOnSharedPreferenceChangeListener(this);
         awakePref = prefs.getBoolean("pref_awake", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
 
         ScrollView listSpec_screen = findViewById(R.id.listSpecScreen);
         listSpec_screen.setBackground(transektCount.getBackground());
 
-        getSupportActionBar().setTitle(getString(R.string.viewSpecTitle));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.viewSpecTitle));
 
         spec_area = findViewById(R.id.listSpecLayout);
 
@@ -287,7 +276,6 @@ public class ListSpeciesActivity extends AppCompatActivity implements SharedPref
         listSpec_screen.setBackground(transektCount.setBackground());
         awakePref = prefs.getBoolean("pref_awake", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
     
 }

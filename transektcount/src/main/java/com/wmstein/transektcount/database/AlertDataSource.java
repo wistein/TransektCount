@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +13,7 @@ import java.util.List;
 /**********************************
  * Created by milo on 2014-05-05.
  * Changed by wmstein on 2016-02-18
- * Last edited 2021-01-26
+ * Last edited 2022-04-26
  */
 public class AlertDataSource
 {
@@ -55,6 +56,7 @@ public class AlertDataSource
         cursor.close();
     }
 
+    @SuppressLint("Range")
     private Alert cursorToAlert(Cursor cursor)
     {
         Alert newalert = new Alert();

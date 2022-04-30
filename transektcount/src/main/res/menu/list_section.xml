@@ -12,21 +12,4 @@
         app:showAsAction="ifRoom">
     </item>
 
-    <item
-        android:id="@+id/menu_list2_item"
-        android:icon="@drawable/ic_core_overflow"
-        android:title=""
-        app:showAsAction="always">
-
-        <menu>
-            <item
-                android:id="@+id/action_settings"
-                android:orderInCategory="100"
-                android:icon="@drawable/preferences"
-                android:title="@string/action_settings"
-                app:showAsAction="never">
-            </item>
-
-        </menu>
-    </item>
 </menu>

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
+import com.wmstein.filechooser.AdvFileChooserL;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
@@ -60,7 +61,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * 
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
@@ -112,7 +113,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
 
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -128,6 +128,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        setContentView(R.layout.activity_welcome);
 
         ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.getBackground());
@@ -205,7 +207,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int id = item.getItemId();
         if (id == R.id.action_settings)
         {
-            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            if (screenOrientL)
+            {
+                startActivity(new Intent(this, SettingsLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+            else
+            {
+                startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
             return true;
         }
         else if (id == R.id.exportMenu)
@@ -250,12 +259,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else if (id == R.id.viewSections)
         {
-            startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            if (screenOrientL)
+            {
+                startActivity(new Intent(this, ListSectionLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+            else
+            {
+                startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
             return true;
         }
         else if (id == R.id.editMeta)
         {
-            startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            if (screenOrientL)
+            {
+                startActivity(new Intent(this, EditMetaLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+            else
+            {
+                startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
             return true;
         }
         else if (id == R.id.viewSpecies)
@@ -263,8 +286,17 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
             // Trick: Pause for 100 msec to show toast
-            mHandler.postDelayed(() -> 
+            if (screenOrientL)
+            {
+                mHandler.postDelayed(() ->
+                startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+            }
+            else
+            {
+                mHandler.postDelayed(() ->
                 startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+            }
+                
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -272,12 +304,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     public void viewSections(View view)
     {
-        startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        if (screenOrientL)
+        {
+            startActivity(new Intent(this, ListSectionLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        else
+        {
+            startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
     }
 
     public void editMeta(View view)
     {
-        startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        if (screenOrientL)
+        {
+            startActivity(new Intent(this, EditMetaLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        else
+        {
+            startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
     }
 
     public void viewSpecies(View view)
@@ -285,9 +331,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
         // Trick: Pause for 100 msec to show toast
-        mHandler.postDelayed(() -> 
-            startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
-
+        if (screenOrientL)
+        {
+            mHandler.postDelayed(() ->
+                startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+        }
+        else
+        {
+            mHandler.postDelayed(() ->
+                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+        }
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -308,6 +361,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
 
         Head head;
         headDataSource = new HeadDataSource(this);
@@ -1127,13 +1184,24 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     private void doImportDB()
     {
-        Intent intent = new Intent(this, AdvFileChooser.class);
         ArrayList<String> extensions = new ArrayList<>();
         extensions.add(".db");
         String filterFileName = "transektcount";
-        intent.putStringArrayListExtra("filterFileExtension", extensions);
-        intent.putExtra("filterFileName", filterFileName);
-        startActivityForResult(intent, FILE_CHOOSER);
+
+        if (screenOrientL)
+        {
+            Intent intent = new Intent(this, AdvFileChooserL.class);
+            intent.putStringArrayListExtra("filterFileExtension", extensions);
+            intent.putExtra("filterFileName", filterFileName);
+            startActivityForResult(intent, FILE_CHOOSER);
+        }
+        else
+        {
+            Intent intent = new Intent(this, AdvFileChooser.class);
+            intent.putStringArrayListExtra("filterFileExtension", extensions);
+            intent.putExtra("filterFileName", filterFileName);
+            startActivityForResult(intent, FILE_CHOOSER);
+        }
     }
 
     @Override

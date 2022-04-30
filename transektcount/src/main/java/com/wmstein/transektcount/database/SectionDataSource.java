@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -60,6 +61,7 @@ public class SectionDataSource
         return newSection;
     }
 
+    @SuppressLint("Range")
     private Section cursorToSection(Cursor cursor)
     {
         Section section = new Section();
@@ -190,6 +192,7 @@ public class SectionDataSource
     }
 
     // called by List<Section> getAllSectionNames()
+    @SuppressLint("Range")
     private Section cursorToSect(Cursor cursor)
     {
         Section section = new Section();

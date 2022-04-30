@@ -5,7 +5,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,13 +20,12 @@ import androidx.preference.PreferenceManager;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2020-04-20
+ * Last edited on 2022-04-30
  */
 public class SettingsActivity extends AppCompatActivity
 {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    private boolean screenOrientL; // option for screen orientation
     
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
@@ -47,17 +45,6 @@ public class SettingsActivity extends AppCompatActivity
             .commit();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
         editor = prefs.edit(); // will be committed on pause
         
         // permission to read db
@@ -116,10 +103,5 @@ public class SettingsActivity extends AppCompatActivity
         }
         return true;
     }
-
-    public void onSharedPreferenceChanged(SharedPreferences prefs)
-    {
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-    }
-
+    
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -41,7 +40,7 @@ import androidx.core.app.NavUtils;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -68,7 +67,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     EditNotesWidget enw;
     AddAlertWidget aa_widget;
     private boolean brightPref;
-    private boolean screenOrientL; // option for screen orientation
 
     ArrayList<AlertCreateWidget> savedAlerts;
 
@@ -83,7 +81,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         prefs = com.wmstein.transektcount.TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         brightPref = prefs.getBoolean("pref_bright", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
         if (brightPref)
@@ -95,14 +92,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         }
 
         ScrollView counting_screen = findViewById(R.id.count_options);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);
@@ -153,7 +142,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         } catch (NullPointerException e)
         {
             if (MyDebug.LOG)
-                Log.e(TAG, "Problem setting title bar: " + e.toString());
+                Log.e(TAG, "Problem setting title bar: " + e);
         }
 
         List<Alert> alerts = alertDataSource.getAllAlertsForCount(count_id);
@@ -195,7 +184,6 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         enw.setSectionNotes(count.notes);
         enw.setWidgetNotes(getString(R.string.notesSpecies));
         enw.setHint(getString(R.string.notesHint));
-//        enw.requestFocus();
 
         static_widget_area.addView(enw);
 
@@ -372,7 +360,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
                 } catch (Exception e)
                 {
                     if (MyDebug.LOG)
-                        Log.e(TAG, "Failed to delete a widget: " + e.toString());
+                        Log.e(TAG, "Failed to delete a widget: " + e);
                 }
             });
             areYouSure.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
@@ -419,14 +407,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
         ScrollView counting_screen = findViewById(R.id.count_options);
         counting_screen.setBackground(null);
         brightPref = prefs.getBoolean("pref_bright", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
         counting_screen.setBackground(bg);

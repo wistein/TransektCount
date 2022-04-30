@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -30,13 +29,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -56,8 +56,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     private MetaDataSource metaDataSource;
 
     // preferences
-    private boolean screenOrientL; // option for screen orientation
-
+    private boolean brightPref;
+    
     private LinearLayout head_area;
     private TextView sDate, sTime, eTime;
 
@@ -76,8 +76,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        boolean brightPref = prefs.getBoolean("pref_bright", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+        brightPref = prefs.getBoolean("pref_bright", true);
 
         // Set full brightness of screen
         if (brightPref)
@@ -88,21 +87,12 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             getWindow().setAttributes(params);
         }
 
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
-        getSupportActionBar().setTitle(getString(R.string.editHeadTitle));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.editHeadTitle));
     }
     
     @SuppressLint("SourceLockedOrientationActivity")
@@ -113,16 +103,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        brightPref = prefs.getBoolean("pref_bright", true);
 
         // build the Edit Meta Data screen
         // clear existing view
@@ -358,27 +339,17 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         editHead_screen.setBackground(null);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
     }
-
+    
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004

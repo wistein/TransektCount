@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
+#### Version 3.3.1 (2022-04-30)
+- Some more species with pictures added
+- Code changes for better portrait/landscape handling
+- Docs updated
+  		
 #### Version 3.3.0 (2022-04-17)
 - Some more species with pictures added
 - Copyright and license texts updated

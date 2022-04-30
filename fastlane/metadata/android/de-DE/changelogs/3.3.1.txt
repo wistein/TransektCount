@@ -1,0 +1,4 @@
+Version 3.3.1 (30.04.2022)
+- Einige weitere Falterarten mit Abbildungen hinzugefügt
+- Code-Änderungen für eine bessere Portrait/Landscape-Funktion
+- Update von Doks

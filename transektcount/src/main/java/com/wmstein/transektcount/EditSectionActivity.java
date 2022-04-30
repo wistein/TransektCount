@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -46,7 +45,7 @@ import androidx.core.app.NavUtils;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2021-01-26
+ * last edited on 2022-04-30
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -85,9 +84,10 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     private int section_id;
     private String section_notes;
+
+    // Preferences
     private boolean brightPref;
     private boolean dupPref;
-    private boolean screenOrientL; // option for screen orientation
 
     String new_count_name = "";
     String oldname;
@@ -107,9 +107,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         notes_area2 = findViewById(R.id.editingNotesLayout);
         counts_area = findViewById(R.id.editingCountsLayout);
 
-        /*
-         * Restore any edit widgets the user has added previously and the section id
-         */
+        // Restore any edit widgets the user has added previously and the section id
         if (savedInstanceState != null)
         {
             if (savedInstanceState.getSerializable("savedCounts") != null)
@@ -125,7 +123,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         brightPref = prefs.getBoolean("pref_bright", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
         // Set full brightness of screen
         if (brightPref)
@@ -137,16 +134,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
         
         LinearLayout counting_screen = findViewById(R.id.editSect);
-//        ScrollView counting_screen = findViewById(R.id.editingScreen); // old layout
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
 
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
@@ -165,7 +152,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         brightPref = prefs.getBoolean("pref_bright", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
         dupPref = prefs.getBoolean("pref_duplicate", true);
         String sortPref = prefs.getString("pref_sort_sp", "none");
         section_id = prefs.getInt("section_id", 1);
@@ -181,7 +167,6 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         }
 
         // build the Edit Section screen
-        // clear any existing views
         counts_area.removeAllViews();
         notes_area2.removeAllViews();
 
@@ -213,12 +198,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.setSectionNotes(section.notes);
         enw.setWidgetNotes(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
-//        enw.requestFocus();
+
         notes_area2.addView(enw);
 
         // load the sorted species data
         List<Count> counts;
-        switch (sortPref)
+        switch (Objects.requireNonNull(sortPref))
         {
         case "names_alpha":
             counts = countDataSource.getAllSpeciesForSectionSrtName(section.id);
@@ -632,17 +617,8 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         LinearLayout counting_screen = findViewById(R.id.editSect);
-//        ScrollView counting_screen = findViewById(R.id.editingScreen);
         dupPref = prefs.getBoolean("pref_duplicate", true);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         counting_screen.setBackground(null);
         bg = new BitmapDrawable(counting_screen.getResources(), bMap);
@@ -652,9 +628,9 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * <p>
+     * 
      * Checks if a CharSequence is not empty ("") and not null.
-     * <p>
+     * 
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -671,7 +647,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * <p>
+     * 
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

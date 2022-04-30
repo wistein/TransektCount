@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Last edited 2021-01-26 -->
+<!-- Activities are doubled for portrait and landscape mode as the incorporated Spinner functionality
+     crashes when the device gets rotated. So the rotation is done by the app according to the settings
+     option. 
+     Advisable for smartphone is portrait mode, for tablet is landscape mode.
+     Last edited 2022-04-30
+-->
 
 <manifest package="com.wmstein.transektcount"
           xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,8 +17,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <!-- multiwindow crashes when rotating the screen, 
-         reason: spinner in CountingActivity, 
-         solution: android:resizeableActivity="false" prohibits multi-window-mode -->
+         reason: Spinner in Counting(L)Activity, 
+         solution: android:resizeableActivity="false" prohibits multi-window-mode
+    -->
     <application
         android:name=".TransektCountApplication"
         android:requestLegacyExternalStorage="true"
@@ -39,64 +45,137 @@
         <activity
             android:name="com.wmstein.filechooser.AdvFileChooser"
             android:label="@string/title_activity_filechooser"
+            android:screenOrientation="portrait"
             android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
-        
+
+        <activity
+            android:name="com.wmstein.filechooser.AdvFileChooserL"
+            android:label="@string/title_activity_filechooser"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name=".NewSectionActivity"
             android:label="@string/title_activity_new_section"
             android:noHistory="true"
             android:parentActivityName=".ListSectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ListSectionActivity"/>
         </activity>
-        
+
+        <activity
+            android:name=".NewSectionLActivity"
+            android:label="@string/title_activity_new_section"
+            android:noHistory="true"
+            android:parentActivityName=".ListSectionLActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ListSectionLActivity"/>
+        </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
+            android:screenOrientation="portrait"
             android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
-        
+
+        <activity
+            android:name=".SettingsLActivity"
+            android:label="@string/action_settings"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name=".ListSectionActivity"
             android:label="@string/title_activity_list_section"
             android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
-        
+
+        <activity
+            android:name=".ListSectionLActivity"
+            android:label="@string/title_activity_list_section"
+            android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name=".EditMetaActivity"
             android:label="@string/title_activity_meta"
             android:launchMode="singleTop"
             android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
-        
+
+        <activity
+            android:name=".EditMetaLActivity"
+            android:label="@string/title_activity_meta"
+            android:launchMode="singleTop"
+            android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name=".ListSpeciesActivity"
             android:label="@string/title_activity_list_species"
             android:launchMode="singleTop"
             android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
-        
+
+        <activity
+            android:name=".ListSpeciesLActivity"
+            android:label="@string/title_activity_list_species"
+            android:launchMode="singleTop"
+            android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WelcomeActivity"/>
+        </activity>
+
         <activity
             android:name=".CountingActivity"
             android:label="@string/title_activity_counting"
@@ -114,39 +193,20 @@
             android:name=".CountingLActivity"
             android:label="@string/title_activity_counting"
             android:launchMode="singleTop"
-            android:parentActivityName=".ListSectionActivity"
+            android:parentActivityName=".ListSectionLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListSectionActivity"/>
+                android:value="ListSectionLActivity"/>
         </activity>
         
         <activity
             android:name=".CountOptionsActivity"
             android:label="@string/title_activity_count_options"
             android:parentActivityName=".CountingActivity"
-            android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="CountingActivity"/>
-        </activity>
-        
-        <activity
-            android:name=".DummyActivity"
-            android:label="@string/title_activity_dummy"
-            android:parentActivityName=".CountingActivity"
-            android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="CountingActivity"/>
-        </activity>
-        
-        <activity
-            android:name=".EditSectionActivity"
-            android:label="@string/title_activity_edit_section"
-            android:parentActivityName=".CountingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -154,13 +214,65 @@
         </activity>
 
         <activity
+            android:name=".CountOptionsLActivity"
+            android:label="@string/title_activity_count_options"
+            android:parentActivityName=".CountingLActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="CountingLActivity"/>
+        </activity>
+
+        <activity
+            android:name=".DummyActivity"
+            android:label="@string/title_activity_dummy"
+            android:screenOrientation="nosensor"
+            android:theme="@style/Theme.AppCompat">
+        </activity>
+
+        <activity
+            android:name=".EditSectionActivity"
+            android:label="@string/title_activity_edit_section"
+            android:parentActivityName=".CountingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="CountingActivity"/>
+        </activity>
+
+        <activity
+            android:name=".EditSectionLActivity"
+            android:label="@string/title_activity_edit_section"
+            android:parentActivityName=".CountingLActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="CountingLActivity"/>
+        </activity>
+
+        <activity
             android:name=".AddSpeciesActivity"
             android:label="@string/title_activity_add_species"
             android:parentActivityName=".EditSectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="EditSectionActivity"/>
+        </activity>
+
+        <activity
+            android:name=".AddSpeciesLActivity"
+            android:label="@string/title_activity_add_species"
+            android:parentActivityName=".EditSectionLActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="EditSectionLActivity"/>
         </activity>
 
         <!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity

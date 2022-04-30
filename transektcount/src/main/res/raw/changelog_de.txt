@@ -41,10 +41,6 @@ _ Subtitle
   _
   _ email: stein.wm@web.de
   _
-  & Achtung: Seit Version 3.2.0 Geändertes Dateiverzeichnis!
-    ! Wegen der Kompatibilität mit Android 10 musste der Dateizugriff auf ein App-spezifisches Verzeichnis geändert werden. Datenbank-Dateien (.db) liegen nun in /storage/emulated/0/Android/data/com.wmstein.transektcount/files/. Weitere Infos in der Hilfe.
-  & --------------------------------
-  _
   	! TransektCount dient Transektzählern bei Transekt-Begehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.
   _ 
   	! TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge.
@@ -72,12 +68,22 @@ _ Subtitle
   _
     ! Schmetterlings-Abbildungen: 
     * Carcharodus lavatherae, Autor Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
+    * Crambus pascuella, Autor: Olaf Leillinger, GNU Free Documentation License, erstellt aus https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
+    * Evergestis extimalis, Autor: Adam Furlepa, CC BY-SA 3.0, erstellt aus https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
     * Hyles gallii (A.R. Pittaway, non-commercial use allowed), erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
+    * Pediasia contaminella, Autor: Ben Sale, Creative Commons Attribution 2.0 Generic License, erstellt aus https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
   _
     ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
 	! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren. 
   _ 
   
+$ 3.3.1
+  % Version 3.3.1
+  _ 30.04.2022
+		* Einige weitere Falterarten mit Abbildungen hinzugefügt
+		* Code-Änderungen für eine bessere Portrait/Landscape-Funktion
+		* Update von Doks.
+		
 $ 3.3.0
   % Version 3.3.0
   _ 17.04.2022
