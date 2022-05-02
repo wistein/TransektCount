@@ -26,12 +26,13 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 /*********************************************************
  * Create a new empty transect section list (NewCount)
  * uses activity_new_section.xml
- * NewSection(L)Activity is called from ListSection(L)Activity.
+ * NewSectionLActivity is called from ListSectionLActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
  * last edited on 2022-04-30
@@ -47,12 +48,13 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
     private BitmapDrawable bg;
 
     Section section;
+    Section newSection;
+    
     ViewGroup layout;
     EditText newsectName;
     private SectionDataSource sectionDataSource;
     List<Section> sections = new ArrayList<>();
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -96,6 +98,12 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     // Inflate the menu; this adds items to the action bar if it is present.
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -107,7 +115,6 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
     public boolean onOptionsItemSelected(MenuItem item)
     {
         // Handle action bar item clicks here. The action bar will automatically handle clicks on 
-        // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.menuSaveExit)
         {
@@ -120,31 +127,50 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
     @SuppressLint("ApplySharedPref")
     public void saveSection(View view)
     {
-        // first, the section name
+        // first, edit the section name
         String sect_name = newsectName.getText().toString();
         sections = sectionDataSource.getAllSections(prefs);
 
         // check for empty section name
-        if (isNotEmpty(sect_name))
+        if (sect_name.isEmpty())
         {
-            //check if this is not a duplicate of an existing name
-            if (compSectionNames(sect_name))
-            {
-                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
-                return;
-            }
-            else
-            {
-                sectionDataSource.createSection(sect_name); // might need to escape the name
-                if (MyDebug.LOG)
-                    Log.d(TAG, "sect_name = " + sect_name);
-            }
-        }
-        else
-        {
-            showSnackbarRed(sect_name + " " + getString(R.string.isempty));
+            showSnackbarRed(getString(R.string.newName));
             return;
         }
+
+        // check if this is not a duplicate of an existing name
+        if (compSectionNames(sect_name))
+        {
+            showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
+            return;
+        }
+
+        // check if section is contiguous
+        int entries = -1, maxId = 0;
+        try
+        {
+            entries = sectionDataSource.getNumEntries();
+        } catch (Exception e)
+        {
+            //do nothing
+        }
+
+        try
+        {
+            maxId = sectionDataSource.getMaxId();
+        } catch (Exception e)
+        {
+            //do nothing
+        }
+
+        if (entries != maxId)
+        {
+            showSnackbarRed(getString(R.string.notContiguous));
+            return;
+        }
+
+        newSection = sectionDataSource.createSection(sect_name);
+        sectionDataSource.saveSection(newSection);
 
         // Toast here, as snackbar doesn't show up
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
@@ -163,7 +189,7 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
         
         if (MyDebug.LOG)
             Log.d(TAG, "sect_id = " + section_id);
-        Intent intent = new Intent(NewSectionLActivity.this, EditSectionActivity.class);
+        Intent intent = new Intent(NewSectionLActivity.this, EditSectionLActivity.class);
         intent.putExtra("section_id", section_id);
         startActivity(intent);
     }
@@ -197,7 +223,6 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
         return isDblName;
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView baseLayout = findViewById(R.id.newsectScreen);
@@ -216,41 +241,4 @@ public class NewSectionLActivity extends AppCompatActivity implements SharedPref
         sB.show();
     }
     
-    /**
-     * Following functions are taken from the Apache commons-lang3-3.4 library
-     * licensed under Apache License Version 2.0, January 2004
-     * 
-     * Checks if a CharSequence is not empty ("") and not null.
-     * 
-     * isNotEmpty(null)      = false
-     * isNotEmpty("")        = false
-     * isNotEmpty(" ")       = true
-     * isNotEmpty("bob")     = true
-     * isNotEmpty("  bob  ") = true
-     *
-     * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is not empty and not null
-     */
-    public static boolean isNotEmpty(final CharSequence cs)
-    {
-        return !isEmpty(cs);
-    }
-
-    /**
-     * Checks if a CharSequence is empty ("") or null.
-     * 
-     * isEmpty(null)      = true
-     * isEmpty("")        = true
-     * isEmpty(" ")       = false
-     * isEmpty("bob")     = false
-     * isEmpty("  bob  ") = false
-     *
-     * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is empty or null
-     */
-    public static boolean isEmpty(final CharSequence cs)
-    {
-        return cs == null || cs.length() == 0;
-    }
-
 }

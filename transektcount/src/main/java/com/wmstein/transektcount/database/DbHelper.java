@@ -12,14 +12,14 @@ import com.wmstein.transektcount.R;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2022-04-26
+ * Last edited on 2022-05-01
  */
 public class DbHelper extends SQLiteOpenHelper
 {
     private static final String TAG = "TransektCount DBHelper";
     private static final String DATABASE_NAME = "transektcount.db";
     //DATABASE_VERSION 2: New count columns added to COUNT_TABLE for sexes and stadiums
-    //DATABASE_VERSION 3: Column temp changed to tempe as 'temp' seems to have a reserved term conflict
+    //DATABASE_VERSION 3: Column temp in table META_TABLE changed to tempe as 'temp' seems to have a reserved term conflict
     //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names 
     private static final int DATABASE_VERSION = 4;
     private final Context mContext;

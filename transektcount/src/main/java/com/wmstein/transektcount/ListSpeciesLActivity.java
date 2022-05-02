@@ -163,7 +163,7 @@ public class ListSpeciesLActivity extends AppCompatActivity implements SharedPre
         }
 
         sumSpec = countDataSource.getDiffSpec(); // get number of different species
-       
+
         int spec_countf1i;
         int spec_countf2i;
         int spec_countf3i;
@@ -277,5 +277,5 @@ public class ListSpeciesLActivity extends AppCompatActivity implements SharedPre
         awakePref = prefs.getBoolean("pref_awake", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list
     }
-    
+
 }

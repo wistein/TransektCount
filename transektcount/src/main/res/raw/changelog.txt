@@ -79,9 +79,10 @@ _ Subtitle
 
 $ 3.3.1
   % Version 3.3.1
-  _ 2022-04-30
+  _ 2022-05-02
 		* Some more species with pictures added
 		* Code changes for better portrait/landscape handling
+		*   and section lists editing
 		* Docs updated
 
 $ 3.3.0

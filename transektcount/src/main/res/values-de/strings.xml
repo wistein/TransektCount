@@ -76,6 +76,7 @@
     <string name="labelNewsect">Hier Abschnittsnamen eingeben</string>
     <string name="labelNewCountButton">Art hinzuf.</string>
     <string name="sectionSaved">Liste gespeichert!</string>
+    <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
@@ -92,7 +93,7 @@
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Liste bearbeiten</string>
     <string name="dpSectTitle">Neuer Abschnittsname</string>
-    <string name="confirmDelete">Soll die Liste wirklich gelöscht werden?</string>
+    <string name="confirmDelete">Soll die Liste wirklich gelöscht werden? Nur falls es sich um den zuletzt eingefügten Abschnitt handelt, können später noch neue Abschnitte hinzugefügt werden.</string>
     <string name="willAlert">- %1$s wird bei %2$d ein Signal geben.</string>
     <string name="deleteButton">Löschen</string>
     <string name="action_share">Mitteilen</string>
@@ -129,7 +130,7 @@
     <string name="prefs_appearance">Aussehen</string>
     <string name="pref_bg">Hintergrund</string>
     <string name="pref_bg_summ">Wähle Standard- oder kein Hintergrundbild.</string>
-    <string name="pref_sort_order">Sortierung</string>
+    <string name="pref_sort_order">Sortierung d. Abschnitte</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
     <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
     <string name="pref_note_font">Anmerkungs-Font</string>

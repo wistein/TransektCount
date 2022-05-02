@@ -79,9 +79,10 @@ _ Subtitle
   
 $ 3.3.1
   % Version 3.3.1
-  _ 30.04.2022
+  _ 02.05.2022
 		* Einige weitere Falterarten mit Abbildungen hinzugefügt
 		* Code-Änderungen für eine bessere Portrait/Landscape-Funktion
+		*   und Bearbeitung der Abschnittslisten
 		* Update von Doks.
 		
 $ 3.3.0

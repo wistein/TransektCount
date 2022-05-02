@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
 /********************************************************
  * Based on ProjectDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited on 2021-01-26
+ * last edited on 2022-05-02
  */
 public class SectionDataSource
 {
@@ -47,14 +48,17 @@ public class SectionDataSource
         dbHandler.close();
     }
 
+    @SuppressLint("Range")
     public Section createSection(String name)
     {
         ContentValues values = new ContentValues();
         values.put(DbHelper.S_NAME, name);
-        int insertId = (int) database.insert(DbHelper.SECTION_TABLE, null, values);
-        Cursor cursor = database.query(DbHelper.SECTION_TABLE,
+        Cursor cursor;
+        int insertId =  (int) database.insert(DbHelper.SECTION_TABLE, null, values);
+        cursor = database.query(DbHelper.SECTION_TABLE,
             allColumns, DbHelper.S_ID + " = " + insertId, null,
             null, null, null);
+        
         cursor.moveToFirst();
         Section newSection = cursorToSection(cursor);
         cursor.close();
@@ -70,6 +74,26 @@ public class SectionDataSource
         section.name = cursor.getString(cursor.getColumnIndex(DbHelper.S_NAME));
         section.notes = cursor.getString(cursor.getColumnIndex(DbHelper.S_NOTES));
         return section;
+    }
+
+    // get number of table entries 
+    public int getNumEntries()
+    {
+        return (int) DatabaseUtils.queryNumEntries(database, DbHelper.SECTION_TABLE);
+    }
+    
+    // get highest ID-number of table entries
+    @SuppressLint("Range")
+    public int getMaxId()
+    {
+        String sql = "SELECT * FROM " + DbHelper.SECTION_TABLE + " ORDER BY " + DbHelper.S_ID + " DESC LIMIT 1";
+        Cursor cursor = database.rawQuery(sql, null);
+
+        int maxId = 0;
+        cursor.moveToFirst();
+        maxId = cursor.getInt(cursor.getColumnIndex(DbHelper.S_ID));
+        cursor.close();
+        return maxId;
     }
 
     public void deleteSection(Section section)

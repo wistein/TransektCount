@@ -60,11 +60,11 @@ import androidx.appcompat.app.AppCompatActivity;
  * 
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2020-04-29
+ * Last edit on 2020-05-02
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountCountAct";
+    private static final String TAG = "transektcountCntAct";
 
     private SharedPreferences prefs;
 
@@ -1599,6 +1599,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
         else if (id == R.id.menuClone)
         {
+            // store section_id into SharedPreferences
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("section_id", section_id);
+            editor.commit();
+            if (MyDebug.LOG)
+                Log.e(TAG, "Sect Id = " + section_id);
+
             cloneSection();
             return true;
         }
@@ -1629,31 +1636,61 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         // Set up the input
         final EditText input = new EditText(this);
+        
         // Specify the type of input expected
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton("OK", (dialog, which) ->
+        {
             // enter new section title
-            String m_Text = input.getText().toString();
+            String sect_name = input.getText().toString();
 
-            //check if this is not empty 
-            if (m_Text.isEmpty())
+            // check for empty section name
+            if (sect_name.isEmpty())
             {
                 showSnackbarRed(getString(R.string.newName));
                 return;
             }
 
-            //check if this is not a duplicate of an existing name
-            if (compSectionNames(m_Text))
+            // check if this is not a duplicate of an existing name
+            if (compSectionNames(sect_name))
             {
-                showSnackbarRed(m_Text + " " + getString(R.string.isdouble));
+                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
+                return;
+            }
+
+            // check if section is contiguous
+            int entries = -1, maxId = 0;
+            try
+            {
+                entries = sectionDataSource.getNumEntries();
+            } catch (Exception e)
+            {
+                if (MyDebug.LOG)
+                    showSnackbarRed("getNumEntries failed");
+            }
+
+            try
+            {
+                maxId = sectionDataSource.getMaxId();
+            } catch (Exception e)
+            {
+                if (MyDebug.LOG)
+                    showSnackbarRed("getMaxId failed");
+            }
+
+            if (entries != maxId)
+            {
+                showSnackbarRed(getString(R.string.notContiguous));
+                if (MyDebug.LOG)
+                    showSnackbarRed("maxId: " + maxId + ", entries: " + entries);
                 return;
             }
 
             // Creating the new section
-            Section newSection = sectionDataSource.createSection(m_Text);
+            Section newSection = sectionDataSource.createSection(sect_name);
             newSection.notes = section.notes;
             sectionDataSource.saveSection(newSection);
             for (Count c : countDataSource.getAllCountsForSection(section_id))
@@ -1666,8 +1703,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 }
             }
 
+            sectionDataSource.close();
+            countDataSource.close();
+            alertDataSource.close();
+            
             // Exit this and go to the list of new sections
-            Toast.makeText(CountingActivity.this, m_Text + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+            Toast.makeText(CountingActivity.this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CountingActivity.this, ListSectionActivity.class);
             startActivity(intent);
         });
