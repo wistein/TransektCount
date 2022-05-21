@@ -79,18 +79,19 @@ _ Subtitle
   
 $ 3.3.1
   % Version 3.3.1
-  _ 02.05.2022
+  _ 21.05.2022
+		* Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.3.3
 		* Einige weitere Falterarten mit Abbildungen hinzugefügt
-		* Code-Änderungen für eine bessere Portrait/Landscape-Funktion
-		*   und Bearbeitung der Abschnittslisten
-		* Update von Doks.
+		* Portrait/Landscape-Funktion verbessert
+		* Bug-Fix für Bearbeitung der Abschnittslisten
+		* Update der Doku
 		
 $ 3.3.0
   % Version 3.3.0
   _ 17.04.2022
 		* Einige weitere Falterarten mit Abbildungen hinzugefügt
 		* Update der Copyright und Lizenztexte
-    * Update von Docs
+    * Update der Doku
 
 $ 3.2.9
   % Version 3.2.9

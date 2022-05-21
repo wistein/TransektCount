@@ -79,10 +79,11 @@ _ Subtitle
 
 $ 3.3.1
   % Version 3.3.1
-  _ 2022-05-02
+  _ 2022-05-21
+		* Project adaption for Android Studio 2021.2.1 and Gradle 7.3.3
 		* Some more species with pictures added
-		* Code changes for better portrait/landscape handling
-		*   and section lists editing
+		* Portrait/landscape handling improved 
+		* Bug fixed in section lists editing
 		* Docs updated
 
 $ 3.3.0
@@ -90,7 +91,7 @@ $ 3.3.0
   _ 2022-04-17
 		* Some more species with pictures added
 		* Copyright and license texts updated
-		* Documents updated
+		* Docs updated
 
 $ 3.2.9
   % Version 3.2.9

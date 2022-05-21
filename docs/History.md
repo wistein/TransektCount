@@ -2,16 +2,17 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
-#### Version 3.3.1 (2022-05-02)
+#### Version 3.3.1 (2022-05-21)
+- Project adaption for Android Studio 2021.2.1 and Gradle 7.3.3
 - Some more species with pictures added
-- Code changes for better portrait/landscape handling
--   and section lists editing
+- Portrait/landscape handling improved 
+- Bug fixed in section lists editing
 - Docs updated
   		
 #### Version 3.3.0 (2022-04-17)
 - Some more species with pictures added
 - Copyright and license texts updated
-- Documents updated
+- Docs updated
 
 #### Version 3.2.9 (2023-03-03)
 - Project adaption for Android Studio 2021.1.1 and Gradle 7.2
