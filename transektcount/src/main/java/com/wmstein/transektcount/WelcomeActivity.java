@@ -1188,20 +1188,18 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         extensions.add(".db");
         String filterFileName = "transektcount";
 
+        Intent intent;
         if (screenOrientL)
         {
-            Intent intent = new Intent(this, AdvFileChooserL.class);
-            intent.putStringArrayListExtra("filterFileExtension", extensions);
-            intent.putExtra("filterFileName", filterFileName);
-            startActivityForResult(intent, FILE_CHOOSER);
+            intent = new Intent(this, AdvFileChooserL.class);
         }
         else
         {
-            Intent intent = new Intent(this, AdvFileChooser.class);
-            intent.putStringArrayListExtra("filterFileExtension", extensions);
-            intent.putExtra("filterFileName", filterFileName);
-            startActivityForResult(intent, FILE_CHOOSER);
+            intent = new Intent(this, AdvFileChooser.class);
         }
+        intent.putStringArrayListExtra("filterFileExtension", extensions);
+        intent.putExtra("filterFileName", filterFileName);
+        startActivityForResult(intent, FILE_CHOOSER);
     }
 
     @Override
