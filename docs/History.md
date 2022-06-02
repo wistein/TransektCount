@@ -2,6 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
+#### Version 3.3.2 (2022-06-02)
+- Some more species with pictures added
+
 #### Version 3.3.1 (2022-05-21)
 - Project adaption for Android Studio 2021.2.1 and Gradle 7.3.3
 - Some more species with pictures added
