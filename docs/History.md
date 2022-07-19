@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
+#### Version 3.3.3 (2022-07-19)
+- Some pictures of species improved
+- Some more species with pictures added
+
 #### Version 3.3.2 (2022-06-02)
 - Some more species with pictures added
 

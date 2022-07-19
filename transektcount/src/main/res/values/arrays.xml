@@ -435,6 +435,7 @@
         <item comment="07173">Lysandra coridon</item>
         <item comment="07193">Polyommatus damon</item>
         <item comment="07202">Argynnis paphia</item>
+        <item comment="07203">Argynnis pandora</item>
         <item comment="07204">Speyeria aglaja</item>
         <item comment="07205">Fabriciana adippe</item>
         <item comment="07206">Fabriciana niobe</item>
@@ -448,6 +449,7 @@
         <item comment="07228">Boloria dia</item>
         <item comment="07230">Boloria thore</item>
         <item comment="07235">Boloria pales</item>
+        <item comment="07236">Boloria napaea</item>
         <item comment="07237">Boloria aquilonaris</item>
         <item comment="07243">Vanessa atalanta</item>
         <item comment="07245">Vanessa cardui</item>
@@ -457,12 +459,18 @@
         <item comment="07255">Araschnia levana</item>
         <item comment="07257">Nymphalis antiopa</item>
         <item comment="07258">Nymphalis polychloros</item>
+        <item comment="07265">Euphydryas intermedia</item>
         <item comment="07266">Euphydryas maturna</item>
+        <item comment="07267">Euphydryas desfontainii</item>
         <item comment="07268">Euphydryas aurinia</item>
         <item comment="07270">Melitaea cinxia</item>
         <item comment="07271">Melitaea phoebe</item>
+        <item comment="07272">Melitaea aetherie</item>
+        <item comment="07274">Melitaea trivia</item>
         <item comment="07275">Melitaea didyma</item>
         <item comment="07276">Melitaea diamina</item>
+        <item comment="07277">Melitaea deione</item>
+        <item comment="07278">Melitaea varia</item>
         <item comment="07280">Melitaea aurelia</item>
         <item comment="07281">Melitaea britomartis</item>
         <item comment="07283">Melitaea athalia</item>
@@ -760,6 +768,7 @@
         <item comment="07173">Chalkhill blue</item>
         <item comment="07193">Damon blue</item>
         <item comment="07202">Silver-washed fritillary</item>
+        <item comment="07203">Mediterranean fritillary</item>
         <item comment="07204">Dark green fritillary</item>
         <item comment="07205">High brown fritillary</item>
         <item comment="07206">Niobe fritillary</item>
@@ -773,6 +782,7 @@
         <item comment="07228">Weaver\'s fritillary</item>
         <item comment="07230">Thor\'s fritillary</item>
         <item comment="07235">Shepherd\'s fritillary</item>
+        <item comment="07236">Mountain fritillary </item>
         <item comment="07237">Cranberry fritillary</item>
         <item comment="07243">Red admiral</item>
         <item comment="07245">Painted lady</item>
@@ -782,12 +792,18 @@
         <item comment="07255">Map</item>
         <item comment="07257">Camberwell beauty</item>
         <item comment="07258">Large tortoiseshell</item>
+        <item comment="07265">Asian fritillary</item>
         <item comment="07266">Scarce fritillary</item>
+        <item comment="07267">Spanish fritillary</item>
         <item comment="07268">Marsh fritillary</item>
         <item comment="07270">Glanville fritillary</item>
         <item comment="07271">Knapweed fritillary</item>
+        <item comment="07272">Aetherie fritillary</item>
+        <item comment="07274">Lesser spotted fritillary</item>
         <item comment="07275">Spotted fritillary</item>
         <item comment="07276">False heath fritillary</item>
+        <item comment="07277">Provencal fritillary</item>
+        <item comment="07278">Grisons fritillary</item>
         <item comment="07280">Nickerl\'s fritillary</item>
         <item comment="07281">Assmann\'s fritillary</item>
         <item comment="07283">Heath fritillary</item>
@@ -1085,6 +1101,7 @@
         <item>07173</item>
         <item>07193</item>
         <item>07202</item>
+        <item>07203</item>
         <item>07204</item>
         <item>07205</item>
         <item>07206</item>
@@ -1098,6 +1115,7 @@
         <item>07228</item>
         <item>07230</item>
         <item>07235</item>
+        <item>07236</item>
         <item>07237</item>
         <item>07243</item>
         <item>07245</item>
@@ -1107,12 +1125,18 @@
         <item>07255</item>
         <item>07257</item>
         <item>07258</item>
+        <item>07265</item>
         <item>07266</item>
+        <item>07267</item>
         <item>07268</item>
         <item>07270</item>
         <item>07271</item>
+        <item>07272</item>
+        <item>07274</item>
         <item>07275</item>
         <item>07276</item>
+        <item>07277</item>
+        <item>07278</item>
         <item>07280</item>
         <item>07281</item>
         <item>07283</item>
