@@ -1,0 +1,3 @@
+Version 3.3.5 (18.10.2022)
+- Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
+- 21 weitere Falterarten mit Abbildung hinzugefügt

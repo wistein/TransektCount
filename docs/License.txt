@@ -29,7 +29,7 @@
  *  - filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
  *
  * Butterfly pictures: 
- *  - Carcharodus lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2, 
+ *  - Muschampia lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2, 
  *    derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
  *  - Crambus pascuella, Author: Olaf Leillinger, GNU Free Documentation License, derived from 
  *    https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg

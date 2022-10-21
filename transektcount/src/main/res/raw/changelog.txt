@@ -67,7 +67,8 @@ _ Subtitle
     * filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   _ 
     ! Butterfly pictures: 
-    * Carcharodus lavatherae, Author Dumi, GNU Free Documentation License, version 1.2, derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
+    * Jordanita globulariae, Author: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0), Wikimedia
+    * Muschampia lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2, derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
     * Crambus pascuella, Author: Olaf Leillinger, GNU Free Documentation License, derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
     * Evergestis extimalis, Author: Adam Furlepa, CC BY-SA 3.0, derived from https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
     * Hyles gallii (A.R. Pittaway, non-commercial use allowed), derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
@@ -76,6 +77,12 @@ _ Subtitle
     ! All other pictures, app icon and background (C) Wilhelm Stein. 
 	! Pictures of this work by Wilhelm Stein may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
+
+$ 3.3.5
+  % Version 3.3.5
+  _ 2022-10-18
+		* Many pictures of species improved to show recto and verso sides
+		* 21 more species with pictures added
 
 $ 3.3.3
   % Version 3.3.3

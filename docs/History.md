@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
+#### Version 3.3.5 (2022-10-18)
+- Many pictures of species improved to show recto and verso sides
+- 21 more species with pictures added
+
 #### Version 3.3.3 (2022-07-19)
 - Some pictures of species improved
 - Some more species with pictures added

@@ -1,0 +1,3 @@
+Version 3.3.5 (2022-10-18)
+- Many pictures of species improved to show recto and verso sides
+- 21 more species with pictures added

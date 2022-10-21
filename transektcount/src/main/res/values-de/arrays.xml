@@ -196,6 +196,7 @@
         <item comment="06902">Fahlfleckiger Alpen-Würfeldickkopffalter</item>
         <item comment="06904">Kleiner Würfeldickkopffalter</item>
         <item comment="06906">Schwarzbrauner Würfeldickkopffalter</item>
+        <item comment="06908">Ockerfarbiger Würfeldickkopffalter</item>
         <item comment="06909">Spätsommer-Würfeldickkopffalter</item>
         <item comment="06911">Zweibrütiger Würfeldickkopffalter</item>
         <item comment="06912">Sonnenröschen-Würfeldickkopffalter</item>
@@ -229,6 +230,7 @@
         <item comment="07011">Alpen-Gelbling</item>
         <item comment="07013">Hochmoor-Gelbling</item>
         <item comment="07015">Postillion</item>
+        <item comment="07014">Steppen-Gelbling</item>
         <item comment="07017">Regensburger Gelbling</item>
         <item comment="07021">Goldene Acht</item>
         <item comment="07022">Hufeisenklee-Gelbling</item>
@@ -250,6 +252,7 @@
         <item comment="07064">Kreuzdorn-Zipfelfalter</item>
         <item comment="07065">Brauner Eichen-Zipfelfalter</item>
         <item comment="07067">Kleiner Schlehenzipfelfalter</item>
+        <item comment="07073">Großer Wanderbläuling</item>
         <item comment="07088">Zwerg-Bläuling</item>
         <item comment="07093">Kurzschwänziger Bläuling</item>
         <item comment="07097">Faulbaumbläuling</item>
@@ -307,6 +310,7 @@
         <item comment="07255">Landkärtchen</item>
         <item comment="07257">Trauermantel</item>
         <item comment="07258">Großer Fuchs</item>
+        <item comment="07259">Östlicher Großer Fuchs</item>
         <item comment="07265">Alpen-Maivogel</item>
         <item comment="07266">Maivogel</item>
         <item comment="07267">Spanischer Scheckenfalter</item>
@@ -349,6 +353,7 @@
         <item comment="07363">Gelbgefleckter Mohrenfalter</item>
         <item comment="07366">Knochs Mohrenfalter</item>
         <item comment="07369">Unpunktierter Mohrenfalter</item>
+        <item comment="07370">Kleiner Mohrenfalter</item>
         <item comment="07372">Graubindiger Mohrenfalter</item>
         <item comment="07373">Alpen-Mohrenfalter</item>
         <item comment="07379">Rundaugen-Mohrenfalter</item>
@@ -358,6 +363,7 @@
         <item comment="07391">Schweizer schillernder Mohrenfalter</item>
         <item comment="07394">Schillernder Mohrenfalter</item>
         <item comment="07396">Quellen-Mohrenfalter</item>
+        <item comment="07400">Freyers Alpen-Mohrenfalter</item>
         <item comment="07401">Marmorierter Mohrenfalter</item>
         <item comment="07405">Doppelaugen-Mohrenfalter</item>
         <item comment="07406">Gelbbindiger Mohrenfalter</item>
@@ -384,7 +390,9 @@
         <item comment="07620">Pantherspanner</item>
 		<item comment="07641">Dreistreifiger Mondfleckspanner</item>
 		<item comment="07659">Nachtschwalbenschwanz</item>
+        <item comment="07665">Schlehenspanner</item>
         <item comment="07804">Heideland-Tagspanner</item>
+        <item comment="07822">Kiefernspanner</item>
         <item comment="07824">Weißstirn-Weißspanner</item>
 		<item comment="07826">Braunstirn-Weißspanner</item>
 		<item comment="07836">Perlglanzspanner</item>
@@ -392,8 +400,14 @@
         <item comment="07916">Hartheuspanner</item>
 		<item comment="08000">Waldreben-Grünspanner</item>
         <item comment="08028">Ampferspanner</item>
+        <item comment="08045">Schmuck-Kleinspanner</item>
+        <item comment="08060">Weißgrauer Kleinspanner</item>
+        <item comment="08099">Ockerfarb. Steppenheiden-Zwergspanner</item>
+        <item comment="08104">Purpurstreifen-Zwergspanner</item>
 		<item comment="08184">Dunkelbindiger Doppellinien-Zwergspanner</item>
         <item comment="08221">Knöterich-Purpurspanner</item>
+        <item comment="08222">Ampfer-Purpurspanner</item>
+        <item comment="08239">Braunbinden-Wellenstriemenspanner</item>
 		<item comment="08253">Dunkler Rostfarben-Blattspanner</item>
         <item comment="08255">Schwarzbraunbinden-Blattspanner</item>
         <item comment="08274">Fleckleib-Labkrautspanner</item>
@@ -405,15 +419,22 @@
 		<item comment="08447">Kleiner Frostspanner</item>
 		<item comment="08622">Sandheiden-Johanniskrautspanner</item>
         <item comment="08631">Schwarzspanner</item>
+        <item comment="08663">Mausspanner</item>
         <item comment="08698">Erpelschwanz-Raufußspinner</item>
         <item comment="08750">Mondvogel</item>
         <item comment="08965">Ackerwinden-Trauereule</item>
         <item comment="08967">Scheck-Tageule</item>
         <item comment="08969">Braune Tageule</item>
         <item comment="08994">Nessel-Schnabeleule</item>
+        <item comment="09008">Seideneulchen</item>
+        <item comment="09045">Messingeule</item>
 		<item comment="09051">Schafgarben-Silbereule</item>
         <item comment="09056">Gammaeule</item>
+        <item comment="09097">Ackerwinden-Bunteulchen</item>
+        <item comment="09114">Waldrasen-Grasmotteneulchen</item>
+        <item comment="09116">Buschrasen-Grasmotteneulchen</item>
 		<item comment="09338">Hornkraut-Tageulchen</item>
+        <item comment="09364">Karden-Sonneneule</item>
 		<item comment="09417">Morpheus-Staubeule</item>
 		<item comment="09771">Ackerrand-Grasbüscheleule</item>
 		<item comment="09917">Gemüseeule</item>
