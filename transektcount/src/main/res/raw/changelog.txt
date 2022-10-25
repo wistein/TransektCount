@@ -78,122 +78,130 @@ _ Subtitle
 	! Pictures of this work by Wilhelm Stein may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
 
+$ 3.3.6
+  % Version 3.3.6
+  _ 2022-10-25
+  	* Gradle Plugin upgraded -> 7.3.1
+  	* Gradle upgraded -> 7.4
+    * Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
+    * Some more species with pictures added
+
 $ 3.3.5
   % Version 3.3.5
-  _ 2022-10-18
-		* Many pictures of species improved to show recto and verso sides
-		* 21 more species with pictures added
+  _ 2022-10-17
+	* Many pictures of species improved to show recto and verso sides
+	* Some more species with pictures added
 
 $ 3.3.3
   % Version 3.3.3
   _ 2022-07-19
-		* Some pictures of species improved
-		* Some more species with pictures added
+	* Some pictures of species improved
+	* Some more species with pictures added
 
 $ 3.3.2
   % Version 3.3.2
   _ 2022-06-02
-		* Some more species with pictures added
+	* Some more species with pictures added
 
 $ 3.3.1
   % Version 3.3.1
   _ 2022-05-21
-		* Project adaption for Android Studio 2021.2.1 and Gradle 7.3.3
-		* Some more species with pictures added
-		* Portrait/landscape handling improved 
-		* Bug fixed in section lists editing
-		* Docs updated
+	* Project adaption for Android Studio 2021.2.1 and Gradle 7.3.3
+	* Some more species with pictures added
+	* Portrait/landscape handling improved
+	* Bug fixed in section lists editing
+	* Docs updated
 
 $ 3.3.0
   % Version 3.3.0
   _ 2022-04-17
-		* Some more species with pictures added
-		* Copyright and license texts updated
-		* Docs updated
+	* Some more species with pictures added
+	* Copyright and license texts updated
+	* Docs updated
 
 $ 3.2.9
   % Version 3.2.9
   _ 2022-03-03
-		* Project adaption for Android Studio 2021.1.1 and Gradle 7.2
-		* Compiled for SDK version 31 (needed for current libs)
-		* Some more moths species with pictures added
+	* Project adaption for Android Studio 2021.1.1 and Gradle 7.2
+	* Compiled for SDK version 31 (needed for current libs)
+	* Some more moths species with pictures added
 
 $ 3.2.8
   % Version 3.2.8
   _ 2021-08-22
-		* Project adaption for Android Studio 2020.3.1 and Gradle 7.0.1
-		* Some missing butterfly pictures added
-		* Outdated species names corrected (within app and example DBs)
-		* Bugs in "New section" and "Duplicate Section List" corrected
+	* Project adaption for Android Studio 2020.3.1 and Gradle 7.0.1
+	* Some missing butterfly pictures added
+	* Outdated species names corrected (within app and example DBs)
+	* Bugs in "New section" and "Duplicate Section List" corrected
 
 $ 3.2.7
   % Version 3.2.7
   _ 2021-06-05
-		* Project adaption for Android Studio 4.2.1 and Gradle 6.7.1
-		* Compiled with SDK Ver. 30 for targetSdkVersion 29 (targetSdkVersion 30 prevents installation from "unknown sources" and inhibits testing of the own compilation under Android 11!)
+	* Project adaption for Android Studio 4.2.1 and Gradle 6.7.1
+	* Compiled with SDK Ver. 30 for targetSdkVersion 29 (targetSdkVersion 30 prevents installation from "unknown sources" and inhibits testing of the own compilation under Android 11!)
 
 $ 3.2.6
   % Version 3.2.6
   _ 2021-04-11
-		* Some wordings improved
-		* Clearer layout for Edit Transect Section
-		* Outdated code names updated
-		* Project adaption for Android Studio 4.1.3 and Gradle 6.5
-		* Fix for broken loading picture function since Gradle 6.5
-		* Some pictures added/improved
-		* Species family names updated where appropriate
+	* Some wordings improved
+	* Clearer layout for Edit Transect Section
+	* Outdated code names updated
+	* Project adaption for Android Studio 4.1.3 and Gradle 6.5
+	* Fix for broken loading picture function since Gradle 6.5
+	* Some pictures added/improved
+	* Species family names updated where appropriate
 
 $ 3.2.5
   % Version 3.2.5
   _ 2020-09-09
-		* Bug fix in csv-export
-		* Project adaption for Android Studio 4.0.1 and Gradle 6.1.1
+	* Bug fix in csv-export
+	* Project adaption for Android Studio 4.0.1 and Gradle 6.1.1
 
 $ 3.2.4
   % Version 3.2.4
   _ 2020-05-06
-		* More butterfly pictures integrated
-		* Initial integrated list of species enlarged
+	* More butterfly pictures integrated
+	* Initial integrated list of species enlarged
 
 $ 3.2.3
   % Version 3.2.3
   _ 2020-04-22
-		* Background picture better scaled for long displays
-		* Strings cleared up
+	* Background picture better scaled for long displays
+	* Strings cleared up
 
 $ 3.2.2
   % Version 3.2.2
   _ 2020-04-20
-		* Preferences adapted for Android 10
-		* .CSV-Export: In Totals line suppression of zeros 
-		* Strings cleared up
-		* Docs updated
+	* Preferences adapted for Android 10
+	* .CSV-Export: In Totals line suppression of zeros
+	* Strings cleared up
+	* Docs updated
 
 $ 3.2.1
   % Version 3.2.1
   _ 2020-04-16
-		* Code adapted for restricted Storage Access of Android 10
-		* Use of AndroidX libraries
-		* Bugfixes for adding new section
-		* Help text updated
-		* Many minor code refinements
-		* Project adaption for Android Studio 3.6.2
+	* Code adapted for restricted Storage Access of Android 10
+	* Use of AndroidX libraries
+	* Bugfixes for adding new section
+	* Help text updated
+	* Many minor code refinements
+	* Project adaption for Android Studio 3.6.2
 
 $ 3.1.6
   % Version 3.1.6
   _ 2020-02-26
   	* Code optimized for storage and power efficiency 
   	* App icon adapted to better match Android 9 screen 
-		* Project adaption for Android Studio 3.6 and Gradle 5.6.4
+	* Project adaption for Android Studio 3.6 and Gradle 5.6.4
 
 $ 3.1.5
   % Version 3.1.5
   _ 2019-12-08
   	* Date and time of first count for a section
-		* Undercutting of species names in results page corrected
-		* Bug fixed for changing a section list name
-		* Project adaption for Android Studio 3.5.3 and Gradle 5.4.1
-		* Changes in AndroidManifest.xml and build.gradle 
+	* Undercutting of species names in results page corrected
+	* Bug fixed for changing a section list name
+	* Project adaption for Android Studio 3.5.3 and Gradle 5.4.1
+	* Changes in AndroidManifest.xml and build.gradle
 
 $ 3.1.3
   % Version 3.1.3
@@ -206,9 +214,9 @@ $ 3.1.2
   % Version 3.1.2
   _ 2019-06-22
   	* Project adaption for Android Studio 3.4.1 and Gradle 5.1.1
-		* Minimal changes to starting page
-		* Minor text corrections
-		* Allow adding some species complexes to section lists
+	* Minimal changes to starting page
+	* Minor text corrections
+	* Allow adding some species complexes to section lists
 		
 $ 3.1.1
   % Version 3.1.1
@@ -219,19 +227,19 @@ $ 3.1.0
   % Version 3.1.0
   _ 2019-04-16
   	* Integrated list of many European species
-		* Instead of manual input, add further species to your section lists by scroll-down selection from a comprehensive list that contains only species not contained yet
+	* Instead of manual input, add further species to your section lists by scroll-down selection from a comprehensive list that contains only species not contained yet
 
 $ 3.0.8
   % Version 3.0.8
   _ 2019-04-04
-		* Butterfly icons added to section editor
+	* Butterfly icons added to section editor
 
 $ 3.0.7
   % Version 3.0.7
   _ 2019-03-23
-		* Database structure supplemented for local butterfly names
-		* Example databases adapted fot local butterfly names)
-		* Exported results include local butterfly names
+	* Database structure supplemented for local butterfly names
+	* Example databases adapted fot local butterfly names)
+	* Exported results include local butterfly names
   	* Additional butterfly pictures
     * Some minor screen design changes
     * Some code cleaning
@@ -251,7 +259,7 @@ $ 3.0.4
   % Version 3.0.4
   _ 2018-08-04
     * Additional butterfly pictures
-		* Where applicable toasts replaced with snackbars
+	* Where applicable toasts replaced with snackbars
   	* Permission handling for Settings
   	* Some code cleaning
   	* Fix for crash in permission handling of Android >= Marshmallow
@@ -269,7 +277,7 @@ $ 3.0.2
   % Version 3.0.2
   _ 2018-04-05
   	* Code cleaning
-		* Unnecessary permission WRITE_SETTINGS removed
+	* Unnecessary permission WRITE_SETTINGS removed
   	* Disabled multi-window-mode (Android 7+) for incompatible pull-down-menu (Spinner)
   	* Bug fixes
 
@@ -302,14 +310,14 @@ $ 2.1.1
   % Version 2.1.1
   _ 2017-10-31
   	* Dev. environment adapted for Android Studio 3.0
-  	* Docs: German Introductary presentation added
+  	* Docs: German Introductory presentation added
   	* Bug fixes
 
 $ 2.1.0
   % Version 2.1.0
   _ 2017-09-29
   	* Code adapted and compiled for Android 7.1
-		* Minor code improvements
+	* Minor code improvements
   	* Bug fixes
 
 $ 2.0.6
@@ -423,7 +431,7 @@ $ 1.2.5
   % Version 1.2.5
   _ 2016-04-07
     * Reject double species names in "Edit Sections"
-	  * Reject double section names in "Duplicate Section"
+    * Reject double section names in "Duplicate Section"
     * "+"-Button in app bar of page "List of Sections"
 
 $ 1.2.4

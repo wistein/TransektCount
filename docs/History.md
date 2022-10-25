@@ -2,15 +2,18 @@
 
 #### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
 
-#### Version 3.3.5 (2022-10-18)
+#### Version 3.3.6 (2022-10-25)
+- Gradle Plugin upgraded -> 7.3.1
+- Gradle upgraded -> 7.4
+- Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
+- Some more species with pictures added
+
+#### Version 3.3.5 (2022-10-17)
 - Many pictures of species improved to show recto and verso sides
-- 21 more species with pictures added
+- Some more species with pictures added
 
 #### Version 3.3.3 (2022-07-19)
 - Some pictures of species improved
-- Some more species with pictures added
-
-#### Version 3.3.2 (2022-06-02)
 - Some more species with pictures added
 
 #### Version 3.3.1 (2022-05-21)
@@ -18,10 +21,6 @@
 - Some more species with pictures added
 - Portrait/landscape handling improved 
 - Bug fixed in section lists editing
-- Docs updated
-  		
-#### Version 3.3.0 (2022-04-17)
-- Some more species with pictures added
 - Copyright and license texts updated
 - Docs updated
 
@@ -160,7 +159,7 @@
 
 #### Version 2.1.1 (2017-10-31)
 - Dev. environment adapted for Android Studio 3.0
-- Docs: German Introductary presentation added
+- Docs: German Introductory presentation added
 - Bug fixes
 
 #### Version 2.1.0 (2017-09-27)
@@ -186,7 +185,7 @@
 - Minor bug fixes
 
 #### Version 2.0.3 (2017-08-04)
-- Fix for strange Drop-Down-Selection (Spinner) malfunction
+- Fix for strange Spinner (Drop-Down-Selection) malfunction
 
 #### Version 2.0.2 (2017-07-13)
 - Stub picture if no picture of species available (e.g. group)
@@ -210,7 +209,7 @@
 - Alerts for all counted butterflies within counting boundary (♂, ♀ summed up)
 
 #### Version 1.3.9 (2016-11-21)
-- Pictures of species on counting page
+- Added pictures of species on counting and results page
 - Create new section includes edit section
 
 #### Version 1.3.8 (2016-10-27)
@@ -305,7 +304,7 @@
 
 #### Version 1.0.0 (2016-02-12)
 ##### 1. Release.
-TransektCount code originally derives partly from BeeCount by knirirr
+TransektCount counting functionality originally derives partly from BeeCount by knirirr
 (https://github.com/knirirr/BeeCount.git)
 
 Main features comprise
