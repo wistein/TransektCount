@@ -24,7 +24,7 @@
         <ListPreference
             android:key="pref_sort_sp"
             android:icon="@drawable/ic_sort_black_48dp"
-            android:title="@string/pref_sort_order"
+            android:title="@string/pref_sort_order_sp"
             android:summary="@string/pref_sort_order_sp_summ"
             android:entries="@array/pref_sort_sp_entries"
             android:entryValues="@array/pref_sort_sp_values"/>

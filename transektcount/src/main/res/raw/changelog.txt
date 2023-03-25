@@ -80,11 +80,12 @@ _ Subtitle
 
 $ 3.3.6
   % Version 3.3.6
-  _ 2022-10-25
+  _ 2023-03-25
   	* Gradle Plugin upgraded -> 7.3.1
   	* Gradle upgraded -> 7.4
     * Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
     * Some more species with pictures added
+		* Corrected string
 
 $ 3.3.5
   % Version 3.3.5

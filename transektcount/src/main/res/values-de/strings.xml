@@ -132,6 +132,7 @@
     <string name="pref_bg_summ">Wähle Standard- oder kein Hintergrundbild.</string>
     <string name="pref_sort_order">Sortierung d. Abschnitte</string>
     <string name="pref_sort_order_summ">Sortierung der Abschnittsliste.</string>
+    <string name="pref_sort_order_sp">Sortierung der Arten</string>
     <string name="pref_sort_order_sp_summ">Sortierung der Artenliste.</string>
     <string name="pref_note_font">Anmerkungs-Font</string>
     <string name="pref_note_font_summ">Wähle diese Option um die Schriftgröße der Bemerkungen anzuheben.</string>

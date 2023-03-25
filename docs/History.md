@@ -7,6 +7,7 @@
 - Gradle upgraded -> 7.4
 - Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
 - Some more species with pictures added
+- Corrected string
 
 #### Version 3.3.5 (2022-10-17)
 - Many pictures of species improved to show recto and verso sides
