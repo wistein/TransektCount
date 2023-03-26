@@ -2,4 +2,4 @@ Version 3.3.7 (26.03.2023)
 - Gradle Plugin Upgrade -> 7.4.2
 - Gradle Upgrade -> 7.5
 - Kompiliert mit SDK Ver. 33 für targetSdkVersion 33
-- Copyright texts updated
+- Update der Copyright-Texte
