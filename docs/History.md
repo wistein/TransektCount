@@ -1,8 +1,13 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2022, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
-#### Version 3.3.6 (2022-10-25)
+#### Version 3.3.7 (2023-03-26)
+- Gradle Plugin upgraded -> 7.4.2
+- Gradle upgraded -> 7.5
+- Compiled with compileSdkVersion 33 for targetSdkVersion 33
+
+#### Version 3.3.6 (2023-03-25)
 - Gradle Plugin upgraded -> 7.3.1
 - Gradle upgraded -> 7.4
 - Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
