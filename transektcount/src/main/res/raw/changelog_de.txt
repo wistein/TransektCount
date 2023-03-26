@@ -84,7 +84,8 @@ $ 3.3.7
   * Gradle Plugin upgraded -> 7.4.2
   * Gradle upgraded -> 7.5
   * Compiled with SDK Ver. 33 for targetSdkVersion 33
-  
+  - Update des Copyright Textes
+
 $ 3.3.6
   % Version 3.3.6
   _ 25.03.2023
@@ -125,7 +126,7 @@ $ 3.3.0
   _ 17.04.2022
 	* Einige weitere Falterarten mit Abbildungen hinzugefügt
 	* Update der Copyright und Lizenztexte
-    * Update der Doku
+  * Update der Doku
 
 $ 3.2.9
   % Version 3.2.9

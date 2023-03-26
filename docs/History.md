@@ -6,6 +6,7 @@
 - Gradle Plugin upgraded -> 7.4.2
 - Gradle upgraded -> 7.5
 - Compiled with compileSdkVersion 33 for targetSdkVersion 33
+- Copyright texts updated
 
 #### Version 3.3.6 (2023-03-25)
 - Gradle Plugin upgraded -> 7.3.1
