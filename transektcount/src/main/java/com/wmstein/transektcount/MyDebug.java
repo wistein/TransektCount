@@ -8,4 +8,5 @@ package com.wmstein.transektcount;
 public class MyDebug
 {
     public static final boolean LOG = false;
+    //public static final boolean LOG = true;
 }

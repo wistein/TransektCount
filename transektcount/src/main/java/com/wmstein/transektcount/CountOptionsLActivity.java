@@ -386,7 +386,7 @@ public class CountOptionsLActivity extends AppCompatActivity implements SharedPr
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.home)
+        if (id == android.R.id.home)
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
             assert intent != null;

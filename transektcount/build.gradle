@@ -2,15 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    // Compiled with SDK Ver. 33 for targetSdkVersion 33.
+    // Compiled with SDK Ver. 33 for targetSdkVersion 33
+    //
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.wmstein.transektcount"
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 337
-        versionName = "3.3.7"
+        versionCode 338
+        versionName = "3.3.8"
     }
 
     buildTypes {
@@ -25,9 +26,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = 11
-        targetCompatibility = 11
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
+
     lint {
         abortOnError false
         checkReleaseBuilds true
@@ -47,5 +49,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.2.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
 }

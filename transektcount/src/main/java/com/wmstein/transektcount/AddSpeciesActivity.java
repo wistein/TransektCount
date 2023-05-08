@@ -34,10 +34,10 @@ import androidx.core.app.NavUtils;
  * AddSpeciesActivity lets you insert a new species into a section's species list
  * AddSpeciesActivity is called from EditSectionActivity
  * Uses SpeciesAddWidget.java, widget_add_spec.xml.
- *
+ * <p>
  * The sorting order of the species to add cannot be changed, as it is determined 
  * by 3 interdependent and correlated arrays in arrays.xml
- *
+ * <p>
  * Created for TourCount by wmstein on 2019-04-12,
  * last edited on 2022-04-30
  */
@@ -287,7 +287,7 @@ public class AddSpeciesActivity extends AppCompatActivity implements SharedPrefe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.home)
+        if (id == android.R.id.home)
         {
             Intent intent = NavUtils.getParentActivityIntent(this);
             assert intent != null;

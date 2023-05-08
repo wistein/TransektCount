@@ -3,7 +3,7 @@
      crashes when the device gets rotated. So the rotation is done by the app according to the settings
      option. 
      Advisable for smartphone is portrait mode, for tablet is landscape mode.
-     Last edited 2022-04-30
+     Last edited 2023-05-08
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,7 +33,7 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.wmstein.transektcount.WelcomeActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat"
             android:exported="true">
@@ -48,7 +48,7 @@
             android:label="@string/title_activity_filechooser"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            android:parentActivityName=".WelcomeActivity">
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
@@ -58,17 +58,17 @@
             android:name="com.wmstein.filechooser.AdvFileChooserL"
             android:label="@string/title_activity_filechooser"
             android:screenOrientation="landscape"
-            android:parentActivityName=".WelcomeActivity">
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
 
         <activity
-            android:name=".NewSectionActivity"
+            android:name="com.wmstein.transektcount.NewSectionActivity"
             android:label="@string/title_activity_new_section"
             android:noHistory="true"
-            android:parentActivityName=".ListSectionActivity"
+            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -78,10 +78,10 @@
         </activity>
 
         <activity
-            android:name=".NewSectionLActivity"
+            android:name="com.wmstein.transektcount.NewSectionLActivity"
             android:label="@string/title_activity_new_section"
             android:noHistory="true"
-            android:parentActivityName=".ListSectionLActivity"
+            android:parentActivityName="com.wmstein.transektcount.ListSectionLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -90,30 +90,30 @@
         </activity>
 
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.wmstein.transektcount.SettingsActivity"
             android:label="@string/action_settings"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            android:parentActivityName=".WelcomeActivity">
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
 
         <activity
-            android:name=".SettingsLActivity"
+            android:name="com.wmstein.transektcount.SettingsLActivity"
             android:label="@string/action_settings"
             android:screenOrientation="landscape"
-            android:parentActivityName=".WelcomeActivity">
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
         </activity>
 
         <activity
-            android:name=".ListSectionActivity"
+            android:name="com.wmstein.transektcount.ListSectionActivity"
             android:label="@string/title_activity_list_section"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -123,9 +123,9 @@
         </activity>
 
         <activity
-            android:name=".ListSectionLActivity"
+            android:name="com.wmstein.transektcount.ListSectionLActivity"
             android:label="@string/title_activity_list_section"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -134,10 +134,10 @@
         </activity>
 
         <activity
-            android:name=".EditMetaActivity"
+            android:name="com.wmstein.transektcount.EditMetaActivity"
             android:label="@string/title_activity_meta"
             android:launchMode="singleTop"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -147,10 +147,10 @@
         </activity>
 
         <activity
-            android:name=".EditMetaLActivity"
+            android:name="com.wmstein.transektcount.EditMetaLActivity"
             android:label="@string/title_activity_meta"
             android:launchMode="singleTop"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -159,10 +159,10 @@
         </activity>
 
         <activity
-            android:name=".ListSpeciesActivity"
+            android:name="com.wmstein.transektcount.ListSpeciesActivity"
             android:label="@string/title_activity_list_species"
             android:launchMode="singleTop"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -172,10 +172,10 @@
         </activity>
 
         <activity
-            android:name=".ListSpeciesLActivity"
+            android:name="com.wmstein.transektcount.ListSpeciesLActivity"
             android:label="@string/title_activity_list_species"
             android:launchMode="singleTop"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -184,10 +184,10 @@
         </activity>
 
         <activity
-            android:name=".CountingActivity"
+            android:name="com.wmstein.transektcount.CountingActivity"
             android:label="@string/title_activity_counting"
             android:launchMode="singleTop"
-            android:parentActivityName=".ListSectionActivity"
+            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity">
@@ -197,10 +197,10 @@
         </activity>
         
         <activity
-            android:name=".CountingLActivity"
+            android:name="com.wmstein.transektcount.CountingLActivity"
             android:label="@string/title_activity_counting"
             android:launchMode="singleTop"
-            android:parentActivityName=".ListSectionLActivity"
+            android:parentActivityName="com.wmstein.transektcount.ListSectionLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity">
@@ -210,9 +210,9 @@
         </activity>
         
         <activity
-            android:name=".CountOptionsActivity"
+            android:name="com.wmstein.transektcount.CountOptionsActivity"
             android:label="@string/title_activity_count_options"
-            android:parentActivityName=".CountingActivity"
+            android:parentActivityName="com.wmstein.transektcount.CountingActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -222,9 +222,9 @@
         </activity>
 
         <activity
-            android:name=".CountOptionsLActivity"
+            android:name="com.wmstein.transektcount.CountOptionsLActivity"
             android:label="@string/title_activity_count_options"
-            android:parentActivityName=".CountingLActivity"
+            android:parentActivityName="com.wmstein.transektcount.CountingLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -233,16 +233,16 @@
         </activity>
 
         <activity
-            android:name=".DummyActivity"
+            android:name="com.wmstein.transektcount.DummyActivity"
             android:label="@string/title_activity_dummy"
             android:screenOrientation="nosensor"
             android:theme="@style/Theme.AppCompat">
         </activity>
 
         <activity
-            android:name=".EditSectionActivity"
+            android:name="com.wmstein.transektcount.EditSectionActivity"
             android:label="@string/title_activity_edit_section"
-            android:parentActivityName=".CountingActivity"
+            android:parentActivityName="com.wmstein.transektcount.CountingActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -252,9 +252,9 @@
         </activity>
 
         <activity
-            android:name=".EditSectionLActivity"
+            android:name="com.wmstein.transektcount.EditSectionLActivity"
             android:label="@string/title_activity_edit_section"
-            android:parentActivityName=".CountingLActivity"
+            android:parentActivityName="com.wmstein.transektcount.CountingLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
@@ -263,9 +263,9 @@
         </activity>
 
         <activity
-            android:name=".AddSpeciesActivity"
+            android:name="com.wmstein.transektcount.AddSpeciesActivity"
             android:label="@string/title_activity_add_species"
-            android:parentActivityName=".EditSectionActivity"
+            android:parentActivityName="com.wmstein.transektcount.EditSectionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/Theme.AppCompat">
@@ -275,9 +275,9 @@
         </activity>
 
         <activity
-            android:name=".AddSpeciesLActivity"
+            android:name="com.wmstein.transektcount.AddSpeciesLActivity"
             android:label="@string/title_activity_add_species"
-            android:parentActivityName=".EditSectionLActivity"
+            android:parentActivityName="com.wmstein.transektcount.EditSectionLActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
