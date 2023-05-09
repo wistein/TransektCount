@@ -34,7 +34,7 @@
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV File</string>
     <string name="resetDBMenu">Reset Data</string>
-    <string name="loadFileMenu">Import DB</string>
+    <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importWin">Your database has been imported.</string>
@@ -218,14 +218,5 @@
     <string name="getHelp">Database problem! Please mail your exported \'transektcount_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
     <string name="sect01">Sect 01</string>
     <string name="cancel">Cancel</string>
-
-    <!-- Permissions -->
-    <string name="perm_required">Permissions Required</string>
-    <string name="app_settings">App Settings</string>
-    <string name="perm_hint">In order to import and export database files, access to storage is necessary.</string>
-    <string name="perm_hint1">Please enable the missing permission for the app in the phone settings.</string>
-    <string name="perm_declined">Permissions declined</string>
-    <string name="retry">Retry</string>
-    <string name="permission_please">TransektCount needs storage permission in order to use a custom background.</string>
 
 </resources>

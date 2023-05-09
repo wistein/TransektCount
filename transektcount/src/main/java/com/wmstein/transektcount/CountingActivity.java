@@ -57,10 +57,10 @@ import androidx.appcompat.app.AppCompatActivity;
  * CountingActivity does the actual counting on portrait layout with 12 counters, 
  * checks for alerts, calls CountOptionsActivity, EditSectionActivity and DummyActivity, clones a section,
  * switches screen off when device is pocketed and lets you send a message.
- * 
+ * <p>
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2020-05-02
+ * Last edit on 2023-05-08
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -575,7 +575,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     /************************
      * The functions below are triggered by the count buttons
      * and righthand/lefthand (LH) views
-     *
+     * <p>
      * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
      */
     public void countUpf1i(View view)
@@ -1776,9 +1776,9 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     * <p>
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * 
+     * <p>
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true
@@ -1807,7 +1807,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * 
+     * <p>
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false

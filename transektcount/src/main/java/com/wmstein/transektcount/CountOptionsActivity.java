@@ -40,7 +40,7 @@ import androidx.core.app.NavUtils;
  * Supplemented with functions for transect external counter
  * Based on CountOptionsActivity.java by milo on 05/05/2014.
  * Adapted and changed by wmstein since 2016-02-18,
- * last edited on 2022-04-30
+ * last edited on 2023-05-08
  */
 public class CountOptionsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -416,9 +416,9 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     <p> 
      * Checks if a CharSequence is not empty ("") and not null.
-     * 
+     <p> 
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -435,7 +435,7 @@ public class CountOptionsActivity extends AppCompatActivity implements SharedPre
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * 
+     <p> 
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

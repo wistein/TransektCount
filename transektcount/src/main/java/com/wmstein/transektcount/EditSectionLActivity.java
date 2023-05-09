@@ -46,7 +46,7 @@ import androidx.core.app.NavUtils;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Created by wmstein on 2022-04-29,
- * last edited on 2022-04-30
+ * last edited on 2023-05-08
  */
 public class EditSectionLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -629,9 +629,9 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     *
+     <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     *
+     <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -648,7 +648,7 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     *
+     <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

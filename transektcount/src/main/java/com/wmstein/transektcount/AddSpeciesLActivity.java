@@ -40,7 +40,7 @@ import androidx.core.app.NavUtils;
  * by 3 interdependent and correlated arrays in arrays.xml
  * <p>
  * Created for TourCount by wmstein on 2022-04-29,
- * last edited on 2022-04-30
+ * last edited on 2023-05-08
  */
 public class AddSpeciesLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {

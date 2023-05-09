@@ -1,17 +1,14 @@
 package com.wmstein.transektcount;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +20,12 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
@@ -49,12 +52,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
 
@@ -63,26 +60,16 @@ import sheetrock.panda.changelog.ViewHelp;
  * import/export/help/info methods and starts
  * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
  * It uses further PermissionDialogFragment.
- *
+ * <p>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-05-06
+ * last edited on 2023-05-08
  */
-public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
+public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "TransektCountWelcomeAct";
     @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
-
-    // Permission dispatcher mode modePerm: 
-    //  1 = use location service (not used)
-    //  2 = end location service (not used)
-    //  3 = export DB
-    //  4 = export DB -> CSV
-    //  5 = export basic DB
-    //  6 = import DB
-    //  7 = import basic DB
-    private int modePerm;
 
     ChangeLog cl;
     ViewHelp vh;
@@ -159,17 +146,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             // nothing
         }
 
-        // if API level > 23 permission request is necessary
-        int REQUEST_CODE_STORAGE = 123; // Identifier for permission request Android 6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasWriteExtStoragePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWriteExtStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE);
-            }
-        }
-
         cl = new ChangeLog(this);
         vh = new ViewHelp(this); // by wmstein
         if (cl.firstRun())
@@ -201,7 +177,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     // Handle action bar item clicks here. The action bar will automatically handle clicks on 
     // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
-    // Supplemented with exportCSVMenu, exportBasicMenu, importBasicMenu, loadFileMenu, resetDBMenu,
+    // Supplemented with exportCSVMenu, exportBasicMenu, importBasicMenu, importFileMenu, resetDBMenu,
     // editMeta, viewSpecies and viewHelp by wmstein
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -239,9 +215,9 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             importBasisDb();
             return true;
         }
-        else if (id == R.id.loadFileMenu)
+        else if (id == R.id.importFileMenu)
         {
-            loadFile();
+            importFile();
             return true;
         }
         else if (id == R.id.resetDBMenu)
@@ -394,52 +370,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
-    // Part of permission handling
-    @Override
-    public void permissionCaptureFragment()
-    {
-        if (isStoPermissionGranted()) // current storage permission state granted
-        {
-            switch (modePerm)
-            {
-                case 3: // write DB
-                    doExportDB();
-                    break;
-
-                case 4: // write DB2CSV
-                    doExportDb2CSV();
-                    break;
-
-                case 5: // write basic DB
-                    doExportBasisDb();
-                    break;
-
-                case 6: // read DB
-                    doImportDB();
-                    break;
-
-                case 7: // read basic DB
-                    doImportBasisDB();
-                    break;
-            }
-        }
-        else
-        {
-            if (modePerm != 2)
-                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
-        }
-    }
-
-    // if API level > 23 test for permissions granted
-    private boolean isStoPermissionGranted()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        }
-        return true;
-    }
-
     @Override
     public void onBackPressed()
     {
@@ -465,21 +395,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         super.onStop();
     }
 
-    /**************************************************************************
-     * The seven functions below are for exporting and importing the database.
+    /******************************************************************************
+     * The seven functions below are for exporting and importing of database files.
      * They've been put here because no database should be open at this point.
-     ***********************************************************************/
+     ******************************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.db
     // supplemented with date and time in filename by wmstein
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
-    {
-        // Export DB with permission check
-        modePerm = 3;
-        permissionCaptureFragment(); // calls doExportDB()
-    }
-
-    private void doExportDB()
     {
         // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.db
         outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".db");
@@ -536,13 +459,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // and purged export in csv-format
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
-    {
-        // Export DB -> CSV with permission check
-        modePerm = 4;
-        permissionCaptureFragment();
-    }
-
-    private void doExportDb2CSV()
     {
         // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.csv
         outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".csv");
@@ -1022,13 +938,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportBasisDb()
     {
-        // Export Basic DB with permission check
-        modePerm = 5;
-        permissionCaptureFragment();
-    }
-
-    private void doExportBasisDb()
-    {
         // tmpfile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
         String tmpPath = getApplicationContext().getFilesDir().getPath();
         tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
@@ -1175,17 +1084,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     /**********************************************************************************************/
     @SuppressLint("SdCardPath")
-    // Choose a file to load and set it to transektcount.db
+    // Choose a db-file to load and set it to transektcount.db
     // based on android-file-chooser from Google Code Archive.
     // Created by wmstein
-    public void loadFile()
-    {
-        // Import DB with permission check
-        modePerm = 6;
-        permissionCaptureFragment(); // calls doImportDB()
-    }
-
-    private void doImportDB()
+    public void importFile()
     {
         ArrayList<String> extensions = new ArrayList<>();
         extensions.add(".db");
@@ -1215,59 +1117,31 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         builder.setMessage(R.string.confirmDBImport)
                 .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
                 {
-                    // START
-                    if (Environment.MEDIA_MOUNTED.equals(state))
+                    try
                     {
-                        // We can read and write the media
-                        mExternalStorageAvailable = mExternalStorageWriteable = true;
-                    }
-                    else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-                    {
-                        // We can only read the media
-                        mExternalStorageAvailable = true;
-                        mExternalStorageWriteable = false;
-                    }
-                    else
-                    {
-                        // Something else is wrong. It may be one of many other states, but all we need
-                        //  to know is we can neither read nor write
-                        mExternalStorageAvailable = mExternalStorageWriteable = false;
-                    }
+                        copy(infile, outfile);
+                        showSnackbar(getString(R.string.importWin));
 
-                    if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
-                    {
-                        if (MyDebug.LOG)
-                            Log.d(TAG, "No sdcard access");
-                        showSnackbarRed(getString(R.string.noCard));
-                    }
-                    else
-                    {
+                        Head head;
+                        headDataSource = new HeadDataSource(getApplicationContext());
+                        headDataSource.open();
+                        head = headDataSource.getHead();
+                        headDataSource.close();
+
+                        // set transect number as title
                         try
                         {
-                            copy(infile, outfile);
-                            showSnackbar(getString(R.string.importWin));
-
-                            Head head;
-                            headDataSource = new HeadDataSource(getApplicationContext());
-                            headDataSource.open();
-                            head = headDataSource.getHead();
-                            headDataSource.close();
-
-                            // set transect number as title
-                            try
-                            {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-                            } catch (NullPointerException e)
-                            {
-                                // nothing
-                            }
-
-                        } catch (IOException e)
+                            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+                        } catch (NullPointerException e)
                         {
-                            if (MyDebug.LOG)
-                                Log.e(TAG, "Failed to import database");
-                            showSnackbarRed(getString(R.string.importFail));
+                            // nothing
                         }
+
+                    } catch (IOException e)
+                    {
+                        if (MyDebug.LOG)
+                            Log.e(TAG, "Failed to import database");
+                        showSnackbarRed(getString(R.string.importFail));
                     }
                     // END
                 }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
@@ -1275,7 +1149,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         alert.show();
     }
 
-    // Function is part of loadFile() and processes the result of AdvFileChooser
+    // Function is part of importFile() and processes the result of AdvFileChooser
     ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>()
@@ -1305,13 +1179,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {
-        // Import basic DB with permission check
-        modePerm = 7;
-        permissionCaptureFragment(); // calls doImportBasisDB()
-    }
-
-    private void doImportBasisDB()
-    {
         // infile <- /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
         infile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount0.db");
 
@@ -1331,60 +1198,31 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         builder.setMessage(R.string.confirmBasisImport)
                 .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
                 {
-                    // START
-                    // replace this with another function rather than this lazy c&p
-                    if (Environment.MEDIA_MOUNTED.equals(state))
+                    try
                     {
-                        // We can read and write the media
-                        mExternalStorageAvailable = mExternalStorageWriteable = true;
-                    }
-                    else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-                    {
-                        // We can only read the media
-                        mExternalStorageAvailable = true;
-                        mExternalStorageWriteable = false;
-                    }
-                    else
-                    {
-                        // Something else is wrong. It may be one of many other states, but all we need
-                        //  to know is we can neither read nor write
-                        mExternalStorageAvailable = mExternalStorageWriteable = false;
-                    }
+                        copy(infile, outfile);
+                        showSnackbar(getString(R.string.importWin));
 
-                    if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
-                    {
-                        if (MyDebug.LOG)
-                            Log.d(TAG, "No sdcard access");
-                        showSnackbarRed(getString(R.string.noCard));
-                    }
-                    else
-                    {
+                        Head head;
+                        headDataSource = new HeadDataSource(getApplicationContext());
+                        headDataSource.open();
+                        head = headDataSource.getHead();
+
+                        // set transect number as title
                         try
                         {
-                            copy(infile, outfile);
-                            showSnackbar(getString(R.string.importWin));
-
-                            Head head;
-                            headDataSource = new HeadDataSource(getApplicationContext());
-                            headDataSource.open();
-                            head = headDataSource.getHead();
-
-                            // set transect number as title
-                            try
-                            {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-                            } catch (NullPointerException e)
-                            {
-                                // nothing
-                            }
-
-                            headDataSource.close();
-                        } catch (IOException e)
+                            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+                        } catch (NullPointerException e)
                         {
-                            if (MyDebug.LOG)
-                                Log.e(TAG, "Failed to import database");
-                            showSnackbarRed(getString(R.string.importFail));
+                            // nothing
                         }
+
+                        headDataSource.close();
+                    } catch (IOException e)
+                    {
+                        if (MyDebug.LOG)
+                            Log.e(TAG, "Failed to import database");
+                        showSnackbarRed(getString(R.string.importFail));
                     }
                     // END
                 }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());

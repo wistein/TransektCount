@@ -1,34 +1,29 @@
 package com.wmstein.transektcount;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import java.util.Objects;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+
+import java.util.Objects;
 
 /**********************************************************
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2022-04-30
+ * Last edited on 2023-06-08
  */
 public class SettingsLActivity extends AppCompatActivity
 {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
     @Override
     @SuppressLint({"CommitPrefEdits", "SourceLockedOrientationActivity"})
     public void onCreate(Bundle savedInstanceState)
@@ -46,16 +41,6 @@ public class SettingsLActivity extends AppCompatActivity
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         editor = prefs.edit(); // will be committed on pause
-        
-        // permission to read db
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int hasReadStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (hasReadStoragePermission != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        }
     }
 
     @Override
