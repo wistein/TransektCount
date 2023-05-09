@@ -81,27 +81,27 @@ _ Subtitle
 $ 3.3.8
   % Version 3.3.8
   _ 2023-05-08
-    * Gradle Plugin upgraded -> 8.0.0
-    * Gradle upgraded -> 8.0
-    * Deprecated startActivityForResult() replaced by ActivityResultLauncher
-    * Permissions handling minimized
+  * Gradle Plugin upgraded -> 8.0.0
+  * Gradle upgraded -> 8.0
+  * Deprecated startActivityForResult() replaced by ActivityResultLauncher
+  * Permissions handling minimized
 	* Some more code improvements
 
 $ 3.3.7
   % Version 3.3.7
   _ 2023-03-26
-    * Gradle Plugin upgraded -> 7.4.2
-    * Gradle upgraded -> 7.5
-    * Compiled with SDK Ver. 33 for targetSdkVersion 33
-    * Copyright texts updated
+  * Gradle Plugin upgraded -> 7.4.2
+  * Gradle upgraded -> 7.5
+  * Compiled with SDK Ver. 33 for targetSdkVersion 33
+  * Copyright texts updated
   
 $ 3.3.6
   % Version 3.3.6
   _ 2023-03-25
-    * Gradle Plugin upgraded -> 7.3.1
-    * Gradle upgraded -> 7.4
-    * Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
-    * Some more species with pictures added
+  * Gradle Plugin upgraded -> 7.3.1
+  * Gradle upgraded -> 7.4
+  * Compiled with SDK Ver. 32 for targetSdkVersion 31, resulting "duplicate library" conflict solved
+  * Some more species with pictures added
 	* Corrected string
 
 $ 3.3.5

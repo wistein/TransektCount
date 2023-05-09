@@ -2,4 +2,5 @@ Version 3.3.8 (2023-05-08)
 - Gradle Plugin upgraded -> 8.0.0
 - Gradle upgraded -> 8.0
 - Deprecated startActivityForResult() replaced by ActivityResultLauncher
-- Some code improvements
+- Permissions handling minimized
+- Some more code improvements
