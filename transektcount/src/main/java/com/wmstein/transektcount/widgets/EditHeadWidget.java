@@ -14,14 +14,14 @@ import java.util.Objects;
 /*****************************************************************
  * EditHeadWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 31.03.2016.
- * Last edited on 2019-02-12
+ * Last edited on 2023-05-09
  */
 public class EditHeadWidget extends LinearLayout
 {
-    TextView widget_no; // used for transect_no title
-    EditText widget_no1; // used for transect_no
-    TextView widget_name; // used for inspector_name title
-    EditText widget_name1; // used for inspector_name
+    final TextView widget_no; // used for transect_no title
+    final EditText widget_no1; // used for transect_no
+    final TextView widget_name; // used for inspector_name title
+    final EditText widget_name1; // used for inspector_name
 
     public EditHeadWidget(Context context, AttributeSet attrs)
     {

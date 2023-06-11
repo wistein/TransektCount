@@ -12,15 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wmstein.transektcount.R;
-import com.wmstein.transektcount.database.Count;
-
 import androidx.annotation.NonNull;
+
+import com.wmstein.transektcount.R;
 
 /****************************************************
  * Interface for widget_counting_head1.xml
  * Created by wmstein 18.12.2016
- * Last edited on 2021-01-26
+ * Last edited on 2023-05-09
  */
 public class CountingWidget_head1 extends ArrayAdapter<String>
 {
@@ -29,8 +28,6 @@ public class CountingWidget_head1 extends ArrayAdapter<String>
     private final String[] contentArray2;
     private final String[] contentArray3;
     private final Integer[] imageArray;
-
-    public Count count;
     private final LayoutInflater inflater;
 
     public CountingWidget_head1(Context context, int resource, String[] idArray, String[] nameArray, String[] nameArrayG, String[] codeArray, Integer[] imageArray)

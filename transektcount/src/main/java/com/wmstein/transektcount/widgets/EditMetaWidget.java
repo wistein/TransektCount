@@ -14,24 +14,24 @@ import java.util.Objects;
 /*****************************************************
  * EditMetaWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 2016-04-02
- * last edited on 2019-02-12
+ * last edited on 2023-05-09
  */
 public class EditMetaWidget extends LinearLayout
 {
-    TextView widget_temp1; // temperature
-    EditText widget_temp2;
-    TextView widget_wind1; // wind
-    EditText widget_wind2;
-    TextView widget_clouds1; // clouds
-    EditText widget_clouds2;
-    TextView widget_date1; // date
-    TextView widget_date2;
-    TextView widget_stime1; // start-time
-    TextView widget_stime2;
-    TextView widget_etime1; // end-time
-    TextView widget_etime2;
+    final TextView widget_temp1; // temperature
+    final EditText widget_temp2;
+    final TextView widget_wind1; // wind
+    final EditText widget_wind2;
+    final TextView widget_clouds1; // clouds
+    final EditText widget_clouds2;
+    final TextView widget_date1; // date
+    final TextView widget_date2;
+    final TextView widget_stime1; // start-time
+    final TextView widget_stime2;
+    final TextView widget_etime1; // end-time
+    final TextView widget_etime2;
 
-    String regEx = "^[0-9]*$"; // plausi for numeric input
+    final String regEx = "^[0-9]*$"; // plausi for numeric input
 
     public EditMetaWidget(Context context, AttributeSet attrs)
     {

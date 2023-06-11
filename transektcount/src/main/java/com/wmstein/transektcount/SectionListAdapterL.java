@@ -1,5 +1,7 @@
 package com.wmstein.transektcount;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +11,9 @@ import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +34,11 @@ import static java.lang.Long.toHexString;
  * SectionListAdapter is called from ListSectionLActivity
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2022-04-30
+ * Last edited on 2023-06-09
  */
 class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "transektcountSectListAdapt";
+    private static final String TAG = "transektSectListAdapt";
     private final Context context;
     private final int layoutResourceId;
     private final List<Section> sections;
@@ -42,6 +47,7 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
 
     // preferences
     private boolean buttonSoundPref;
+    private boolean buttonVibPref;
     private String buttonSound;
     private SharedPreferences prefs;
 
@@ -50,8 +56,9 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
      */
     private void getPrefs()
     {
-        buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
-        buttonSound = prefs.getString("button_sound", null);
+        buttonSoundPref = prefs.getBoolean("pref_button_sound", false); // make button sound
+        buttonSound = prefs.getString("button_sound", null); // use standard button sound
+        buttonVibPref = prefs.getBoolean("pref_button_vib", false); // make vibration
     }
 
     // Constructor
@@ -143,6 +150,7 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
         {
             getPrefs();
             soundButtonSound();
+            buttonVib();
 
             sct = (Section) v.getTag();
             Intent intent = new Intent(getContext(), CountingLActivity.class);
@@ -160,6 +168,7 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
         {
             getPrefs();
             soundButtonSound();
+            buttonVib();
 
             sct = (Section) v.getTag();
             
@@ -228,9 +237,29 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
         }
     }
 
+    private void buttonVib()
+    {
+        if (buttonVibPref)
+        {
+            try
+            {
+                Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= 26) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(150);
+                }
+            } catch (Exception e)
+            {
+                if (MyDebug.LOG)
+                    Log.e(TAG, "could not vibrate.", e);
+            }
+        }
+    }
+
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * 
+     <p>
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false
@@ -249,9 +278,9 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     <p>
      * Checks if a CharSequence is whitespace, empty ("") or null
-     * 
+     <p>
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true

@@ -133,21 +133,9 @@ public class AdvFileChooser extends Activity
     }
 
     @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
     public void onStop()
     {
         super.onStop();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
     }
 
 }

@@ -7,18 +7,17 @@
   -->
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="56dp"
-             android:layout_marginLeft="2dp"
-             android:layout_marginRight="2dp"
-             android:layout_marginTop="5dp"
-             android:background="@drawable/rounded_corner"
-             android:baselineAligned="false"
-             android:paddingBottom="1dp"
-             android:paddingEnd="0dp"
-             android:paddingStart="5dp"
-             android:paddingTop="1dp">
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/rounded_corner"
+    android:baselineAligned="false"
+    android:paddingBottom="1dp"
+    android:paddingEnd="0dp"
+    android:paddingStart="5dp"
+    android:paddingTop="1dp">
 
     <TableRow
         android:layout_width="match_parent"

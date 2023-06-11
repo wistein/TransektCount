@@ -17,7 +17,7 @@ import java.util.Objects;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2023-05-08
+ * Last edited on 2023-06-10
  */
 public class SettingsActivity extends AppCompatActivity
 {
@@ -44,12 +44,6 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume()
-    {
-        super.onResume();
-    }
-
-    @Override
     protected void onPause()
     {
         super.onPause();
@@ -57,7 +51,6 @@ public class SettingsActivity extends AppCompatActivity
         String ringtone;
         boolean alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
         boolean buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
-
         if (alertSoundPref)
         {
             Uri alert_sound_uri = Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.alert);
@@ -70,6 +63,9 @@ public class SettingsActivity extends AppCompatActivity
             Uri button_sound_uri = Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button);
             ringtone = button_sound_uri.toString();
             editor.putString("button_sound", ringtone);
+            Uri button_sound_uri_m = Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button_minus);
+            ringtone = button_sound_uri_m.toString();
+            editor.putString("button_sound_minus", ringtone);
         }
         
         editor.commit();

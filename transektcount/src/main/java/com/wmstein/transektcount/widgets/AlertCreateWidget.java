@@ -16,14 +16,14 @@ import java.util.Objects;
  * This is the widget for creating an alert in the CountOptionsActivity.
  * Created by milo on 02/06/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-12
+ * Last edited on 2023-05-09
  */
 public class AlertCreateWidget extends LinearLayout implements Serializable
 {
-    EditText alert_name;
-    EditText alert_value;
+    final EditText alert_name;
+    final EditText alert_value;
     int alert_id;
-    ImageButton deleteButton;
+    final ImageButton deleteButton;
 
     public AlertCreateWidget(Context context, AttributeSet attrs)
     {

@@ -14,12 +14,12 @@ import java.util.Objects;
 /*******************************************************
  * Used by EditSectionActivity and widget_edit_notes.xml
  * Created by wmstein on 23.10.2016
- * Last edited on 2019-02-12
+ * Last edited on 2023-05-09
  */
 public class EditNotesWidget extends LinearLayout
 {
-    TextView widget_notes;
-    EditText section_notes;
+    final TextView widget_notes;
+    final EditText section_notes;
 
     public EditNotesWidget(Context context, AttributeSet attrs)
     {

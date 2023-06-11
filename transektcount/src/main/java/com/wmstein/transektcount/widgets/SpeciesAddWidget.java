@@ -18,7 +18,7 @@ import java.util.Objects;
  * Used by AddSpeciesActivity
  * shows list of selectable species with name, code, picture and add button
  * Created for TourCount by wmstein on 2019-04-03
- * last edited by wmstein on 2020-10-18
+ * last edited by wmstein on 2023-05-09
  */
 public class SpeciesAddWidget extends LinearLayout implements Serializable
 {
@@ -29,7 +29,7 @@ public class SpeciesAddWidget extends LinearLayout implements Serializable
     private final transient ImageView specPic;
     private final ImageButton addButton;
 
-    LayoutInflater inflater;
+    final LayoutInflater inflater;
     
     public SpeciesAddWidget(Context context, AttributeSet attrs)
     {
@@ -90,7 +90,7 @@ public class SpeciesAddWidget extends LinearLayout implements Serializable
         // make instance of class TransektCountApplication to reference non-static method 
         TransektCountApplication transektCountApp = new TransektCountApplication();
 
-        int resId = transektCountApp.getResId(rname);
+        int resId = transektCountApp.getResID(rname);
         if (resId != 0)
         {
             specPic.setImageResource(resId);

@@ -19,7 +19,7 @@ import java.util.Objects;
  * ListSpeciesWidget shows count info area for a species.
  * ListSpeciesActivity shows the result page.
  * Created for TransektCount by wmstein on 15.03.2016
- * Last edited on 2020-10-18
+ * Last edited on 2023-05-09
  */
 public class ListSpeciesWidget extends RelativeLayout
 {
@@ -41,8 +41,6 @@ public class ListSpeciesWidget extends RelativeLayout
     private final TextView specCountpe;
     private final TextView specCountle;
     private final TextView specCountee;
-
-    public Section section;
 
     public ListSpeciesWidget(Context context, AttributeSet attrs)
     {
@@ -224,7 +222,7 @@ public class ListSpeciesWidget extends RelativeLayout
         // make instance of class TransektCountApplication to reference non-static method 
         TransektCountApplication transektCountApp = new TransektCountApplication();
 
-        int resId = transektCountApp.getResId(rname);
+        int resId = transektCountApp.getResID(rname);
         if (resId != 0)
         {
             picSpecies.setImageResource(resId);

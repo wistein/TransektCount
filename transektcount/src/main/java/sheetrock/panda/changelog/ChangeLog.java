@@ -31,10 +31,10 @@ import androidx.preference.PreferenceManager;
  It would be appreciated if you mention the author in your change log,
  contributors list or the like.
 
- @author: Karsten Priegnitz
- @see: http://code.google.com/p/android-change-log/
+ Author: Karsten Priegnitz
+ See: https://code.google.com/p/android-change-log/
  <p>
- Last change by wmstein on 2021-01-26
+ Last change by wmstein on 2023-05-09
  */
 public class ChangeLog
 {
@@ -164,15 +164,6 @@ public class ChangeLog
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(VERSION_KEY, thisVersion);
         editor.apply();
-    }
-
-    /**************************************************************************
-     * @return HTML displaying the changes since the previous installed version
-     *         of your app (what's new)
-     */
-    public String getLog()
-    {
-        return this.getLog(false);
     }
 
     /**

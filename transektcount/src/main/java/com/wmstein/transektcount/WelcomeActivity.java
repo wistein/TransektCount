@@ -1,18 +1,21 @@
 package com.wmstein.transektcount;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
@@ -63,7 +67,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-05-08
+ * last edited on 2023-06-10
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -83,7 +87,10 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private File outfile;
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    String state = Environment.getExternalStorageState();
+    private final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private boolean granted;
+
+    final String state = Environment.getExternalStorageState();
     AlertDialog alert;
 
     // preferences
@@ -156,7 +163,36 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (!infile.exists())
             exportBasisDb(); // create directory and initial Basis DB (getExternalFilesDir, getExternalDir)
 
+        // Initial test for write permission to external storage
+        granted = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
+
     } // end of onCreate
+
+    // Request missing permission
+    private final ActivityResultLauncher<String> permissionLauncherSingle = registerForActivityResult(
+        new ActivityResultContracts.RequestPermission(),
+        new ActivityResultCallback<Boolean>()
+        {
+            @Override
+            public void onActivityResult(Boolean isGranted)
+            {
+                //here we will check if permission is granted from permission request dialog
+                Log.d(TAG, "onActivityResult: isGranted: " + isGranted);
+
+                if (isGranted)
+                {
+                    //Permission granted now do the required task here or call the function for that
+                    granted = true;
+                }
+                else
+                {
+                    //Permission was denied so can't do the task that requires that permission
+                    Log.d(TAG, "onActivityResult: Permission denied...");
+                    showSnackbarRed(getString(R.string.perm_cancel));
+                }
+            }
+        }
+                                                                                                     );
 
     // Date for filename of Export-DB
     public static String getcurDate()
@@ -202,7 +238,22 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else if (id == R.id.exportCSVMenu)
         {
-            exportDb2CSV();
+            if (granted)
+            {
+                exportDb2CSV();
+            }
+            else
+            {
+                permissionLauncherSingle.launch(permission);
+                if (granted)
+                {
+                    exportDb2CSV();
+                }
+                else
+                {
+                    showSnackbarRed(getString(R.string.perm_cancel));
+                }
+            }
             return true;
         }
         else if (id == R.id.exportBasisMenu)
@@ -267,12 +318,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             if (screenOrientL)
             {
                 mHandler.postDelayed(() ->
-                        startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                    startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
             }
             else
             {
                 mHandler.postDelayed(() ->
-                        startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                    startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
             }
 
             return true;
@@ -312,12 +363,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (screenOrientL)
         {
             mHandler.postDelayed(() ->
-                    startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
         }
         else
         {
             mHandler.postDelayed(() ->
-                    startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
         }
     }
 
@@ -461,7 +512,14 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     public void exportDb2CSV()
     {
         // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.csv
-        outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".csv");
+        //outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".csv");
+
+        File path;
+        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        path = new File(path + "/TransektCount");
+        //noinspection ResultOfMethodCallIgnored
+        path.mkdirs();
+        outfile = new File(path, "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
         String sectName;
@@ -516,17 +574,17 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 // set header according to table representation in MS Excel
                 String[] arrCol =
-                        {
-                                getString(R.string.transectnumber),
-                                getString(R.string.inspector),
-                                getString(R.string.temperature),
-                                getString(R.string.wind),
-                                getString(R.string.clouds),
-                                getString(R.string.date),
-                                getString(R.string.starttm),
-                                getString(R.string.endtm),
-                                getString(R.string.kal_w),
-                        };
+                    {
+                        getString(R.string.transectnumber),
+                        getString(R.string.inspector),
+                        getString(R.string.temperature),
+                        getString(R.string.wind),
+                        getString(R.string.clouds),
+                        getString(R.string.date),
+                        getString(R.string.starttm),
+                        getString(R.string.endtm),
+                        getString(R.string.kal_w),
+                    };
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
                 // open Head table for head info
@@ -593,17 +651,17 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 kw = String.valueOf(Kw);
                 String[] arrMeta =
-                        {
-                                transNo,
-                                inspecName,
-                                String.valueOf(tempe),
-                                String.valueOf(wind),
-                                String.valueOf(clouds),
-                                date,
-                                start_tm,
-                                end_tm,
-                                kw,
-                        };
+                    {
+                        transNo,
+                        inspecName,
+                        String.valueOf(tempe),
+                        String.valueOf(wind),
+                        String.valueOf(clouds),
+                        date,
+                        start_tm,
+                        end_tm,
+                        kw,
+                    };
                 csvWrite.writeNext(arrMeta);
 
                 // Empty row
@@ -616,26 +674,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 // Species Name, Local Name, Code, Section, Section Note, Internal Counts, External Counts, Spec.-Note
                 String[] arrCol1 =
-                        {
-                                getString(R.string.name_spec),
-                                getString(R.string.name_spec_g),
-                                getString(R.string.code_spec),
-                                getString(R.string.name_sect),
-                                getString(R.string.notes_sect),
-                                getString(R.string.countImagomfHint),
-                                getString(R.string.countImagomHint),
-                                getString(R.string.countImagofHint),
-                                getString(R.string.countPupaHint),
-                                getString(R.string.countLarvaHint),
-                                getString(R.string.countOvoHint),
-                                getString(R.string.countImagomfHint),
-                                getString(R.string.countImagomHint),
-                                getString(R.string.countImagofHint),
-                                getString(R.string.countPupaHint),
-                                getString(R.string.countLarvaHint),
-                                getString(R.string.countOvoHint),
-                                getString(R.string.rem_spec)
-                        };
+                    {
+                        getString(R.string.name_spec),
+                        getString(R.string.name_spec_g),
+                        getString(R.string.code_spec),
+                        getString(R.string.name_sect),
+                        getString(R.string.notes_sect),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.rem_spec)
+                    };
                 csvWrite.writeNext(arrCol1);
 
                 CountDataSource countDataSource = new CountDataSource(this);
@@ -649,26 +707,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 if ("codes".equals(sortPref))
                 {
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                            + " WHERE ("
-                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                            + " order by " + DbHelper.C_CODE, null);
+                        + " WHERE ("
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_CODE, null);
                 }
                 else
                 {
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                            + " WHERE ("
-                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                            + " order by " + DbHelper.C_NAME, null);
+                        + " WHERE ("
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_NAME, null);
                 }
 
                 int countmf, countm, countf, countp, countl, counte;
@@ -761,26 +819,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                         strcountee = "";
 
                     String[] arrStr =
-                            {
-                                    curCSV.getString(2),   //species name
-                                    curCSV.getString(17),   //species name_g
-                                    curCSV.getString(3),   //species code
-                                    sectName,              //section name
-                                    sectNotes,             //section note
-                                    strcountmf,            //count mf
-                                    strcountm,             //count m
-                                    strcountf,             //count f
-                                    strcountp,             //count p
-                                    strcountl,             //count l
-                                    strcounte,             //count e
-                                    strcountmfe,           //count mfe
-                                    strcountme,            //count me
-                                    strcountfe,            //count fe
-                                    strcountpe,            //count pe
-                                    strcountle,            //count le
-                                    strcountee,            //count ee
-                                    curCSV.getString(16)   //notes
-                            };
+                        {
+                            curCSV.getString(2),   //species name
+                            curCSV.getString(17),   //species name_g
+                            curCSV.getString(3),   //species code
+                            sectName,              //section name
+                            sectNotes,             //section note
+                            strcountmf,            //count mf
+                            strcountm,             //count m
+                            strcountf,             //count f
+                            strcountp,             //count p
+                            strcountl,             //count l
+                            strcounte,             //count e
+                            strcountmfe,           //count mfe
+                            strcountme,            //count me
+                            strcountfe,            //count fe
+                            strcountpe,            //count pe
+                            strcountle,            //count le
+                            strcountee,            //count ee
+                            curCSV.getString(16)   //notes
+                        };
                     csvWrite.writeNext(arrStr);
 
                     summf = summf + curCSV.getInt(4);
@@ -801,7 +859,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 sectionDataSource.close();
 
                 total = summf + summ + sumf + sump + suml + sumo +
-                        summfe + summe + sumfe + sumpe + sumle + sumoe;
+                    summfe + summe + sumfe + sumpe + sumle + sumoe;
 
                 // Empty row
                 String[] arrEmpt2 = {};
@@ -813,26 +871,26 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 // Internal counts, External counts, Total
                 String[] arrCol2 =
-                        {
-                                "", "", "", "", "",
-                                getString(R.string.countImagomfHint),
-                                getString(R.string.countImagomHint),
-                                getString(R.string.countImagofHint),
-                                getString(R.string.countPupaHint),
-                                getString(R.string.countLarvaHint),
-                                getString(R.string.countOvoHint),
-                                getString(R.string.countImagomfHint),
-                                getString(R.string.countImagomHint),
-                                getString(R.string.countImagofHint),
-                                getString(R.string.countPupaHint),
-                                getString(R.string.countLarvaHint),
-                                getString(R.string.countOvoHint),
-                                getString(R.string.hintTotal)
-                        };
+                    {
+                        "", "", "", "", "",
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.countImagomfHint),
+                        getString(R.string.countImagomHint),
+                        getString(R.string.countImagofHint),
+                        getString(R.string.countPupaHint),
+                        getString(R.string.countLarvaHint),
+                        getString(R.string.countOvoHint),
+                        getString(R.string.hintTotal)
+                    };
                 csvWrite.writeNext(arrCol2);
 
                 String strsummf, strsumm, strsumf, strsump, strsuml, strsumo,
-                        strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe, strtotal;
+                    strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe, strtotal;
 
                 if (summf > 0)
                     strsummf = Integer.toString(summf);
@@ -901,29 +959,29 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
                 // write total sum
                 String[] arrSum =
-                        {
-                                "", "", getString(R.string.sumSpec), Integer.toString(sumSpec),
-                                getString(R.string.sum),
-                                strsummf,
-                                strsumm,
-                                strsumf,
-                                strsump,
-                                strsuml,
-                                strsumo,
-                                strsummfe,
-                                strsumme,
-                                strsumfe,
-                                strsumpe,
-                                strsumle,
-                                strsumoe,
-                                strtotal
-                        };
+                    {
+                        "", "", getString(R.string.sumSpec), Integer.toString(sumSpec),
+                        getString(R.string.sum),
+                        strsummf,
+                        strsumm,
+                        strsumf,
+                        strsump,
+                        strsuml,
+                        strsumo,
+                        strsummfe,
+                        strsumme,
+                        strsumfe,
+                        strsumpe,
+                        strsumle,
+                        strsumoe,
+                        strtotal
+                    };
                 csvWrite.writeNext(arrSum);
 
                 csvWrite.close();
                 dbHandler.close();
 
-                showSnackbar(getString(R.string.saveWin));
+                showSnackbar(getString(R.string.savecsv));
 
             } catch (Exception e)
             {
@@ -1039,33 +1097,33 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         try
         {
             String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
-                    + DbHelper.C_COUNT_F1I + " = 0, "
-                    + DbHelper.C_COUNT_F2I + " = 0, "
-                    + DbHelper.C_COUNT_F3I + " = 0, "
-                    + DbHelper.C_COUNT_PI + " = 0, "
-                    + DbHelper.C_COUNT_LI + " = 0, "
-                    + DbHelper.C_COUNT_EI + " = 0, "
-                    + DbHelper.C_COUNT_F1E + " = 0, "
-                    + DbHelper.C_COUNT_F2E + " = 0, "
-                    + DbHelper.C_COUNT_F3E + " = 0, "
-                    + DbHelper.C_COUNT_PE + " = 0, "
-                    + DbHelper.C_COUNT_LE + " = 0, "
-                    + DbHelper.C_COUNT_EE + " = 0, "
-                    + DbHelper.C_NOTES + " = '';";
+                + DbHelper.C_COUNT_F1I + " = 0, "
+                + DbHelper.C_COUNT_F2I + " = 0, "
+                + DbHelper.C_COUNT_F3I + " = 0, "
+                + DbHelper.C_COUNT_PI + " = 0, "
+                + DbHelper.C_COUNT_LI + " = 0, "
+                + DbHelper.C_COUNT_EI + " = 0, "
+                + DbHelper.C_COUNT_F1E + " = 0, "
+                + DbHelper.C_COUNT_F2E + " = 0, "
+                + DbHelper.C_COUNT_F3E + " = 0, "
+                + DbHelper.C_COUNT_PE + " = 0, "
+                + DbHelper.C_COUNT_LE + " = 0, "
+                + DbHelper.C_COUNT_EE + " = 0, "
+                + DbHelper.C_NOTES + " = '';";
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
-                    + DbHelper.S_CREATED_AT + " = '', "
-                    + DbHelper.S_NOTES + " = '';";
+                + DbHelper.S_CREATED_AT + " = '', "
+                + DbHelper.S_NOTES + " = '';";
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.META_TABLE + " SET "
-                    + DbHelper.M_TEMPE + " = 0, "
-                    + DbHelper.M_WIND + " = 0, "
-                    + DbHelper.M_CLOUDS + " = 0, "
-                    + DbHelper.M_DATE + " = '', "
-                    + DbHelper.M_START_TM + " = '', "
-                    + DbHelper.M_END_TM + " = '';";
+                + DbHelper.M_TEMPE + " = 0, "
+                + DbHelper.M_WIND + " = 0, "
+                + DbHelper.M_CLOUDS + " = 0, "
+                + DbHelper.M_DATE + " = '', "
+                + DbHelper.M_START_TM + " = '', "
+                + DbHelper.M_END_TM + " = '';";
             database.execSQL(sql);
 
             sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
@@ -1115,64 +1173,64 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmDBImport)
-                .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+            .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+            {
+                try
                 {
+                    copy(infile, outfile);
+                    showSnackbar(getString(R.string.importWin));
+
+                    Head head;
+                    headDataSource = new HeadDataSource(getApplicationContext());
+                    headDataSource.open();
+                    head = headDataSource.getHead();
+                    headDataSource.close();
+
+                    // set transect number as title
                     try
                     {
-                        copy(infile, outfile);
-                        showSnackbar(getString(R.string.importWin));
-
-                        Head head;
-                        headDataSource = new HeadDataSource(getApplicationContext());
-                        headDataSource.open();
-                        head = headDataSource.getHead();
-                        headDataSource.close();
-
-                        // set transect number as title
-                        try
-                        {
-                            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-                        } catch (NullPointerException e)
-                        {
-                            // nothing
-                        }
-
-                    } catch (IOException e)
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+                    } catch (NullPointerException e)
                     {
-                        if (MyDebug.LOG)
-                            Log.e(TAG, "Failed to import database");
-                        showSnackbarRed(getString(R.string.importFail));
+                        // nothing
                     }
-                    // END
-                }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+
+                } catch (IOException e)
+                {
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "Failed to import database");
+                    showSnackbarRed(getString(R.string.importFail));
+                }
+                // END
+            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
         alert = builder.create();
         alert.show();
     }
 
     // Function is part of importFile() and processes the result of AdvFileChooser
-    ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>()
+    final ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>()
+        {
+            @Override
+            public void onActivityResult(ActivityResult result)
             {
-                @Override
-                public void onActivityResult(ActivityResult result)
+                String selectedFile;
+                if (result.getResultCode() == Activity.RESULT_OK)
                 {
-                    String selectedFile;
-                    if (result.getResultCode() == Activity.RESULT_OK)
+                    Intent data = result.getData();
+                    // Following the operation
+                    assert data != null;
+                    selectedFile = data.getStringExtra("fileSelected");
+                    if (MyDebug.LOG)
                     {
-                        Intent data = result.getData();
-                        // Following the operation
-                        assert data != null;
-                        selectedFile = data.getStringExtra("fileSelected");
-                        if (MyDebug.LOG)
-                        {
-                            Log.e(TAG, "File selected: " + selectedFile);
-                            showSnackbarRed("Selected file: " + selectedFile);
-                        }
-                        infile = new File(selectedFile);
+                        Log.e(TAG, "File selected: " + selectedFile);
+                        showSnackbarRed("Selected file: " + selectedFile);
                     }
+                    infile = new File(selectedFile);
                 }
-            });
+            }
+        });
 
     /**********************************************************************************************/
     @SuppressLint({"SdCardPath", "LongLogTag"})
@@ -1196,36 +1254,36 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmBasisImport)
-                .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+            .setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+            {
+                try
                 {
+                    copy(infile, outfile);
+                    showSnackbar(getString(R.string.importWin));
+
+                    Head head;
+                    headDataSource = new HeadDataSource(getApplicationContext());
+                    headDataSource.open();
+                    head = headDataSource.getHead();
+
+                    // set transect number as title
                     try
                     {
-                        copy(infile, outfile);
-                        showSnackbar(getString(R.string.importWin));
-
-                        Head head;
-                        headDataSource = new HeadDataSource(getApplicationContext());
-                        headDataSource.open();
-                        head = headDataSource.getHead();
-
-                        // set transect number as title
-                        try
-                        {
-                            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-                        } catch (NullPointerException e)
-                        {
-                            // nothing
-                        }
-
-                        headDataSource.close();
-                    } catch (IOException e)
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+                    } catch (NullPointerException e)
                     {
-                        if (MyDebug.LOG)
-                            Log.e(TAG, "Failed to import database");
-                        showSnackbarRed(getString(R.string.importFail));
+                        // nothing
                     }
-                    // END
-                }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+
+                    headDataSource.close();
+                } catch (IOException e)
+                {
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "Failed to import database");
+                    showSnackbarRed(getString(R.string.importFail));
+                }
+                // END
+            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
         alert = builder.create();
         alert.show();
     }
@@ -1252,7 +1310,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private void showSnackbar(String str) // green text
     {
         View view = findViewById(R.id.baseLayout);
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#00ff00\">" + str + "</font>"), Snackbar.LENGTH_SHORT);
+        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
+        sB.setActionTextColor(Color.GREEN);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
@@ -1261,9 +1320,11 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private void showSnackbarRed(String str) // bold red text
     {
         View view = findViewById(R.id.baseLayout);
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
+        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
+        sB.setActionTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         sB.show();
     }
 

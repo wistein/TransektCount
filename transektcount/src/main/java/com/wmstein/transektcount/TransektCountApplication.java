@@ -19,10 +19,10 @@ import androidx.preference.PreferenceManager;
 
 /**********************************************************
  * Handle background image, prefs and get image ids 
- * 
+ <p>
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016, 
- * last edit on 2022-04-29
+ * last edit on 2023-05-09
  */
 public class TransektCountApplication extends Application
 {
@@ -178,11 +178,11 @@ public class TransektCountApplication extends Application
 
 
     // Get resource ID from resource name
-    public int getResId(String rName) // non-static method
+    public int getResID(String rName) // non-static method
     {
         try
         {
-            resID = getAppContext().getResources().getIdentifier(rName, "drawable", 
+            resID = getAppContext().getResources().getIdentifier(rName, "drawable",
                 getAppContext().getPackageName());
             return resID;
         } catch (Exception e)

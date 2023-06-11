@@ -35,10 +35,10 @@ import androidx.core.app.NavUtils;
  * in landscape mode.
  * AddSpeciesActivity is called from EditSectionLActivity
  * Uses SpeciesAddWidget.java, widget_add_spec.xml.
- * <p>
+ <p>
  * The sorting order of the species to add cannot be changed, as it is determined 
  * by 3 interdependent and correlated arrays in arrays.xml
- * <p>
+ <p>
  * Created for TourCount by wmstein on 2022-04-29,
  * last edited on 2023-05-08
  */

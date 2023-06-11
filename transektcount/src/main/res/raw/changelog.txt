@@ -49,7 +49,7 @@ _ Subtitle
     ! Source code and documentation published under:
     ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-    ! Suitable for Android 4.4 (KitKat) or newer
+    ! Suitable for Android 5 (Lollipop) or newer.
   _ 
     ! License
   _ 
@@ -80,12 +80,16 @@ _ Subtitle
 
 $ 3.3.8
   % Version 3.3.8
-  _ 2023-05-08
-  * Gradle Plugin upgraded -> 8.0.0
+  _ 2023-06-10
+  * Gradle Plugin upgraded -> 8.0.2
   * Gradle upgraded -> 8.0
-  * Deprecated startActivityForResult() replaced by ActivityResultLauncher
-  * Permissions handling minimized
-	* Some more code improvements
+  * Deprecated method replaced
+  * Permissions handling belittled
+  * .csv-files exported to Documents/TransektCount/ (allows access by other apps)
+  * Option to vibrate, short for counting-up and longer for counting-down
+  * Counting sound deeper when counting down
+  * Some more code improvements
+  * Minimal Android Version 7.1 (Nougat)
 
 $ 3.3.7
   % Version 3.3.7

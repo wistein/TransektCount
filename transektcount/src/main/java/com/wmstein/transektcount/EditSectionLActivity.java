@@ -5,10 +5,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,6 +20,10 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.transektcount.database.Count;
@@ -33,10 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
-
 /*************************************************************************
  * Edit the current section list (change, delete and insert new species)
  * in landscape mode
@@ -46,7 +47,7 @@ import androidx.core.app.NavUtils;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Created by wmstein on 2022-04-29,
- * last edited on 2023-05-08
+ * last edited on 2023-06-09
  */
 public class EditSectionLActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -89,8 +90,6 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
     // Preferences
     private boolean brightPref;
     private boolean dupPref;
-
-    String new_count_name = "";
     String oldname;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -203,19 +202,12 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
         notes_area2.addView(enw);
 
         // load the sorted species data
-        List<Count> counts;
-        switch (Objects.requireNonNull(sortPref))
-        {
-        case "names_alpha":
-            counts = countDataSource.getAllSpeciesForSectionSrtName(section.id);
-            break;
-        case "codes":
-            counts = countDataSource.getAllSpeciesForSectionSrtCode(section.id);
-            break;
-        default:
-            counts = countDataSource.getAllCountsForSection(section.id);
-            break;
-        }
+        List<Count> counts = switch (Objects.requireNonNull(sortPref))
+            {
+                case "names_alpha" -> countDataSource.getAllSpeciesForSectionSrtName(section.id);
+                case "codes" -> countDataSource.getAllSpeciesForSectionSrtCode(section.id);
+                default -> countDataSource.getAllCountsForSection(section.id);
+            };
 
         // display all the counts by adding them to CountEditWidget
         for (Count count : counts)
@@ -595,7 +587,6 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
                 // go ahead for the delete
                 countDataSource.deleteCountById(idToDelete); // includes associated alerts
                 counts_area.removeView((CountEditWidget) viewMarkedForDelete.getParent().getParent().getParent());
-                new_count_name = "";
             });
             areYouSure.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
                 // Cancelled.
@@ -608,9 +599,11 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
     private void showSnackbarRed(String str) // bold red text
     {
         View view = findViewById(R.id.editingScreen);
-        Snackbar sB = Snackbar.make(view, Html.fromHtml("<font color=\"#ff0000\"><b>" + str + "</font></b>"), Snackbar.LENGTH_LONG);
+        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
+        sB.setActionTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         sB.show();
     }
 

@@ -86,7 +86,7 @@ public class CountEditWidget extends LinearLayout implements Serializable
         // make instance of class TransektCountApplication to reference non-static method 
         TransektCountApplication transektCountApp = new TransektCountApplication();
 
-        int resId = transektCountApp.getResId(rname);
+        int resId = transektCountApp.getResID(rname);
         if (resId != 0)
         {
             pSpecies.setImageResource(resId);

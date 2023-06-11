@@ -700,8 +700,8 @@ public class CountDataSource
             @SuppressLint("Range") String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = transektCountApp.getResId(rname);
-            int resId0 = transektCountApp.getResId("p00000");
+            int resId = transektCountApp.getResID(rname);
+            int resId0 = transektCountApp.getResID("p00000");
             
             if (resId != 0)
             {
@@ -734,8 +734,8 @@ public class CountDataSource
             @SuppressLint("Range") String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = transektCountApp.getResId(rname);
-            int resId0 = transektCountApp.getResId("p00000");
+            int resId = transektCountApp.getResID(rname);
+            int resId0 = transektCountApp.getResID("p00000");
 
             if (resId != 0)
             {
@@ -768,8 +768,8 @@ public class CountDataSource
             @SuppressLint("Range") String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = transektCountApp.getResId(rname);
-            int resId0 = transektCountApp.getResId("p00000");
+            int resId = transektCountApp.getResID(rname);
+            int resId0 = transektCountApp.getResID("p00000");
 
             if (resId != 0)
             {
@@ -802,8 +802,8 @@ public class CountDataSource
             @SuppressLint("Range") String ucode = cursor.getString(cursor.getColumnIndex("code"));
 
             String rname = "p" + ucode; // species picture resource name
-            int resId = transektCountApp.getResId(rname);
-            int resId0 = transektCountApp.getResId("p00000");
+            int resId = transektCountApp.getResID(rname);
+            int resId0 = transektCountApp.getResID("p00000");
 
             if (resId != 0)
             {

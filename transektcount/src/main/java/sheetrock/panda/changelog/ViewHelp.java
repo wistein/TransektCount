@@ -20,20 +20,20 @@ import java.util.Locale;
 /************************************************************************
  * Based on ChangeLog.java
  * Copyright (C) 2011-2013, Karsten Priegnitz
- * <p>
+ <p>
  * Permission to use, copy, modify, and distribute this piece of software
  * for any purpose with or without fee is hereby granted, provided that
  * the above copyright notice and this permission notice appear in the
  * source code of all copies.
- * <p>
+ <p>
  * It would be appreciated if you mention the author in your change log,
  * contributors list or the like.
- *
- * @author: Karsten Priegnitz
- * @see: http://code.google.com/p/android-change-log/
- * <p>
+ <p>
+ * Author: Karsten Priegnitz
+ * See: https://code.google.com/p/android-change-log/
+ <p>
  * Adaptation for ViewHelp:
- * Last edited by wmstein on 2021-01-26
+ * Last edited by wmstein on 2023-05-09
  */
 public class ViewHelp
 {
@@ -45,10 +45,6 @@ public class ViewHelp
     private Listmode listMode = Listmode.NONE;
     private StringBuffer sb = null;
 
-    /**
-     * Constructor <p/>
-     * Retrieves the version names and stores the new version name in SharedPreferences
-     */
     public ViewHelp(Context context)
     {
         this.context = context;

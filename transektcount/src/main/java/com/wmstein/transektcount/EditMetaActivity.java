@@ -36,7 +36,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2022-04-30
+ * last edited on 2023-05-09
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -353,9 +353,9 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     * 
+     <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     * 
+     <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -372,7 +372,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     * 
+     <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false

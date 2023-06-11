@@ -19,12 +19,12 @@ import java.util.Objects;
  * Used by EditSectionActivity and widget_edit_title.xml
  * Created by by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2019-02-12
+ * Last edited on 2023-05-09
  */
 public class EditTitleWidget extends LinearLayout
 {
-    TextView widget_title;
-    EditText section_name;
+    final TextView widget_title;
+    final EditText section_name;
 
     public EditTitleWidget(Context context, AttributeSet attrs)
     {

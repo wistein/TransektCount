@@ -13,22 +13,22 @@ import java.util.Objects;
 /****************************************************
  * ListMetaWidget.java used by ListSpeciesActivity.java
  * Created by wmstein for TransektCount on 03.04.2016,
- * Last edited on 2019-02-12
+ * Last edited on 2023-05-09
  */
 public class ListMetaWidget extends LinearLayout
 {
-    TextView widget_lmeta1; // temperature
-    TextView widget_litem1;
-    TextView widget_lmeta2; // wind
-    TextView widget_litem2;
-    TextView widget_lmeta3; // clouds
-    TextView widget_litem3;
-    TextView widget_ldate1; // date
-    TextView widget_ldate2;
-    TextView widget_ltime1; // start_tm
-    TextView widget_litem4;
-    TextView widget_ltime2; // end_tm
-    TextView widget_litem5;
+    final TextView widget_lmeta1; // temperature
+    final TextView widget_litem1;
+    final TextView widget_lmeta2; // wind
+    final TextView widget_litem2;
+    final TextView widget_lmeta3; // clouds
+    final TextView widget_litem3;
+    final TextView widget_ldate1; // date
+    final TextView widget_ldate2;
+    final TextView widget_ltime1; // start_tm
+    final TextView widget_litem4;
+    final TextView widget_ltime2; // end_tm
+    final TextView widget_litem5;
 
     public ListMetaWidget(Context context, AttributeSet attrs)
     {

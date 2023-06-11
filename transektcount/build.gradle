@@ -1,14 +1,15 @@
-apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 android {
-    // Compiled with SDK Ver. 33 for targetSdkVersion 33
-    //
+    namespace 'com.wmstein.transektcount'
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.wmstein.transektcount"
-        minSdkVersion 19
+        minSdkVersion 25
         targetSdkVersion 33
         versionCode 338
         versionName = "3.3.8"
@@ -26,8 +27,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
     lint {
@@ -35,7 +40,6 @@ android {
         checkReleaseBuilds true
     }
     
-    namespace 'com.wmstein.transektcount'
 
     applicationVariants.all { variant ->
         variant.outputs.all {
@@ -46,8 +50,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.google.android.material:material:1.9.0'
 }
