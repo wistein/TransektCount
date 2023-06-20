@@ -149,18 +149,12 @@ public class ListSpeciesLActivity extends AppCompatActivity implements SharedPre
         countDataSource.open();
         sectionDataSource.open();
 
-        switch (sortPref)
-        {
-        case "names_alpha":
-            specs = countDataSource.getAllCountsForSrtName();
-            break;
-        case "codes":
-            specs = countDataSource.getAllCountsForSrtCode();
-            break;
-        default:
-            specs = countDataSource.getAllCounts();
-            break;
-        }
+        specs = switch (sortPref)
+            {
+                case "names_alpha" -> countDataSource.getAllCountsForSrtName();
+                case "codes" -> countDataSource.getAllCountsForSrtCode();
+                default -> countDataSource.getAllCounts();
+            };
 
         sumSpec = countDataSource.getDiffSpec(); // get number of different species
 

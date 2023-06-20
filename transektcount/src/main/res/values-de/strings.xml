@@ -20,8 +20,8 @@
     <string name="viewHelpTitle">Hilfe</string>
     <string name="noCard">Das TransektCount files-Directory kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
-    <string name="saveWin">Die Datenbank wurde ins TransektCount files-Verzeichnis exportiert.</string>
-    <string name="savecsv">Die Datenbank wurde ins Documents-Verzeichnis exportiert.</string>
+    <string name="saveWin">Export nach Android/data/com.wmstein.transektcount/files.</string>
+    <string name="savecsv">Export nach Documents/TransektCount.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export akt. DB</string>
@@ -216,6 +216,11 @@
     <string name="cancel">Abbrechen</string>
 
     <!-- Permissions -->
-    <string name="perm_cancel">Export blockiert. Bitte erteile Berechtigung und versuche es erneut.</string>
+    <string name="perm_required">Berechtigungen benötigt</string>
+    <string name="perm_hint">Um Schmetterlinge mit Ortsangaben zu registrieren, sind in TourCount Standortberechtigungen erforderlich. </string>
+    <string name="perm_hint1">Bitte erteile die fehlende Berechtigung für die App in den Smartphone-Einstellungen.</string>
+    <string name="app_settings">App-Einstellungen</string>
+    <string name="perm_denied">Mindestens eine Berechtigung fehlt. Die Funktion ist entsprechend eingeschränkt.</string>
+    <string name="perm_cancel">Export blockiert. Bitte erteile die Berechtigung zum Speichern und versuche es erneut.</string>
 
 </resources>

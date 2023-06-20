@@ -13,7 +13,7 @@ import java.io.Writer;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  <p>
- * https://www.apache.org/licenses/LICENSE-2.0
+ * <a href="https://www.apache.org/licenses/LICENSE-2.0">...</a>
  <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,9 @@ import java.io.Writer;
  <p>
  * Based on "A very simple CSV writer" by
  * @author Glen Smith
- <p>
+<p>
  * Reduced to needed functions with modifications for TransektCount by wmstein
- * Last edited on 2023-05-09
+ * Last edited on 2023-06-17
  */
 
 public class CSVWriter implements Closeable, Flushable

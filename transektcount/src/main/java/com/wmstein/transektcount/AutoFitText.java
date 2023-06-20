@@ -36,8 +36,6 @@ import android.widget.TextView;
 
 public class AutoFitText extends androidx.appcompat.widget.AppCompatTextView
 {
-    // Prepared for future debugging use
-    private static final String TAG = "transektcountAutoFitText";
     /**
      * Global min and max for text size. Remember: values are in pixels!
      */

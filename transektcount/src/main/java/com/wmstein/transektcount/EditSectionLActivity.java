@@ -600,7 +600,7 @@ public class EditSectionLActivity extends AppCompatActivity implements SharedPre
     {
         View view = findViewById(R.id.editingScreen);
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.RED);
+        sB.setTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);

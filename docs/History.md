@@ -2,15 +2,16 @@
 
 #### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
-#### Version 3.3.8 (2023-06-10)
+#### Version 3.3.8 (2023-06-20)
 - Gradle Plugin upgraded -> 8.0.2
 - Gradle upgraded -> 8.0
-- Deprecated method replaced
-- Permissions handling belittled
+- Most deprecated functions replaced
+- Permissions handling adapted to Android 11+
 - .csv-files exported to Documents/TransektCount/ (allows access by other apps)
 - Option to vibrate, short for counting-up and longer for counting-down
 - Counting sound deeper when counting down
 - Some more code improvements
+- Sourcecode partly translated to Kotlin
 - Minimal Android Version 7.1 (Nougat)
 
 #### Version 3.3.7 (2023-03-26)

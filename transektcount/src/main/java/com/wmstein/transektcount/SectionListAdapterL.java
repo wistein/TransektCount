@@ -203,7 +203,7 @@ class SectionListAdapterL extends ArrayAdapter<Section> implements SharedPrefere
                 (dialog, id) -> 
                 {
                 // perform the deleting in the activity
-                ((ListSectionActivity) mContext).deleteSection(sct);
+                ((ListSectionLActivity) mContext).deleteSection(sct);
                 }
             ).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel()
             );

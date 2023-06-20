@@ -89,7 +89,7 @@ public class SectionDataSource
         String sql = "SELECT * FROM " + DbHelper.SECTION_TABLE + " ORDER BY " + DbHelper.S_ID + " DESC LIMIT 1";
         Cursor cursor = database.rawQuery(sql, null);
 
-        int maxId = 0;
+        int maxId;
         cursor.moveToFirst();
         maxId = cursor.getInt(cursor.getColumnIndex(DbHelper.S_ID));
         cursor.close();
@@ -161,18 +161,12 @@ public class SectionDataSource
 
         String orderBy;
         String sortString = prefs.getString("pref_sort", "name_asc");
-        switch (Objects.requireNonNull(sortString))
-        {
-        case "name_desc":
-            orderBy = DbHelper.S_NAME + " DESC";
-            break;
-        case "name_asc":
-            orderBy = DbHelper.S_NAME + " ASC";
-            break;
-        default:
-            orderBy = "";
-            break;
-        }
+        orderBy = switch (Objects.requireNonNull(sortString))
+            {
+                case "name_desc" -> DbHelper.S_NAME + " DESC";
+                case "name_asc" -> DbHelper.S_NAME + " ASC";
+                default -> "";
+            };
         Cursor cursor = database.query(DbHelper.SECTION_TABLE, allColumns,
             null, null, null, null, orderBy);
 

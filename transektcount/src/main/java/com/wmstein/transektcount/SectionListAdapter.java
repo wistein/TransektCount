@@ -1,7 +1,7 @@
 package com.wmstein.transektcount;
 
 import static android.content.Context.VIBRATOR_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
+import static java.lang.Long.toHexString;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,13 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.wmstein.transektcount.database.Section;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-
-import static java.lang.Long.toHexString;
 
 /*********************************************************
  * SectionListAdapter is called from ListSectionActivity

@@ -1,5 +1,7 @@
 package com.wmstein.transektcount;
 
+import static android.graphics.Color.RED;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -67,9 +70,9 @@ import sheetrock.panda.changelog.ViewHelp;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-06-10
+ * last edited on 2023-06-18
  */
-public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
     private static final String TAG = "TransektCountWelcomeAct";
     @SuppressLint("StaticFieldLeak")
@@ -87,9 +90,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     private File outfile;
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    private final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    private boolean granted;
-
     final String state = Environment.getExternalStorageState();
     AlertDialog alert;
 
@@ -141,6 +141,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             headDataSource.close();
         } catch (SQLiteException e)
         {
+            headDataSource.close();
             tname = getString(R.string.errorDb);
             showSnackbarRed(getString(R.string.corruptDb));
         }
@@ -163,36 +164,58 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         if (!infile.exists())
             exportBasisDb(); // create directory and initial Basis DB (getExternalFilesDir, getExternalDir)
 
-        // Initial test for write permission to external storage
-        granted = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
-
     } // end of onCreate
 
-    // Request missing permission
-    private final ActivityResultLauncher<String> permissionLauncherSingle = registerForActivityResult(
-        new ActivityResultContracts.RequestPermission(),
-        new ActivityResultCallback<Boolean>()
+    // check initial external storage permission
+    private boolean isStorageGranted()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android 11+
         {
-            @Override
-            public void onActivityResult(Boolean isGranted)
-            {
-                //here we will check if permission is granted from permission request dialog
-                Log.d(TAG, "onActivityResult: isGranted: " + isGranted);
-
-                if (isGranted)
-                {
-                    //Permission granted now do the required task here or call the function for that
-                    granted = true;
-                }
-                else
-                {
-                    //Permission was denied so can't do the task that requires that permission
-                    Log.d(TAG, "onActivityResult: Permission denied...");
-                    showSnackbarRed(getString(R.string.perm_cancel));
-                }
-            }
+            return Environment.isExternalStorageManager(); // check permission MANAGE_EXTERNAL_STORAGE for Android 11+
         }
-                                                                                                     );
+        else
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        screenOrientL = prefs.getBoolean("screen_Orientation", false);
+
+        if (screenOrientL)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        ScrollView baseLayout = findViewById(R.id.baseLayout);
+        baseLayout.setBackground(null);
+        baseLayout.setBackground(transektCount.setBackground());
+
+        Head head;
+        headDataSource = new HeadDataSource(this);
+        headDataSource.open();
+        head = headDataSource.getHead();
+
+        // set transect number as title
+        try
+        {
+            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+        } catch (NullPointerException e)
+        {
+            // nothing
+        }
+
+        headDataSource.close();
+    }
 
     // Date for filename of Export-DB
     public static String getcurDate()
@@ -238,14 +261,15 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else if (id == R.id.exportCSVMenu)
         {
-            if (granted)
+            if (isStorageGranted())
             {
                 exportDb2CSV();
+                return true;
             }
             else
             {
-                permissionLauncherSingle.launch(permission);
-                if (granted)
+                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
+                if (isStorageGranted())
                 {
                     exportDb2CSV();
                 }
@@ -372,46 +396,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        prefs = TransektCountApplication.getPrefs();
-        prefs.registerOnSharedPreferenceChangeListener(this);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
-        ScrollView baseLayout = findViewById(R.id.baseLayout);
-        baseLayout.setBackground(null);
-        baseLayout.setBackground(transektCount.setBackground());
-
-        Head head;
-        headDataSource = new HeadDataSource(this);
-        headDataSource.open();
-        head = headDataSource.getHead();
-
-        // set transect number as title
-        try
-        {
-            Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-        } catch (NullPointerException e)
-        {
-            // nothing
-        }
-
-        headDataSource.close();
-    }
-
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView baseLayout = findViewById(R.id.baseLayout);
@@ -506,19 +490,37 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     /**********************************************************************************************/
     // Exports DB to SdCard/transektcount_yyyy-MM-dd_HHmmss.csv
-    // supplemented with date and time in filename by wmstein
-    // and purged export in csv-format
+    //   with purged data set
+    // Spreadsheet programs can import this csv file with
+    //   - Unicode UTF-8 filter,
+    //   - comma delimiter and
+    //   - "" for text recognition.
+    // created on 2016-05-15, wm.stein
+    // last modified on 2023-06-18
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
     {
-        // outfile -> /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount_yyyy-MM-dd_HHmmss.csv
-        //outfile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount_" + getcurDate() + ".csv");
+        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.csv
+        //
+        // 1. Alternative for Android 11+
+        // outfile = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount" + "/transektcount_" + getcurDate() + ".csv");
+        //
+        // 2. Alternative for Android 10-
+        // outfile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TransektCount" + "/transektcount_" + getcurDate() + ".csv");
 
+        // use Public Directory (Documents) if possible (as getExternalStoragePublicDirectory is deprecated in Q, Android 10)
         File path;
-        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        path = new File(path + "/TransektCount");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android 11+
+        {
+            path = Environment.getExternalStorageDirectory();
+            path = new File(path + "/Documents/TransektCount");
+        } else
+        {
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            path = new File(path + "/TransektCount");
+        }
         //noinspection ResultOfMethodCallIgnored
-        path.mkdirs();
+        path.mkdirs(); // Verify path
         outfile = new File(path, "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
@@ -567,6 +569,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else
         {
+
             // export purged db as csv
             try
             {
@@ -982,7 +985,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 dbHandler.close();
 
                 showSnackbar(getString(R.string.savecsv));
-
             } catch (Exception e)
             {
                 if (MyDebug.LOG)
@@ -1210,7 +1212,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // Function is part of importFile() and processes the result of AdvFileChooser
     final ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>()
+        new ActivityResultCallback<>()
         {
             @Override
             public void onActivityResult(ActivityResult result)
@@ -1240,7 +1242,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         // infile <- /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
         infile = new File(getApplicationContext().getExternalFilesDir(null) + "/transektcount0.db");
 
-        // outfile -> /data/data/com.wmstein.transektcount//databases/transektcount.db
+        // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
         String destPath = getApplicationContext().getFilesDir().getPath();
         destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
         outfile = new File(destPath);
@@ -1311,7 +1313,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         View view = findViewById(R.id.baseLayout);
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.GREEN);
+        sB.setTextColor(Color.GREEN);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         sB.show();
@@ -1321,11 +1323,16 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     {
         View view = findViewById(R.id.baseLayout);
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.RED);
+        sB.setTextColor(RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         sB.show();
     }
 
+    @Override
+    public void permissionCaptureFragment()
+    {
+        // nothing
+    }
 }

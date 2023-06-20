@@ -194,7 +194,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             // do nothing
         }
-    }
+    } // End of onCreate
 
     // Used to load preferences at the start, and also when a change is detected.
     private void getPrefs()
@@ -351,7 +351,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-    }
+    } // End of onResume
 
     private void showSnackbarRed(String str)
     {
@@ -365,7 +365,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             view = findViewById(R.id.countingScreen);
         }
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.RED);
+        sB.setTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
@@ -508,8 +508,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         countDataSource.close();
         alertDataSource.close();
 
-        // N.B. a wakelock might not be held, e.g. if someone is using Cyanogenmod and
-        // has denied wakelock permission to transektcount
+        // N.B. a wakelock might not be held, e.g. if someone is using LineageOS and
+        //   has denied wakelock permission to TransektCount
         if (awakePref)
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -1656,7 +1656,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // Handle menu selections
-    @SuppressLint({"ApplySharedPref", "QueryPermissionsNeeded"})
+//    @SuppressLint({"ApplySharedPref", "QueryPermissionsNeeded"})
+    @SuppressLint("QueryPermissionsNeeded")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -1681,6 +1682,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
         else if (id == R.id.menuTakePhoto)
         {
+
             Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
             PackageManager packageManager = getPackageManager();
@@ -1704,6 +1706,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 }
             }
             return true;
+
+
         }
         else if (id == R.id.menuClone)
         {
@@ -1721,10 +1725,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Transekt " + section.name);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Message by Transekt");
             sendIntent.putExtra(Intent.EXTRA_TEXT, section.notes);
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, section.name);
             sendIntent.setType("text/plain");
-            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+//            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+            startActivity(sendIntent);
             return true;
         }
 

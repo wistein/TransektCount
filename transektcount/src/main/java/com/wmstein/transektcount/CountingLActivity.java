@@ -370,7 +370,7 @@ public class CountingLActivity extends AppCompatActivity implements SharedPrefer
             view = findViewById(R.id.countingScreen);
         }
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.RED);
+        sB.setTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);

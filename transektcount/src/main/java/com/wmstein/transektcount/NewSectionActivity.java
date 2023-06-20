@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -50,7 +49,6 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     Section section;
     Section newSection;
     
-    ViewGroup layout;
     EditText newsectName;
     private SectionDataSource sectionDataSource;
     List<Section> sections = new ArrayList<>();
@@ -118,14 +116,14 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         int id = item.getItemId();
         if (id == R.id.menuSaveExit)
         {
-            saveSection(layout);
+            saveSection();
         }
         return super.onOptionsItemSelected(item);
     }
 
     // Save section with plausi-check for empty or duplicate section name
     @SuppressLint("ApplySharedPref")
-    public void saveSection(View view)
+    public void saveSection()
     {
         // first, edit the section name
         String sect_name = newsectName.getText().toString();
@@ -240,7 +238,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
     {
         View view = findViewById(R.id.newsectScreen);
         Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setActionTextColor(Color.RED);
+        sB.setTextColor(Color.RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);

@@ -12,7 +12,7 @@ import com.wmstein.transektcount.R;
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
- * Last edited on 2022-05-01
+ * Last edited on 2023-06-11
  */
 public class DbHelper extends SQLiteOpenHelper
 {
@@ -56,8 +56,8 @@ public class DbHelper extends SQLiteOpenHelper
     public static final String C_NOTES = "notes";
     static final String C_NAME_G = "name_g";
 
-    private static final String C_COUNT = "count"; //deprecated in version 2
-    private static final String C_COUNTA = "counta"; //deprecated in version 2
+    private static final String C_COUNT = "count"; //deprecated in database version 2
+    private static final String C_COUNTA = "counta"; //deprecated in database version 2
 
     static final String A_ID = "_id";
     static final String A_COUNT_ID = "count_id";
