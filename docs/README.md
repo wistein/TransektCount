@@ -26,7 +26,7 @@ The app demands for
 - the permit to keep the device awake.
 
 The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
-The app is usable with Android version 4.4 (KitKat) or newer.
+The app is usable with Android version 7.1 (Nougat) or newer.
 
 ### General
 #### Documentation
