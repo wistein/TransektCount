@@ -166,6 +166,20 @@ $ 7
   ! In der Zähler-Ansicht kann die Anzeige temporär per Näherungssensors abgeschaltet werden, wenn das Handy eingesteckt oder nahe am Körper gehalten wird.
   ! Das spart Energie, verhindert unerwünschte Eingaben und bringt die App augenblicklich zurück, wenn sie wieder normal genutzt wird.
 
+$ 8
+  %5. Meldungen
+  !
+  ! Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der letzte Abschnitt kann gelöscht werden. Falls das allerdings der letzte Abschnitt ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen.
+  _ 
+  ! Mögliche Abhilfe:
+  ! 1. Falls die Anzahl der Abschnitte notwendig ist und nur die Daten eines Abschnitts falsch sind, kann dieser Abschnitt editiert werden. 
+  _ 
+  ! 2. Die DB um einen Abschnitt verkleinern. Dazu die DB exportieren und auf ein Gerät mit mehr RAM kopieren, dort importieren, den letzten Abschnitt löschen, die DB exportieren und zurück kopieren.
+  _ 
+  ! 3. Alternativ die DB auf einen PC kopieren, dort mit Hilfe des o. g. Tools "SqliteBrowser" verkleinern und zurückkopieren. Hierbei ist der letzte Eintrag in der Tabelle "sections" zu löschen und alle Einträge in der Tabelle "counts" mit der entsprechenden "section_id" zu löschen. 
+  _ 
+  ! 4. Die DB neu aufsetzen und einen Abschnitt weniger verwenden. 
+
 $ END_OF_VIEW_HELP
   </body>
 </html>

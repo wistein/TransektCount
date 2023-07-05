@@ -86,7 +86,7 @@
     <string name="sectionSaved">List saved!</string>
     <string name="notContiguous">Not possible, as previously a section was deleted!</string>
     <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
-    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last section may be deleted.</string>
+    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last section may be deleted. If this is the last section then your device has unfortunately not enough free RAM to execute the function.</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>

@@ -164,6 +164,20 @@ $ 7
   ! The counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket or held closed to the body.
   ! This saves energy, prohibits unwanted input and recalls the app into its current state immediately when used again.
 
+$ 8
+  % 5. Messages
+  !
+  ! Section nn: To prevent DB corruption it is not possible to delete this section. Only the last section may be deleted. If this is the last section then your device has unfortunately not enough free RAM to execute the function. 
+  _ 
+  ! Possible solutions:
+  ! 1. If the number of sections is necessary and only the data of one section is wrong, this section can be edited. 
+  _ 
+  ! 2. Reduce the DB by one section. To do this, export the DB and copy it to a device with more RAM, import it there, delete the last section, export the DB and copy it back.
+  _ 
+  ! 3. Alternatively copy the DB to a PC, reduce it there with the help of the above mentioned tool "SqliteBrowser" and copy it back. Delete the last entry in the table "sections" and delete all entries in the table "counts" with the corresponding "section_id". 
+  _ 
+  ! 4. Rebuild the DB and use one section less. 
+  
 $ END_OF_VIEW_HELP
   </body>
 </html>
