@@ -17,12 +17,12 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/***************************************************************************************************
- * Shows the list of selectable sections
+/************************************************************************************
+ * Shows the list of selectable sections which is put together by SectionListAdapter.
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Starts CountingActivity, EditSectionActivity and NewSectionActivity.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2022-04-30
+ * last edited on 2023-07-05
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -36,9 +36,9 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
 
     private SectionDataSource sectionDataSource;
     List<Section> sections;
+    int maxId;
     ListView list;
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -72,7 +72,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         list.invalidate(); //force list to draw
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume()
     {
@@ -94,11 +93,13 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         sectionDataSource.close();
     }
 
-    // modified for ListView lv by wmstein
+    // show sections list
     public void showData()
     {
+        Runtime.getRuntime().gc(); // garbage collection to free memory
         sections = sectionDataSource.getAllSections(prefs);
-        SectionListAdapter adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections);
+        maxId = sectionDataSource.getMaxId();
+        SectionListAdapter adapter = new SectionListAdapter(this, R.layout.listview_section_row, sections, maxId);
         ListView lv = findViewById(android.R.id.list);
         lv.setAdapter(adapter);
     }

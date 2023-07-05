@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -34,7 +35,7 @@ import java.util.List;
  * NewSectionActivity is called from ListSectionActivity.
  * Based on NewProjectActivity.java by milo on 05/05/2014,
  * changed by wmstein since 2016-02-16,
- * last edited on 2022-06-09
+ * last edited on 2023-06-25
  */
 public class NewSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -48,7 +49,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
     Section section;
     Section newSection;
-    
+
+    ViewGroup layout;
     EditText newsectName;
     private SectionDataSource sectionDataSource;
     List<Section> sections = new ArrayList<>();
@@ -116,14 +118,14 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
         int id = item.getItemId();
         if (id == R.id.menuSaveExit)
         {
-            saveSection();
+            saveSection(layout);
         }
         return super.onOptionsItemSelected(item);
     }
 
     // Save section with plausi-check for empty or duplicate section name
     @SuppressLint("ApplySharedPref")
-    public void saveSection()
+    public void saveSection(View view)
     {
         // first, edit the section name
         String sect_name = newsectName.getText().toString();
@@ -173,7 +175,7 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         newSection = sectionDataSource.createSection(sect_name);
         sectionDataSource.saveSection(newSection);
-        
+
         // Toast here, as snackbar doesn't show up
         Toast.makeText(this, getString(R.string.sectionSaved), Toast.LENGTH_SHORT).show();
 
@@ -205,9 +207,8 @@ public class NewSectionActivity extends AppCompatActivity implements SharedPrefe
 
         List<Section> sectionList = sectionDataSource.getAllSectionNames();
 
-        // int childcount = sectionList.size() + 1;  erzeugte Indexfehler
-        int childcount = sectionList.size();
         // for all Sections
+        int childcount = sectionList.size() + 1;
         for (int i = 1; i < childcount; i++)
         {
             section = sectionDataSource.getSection(i);

@@ -11,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +45,7 @@ import java.util.Objects;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2023-06-09
+ * last edited on 2023-07-03
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -301,9 +300,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
                 sectionDataSource.saveSectionNotes(section);
             
             // a Snackbar here comes incomplete
-            // Show toast on top, as is does not show over the keyboard
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP| Gravity.CENTER, 0, 100);
             toast.show();
 
             // Trick: Pause for 100 msec to show toast
@@ -546,9 +543,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
             sectionDataSource.saveSectionNotes(section);
 
         // a Snackbar here comes incomplete
-        // Show toast on top, as is does not show over the keyboard
         Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP| Gravity.CENTER, 0, 100);
         toast.show();
 
         // Trick: Pause for 100 msec to show toast

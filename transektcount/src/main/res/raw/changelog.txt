@@ -30,8 +30,10 @@ _ Subtitle
           font-size:0.8em; 
           margin-bottom:1em; 
           text-align:center }
-      div.freetext { color:#F0F0F0 }
-      div.list     { color:#C0C0F0 }
+      div.freetext {
+       		color:#F0F0F0 }
+      div.list { 
+          color:#C0C0F0 }
     </style>
   </head>
   <body>
@@ -49,7 +51,7 @@ _ Subtitle
     ! Source code and documentation published under:
     ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-    ! Suitable for Android 5 (Lollipop) or newer.
+    ! Suitable for Android 7.1 (Nougat) or newer.
   _ 
     ! License
   _ 
@@ -77,6 +79,17 @@ _ Subtitle
     ! All other pictures, app icon and background (C) Wilhelm Stein. 
 	! Pictures of this work by Wilhelm Stein may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
+
+$ 3.4.0
+  % Version 3.4.0
+  _ 2023-07-05
+  * Landscape mode removed (as hardly used, even on tablet)
+  * Garbage collection before creating sections list allows for more sections dependable on RAM amount
+  * To prevent DB corruption, only the last section can be deleted
+  * Some more modules translated from Java to Kotlin
+  * Some code refinements
+  * Docs updated
+
 
 $ 3.3.8
   % Version 3.3.8

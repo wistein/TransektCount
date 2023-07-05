@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- listview_section_row.xml is used by ListSectionActivity.java.
-     Shows Line of List of transect sections -->
+     Shows Line of List of transect sections including a delete button -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_weight="2"
         android:id="@+id/deleteSection"
         android:gravity="center_vertical|end"
-        android:src="@android:drawable/ic_menu_delete"
+        android:src="@drawable/ic_menu_delete"
         android:layout_gravity="bottom|end|top"
         android:layout_margin="1dp"/>
 

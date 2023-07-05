@@ -18,11 +18,11 @@ import java.util.Objects;
 import androidx.preference.PreferenceManager;
 
 /**********************************************************
- * Handle background image, prefs and get image ids 
+ * Handle background image, prefs and get image ids
  <p>
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
- * Adopted by wmstein on 18.02.2016, 
- * last edit on 2023-05-09
+ * Adopted by wmstein on 18.02.2016,
+ * last edit on 2023-07-04
  */
 public class TransektCountApplication extends Application
 {
@@ -48,8 +48,7 @@ public class TransektCountApplication extends Application
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
         } catch (Exception e)
         {
-            if (MyDebug.LOG)
-                Log.e(TAG, e.toString());
+            if (MyDebug.LOG) Log.e(TAG, e.toString());
         }
     }
 
@@ -58,7 +57,7 @@ public class TransektCountApplication extends Application
     {
         return TransektCountApplication.context;
     }
-    
+
     // The idea here is to keep bMapDraw around as a pre-prepared bitmap, only setting it up
     // when the user's settings change or when the application starts up.
     public BitmapDrawable getBackground()
@@ -78,8 +77,6 @@ public class TransektCountApplication extends Application
         bMapDraw = null;
 
         String backgroundPref = prefs.getString("pref_back", "default");
-        boolean screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         assert wm != null;
         Display display = wm.getDefaultDisplay();
@@ -87,6 +84,8 @@ public class TransektCountApplication extends Application
         display.getSize(size);
         width = size.x;
         height = size.y;
+
+        if (MyDebug.LOG) Log.d(TAG, "width = " + width + ", heigt = " + height);
 
         switch (Objects.requireNonNull(backgroundPref))
         {
@@ -97,21 +96,6 @@ public class TransektCountApplication extends Application
             bMap.eraseColor(Color.BLACK);
             break;
         case "default":
-            if (screenOrientL)
-            {
-                // landscape
-                if ((double) width/height < 1.8)
-                {
-                    // normal screen size
-                    bMap = decodeBitmap(R.drawable.transektcount_picture_ln, width, height);
-                }
-                else
-                {
-                    // long screen
-                    bMap = decodeBitmap(R.drawable.transektcount_picture_ll, width, height);
-                }
-            } else
-            {
                 // portrait
                 if ((double) height/width < 1.8)
                 {
@@ -123,7 +107,7 @@ public class TransektCountApplication extends Application
                     // long screen
                     bMap = decodeBitmap(R.drawable.transektcount_picture_pl, width, height);
                 }
-            }
+
             break;
         }
 
@@ -178,6 +162,7 @@ public class TransektCountApplication extends Application
 
 
     // Get resource ID from resource name
+    @SuppressLint("DiscouragedApi")
     public int getResID(String rName) // non-static method
     {
         try

@@ -17,19 +17,19 @@ import java.util.Objects;
  * Set the Settings parameters for TransektCount
  * Based on SettingsActivity created by milo on 05/05/2014.
  * Adapted for TransektCount by wmstein on 18.02.2016
- * Last edited on 2023-06-10
+ * Last edited on 2023-06-28
  */
 public class SettingsActivity extends AppCompatActivity
 {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    
+
     @Override
     @SuppressLint({"CommitPrefEdits", "SourceLockedOrientationActivity"})
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.settings);
 
@@ -67,10 +67,10 @@ public class SettingsActivity extends AppCompatActivity
             ringtone = button_sound_uri_m.toString();
             editor.putString("button_sound_minus", ringtone);
         }
-        
+
         editor.commit();
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -84,5 +84,5 @@ public class SettingsActivity extends AppCompatActivity
         }
         return true;
     }
-    
+
 }

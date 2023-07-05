@@ -33,7 +33,7 @@ $ 10
   ! Datenbanken können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden.
   ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder vom Smartphone geordnet abgelesen oder für eigene Bearbeitung auf einen PC übertragen und weiterverarbeitet werden.
   _ 
-  ! Die App ist Open Source (<a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>), enthält weder Tracking- noch Werbefunktionen und fordert nur Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind.
+  ! Die App ist Open Source (<a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>), enthält weder Tracking- noch Werbefunktionen und fordert nur Speicherzugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind.
 
 $ 9
   %2. Einrichtung
@@ -42,9 +42,17 @@ $ 9
   _
   ! Dann sollte die vorbereitete Artenliste des 1. Transekt-Abschnitts mittels Abschnitts-Editor editiert werden. Hier ggf. weitere Arten per (+)-Button aus der integrierten Liste europäischer Arten hinzufügen.
   _  
-  ! Alternativ kann auch eine umfassendere Basis-Datenbank für ein Transekt importiert und angepasst werden. Beispiel-Datenbanken (.db-Dateien) können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, in das App-Datenverzeichnis Android/data/com.wmstein.transektcount/files kopiert und von dort importiert und dann angepasst werden. Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. Achtung: Bei Deinstallation von TransektCount werden diese Daten gelöscht. Daher empfiehlt es sich, diese Dateien an anderer Stelle zu sichern. 
+  ! Alternativ kann auch eine umfassendere Basis-Datenbank für ein Transekt importiert und angepasst werden.
+  ! Beispiel-Datenbanken (.db-Dateien) können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen,
+  ! in das App-Datenverzeichnis Android/data/com.wmstein.transektcount/files kopiert und von dort importiert und dann angepasst werden.
+  ! Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. Achtung: Bei Deinstallation von TransektCount werden diese Daten gelöscht. Daher empfiehlt es sich, diese Dateien an anderer Stelle zu sichern.
   _ 
-  ! Zum editieren der Artenliste des 1. Transektabschnitts den Bleistift-Button in der Abschnittszeile der "Transektabschnitte" klicken. Den (+)-Button in der Kopfzeile des Abschnittseditors verwenden, um eine neue Art per Scroll-Down-Auswahlliste hinzuzufügen. Am Ende der Scroll-Down-Liste kann eine nicht vorhandene Art (NN) hinzugefügt werden, die anschließend editiert wird (Name, 5-stelliger Code mit führenden Nullen und ggf. deutscher Name, siehe "Liste Tagfalter Europas.pdf" oder "Liste Nachtfalter Europas.pdf"<a href="https://github.com/wistein/TourCount/tree/master/docs" target="_blank">https://github.com/wistein/TourCount/tree/master/docs</a>). 
+  ! Zum editieren der Artenliste des 1. Transektabschnitts den Bleistift-Button in der Abschnittszeile der "Transektabschnitte" klicken.
+  ! Den (+)-Button in der Kopfzeile des Abschnittseditors verwenden, um eine neue Art per Scroll-Down-Auswahlliste hinzuzufügen.
+  ! Am Ende der Scroll-Down-Liste kann eine nicht vorhandene Art (NN) hinzugefügt werden, die anschließend editiert wird
+  ! (Name, 5-stelliger Code mit führenden Nullen und ggf. deutscher Name, siehe "Liste Tagfalter Europas.pdf" oder "Liste Nachtfalter Europas.pdf"
+  ! <a href="https://github.com/wistein/TourCount/tree/master/docs" target="_blank">https://github.com/wistein/TourCount/tree/master/docs</a>).
+  ! Nach fertigem Editieren ABSCHN. SPEICHERN oder das Speichern-Icon klicken. Die Abschnittsliste kann jederzeit später geändert oder ergänzt werden.
   _ 
   !Ab 01      (Ausschnitt einer Abschnittsliste)
   !---------------------------------------------
@@ -57,7 +65,7 @@ $ 9
   ) Weißlinge-Komplex
   !...
   _ 
-  ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige der Falterabbildungen auf der Zähler- und auf der Ergebnisseite. 
+  ! Die Codes dienen als Sortierkriterium für die Liste und intern als Referenz zur Anzeige der Falterabbildungen auf der Zähler- und auf der Ergebnisseite.
   ! Als Code wird die Nummerierung der europäischen Schmetterlinge nach Karsholt/Razowski verwendet, wie bspw. im Lepiforum <a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a>.
   _ 
   ! Das angehängte *-Symbol kennzeichnet eine Gruppe schwer unterscheidbarer Arten. Zwecks Sortierfolge sollte hierzu der größere der Gruppenarten-Codes gewählt werden. 
@@ -66,12 +74,13 @@ $ 9
   ! Im nächsten Schritt sollten einige Meta-Daten wie Transekt-Nr. und Kartierername eingegeben werden. Dazu BEGEHUNG VORBEREITEN klicken und die Eingaben mit Klick aufs Speichersymbol sichern. 
   _ 
   ! Ist die Abschnitts-Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Menü der Zählerseite: "Abschnittsliste Duplizieren" aufrufen und dabei jeweils entsprechend benennen 
-  !(z.B.: Ab 02, Ab 03,...).
+  ! (z.B.: Ab 02, Ab 03, ...).
   _ 
   ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig vorbereitet und sollte nun als Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe des "Export als Basis-DB"-Befehls im Menü der Startseite.
   ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0.db) im internen Daten-Verzeichnis der App (Android/data/com.wmstein.transektcount/files) abgelegt.
-  ! Die Basis-DB enthält keine begehungs-spezifischen Daten und dient als Vorlage für zukünftige Begehungen. Die Basis-DB kann jederzeit, z.B. nach Änderungen an Listen, erneut exportiert werden. Beim Speichern als Basis-DB werden alle begehungsspezifischen Daten ignoriert).  
+  ! Die Basis-DB enthält keine begehungs-spezifischen Daten und dient als Vorlage für zukünftige Begehungen. Die Basis-DB kann jederzeit, z.B. nach Änderungen an Listen, erneut exportiert werden.
+  ! Beim Speichern als Basis-DB werden alle begehungsspezifischen Daten ignoriert).
   _  
   ! Zur Begehungsvorbereitung werden nur noch die Begehungs-spezifischen Meta-Daten eingegeben. 
   
@@ -83,7 +92,7 @@ $ 8
   _ 
   ! Dann wähle TRANSEKTABSCHNITTE. Hier wird die Tabelle mit allen Transektabschnitten angezeigt.
   ! Wähle den zutreffenden Transektabschnitt durch tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Abschnittsliste.
-  ! Da beim Zählen im Transekt unterschieden wird, zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern.
+  ! Da beim Zählen im Transekt unterschieden wird zwischen Faltern, die innerhalb des Zählbereichs oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern.
   ! Zum Zählen tippe jeweils auf den entsprechenden "+"-Button der gesichteten Kategorie (♂ od. ♀, ♂, ♀, Puppe, Raupe, Ei) der Art.
   ! Mit den "-"-Buttons kann ggf. korrigiert werden.
   ! Beim Speichern der Zählung werden ebenfalls Datum und Uhrzeit abschnitts-spezifisch gespeichert. Das Datum und ggf. eine Bemerkung zum Abschnitt erscheinen anschließend
@@ -93,20 +102,15 @@ $ 8
   ! Hier lassen sich Bemerkungen zum Abschnitt hinzufügen sowie Namen und Art-Einträge editieren. Abschnittsbemerkungen werden unterhalb der Kopfzeile angezeigt.
   _
   ! Der Bleistift-Button unter der Spezies-Namenszeile auf der Zählerseite ruft die Art-editieren-Seite auf. Hier können Art-spezifische Bemerkungen hinzugefügt
-  ! und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden.
+  ! und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden (z. B. für geschätzte Massenvorkommen).
   ! Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen der eingestellten Zahl von Faltern (Summe aller ♂ und ♀) im internen Zählbereich einen entsprechenden Hinweis anzeigen
   ! (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.)
+  _
   ! Ein ggf. eingegebener Art-spezifischer Kommentar wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet.
   _ 
-  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke. TransektCount sollte möglichst über seine Startseite verlassen werden,
-  ! damit die Datenbank sicher geschlossen ist.
-  _ 
-  ! Einige App-Seiten haben Funktions-Icons in der Kopfzeile und/oder ein spezifisches Kontext-Menü, das jeweils mit dem 3-Punkt-Symbol oben rechts aufgerufen werden kann.
-  _ 
-  ! Bei großen Datenmengen kann sich die Reaktion der App, insbesondere beim Aufruf einer Zählerseite oder der Ergebnisseite etwas verlangsamen,
-  ! da hier im Hintergrund einige Berechnungen laufen. Das wird durch einen kurzen Hinweis „Liste wird berechnet...“ angezeigt.
-  _ 
-  ! Die Ergebnisseite zeigt die Begehungs-Meta-Daten und darunter eine Liste der gezählten Individuen an.
+  ! Eine Ebene zurück in der App gelangt man jeweils am besten mit dem Pfeil in der oberen linken Ecke.
+  _
+  ! Die Ergebnisseite zeigt die Begehungs-Meta-Daten und darunter die Auflistung der gezählten Individuen an.
   ! Diese Seite wird von der Startseite aus erreicht mit ERGEBNIS ANZEIGEN bzw. mit dem Augen-Icon in der App-Leiste. Der Aufbau dieser Seite kann einige Sekunden dauern.
 
 $ 7
@@ -129,22 +133,23 @@ $ 7
   _ 
   ! Der Export der aktuellen Datenbank (Export DB) schreibt eine Kopie der DB nach "Android/data/com.wmstein.transektcount/files/transektcount_JJJJ-MM-TT_hhmmss.db".
   ! Für die eigene Verwendung kann eine exportierte DB-Datei mittels File Manager umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw.
-  ! Der Import einer zuvor exportierten TransektCount-DB ist sinnvoll, wenn mehrere Transekte begangen werden.
   ! (Merke: Der Dateiname muss immer mit „transektcount“ beginnen, ansonsten kann die Datei nicht importiert werden.)
   _
+  ! Der Import einer zuvor exportierten TransektCount-DB ist sinnvoll, wenn mehrere Transekte begangen werden.
+  _
   ! Die Funktion „Export Daten -> CSV-Datei“ scheibt die Zählergebnisse in eine aufbereitete Spreadsheet-kompatible Datei "transektcount_JJJJ-MM-TT_hhmmss.csv" in das Verzeichnis
-  ! "Documents/TransektCount". Dieses Verzeichnis erlaubt den Zugriff und die Verarbeitung der Datei mit einer Tabellenkalkulations-App wie Collabora (erhältlich bei F-Droid).
+  ! "Documents/TransektCount". Dieses Verzeichnis erlaubt den Zugriff und die Verarbeitung der Datei mit einer Tabellenkalkulations-App wie Collabora (Open Source, erhältlich im F-Droid-App-Store).
   _ 
   ! Der (+)-Button im Menü der Seite "Transektabschnitte" erlaubt das Anlegen einer neuen Abschnittsliste. Diese Funktion wird aber nur beim erstmaligen Anlegen der Datenbank
   ! oder bei Anpassungen des Transekts benötigt. Eine bessere Alternative dazu kann das Kopieren einer vorhandenen Abschnittsliste sein.
   _ 
-  ! In der Zähler-Ansicht eines ausgewählten Transektabschnitts kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden.
+  ! Auf der Zähl-Ansicht kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden.
   ! Diese Funktion empfiehlt sich, wie unter "2. Einrichtung" beschrieben, bei erstmaligem Anlegen der Datenbankstruktur.
   ! In dieser Ansicht kann auch über das Mitteilungssymbol eine Transekt-bezogene Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
   _
-  ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"-Dateien von Android/data/com.wmstein.transektcount/files
-  ! auf einen PC übertragen.
+  ! IT-affine Anwender können die mittels Exportfunktionen erzeugten "transektcount_JJJJ-MM-TT_hhmmss.db"-Dateien von "Android/data/com.wmstein.transektcount/files" auf einen PC übertragen.
   ! Dort können mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) die .db-Dateien bearbeitet werden.
+  ! Einige nützliche vorbereitete SQL-Scripts sind unter <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> abrufbar.
   _ 
   ! Die .csv-Dateien (Komma-getrennte Textdateien) können für die weitere Bearbeitung in einem Spreadsheet-Programm importiert werden. Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze auf
   _
@@ -152,11 +157,11 @@ $ 7
   ! - Dateiursprung im Format "Unicode UTF-8" und
   ! - Anführungszeichen zur Texterkennung,
   ! - alle Daten als Text
+  _
   ! zu achten.
   _
-  ! Die Tabelle ist optimiert für eine möglichst einfache Übertragung der Zählergebnisse in eine Tagfalter-Monitoring Webseite, <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>).
-  _
-  ! Die E-Mail-Adresse des Autors und die Historie der App-Entwicklung nebst Lizenzhinweisen sind unter "App-Info" abrufbar.
+  ! Die Tabelle erleichtert die manuelle Übertragung der Zählgebnisse in eine Tagfalter-Monitoring Webseite, wie
+  ! <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>.
   _
   ! In der Zähler-Ansicht kann die Anzeige temporär per Näherungssensors abgeschaltet werden, wenn das Handy eingesteckt oder nahe am Körper gehalten wird.
   ! Das spart Energie, verhindert unerwünschte Eingaben und bringt die App augenblicklich zurück, wenn sie wieder normal genutzt wird.

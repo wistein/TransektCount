@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings
-     last edited 2021-01-26 -->
+     last edited 2023-06-26 -->
 <resources>
 
     <!-- generic -->
@@ -78,6 +78,8 @@
     <string name="labelNewCountButton">Art hinzuf.</string>
     <string name="sectionSaved">Liste gespeichert!</string>
     <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
+    <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
+    <string name="informNodelete">Löschen dieser Liste ist nicht möglich, da die interne DB korrumpiert würde. Nur die letzte Liste kann gelöscht werden.</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
@@ -94,9 +96,9 @@
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Liste bearbeiten</string>
     <string name="dpSectTitle">Neuer Abschnittsname</string>
-    <string name="confirmDelete">Soll die Liste wirklich gelöscht werden? Nur falls es sich um den zuletzt eingefügten Abschnitt handelt, können später noch neue Abschnitte hinzugefügt werden.</string>
     <string name="willAlert">- %1$s wird bei %2$d ein Signal geben.</string>
     <string name="deleteButton">Löschen</string>
+    <string name="nodeleteButton">OK</string>
     <string name="action_share">Mitteilen</string>
     <string name="send_to">Versenden</string>
 

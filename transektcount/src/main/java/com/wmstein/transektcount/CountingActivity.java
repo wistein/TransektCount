@@ -63,7 +63,7 @@ import java.util.Objects;
  <p>
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2023-06-09
+ * Last edit on 2023-07-01
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -258,7 +258,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // load and show the data
         if (MyDebug.LOG)
             Log.d(TAG, "Section ID: " + section_id);
-        
+
         try
         {
             section = sectionDataSource.getSection(section_id);
@@ -525,6 +525,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         for (CountingWidget_i widget : countingWidgets_i)
         {
+            assert widget.count != null;
             if (widget.count.id == id)
             {
                 return widget;
@@ -538,6 +539,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         for (CountingWidgetLH_i widget : countingWidgetsLH_i)
         {
+            assert widget.count != null;
             if (widget.count.id == id)
             {
                 return widget;
@@ -551,6 +553,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         for (CountingWidget_e widget : countingWidgets_e)
         {
+            assert widget.count != null;
             if (widget.count.id == id)
             {
                 return widget;
@@ -564,6 +567,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     {
         for (CountingWidgetLH_e widget : countingWidgetsLH_e)
         {
+            assert widget.count != null;
             if (widget.count.id == id)
             {
                 return widget;
@@ -583,7 +587,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         // run dummy activity to fix spinner's 1. misbehaviour: 
         //  no action by 1st click when previous species selected again
         dummy();
-        
+
         int count_id = Integer.parseInt(view.getTag().toString());
         CountingWidget_i widget = getCountFromId_i(count_id);
         if (widget != null)
@@ -599,6 +603,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
                 // save the data
@@ -621,6 +626,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
 
                 // save the data
@@ -679,6 +685,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
@@ -699,6 +706,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
@@ -755,6 +763,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
@@ -775,6 +784,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             {
                 soundButtonSound();
                 buttonVib();
+                assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
@@ -1522,7 +1532,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 AlertDialog.Builder row_alert = new AlertDialog.Builder(this);
                 row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
                 row_alert.setMessage(a.alert_text);
-                row_alert.setNegativeButton("OK", (dialog, whichButton) -> {
+                row_alert.setNegativeButton("OK", (dialog, whichButton) ->
+                {
                     // Cancelled.
                 });
                 row_alert.show();
@@ -1613,9 +1624,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             try
             {
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= 26) {
+                if (Build.VERSION.SDK_INT >= 26)
+                {
                     vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
+                }
+                else
+                {
                     vibrator.vibrate(150);
                 }
             } catch (Exception e)
@@ -1633,9 +1647,12 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             try
             {
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= 26) {
+                if (Build.VERSION.SDK_INT >= 26)
+                {
                     vibrator.vibrate(VibrationEffect.createOneShot(450, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
+                }
+                else
+                {
                     vibrator.vibrate(450);
                 }
             } catch (Exception e)
@@ -1656,7 +1673,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     }
 
     // Handle menu selections
-//    @SuppressLint({"ApplySharedPref", "QueryPermissionsNeeded"})
     @SuppressLint("QueryPermissionsNeeded")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -1682,7 +1698,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
         else if (id == R.id.menuTakePhoto)
         {
-
             Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
             PackageManager packageManager = getPackageManager();
@@ -1706,8 +1721,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
                 }
             }
             return true;
-
-
         }
         else if (id == R.id.menuClone)
         {
@@ -1729,7 +1742,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             sendIntent.putExtra(Intent.EXTRA_TITLE, "Message by Transekt");
             sendIntent.putExtra(Intent.EXTRA_TEXT, section.notes);
             sendIntent.setType("text/plain");
-//            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             startActivity(sendIntent);
             return true;
         }
@@ -1750,7 +1762,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         // Set up the input
         final EditText input = new EditText(this);
-        
+
         // Specify the type of input expected
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         builder.setView(input);
@@ -1820,7 +1832,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             sectionDataSource.close();
             countDataSource.close();
             alertDataSource.close();
-            
+
             // Exit this and go to the list of new sections
             Toast.makeText(CountingActivity.this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CountingActivity.this, ListSectionActivity.class);

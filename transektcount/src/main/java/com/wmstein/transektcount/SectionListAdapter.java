@@ -30,10 +30,11 @@ import com.wmstein.transektcount.database.Section;
 import java.util.List;
 
 /*********************************************************
- * SectionListAdapter is called from ListSectionActivity
+ * SectionListAdapter is called from ListSectionActivity and
+ * provides a line in the sections list.
  * Based on ProjectListAdapter.java by milo on 05/05/2014.
  * Adopted with additions for TransektCount by wmstein since 2016-02-18
- * Last edited on 2023-06-09
+ * Last edited on 2023-07-05
  */
 class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -41,6 +42,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     private final Context context;
     private final int layoutResourceId;
     private final List<Section> sections;
+    private final int maxId;
     private final Context mContext;
     private Section sct;
 
@@ -60,13 +62,13 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         buttonVibPref = prefs.getBoolean("pref_button_vib", false);
     }
 
-    // Constructor
-    SectionListAdapter(Context context, int layoutResourceId, List<Section> sections)
+    SectionListAdapter(Context context, int layoutResourceId, List<Section> sections, int maxId)
     {
         super(context, layoutResourceId, sections);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.sections = sections;
+        this.maxId = maxId;
         mContext = context;
     }
 
@@ -81,64 +83,89 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
 
     @NonNull
     @Override
+    // Constructor of an entry for the sections list position
+    //   needs garbage collection in ListSectionActivity as RAM may run short
     public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
-        View row = convertView;
+        View sectionsListRow = convertView;
         SectionHolder holder;
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         getPrefs();
 
-        if (row == null)
+        Section section = sections.get(position);
+        int sectionId = section.id;
+
+        // if there is still no list row for the current section
+        if (sectionsListRow == null)
         {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(layoutResourceId, parent, false);
+            sectionsListRow = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new SectionHolder();
-            holder.txtTitle = row.findViewById(R.id.txtTitle);
-            holder.txtRemark = row.findViewById(R.id.txtRemark);
-            holder.txtDate = row.findViewById(R.id.txtDate);
-            holder.editSection = row.findViewById(R.id.editSection);
-            holder.deleteSection = row.findViewById(R.id.deleteSection);
+            holder.txtTitle = sectionsListRow.findViewById(R.id.txtTitle);
+            holder.txtRemark = sectionsListRow.findViewById(R.id.txtRemark);
+            holder.txtDate = sectionsListRow.findViewById(R.id.txtDate);
+            holder.editSection = sectionsListRow.findViewById(R.id.editSection);
+            holder.deleteSection = sectionsListRow.findViewById(R.id.deleteSection);
 
             holder.txtTitle.setOnClickListener(mOnTitleClickListener);
             holder.txtRemark.setOnClickListener(mOnTitleClickListener);
             holder.editSection.setOnClickListener(mOnEditClickListener);
-            holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
 
-            row.setTag(holder);
+            // only for maxId set an active delete button
+            if ((sectionId) == maxId)
+            {
+                holder.deleteSection.setImageResource(R.drawable.ic_menu_delete);
+                holder.deleteSection.setOnClickListener(mOnDeleteClickListener);
+                if (MyDebug.LOG)
+                {
+                    Log.e(TAG, "Id = " + sectionId + ", maxId = " + maxId);
+                }
+            }
+            else
+            {
+                holder.deleteSection.setImageResource(R.drawable.ic_menu_nodelete);
+                holder.deleteSection.setOnClickListener(mOnNodeleteClickListener);
+                if (MyDebug.LOG)
+                {
+                    Log.e(TAG, "Id = " + sectionId + ", not maxId = " + maxId);
+                }
+            }
+            sectionsListRow.setTag(holder);
         }
         else
         {
-            holder = (SectionHolder) row.getTag();
+            holder = (SectionHolder) sectionsListRow.getTag();
         }
 
-        Section section = sections.get(position);
         holder.txtTitle.setTag(section);
         holder.txtRemark.setTag(section);
         holder.txtDate.setTag(section);
         holder.editSection.setTag(section);
         holder.deleteSection.setTag(section);
+
         holder.txtTitle.setText(section.name);
         holder.txtRemark.setText(section.notes);
 
         // LongDate contains Date as Long value
-        // HexDate is LongDate as Hex-String  
-        Long LongDate = section.DatNum();
+        // HexDate is LongDate as Hex-String
+        long LongDate = section.DatNum();
         String HexDate = toHexString(LongDate);
 
-        // Provides Date of Section list, if any      
+        // Provides Date of Section list, if any
         if (HexDate.equals("0"))
         {
             holder.txtDate.setText("");
         }
         else
         {
-            // section.getDateTime fetches date and time as string from created_at 
+            // section.getDateTime fetches date and time as string from created_at
             holder.txtDate.setText(section.getDateTime());
         }
-        return row;
+
+        return sectionsListRow;
     }
 
     // Start counting by clicking on title
@@ -170,9 +197,9 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             buttonVib();
 
             sct = (Section) v.getTag();
-            
+
             // Store section_id into SharedPreferences.
-            // That makes sure that the current selected section can be retrieved 
+            // That makes sure that the current selected section can be retrieved
             // by EditSectionActivity when returning from AddSpeciesActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("section_id", sct.id);
@@ -192,19 +219,39 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
         public void onClick(View v)
         {
             sct = (Section) v.getTag();
-            // http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog
-            // could make the dialog central in the popup - to do later
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage(sct.name 
-                + ": " 
-                + mContext.getString(R.string.confirmDelete)).setCancelable(false).setPositiveButton(R.string.deleteButton, 
-                (dialog, id) -> 
+            builder.setMessage(sct.name
+                + ": "
+                + mContext.getString(R.string.confirmDelete)).setCancelable(false).setPositiveButton(R.string.deleteButton,
+                (dialog, id) ->
                 {
-                // perform the deleting in the activity
-                ((ListSectionActivity) mContext).deleteSection(sct);
+                    // perform the deleting in the activity
+                    ((ListSectionActivity) mContext).deleteSection(sct);
                 }
-            ).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel()
+                ).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel()
+            );
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    };
+
+    // Don't delete
+    private final View.OnClickListener mOnNodeleteClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            sct = (Section) v.getTag();
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage(sct.name
+                + ": "
+                + mContext.getString(R.string.informNodelete)).setCancelable(false).setPositiveButton(R.string.nodeleteButton,
+                (dialog, id) ->
+                {
+                    // do nothing
+                }
             );
             AlertDialog alert = builder.create();
             alert.show();
@@ -243,9 +290,12 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
             try
             {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= 26) {
+                if (Build.VERSION.SDK_INT >= 26)
+                {
                     vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
+                }
+                else
+                {
                     vibrator.vibrate(150);
                 }
             } catch (Exception e)
@@ -258,7 +308,7 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
 
     /**
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     <p>
+     * <p>
      * isNotBlank(null)      = false
      * isNotBlank("")        = false
      * isNotBlank(" ")       = false
@@ -277,9 +327,9 @@ class SectionListAdapter extends ArrayAdapter<Section> implements SharedPreferen
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     <p>
+     * <p>
      * Checks if a CharSequence is whitespace, empty ("") or null
-     <p>
+     * <p>
      * isBlank(null)      = true
      * isBlank("")        = true
      * isBlank(" ")       = true

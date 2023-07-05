@@ -11,8 +11,8 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdkVersion 25
         targetSdkVersion 33
-        versionCode 338
-        versionName = "3.3.8"
+        versionCode 340
+        versionName = "3.4.0"
     }
 
     buildTypes {
@@ -55,6 +55,5 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.google.android.material:material:1.9.0'
-//    implementation 'androidx.work:work-runtime:2.8.1'
     implementation 'androidx.core:core-ktx:1.10.1'
 }

@@ -36,7 +36,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
-import com.wmstein.filechooser.AdvFileChooserL;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
@@ -96,7 +95,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     // preferences
     SharedPreferences prefs;
     private String sortPref;
-    private boolean screenOrientL; // option for screen orientation
 
     // db handling
     private SQLiteDatabase database;
@@ -113,16 +111,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
 
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_welcome);
 
@@ -185,16 +175,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
-
-        if (screenOrientL)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ScrollView baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(null);
@@ -244,14 +225,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         int id = item.getItemId();
         if (id == R.id.action_settings)
         {
-            if (screenOrientL)
-            {
-                startActivity(new Intent(this, SettingsLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-            else
-            {
-                startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.exportMenu)
@@ -312,26 +286,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         }
         else if (id == R.id.viewSections)
         {
-            if (screenOrientL)
-            {
-                startActivity(new Intent(this, ListSectionLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-            else
-            {
-                startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+            startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.editMeta)
         {
-            if (screenOrientL)
-            {
-                startActivity(new Intent(this, EditMetaLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-            else
-            {
-                startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+            startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.viewSpecies)
@@ -339,16 +299,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
             Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
             // Trick: Pause for 100 msec to show toast
-            if (screenOrientL)
-            {
-                mHandler.postDelayed(() ->
-                    startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
-            }
-            else
-            {
-                mHandler.postDelayed(() ->
-                    startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
-            }
+            mHandler.postDelayed(() ->
+                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
 
             return true;
         }
@@ -357,26 +309,12 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     public void viewSections(View view)
     {
-        if (screenOrientL)
-        {
-            startActivity(new Intent(this, ListSectionLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
-        else
-        {
-            startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
+        startActivity(new Intent(this, ListSectionActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     public void editMeta(View view)
     {
-        if (screenOrientL)
-        {
-            startActivity(new Intent(this, EditMetaLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
-        else
-        {
-            startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
+        startActivity(new Intent(this, EditMetaActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     public void viewSpecies(View view)
@@ -384,16 +322,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
         // Trick: Pause for 100 msec to show toast
-        if (screenOrientL)
-        {
-            mHandler.postDelayed(() ->
-                startActivity(new Intent(getApplicationContext(), ListSpeciesLActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
-        }
-        else
-        {
-            mHandler.postDelayed(() ->
-                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
-        }
+        mHandler.postDelayed(() ->
+            startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
@@ -402,7 +332,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
         sortPref = prefs.getString("pref_sort_sp", "none");
-        screenOrientL = prefs.getBoolean("screen_Orientation", false);
     }
 
     @Override
@@ -514,7 +443,8 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
-        } else
+        }
+        else
         {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
@@ -613,6 +543,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
+                assert date != null;
                 if (!date.equals(""))
                 {
                     String language = Locale.getDefault().toString().substring(0, 2);
@@ -1154,14 +1085,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
         String filterFileName = "transektcount";
 
         Intent intent;
-        if (screenOrientL)
-        {
-            intent = new Intent(this, AdvFileChooserL.class);
-        }
-        else
-        {
-            intent = new Intent(this, AdvFileChooser.class);
-        }
+        intent = new Intent(this, AdvFileChooser.class);
         intent.putStringArrayListExtra("filterFileExtension", extensions);
         intent.putExtra("filterFileName", filterFileName);
         myActivityResultLauncher.launch(intent);
