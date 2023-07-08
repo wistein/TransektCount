@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Starts CountingActivity, EditSectionActivity and NewSectionActivity.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited on 2023-07-05
+ * last edited on 2023-07-07
  */
 public class ListSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -127,7 +127,6 @@ public class ListSectionActivity extends AppCompatActivity implements SharedPref
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {

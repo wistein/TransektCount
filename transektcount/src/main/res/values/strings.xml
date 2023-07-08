@@ -86,7 +86,7 @@
     <string name="sectionSaved">List saved!</string>
     <string name="notContiguous">Not possible, as previously a section was deleted!</string>
     <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
-    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last section may be deleted. If this is the last section then your device has unfortunately not enough free RAM to execute the function.</string>
+    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough free RAM to execute the function.</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>
@@ -122,6 +122,7 @@
     <string name="isempt">Name or Code is empty!</string>
     <string name="isempty">Section name is missing!</string>
     <string name="labelEditsectSaveButton">Save Section</string>
+    <string name="presentSpecs">Present species:</string>
 
     <!-- AddSpeciesActivity -->
     <string name="addTitle">Add Species</string>

@@ -71,23 +71,24 @@ class AdvFileChooser : Activity() {
 
     // List only files in user's home directory
     private fun fill(f: File) {
-        val dirs: Array<File>?
-        dirs = if (fileFilter != null) f.listFiles(fileFilter) else f.listFiles()
+        val dirs: Array<File>? = if (fileFilter != null) f.listFiles(fileFilter) else f.listFiles()
         this.title = getString(R.string.currentDir) + ": " + f.name
         val fls: MutableList<Option> = ArrayList()
         @SuppressLint("SimpleDateFormat") val dform: DateFormat =
             SimpleDateFormat("yyyy-MM-dd HH:mm")
         try {
             assert(dirs != null)
-            for (ff in dirs) {
-                if (!ff.isHidden) {
-                    fls.add(
-                        Option(
-                            ff.name, getString(R.string.fileSize) + ": "
-                                    + ff.length() + " B,  " + getString(R.string.date) + ": "
-                                    + dform.format(ff.lastModified()), ff.absolutePath, false
+            if (dirs != null) {
+                for (ff in dirs) {
+                    if (!ff.isHidden) {
+                        fls.add(
+                            Option(
+                                ff.name, getString(R.string.fileSize) + ": "
+                                        + ff.length() + " B,  " + getString(R.string.date) + ": "
+                                        + dform.format(ff.lastModified()), ff.absolutePath, false
+                            )
                         )
-                    )
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -99,7 +100,7 @@ class AdvFileChooser : Activity() {
         listView.adapter = adapter
         listView.onItemClickListener =
             OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                val o = adapter!!.getItem(position)!!
+                val o = adapter!!.getItem(position)
                 if (!o.isBack) doSelect(o) else {
                     currentDir = File(o.path)
                     fill(currentDir!!)

@@ -80,12 +80,18 @@ _ Subtitle
 	! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren. 
   _ 
 
+$ 3.4.1
+% Version 3.4.1
+_ 07.07.2023
+  * Seite der Abschnittsbearbeitung verbessert
+  * Docs überarbeitet
+
 $ 3.4.0
 % Version 3.4.0
 _ 05.07.2023
   * Option Landscape-Modus entfernt, da der Portrait-Modus selbst auf Tablets passender ist
   * RAM-Bereinigung vor der Erzeugung der Liste der Transektabschnitte erlaubt mehr Abschnitte, ist aber abhängig von der RAM-Größe
-  * Abschnitt-Löschen: Nur noch der Letzte (Vermeidung von DB-Korruption)
+  * Abschnitt-Löschen: Nur noch der zuletzt erzeugte Abschnitt (Vermeidung von DB-Korruption)
   * Weitere Module von Java nach Kotlin übersetzt
   * Einige Code-Verbesserungen
   * Docs überarbeitet

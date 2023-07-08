@@ -79,7 +79,7 @@
     <string name="sectionSaved">Liste gespeichert!</string>
     <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
     <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
-    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der letzte Abschnitt kann gelöscht werden. Falls das der letzte Abschnitt ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen.</string>
+    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen.</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
@@ -115,6 +115,7 @@
     <string name="isempt">Name oder Code ist leer!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
     <string name="labelEditsectSaveButton">Abschn. speichern</string>
+    <string name="presentSpecs">Aktuell vorhandene Arten:</string>
 
     <!-- AddSpeciesActivity -->
     <string name="addTitle">Art hinzufügen</string>

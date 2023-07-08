@@ -1,7 +1,7 @@
 Version 3.4.0 (05.07.2023)
 - Option Landscape-Modus entfernt, da der Portrait-Modus selbst auf Tablets passender ist
 - RAM-Bereinigung vor der Erzeugung der Liste der Transektabschnitte erlaubt mehr Abschnitte, ist aber abhängig von der RAM-Größe
-- Abschnitt-Löschen: Nur noch der Letzte (Vermeidung von DB-Korruption)
+- Abschnitt-Löschen: Nur noch der zuletzt erzeugte Abschnitt (Vermeidung von DB-Korruption)
 - Weitere Module von Java nach Kotlin übersetzt
 - Einige Code-Verbesserungen
 - Docs überarbeitet

@@ -2,10 +2,14 @@
 
 #### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
+#### Version 3.4.1 (2023-07-07)
+- Edit section screen improved
+- Docs updated
+
 #### Version 3.4.0 (2023-07-05)
 - Landscape mode removed (as hardly used, even on tablet)
 - Garbage collection before creating sections list allows for more sections dependable on RAM amount
-- To prevent DB corruption, only the last section can be deleted
+- To prevent DB corruption, only the last created section can be deleted
 - Some more modules translated from Java to Kotlin
 - Some code refinements
 - Docs updated

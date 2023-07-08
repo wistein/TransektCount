@@ -12,7 +12,14 @@
       div.smalltext    { 
           color:#F0F0F0; 
           font-size:0.7em }
-      div.subtitle { 
+      div.boldredtext {
+          color:#FF0000;
+          font-size:1.0em;
+          font-weight:bold;
+          margin-top:1em;
+          margin-bottom:0.5em;
+          text-align:start }
+      div.subtitle {
           color:#C0F0C0; 
           font-size:1.0em;
           font-weight:bold;
@@ -169,14 +176,21 @@ $ 7
 $ 8
   %5. Meldungen
   !
-  ! Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der letzte Abschnitt kann gelöscht werden. Falls das allerdings der letzte Abschnitt ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen.
+  & Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden.
+  & Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen.
   _ 
   ! Mögliche Abhilfe:
-  ! 1. Falls die Anzahl der Abschnitte notwendig ist und nur die Daten eines Abschnitts falsch sind, kann dieser Abschnitt editiert werden. 
+  _
+  ! 1. Abschnitt editieren
+  ! Falls alle Abschnitte notwendig sind und nur die Daten eines Abschnitts falsch sind, kann dieser Abschnitt editiert werden.
   _ 
-  ! 2. Die DB um einen Abschnitt verkleinern. Dazu die DB exportieren und auf ein Gerät mit mehr RAM kopieren, dort importieren, den letzten Abschnitt löschen, die DB exportieren und zurück kopieren.
+  ! 2. DB verkleinern mit zweitem Android Gerät
+  ! Die DB um einen Abschnitt verkleinern. Dazu die DB exportieren und auf ein Android Gerät mit mehr RAM kopieren, dort in TransektCount importieren, den letzten Abschnitt löschen, die DB exportieren und zurück kopieren.
   _ 
-  ! 3. Alternativ die DB auf einen PC kopieren, dort mit Hilfe des o. g. Tools "SqliteBrowser" verkleinern und zurückkopieren. Hierbei ist der letzte Eintrag in der Tabelle "sections" zu löschen und alle Einträge in der Tabelle "counts" mit der entsprechenden "section_id" zu löschen. 
+  ! 3. DB verkleinern mit "SqliteBrowser"
+  ! Die DB auf einen PC kopieren, dort mit Hilfe des o. g. Tools "SqliteBrowser" verkleinern.
+  ! Hierbei sind alle Einträge in der Tabelle "counts" mit der "section_id" des letzten Eintrags in der Tabelle "sections" zu löschen. Dann den letzten Eintrag in der Tabelle "sections" löschen und die Änderungen speichern.
+  ! Die modifizierte DB zurück auf das Android-Gerät kopieren.
   _ 
   ! 4. Die DB neu aufsetzen und einen Abschnitt weniger verwenden. 
 

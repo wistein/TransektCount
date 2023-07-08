@@ -18,7 +18,7 @@ import java.util.Locale
  * last change in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
  */
-class FileArrayAdapter internal constructor(
+internal class FileArrayAdapter(
     private val c: Context,
     private val id: Int,
     private val items: List<Option>
@@ -37,17 +37,15 @@ class FileArrayAdapter internal constructor(
             v = vi.inflate(id, null)
         }
         val o = items[position]
-        if (o != null) {
-            val im = v!!.findViewById<ImageView>(R.id.img1)
-            val t1 = v.findViewById<TextView>(R.id.TextView01)
-            val t2 = v.findViewById<TextView>(R.id.TextView02)
-            val name = o.name?.lowercase(Locale.getDefault())
-            if (name != null) {
-                if (name.endsWith(".db")) im.setImageResource(R.drawable.db) else im.setImageResource(R.drawable.whitepage)
-            }
-            if (t1 != null) t1.text = o.name
-            if (t2 != null) t2.text = o.data
+        val im = v!!.findViewById<ImageView>(R.id.img1)
+        val t1 = v.findViewById<TextView>(R.id.TextView01)
+        val t2 = v.findViewById<TextView>(R.id.TextView02)
+        val name = o.name?.lowercase(Locale.getDefault())
+        if (name != null) {
+            if (name.endsWith(".db")) im.setImageResource(R.drawable.db) else im.setImageResource(R.drawable.whitepage)
         }
-        return v!!
+        if (t1 != null) t1.text = o.name
+        if (t2 != null) t2.text = o.data
+        return v
     }
 }

@@ -35,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
 /************************************************************
+ * CountOptionsActivity
  * Edit options for counting species
  * uses optionsWidget.java and widget_options.xml
  * Supplemented with functions for transect external counter

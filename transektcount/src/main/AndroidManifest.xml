@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Rotation is set to portrait mode as landscape mode is even on tablets less useful.
-     Last edited 2023-07-04
+     Last edited 2023-07-08
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions used for exporting files into public directory -->
+    <!-- Permissions used for exporting files to the public directory Documents/TransectCount 
+         which are then readable by an external app (until Android SDK-version 29) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" android:maxSdkVersion="29" />
 
-    <!-- Permission used for exporting files to any directory -->
+    <!-- Permission used for exporting files to the public directory Documents/TransectCount
+         which are then readable by an external app (since Android SDK-version 30) -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
@@ -37,7 +39,7 @@
         android:supportsRtl="true"
         android:resizeableActivity="false"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        tools:ignore="DataExtractionRules,GoogleAppIndexingWarning,UnusedAttribute">
         
         <activity
             android:name="com.wmstein.transektcount.WelcomeActivity"

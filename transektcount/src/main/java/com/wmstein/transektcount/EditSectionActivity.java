@@ -32,6 +32,7 @@ import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountEditWidget;
 import com.wmstein.transektcount.widgets.EditNotesWidget;
 import com.wmstein.transektcount.widgets.EditTitleWidget;
+import com.wmstein.transektcount.widgets.HintWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import java.util.Objects;
  * activity_edit_section.xml, widget_edit_title.xml, widget_edit_notes.xml.
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Changed by wmstein since 2016-02-16,
- * last edited on 2023-07-03
+ * last edited on 2023-07-07
  */
 public class EditSectionActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -64,6 +65,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
 
     private LinearLayout counts_area;
     private LinearLayout notes_area2;
+    private LinearLayout hint_area1;
     private EditTitleWidget etw;
     private EditNotesWidget enw;
     private View viewMarkedForDelete;
@@ -103,6 +105,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         savedCounts = new ArrayList<>();
 
         notes_area2 = findViewById(R.id.editingNotesLayout);
+        hint_area1 = findViewById(R.id.showHintLayout);
         counts_area = findViewById(R.id.editingCountsLayout);
 
         // Restore any edit widgets the user has added previously and the section id
@@ -167,6 +170,7 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         // build the Edit Section screen
         counts_area.removeAllViews();
         notes_area2.removeAllViews();
+        hint_area1.removeAllViews();
 
         // setup the data sources
         sectionDataSource = new SectionDataSource(this);
@@ -196,8 +200,12 @@ public class EditSectionActivity extends AppCompatActivity implements SharedPref
         enw.setSectionNotes(section.notes);
         enw.setWidgetNotes(getString(R.string.notesHere));
         enw.setHint(getString(R.string.notesHint));
-
         notes_area2.addView(enw);
+
+        // display hint current species list:
+        HintWidget nw = new HintWidget(this, null);
+        nw.setHint1(getString((R.string.presentSpecs)));
+        hint_area1.addView(nw);
 
         // load the sorted species data
         List<Count> counts = switch (Objects.requireNonNull(sortPref))
