@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -63,13 +64,11 @@ import java.util.Objects;
  <p>
  * Inspired by milo's CountingActivity.java of BeeCount from 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 18.02.2016
- * Last edit on 2023-07-01
+ * Last edit on 2023-07-13
  */
 public class CountingActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "transektcountCntAct";
-
-    private SharedPreferences prefs;
 
     private int section_id;
     private int iid = 1;
@@ -85,6 +84,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private PowerManager.WakeLock mProximityWakeLock;
 
     // preferences
+    private SharedPreferences prefs;
     private boolean awakePref;
     private boolean brightPref;
     private String sortPref;
@@ -109,6 +109,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     private int itemPosition = 0;
     private int oldCount;
 
+    // data sources
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
@@ -117,12 +118,13 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         Context context = this.getApplicationContext();
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        getPrefs();
+        setPrefs();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -134,7 +136,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         countDataSource = new CountDataSource(this);
         alertDataSource = new AlertDataSource(this);
 
-        if (lhandPref) // if left-handed counting page
+        // if left-handed counting page
+        if (lhandPref)
         {
             setContentView(R.layout.activity_counting_lh);
             LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
@@ -196,8 +199,8 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     } // End of onCreate
 
-    // Used to load preferences at the start, and also when a change is detected.
-    private void getPrefs()
+    // Load preferences at start, and also when a change is detected
+    private void setPrefs()
     {
         awakePref = prefs.getBoolean("pref_awake", true);
         brightPref = prefs.getBoolean("pref_bright", true);
@@ -220,7 +223,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        getPrefs();
+        setPrefs();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -353,25 +356,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     } // End of onResume
 
-    private void showSnackbarRed(String str)
-    {
-        View view;
-        if (lhandPref) // if left-handed counting page
-        {
-            view = findViewById(R.id.countingScreenLH);
-        }
-        else
-        {
-            view = findViewById(R.id.countingScreen);
-        }
-        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setTextColor(Color.RED);
-        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-        sB.show();
-    }
-
     // Spinner listener
     private void spinnerListener()
     {
@@ -489,7 +473,6 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onPause()
     {
@@ -1623,14 +1606,24 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             try
             {
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= 26)
+                Vibrator vibrator;
+                VibratorManager vibratorManager;
+                if (Build.VERSION.SDK_INT >= 31)
                 {
-                    vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibratorManager = (VibratorManager) getSystemService(VIBRATOR_MANAGER_SERVICE);
+                    vibratorManager.getDefaultVibrator();
                 }
                 else
                 {
-                    vibrator.vibrate(150);
+                    vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= 26)
+                    {
+                        vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else
+                    {
+                        vibrator.vibrate(100);
+                    }
                 }
             } catch (Exception e)
             {
@@ -1646,14 +1639,24 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
         {
             try
             {
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= 26)
+                Vibrator vibrator;
+                VibratorManager vibratorManager;
+                if (Build.VERSION.SDK_INT >= 31)
                 {
-                    vibrator.vibrate(VibrationEffect.createOneShot(450, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibratorManager = (VibratorManager) getSystemService(VIBRATOR_MANAGER_SERVICE);
+                    vibratorManager.getDefaultVibrator();
                 }
                 else
                 {
-                    vibrator.vibrate(450);
+                    vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= 26)
+                    {
+                        vibrator.vibrate(VibrationEffect.createOneShot(450, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else
+                    {
+                        vibrator.vibrate(450);
+                    }
                 }
             } catch (Exception e)
             {
@@ -1751,7 +1754,7 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
-        getPrefs();
+        setPrefs();
     }
 
     // cloneSection() with check for double names
@@ -1897,6 +1900,25 @@ public class CountingActivity extends AppCompatActivity implements SharedPrefere
             int flags = PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY;
             mProximityWakeLock.release(flags);
         }
+    }
+
+    private void showSnackbarRed(String str)
+    {
+        View view;
+        if (lhandPref) // if left-handed counting page
+        {
+            view = findViewById(R.id.countingScreenLH);
+        }
+        else
+        {
+            view = findViewById(R.id.countingScreen);
+        }
+        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
+        sB.setTextColor(Color.RED);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        sB.show();
     }
 
     /**

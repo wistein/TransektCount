@@ -29,11 +29,14 @@ import java.util.Objects
  * The sorting order of the species to add cannot be changed, as it is determined
  * by 3 interdependent and correlated arrays in arrays.xml
  *
- * Created for TourCount by wmstein on 2019-04-12,
- * last edited in Java on 2023-05-08
- * converted to Kotlin on 2023-06-28
+ * Created for TransektCount by wmstein on 2019-04-12,
+ * last edited in Java on 2023-05-08,
+ * converted to Kotlin on 2023-06-28,
+ * last edited on 2023-07-13
  */
 class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+    private var transektCount: TransektCountApplication? = null
+
     private var add_area: LinearLayout? = null
 
     // the actual data
@@ -47,19 +50,23 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
     private var namesCompleteArrayList: ArrayList<String>? = null
     private var namesGCompleteArrayList: ArrayList<String>? = null
     private var codesCompleteArrayList: ArrayList<String?>? = null
+    private var specName: String? = null
     private var specCode: String? = null
+    private var specNameG: String? = null // selected species
     private var bMap: Bitmap? = null
     private var bg: BitmapDrawable? = null
 
     // Preferences
+    private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         transektCount = application as TransektCountApplication
-        val prefs = TransektCountApplication.getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
         brightPref = prefs.getBoolean("pref_bright", true)
+
         setContentView(R.layout.activity_add_species)
         val add_screen = findViewById<ScrollView>(R.id.addScreen)
 
@@ -77,11 +84,13 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
         )
         bg = BitmapDrawable(add_screen.resources, bMap)
         add_screen.background = bg
+
         val extras = intent.extras
         if (extras != null) {
             section_id = extras.getInt("section_id")
         }
         if (MyDebug.LOG) Log.e(TAG, "onCreate getIntent Section Id = $section_id")
+
         add_area = findViewById(R.id.addSpecLayout)
 
         // Load complete species ArrayList from arrays.xml (lists are sorted by code)
@@ -95,7 +104,8 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
 
     override fun onResume() {
         super.onResume()
-        val prefs = TransektCountApplication.getPrefs()
+
+        prefs = TransektCountApplication.getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
         brightPref = prefs.getBoolean("pref_bright", true)
 
@@ -113,16 +123,15 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
         // setup the data sources
         countDataSource = CountDataSource(this)
         countDataSource!!.open()
-        Objects.requireNonNull(supportActionBar)!!.setTitle(R.string.addTitle)
+        supportActionBar!!.setTitle(R.string.addTitle)
 
-        // list of only new species not already contained in the species counting list
-        val counts: List<Count>
+        // list only new species not already contained in the species counting list
 
         // code list of contained species
         val specCodesContainedList = ArrayList<String?>()
 
         // get species of the section counting list
-        counts = countDataSource!!.getAllSpeciesForSectionSrtCode(section_id)
+        val counts: List<Count> = countDataSource!!.getAllSpeciesForSectionSrtCode(section_id)
 
         // build code ArrayList of already contained species
         for (count in counts) {
@@ -149,8 +158,7 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
         idArray = setIdsSelSpecs(codesCompleteArrayList) // create idArray from codeArray
 
         // load the species data into the widgets
-        var i: Int
-        i = 0
+        var i = 0
         while (i < codesCompleteArrayList!!.size) {
             val saw = SpeciesAddWidget(this, null)
             saw.setSpecName(namesCompleteArrayList!![i])
@@ -204,14 +212,15 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
         var retValue = true
         val idToAdd = view.tag as Int
         val saw1 = add_area!!.getChildAt(idToAdd) as SpeciesAddWidget
-        val specName = saw1.getSpecName()
+        specName = saw1.getSpecName()
         specCode = saw1.getSpecCode()
-        val specNameG = saw1.getSpecNameG()
+        specNameG = saw1.getSpecNameG()
         try {
             countDataSource!!.createCount(section_id, specName, specCode, specNameG)
         } catch (e: Exception) {
             retValue = false
         }
+        countDataSource!!.close()
         return retValue
     }
 
@@ -254,6 +263,8 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         val add_screen = findViewById<ScrollView>(R.id.addScreen)
+        prefs.registerOnSharedPreferenceChangeListener(this)
+        brightPref = prefs.getBoolean("pref_bright", true)
         bMap = transektCount!!.decodeBitmap(
             R.drawable.abackground,
             transektCount!!.width,
@@ -266,8 +277,5 @@ class AddSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener
 
     companion object {
         private const val TAG = "TransektCountAddSpecAct"
-
-        @SuppressLint("StaticFieldLeak")
-        private var transektCount: TransektCountApplication? = null
     }
 }

@@ -36,14 +36,13 @@ import androidx.appcompat.app.AppCompatActivity;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2023-06-11
+ * last edited on 2023-07-13
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
 //    private static final String TAG = "transektcountEditMetaAct";
     @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
-    SharedPreferences prefs;
 
     private Head head;
     private Meta meta;
@@ -56,6 +55,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     private MetaDataSource metaDataSource;
 
     // preferences
+    private final SharedPreferences prefs = TransektCountApplication.getPrefs();
     private boolean brightPref;
     
     private LinearLayout head_area;
@@ -74,7 +74,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         head_area = findViewById(R.id.edit_head);
 
         transektCount = (TransektCountApplication) getApplication();
-        prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         brightPref = prefs.getBoolean("pref_bright", true);
 
@@ -101,7 +100,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
-        prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         brightPref = prefs.getBoolean("pref_bright", true);
 
@@ -347,6 +345,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
+        brightPref = prefs.getBoolean("pref_bright", true);
         bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
         editHead_screen.setBackground(null);
         bg = new BitmapDrawable(editHead_screen.getResources(), bMap);

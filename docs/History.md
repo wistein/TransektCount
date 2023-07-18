@@ -2,8 +2,9 @@
 
 #### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
-#### Version 3.4.1 (2023-07-07)
+#### Version 3.4.1 (2023-07-17)
 - Edit section screen improved
+- Some more modules translated from Java to Kotlin
 - Docs updated
 
 #### Version 3.4.0 (2023-07-05)

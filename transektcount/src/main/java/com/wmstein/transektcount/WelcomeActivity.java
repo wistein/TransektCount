@@ -1,7 +1,5 @@
 package com.wmstein.transektcount;
 
-import static android.graphics.Color.RED;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,13 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -58,8 +49,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
+
+import static android.graphics.Color.RED;
 
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
@@ -69,16 +68,17 @@ import sheetrock.panda.changelog.ViewHelp;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-06-18
+ * last edited on 2023-07-13
  */
 public class WelcomeActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, PermissionsDialogFragment.PermissionsGrantedCallback
 {
     private static final String TAG = "TransektCountWelcomeAct";
+
     @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
 
-    ChangeLog cl;
-    ViewHelp vh;
+    private ChangeLog cl;
+    private ViewHelp vh;
 
     private final Handler mHandler = new Handler();
 
@@ -93,7 +93,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
     AlertDialog alert;
 
     // preferences
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
     private String sortPref;
 
     // db handling
@@ -175,6 +175,7 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ScrollView baseLayout = findViewById(R.id.baseLayout);
@@ -217,8 +218,6 @@ public class WelcomeActivity extends AppCompatActivity implements SharedPreferen
 
     // Handle action bar item clicks here. The action bar will automatically handle clicks on 
     // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
-    // Supplemented with exportCSVMenu, exportBasicMenu, importBasicMenu, importFileMenu, resetDBMenu,
-    // editMeta, viewSpecies and viewHelp by wmstein
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {

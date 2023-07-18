@@ -82,8 +82,9 @@ _ Subtitle
 
 $ 3.4.1
 % Version 3.4.1
-_ 07.07.2023
+_ 17.07.2023
   * Seite der Abschnittsbearbeitung verbessert
+  * Weitere Module von Java nach Kotlin übersetzt
   * Docs überarbeitet
 
 $ 3.4.0

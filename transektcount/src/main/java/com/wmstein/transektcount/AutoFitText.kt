@@ -11,12 +11,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 
-/*
-  This code derived from: 
-  http://pastebin.com/raw.php?i=e6WyrwSN
-  As mentioned in this thread:
-  https://stackoverflow.com/questions/16017165/auto-fit-textview-for-android
- */
 /**************************************************************************************************
  * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
  * to have the text font size in it automatically fit to match the screen width. Credits go largely
@@ -32,7 +26,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * Modified for TransektCount by wmstein since 18.03.2016
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
- * converted to Kotlin on 2023-06-26
+ * converted to Kotlin on 2023-06-26,
  */
 class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
@@ -139,7 +133,6 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
      * []"">&quot;#refitText&quot;(String) from this method! Doing so would result in an endless loop that
      * would ultimately result in a stack overflow and termination of the application
      *
-     *
      * So for the time being this method does absolutely nothing. If you want to notify the view of
      * a changed text call [.setText]
      */
@@ -191,4 +184,5 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
          */
         const val mThreshold = 0.5f // original was 0.5f
     }
+
 }

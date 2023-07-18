@@ -14,7 +14,6 @@ import java.io.File
 import java.io.FileFilter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Objects
 
 /********************************************************************************
  * AdvFileChooser lets you select files from user's basic directory.
@@ -56,7 +55,7 @@ class AdvFileChooser : Activity() {
 
         //currentDir = /storage/emulated/0/Android/data/com.wmstein.transektcount/files
         currentDir =
-            File(Objects.requireNonNull(applicationContext.getExternalFilesDir(null))!!.absolutePath)
+            File(applicationContext.getExternalFilesDir(null)!!.absolutePath)
         fill(currentDir!!)
     }
 
