@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
+#### Version 3.4.2 (2023-07-30)
+- More missing species pictures added
+- Docs updated
+
 #### Version 3.4.1 (2023-07-17)
 - Edit section screen improved
 - Some more modules translated from Java to Kotlin
