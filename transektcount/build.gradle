@@ -5,7 +5,6 @@ plugins {
 
 android {
     namespace 'com.wmstein.transektcount'
-    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.wmstein.transektcount"
@@ -17,7 +16,6 @@ android {
 
     buildTypes {
         release {
-            zipAlignEnabled true
             minifyEnabled true
 
             proguardFiles getDefaultProguardFile(
@@ -39,10 +37,11 @@ android {
         abortOnError false
         checkReleaseBuilds true
     }
-    
+    compileSdk 33
 
-    applicationVariants.all { variant ->
-        variant.outputs.all {
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
             outputFileName = "transektcount_${variant.buildType.name}_${defaultConfig.versionCode}.apk"
         }
     }
