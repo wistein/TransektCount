@@ -486,6 +486,7 @@
         <item comment="07286">Limenitis populi</item>
         <item comment="07287">Limenitis camilla</item>
         <item comment="07288">Limenitis reducta</item>
+        <item comment="07297">Apatura metis</item>
         <item comment="07298">Apatura ilia</item>
         <item comment="07299">Apatura iris</item>
         <item comment="07307">Pararge aegeria</item>
@@ -857,6 +858,7 @@
         <item comment="07286">Poplar admiral</item>
         <item comment="07287">White admiral</item>
         <item comment="07288">Southern white admiral</item>
+        <item comment="07297">Freyer\'s purple emperor</item>
         <item comment="07298">Lesser purple emperor</item>
         <item comment="07299">Purple emperor</item>
         <item comment="07307">Speckled wood</item>
@@ -1228,6 +1230,7 @@
         <item>07286</item>
         <item>07287</item>
         <item>07288</item>
+        <item>07297</item>
         <item>07298</item>
         <item>07299</item>
         <item>07307</item>
