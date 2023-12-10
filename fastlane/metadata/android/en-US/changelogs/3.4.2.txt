@@ -1,3 +1,5 @@
 Version 3.4.2 (2023-07-30)
 - More missing species pictures added
+- Edit section screen improved
+- Some more modules translated from Java to Kotlin
 - Docs updated

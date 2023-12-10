@@ -10,8 +10,9 @@ import android.database.sqlite.SQLiteDatabase
 /**********************************
  * Created by milo on 2014-05-05
  * changed by wmstein on 2016-02-18
- * last edited in Java on 2022-04-26
- * converted to Kotlin on 2023-06-26
+ * last edited in Java on 2022-04-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2023-09-23
  */
 class AlertDataSource(context: Context?) {
     // Database fields
@@ -25,7 +26,7 @@ class AlertDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = context?.let { DbHelper(it) }!!
+        dbHandler = DbHelper(context!!)
     }
 
     @Throws(SQLException::class)
@@ -37,11 +38,11 @@ class AlertDataSource(context: Context?) {
         dbHandler.close()
     }
 
-    fun createAlert(count_id: Int, alert_value: Int, alert_text: String?) {
+    fun createAlert(countId: Int, alertValue: Int, alertText: String?) {
         val values = ContentValues()
-        values.put(DbHelper.A_COUNT_ID, count_id)
-        values.put(DbHelper.A_ALERT, alert_value)
-        values.put(DbHelper.A_ALERT_TEXT, alert_text)
+        values.put(DbHelper.A_COUNT_ID, countId)
+        values.put(DbHelper.A_ALERT, alertValue)
+        values.put(DbHelper.A_ALERT_TEXT, alertText)
         val insertId = database!!.insert(DbHelper.ALERT_TABLE, null, values).toInt()
         val cursor = database!!.query(
             DbHelper.ALERT_TABLE,
@@ -66,20 +67,20 @@ class AlertDataSource(context: Context?) {
         database!!.delete(DbHelper.ALERT_TABLE, DbHelper.A_ID + " = " + id, null)
     }
 
-    fun saveAlert(alert_id: Int, alert_value: Int, alert_text: String?) {
+    fun saveAlert(alertId: Int, alertValue: Int, alertText: String?) {
         val dataToInsert = ContentValues()
-        dataToInsert.put(DbHelper.A_ALERT, alert_value)
-        dataToInsert.put(DbHelper.A_ALERT_TEXT, alert_text)
+        dataToInsert.put(DbHelper.A_ALERT, alertValue)
+        dataToInsert.put(DbHelper.A_ALERT_TEXT, alertText)
         val where = DbHelper.A_ID + " = ?"
-        val whereArgs = arrayOf(alert_id.toString())
+        val whereArgs = arrayOf(alertId.toString())
         database!!.update(DbHelper.ALERT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    fun getAllAlertsForCount(count_id: Int): List<Alert> {
+    fun getAllAlertsForCount(countId: Int): List<Alert> {
         val alerts: MutableList<Alert> = ArrayList()
         val cursor = database!!.query(
             DbHelper.ALERT_TABLE, allColumns,
-            DbHelper.A_COUNT_ID + " = " + count_id, null, null, null, null
+            DbHelper.A_COUNT_ID + " = " + countId, null, null, null, null
         )
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
@@ -87,7 +88,6 @@ class AlertDataSource(context: Context?) {
             alerts.add(alert)
             cursor.moveToNext()
         }
-        // Make sure to close the cursor
         cursor.close()
         return alerts
     }

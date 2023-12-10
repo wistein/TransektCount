@@ -16,35 +16,36 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016
  * last edited in Java on 2023-05-09
  * converted to Kotlin on 2023-06-26
+ * Last edit on 2023-09-23.
  */
 class AlertCreateWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
-    val alert_name: EditText
-    val alert_value: EditText
-    var alert_id: Int
+    private val alertname: EditText
+    private val alertvalue: EditText
+    private var alertid: Int
     private val deleteButton: ImageButton
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_alert_create, this, true)
-        alert_name = findViewById(R.id.alert_name)
-        alert_value = findViewById(R.id.alert_value)
-        alert_id = 0
+        alertname = findViewById(R.id.alert_name)
+        alertvalue = findViewById(R.id.alert_value)
+        alertid = 0
         deleteButton = findViewById(R.id.delete_button)
         deleteButton.tag = 0
     }
 
     var alertName: String?
-        get() = alert_name.text.toString()
+        get() = alertname.text.toString()
         set(name) {
-            alert_name.setText(name)
+            alertname.setText(name)
         }
 
     // this is set to return 0 if it can't parse a value from the box in order
     //   that transektcount doesn't crash
     var alertValue: Int
         get() {
-            val text = alert_value.text.toString()
+            val text = alertvalue.text.toString()
             return if (isEmpty(text)) {
                 0
             } else {
@@ -56,12 +57,12 @@ class AlertCreateWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
             }
         }
         set(value) {
-            alert_value.setText(value.toString())
+            alertvalue.setText(value.toString())
         }
     var alertId: Int
-        get() = alert_id
+        get() = alertid
         set(id) {
-            alert_id = id
+            alertid = id
             deleteButton.tag = id
         }
 

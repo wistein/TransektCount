@@ -2,7 +2,7 @@ package sheetrock.panda.changelog;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -30,10 +30,10 @@ import java.util.Locale;
  * contributors list or the like.
  <p>
  * Author: Karsten Priegnitz
- * See: https://code.google.com/p/android-change-log/
+ * See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
  * Adaptation for ViewHelp:
- * Last edited by wmstein on 2023-07-07
+ * Last edited by wmstein on 2023-12-08
  */
 public class ViewHelp
 {
@@ -49,21 +49,23 @@ public class ViewHelp
     {
         this.context = context;
 
-        // get version numbers
+        // get version number
         try
         {
-            this.thisVersion = context.getPackageManager().getPackageInfo(
+            thisVersion = context.getPackageManager().getPackageInfo(
                 context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e)
+        } catch (NameNotFoundException e)
         {
-            this.thisVersion = NO_VERSION;
+            thisVersion = NO_VERSION;
             if (MyDebug.LOG)
-                Log.e(TAG, "could not get version name from manifest!", e);
+                Log.e(TAG, "Could not get version name from manifest!", e);
         }
+        if (MyDebug.LOG)
+            Log.d(TAG, "64, appVersion: " + this.thisVersion);
     }
 
-    /*********************************************************
-     * @return an AlertDialog with a full change log displayed
+    /*****************************************************
+     * @return an AlertDialog with the help text displayed
      */
     public AlertDialog getFullLogDialog()
     {
@@ -93,14 +95,6 @@ public class ViewHelp
         return builder.create();
     }
 
-    /**
-     * modes for HTML-Lists (bullet, numbered)
-     */
-    private enum Listmode
-    {
-        NONE, ORDERED, UNORDERED,
-    }
-
     private String getLog()
     {
         // read viewhelp.txt file
@@ -110,24 +104,15 @@ public class ViewHelp
             String language = Locale.getDefault().toString().substring(0, 2);
             InputStream ins;
             if (language.equals("de"))
-            {
                 ins = context.getResources().openRawResource(R.raw.viewhelp_de);
-            }
             else
-            {
                 ins = context.getResources().openRawResource(R.raw.viewhelp);
-            }
             BufferedReader br = new BufferedReader(new InputStreamReader(ins));
             String line;
             while ((line = br.readLine()) != null)
             {
                 line = line.trim();
                 char marker = line.length() > 0 ? line.charAt(0) : 0;
-                if (marker == '$')
-                {
-                    // begin of a version section
-                    this.closeList();
-                }
                 switch (marker)
                 {
                     case '%' ->
@@ -209,13 +194,9 @@ public class ViewHelp
         {
             closeList();
             if (listMode == Listmode.ORDERED)
-            {
                 sb.append("<div class='list'><ol>\n");
-            }
             else if (listMode == Listmode.UNORDERED)
-            {
                 sb.append("<div class='list'><ul>\n");
-            }
             this.listMode = listMode;
         }
     }
@@ -223,14 +204,18 @@ public class ViewHelp
     private void closeList()
     {
         if (this.listMode == Listmode.ORDERED)
-        {
             sb.append("</ol></div>\n");
-        }
         else if (this.listMode == Listmode.UNORDERED)
-        {
             sb.append("</ul></div>\n");
-        }
         this.listMode = Listmode.NONE;
     }
-    
+
+    /**
+     * modes for HTML-Lists (bullet, numbered)
+     */
+    private enum Listmode
+    {
+        NONE, ORDERED, UNORDERED,
+    }
+
 }

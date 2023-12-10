@@ -3,44 +3,45 @@ package com.wmstein.transektcount.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.wmstein.transektcount.AutoFitEditText
 import com.wmstein.transektcount.R
 import java.util.Objects
 
 /***********************************************************************
  * Edit options for species
  * used by CountOptionsActivity in conjunction with widget_options.xml
- * Created by wmstein on 2016-02-16
- * last edited in Java on 2021-01-26
- * converted to Kotlin on 2023-06-26
+ * Created by wmstein on 2016-02-16,
+ * last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2023-09-18
  */
 class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView
-    private val numberf1i: EditText
+    private val numberf1i: AutoFitEditText
     private val instructionsf2i: TextView
-    private val numberf2i: EditText
+    private val numberf2i: AutoFitEditText
     private val instructionsf3i: TextView
-    private val numberf3i: EditText
+    private val numberf3i: AutoFitEditText
     private val instructionspi: TextView
-    private val numberpi: EditText
+    private val numberpi: AutoFitEditText
     private val instructionsli: TextView
-    private val numberli: EditText
+    private val numberli: AutoFitEditText
     private val instructionsei: TextView
-    private val numberei: EditText
+    private val numberei: AutoFitEditText
     private val instructionsf1e: TextView
-    private val numberf1e: EditText
+    private val numberf1e: AutoFitEditText
     private val instructionsf2e: TextView
-    private val numberf2e: EditText
+    private val numberf2e: AutoFitEditText
     private val instructionsf3e: TextView
-    private val numberf3e: EditText
+    private val numberf3e: AutoFitEditText
     private val instructionspe: TextView
-    private val numberpe: EditText
+    private val numberpe: AutoFitEditText
     private val instructionsle: TextView
-    private val numberle: EditText
+    private val numberle: AutoFitEditText
     private val instructionsee: TextView
-    private val numberee: EditText
+    private val numberee: AutoFitEditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -124,7 +125,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     }
 
     // this is set to return 0 if it can't parse a value from the box in order
-    // that transektcount doesn't crash
+    //   that transektcount doesn't crash.
     // For transect internal counters
     var parameterValuef1i: Int
         get() {
@@ -142,6 +143,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf1i.setText(i.toString())
         }
+
     var parameterValuef2i: Int
         get() {
             val text = numberf2i.text.toString()
@@ -158,6 +160,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf2i.setText(i.toString())
         }
+
     var parameterValuef3i: Int
         get() {
             val text = numberf3i.text.toString()
@@ -174,6 +177,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf3i.setText(i.toString())
         }
+
     var parameterValuepi: Int
         get() {
             val text = numberpi.text.toString()
@@ -190,6 +194,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberpi.setText(i.toString())
         }
+
     var parameterValueli: Int
         get() {
             val text = numberli.text.toString()
@@ -206,6 +211,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberli.setText(i.toString())
         }
+
     var parameterValueei: Int
         get() {
             val text = numberei.text.toString()
@@ -240,6 +246,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf1e.setText(i.toString())
         }
+
     var parameterValuef2e: Int
         get() {
             val text = numberf2e.text.toString()
@@ -256,6 +263,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf2e.setText(i.toString())
         }
+
     var parameterValuef3e: Int
         get() {
             val text = numberf3e.text.toString()
@@ -272,6 +280,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberf3e.setText(i.toString())
         }
+
     var parameterValuepe: Int
         get() {
             val text = numberpe.text.toString()
@@ -288,6 +297,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberpe.setText(i.toString())
         }
+
     var parameterValuele: Int
         get() {
             val text = numberle.text.toString()
@@ -304,6 +314,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         set(i) {
             numberle.setText(i.toString())
         }
+
     var parameterValueee: Int
         get() {
             val text = numberee.text.toString()
@@ -326,9 +337,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
          * Following function is taken from the Apache commons-lang3-3.4 library
          * licensed under Apache License Version 2.0, January 2004
          *
-         *
          * Checks if a CharSequence is empty ("") or null.
-         *
          *
          * isEmpty(null)      = true
          * isEmpty("")        = true

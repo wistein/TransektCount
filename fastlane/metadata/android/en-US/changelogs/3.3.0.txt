@@ -1,4 +1,13 @@
 Version 3.3.0 (2022-04-17)
-- Some more species with pictures added
+- Project adaption for Android Studio 2021.1.1 and Gradle 7.2
+- Compiled for SDK version 31 (needed for current libs)
+- Some more species with pictures added/improved
 - Copyright and license texts updated
 - Documents updated
+- Some missing butterfly pictures added
+- Outdated species names corrected (within app and example DBs)
+- Clearer layout for Edit Transect Section
+- Outdated code names updated
+- Species family names updated where appropriate
+- Fix for broken loading picture function since Gradle 6.5
+- Bugs in "New section" and "Duplicate Section List" corrected

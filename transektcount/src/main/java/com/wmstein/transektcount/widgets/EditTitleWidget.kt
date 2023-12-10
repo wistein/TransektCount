@@ -15,32 +15,30 @@ import java.util.Objects
 /*******************************************************
  * Used by EditSectionActivity and widget_edit_title.xml
  * Created by by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
- * last edited in Java on 2023-05-09
- * converted to Kotlin on 2023-06-26
+ * Adopted for TransektCount by wmstein on 18.02.2016,
+ * last edited in Java on 2023-05-09,
+ * converted to Kotlin on 2023-06-26,
+ * Last edit on 2023-10-06.
  */
 class EditTitleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val widget_title: TextView
-    val section_name: EditText
+    private val widgettitle: TextView
+    private val sectionname: EditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_title, this, true)
-        widget_title = findViewById(R.id.widgeteditTitle)
-        section_name = findViewById(R.id.editsectionName)
+        widgettitle = findViewById(R.id.widgeteditTitle)
+        sectionname = findViewById(R.id.editsectionName)
     }
 
     fun setWidgetTitle(title: String?) {
-        widget_title.text = title
+        widgettitle.text = title
     }
 
     var sectionName: String?
-        get() = section_name.text.toString()
+        get() = sectionname.text.toString()
         set(name) {
-            section_name.setText(name)
+            sectionname.setText(name)
         }
 
-    fun setHint(hint: String?) {
-        section_name.hint = hint
-    }
 }

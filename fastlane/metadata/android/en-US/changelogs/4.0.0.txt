@@ -1,0 +1,16 @@
+Version 4.0.0 (2023-12-05)
+Functional enhancement:
+- Option for automatic transect section recognition via GPS. Requires a prepared track file in GPX file format
+- Automatic differentiation between inside and outside transect sections and corresponding counter display when using GPS
+- Import function for a GPX file with separate tracks of the transect sections
+
+Changes:
+- Import of DB and GPX files from the "Documents/TransektCount" directory
+- Export of DB, CSV and GPX files to the "Documents/TransektCount" directory
+- Restructured internal DB for the new functions
+- Restructered table for spreadsheet-compatible CSV export
+- More species added
+- Missing pictures supplemented
+- Docs revised with explanation of how to create and use a suitable gpx file
+- Code refinements
+- Bug fixes

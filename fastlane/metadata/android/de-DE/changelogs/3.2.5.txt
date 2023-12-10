@@ -1,3 +1,10 @@
 Version 3.2.5 (09.09.2020)
-- Fehler in csv-Export behoben
 - Projekt-Anpassung für Android Studio 4.0.1 and Gradle 6.1.1
+- Weitere Schmetterlingsabbildungen integriert
+- Integrierte Auswahlliste der Arten vergrößert
+- Hintergrundbild besser skaliert für längere Displays
+- Code für Einstellungen angepasst für Android 10
+- .CSV-Export: In Summenzeile Nullen unterdrückt
+- Meldungen bereinigt
+- Doku angepasst
+- Fehler in csv-Export behoben

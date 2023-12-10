@@ -31,7 +31,22 @@
         <item>codes</item>
     </string-array>
 
-    <string-array name="initSpecs_g">
+    <string-array name="pref_sel_dist_max">
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>7,5 m</item>
+        <item>10 m</item>
+    </string-array>
+    <string-array name="pref_sel_dist_max_values">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>7.5</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="initSpecs_l">
         <item comment="03998">Sechsfleck-Widderchen</item>
         <item comment="06605">Purpurroter Zünsler</item>
         <item comment="06788">Nagelfleck</item>
@@ -107,7 +122,7 @@
         <item comment="10607">Blutbär</item>
     </string-array>
 
-    <string-array name="selSpecs_g">
+    <string-array name="selSpecs_l">
         <item comment="00063">Ampfer-Wurzelbohrer</item>
 		<item comment="00067">Kleiner Hopfen-Wurzelbohrer</item>
 		<item comment="00069">Adlerfarn-Wurzelbohrer</item>
@@ -239,6 +254,7 @@
         <item comment="07022">Hufeisenklee-Gelbling</item>
         <item comment="07022*">Colias hya./alfac.-Kompl.</item>
         <item comment="07024">Zitronenfalter</item>
+        <item comment="07026">Cleopatra</item>
         <item comment="07030">Schlüsselblumen-Würfelfalter</item>
         <item comment="07034">Kleiner Feuerfalter</item>
         <item comment="07035">Blauschillernder Feuerfalter</item>
@@ -327,14 +343,15 @@
         <item comment="07276">Baldrian-Scheckenfalter</item>
         <item comment="07277">Leinkraut-Scheckenfalter</item>
         <item comment="07278">Westalpiner Scheckenfalter</item>
+		<item comment="07279">Westlicher Scheckenfalter</item>
         <item comment="07280">Ehrenpreis-Scheckenfalter </item>
         <item comment="07281">Östlicher Scheckenfalter</item>
         <item comment="07283">Wachtelweizen-Scheckenfalter</item>
         <item comment="07283*">Melit. aur./brit./ath.-Kompl.</item>
         <item comment="07286">Großer Eisvogel</item>
         <item comment="07287">Kleiner Eisvogel</item>
-        <item comment="07297">Donau-Schillerfalter</item>
         <item comment="07288">Blauschwarzer Eisvogel</item>
+        <item comment="07297">Donau-Schillerfalter</item>
         <item comment="07298">Kleiner Schillerfalter</item>
         <item comment="07299">Großer Schillerfalter</item>
         <item comment="07307">Waldbrettspiel</item>
@@ -414,7 +431,10 @@
         <item comment="08060">Weißgrauer Kleinspanner</item>
         <item comment="08099">Ockerfarb. Steppenheiden-Zwergspanner</item>
         <item comment="08104">Purpurstreifen-Zwergspanner</item>
+		<item comment="08155">Grauer Zwergspanner</item>
 		<item comment="08184">Dunkelbindiger Doppellinien-Zwergspanner</item>
+		<item comment="08186">Zweifarbiger Doppellinien-Zwergspanner</item>
+        <item comment="08205">Rotbandspanner</item>
         <item comment="08221">Knöterich-Purpurspanner</item>
         <item comment="08222">Ampfer-Purpurspanner</item>
         <item comment="08227">Streifenspanner</item>
@@ -449,6 +469,7 @@
         <item comment="09097">Ackerwinden-Bunteulchen</item>
         <item comment="09114">Waldrasen-Grasmotteneulchen</item>
         <item comment="09116">Buschrasen-Grasmotteneulchen</item>
+		<item comment="09188">Feldbeifuß-Mönch</item>
 		<item comment="09338">Hornkraut-Tageulchen</item>
         <item comment="09364">Karden-Sonneneule</item>
         <item comment="09365">Warneckes Heidemoor-Sonneneule</item>

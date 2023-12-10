@@ -36,11 +36,11 @@ import androidx.appcompat.app.AppCompatActivity;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2023-07-13
+ * last edited on 2023-11-29
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-//    private static final String TAG = "transektcountEditMetaAct";
+//    private static final String TAG = "EditMetaAct";
     @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
 

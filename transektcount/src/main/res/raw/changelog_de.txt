@@ -69,33 +69,51 @@ _ Subtitle
     * filechooser basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   _
     ! Schmetterlings-Abbildungen: 
-    * Jordanita globulariae, Autor: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0), Wikimedia
-    * Muschampia lavatherae, Autor: Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
     * Crambus pascuella, Autor: Olaf Leillinger, GNU Free Documentation License, erstellt aus https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
+    * Deltote bankiana, Autor: Andre den Ouden, lizensiert von www.saxifraga.nl, nicht-kommerzielle Verwendung erlaubt, erstellt aus http://freenatureimages.eu/Animals/Microlepidoptera-Heterocera%2C%20Nachtvlinders%2C%20Moths/index.html
     * Evergestis extimalis, Autor: Adam Furlepa, CC BY-SA 3.0, erstellt aus https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
     * Hyles gallii (A.R. Pittaway, non-commercial use allowed), erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
+    * Jordanita globulariae, Autor: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0), Wikimedia
+    * Melitaea parthenoides, Autor: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license, derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides
+    * Muschampia lavatherae, Autor: Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
     * Pediasia contaminella, Autor: Ben Sale, Creative Commons Attribution 2.0 Generic License, erstellt aus https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
   _
     ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
-	! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden. Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren. 
+    ! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden.
+    ! Aber es ist nicht erlaubt, Abbildungen auf Meta Platforms (Facebook) hochzuladen, da die meisten der genannten Lizenzen mit den Lizenzen von Meta Platforms kollidieren.
+    ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
   _ 
+
+$ 4.0.0
+  % Version 4.0.0
+  _ 05.12.2023
+  # Funktionale Erweiterung:
+  * Option für die automatische Transekt-Abschnittserkennung per GPS. Benötigt eine vorbereitete Track-Datei im GPX-Dateiformat
+  * Automatische Unterscheidung bei GPS-Nutzung zwischen innerhalb und außerhalb von Transektabschnitten mit entsprechender Zähler-Darstellung
+  * Importfunktion für eine GPX-Datei mit separaten Tracks der Transektabschnitte
+
+  # Änderungen:
+  * Import von DB- und GPX-Dateien aus dem Verzeichnis "Documents/TransektCount/"
+  * Export von DB-, CSV- und GPX-Dateien ins Verzeichnis "Documents/TransektCount/"
+  * Restrukturiete interne DB für die neuen Funktionen
+  * Restrukturierte Tabelle für den Spreadsheet-kompatiblen CSV-Export
+  * Einge Arten hinzugefügt
+  * Fehlende Abbildungen ergänzt
+  * Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
+  * Code Verbesserungen
+  * Bug-Fixes
 
 $ 3.4.3
   % Version 3.4.3
   _ 09.08.2023
-  * Gradle Plugin Upgrade -> 8.1.0
-  * Einge noch fehlende Abbildungen ergänzt
+  * Letze Version ohne automatische Erkennung der Transekt-Abschnitte
+  * Einige noch fehlende Arten und Abbildungen ergänzt
   * Docs überarbeitet
 
 $ 3.4.2
 % Version 3.4.2
 _ 30.07.2023
   * Einge noch fehlende Abbildungen ergänzt
-  * Docs überarbeitet
-
-$ 3.4.1
-% Version 3.4.1
-_ 17.07.2023
   * Seite der Abschnittsbearbeitung verbessert
   * Weitere Module von Java nach Kotlin übersetzt
   * Docs überarbeitet
@@ -105,7 +123,7 @@ $ 3.4.0
 _ 05.07.2023
   * Option Landscape-Modus entfernt, da der Portrait-Modus selbst auf Tablets passender ist
   * RAM-Bereinigung vor der Erzeugung der Liste der Transektabschnitte erlaubt mehr Abschnitte, ist aber abhängig von der RAM-Größe
-  * Abschnitt-Löschen: Nur noch der zuletzt erzeugte Abschnitt (Vermeidung von DB-Korruption)
+  * Zur Vermeidung von DB-Korruption kann nur der jeweils letzte Abschnitt gelöscht werden
   * Weitere Module von Java nach Kotlin übersetzt
   * Einige Code-Verbesserungen
   * Docs überarbeitet
@@ -120,219 +138,100 @@ $ 3.3.8
   * Export von .csv-Files nach Documents/TransektCount/ (erlaubt Bearbeitung mit anderen Apps)
   * Option für Vibration, kurz beim Hoch- und länger beim Runterzählen
   * Tieferer Sound beim Runterzählen
-  * Weitere Code-Verbesserungen
   * Eine weitere Schmetterlingsart hinzugefügt
+  * Weitere Code-Verbesserungen
+  * Quellcode teilweise von Java nach Kotlin übersetzt
   * Android-Mindest-Version 7.1 (Nougat)
 
 $ 3.3.7
   % Version 3.3.7
   _ 26.03.2023
-  * Gradle Plugin Upgrade -> 7.4.2
-  * Gradle Upgrade -> 7.5
-  * Compiled with SDK Ver. 33 for targetSdkVersion 33
-  * Update der Copyright-Texte
-
-$ 3.3.6
-  % Version 3.3.6
-  _ 25.03.2023
-  * Gradle Plugin Upgrade -> 7.3.1
-  * Gradle Upgrade -> 7.4
-  * Kompiliert mit SDK Ver. 32 für targetSdkVersion 31, resultierender "duplicate library"-Konflikt gelöst
+  * Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.5
+  * Kompiliert mit SDK Ver. 33 für Target-SDK Ver. 33
+  * Update der Copyright- und Lizenz-Texte
+  * Update der Doku
   * Weitere Falterarten mit Abbildungen hinzugefügt
-  * 1 Meldung korrigiert
+  * Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
+  * Portrait/Landscape-Funktion verbessert
+  * Bug-Fix für Bearbeitung der Abschnittslisten
 
-$ 3.3.5
-  % Version 3.3.5
-  _ 17.10.2022
-	* Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
-	* Weitere Falterarten mit Abbildungen hinzugefügt
-
-$ 3.3.3
-  % Version 3.3.3
-  _ 19.07.2022
-	* Einige Falterabbildungen überarbeitet
-	* Einige weitere Falterarten mit Abbildungen hinzugefügt
-
-$ 3.3.2
-  % Version 3.3.2
-  _ 02.06.2022
-	* Einige weitere Falterarten mit Abbildungen hinzugefügt
-
-$ 3.3.1
-  % Version 3.3.1
-  _ 21.05.2022
-	* Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.3.3
-	* Einige weitere Falterarten mit Abbildungen hinzugefügt
-	* Portrait/Landscape-Funktion verbessert
-	* Bug-Fix für Bearbeitung der Abschnittslisten
-	* Update der Doku
-		
 $ 3.3.0
   % Version 3.3.0
   _ 17.04.2022
-	* Einige weitere Falterarten mit Abbildungen hinzugefügt
-	* Update der Copyright und Lizenztexte
+  * Einige weitere Falterarten mit Abbildungen hinzugefügt
+  * Update der Copyright und Lizenztexte
   * Update der Doku
-
-$ 3.2.9
-  % Version 3.2.9
-  _ 03.03.2022
-	* Projekt Anpassung für Android Studio 2021.1.1 und Gradle 7.2
-	* Kompiliert für SDK-Version 31 (benötigt für aktuelle Bibliotheken)
-	* Einige weitere Nachtfalterarten mit Abbildungen hinzugefügt
-
-$ 3.2.8
-  % Version 3.2.8
-  _ 22.08.2021
-	* Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.1
-	* Einige fehlende Schmetterlingsabbildungen ergänzt
-	* Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
-	* Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
-
-$ 3.2.7
-  % Version 3.2.7
-  _ 05.06.2021
-	* Projekt Anpassung für Android Studio 4.2.1 und Gradle 6.7.1
-	* Kompiliert mit SDK Ver. 30 targetSdkVersion 29 (targetSdkVersion 30 blockiert die Installation von "Unbekannter Quelle" und verhindert das Testen des eigenen Kompilats unter Android 11!)
-
-$ 3.2.6
-  % Version 3.2.6
-  _ 11.04.2021
-	* Einige Texte verbessert
-	* Übersichtlicheres Layout für Transektabschnitt-Editor
-	* Veraltete Code-Bezeichnungen aktualisiert
-	* Projekt-Anpassung für Android Studio 4.1.3 und Gradle 6.5
-	* Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
-	* Einige Abbildungen ergänzt/überarbeitet
-	* Geänderte Familiennamen angepasst
+  * Projekt Anpassung für Android Studio 2021.1.1 und Gradle 7.2
+  * Kompiliert für SDK-Version 31 (benötigt für aktuelle Bibliotheken)
+  * Einige weitere Arten mit Abbildungen hinzugefügt
+  * Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
+  * Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
+  * Übersichtlicheres Layout für Transektabschnitt-Editor
+  * Veraltete Code-Bezeichnungen aktualisiert
+  * Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
+  * Geänderte Familiennamen angepasst
 
 $ 3.2.5
   % Version 3.2.5
   _ 09.09.2020
-	* Fehler in csv-Export behoben
 	* Projekt-Anpassung für Android Studio 4.0.1 and Gradle 6.1.1
-
-$ 3.2.4
-  % Version 3.2.4
-  _ 06.05.2020
 	* Weitere Schmetterlingsabbildungen integriert
 	* Integrierte Auswahlliste der Arten vergrößert
-
-$ 3.2.3
-  % Version 3.2.3
-  _ 22.04.2020
 	* Hintergrundbild besser skaliert für längere Displays
-	* Meldungen bereinigt
-
-$ 3.2.2
-  % Version 3.2.2
-  _ 20.04.2020
 	* Code für Einstellungen angepasst für Android 10
 	* .CSV-Export: In Summenzeile Nullen unterdrückt
+	* Meldungen bereinigt
 	* Doku angepasst
+	* Fehler in csv-Export behoben
 
 $ 3.2.1
   % Version 3.2.1
   _ 16.04.2020
 	* Code angepasst für eingeschränkten Speicher-Zugriff von Android 10
 	* Verwendung von AndroidX-Bibliotheken
-	* Bugs bei Anlegen einer neuen Abschnittsliste behoben
-	* Hilfetext angepasst
-	* Einige kleine Code-Verbesserungen
 	* Projekt-Anpassung für Android Studio 3.6.2
-
-$ 3.1.6
-  % Version 3.1.6
-  _ 26.02.2020
   	* Code optimiert hinsichtlich Speichernutzung und Stromverbrauch
   	* App-Icon angepasst für bessere Darstellung auf Android 9
-	* Projekt-Anpassung für Android Studio 3.6 und Gradle 5.6.4
-
-$ 3.1.5
-  % Version 3.1.5
-  _ 08.12.2019
   	* Datum und Zeit des ersten Eintrags für einen Abschnitt
 	* Unterschneidung der Artnamen auf der Ergebnisseite korrigiert
-	* Bug beim Ändern eines Listennamens behoben
-	* Projekt-Anpassung für Android Studio 3.5.2 und Gradle 5.4.1
 	* Änderungen in AndroidManifest.xml und build.gradle
-		
-$ 3.1.3
-  % Version 3.1.3
-  _ 04.08.2019
   	* Schmetterlingsbilder geändert/ergänzt
   	* Ergebnisseite mit Summe der gezählten Arten
   	* Exportierte csv-Datei mit Summe der gezählten Arten
-
-$ 3.1.2
-  % Version 3.1.2
-  _ 14.06.2019
-  	* Projekt-Anpassung für Android Studio 3.4.1 und Gradle 5.1.1
+	* Einige Spezies-Komplexe zur Spezies-Auswahlliste hinzugefügt
   	* Kleinere Designänderungen der Startseite
 	* Kleine Textkorrekturen
-	* Einige Spezies-Komplexe zur Spezies-Auswahlliste hinzugefügt
-
-$ 3.1.1
-  % Version 3.1.1
-  _ 22.04.2019
+	* Hilfetext angepasst
+	* Einige kleine Code-Verbesserungen
+	* Bug beim Ändern eines Listennamens behoben
   	* Absturzfehler bei Rückkehr von Spezies hinzufügen behoben
+	* Bugs bei Anlegen einer neuen Abschnittsliste behoben
 
 $ 3.1.0
   % Version 3.1.0
   _ 16.04.2019
   	* Integrierte Auswahlliste mit vielen Europäischen Spezies
 	* Hinzufügen neuer Spezies mittels Scroll-Down-Auswahl aus einer umfassenden Liste, die nur nicht vorhandene Spezies anzeigt
-
-$ 3.0.8
-  % Version 3.0.8
-  _ 04.04.2019
   	* Schmetterlings-Icons im Abschnittseditor hinzugefügt
-
-$ 3.0.7
-  % Version 3.0.7
-  _ 23.03.2019
   	* DB-Struktur ergänzt für lokale Schmetterlingsnamen
   	* Beispiel-Datenbanken mit lokalen Schmetterlingsnamen
   	* Ergebnisdarstellung mit lokalen Schmetterlingsnamen
   	* Zusätzliche Schmetterlingsabbildungen
-    * Kleinere Design-Änderungen
-    * Code-Bereinigungen
-  	* Projekt-Anpassung für Android Studio 3.3.2 und Gradle 4.10.1
+    * Projekt-Anpassung für Android Studio 3.3.2 und Gradle 4.10.1
   	* Minimale Android-Version geändert in 4.4 (KitKat)
-
-$ 3.0.6
-  % Version 3.0.6
-  _ 16.12.2018
   	* Zusätzliche Schmetterlingsabbildungen
   	* Einige Abbildungen erneuert mit Ober- und Unterseite der Flügel
   	* Kleinere Designänderungen in einigen App-Seiten
-  	* Absturzfehler bei schnell wiederholtem Klicken der Art-Auswahl behoben
-  	* Doku. teilweise überarbeitet
-
-$ 3.0.4
-  % Version 3.0.4
-  _ 04.08.2018
-  	* Zusätzliche Schmetterlingsabbildungen
+  	* Doku. überarbeitet
   	* Wo sinnvoll, Toasts gegen Snackbars getauscht
   	* Permission-Handling für Settings
-  	* Kleinere Code-Bereinigungen
-  	* Absturz-Fehler im Permission-Handling von Android >= Marshmallow behoben
-  	* Absturz-Fehler im Modul "Edit Speziesliste" behoben
-
-$ 3.0.3
-  % Version 3.0.3
-  _ 01.05.2018
   	* Zusätzliche manuelle Eingabe für Datum, Start- und Stopzeit per langem Drücken
-  	* Projekt-Anpassungen für Android Studio 3.1.2 und Gradle 3.1.2
   	* Code-Bereinigungen
-  	* Fehler behoben
-
-$ 3.0.2
-  % Version 3.0.2
-  _ 05.04.2018
 	* Unnötige Berechtigung WRITE_SETTINGS entfernt
   	* Multi-Window-Modus (Android 7+)gesperrt wegen inkompatiblem Pull-Down-Menü (Spinner)
-  	* Code-Bereinigungen
+  	* Absturzfehler bei schnell wiederholtem Klicken der Art-Auswahl behoben
+  	* Absturz-Fehler im Permission-Handling von Android >= Marshmallow behoben
+  	* Absturz-Fehler im Modul "Edit Speziesliste" behoben
   	* Fehler behoben
 
 $ 3.0.1
@@ -343,27 +242,9 @@ $ 3.0.1
   	* Kleine Optimierungen in der Ergebnisseite
   	* Datenbank-Version 3 (Änderung eines Spaltennamens wg. Compiler-Warnung) 
   	* Dokumentation angepasst
-  	* GitHub-Tag korrigiert
-  	* Fehler behoben
-
-$ 2.1.7
-  % Version 2.1.7
-  _ 22.03.2018
-  	* Design der Startseite geändert 
-  	* Fehler behoben
-
-$ 2.1.6
-  % Version 2.1.6
-  _ 19.03.2018
+  	* Design der Startseite geändert
   	* Funktion Abschnitt editieren in Abschnittsliste integriert
   	* Kamera-Button in Menüleiste der Zählseite hinzugefügt
-  	* Fehlende Compiler-Konfigurationsdateien in GitHub-Repository hinzugefügt 
-  	* Fehler behoben
-
-$ 2.1.1
-  % Version 2.1.1
-  _ 31.10.2017
-  	* Code für Entwicklungsumgebung Android Studio 3.0 angepasst
   	* Docs: Einführende Prasentation hinzugefügt
   	* Fehler behoben
 
@@ -371,53 +252,27 @@ $ 2.1.0
   % Version 2.1.0
   _ 29.09.2017
   	* Code für Android 7.1 angepasst und kompiliert
-    * Kleinere Code-Verbesserungen
-  	* Fehler behoben
-
-$ 2.0.6
-  % Version 2.0.6
-  _ 11.09.2017
   	* Systemlog-Meldungen nur noch im Debug-Modus
-
-$ 2.0.5
-  % Version 2.0.5
-  _ 10.09.2017
   	* Links in App-Info- und Help-Seiten eingefügt
     * Versionskontrolle für Datenbank hinzugefügt, um mit alter Datenbankstruktur (vor Version 2.0.0) kompatibel zu sein
-    * Fix gegen Absturz beim Laden einer Datenbank in alter Struktur (vor 2.0.0)
-    * Einige Fehler behoben
-
-$ 2.0.4
-  % Version 2.0.4
-  _ 29.08.2017
     * Option zum Umschalten zwischen Portrait- und Landscape-Modus hinzugefügt
     * Ergebnisseite zeigt Summen am Anfang
     * Ergebnisseite nach 1. Arten und 2. Abschnitten sortiert
   	* CSV-Export Tabellen-Layout geändert
     * Zeige richtige Überschrift direkt nach Laden oder Zurücksetzen einer DB
-    * Kleinere Fehler behoben
-
-$ 2.0.3
-  % Version 2.0.3
-  _ 04.08.2017
   	* Fix für Fehlfunktion der Drop-Down-Auswahl
-
-$ 2.0.2
-  % Version 2.0.2
-  _ 13.07.2017
   	* Ersatzbild für Spezies ohne Bild (z.B. Komplex).
   	* Button Sound auch für Auswahl des Transektabschnitts
   	* Zum Beenden Back-Button zweimal drücken
     * CSV-Export unterdrückt Nullwerte für bessere Übersicht
 	* CSV-Export weist Gesamtsumme aus
-		
-$ 2.0.1
-  % Version 2.0.1
-  _ 27.05.2017
-  	* Kleinere Ergänzungen in Readme.md und anderer Doku. 
-  	* Kleinere Layout Verbesserungen
-  	* Zusätzliches Feld Kalenderwoche in csv-Export
   	* Weitere Falter-Abbildungen
+  	* Kleinere Ergänzungen in Readme.md und anderer Doku.
+  	* Kleinere Layout Verbesserungen
+    * Kleinere Code-Verbesserungen
+  	* Zusätzliches Feld Kalenderwoche in csv-Export
+    * Fix gegen Absturz beim Laden einer Datenbank in alter Struktur (vor 2.0.0)
+  	* Fehler behoben
 
 $ 2.0.0
   % Version 2.0.0
@@ -427,85 +282,39 @@ $ 2.0.0
   	* Überarbeiteter Spezies-Editor mit Bulk-Zählereingabe für alle Zähloptionen
   	* Prüfung auf fehlende oder doppelte Spezies-Codes
   	* Neue Datenbankstruktur gemäß der neuen Zähloptionen 
-  	* Alarme für alle gezählten Falter innerhalb des Zählbereichs (♂, ♀ summiert)
-
-$ 1.3.9
-  % Version 1.3.9
-  _ 21.11.2016
+  	* Alarme für alle gezählten Falter innerhalb des Zählbereichs
   	* Abbilder der Arten auf Zählseite
     * Neue Abschnittsliste erstellen ruft direkt Abschnittsliste editieren auf
-
-$ 1.3.8
-  % Version 1.3.8
-  _ 27.10.2016
-    * Code-Verbesserung
     * Icons auf der Seite "Einstellungen"
     * Icons für die Menüeinträge
     * Benutzung von Arten-Codes
     * Option: Sortierung der Artenliste nach Artnamen oder Arten-Codes
     * Seite "Neuer Abschnitt" vereinfacht
-
-$ 1.3.5
-  % Version 1.3.5
-  _ 03.10.2016
-    * Layout der Ergebnisseite verbessert 
+    * Layout der Ergebnisseite verbessert
     * Option Zählseitendarstellung für Linkshänder 
     * Exportierbare csv-Tabelle verbessert
-    * Fehlerbehebung
-
-$ 1.3.2
-  % Version 1.3.2
-  _ 04.08.2016
-    * Fehlerbehebung
-    * Code Optimierung
-
-$ 1.3.1
-  % Version 1.3.1
-  _ 25.07.2016
     * Schaltet Anzeige der Zählseite ab, wenn Handy eingesteckt wird
+    * Code Optimierung
+    * Fehlerbehebung
 
 $ 1.3.0
   % Version 1.3.0
   _ 22.06.2016
     * Option "Bildschirm hell" in Einstellungen
-
-$ 1.2.7
-  % Version 1.2.7
-  _ 11.06.2016
-    * Erlaubnisprüfung für Android-M
+    * Berechtigungsprüfung für Android-M
     * Import Dialog für existierende DB
-
-$ 1.2.6
-  % Version 1.2.6
-  _ 14.04.2016
     * Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
     * Transekt-Nr. in Kopfzeile der Startseite anzeigen
-
-$ 1.2.5
-  % Version 1.2.5
-  _ 07.04.2016
     * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
-	  * Verhindern von doppelten Abschnittsnamen in "Abschnittsliste duplizieren"
-    * "+"-Button in Kopfzeile der Seite "Liste Transektabschn."
-
-$ 1.2.4
-  % Version 1.2.4
-  _ 04.04.2016
+	* Verhindern von doppelten Abschnittsnamen in "Abschnittsliste duplizieren"
+    * (+)-Button in Kopfzeile der Seite "Liste Transektabschn."
     * Neu: Funktion "Reset Daten"
     * Neu: Eingabeseite für Stammdaten
     * Neu: Ergebnisseite mit Stammdaten
     * Neu: Exportfunktionen mit Stammdaten
     * Hintergrund der Editierseiten einfarbig
-
-$ 1.2.3
-  % Version 1.2.3
-  _ 28.03.2016
     * App läuft immer im Portraitmodus
     * Leere Basis DB kann jederzeit exportiert werden 
-
-$ 1.2.2
-  % Version 1.2.2
-  _ 25.03.2016
     * Neu: Export-DB in csv-Format
     * Exportierte DB enthält nur Zählergebnisse >0
     * Bessere Darstellung auf kleinen Displays
@@ -525,36 +334,20 @@ $ 1.1.0
   _ 05.03.2016
     * Layout der Zähler-Seite verbessert
     * Export-DB mit Datum im Dateinamen
-    * "+"-Button in Kopfzeile der Seite "Art hinzuf."
+    * (+)-Button in Kopfzeile der Seite "Art hinzuf."
     * "Art hinzuf." scrollt bis Seitenende und setzt Fokus auf neues Feld
     * Speichern-Icon in Kopfzeile der Seite "Neuer Abschnitt"
-
-$ 1.0.8
-  % Version 1.0.8
-  _ 27.02.2016
     * Zusätzlicher Zähler pro Art für externe Sichtung, dazu Layout in Widgets und DB-Struktur angepasst
     * Dazu auch Datenbank-und Zähler-Routinen ergänzt für 2. Zähler
-    * In Zähler-Optionen Vorgabewerte für beide Zähler pro Art 
-
-$ 1.0.6
-  % Version 1.0.6
-  _ 22.02.2016
+    * In Zähler-Optionen können Werte für beide Zähler pro Art gesetzt werden
     * Abschnittsliste zeigt Anmerkungen
     * Abschnittsdatum wird nur gezeigt, wenn ungleich 0
-    * Deutsche Übersetzung verbessert
+    * Deutsche Texte verbessert
     * Einige kleinere Verbesserungen im Code
-
-$ 1.0.4
-  % Version 1.0.4
-  _ 18.02.2016
     * Neu: Ausführliche Hilfe-Seite
     * Basis-DB-Import: Leere Datenbank 'transektcount0.db'
     * Basis-DB-Export: Leere Datenbank 'transektcount0.db'
     * DB-Export: Datenbank 'transektcount.db'
-
-$ 1.0.2
-  % Version 1.0.2
-  _ 14.02.2016
     * Sortier-Default: Abschnittsname aufsteigend
     * Deutsche Übersetzung.
     * Entfernung unnützer Funktionen
@@ -563,14 +356,16 @@ $ 1.0.0
   % Version 1.0.0
   _ 12.02.2016
   ! 1. Release.
+    * Zähler- und DB-Funtionalität basieren teilweise auf BeeCount von knirirr
+    * (https://github.com/knirirr/BeeCount.git)
+
+  ! Änderungen umfassen:
     * Text- und Struktur-Anpassung für Tagfaltermonitoring
-    * Basiert auf BeeCount von knirirr
-    * https://github.com/knirirr/ BeeCount.git
     * Modifizierte AutoFitText.java, original Code von Autor: pheuschk
     * Modifizierte ChangeLog.java original Code von Autor: Karsten Priegnitz
     * Modifizierte CSVWriter.java original Code Copyright 2015 Bytecode Pty Ltd.
     * Modifizierter Datei-Auswahl-Dialog basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3
-  _
+
 $ END_OF_CHANGE_LOG
   </body>
 </html>

@@ -16,7 +16,8 @@ import java.util.Objects
  * Based on ProjectDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
- * converted to Kotlin on 2023-06-26
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2023-12-08
  */
 class SectionDataSource(context: Context?) {
     // Database fields
@@ -30,7 +31,8 @@ class SectionDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = DbHelper(context!!)
+        dbHandler = context?.let { DbHelper(it) }!!
+//        dbHandler = DbHelper(context!!)
     }
 
     @Throws(SQLException::class)
@@ -88,19 +90,21 @@ class SectionDataSource(context: Context?) {
 
     fun deleteSection(section: Section) {
         val id = section.id
+        val sname = section.name
         println(R.string.deletedList + id)
         database!!.delete(DbHelper.SECTION_TABLE, DbHelper.S_ID + " = " + id, null)
 
         /*
-    Get the id of all associated counts here; alerts are the only things which can't
-    be removed directly as the section_id is not stored in them. A join is therefore required.
-     */
-        // delete associated links and counts
+         Delete associated links and counts
+         Get the id of all associated counts here; alerts are the only things which can't
+         be removed directly as the section_id is not stored in them. A join is therefore required.
+        */
         val sql = ("DELETE FROM " + DbHelper.ALERT_TABLE + " WHERE " + DbHelper.A_COUNT_ID + " IN "
                 + "(SELECT " + DbHelper.C_ID + " FROM " + DbHelper.COUNT_TABLE + " WHERE "
                 + DbHelper.C_SECTION_ID + " = " + id + ")")
         database!!.execSQL(sql)
         database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_SECTION_ID + " = " + id, null)
+        database!!.delete(DbHelper.TRACK_TABLE, DbHelper.T_SECTION + " = '" + sname + "'", null)
     }
 
     fun saveSection(section: Section) {
@@ -124,7 +128,7 @@ class SectionDataSource(context: Context?) {
         }
     }
 
-    /** */
+    // save initial date and time to section
     fun saveDateSection(section: Section) {
         if (section.created_at == 0L) {
             val date = Date()
@@ -156,13 +160,11 @@ class SectionDataSource(context: Context?) {
             sections.add(section)
             cursor.moveToNext()
         }
-        // Make sure to close the cursor
         cursor.close()
         return sections
     }
-    //
 
-    // Make sure to close the cursor
+    // Called from NewSectionActivity and EditSectionActivity
     val allSectionNames: List<Section>
         get() {
             val sections: MutableList<Section> = ArrayList()
@@ -181,7 +183,6 @@ class SectionDataSource(context: Context?) {
                 //
             }
 
-            // Make sure to close the cursor
             cursor.close()
             return sections
         }
@@ -196,20 +197,19 @@ class SectionDataSource(context: Context?) {
     }
 
     // called from NewSectionActivity, CountingActivity and EditSectionActivity
-    fun getSection(section_id: Int): Section {
+    fun getSection(sectionId: Int): Section {
         val section: Section
         val cursor = database!!.query(
             DbHelper.SECTION_TABLE, allColumns,
-            DbHelper.S_ID + " = ?", arrayOf(section_id.toString()), null, null, null
+            DbHelper.S_ID + " = ?", arrayOf(sectionId.toString()), null, null, null
         )
         cursor.moveToFirst()
         section = cursorToSection(cursor)
-        // Make sure to close the cursor
         cursor.close()
         return section
     }
 
-    // called from NewSectionActivity
+    // called from CountingActivity and NewSectionActivity
     fun getSectionByName(name: String): Section {
         val section: Section
         val cursor = database!!.query(
@@ -218,7 +218,6 @@ class SectionDataSource(context: Context?) {
         )
         cursor.moveToFirst()
         section = cursorToSection(cursor)
-        // Make sure to close the cursor
         cursor.close()
         return section
     }

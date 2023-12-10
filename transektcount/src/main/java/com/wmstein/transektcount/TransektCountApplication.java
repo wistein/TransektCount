@@ -22,7 +22,7 @@ import androidx.preference.PreferenceManager;
  <p>
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016,
- * last edit on 2023-07-04
+ * last edit on 2023-12-08
  */
 public class TransektCountApplication extends Application
 {
@@ -76,7 +76,7 @@ public class TransektCountApplication extends Application
     {
         bMapDraw = null;
 
-        String backgroundPref = prefs.getString("pref_back", "default");
+        String backgroundPref = prefs.getString("pref_backgr", "default");
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         assert wm != null;
         Display display = wm.getDefaultDisplay();
@@ -84,20 +84,21 @@ public class TransektCountApplication extends Application
         display.getSize(size);
         width = size.x;
         height = size.y;
-
-        if (MyDebug.LOG) Log.d(TAG, "width = " + width + ", heigt = " + height);
+//        if (MyDebug.LOG) Log.d(TAG, "width = " + width + ", height = " + height);
 
         switch (Objects.requireNonNull(backgroundPref))
         {
-        case "none":
-            // black screen
-            bMap = null;
-            bMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            bMap.eraseColor(Color.BLACK);
-            break;
-        case "default":
+            case "none" ->
+            {
+                // black screen
+                bMap = null;
+                bMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                bMap.eraseColor(Color.BLACK);
+            }
+            case "default" ->
+            {
                 // portrait
-                if ((double) height/width < 1.8)
+                if ((double) height / width < 1.8)
                 {
                     // normal screen
                     bMap = decodeBitmap(R.drawable.transektcount_picture_pn, width, height);
@@ -107,8 +108,7 @@ public class TransektCountApplication extends Application
                     // long screen
                     bMap = decodeBitmap(R.drawable.transektcount_picture_pl, width, height);
                 }
-
-            break;
+            }
         }
 
         bMapDraw = new BitmapDrawable(this.getResources(), bMap);

@@ -20,7 +20,7 @@ import androidx.fragment.app.DialogFragment
  * necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2023-06-18
+ * last edited on 2023-10-31
  */
 class PermissionsDialogFragment : DialogFragment() {
     private var context: Context? = null
@@ -55,7 +55,7 @@ class PermissionsDialogFragment : DialogFragment() {
             } else {
                 //permissions have been accepted
                 if (listener != null) {
-                    listener!!.permissionCaptureFragment()
+                    listener!!.locationCaptureFragment()
                     dismiss()
                 }
             }
@@ -71,14 +71,44 @@ class PermissionsDialogFragment : DialogFragment() {
     // Solution with multiple permissions launcher
     private fun requestNecessaryPermissions() {
 
-        //launcher permission request dialog (Android <11)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
-            permissionLauncherSingle.launch(permission)
-        } else {
-            //launcher permission request dialog (Android 11+)
+        val permissions = arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        //launcher permissions request dialog
+        permissionLauncherMultiple.launch(permissions)
+
+        //launcher permission request dialog (Android 11+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val permission = Manifest.permission.MANAGE_EXTERNAL_STORAGE
             permissionLauncherSingle.launch(permission)
+        }
+    }
+
+    // Request multiple permissions
+    private val permissionLauncherMultiple = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    )
+    { result ->
+        // check if permissions were granted from permission request dialog or already granted before
+
+        var allAreGranted = true
+        shouldResolve = true
+        for (isGranted in result.values) {
+            Log.d(TAG, "100, onActivityResult: isGranted: $isGranted")
+            allAreGranted = allAreGranted && isGranted
+        }
+
+        if (allAreGranted) {
+            // ok, multiple permissions are granted
+            externalGrantNeeded = false
+        } else {
+            //All or some Permissions were denied so can't do the task that requires that permission
+            externalGrantNeeded = true
+            Log.d(TAG, "110, onActivityResult: All or some permissions denied...")
+            Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -88,7 +118,7 @@ class PermissionsDialogFragment : DialogFragment() {
     )
     { isGranted ->
         shouldResolve = true
-        Log.d(TAG, "onActivityResult: isGranted: $isGranted")
+        Log.d(TAG, "121, onActivityResult: isGranted: $isGranted")
 
         if (isGranted) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -102,7 +132,7 @@ class PermissionsDialogFragment : DialogFragment() {
             } else {
                 externalGrant30Needed = true
 
-                Log.d(TAG, "onActivityResult: Permission denied...")
+                Log.d(TAG, "135, onActivityResult: Permission denied...")
                 Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
             }
         }
@@ -138,7 +168,7 @@ class PermissionsDialogFragment : DialogFragment() {
     }
 
     interface PermissionsGrantedCallback {
-        fun permissionCaptureFragment()
+        fun locationCaptureFragment()
     }
 
     companion object {

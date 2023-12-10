@@ -43,6 +43,7 @@ class Count {
     var notes: String? = null
     @JvmField
     var name_g: String? = null
+
     fun increase_f1i(): Int {
         count_f1i = count_f1i + 1
         return count_f1i

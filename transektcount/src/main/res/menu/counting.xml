@@ -23,20 +23,20 @@
 
     <item
         android:id="@+id/menu_list1_item"
-        android:icon="@drawable/ic_core_overflow"
+        android:icon="@drawable/baseline_more_vert_24"
         android:title=""
         app:showAsAction="always">
 
         <menu>
             <item
                 android:id="@+id/menuClone"
-                android:icon="@drawable/copy"
+                android:icon="@drawable/outline_content_copy_24"
                 android:title="@string/cloneButton"
                 app:showAsAction="never">
             </item>
             <item
                 android:id="@+id/action_share"
-                android:icon="@drawable/ic_share_white_24dp"
+                android:icon="@drawable/baseline_share_24"
                 android:orderInCategory="200"
                 android:title="@string/action_share"
                 app:showAsAction="never">

@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_welcome.xml is used by WelcomeActivity.java.
-     Shows starting page -->
-<ScrollView
+  ~ Shows starting page
+  ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2023-12-09.
+  -->
+
+<LinearLayout
     android:id="@+id/baseLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/logo"
@@ -55,15 +51,12 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"/>
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2.5"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="330dp"
+            android:layout_marginBottom="9dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -74,33 +67,27 @@
                 android:gravity="center_vertical"
                 android:onClick="editMeta"
                 android:src="@android:drawable/ic_menu_edit"
-                tools:ignore="ContentDescription"/>
-
-            <Space
-                android:layout_width="15dp"
-                android:layout_height="0dp"/>
+                tools:ignore="ContentDescription,UsingOnClickInXml"/>
 
             <TextView
                 android:id="@+id/editMetaButtonText"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="15dp"
                 android:backgroundTint="#333333"
                 android:onClick="editMeta"
                 android:text="@string/editMetaButton"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="UsingOnClickInXml" />
         </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -109,34 +96,28 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:gravity="center_vertical"
-                android:onClick="viewSections"
+                android:onClick="startCounting"
                 android:src="@drawable/ic_count_white"
-                tools:ignore="ContentDescription"/>
-
-            <Space
-                android:layout_width="15dp"
-                android:layout_height="0dp"/>
+                tools:ignore="ContentDescription,UsingOnClickInXml"/>
 
             <TextView
                 android:id="@+id/viewSectionButtonText"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="15dp"
                 android:textStyle="bold"
                 android:backgroundTint="#333333"
-                android:onClick="viewSections"
+                android:onClick="startCounting"
                 android:text="@string/viewSectionButton"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="UsingOnClickInXml" />
         </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:layout_gravity="center"
             android:orientation="horizontal">
 
@@ -148,28 +129,20 @@
                 android:gravity="center_vertical"
                 android:onClick="viewSpecies"
                 android:src="@android:drawable/ic_menu_view"
-                tools:ignore="ContentDescription"/>
-
-            <Space
-                android:layout_width="15dp"
-                android:layout_height="0dp"/>
+                tools:ignore="ContentDescription,UsingOnClickInXml"/>
 
             <TextView
                 android:id="@+id/viewSpeciesButtonText"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="15dp"
                 android:textStyle="bold"
                 android:backgroundTint="#333333"
                 android:onClick="viewSpecies"
                 android:text="@string/viewSpeciesButton"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="UsingOnClickInXml" />
         </LinearLayout>
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

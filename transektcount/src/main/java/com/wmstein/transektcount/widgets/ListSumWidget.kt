@@ -5,31 +5,33 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
 import java.util.Objects
 
 /**********************************************************
  * ListSumWidget shows count totals area in the result page
  * created by ListSpeciesActivity
- * Created for TransektCount by wmstein on 15.03.2016
- * last edited in Java on 2021-01-26
- * converted to Kotlin on 2023-06-26
+ * Created for TransektCount by wmstein on 15.03.2016,
+ * last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * Last edit on 2023-11-05.
  */
 class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    private val sumCountf1i: TextView
-    private val sumCountf2i: TextView
-    private val sumCountf3i: TextView
-    private val sumCountpi: TextView
-    private val sumCountli: TextView
-    private val sumCountei: TextView
-    private val sumCountf1e: TextView
-    private val sumCountf2e: TextView
-    private val sumCountf3e: TextView
-    private val sumCountpe: TextView
-    private val sumCountle: TextView
-    private val sumCountee: TextView
-    private val sumIndInt: TextView
-    private val sumIndExt: TextView
+    private val sumCountf1i: AutoFitText
+    private val sumCountf2i: AutoFitText
+    private val sumCountf3i: AutoFitText
+    private val sumCountpi: AutoFitText
+    private val sumCountli: AutoFitText
+    private val sumCountei: AutoFitText
+    private val sumCountf1e: AutoFitText
+    private val sumCountf2e: AutoFitText
+    private val sumCountf3e: AutoFitText
+    private val sumCountpe: AutoFitText
+    private val sumCountle: AutoFitText
+    private val sumCountee: AutoFitText
+    private val sumIndInt: AutoFitText
+    private val sumIndExt: AutoFitText
     private val sumDiffInd: TextView
 
     init {
@@ -57,20 +59,21 @@ class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         summfe: Int, summe: Int, sumfe: Int, sumpe: Int, sumle: Int, sumoe: Int,
         sumInt: Int, sumExt: Int, sumDiff: Int
     ) {
-        sumCountf1i.text = summf.toString()
-        sumCountf2i.text = summ.toString()
-        sumCountf3i.text = sumf.toString()
-        sumCountpi.text = sump.toString()
-        sumCountli.text = suml.toString()
-        sumCountei.text = sumo.toString()
-        sumCountf1e.text = summfe.toString()
-        sumCountf2e.text = summe.toString()
-        sumCountf3e.text = sumfe.toString()
-        sumCountpe.text = sumpe.toString()
-        sumCountle.text = sumle.toString()
-        sumCountee.text = sumoe.toString()
-        sumIndInt.text = sumInt.toString()
-        sumIndExt.text = sumExt.toString()
-        sumDiffInd.text = sumDiff.toString()
+        if (summf > 0) sumCountf1i.text = summf.toString()
+        if (summ > 0) sumCountf2i.text = summ.toString()
+        if (sumf > 0) sumCountf3i.text = sumf.toString()
+        if (sump > 0) sumCountpi.text = sump.toString()
+        if (suml > 0) sumCountli.text = suml.toString()
+        if (sumo > 0) sumCountei.text = sumo.toString()
+        if (summfe > 0) sumCountf1e.text = summfe.toString()
+        if (summe > 0) sumCountf2e.text = summe.toString()
+        if (sumfe > 0) sumCountf3e.text = sumfe.toString()
+        if (sumpe > 0) sumCountpe.text = sumpe.toString()
+        if (sumle > 0) sumCountle.text = sumle.toString()
+        if (sumoe > 0) sumCountee.text = sumoe.toString()
+        if (sumInt > 0) sumIndInt.text = sumInt.toString()
+        if (sumExt > 0) sumIndExt.text = sumExt.toString()
+        if (sumDiff > 0) sumDiffInd.text = sumDiff.toString()
     }
+
 }

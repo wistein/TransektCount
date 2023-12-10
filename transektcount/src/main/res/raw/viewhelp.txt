@@ -30,33 +30,31 @@
     </style>
   </head>
   <body>
-$ 10
+
   %1. Introduction
   !
-  ! This counting app should support you when monitoring a transect.
+  ! This counting app should support you when monitoring butterflies in a transect.
   ! It can substitute your field book and pencil, and if applicable a camera for documentary pictures of interesting species.
   _ 
   ! The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
-  ! The recorded data (meta-data, counts and remarks) may either be read on the smartphone or transferred to a PC for your own processing.
+  ! The recorded data (meta-data, counts and remarks) may either be orderly read on the smartphone or transferred to a PC for better reading or your own processing.
   _ 
-  ! The app is open source (published on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>),
-  ! has no tracking or advertising functions, demands only for storage access permits which are needed for recording and exporting the counting data.
+  ! The app is published with souce code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source and has no tracking or advertising functions, but demands access rights for its serviceable functions: Storage access which is needed for importing DB or GPX files, and exporting the counted data into DB- or CSV-files as well as requesting location data for GPS usage if applicable.
 
-$ 9
   % 2. Setting up
   !
-  ! Before initial use you should adapt the settings to your liking. 
+  ! Before initial use you should adapt the settings to your liking. Ignore the item "Find transect section per GPS", as for GPS usage additional preparating work is necessary.
   _ 
   ! Then you should edit the prepared species list of the 1. transect section of the internal database with the section editor.
-  ! Add further species by clicking the (+)-Button in the head line of “Transect Sections”.
+  ! Delete species or add further species from the integrated extended list of european species by clicking the (+)-Button in the head line of “Transect Sections”.
   _ 
   ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect.
   ! Example .db-files are provided for download on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
   ! Copy them to the app's directory Android/data/com.wmstein.transektcount/files which is created during the first start of the app. Now you can import and edit them suitably.
-  ! When de-installing TransektCount this directory will be deleted. So it is recommended to backup these .db-files to a safe place.
+  ! Attention! When de-installing TransektCount this directory will be deleted. So it is recommended to backup these .db-files to a safe place.
   _ 
-  ! To edit the species list of the first section click the Edit-Button in the section line of “Transect Sections”.
+  ! To edit the species list of the first section click the Pencil-Button in the section line of “Transect Sections”.
   ! Add an entry by the (+)-Button in the head line of the section editor and select the species from the scroll-down list.
   ! At the end of this list you may select a non-existing species (NN). This can then be edited by entering its scientific name, code
   ! (five-digit with leading zeros and possibly common name, see Liste Tagfalter Europas.pdf (butterflies) or Liste Nachtfalter Europas.pdf (moth)
@@ -74,7 +72,7 @@ $ 9
   ) Small whites complex
   ! ...
   _ 
-  ! The codes will be used as an option to sort the list and internally as a reference to show corresponding butterfly icons.
+  ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons.
   ! The codes derive from the numbering scheme of european butterflies by Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a>).
   _ 
   ! An appended *-symbol marks a group of similar species. Practically choose the biggest code of a species of this group for sorting.
@@ -91,9 +89,12 @@ $ 9
   ! The Basic DB does not contain any inspection related data and serves als a template for future inspections.
   ! It can also be exported again later, e.g. after changes of lists. Exporting as Basic DB ignores all counts, notes and inspection-related meta data.
   _ 
-  ! To prepare a certain monitoring inspection you will only need to enter the inspection-specific meta data.  
+  ! To prepare a certain monitoring inspection you will only need to enter the inspection-specific meta data.
+  _ 
+  ! To prepare monitoring using the automatic GPS-controlled section switching, futher steps are to be done. This is described later under "Further Functions".
+  _
+  ! On older smartphones, the last delete icon in the section list may be displayed incorrectly and have limited functionality (not active, crossed out) due to a lack of RAM memory if there are too many section lists. More on this under 6.2 Messages.
   
-$ 8
   % 3. Usage
   !
   ! Start with PREPARE INSPECTION. Fill in the relevant meta data for the specific transect inspection.
@@ -101,11 +102,9 @@ $ 8
   _ 
   ! Then select TRANSECT SECTIONS. The screen will show the table with all sections. 
   ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
-  ! As counting of butterflies ought to be distinguished between those within the imaginary count area and butterflies outside this area you have 2 separate sets of counters (Internal and External of Counting Area). 
-  ! To count just tip on the appropriate (+)-Button of the corresponding species. The (-)-Buttons allows for corrections.
-  ! Each count is stored immediately. While storing the count the current date and time will be stored either. The date and a possible section remark will then be shown in the list of sections and indicate a successful inspection of that section.
-  _ 
-  ! To select another species just tip on the butterfly icon to get the scroll down list of species on top of the counting page.
+  ! As counting of butterflies ought to be distinguished between those within the imaginary count area (a cubus of 5 m length of edges in front of you) and butterflies outside this area, you have 2 separate sets of counters (Internal and External of Counting Area). 
+  ! To count just select the species in the scroll list, and tip on the appropriate (+)-Button of the category (♂♀, ♂, ♀, Pupa, Larva, Ovo) of the species. The (-)-Buttons allows for corrections.
+  ! Each count is stored immediately. While storing the count of the 1st species in a section, the current date and time will be stored either in the section list. The date and a possible section remark will then be shown in the list of sections and indicate a successful inspection of that section.
   _ 
   ! The Pencil-Button in the app bar of the counting page (as well as the Pencil-Button per section in the sections list) opens the section editing page for adding remarks for the section,
   ! adding species or editing the names of section and species. The section related remarks will be shown on top of the species list and within the section list.
@@ -114,26 +113,28 @@ $ 8
   ! Here you may also set pop-up alerts which show up while reaching a set number of butterflies on the corresponding internal counters (sum of all ♂ and ♀)
   ! e.g. to realize already on site if a certain species is more abundant than on a previous inspection.
   _ 
-  ! If you enter a species related remark this will be shown on the counting page in an extra line beneath the counting field.  
+  ! If you enter a species related remark this will be shown on the counting page in an extra line beneath the counting field (e.g.: Photo).  
   _ 
   ! To move back one page you can use the arrow in the left upper corner.
-  _
+  _ 
   ! Finally, there is a page showing your results. Here, in a scroll view you see beneath the meta data of the inspection all the species which got counts.
-  ! You can enter this page from the Starting page with the SHOW RESULTS-Button or the Eye-symbol in the app-bar. It may take a few seconds to show up.
+  ! You can enter this page from the Starting page with the SHOW RESULTS-Button or the Eye-symbol in the app-bar. It may take a second to show up.
 
-$ 7
   % 4. Further functions
   !
-  ! The menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
+  ! The system menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
   _ 
-  ! In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page.
+  ! In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of the lists or left-/right-hand counting page. 
+  ! Here you may also control the GPS function to automatically control transect section switching, presumed that previously a prepared GPX Track file of the transect has been imported (see "5. Use of GPS").
   _ 
-  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data. Alternatively you may import the Basic DB or any other prepared transektcount-DB.
+  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data of the transect. All other transect-specific data including the GPX track data remains untouched.
   _ 
-  ! Android-specifically, TransektCount stores the data always in a single, equally named SQlite-DB-file in the app's own protected storage area that is not accessible by the user.
-  ! Therefore, exporting the data to files in a user accessible storage area is necessary.
+  If you monitor several transects you may import any other prepared TransektCount Basic DB.
   _ 
-  ! Exporting the internal DB as empty "Basic DB" is reasonable, when to take into account changes of the transect structure or new species you may have entered.
+  ! Android-specifically, TransektCount stores the data always in a single SQlite DB-file in the app's own protected storage area that is not accessible by the user.
+  ! Therefore, it is necessary to be able to export the DB-data to files in a user accessible storage area. To make use of different DB-files for different transects, im- and export functions are essential.
+  _ 
+  ! Exporting the internal DB as empty basic DB "transektcount0.db" is reasonable, when to take into account changes of the transect structure, new species may have been entered or GPX Track data has been imported.
   _ 
   ! "Import Basic DB" always reads die file "transektcount0.db" from Android/data/com.wmstein.transektcount/files.
   _ 
@@ -141,57 +142,67 @@ $ 7
   ! For your own purpose you can rename the exported DB-files by a file manager into e.g. transektcount1.db, transektcount2.db, etc.
   ! (Mind: The .db file name must always start with the string “transektcount”, otherwise it cannot be imported).
   _ 
-  ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects with different butterfly populations.
+  ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects with different sections and butterfly populations.
   _ 
   ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "transektcount_YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
-  ! This directory allows accessing the files by other spreadsheet apps, like Collabora (open source, obtainable from the F-Droid store).
-  _
-  ! The (+)-Button in the menu of the "Transect Sections" page allows you to create a new section list. This function will be used only while creating the Basic DB or for changes in a transect.
-  ! But a better substitute for this might be to copy an existing section list and adapt it.
+  ! This directory allows accessing the files by other spreadsheet apps, like Collabora (open source, obtainable free of charge from the F-Droid store).
   _ 
   ! The counting page provides the "Duplicate Section List" function. This function is used while creating a Basic DB, as described under "2. Set up".
+  _ 
   ! The menu of this page provides a "Share" function for sending editable notes referring to the current section using a standard app, like SMS or email.
-  _
-  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" files from "Android/data/com.wmstein.transektcount/files" to a PC.
+  _ 
+  ! The counting view can be temporarily turned off via proximity sensor when the phone is put into a pocket or held close to the body. This saves energy, prevents unwanted inputs and brings the app back instantly when it is used normally again.
+  _ 
+  ! The function "Import GPX track" reads a prepared GPX Track file (e.g. transektcount_t1.gpx) from "Documents/TransektCount/". How to prepare a GPX file see "5. Use of GPS".
+  _ 
+  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" files from "Documents/TransektCount/" to a PC.
   ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
   ! Some useful prepared SQL-scripts can be found under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
   _ 
-  ! You may import the .csv-file into a spreadsheet program as a
-  _
+  ! You may import an exported .csv-file into a spreadsheet program as a
+  _ 
   ! - comma-separated text file with
-  ! - file origin “Unicode UTF-8”,
-  ! - quotations marks for textfield recognition and
+  ! - file origin "Unicode UTF-8",
+  ! - quotations marks "" for textfield recognition and
   ! - all data as text
-  _
+  _ 
   ! for further processing.
-  _
+  _ 
   ! This table facilitates the manual transfer of the counting results into the butterfly monitoring web page like
   ! <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>).
-  _
-  ! The counting page is temporarily switched off by means of the proximity sensor when the phone is put into a pocket or held closed to the body.
-  ! This saves energy, prohibits unwanted input and recalls the app into its current state immediately when used again.
 
-$ 8
-  % 5. Messages
-  !
+  % 5. Use of GPS
+  ! Automatic transect section recognition is accomplished by comparing the current location with the stored track coordinates of the sections. If the momentary location is not more than 5 m (default) away from a section track point the associate section is set for counting. Small overlaps between two neighbouring sections must unfortunately be accepted. 
+  ! Smaller distances would lead to more frequent error results because of the general GPS inaccuracy. In case there is no match the counting goes to "External". 
+  _ 
+  ! The distance radius of the preset can be adjusted between 3 and 10 m to match the GPS accuracy. 
+  _ 
+  ! Using the free BaseCamp programme from Garmin, the track sections can be drawn in and named on free maps based on OpenStreetMap. The result can then be exported as "transektcount_xxx.gpx" (with xxx as a placeholder for an individual name). 
+  ! The track recording with the smartphone on site, if possible, is recommended as a control supplement in preparation for a manual creation of the GPX file. 
+  ! Drawing the track sections in BaseCamp should be done at Zoom 20 m, as then optimal distances of approx. 1 m between the individual track points are achieved and a sufficient accuracy for the coordinate matching for section determination within the app is achieved.
+  ! The transect sections should be drawn in the same number and order as they are listed in TransektCount. During import they will be assigned to the existing transect sections in this order.
+  _ 
+  ! Adding a new transect section is only possible as long as no tracks have been imported. Therefore, the tracks must first be deleted from the database if a transect section is to be added. 
+  ! When a transect section is deleted, the associated GPX track is also deleted from the database. 
+  _ 
+  ! The generated GPX track file must then be copied into the smartphone to "Android/data/com.wmstein.transektcount/files/".
+
+  % 6. Messages
+  ! 
   & Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted.
   & If there is no section which can be deleted then your device has unfortunately not enough free RAM to execute the function.
   _ 
   ! Possible solutions:
-  _
-  ! 1. Edit the wrong section
-  ! If all the sections are necessary and only the data of one section is wrong, this section can be edited.
   _ 
-  ! 2. Reduce the DB with 2nd Android device
+  ! 1. Reduce the DB with 2nd Android device
   ! Reduce the DB by one section. To do this, export the DB and copy it to an Android device with more RAM, import it there into TransektCount, delete the last section, export the DB and copy it back.
   _ 
-  ! 3. Reduce the DB with "SqliteBrowser"
+  ! 2. Reduce the DB with "SqliteBrowser"
   ! Export the DB and copy it to a PC, reduce it there with the help of the above mentioned tool "SqliteBrowser".
   ! Delete all entries in the table "counts" with the "section_id" of the last entry in table "sections", and then delete the last entry in the table "sections" and save the modifications.
   ! Copy the modified DB back to your Android device.
   _ 
-  ! 4. Rebuild the DB and use one section less. 
+  ! 3. Rebuild the DB and use one section less. 
   
-$ END_OF_VIEW_HELP
   </body>
 </html>

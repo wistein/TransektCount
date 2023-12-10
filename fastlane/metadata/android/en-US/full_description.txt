@@ -1,33 +1,41 @@
-TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
+TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-Features
-- Data recording is organized according to a single transect inspection with a database instance per inspection.
-- Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
-- You may use an individual species list per transect section.
-- It contains a prepared basic database with most of the expected species as a starting point.
-- Editor for the transect sections to setup or adapt its species
-- Add new species to the list by scroll-down-selection from a comprehensive internal species list. 
-- Editor for meta data to prepare an inspection
-- Editor for species remark or bulk count entry
-- Counting page with scroll menu to select species
-- Count input per internal/external counting area and here each with separate counters for ♂ or ♀, ♂, ♀, pupa, larva or egg.
-- Results are prepared for easy readout to transfer them to science4you entry masks.
-- Results are shown with meta data, remarks, totals and species results per transect section.
-- Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet like MS Excel.
-- Help contains a detailed userguide.
+New in Version 4.0.0:
+- Option for automatic transect section recognition via GPS.
+- Import function for a GPX file with separate tracks of the transect sections
+- Restructured internal DB for the new functions (Attention! Updating the app or importing DB files of version < 4.0.0 change the species lists of all sections of the current DB to standard selection, as all section lists need to have identical species).
 
-Prerequisites
-The app demands for 
-- storage access permit which is needed for im-/exporting the counting data, 
-- the permit to write settings for setting the screen brightness, 
-- the permit to prevent the phone from sleeping (to control the counting screen when used under Android 5.0.1 or newer).
+Features:
+- Data collection is based on a transect inspection.
+- Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species.
+- The app contains a pre-prepared database with the most common species to be expected in Germany as a starting point.
+- Separate counters for internal/external counting areas and separately for ♂♀, ♂, ♀, pupa, caterpillar or egg.
+- Option for GPS-controlled selection of the current transect section.
+- Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (www.tmd-daten.de).
+- The result can be output as an SQLite file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC).
+- The help contains detailed user instructions.
+
+Functions:
+- Editor for setting up transect sections with species selection from a comprehensive scroll-down list
+- Editor for metadata in preparation for an inspection
+- Editor for species annotation and bulk counter entries
+- Counter page per section with scroll-down list for species selection
+- The results page shows metadata, comments, totals and counting results per species and transect section.
+
+Prerequisites:
+The app requires
+- storage access permit for importing and exporting counting data, 
+- the permit to set the screen brightness, 
+- the permit to prevent the sleep mode,
+- optional location query for GPS use.
+
 The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
-The app is usable with Android version 7.1 (Nougat) or newer.
+The app can be used with Android version 7.1 (Nougat) or newer.
 
-Documentation is provided under  
+Documentation is provided under:
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-TransektCount is one of two apps for European butterfly monitoring. 
-The 2nd app, TourCount, supports species-specific and individually GPS-localized counting of butterflies on any tour in nature. 
+TransektCount is one of two apps for monitoring European butterflies. 
+The second app, TourCount, supports the species-specific and individually GPS-localised counting of butterflies on any walk in nature. 
 
 Both apps use the coding scheme of Karsholt/Razowski for European butterflies and thus contain only European butterfly pictures.

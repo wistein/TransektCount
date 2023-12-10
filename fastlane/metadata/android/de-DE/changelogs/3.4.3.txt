@@ -1,4 +1,11 @@
 Version 3.4.3 (09.08.2023)
+- Letze Version ohne automatische Erkennung der Transekt-Abschnitte
 - Gradle Plugin Upgrade -> 8.1.0
-- Einge noch fehlende Abbildungen ergänzt
+- Einige noch fehlende Arten und Abbildungen ergänzt
+- Seite der Abschnittsbearbeitung verbessert
+- Option Landscape-Modus entfernt, da der Portrait-Modus selbst auf Tablets passender ist
+- RAM-Bereinigung vor der Erzeugung der Liste der Transektabschnitte erlaubt mehr Abschnitte, ist aber abhängig von der RAM-Größe
+- Abschnitt-Löschen: Nur noch der zuletzt erzeugte Abschnitt (Vermeidung von DB-Korruption)
+- Einige Module von Java nach Kotlin übersetzt
+- Einige Code-Verbesserungen
 - Docs überarbeitet

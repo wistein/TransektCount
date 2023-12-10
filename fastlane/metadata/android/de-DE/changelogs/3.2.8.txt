@@ -1,5 +1,0 @@
-Version 3.2.8 (22.08.2021)
-- Projekt Anpassung für Android Studio 2020.3.1 und Gradle 7.0.1
-- Einige fehlende Schmetterlingsabbildungen ergänzt
-- Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
-- Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-  ~ widget_counting_head1.xml used by CountingWidget_head1.java
-  ~ Copyright (c) 2016. Wilhelm Stein, Bonn, Germany.
-  ~ Last edited on 2019-03-23.
+  ~ widget_counting_head1.xml used by CountingWidgetHead1.java
+  ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2023-12-08.
   -->
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:layout_marginLeft="2dp"
@@ -21,9 +22,7 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -34,6 +33,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
+                android:paddingStart="1dp"
                 android:paddingEnd="1dp"
                 android:orientation="horizontal">
 
@@ -52,16 +52,11 @@
                     android:singleLine="true"
                     android:textSize="17sp"/>
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.1"/>
-
                 <TextView
                     android:id="@+id/countCode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="1dp"
+                    android:layout_marginStart="2dp"
                     android:layout_weight="2.2"
                     android:gravity="center_vertical"
                     android:hint="@string/countCodeHint"
@@ -73,6 +68,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
+                android:paddingStart="1dp"
                 android:paddingEnd="1dp"
                 android:orientation="horizontal">
 
@@ -100,11 +96,6 @@
 
             </LinearLayout>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.2"/>
-
         </LinearLayout>
         
         <ImageView
@@ -118,7 +109,8 @@
             android:paddingStart="1dp"
             android:paddingTop="1dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/p00000"/>
+            android:src="@drawable/p00000"
+            tools:ignore="ContentDescription" />
 
     </TableRow>
 

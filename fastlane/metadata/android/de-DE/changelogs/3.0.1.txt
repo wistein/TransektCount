@@ -4,5 +4,6 @@ Version 3.0.1 (01.04.2018)
  - Kleine Optimierungen in der Ergebnisseite
  - Datenbank-Version 3 (Änderung eines Spaltennamens wg. Compiler-Warnung) 
  - Dokumentation angepasst
- - GitHub-Tag korrigiert
+ - Kamera-Button in Menüleiste der Zählseite hinzugefügt
+ - Docs: Einführende Prasentation hinzugefügt
  - Fehler behoben

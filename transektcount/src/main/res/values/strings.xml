@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml English strings
-     last edited 2023-06-26 -->
+<!-- strings.xml English strings,
+     last edited 2023-12-05 -->
+
 <resources>
 
     <!-- generic -->
@@ -27,25 +28,33 @@
     <string name="viewHelpTitle">Help</string>
     <string name="noCard">Cannot access the TransektCount files directory!</string>
     <string name="saveFail">Your database could not be exported!</string>
-    <string name="saveWin">Export to Android/data/com.wmstein.TransektCount/files.</string>
-    <string name="savecsv">Export to Documents/TransektCount.</string>
+    <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
+    <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
+    <string name="savecsv">Export CSV-file to Documents/TransektCount.</string>
     <string name="reset2basic">Your database has been resetted.</string>
+    <string name="resetTracks">Your track data has been deleted.</string>
     <string name="resetFail">Your database could not be resetted!</string>
-    <string name="exportMenu">Export current DB</string>
+    <string name="exportMenu">Export Current DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
-    <string name="exportCSVMenu">Export Data -> CSV File</string>
-    <string name="resetDBMenu">Reset Data</string>
+    <string name="exportCSVMenu">Export Data -> CSV-File</string>
+    <string name="resetDBMenu">Reset Counting Data</string>
+    <string name="resetGPXMenu">Delete GPX Track Data</string>
     <string name="importFileMenu">Import DB</string>
+    <string name="importGPXMenu">Import GPX Track</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
+    <string name="importTrackFail">Section tracks already exist. Please remove all tracks before importing a new set of tracks!</string>
+    <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
     <string name="importWin">Your database has been imported.</string>
-    <string name="noDb">Please provide \'transektcount0.db\' into the directory Android/data/com.wmstein.transektcount/files.</string>
-    <string name="errorDb">DB Error!</string>
-    <string name="corruptDb">Database error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
+    <string name="importGPX">The gpx file has been imported.</string>
+    <string name="noDb">Please provide \'transektcount0.db\' in the directory \'Documents/TransektCount\'.</string>
+    <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import the Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
+    <string name="confirmGPXImport">Are you sure you want to import a gpx file?</string>
+    <string name="confirmGPXDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
     <string name="name_sect">Section</string>
     <string name="notes_sect">Section Note</string>
@@ -54,30 +63,37 @@
     <string name="code_spec">Species Code</string>
     <string name="internal">Internal</string>
     <string name="external">External</string>
+    <string name="external_small">external</string>
     <string name="rem_spec">Species Note</string>
-    <string name="sum">Totals:</string>
+    <string name="sum">Totals (internal):</string>
+    <string name="sume">Totals (external):</string>
+    <string name="sum_total">Totals (all):</string>
     <string name="sumSpec">Diff. Species:</string>
     <string name="kal_w">CW</string>
     <string name="back_twice">Press again to exit</string>
+    <string name="track_err">There is a discrepancy between your sections and tracks! GPS function will be switched off.</string>
+    <string name="track_err1">No GPS Tracks supplied, GPS function remains inactive.</string>
+    <string name="waitImport">Import is getting on&#8230;</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>
     <string name="fileSize">Size</string>
+    <string name="noBack">Please select a file, you may cancel afterwards.</string>
 
     <!-- EditMetaActivity -->
     <string name="editHeadTitle">Meta Data of Inspection</string>
-    <string name="transectnumber">Transect No.</string>
-    <string name="inspector">Inspector Name</string>
-    <string name="temperature">Temp. (°C)</string>
-    <string name="wind">Wind (0–4)</string>
-    <string name="clouds">Clouds (%)</string>
-    <string name="starttm">Time from</string>
+    <string name="transectnumber">Transect No.:</string>
+    <string name="inspector">Inspector Name:</string>
+    <string name="temperature">Temp. (°C):</string>
+    <string name="wind">Wind (0–4):</string>
+    <string name="clouds">Clouds (%):</string>
+    <string name="starttm">Time from:</string>
     <string name="hinttm">Click here</string>
-    <string name="endtm">until</string>
+    <string name="endtm">until:</string>
     <string name="valTemp">Unrealistic temperature!</string>
     <string name="valWind">Wind out of range!</string>
     <string name="valClouds">Clouds out of range!</string>
-    <string name="date">Date</string>
+    <string name="date">Date:</string>
 
     <!-- NewSectionActivity -->
     <string name="labelNewsectSaveButton">Save and edit</string>
@@ -90,7 +106,8 @@
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>
-    <string name="sectSaving">Saving </string>
+    <string name="saving">Saving</string>
+    <string name="sectSaving">Sections have been saved.</string>
     <string name="alertTitle">Count %1$d reached!</string>
     <string name="cloneButton">Duplicate Section List</string>
     <string name="newName">You must enter a name for the new list.</string>
@@ -99,11 +116,12 @@
     <string name="takePhoto">Take photo</string>
     <string name="newCopyCreated">has been created!</string>
     <string name="addAlertButton">Add alert button</string>
+    <string name="hasTrack">GPX tracks exist, number of sections and tracks must match! Please delete GPS track data before.</string>
 
     <!-- CountingActivity Menu -->
     <string name="editSectTitle">Edit List</string>
     <string name="dpSectTitle">New section name</string>
-    <string name="willAlert">- %1$s will show alert at  %2$d.</string>
+    <string name="willAlert">%1$s will alert for %2$d butterflies.</string>
     <string name="deleteButton">Delete</string>
     <string name="nodeleteButton">OK</string>
     <string name="action_share">Share</string>
@@ -129,7 +147,7 @@
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>
-    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_title">What\'s New?</string>
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_show_full">more&#8230;</string>
 
@@ -147,7 +165,7 @@
     <string name="pref_sort_order_sp_summ">Sort order of your species list.</string>
     <string name="pref_note_font">Note font</string>
     <string name="pref_note_font_summ">Select this option to increase the notes font size on the counting screen.</string>
-    <string name="pref_left_hand">Lefties</string>
+    <string name="pref_left_hand">Left-hander</string>
     <string name="pref_left_hand_summ">Show left-hander counting view.</string>
     <string name="screen_orientation">Show screen in Landscape Mode instead of Portrait Mode.</string>
     <string name="titel_screen_orientation">Landscape instead of Portrait</string>
@@ -163,17 +181,19 @@
     <string name="pref_awake_summ">Prevent screen from sleeping whilst counting.</string>
     <string name="pref_bright">Screen bright</string>
     <string name="pref_bright_summ">Sets the TransektCount screens bright whilst counting and editing.</string>
-    <string name="pref_duplicate">Prevent duplicate counts</string>
-    <string name="pref_duplicate_summary">When selected, the names in each species list must be unique.</string>
+    <string name="pref_auto_section">Find transect section by GPS</string>
+    <string name="pref_auto_section_summ">Switches automatically to the current section by GPS (provided that a suitable list of coordinates is given).</string>
+    <string name="pref_dist_max">Maximum GPS deviation allowed</string>
+    <string name="pref_dist_max_summ">Set the maximum deviation from the given transect section.</string>
 
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂, ♀</string>
+    <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂♀</string>
     <string name="editCountValuef2i">Change internal count value [ %1$d ] of butterfly ♂</string>
     <string name="editCountValuef3i">Change internal count value [ %1$d ] of butterfly ♀</string>
     <string name="editCountValuepi">Change internal count value [ %1$d ] of pupa</string>
     <string name="editCountValueli">Change internal count value [ %1$d ] of larva</string>
     <string name="editCountValueei">Change internal count value [ %1$d ] of egg</string>
-    <string name="editCountValuef1e">Change external count value [ %1$d ] of butterfly ♂, ♀</string>
+    <string name="editCountValuef1e">Change external count value [ %1$d ] of butterfly ♂♀</string>
     <string name="editCountValuef2e">Change external count value [ %1$d ] of butterfly ♂</string>
     <string name="editCountValuef3e">Change external count value [ %1$d ] of butterfly ♀</string>
     <string name="editCountValuepe">Change external count value [ %1$d ] of pupa</string>
@@ -184,7 +204,7 @@
     <string name="countName">New Species</string>
     <string name="countNameG">New Species (English name)</string>
     <string name="countCode">Code</string>
-    <string name="notesSpecies">Species Notes</string>
+    <string name="notesSpecies">Species Notes (%1$s)</string>
     <string name="deleteAlert">Delete Alert</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>
     <string name="yesDeleteIt">Delete</string>
@@ -198,7 +218,7 @@
     <string name="txt_p">Pupa</string>
     <string name="txt_l">Larva</string>
     <string name="txt_e">Egg</string>
-    <string name="difftotal">Totals of Different Species Counted:</string>
+    <string name="difftotal">Different counted species:</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
@@ -222,15 +242,17 @@
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Total</string>
     <string name="getHelp">Database problem! Please mail your exported \'transektcount_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
+    <string name="sect00">Xternal</string>
     <string name="sect01">Sect 01</string>
     <string name="cancel">Cancel</string>
+    <string name="no_provider">No Service Provider available!</string>
 
     <!-- Permissions -->
     <string name="perm_required">Permissions required</string>
     <string name="app_settings">App Settings</string>
-    <string name="perm_hint">In order to register butterflies with location data, access to location data is necessary.</string>
+    <string name="perm_hint">For an automatic recognition of transect sections, access to GPS location data is necessary.</string>
     <string name="perm_hint1">Please enable the missing permission for the app in the phone settings.</string>
     <string name="perm_denied">At least one permission is denied. Functionality is limited.</string>
-    <string name="perm_cancel">Export denied. Please, accept storage permission and try again.</string>
+    <string name="perm_cancel">Storage access denied. Please, accept storage permission and try again.</string>
 
 </resources>

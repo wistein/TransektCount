@@ -11,10 +11,10 @@
               android:padding="5dp">
 
     <TextView
+        android:id="@+id/add_alert_text"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/add_alert_text"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:layout_gravity="bottom|start|end|top"

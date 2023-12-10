@@ -8,12 +8,13 @@ import android.widget.TextView
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/**********************************
- * HintWidget used by CountingActivity
+/*************************************************************
+ * HintWidget used by CountingActivity and EditSectionActivity
  * shows single Hint line
  * Created by wmstein on 2023-05-16,
  * last edited in java on 2023-05-16,
- * converted to Kotlin on 2023-07-05
+ * converted to Kotlin on 2023-07-05,
+ * last edited on 2023-09-03
  */
 class HintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView

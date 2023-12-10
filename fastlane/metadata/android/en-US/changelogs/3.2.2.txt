@@ -1,4 +1,0 @@
-Version 3.2.2 (2020-04-20)
-- Preferences adapted for Android 10
-- .CSV-Export: In Totals line suppression of zeros 
-- Docs updated

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- widget_add_species.xml is used by activity_add_species.xml and AddSpeciesActivity.java -->
+<!-- widget_add_species.xml is used by activity_add_species.xml
+     and AddSpeciesActivity.java -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_marginLeft="5dp"
               android:layout_marginRight="5dp"
@@ -17,7 +19,6 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/specName"
@@ -63,7 +64,8 @@
             android:layout_marginTop="10dp"
             android:layout_weight="3.4"
             android:scaleType="fitCenter"
-            android:src="@drawable/p00000"/>
+            android:src="@drawable/p00000"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,6 +92,7 @@
             android:singleLine="true"
             android:textSize="14sp"/>
 
+        <!-- not visible, used for getting the species Id -->
         <TextView
             android:id="@+id/specId"
             android:layout_width="0dp"
@@ -106,7 +109,8 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="3"
             android:onClick="addCount"
-            android:src="@android:drawable/ic_menu_add"/>
+            android:src="@android:drawable/ic_menu_add"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
 </LinearLayout>

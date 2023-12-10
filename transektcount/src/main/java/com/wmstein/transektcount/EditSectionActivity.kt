@@ -28,14 +28,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
+import com.wmstein.transektcount.database.Track
+import com.wmstein.transektcount.database.TrackDataSource
 import com.wmstein.transektcount.widgets.CountEditWidget
 import com.wmstein.transektcount.widgets.EditNotesWidget
 import com.wmstein.transektcount.widgets.EditTitleWidget
 import com.wmstein.transektcount.widgets.HintWidget
 import java.util.Objects
 
-/*************************************************************************
- * Edit the current section list (change, delete and insert new species)
+/**********************************************************************************
+ * Edit the section lists (change, delete and insert new species for all sections),
+ * and add notes to the current section.
  * EditSectionActivity is called from ListSectionActivity, NewSectionActivity
  * or CountingActivity.
  * Uses CountEditWidget.java, EditTitleWidget.java, EditNotesWidget.java,
@@ -44,19 +47,22 @@ import java.util.Objects
  * Changed by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-07-17
+ * last edited on 2023-12-08
  */
 class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
 
     // the actual data
     var section: Section? = null
-    private var section_Backup: Section? = null
+    var track: Track? = null
+    private var sectionBackup: Section? = null
     private var sectionDataSource: SectionDataSource? = null
     private var countDataSource: CountDataSource? = null
-    private var counts_area: LinearLayout? = null
-    private var notes_area2: LinearLayout? = null
-    private var hint_area1: LinearLayout? = null
+    private var trackDataSource: TrackDataSource? = null
+
+    private var editingCountsArea: LinearLayout? = null
+    private var speciesRemarkArea7: LinearLayout? = null
+    private var hintArea1: LinearLayout? = null
     private var etw: EditTitleWidget? = null
     private var enw: EditNotesWidget? = null
     private var viewMarkedForDelete: View? = null
@@ -70,14 +76,14 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
     private var savedCounts: ArrayList<CountEditWidget>? = null
     private var bMap: Bitmap? = null
     private var bg: BitmapDrawable? = null
-    private var section_id = 0
-    private var section_notes: String? = null
+    private var sectionId = 0
+    private var sectionNote: String? = null
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
-    private var dupPref = false
-    private var oldname: String? = null
+    private var oldName: String? = null
+    private var sectionHasTrack = false
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,14 +94,15 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         countCodes = ArrayList()
         countIds = ArrayList()
         savedCounts = ArrayList()
-        notes_area2 = findViewById(R.id.editingNotesLayout)
-        hint_area1 = findViewById(R.id.showHintLayout)
-        counts_area = findViewById(R.id.editingCountsLayout)
+        speciesRemarkArea7 = findViewById(R.id.editingNotesLayout)
+        hintArea1 = findViewById(R.id.showHintLayout)
+        editingCountsArea = findViewById(R.id.editingCountsLayout)
 
         // Restore any edit widgets the user has added previously and the section id
         if (savedInstanceState != null) {
             @Suppress("DEPRECATION")
             if (savedInstanceState.getSerializable("savedCounts") != null) {
+                @Suppress("UNCHECKED_CAST")
                 savedCounts =
                     savedInstanceState.getSerializable("savedCounts") as ArrayList<CountEditWidget>?
             }
@@ -114,15 +121,22 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             params.screenBrightness = 1.0f
             window.attributes = params
         }
-        val counting_screen = findViewById<LinearLayout>(R.id.editSect)
+
+        val extras = intent.extras
+        if (extras != null) {
+            sectionId = extras.getInt("section_id")
+        }
+
+        val countingScreen = findViewById<LinearLayout>(R.id.editSect)
         bMap = transektCount!!.decodeBitmap(
             R.drawable.kbackground,
             transektCount!!.width,
             transektCount!!.height
         )
-        bg = BitmapDrawable(counting_screen.resources, bMap)
-        counting_screen.background = bg
+        bg = BitmapDrawable(countingScreen.resources, bMap)
+        countingScreen.background = bg
     }
+    // end of onCreate
 
     @SuppressLint("LongLogTag")
     override fun onResume() {
@@ -133,10 +147,10 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         prefs = TransektCountApplication.getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
         brightPref = prefs.getBoolean("pref_bright", true)
-        dupPref = prefs.getBoolean("pref_duplicate", true)
         val sortPref = prefs.getString("pref_sort_sp", "none")
-        section_id = prefs.getInt("section_id", 1)
-        section_notes = prefs.getString("section_notes", "")
+        sectionId = prefs.getInt("section_id", 1)
+        sectionNote = prefs.getString("section_notes", "")
+        sectionHasTrack = prefs.getBoolean("section_has_track", false)
 
         // Set full brightness of screen
         if (brightPref) {
@@ -147,42 +161,50 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         }
 
         // build the Edit Section screen
-        counts_area!!.removeAllViews()
-        notes_area2!!.removeAllViews()
-        hint_area1!!.removeAllViews()
+        editingCountsArea!!.removeAllViews()
+        speciesRemarkArea7!!.removeAllViews()
+        hintArea1!!.removeAllViews()
 
         // setup the data sources
         sectionDataSource = SectionDataSource(this)
         sectionDataSource!!.open()
         countDataSource = CountDataSource(this)
         countDataSource!!.open()
+        trackDataSource = TrackDataSource(this)
+        trackDataSource!!.open()
 
         // load the sections data
-        section = sectionDataSource!!.getSection(section_id)
-        oldname = section!!.name
+        section = sectionDataSource!!.getSection(sectionId)
+        oldName = section!!.name
         try {
-            supportActionBar!!.setTitle(oldname)
+            supportActionBar!!.title = oldName
         } catch (e: NullPointerException) {
-            Log.i(TAG, "NullPointerException: No section name!")
+            if (MyDebug.LOG)
+                Log.e(TAG, "185, NullPointerException: No section name!")
         }
 
-        // display the section title
+        // edit the section name
         etw = EditTitleWidget(this, null)
-        etw!!.sectionName = oldname
+        etw!!.sectionName = oldName
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
-        notes_area2!!.addView(etw)
+        speciesRemarkArea7!!.addView(etw)
+        if (MyDebug.LOG)
+            Log.d(
+                TAG, "194, onResume, EditTitleWidget, old section name: " + oldName
+                        + ", new sectionName: " + etw!!.sectionName
+            )
 
         // display editable section notes; the same class
         enw = EditNotesWidget(this, null)
         enw!!.sectionNotes = section!!.notes
         enw!!.setWidgetNotes(getString(R.string.notesHere))
         enw!!.setHint(getString(R.string.notesHint))
-        notes_area2!!.addView(enw)
+        speciesRemarkArea7!!.addView(enw)
 
         // display hint current species list:
         val nw = HintWidget(this, null)
         nw.setHint1(getString(R.string.presentSpecs))
-        hint_area1!!.addView(nw)
+        hintArea1!!.addView(nw)
 
         // load the sorted species data
         val counts = when (Objects.requireNonNull(sortPref)) {
@@ -203,39 +225,33 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             cew.setCountCode(count.code)
             cew.setPSpec(count)
             cew.setCountId(count.id)
-            counts_area!!.addView(cew)
+            editingCountsArea!!.addView(cew)
         }
         for (cew in savedCounts!!) {
-            counts_area!!.addView(cew)
+            editingCountsArea!!.addView(cew)
         }
         getCountNames()
     }
+    // end of onResume
 
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         if (isNotEmpty(savedInstanceState.getString("section_notes"))) {
-            section_notes = savedInstanceState.getString("section_notes")
+            sectionNote = savedInstanceState.getString("section_notes")
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         /*
-         * Before these widgets can be serialised they must be removed from their parent, or else
-         * trying to add them to a new parent causes a crash because they've already got one.
+         * Widgets must be removed from their parent before they can be serialised,
+         * else they cause a crash.
          */
         for (cew in savedCounts!!) {
             (cew.parent as ViewGroup).removeView(cew)
         }
+
         outState.putSerializable("savedCounts", savedCounts)
         outState.putString("section_notes", enw!!.sectionNotes)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        // close the data sources
-        sectionDataSource!!.close()
-        countDataSource!!.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -252,6 +268,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         val id = item.itemId
         if (id == android.R.id.home) {
             val intent = NavUtils.getParentActivityIntent(this)!!
+            intent.putExtra("add_species", true)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             NavUtils.navigateUpTo(this, intent)
         } else if (id == R.id.menuSaveExit) {
@@ -274,12 +291,34 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             // Trick: Pause for 100 msec to show toast
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this@EditSectionActivity, AddSpeciesActivity::class.java)
-                intent.putExtra("section_id", section_id)
+                intent.putExtra("section_id", sectionId)
                 startActivity(intent)
             }, 100)
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
+        val countingScreen = findViewById<LinearLayout>(R.id.editSect)
+        bMap = transektCount!!.decodeBitmap(
+            R.drawable.kbackground,
+            transektCount!!.width,
+            transektCount!!.height
+        )
+        countingScreen.background = null
+        bg = BitmapDrawable(countingScreen.resources, bMap)
+        countingScreen.background = bg
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        // close the data sources
+        sectionDataSource!!.close()
+        countDataSource!!.close()
+        trackDataSource!!.close()
     }
 
     private fun getCountNames() {
@@ -290,9 +329,9 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         countNames!!.clear()
         countCodes!!.clear()
         countIds!!.clear()
-        val childcount = counts_area!!.childCount
+        val childcount = editingCountsArea!!.childCount
         for (i in 0 until childcount) {
-            val cew = counts_area!!.getChildAt(i) as CountEditWidget
+            val cew = editingCountsArea!!.getChildAt(i) as CountEditWidget
             val name = cew.getCountName()
             val code = cew.getCountCode()
             // ignore count widgets where the user has filled nothing in. 
@@ -310,14 +349,14 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         var name: String
         var isDblName = ""
         cmpCountNames = ArrayList()
-        val childcount = counts_area!!.childCount
+        val childcount = editingCountsArea!!.childCount
         // for all CountEditWidgets
         for (i in 0 until childcount) {
-            val cew = counts_area!!.getChildAt(i) as CountEditWidget
+            val cew = editingCountsArea!!.getChildAt(i) as CountEditWidget
             name = cew.getCountName()
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
-                //Log.i(TAG, "Double name = " + isDblName);
+                if (MyDebug.LOG) Log.d(TAG, "360, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -330,14 +369,14 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         var code: String
         var isDblCode = ""
         cmpCountCodes = ArrayList()
-        val childcount = counts_area!!.childCount
+        val childcount = editingCountsArea!!.childCount
         // for all CountEditWidgets
         for (i in 0 until childcount) {
-            val cew = counts_area!!.getChildAt(i) as CountEditWidget
+            val cew = editingCountsArea!!.getChildAt(i) as CountEditWidget
             code = cew.getCountCode()
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
-                //Log.i(TAG, "Double name = " + isDblName);
+                if (MyDebug.LOG) Log.d(TAG, "380, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)
@@ -353,89 +392,90 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
     }
 
     private fun saveData(): Boolean {
-        // save section notes only if they have changed
+        // save section name only if it has changed
         val saveSectionState: Boolean
-        val newtitle = etw!!.sectionName
-        if (isNotEmpty(newtitle)) {
-            //check if this is not a duplicate of an existing name
-            section_Backup =
-                section // backup current section as compSectionNames replaces current section with last section
-            if (compSectionNames(newtitle)) {
-                showSnackbarRed(newtitle + " " + getString(R.string.isdouble))
+        val newName = etw!!.sectionName
+        if (MyDebug.LOG) Log.d(TAG, "399, newName: $newName")
+        if (isNotEmpty(newName)) {
+            //check if this is not a duplicate of an existing name and
+            // backup current section as compSectionNames replaces current section with last section
+            sectionBackup = section
+            if (compSectionNames(newName)) {
+                showSnackbarRed(newName + " " + getString(R.string.isdouble))
                 saveSectionState = false
             } else {
-                section_Backup!!.name = newtitle
+                sectionBackup!!.name = newName
                 saveSectionState = true
             }
-            section = section_Backup
+            section = sectionBackup
         } else {
-            showSnackbarRed(newtitle + " " + getString(R.string.isempty))
+            showSnackbarRed(getString(R.string.isempty))
             saveSectionState = false
         }
 
         // add notes if the user has written some...
-        section_notes = enw!!.sectionNotes
-        if (isNotEmpty(section_notes) && saveSectionState) {
-            section!!.notes = section_notes
+        sectionNote = enw!!.sectionNotes
+        if (isNotEmpty(sectionNote) && saveSectionState) {
+            section!!.notes = sectionNote
         } else {
             if (isNotEmpty(section!!.notes)) {
-                section!!.notes = section_notes
+                section!!.notes = sectionNote
             }
         }
         var retValue = false
         if (saveSectionState) {
             sectionDataSource!!.saveSection(section!!)
 
+            // rename corresponding track names
+            if (MyDebug.LOG) Log.d(TAG, "431, newName: $newName")
+            if (sectionHasTrack && isNotEmpty(newName))
+                trackDataSource!!.saveTrackName(newName, oldName)
+
             // save counts (species list)
             val isDblName: String
             val isDblCode: String
-            val childcount: Int = counts_area!!.childCount //No. of species in list
-            if (MyDebug.LOG) Log.d(TAG, "childcount: $childcount")
+            val childcount: Int = editingCountsArea!!.childCount //No. of species in list
+            if (MyDebug.LOG) Log.d(TAG, "439, childcount: $childcount")
 
             // check for unique species names
-            if (dupPref) {
-                isDblName = compCountNames()
-                isDblCode = compCountCodes()
-                if (isDblName == "" && isDblCode == "") {
-                    // do for all species 
-                    for (i in 0 until childcount) {
-                        val cew = counts_area!!.getChildAt(i) as CountEditWidget
-                        retValue =
-                            if (isNotEmpty(cew.getCountName()) && isNotEmpty(
-                                    cew.getCountCode()
-                                )
-                            ) {
-                                if (MyDebug.LOG) Log.d(
-                                    TAG,
-                                    "cew: " + cew.countId + ", " + cew.getCountName()
+            isDblName = compCountNames()
+            isDblCode = compCountCodes()
+            if (isDblName == "" && isDblCode == "") {
+                // do for all species
+                for (i in 0 until childcount) {
+                    val cew = editingCountsArea!!.getChildAt(i) as CountEditWidget
+                    retValue =
+                        if (isNotEmpty(cew.getCountName()) && isNotEmpty(cew.getCountCode())) {
+                            if (MyDebug.LOG)
+                                Log.d(
+                                    TAG, "452, cntId: " + cew.countId + ", " + cew.getCountName()
                                 )
 
-                                // updates species name and code
-                                countDataSource!!.updateCountName(
-                                    cew.countId,
-                                    cew.getCountName(),
-                                    cew.getCountCode(),
-                                    cew.getCountNameG()
-                                )
-                                true
-                            } else {
-                                showSnackbarRed(getString(R.string.isempt))
-                                false
-                            }
-                    }
-                } else {
-                    showSnackbarRed(
-                        getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " + isDblCode + " "
-                                + getString(R.string.isdouble)
-                    )
-                    // retValue = false;
+                            // updates species name and code
+                            countDataSource!!.updateCountName(
+                                cew.countId,
+                                cew.getCountName(),
+                                cew.getCountCode(),
+                                cew.getCountNameG()
+                            )
+                            true
+                        } else {
+                            showSnackbarRed(getString(R.string.isempt))
+                            false
+                        }
                 }
+            } else {
+                showSnackbarRed(
+                    getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " + isDblCode + " "
+                            + getString(R.string.isdouble)
+                )
+                // retValue = false;
             }
+
             if (retValue) {
                 // Toast here, as snackbar doesn't show up
                 Toast.makeText(
-                    this@EditSectionActivity, getString(R.string.sectSaving) + " "
-                            + section!!.name + "!", Toast.LENGTH_SHORT
+                    this@EditSectionActivity, getString(R.string.sectSaving), Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -444,10 +484,10 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
 
     // Compare section names for duplicates and return TRUE when duplicate found
     // created by wmstein on 10.04.2016
-    private fun compSectionNames(newname: String?): Boolean {
+    private fun compSectionNames(newName: String?): Boolean {
         var isDblName = false
         var sname: String?
-        if (newname == oldname) {
+        if (newName == oldName) {
             return false // name has not changed
         }
         val sectionList = sectionDataSource!!.allSectionNames
@@ -456,10 +496,12 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         for (i in 1 until childcount) {
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
-            if (MyDebug.LOG) Log.d(TAG, "sname = $sname")
-            if (newname == sname) {
+            if (MyDebug.LOG)
+                Log.d(TAG, "502, sname = $sname")
+            if (newName == sname) {
                 isDblName = true
-                if (MyDebug.LOG) Log.d(TAG, "Double name = $sname")
+                if (MyDebug.LOG)
+                    Log.d(TAG, "506, Double name = $sname")
                 break
             }
         }
@@ -482,12 +524,12 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         // Trick: Pause for 100 msec to show toast
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this@EditSectionActivity, AddSpeciesActivity::class.java)
-            intent.putExtra("section_id", section_id)
+            intent.putExtra("section_id", sectionId)
             startActivity(intent)
         }, 100)
     }
 
-    // purging species (with associated alerts)
+    // purging a species from all section lists (with associated alerts)
     fun deleteCount(view: View) {
         /*
          * These global variables keep a track of the view containing an alert to be deleted and also the id
@@ -496,9 +538,10 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
          */
         viewMarkedForDelete = view
         idToDelete = view.tag as Int
+        val specCode: String? = countDataSource?.getCodeById(idToDelete)
         if (idToDelete == 0) {
             // the actual CountEditWidget is 3 levels up from the button in which it is embedded
-            counts_area!!.removeView(view.parent.parent.parent as CountEditWidget)
+            editingCountsArea!!.removeView(view.parent.parent.parent as CountEditWidget)
         } else {
             // Before removing this widget it is necessary to do the following:
             //   (1) Check the user is sure they want to delete it and, if so...
@@ -508,8 +551,9 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             areYouSure!!.setMessage(getString(R.string.reallyDeleteCount))
             areYouSure!!.setPositiveButton(R.string.yesDeleteIt) { _: DialogInterface?, _: Int ->
                 // go ahead for the delete
-                countDataSource!!.deleteCountById(idToDelete) // includes associated alerts
-                counts_area!!.removeView(viewMarkedForDelete!!.parent.parent.parent as CountEditWidget)
+
+                countDataSource!!.deleteAllCountsWithCode(specCode) // includes associated alerts
+                editingCountsArea!!.removeView(viewMarkedForDelete!!.parent.parent.parent as CountEditWidget)
             }
             areYouSure!!.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }
             areYouSure!!.show()
@@ -528,30 +572,14 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         sB.show()
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
-        val counting_screen = findViewById<LinearLayout>(R.id.editSect)
-        dupPref = prefs.getBoolean("pref_duplicate", true)
-        bMap = transektCount!!.decodeBitmap(
-            R.drawable.kbackground,
-            transektCount!!.width,
-            transektCount!!.height
-        )
-        counting_screen.background = null
-        bg = BitmapDrawable(counting_screen.resources, bMap)
-        counting_screen.background = bg
-    }
-
     companion object {
-        const val TAG = "TransektCntEditSectAct"
+        const val TAG = "EditSectAct"
 
-        /**
+        /*************************************************************************
          * Following functions are taken from the Apache commons-lang3-3.4 library
          * licensed under Apache License Version 2.0, January 2004
          *
-         *
          * Checks if a CharSequence is not empty ("") and not null.
-         *
          *
          * isNotEmpty(null)      = false
          * isNotEmpty("")        = false
@@ -566,9 +594,8 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             return !isEmpty(cs)
         }
 
-        /**
+        /*************************************************
          * Checks if a CharSequence is empty ("") or null.
-         *
          *
          * isEmpty(null)      = true
          * isEmpty("")        = true
@@ -579,8 +606,9 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
          * @param cs the CharSequence to check, may be null
          * @return `true` if the CharSequence is empty or null
          */
-        fun isEmpty(cs: CharSequence?): Boolean {
+        private fun isEmpty(cs: CharSequence?): Boolean {
             return cs == null || cs.length == 0
         }
     }
+
 }

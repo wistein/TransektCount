@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
+import androidx.preference.PreferenceManager;
+
 import com.wmstein.transektcount.MyDebug;
 import com.wmstein.transektcount.R;
 
@@ -17,8 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
-
-import androidx.preference.PreferenceManager;
 
 /**********************************************************************
  Copyright (C) 2011-2013, Karsten Priegnitz
@@ -30,11 +30,12 @@ import androidx.preference.PreferenceManager;
  <p>
  It would be appreciated if you mention the author in your change log,
  contributors list or the like.
-
- Author: Karsten Priegnitz
- See: https://code.google.com/p/android-change-log/
  <p>
- Last change by wmstein on 2023-05-09
+ Author: Karsten Priegnitz
+ See: <a href="https://code.google.com/p/android-change-log/">...</a>
+ <p>
+ Adopted for TransektCount by wm.stein on 2016-02-12,
+ last change by wmstein on 2023-12-08
  */
 public class ChangeLog
 {
@@ -48,22 +49,11 @@ public class ChangeLog
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
     private static final String NO_VERSION = "";
 
-    /**
-     * Constructor <p/>
-     * Retrieves the version names and stores the new version name in SharedPreferences
-     * @param context   the context
-     */
     public ChangeLog(Context context)
     {
         this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
-    /**
-     * Constructor <p/>
-     * Retrieves the version names and stores the new version name in SharedPreferences
-     * @param context   the context
-     * @param prefs      the shared preferences to store the last version name into
-     */
     private ChangeLog(Context context, SharedPreferences prefs)
     {
         this.context = context;
@@ -71,19 +61,20 @@ public class ChangeLog
         // get version numbers
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (MyDebug.LOG)
-            Log.d(TAG, "lastVersion: " + lastVersion);
+            Log.d(TAG, "75, lastVersion: " + lastVersion);
+
         try
         {
-            this.thisVersion = context.getPackageManager().getPackageInfo(
+            thisVersion = context.getPackageManager().getPackageInfo(
                 context.getPackageName(), 0).versionName;
         } catch (NameNotFoundException e)
         {
-            this.thisVersion = NO_VERSION;
+            thisVersion = NO_VERSION;
             if (MyDebug.LOG)
-                Log.e(TAG, "could not get version name from manifest.", e);
+                Log.e(TAG, "Could not get version name from manifest!", e);
         }
         if (MyDebug.LOG)
-            Log.d(TAG, "appVersion: " + this.thisVersion);
+            Log.d(TAG, "77, appVersion: " + this.thisVersion);
     }
 
     /**
@@ -124,7 +115,6 @@ public class ChangeLog
         return this.getDialog(true);
     }
 
-
     private AlertDialog getDialog(boolean full)
     {
         WebView wv = new WebView(this.context);
@@ -135,23 +125,22 @@ public class ChangeLog
         AlertDialog.Builder builder = new AlertDialog.Builder(
             new ContextThemeWrapper(
                 this.context, android.R.style.Theme_Holo_Dialog));
-        builder.setTitle(
-            context.getResources().getString(
-                full ? R.string.changelog_full_title
-                    : R.string.changelog_title))
+        String fullTitle = context.getResources().getString(R.string.changelog_full_title)
+            + " Ver. " + thisVersion;
+        String changeTitle = "Ver. " + thisVersion + ": "
+            + context.getResources().getString(R.string.changelog_title)
+            + " " + thisVersion;
+        builder.setTitle(full ? fullTitle : changeTitle)
             .setView(wv)
             .setCancelable(false)
             // OK button
-            .setPositiveButton(
-                context.getResources().getString(
-                    R.string.changelog_ok_button),
-                (dialog, which) -> updateVersionInPreferences());
+            .setPositiveButton(context.getResources().getString(
+                    R.string.changelog_ok_button), (dialog, which) -> updateVersionInPreferences());
 
         if (!full)
         {
             // "more ..." button
-            builder.setNegativeButton(R.string.changelog_show_full,
-                (dialog, id) -> getFullLogDialog().show());
+            builder.setNegativeButton(R.string.changelog_show_full, (dialog, id) -> getFullLogDialog().show());
         }
 
         return builder.create();
@@ -164,14 +153,6 @@ public class ChangeLog
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(VERSION_KEY, thisVersion);
         editor.apply();
-    }
-
-    /**
-     * modes for HTML-Lists (bullet, numbered)
-     */
-    private enum Listmode
-    {
-        NONE, ORDERED, UNORDERED,
     }
 
     private Listmode listMode = Listmode.NONE;
@@ -187,13 +168,9 @@ public class ChangeLog
             String language = Locale.getDefault().toString().substring(0, 2);
             InputStream ins;
             if (language.equals("de"))
-            {
                 ins = context.getResources().openRawResource(R.raw.changelog_de);
-            }
             else
-            {
                 ins = context.getResources().openRawResource(R.raw.changelog);
-            }
             BufferedReader br = new BufferedReader(new InputStreamReader(ins));
             boolean advanceToEOVS = false; // if true: ignore further version sections
             String line;
@@ -210,13 +187,9 @@ public class ChangeLog
                     if (!full)
                     {
                         if (this.lastVersion.equals(version))
-                        {
                             advanceToEOVS = true;
-                        }
                         else if (version.equals(EOCL))
-                        {
                             advanceToEOVS = false;
-                        }
                     }
                 }
                 else if (!advanceToEOVS)
@@ -297,13 +270,9 @@ public class ChangeLog
         {
             closeList();
             if (listMode == Listmode.ORDERED)
-            {
                 sb.append("<div class='list'><ol>\n");
-            }
             else if (listMode == Listmode.UNORDERED)
-            {
                 sb.append("<div class='list'><ul>\n");
-            }
             this.listMode = listMode;
         }
     }
@@ -311,14 +280,18 @@ public class ChangeLog
     private void closeList()
     {
         if (this.listMode == Listmode.ORDERED)
-        {
             sb.append("</ol></div>\n");
-        }
         else if (this.listMode == Listmode.UNORDERED)
-        {
             sb.append("</ul></div>\n");
-        }
         this.listMode = Listmode.NONE;
+    }
+
+    /**
+     * modes for HTML-Lists (bullet, numbered)
+     */
+    private enum Listmode
+    {
+        NONE, ORDERED, UNORDERED,
     }
 
 }

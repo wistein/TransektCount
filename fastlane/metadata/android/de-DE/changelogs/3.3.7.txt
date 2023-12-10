@@ -1,5 +1,9 @@
 Version 3.3.7 (26.03.2023)
-- Gradle Plugin Upgrade -> 7.4.2
-- Gradle Upgrade -> 7.5
-- Kompiliert mit SDK Ver. 33 für targetSdkVersion 33
-- Update der Copyright-Texte
+- Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.5
+- Kompiliert mit SDK Ver. 33 für Target-SDK Ver. 33
+- Update der Copyright- und Lizenz-Texte
+- Update der Doku
+- Weitere Falterarten mit Abbildungen hinzugefügt
+- Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
+- Portrait/Landscape-Funktion verbessert
+- Bug-Fix für Bearbeitung der Abschnittslisten

@@ -10,7 +10,8 @@ import android.database.sqlite.SQLiteDatabase
 /***********************************
  * Created by wmstein on 31.03.2016.
  * Last edited in Java on 2022-04-26,
- * converted to Kotlin on 2023-06-26
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2023-09-23.
  */
 class HeadDataSource(context: Context?) {
     // Database fields
@@ -52,7 +53,6 @@ class HeadDataSource(context: Context?) {
         return head
     }
 
-    // Make sure to close the cursor
     val head: Head
         get() {
             val head: Head
@@ -67,7 +67,6 @@ class HeadDataSource(context: Context?) {
             )
             cursor.moveToFirst()
             head = cursorToHead(cursor)
-            // Make sure to close the cursor
             cursor.close()
             return head
         }

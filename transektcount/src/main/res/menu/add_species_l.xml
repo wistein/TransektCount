@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ add_species.xml is used by AddSpeciesActivity.
-  -->
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.wmstein.transektcount.AddSpeciesLActivity">
-
-</menu>

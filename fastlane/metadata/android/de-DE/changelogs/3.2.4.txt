@@ -1,3 +1,0 @@
-Version 3.2.4 (06.05.2020)
-- Weitere Schmetterlingsabbildungen integriert
-- Integrierte Auswahlliste der Arten vergrößert

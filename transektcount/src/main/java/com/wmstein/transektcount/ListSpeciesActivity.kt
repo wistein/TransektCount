@@ -22,12 +22,14 @@ import com.wmstein.transektcount.widgets.ListMetaWidget
 import com.wmstein.transektcount.widgets.ListSpeciesWidget
 import com.wmstein.transektcount.widgets.ListSumWidget
 
-/***********************************************************
- * ListSpeciesActivity shows results list of counted Species
+/************************************************************
+ * ListSpeciesActivity shows results list of counted Species,
+ * uses ListSpeciesWidget, ListHeadWidget, ListMetaWidget,
+ * ListSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-07-17
+ * last edited on 2023-11-04
  */
 class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -58,11 +60,13 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         sectionDataSource = SectionDataSource(this)
         headDataSource = HeadDataSource(this)
         metaDataSource = MetaDataSource(this)
+
         transektCount = application as TransektCountApplication
         prefs = TransektCountApplication.getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
         awakePref = prefs.getBoolean("pref_awake", true)
         sortPref = prefs.getString("pref_sort_sp", "none") // sorted species list
+
         val listSpec_screen = findViewById<ScrollView>(R.id.listSpecScreen)
         listSpec_screen.background = transektCount!!.background
         supportActionBar!!.title = getString(R.string.viewSpecTitle)
@@ -138,6 +142,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             "codes" -> countDataSource!!.allCountsForSrtCode
             else -> countDataSource!!.allCounts
         } // List of species
+
         val sumSpec: Int = countDataSource!!.diffSpec // get number of different species
         var spec_countf1i: Int
         var spec_countf2i: Int
@@ -151,6 +156,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         var spec_countpe: Int
         var spec_countle: Int
         var spec_countee: Int
+        
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
             sect_id = widget.getSpec_sectionid(spec)
@@ -168,6 +174,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             spec_countpe = widget.getSpec_countpe(spec)
             spec_countle = widget.getSpec_countle(spec)
             spec_countee = widget.getSpec_countee(spec)
+            
             summf += spec_countf1i
             summ += spec_countf2i
             sumf += spec_countf3i
@@ -204,6 +211,8 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             sumSpec
         )
         spec_area!!.addView(lsw)
+
+        // display all counted soecies per section
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
             sect_id = widget.getSpec_sectionid(spec)
@@ -239,20 +248,21 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         }
     }
 
-    /** */
     fun saveAndExit(view: View?) {
         super.finish()
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
         val listSpec_screen = findViewById<ScrollView>(R.id.listSpecScreen)
         listSpec_screen.background = null
         listSpec_screen.background = transektCount!!.setBackground()
-        awakePref = prefs.getBoolean("pref_awake", true)
-        sortPref = prefs.getString("pref_sort_sp", "none") // sorted species list
+        if (prefs != null) {
+            awakePref = prefs.getBoolean("pref_awake", true)
+            sortPref = prefs.getString("pref_sort_sp", "none")
+        } // sorted species list
     }
 
     companion object {
-        //private static final String TAG = "transektcountListSpecAct"; // for future use
+        //private static final String TAG = "ListSpecAct"; // for future use
     }
 }

@@ -4,5 +4,8 @@ Version 3.0.1 (2018-04-01)
 - Small optimizations on the results page
 - Database version 3 (change of a column name for compiler warning) 
 - Documentation adapted
-- Corrected wrong GitHub Tag
+- Design of starting page updated
+- Edit section now integrated in section list
+- Added a camera button in counting menu
+- Docs: German Introductory presentation added
 - Bug fixes

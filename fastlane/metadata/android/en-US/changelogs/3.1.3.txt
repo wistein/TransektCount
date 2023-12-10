@@ -1,4 +1,0 @@
-Version 3.1.3 (2019-08-04)
-- Added/changed butterfly pictures
-- Added total of different species counted to results page
-- Added total of different species counted to exported csv-file

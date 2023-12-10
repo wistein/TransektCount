@@ -1,3 +1,5 @@
 Version 3.4.2 (30.07.2023)
 - Einge noch fehlende Abbildungen ergänzt
+- Seite der Abschnittsbearbeitung verbessert
+- Weitere Module von Java nach Kotlin übersetzt
 - Docs überarbeitet

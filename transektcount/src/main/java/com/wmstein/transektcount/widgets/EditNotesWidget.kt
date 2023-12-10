@@ -11,32 +11,34 @@ import java.util.Objects
 
 /*******************************************************
  * Used by EditSectionActivity and widget_edit_notes.xml
- * Created by wmstein on 23.10.2016
- * last edited in Java on 2023-05-09
- * converted to Kotlin on 2023-06-26
+ * Created by wmstein on 23.10.2016,
+ * last edited in Java on 2023-05-09,
+ * converted to Kotlin on 2023-06-26,
+ * Last edit on 2023-09-23.
  */
 class EditNotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val widget_notes: TextView
-    val section_notes: EditText
+    private val widgetnotes: TextView
+    private val sectionnotes: EditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_notes, this, true)
-        widget_notes = findViewById(R.id.widgetNotes)
-        section_notes = findViewById(R.id.sectionNotes)
+        widgetnotes = findViewById(R.id.widgetNotes)
+        sectionnotes = findViewById(R.id.sectionNotes)
     }
 
     fun setWidgetNotes(title: String?) {
-        widget_notes.text = title
+        widgetnotes.text = title
     }
 
     var sectionNotes: String?
-        get() = section_notes.text.toString()
+        get() = sectionnotes.text.toString()
         set(name) {
-            section_notes.setText(name)
+            sectionnotes.setText(name)
         }
 
     fun setHint(hint: String?) {
-        section_notes.hint = hint
+        sectionnotes.hint = hint
     }
+
 }

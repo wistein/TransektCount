@@ -31,6 +31,21 @@
         <item>codes</item>
     </string-array>
 
+    <string-array name="pref_sel_dist_max">
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>7.5 m</item>
+        <item>10 m</item>
+    </string-array>
+    <string-array name="pref_sel_dist_max_values">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>7.5</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="initSpecs">
         <item comment="03998">Zygaena filipendulae</item>
         <item comment="06605">Pyrausta purpuralis</item>
@@ -107,7 +122,7 @@
         <item comment="10607">Tyria jacobaeae</item>
     </string-array>
 
-    <string-array name="initSpecs_g">
+    <string-array name="initSpecs_l">
         <item comment="03998">Six-spot burnet</item>
         <item comment="06605">-</item>
         <item comment="06788">Tau emperor</item>
@@ -368,7 +383,7 @@
         <item comment="06955">Parnassius apollo</item>
         <item comment="06958">Iphiclides podalirius</item>
         <item comment="06960">Papilio machaon</item>
-        <item comment="06966">Leptidea sinapis&#47;juvern.</item>
+        <item comment="06966">Leptidea sinapis/juvern.</item>
         <item comment="06967">Leptidea reali</item>
         <item comment="06967*">Lept. sin./reali-Compl.</item>
         <item comment="06973">Anthocharis cardamines</item>
@@ -391,6 +406,7 @@
         <item comment="07022">Colias alfacariensis</item>
         <item comment="07022*">Colias hya./alfac.-Compl.</item>
         <item comment="07024">Gonepteryx rhamni</item>
+        <item comment="07026">Gonepteryx cleopatra</item>
         <item comment="07030">Hamearis lucina</item>
         <item comment="07034">Lycaena phlaeas</item>
         <item comment="07035">Lycaena helle</item>
@@ -479,6 +495,7 @@
         <item comment="07276">Melitaea diamina</item>
         <item comment="07277">Melitaea deione</item>
         <item comment="07278">Melitaea varia</item>
+		<item comment="07279">Melitaea parthenoides</item>
         <item comment="07280">Melitaea aurelia</item>
         <item comment="07281">Melitaea britomartis</item>
         <item comment="07283">Melitaea athalia</item>
@@ -566,7 +583,10 @@
         <item comment="08060">Scopula incanata</item>
         <item comment="08099">Idaea ochrata</item>
         <item comment="08104">Idaea muricata</item>
+		<item comment="08155">Idaea seriata</item>
 		<item comment="08184">Idea aversata</item>
+		<item comment="08186">Idaea degeneraria</item>
+		<item comment="08205">Rhodostrophia vibicaria</item>
         <item comment="08221">Lythria purpuraria</item>
         <item comment="08222">Lythria cruentaria</item>
         <item comment="08227">Phibalapteryx virgata</item>
@@ -601,6 +621,7 @@
         <item comment="09097">Acontia trabealis</item>
         <item comment="09114">Deltote pygarga</item>
         <item comment="09116">Deltote deceptoria</item>
+		<item comment="09118">Deltote bankiana</item>
 		<item comment="09338">Panemeria tenebrata</item>
         <item comment="09364">Heliothis viriplaca</item>
         <item comment="09365">Heliothis maritima</item>
@@ -631,7 +652,7 @@
         <item comment="20000">NN</item>
     </string-array>
 
-    <string-array name="selSpecs_g">
+    <string-array name="selSpecs_l">
         <item comment="00063">Orange swift</item>
         <item comment="00067">Common swift</item>
         <item comment="00069">Map-winged swift</item>
@@ -763,6 +784,7 @@
         <item comment="07022">Berger\'s clouded yellow</item>
         <item comment="07022*">Colias hya./alfac.-compl.</item>
         <item comment="07024">Common brimstone</item>
+        <item comment="07026">Cleopatra</item>
         <item comment="07030">Duke of Burgundy</item>
         <item comment="07034">Small copper</item>
         <item comment="07035">Violet copper</item>
@@ -851,6 +873,7 @@
         <item comment="07276">False heath fritillary</item>
         <item comment="07277">Provencal fritillary</item>
         <item comment="07278">Grisons fritillary</item>
+		<item comment="07279">Meadow fritillary</item>
         <item comment="07280">Nickerl\'s fritillary</item>
         <item comment="07281">Assmann\'s fritillary</item>
         <item comment="07283">Heath fritillary</item>
@@ -938,7 +961,10 @@
         <item comment="08060">Pale mullein wave</item>
         <item comment="08099">Bright wave</item>
         <item comment="08104">Purple-bordered gold</item>
+		<item comment="08155">Small dusty wave</item>
 		<item comment="08184">Riband wave</item>
+		<item comment="08186">Portland ribbon wave</item>
+		<item comment="08205">Common pink-barred</item>
         <item comment="08221">Purple-barred yellow</item>
         <item comment="08222">-</item>
         <item comment="08227">Oblique striped</item>
@@ -973,6 +999,7 @@
         <item comment="09097">Spotted sulphur</item>
         <item comment="09114">Marbled white spot</item>
         <item comment="09116">Pretty marbled</item>
+        <item comment="09118">Silver barred</item>
 		<item comment="09338">Small yellow underwing</item>
         <item comment="09364">Marbled clover</item>
         <item comment="09365">Shoulder-striped clover</item>
@@ -1135,6 +1162,7 @@
         <item>07022</item>
         <item>07022*</item>
         <item>07024</item>
+        <item>07026</item>
         <item>07030</item>
         <item>07034</item>
         <item>07035</item>
@@ -1223,6 +1251,7 @@
         <item>07276</item>
         <item>07277</item>
         <item>07278</item>
+        <item>07279</item>
         <item>07280</item>
         <item>07281</item>
         <item>07283</item>
@@ -1310,7 +1339,10 @@
         <item>08060</item>
         <item>08099</item>
         <item>08104</item>
+        <item>08155</item>
 		<item>08184</item>
+		<item>08186</item>
+        <item>08205</item>
         <item>08221</item>
         <item>08222</item>
         <item>08227</item>
@@ -1345,6 +1377,7 @@
         <item>09097</item>
         <item>09114</item>
         <item>09116</item>
+        <item>09118</item>
 		<item>09338</item>
         <item>09364</item>
         <item>09365</item>

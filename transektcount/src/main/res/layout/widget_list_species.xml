@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_list_species.xml 
     used by ListSpeciesWidget.java and ListSpeciesActivity.java.
-    Shows purged list of species counts -->
+    Shows purged list of species counts
+    Copyright (c) 2016 - 2023, Wilhelm Stein, Bonn, Germany.
+-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +11,6 @@
               android:layout_height="wrap_content"
               android:background="@drawable/corner"
               android:baselineAligned="false"
-              android:orientation="horizontal"
               android:padding="3dp"
               tools:context=".ListSpeciesActivity">
 
@@ -25,18 +26,15 @@
         <!-- Line -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="4px"
+            android:layout_height="2dp"
+            android:layout_marginBottom="5dp"
             android:background="@android:color/white"
-            android:paddingTop="2dp"
-            tools:ignore="PxUsage"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
+            android:paddingTop="2dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <!-- Name of transect section txtSectName -->
@@ -51,13 +49,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <LinearLayout
                 android:layout_width="0dp"
+                android:layout_marginStart="5dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical">
@@ -67,15 +61,15 @@
                     android:id="@+id/txtSpecName"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:gravity="start"
-                    android:padding="4sp"
-                    android:hint="@string/countNameHint"
                     android:ellipsize="end"
+                    android:gravity="start"
+                    android:hint="@string/countNameHint"
                     android:maxLines="1"
+                    android:padding="4sp"
                     android:singleLine="true"
-                    android:textColor="#BFFFFF"
+                    android:textColor="#8FFFFF"
                     android:textSize="17sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <!-- Local name of species -->
                 <TextView
@@ -88,15 +82,10 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="#A7C2C2"
+                    android:textColor="#BFFFFF"
                     android:textSize="15sp"
                     android:textStyle="bold"/>
             </LinearLayout>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
 
             <ImageView
                 android:id="@+id/picSpecies"
@@ -124,16 +113,14 @@
                 android:id="@+id/txtSectRem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="5.8"
                 android:gravity="start|top"
                 android:padding="4sp"
+                android:paddingStart="10sp"
                 android:textColor="#ffff80"
-                android:textSize="14sp"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
+                android:textSize="14sp"
+                tools:ignore="RtlSymmetry" />
 
             <!-- Remark of species -->
             <TextView
@@ -143,17 +130,14 @@
                 android:layout_weight="5.8"
                 android:gravity="start|top"
                 android:padding="4sp"
-                android:textColor="#BFFFFF"
+                android:textColor="#8FFFFF"
                 android:textSize="14sp"/>
         </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="7dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
             android:orientation="horizontal">
 
             <TextView
@@ -163,22 +147,22 @@
                 android:layout_weight="12"
                 android:gravity="start|top"
                 android:padding="2sp"
+                android:paddingStart="10sp"
                 android:text="@string/countInternalHint"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:textColor="#BFFFFF"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"/>
-
-            <!-- Headline ♂, ♀,... -->
+            <!-- Headline ♂♀,... -->
             <TextView
                 android:id="@+id/txt_mf"
                 android:layout_width="0dp"
@@ -190,15 +174,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_m"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -206,15 +186,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_f"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -222,15 +198,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_p"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -238,15 +210,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_l"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -254,184 +222,161 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_e"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
                 android:text="@string/txt_e"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <!-- countf1i -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf1i"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countf2i -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf2i"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countf3i -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf3i"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countpi -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountpi"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countli -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountli"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countei -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountei"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_marginBottom="0dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
         </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="7dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
             android:orientation="horizontal">
 
             <TextView
@@ -441,22 +386,22 @@
                 android:layout_weight="12"
                 android:gravity="start|top"
                 android:padding="2sp"
+                android:paddingStart="10sp"
                 android:text="@string/countExternalHint"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:textColor="#BFFFFF"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"/>
-
-            <!-- Headline ♂, ♀,... -->
+            <!-- Headline ♂♀,... -->
             <TextView
                 android:id="@+id/txt_mfe"
                 android:layout_width="0dp"
@@ -468,15 +413,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_me"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -484,15 +425,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_fe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -500,15 +437,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_pe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -516,15 +449,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_le"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
@@ -532,180 +461,153 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <TextView
                 android:id="@+id/txt_ee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.8"
                 android:gravity="center"
                 android:padding="4sp"
                 android:text="@string/txt_e"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="7dp"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
-
             <!-- countf1e -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf1e"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countf2e -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf2e"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countf3e -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountf3e"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countpe -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountpe"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countle -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountle"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.6"
-                android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:background="@drawable/list_count_background"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"/>
-
             <!-- countee -->
-            <TextView
+            <com.wmstein.transektcount.AutoFitText
                 android:id="@+id/specCountee"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center|top"
-                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|end|top"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1.6"
                 android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
                 android:maxLines="1"
-                android:padding="0dp"
+                android:inputType="number"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"/>
         </LinearLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
-
     </LinearLayout>
+
 </LinearLayout>

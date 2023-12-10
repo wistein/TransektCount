@@ -1,0 +1,16 @@
+Version 4.0.0 (05.12.2023)
+Funktionale Erweiterung:
+- Option für die automatische Transekt-Abschnittserkennung per GPS. Benötigt eine vorbereitete Track-Datei im GPX-Dateiformat
+- Automatische Unterscheidung bei GPS-Nutzung zwischen innerhalb und außerhalb von Transektabschnitten und entsprechender Zähler-Darstellung
+- Importfunktion für eine GPX-Datei mit separaten Tracks der Transektabschnitte
+
+Änderungen:
+- Import von DB- und GPX-Dateien aus dem Verzeichnis "Documents/TransektCount"
+- Export von DB-, CSV- und GPX-Dateien ins Verzeichnis "Documents/TransektCount"
+- Restrukturierte interne DB für die neuen Funktionen
+- Restrukturierte Tabelle für den Spreadsheet-kompatiblen CSV-Export
+- Einge Arten hinzugefügt
+- Fehlende Abbildungen ergänzt
+- Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
+- Code Verbesserungen
+- Bug-Fixes

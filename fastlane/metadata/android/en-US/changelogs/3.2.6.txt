@@ -1,8 +1,0 @@
-Version 3.2.6 (2021-04-11)
-- Some wordings improved
-- Clearer layout for Edit Transect Section
-- Outdated code names updated
-- Project adaption for Android Studio 4.1.3 and Gradle 6.5
-- Fix for broken loading picture function since Gradle 6.5
-- Some pictures added/improved
-- Species family names updated where appropriate

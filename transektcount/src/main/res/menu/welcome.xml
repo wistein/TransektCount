@@ -10,8 +10,8 @@
         app:showAsAction="always">
     </item>
     <item
-        android:id="@+id/viewSections"
-        android:icon="@drawable/count_white"
+        android:id="@+id/startCounting"
+        android:icon="@drawable/ic_count_white"
         android:title="@string/viewSectionButton"
         app:showAsAction="always">
     </item>
@@ -24,14 +24,14 @@
     
     <item
         android:id="@+id/menu_list_item"
-        android:icon="@drawable/ic_core_overflow"
+        android:icon="@drawable/baseline_more_vert_24"
         android:title=""
         app:showAsAction="always">
         
         <menu>
             <item
                 android:id="@+id/action_settings"
-                android:icon="@drawable/preferences"
+                android:icon="@drawable/baseline_settings_24"
                 android:title="@string/action_settings"
                 app:showAsAction="never">
             </item>
@@ -42,21 +42,33 @@
                 app:showAsAction="never">
             </item>
             <item
+                android:id="@+id/deleteGPXMenu"
+                android:icon="@drawable/clear"
+                android:title="@string/resetGPXMenu"
+                app:showAsAction="never">
+            </item>
+            <item
                 android:id="@+id/importBasisMenu"
                 android:icon="@drawable/importr"
                 android:title="@string/importBasisMenu"
                 app:showAsAction="never">
             </item>
             <item
-                android:id="@+id/exportBasisMenu"
-                android:icon="@drawable/exportr"
-                android:title="@string/exportBasisMenu"
-                app:showAsAction="never">
-            </item>
-            <item
                 android:id="@+id/importFileMenu"
                 android:icon="@drawable/importr"
                 android:title="@string/importFileMenu"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/importGPXMenu"
+                android:icon="@drawable/importr"
+                android:title="@string/importGPXMenu"
+                app:showAsAction="never">
+            </item>
+            <item
+                android:id="@+id/exportBasisMenu"
+                android:icon="@drawable/exportr"
+                android:title="@string/exportBasisMenu"
                 app:showAsAction="never">
             </item>
             <item
@@ -73,13 +85,13 @@
             </item>
             <item
                 android:id="@+id/changeLog"
-                android:icon="@drawable/logs"
+                android:icon="@drawable/outline_format_align_left_24"
                 android:title="@string/changeLogTitle"
                 app:showAsAction="never">
             </item>
             <item
                 android:id="@+id/viewHelp"
-                android:icon="@drawable/help"
+                android:icon="@drawable/outline_help_outline_24"
                 android:title="@string/viewHelpTitle"
                 app:showAsAction="never">
             </item>

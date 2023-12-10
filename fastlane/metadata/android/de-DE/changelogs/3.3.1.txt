@@ -1,6 +1,0 @@
-Version 3.3.1 (21.05.2022)
-- Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.3.3
-- Einige weitere Falterarten mit Abbildungen hinzugefügt
-- Portrait/Landscape-Funktion verbessert
-- Bug-Fix für Bearbeitung der Abschnittslisten
-- Update der Doku

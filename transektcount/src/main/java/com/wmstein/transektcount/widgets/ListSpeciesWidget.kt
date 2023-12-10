@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.TransektCountApplication
 import com.wmstein.transektcount.database.Count
@@ -13,11 +14,12 @@ import com.wmstein.transektcount.database.Section
 import java.util.Objects
 
 /*******************************************************
- * ListSpeciesWidget shows count info area for a species.
- * ListSpeciesActivity shows the result page.
- * Created for TransektCount by wmstein on 15.03.2016
- * last edited in Java on 2023-05-09
- * converted to Kotlin on 2023-06-26
+ * ListSpeciesWidget shows count info area for a species
+ * on the results page.
+ * Created for TransektCount by wmstein on 15.03.2016,
+ * last edited in Java on 2023-05-09,
+ * converted to Kotlin on 2023-08-31,
+ * Last edit on 2023-11-05.
  */
 class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -25,19 +27,19 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
     private val txtSpecName: TextView
     private val txtSpecNameG: TextView
     private val picSpecies: ImageView
-    private val specCountf1i: TextView
-    private val specCountf2i: TextView
-    private val specCountf3i: TextView
-    private val specCountpi: TextView
-    private val specCountli: TextView
-    private val specCountei: TextView
+    private val specCountf1i: AutoFitText
+    private val specCountf2i: AutoFitText
+    private val specCountf3i: AutoFitText
+    private val specCountpi: AutoFitText
+    private val specCountli: AutoFitText
+    private val specCountei: AutoFitText
     private val txtSpecRem: TextView
-    private val specCountf1e: TextView
-    private val specCountf2e: TextView
-    private val specCountf3e: TextView
-    private val specCountpe: TextView
-    private val specCountle: TextView
-    private val specCountee: TextView
+    private val specCountf1e: AutoFitText
+    private val specCountf2e: AutoFitText
+    private val specCountf3e: AutoFitText
+    private val specCountpe: AutoFitText
+    private val specCountle: AutoFitText
+    private val specCountee: AutoFitText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -173,4 +175,5 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
             picSpecies.setImageResource(resId)
         }
     }
+
 }

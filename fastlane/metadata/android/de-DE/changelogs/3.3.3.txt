@@ -1,3 +1,0 @@
-Version 3.3.3 (19.07.2022)
-- Einige Falterabbildungen überarbeitet
-- Einige weitere Falterarten mit Abbildungen hinzugefügt

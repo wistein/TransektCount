@@ -1,7 +1,20 @@
 Version 3.2.1 (2020-04-16)
 - Code adapted for restricted Storage Access of Android 10
 - Use of AndroidX libraries
-- Bugfixes for adding new section
+- Project adaption for Android Studio 3.6.2
+- Code optimized for storage and power efficiency
+- App icon adapted to better match Android 9 screen
+- Date and time of first count for a section
+- Undercutting of species names in results page corrected
+- Changes in AndroidManifest.xml and build.gradle
+- Added/changed butterfly pictures
+- Added total of different species counted to results page
+- Added total of different species counted to exported csv-file
+- Allow adding some species complexes to section lists
+- Minimal changes to starting page
+- Minor text corrections
 - Help text updated
 - Many minor code refinements
-- Project adaption for Android Studio 3.6.2
+- Bug fixed for changing a section list name
+- Bugfix: Crashed when returning from adding species without adding one
+- Bugfixes for adding new section

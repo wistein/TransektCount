@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -17,27 +16,25 @@ import androidx.appcompat.widget.AppCompatTextView
  * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
  * rewritten to match android coding standards and our MBC.
  *
- * This version upgrades the original "AutoFitTextView" to now also be adaptable to height and to
- * accept the different TextView types (Button, TextClock etc.)
+ * This version of AutoFitTextView is adaptable to height and to accept the different TextView types
+ * (Button, TextClock etc.)
  *
  * @author pheuschk
  * createDate: 18.04.2013
  *
- * Modified for TransektCount by wmstein since 18.03.2016
+ * Modified for TransektCount by wmstein on 18.03.2016
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
+ * last edit on 2023-12-08
  */
 class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
-    /**
-     * A dummy [TextView] to test the text size without actually showing anything to the user
-     */
+
+    // A dummy [TextView] to test the text size without actually showing anything to the user
     private val mTestView: TextView
 
-    /**
-     * A dummy [Paint] to test the text size without actually showing anything to the user
-     */
+    // A dummy [Paint] to test the text size without actually showing anything to the user
     private val mTestPaint: Paint
 
     /**
@@ -48,13 +45,12 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
      */
     private val mScaledDensityFactor: Float
 
-    /**
-     * Constructor for call without attributes --> invoke constructor with AttributeSet null
-     */
+    // Constructor for call without attributes --> invoke constructor with AttributeSet null
     constructor(context: Context) : this(context, null)
 
     init {
-        mScaledDensityFactor = context.resources.displayMetrics.scaledDensity
+//        mScaledDensityFactor = context.resources.displayMetrics.scaledDensity // deprecated 34
+        mScaledDensityFactor = context.resources.displayMetrics.density
         mTestView = TextView(context)
         mTestPaint = Paint()
         mTestPaint.set(this.paint)
@@ -92,7 +88,7 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
 
         // Padding should not be an issue since we never define it programmatically in this app
         // but just to be sure we cut it off here
-        targetFieldWidth = targetFieldWidth - this.paddingLeft - this.paddingRight
+        targetFieldWidth = targetFieldWidth - this.paddingStart - this.paddingEnd
         targetFieldHeight = targetFieldHeight - this.paddingTop - this.paddingBottom
 
         // Initialize the dummy with some params (that are largely ignored anyway, but this is
@@ -108,7 +104,6 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
         var testSize: Float
         while (upperTextSize - lowerTextSize > mThreshold) {
 
-
             // Go to the mean value...
             testSize = (upperTextSize + lowerTextSize) / 2
             mTestView.setTextSize(TypedValue.COMPLEX_UNIT_SP, testSize / mScaledDensityFactor)
@@ -123,8 +118,6 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
             }
         }
         this.setTextSize(TypedValue.COMPLEX_UNIT_SP, lowerTextSize / mScaledDensityFactor)
-        //next unnecessary line of void method skipped by wmstein
-        //return;
     }
 
     /**
@@ -156,25 +149,25 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
      * This method is guaranteed to be called by [TextView.setText] immediately.
      * Therefore we can safely add our modifications here and then have the parent class resume its
      * work. So if text has changed you should always call [TextView.setText].
-     */
+     *
     override fun setText(text: CharSequence, type: BufferType) {
         val targetFieldWidth = this.width
         val targetFieldHeight = this.height
+
         if (targetFieldWidth <= 0 || targetFieldHeight <= 0 || text == "") {
-            if (MyDebug.LOG) Log.d(
-                "tag",
-                "Some values are empty, AutoFitText was not able to construct properly"
-            )
+            if (MyDebug.LOG) {
+                Log.d(
+                    "tag", "Width: " + targetFieldWidth + " Height: " + targetFieldHeight + " Text: " + text
+                )
+            }
         } else {
             refitText(text.toString(), targetFieldWidth, targetFieldHeight)
         }
         super.setText(text, type)
     }
-
+*/
     companion object {
-        /**
-         * Global min and max for text size. Remember: values are in pixels!
-         */
+        // Global min and max for text size. Remember: values are in pixels!
         const val MIN_TEXT_SIZE = 8 // was 10
         const val MAX_TEXT_SIZE = 100 // was 400, best: 80?
 

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Adapted for TransektCount by wmstein on 18.02.2016
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-07-17
+ * last edited on 2023-12-08.
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
@@ -39,34 +39,33 @@ class SettingsActivity : AppCompatActivity() {
         super.onPause()
 
         var ringtone: String
-        val alertSoundPref = prefs!!.getBoolean("pref_alert_sound", false)
-        val buttonSoundPref = prefs!!.getBoolean("pref_button_sound", false)
-        if (alertSoundPref) {
-            val alert_sound_uri =
-                Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.alert)
-            ringtone = alert_sound_uri.toString()
-            editor!!.putString("alert_sound", ringtone)
-        }
-        if (buttonSoundPref) {
-            val button_sound_uri =
-                Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button)
-            ringtone = button_sound_uri.toString()
-            editor!!.putString("button_sound", ringtone)
-            val button_sound_uri_m =
-                Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button_minus)
-            ringtone = button_sound_uri_m.toString()
-            editor!!.putString("button_sound_minus", ringtone)
-        }
+
+        val alertSoundUri =
+            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.alert)
+        ringtone = alertSoundUri.toString()
+        editor!!.putString("alert_sound", ringtone)
+
+        val buttonSoundUri =
+            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button)
+        ringtone = buttonSoundUri.toString()
+        editor!!.putString("button_sound", ringtone)
+
+        val buttonSoundUriM =
+            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button_minus)
+        ringtone = buttonSoundUriM.toString()
+        editor!!.putString("button_sound_minus", ringtone)
         editor!!.commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
+
             startActivity(
                 Intent(
                     this,
                     WelcomeActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            )
         } else {
             return super.onOptionsItemSelected(item)
         }

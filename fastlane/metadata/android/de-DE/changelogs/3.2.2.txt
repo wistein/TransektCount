@@ -1,4 +1,0 @@
-Version 3.2.2 (20.04.2020)
-- Code für Einstellungen angepasst für Android 10
-- .CSV-Export: In Summenzeile Nullen unterdrückt 
-- Doku angepasst

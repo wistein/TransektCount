@@ -3,7 +3,7 @@
 TransektCount is an Android app that supports transect counters in nature preserving projects according to the European Butterfly Monitoring Scheme methodology. 
 It allows a species-specific counting per transect section. 
 
-### App Features
+### Features
 
 - Data recording is organized according to a single transect inspection. 
 That means, you will use a new database instance per inspection by importing a prepared basic Database.
@@ -14,7 +14,7 @@ That means, you will use a new database instance per inspection by importing a p
 - Editor for meta data to prepare an inspection
 - Editor for species remark or bulk count entry
 - Counting page with scroll menu to select species
-- Count input per internal/external counting area and here each with separate counters for ♂♀, ♂, ♀, pupa, larva or egg.
+- Count input per internal/external counting area and here each with separate counters for ♂ or ♀ undefined, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to science4you entry masks.
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet like MS Excel.
@@ -80,13 +80,17 @@ Integrated code from external references:
 - filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
 
 Butterfly pictures: 
-- Jordanita globulariae derived from https://commons.wikimedia.org, Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0)
-- Crambus pascuella derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg, Olaf Leillinger, GNU Free Documentation License
-- Pediasia contaminella derived from https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg, Ben Sale, Creative Commons Attribution 2.0 Generic License
-- Evergestis extimalis derived from https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG, Adam Furlepa, CC BY-SA 3.0
+- Crambus pascuella derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg, Author: Olaf Leillinger, GNU Free Documentation License
+- Deltote bankiana derived from freenatureimages.eu, Author: Andre den Ouden, licensed free for non-commercial use
+- Evergestis extimalis derived from https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG, Author: Adam Furlepa, CC BY-SA 3.0
 - Hyles gallii derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
-- Muschampia lavatherae derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae, Dumi, GNU Free Documentation License, version 1.2
+- Jordanita globulariae derived from https://commons.wikimedia.org, Author: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0)
+- Melitaea parthenoides derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides, Author: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license
+- Muschampia lavatherae derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2
+- Pediasia contaminella derived from https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg, Author: Ben Sale, Creative Commons Attribution 2.0 Generic License
 
-- all other pictures, app icon and background (C) Wilhelm Stein. 
+- All other pictures, app icon and background (C) Wilhelm Stein. 
 
-Pictures of this work may be used for research or other non-commercial purposes without prior permission. Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
+Pictures of this work by Wilhelm Stein may be used for scientific or other non-commercial purposes without prior permission. 
+But it is not permitted to upload pictures to Meta Platforms (Facebook), as most of the mentioned licenses do not comply with and I do not agree with the licensing terms of Meta Platforms.
+Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their permission.

@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Rotation is set to portrait mode as landscape mode is even on tablets less useful.
-     Last edited 2023-07-08
+<!-- Rotation is set to portrait mode as the incorporated Spinner functionality
+     crashes when the device gets rotated and landscape mode is even on tablets less useful.
+     Last edited 2023-11-14
 -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions used for exporting files to the public directory Documents/TransectCount 
+    <!-- Permissions used for exporting files to the public directory Documents/TransektCount
          which are then readable by an external app (until Android SDK-version 29) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" android:maxSdkVersion="29" />
 
-    <!-- Permission used for exporting files to the public directory Documents/TransectCount
+    <!-- Permission used for exporting files to the public directory Documents/TransektCount
          which are then readable by an external app (since Android SDK-version 30) -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+
+    <!-- Permissions needed for location providers -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <!-- Permission needed for screen set on/off -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -28,9 +35,12 @@
            android:resizeableActivity="false"
          prohibits multi-window-mode
     -->
+
+    <!-- android:largeHeap="true" (doesn't make a difference for ListSection problem)
+    -->
+
     <application
         android:name=".TransektCountApplication"
-        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:icon="@drawable/ic_launcher"
         android:allowBackup="false"
@@ -61,19 +71,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="WelcomeActivity"/>
-        </activity>
-
-        <activity
-            android:name="com.wmstein.transektcount.NewSectionActivity"
-            android:label="@string/title_activity_new_section"
-            android:noHistory="true"
-            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.AppCompat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListSectionActivity"/>
         </activity>
 
         <activity
@@ -129,20 +126,30 @@
             android:name="com.wmstein.transektcount.CountingActivity"
             android:label="@string/title_activity_counting"
             android:launchMode="singleTop"
-            android:parentActivityName="com.wmstein.transektcount.ListSectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity"
             android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListSectionActivity"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.createChooser" />
             </intent-filter>
         </activity>
-        
+
+        <activity
+            android:name="com.wmstein.transektcount.CountingActivityA"
+            android:label="@string/title_activity_counting"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.createChooser" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.wmstein.transektcount.CountOptionsActivity"
             android:label="@string/title_activity_count_options"
@@ -188,27 +195,10 @@
                 android:value="EditSectionActivity"/>
         </activity>
 
-        <!-- multiwindow crashes when rotating the screen, reason: spinner in CountingActivity
-                <uses-library
-                    android:name="com.sec.android.app.multiwindow"
-                    android:required="false"/>
-        
-                <meta-data
-                    android:name="com.sec.android.support.multiwindow"
-                    android:value="true"/>
-                <meta-data
-                    android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-                    android:resource="@dimen/app_defaultsize_w"/>
-                <meta-data
-                    android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-                    android:resource="@dimen/app_defaultsize_h"/>
-                <meta-data
-                    android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-                    android:resource="@dimen/app_minimumsize_w"/>
-                <meta-data
-                    android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-                    android:resource="@dimen/app_minimumsize_h"/>
-        -->
+        <service android:name="com.wmstein.transektcount.LocationService"
+            android:exported="false">
+        </service>
+
     </application>
 
 </manifest>

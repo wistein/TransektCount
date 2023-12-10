@@ -1,5 +1,0 @@
-Version 3.1.2 (14.06.2019)
-- Projekt-Anpassung für Gradle Plugin 3.4.1 und Gradle 5.1.1
-- Kleinere Designänderungen der Startseite
-- Kleine Textkorrekturen
-- Einige Spezies-Komplexe zur Spezies-Auswahlliste hinzugefügt

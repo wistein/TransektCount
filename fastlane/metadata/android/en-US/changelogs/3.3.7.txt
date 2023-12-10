@@ -1,5 +1,9 @@
 Version 3.3.7 (2023-03-26)
-- Gradle Plugin upgraded -> 7.4.2
-- Gradle upgraded -> 7.5
-- Compiled with SDK Ver. 33 for targetSdkVersion 33
-- Copyright texts updated
+- Project adaption for Android Studio 2021.2.1 and Gradle 7.5
+- Compiled with SDK Ver. 33 for target SDK Ver. 33
+- Copyright and license texts updated
+- Docs updated
+- Some more species with pictures added
+- Many pictures of species improved to show recto and verso sides
+- Portrait/landscape handling improved
+- Bug fixed in section lists editing

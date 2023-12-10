@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase
  * Created by wmstein on 2016-03-31,
  * last edited on 2022-04-26,
  * converted to Kotlin on 2023-06-26
+ * last edited on 2023-09-23
  */
 class MetaDataSource(context: Context?) {
     // Database fields
@@ -64,7 +65,6 @@ class MetaDataSource(context: Context?) {
         return meta
     }
 
-    // Make sure to close the cursor
     val meta: Meta
         get() {
             val meta: Meta
@@ -74,7 +74,6 @@ class MetaDataSource(context: Context?) {
             )
             cursor.moveToFirst()
             meta = cursorToMeta(cursor)
-            // Make sure to close the cursor
             cursor.close()
             return meta
         }

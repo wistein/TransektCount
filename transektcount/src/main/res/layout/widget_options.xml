@@ -29,15 +29,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editf1i"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -68,15 +71,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editf2i"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -107,15 +113,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editf3i"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -146,15 +155,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editpi"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -185,15 +197,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editli"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -224,15 +239,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/count_parameter_editei"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -263,15 +281,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editf1e"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -302,15 +323,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editf2e"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -341,15 +365,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editf3e"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -380,15 +407,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editpe"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -419,15 +449,18 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editle"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
             android:gravity="center|center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
@@ -458,17 +491,20 @@
             android:layout_weight="18"
             android:padding="5dp"/>
 
-        <EditText
+        <com.wmstein.transektcount.AutoFitEditText
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/counta_parameter_editee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/charZero"
             android:inputType="phone"
+            android:maxLength="6"
             android:textAlignment="center"
-            android:gravity="center|center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
             android:textColor="#FFFFFF"
             android:background="@drawable/count_background"
             android:textSize="20sp"

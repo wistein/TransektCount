@@ -1,7 +1,0 @@
-Version 3.2.6 (11.04.2021)
-- Einige Texte verbessert
-- Übersichtlicheres Layout für Transektabschnitt-Editor
-- Veraltete Code-Bezeichnungen aktualisiert
-- Projekt-Anpassung für Android Studio 4.1.2 und Gradle 6.5
-- Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
-- Geänderte Familiennamen angepasst
