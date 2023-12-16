@@ -84,6 +84,12 @@ _ Subtitle
     ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
   _ 
 
+$ 4.0.1
+  % Version 4.0.1
+  _ 15.12.2023
+  * Code-Anpassungen für Android 14
+  * Code-Verbesserungen
+
 $ 4.0.0
   % Version 4.0.0
   _ 05.12.2023

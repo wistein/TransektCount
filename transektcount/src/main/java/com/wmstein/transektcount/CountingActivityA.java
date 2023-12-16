@@ -71,7 +71,7 @@ import java.util.Objects;
  <p>
  * Basic counting functions inspired by milo's CountingActivity.java of BeeCount from 2014-05-05.
  * Created by wmstein on 2023-10-05,
- * last edit on 2023-12-09.
+ * last edit on 2023-12-15.
  */
 public class CountingActivityA
     extends AppCompatActivity
@@ -696,11 +696,11 @@ public class CountingActivityA
 
         if (MyDebug.LOG)
         {
-            Log.d(TAG, "698, checkSectionTrack, GPS Lat:   " + latitude + ", GPS Lon: " + longitude
+            Log.d(TAG, "699, checkSectionTrack, GPS Lat:   " + latitude + ", GPS Lon: " + longitude
                 + ", distMax: " + distMax);
-            Log.d(TAG, "700, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
+            Log.d(TAG, "701, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
                 + ", dist: " + dist);
-            Log.d(TAG, "702, checkSectionTrack, tSecName: " + tSecName
+            Log.d(TAG, "703, checkSectionTrack, tSecName: " + tSecName
                 + ", insideOfTrack: " + insideOfTrack);
         }
         return new DataTrkpt(tSecName, insideOfTrack);
@@ -786,14 +786,14 @@ public class CountingActivityA
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.LOG)
-                        Log.d(TAG, "788, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "789, SpinnerListener, count id: " + count.id
                             + ", itemPosition: " + itemPosition + ", code: " + count.code);
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.LOG)
-                        Log.e(TAG, "795, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "796, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -969,7 +969,7 @@ public class CountingActivityA
         tempCountId = Integer.parseInt(view.getTag().toString()); // old count Id
         internalCount = true;
         if (MyDebug.LOG)
-            Log.d(TAG, "971, countUpf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "972, countUpf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
         countUpf1();
     }
 
@@ -980,7 +980,7 @@ public class CountingActivityA
             // get GPS position, section, sectionId, tSecName, insideOfTrack, sectionChanged
             getSectPos();
             if (MyDebug.LOG)
-                Log.d(TAG, "982, countUpf1i, Latitude: " + latitude + ", Longitude: " + longitude
+                Log.d(TAG, "983, countUpf1i, Latitude: " + latitude + ", Longitude: " + longitude
                     + ", insideOfTrack: " + insideOfTrack);
 
             // get count for (new) section
@@ -1116,7 +1116,7 @@ public class CountingActivityA
         tempCountId = Integer.parseInt(view.getTag().toString());
         internalCount = true;
         if (MyDebug.LOG)
-            Log.d(TAG, "1118, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "1119, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
         countDownf1();
     }
 
@@ -2428,7 +2428,7 @@ public class CountingActivityA
         tempCountId = Integer.parseInt(view.getTag().toString());
         internalCount = false;
         if (MyDebug.LOG)
-            Log.d(TAG, "2430, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "2431, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
         countUpf1();
     }
 
@@ -2731,7 +2731,7 @@ public class CountingActivityA
                 }
             } catch (Exception e)
             {
-                if (MyDebug.LOG) Log.e(TAG, "2736, buttonVib, catch, could not vibrate.", e);
+                if (MyDebug.LOG) Log.e(TAG, "2734, buttonVib, catch, could not vibrate.", e);
             }
         }
     }
@@ -2758,7 +2758,7 @@ public class CountingActivityA
                 }
             } catch (Exception e)
             {
-                if (MyDebug.LOG) Log.e(TAG, "2763, buttonVib, catch, could not vibrate.", e);
+                if (MyDebug.LOG) Log.e(TAG, "2761, buttonVib, catch, could not vibrate.", e);
             }
         }
     }

@@ -26,7 +26,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2023-12-08
+ * last edit on 2023-12-15
  */
 class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
@@ -157,7 +157,7 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
         if (targetFieldWidth <= 0 || targetFieldHeight <= 0 || text == "") {
             if (MyDebug.LOG) {
                 Log.d(
-                    "tag", "Width: " + targetFieldWidth + " Height: " + targetFieldHeight + " Text: " + text
+                    "tag", "160, Width: " + targetFieldWidth + " Height: " + targetFieldHeight + " Text: " + text
                 )
             }
         } else {

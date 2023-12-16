@@ -22,7 +22,7 @@ import androidx.core.app.ActivityCompat
  * licensed under the MIT License.
  *
  * Adopted for TransektCount by wmstein since 2023-08-16,
- * last edited on 2023-09-17
+ * last edited on 2023-12-15
  */
 open class LocationService : Service, LocationListener {
     private var mContext: Context? = null
@@ -132,7 +132,7 @@ open class LocationService : Service, LocationListener {
                 locationManager = null
             }
         } catch (e: Exception) {
-            Log.e(TAG, "StopListener: $e")
+            Log.e(TAG, "135, StopListener: $e")
         }
     }
 

@@ -1,7 +1,5 @@
 package com.wmstein.transektcount;
 
-import static android.graphics.Color.RED;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,14 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import android.window.OnBackInvokedDispatcher;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
@@ -63,8 +54,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
+
+import static android.graphics.Color.RED;
 
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
@@ -74,7 +74,7 @@ import sheetrock.panda.changelog.ViewHelp;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-12-09.
+ * last edited on 2023-12-15.
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -181,7 +181,7 @@ public class WelcomeActivity
             editor.commit();
         }
         if (MyDebug.LOG)
-            Log.d(TAG, "180, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "184, onCreate, autoSection: " + autoSection
                 + ", Section has track: " + sectionHasTrack);
 
         // check for DB integrity
@@ -228,7 +228,7 @@ public class WelcomeActivity
             secCount = 0;
         }
         if (MyDebug.LOG && autoSection)
-            Log.d(TAG, "233, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "231, onCreate, TrkPts: " + trackPts.size()
                 + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // check if tracks correspond to sections
@@ -294,44 +294,6 @@ public class WelcomeActivity
         infile = new File(path, "/transektcount0.db");
         if (!infile.exists())
             exportBasisDb(); // create directory and initial Basis DB (getExternalFilesDir, getExternalDir)
-
-/*
-        // new onBackPressed logic TODO
-        if (Build.VERSION.SDK_INT >= 33)
-        {
-            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                () ->
-                {
-
- */
-                    /**
-                     * onBackPressed logic goes here - For instance:
-                     * Prevents closing the app to go home screen when in the
-                     * middle of entering data to a form
-                     * or from accidentally leaving a fragment with a WebView in it
-                     *
-                     * Unregistering the callback to stop intercepting the back gesture:
-                     * When the user transitions to the topmost screen (activity, fragment)
-                     * in the BackStack, unregister the callback by using
-                     * OnBackInvokeDispatcher.unregisterOnBackInvokedCallback
-                     * (https://developer.android.com/reference/kotlin/android/view/OnBackInvokedDispatcher#unregisteronbackinvokedcallback)
-                     */
-/*
-                    if (doubleBackToExitPressedTwice)
-                    {
-                        finish();
-                    }
-
-                    this.doubleBackToExitPressedTwice = true;
-                    Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
-
-                    new Handler().postDelayed(() -> doubleBackToExitPressedTwice = false, 2000);
-
-                }
-            );
-        }
-*/
     }
     // end of onCreate
 
@@ -341,7 +303,7 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.LOG) Log.d(TAG, "283, onResume");
+        if (MyDebug.LOG) Log.d(TAG, "306, onResume");
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
@@ -378,6 +340,36 @@ public class WelcomeActivity
             locationCaptureFragment();
         }
 
+        // new onBackPressed logic TODO
+        if (Build.VERSION.SDK_INT >= 33)
+        {
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                () ->
+                {
+                    /**
+                     * onBackPressed logic goes here - For instance:
+                     * Prevents closing the app to go home screen when in the
+                     * middle of entering data to a form
+                     * or from accidentally leaving a fragment with a WebView in it
+                     *
+                     * Unregistering the callback to stop intercepting the back gesture:
+                     * When the user transitions to the topmost screen (activity, fragment)
+                     * in the BackStack, unregister the callback by using
+                     * OnBackInvokeDispatcher.unregisterOnBackInvokedCallback
+                     */
+                    if (doubleBackToExitPressedTwice)
+                    {
+                        finish();
+                    }
+
+                    this.doubleBackToExitPressedTwice = true;
+                    Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
+
+                    mHandler.postDelayed(() -> doubleBackToExitPressedTwice = false, 1500);
+                }
+            );
+        }
     } // end of onResume
 
     @Override
@@ -504,7 +496,7 @@ public class WelcomeActivity
                 sectionDataSource.close();
                 insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
                 if (MyDebug.LOG)
-                    Log.d(TAG, "452, startCounting, Section ID: " + section.id + " Name: "
+                    Log.d(TAG, "499, startCounting, Section ID: " + section.id + " Name: "
                         + tSecName + " insideOfTrack: " + insideOfTrack);
 
                 // call CountingActivityA for section
@@ -569,9 +561,10 @@ public class WelcomeActivity
         editor.apply();
     }
 
+    /** @noinspection deprecation*/
     // press Back twice to end the app
     @Override
-    public void onBackPressed() // TODO: deprecated
+    public void onBackPressed()
     {
         if (doubleBackToExitPressedTwice)
         {
@@ -582,7 +575,7 @@ public class WelcomeActivity
         this.doubleBackToExitPressedTwice = true;
         Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(() -> doubleBackToExitPressedTwice = false, 2000);
+        mHandler.postDelayed(() -> doubleBackToExitPressedTwice = false, 1500);
     }
 
     public void onStop()
@@ -612,7 +605,7 @@ public class WelcomeActivity
     @Override
     public void locationCaptureFragment()
     {
-        if (MyDebug.LOG) Log.d(TAG, "558, locationCaptureFragment()");
+        if (MyDebug.LOG) Log.d(TAG, "608 locationCaptureFragment()");
 
         locationPermission =
             (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -702,7 +695,7 @@ public class WelcomeActivity
             sectionDataSource.close();
             insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
             if (MyDebug.LOG)
-                Log.d(TAG, "648, startCounting, Section ID: " + section.id + " Name: "
+                Log.d(TAG, "698, startCounting, Section ID: " + section.id + " Name: "
                     + tSecName + " insideOfTrack: " + insideOfTrack);
 
             // call CountingActivityA for section
@@ -770,10 +763,10 @@ public class WelcomeActivity
 
         if (MyDebug.LOG)
         {
-            Log.d(TAG, "715, checkSectionTrack, GPS Lat: " + latitude + ", GPS Lon: " + longitude);
-            Log.d(TAG, "716, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
+            Log.d(TAG, "766, checkSectionTrack, GPS Lat: " + latitude + ", GPS Lon: " + longitude);
+            Log.d(TAG, "767, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
                 + ", dist: " + dist);
-            Log.d(TAG, "718, checkSectionTrack, tSecName: " + tSecName + ", insideOfTrack: " + insideOfTrack);
+            Log.d(TAG, "769, checkSectionTrack, tSecName: " + tSecName + ", insideOfTrack: " + insideOfTrack);
         }
         return new DataTrkpt(tSecName, insideOfTrack);
     }
@@ -1228,7 +1221,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1171, csv write internal failed");
+                if (MyDebug.LOG) Log.d(TAG, "1224, csv write internal failed");
             }
 
             /***********************************************************************/
@@ -1269,7 +1262,7 @@ public class WelcomeActivity
                 // get the external counts for the external count area
                 int curCount;
                 curCount = curCSVe.getCount();
-                if (MyDebug.LOG) Log.d(TAG, "1212, curCSVe, curCount: " + curCount);
+                if (MyDebug.LOG) Log.d(TAG, "1265, curCSVe, curCount: " + curCount);
 
                 if (curCount > 0) // build table only when there is any count at all
                 {
@@ -1278,7 +1271,7 @@ public class WelcomeActivity
                     String code1 = ""; // initial species code
                     if (isNotBlank(curCSVe.getString(3)))
                         code1 = curCSVe.getString(3);
-                    if (MyDebug.LOG) Log.d(TAG, "1221, curCSVe, code1: " + code1);
+                    if (MyDebug.LOG) Log.d(TAG, "1274, curCSVe, code1: " + code1);
 
                     boolean cDiff;
                     boolean firstCnt = true; // needed to write the first counts of the external species
@@ -1286,7 +1279,7 @@ public class WelcomeActivity
                     {
                         // read code of current position
                         code = curCSVe.getString(3); //species code
-                        if (MyDebug.LOG) Log.d(TAG, "1229, while curCSVe, code: " + code
+                        if (MyDebug.LOG) Log.d(TAG, "1282, while curCSVe, code: " + code
                             + ", code1: " + code1);
 
                         countmfe = countDataSource.getMFEWithCode(code);
@@ -1327,7 +1320,7 @@ public class WelcomeActivity
 
                         // check for writing the external count line
                         cDiff = !Objects.equals(code, code1);
-                        if (MyDebug.LOG) Log.d(TAG, "1273, curCSVe, cDiff: " + cDiff
+                        if (MyDebug.LOG) Log.d(TAG, "1323, curCSVe, cDiff: " + cDiff
                             + ", code: " + code + ", code1: " + code1);
 
                         code1 = code;
@@ -1366,7 +1359,7 @@ public class WelcomeActivity
                     }
                 }
                 curCSVe.close();
-                if (MyDebug.LOG) Log.d(TAG, "1312, ext. totals (mf,m,f,p,l,e): "
+                if (MyDebug.LOG) Log.d(TAG, "1362, ext. totals (mf,m,f,p,l,e): "
                     + totalmfe + ", " + totalme + ", " + totalfe + ", "
                     + totalpe + ", " + totalle + ", " + totalee);
 
@@ -1563,7 +1556,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1509, csv write external failed");
+                if (MyDebug.LOG) Log.d(TAG, "1559, csv write external failed");
             }
             headDataSource.close();
             metaDataSource.close();
@@ -1948,7 +1941,7 @@ public class WelcomeActivity
                         } catch (IOException e)
                         {
                             if (MyDebug.LOG)
-                                Log.e(TAG, "1878, importGPX, Problem converting Stream to String: " + e);
+                                Log.e(TAG, "1944, importGPX, Problem converting Stream to String: " + e);
                         } finally
                         {
                             try
@@ -1957,7 +1950,7 @@ public class WelcomeActivity
                             } catch (IOException e)
                             {
                                 if (MyDebug.LOG)
-                                    Log.e(TAG, "1887, importGPX, Problem closing InputStream: " + e);
+                                    Log.e(TAG, "1953, importGPX, Problem closing InputStream: " + e);
                             }
                         }
                         String gpxString = gpxsb.toString();

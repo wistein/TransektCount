@@ -238,7 +238,7 @@ class DbHelper   // constructor
         }
         if (!colExist) {
             // rename table counts to counts_backup
-            sql = "alter table $COUNT_TABLE rename to 'counts_backup'"
+            sql = "alter table 'counts' rename to 'counts_backup'"
             db.execSQL(sql)
 
             // create new counts table

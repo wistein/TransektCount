@@ -47,7 +47,7 @@ import java.util.Objects
  * Changed by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-12-08
+ * last edited on 2023-12-15
  */
 class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -180,7 +180,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             supportActionBar!!.title = oldName
         } catch (e: NullPointerException) {
             if (MyDebug.LOG)
-                Log.e(TAG, "185, NullPointerException: No section name!")
+                Log.e(TAG, "183, NullPointerException: No section name!")
         }
 
         // edit the section name
@@ -189,8 +189,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesRemarkArea7!!.addView(etw)
         if (MyDebug.LOG)
-            Log.d(
-                TAG, "194, onResume, EditTitleWidget, old section name: " + oldName
+            Log.d(TAG,"192, onResume, EditTitleWidget, old section name: " + oldName
                         + ", new sectionName: " + etw!!.sectionName
             )
 
@@ -356,7 +355,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             name = cew.getCountName()
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
-                if (MyDebug.LOG) Log.d(TAG, "360, Double name = $isDblName")
+                if (MyDebug.LOG) Log.d(TAG, "358, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -376,7 +375,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             code = cew.getCountCode()
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
-                if (MyDebug.LOG) Log.d(TAG, "380, Double name = $isDblCode")
+                if (MyDebug.LOG) Log.d(TAG, "378, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)
@@ -395,7 +394,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         // save section name only if it has changed
         val saveSectionState: Boolean
         val newName = etw!!.sectionName
-        if (MyDebug.LOG) Log.d(TAG, "399, newName: $newName")
+        if (MyDebug.LOG) Log.d(TAG, "397, newName: $newName")
         if (isNotEmpty(newName)) {
             //check if this is not a duplicate of an existing name and
             // backup current section as compSectionNames replaces current section with last section
@@ -427,7 +426,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             sectionDataSource!!.saveSection(section!!)
 
             // rename corresponding track names
-            if (MyDebug.LOG) Log.d(TAG, "431, newName: $newName")
+            if (MyDebug.LOG) Log.d(TAG, "429, newName: $newName")
             if (sectionHasTrack && isNotEmpty(newName))
                 trackDataSource!!.saveTrackName(newName, oldName)
 
@@ -435,7 +434,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             val isDblName: String
             val isDblCode: String
             val childcount: Int = editingCountsArea!!.childCount //No. of species in list
-            if (MyDebug.LOG) Log.d(TAG, "439, childcount: $childcount")
+            if (MyDebug.LOG) Log.d(TAG, "437, childcount: $childcount")
 
             // check for unique species names
             isDblName = compCountNames()
@@ -448,7 +447,7 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
                         if (isNotEmpty(cew.getCountName()) && isNotEmpty(cew.getCountCode())) {
                             if (MyDebug.LOG)
                                 Log.d(
-                                    TAG, "452, cntId: " + cew.countId + ", " + cew.getCountName()
+                                    TAG, "450, cntId: " + cew.countId + ", " + cew.getCountName()
                                 )
 
                             // updates species name and code
@@ -497,11 +496,11 @@ class EditSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
             if (MyDebug.LOG)
-                Log.d(TAG, "502, sname = $sname")
+                Log.d(TAG, "499, sname = $sname")
             if (newName == sname) {
                 isDblName = true
                 if (MyDebug.LOG)
-                    Log.d(TAG, "506, Double name = $sname")
+                    Log.d(TAG, "503, Double name = $sname")
                 break
             }
         }

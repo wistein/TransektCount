@@ -84,6 +84,12 @@ _ Subtitle
     ! Illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
 
+$ 4.0.1
+  % Version 4.0.1
+  _ 2023-12-15
+  * Code adaptation for Android 14
+  * Code improvements
+
 $ 4.0.0
   % Version 4.0.0
   _ 2023-12-05

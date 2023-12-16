@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
 
+#### Version 4.0.1 (2023-12-15)
+- Code adaptation for Android 14
+- Code improvements
+
 #### Version 4.0.0 (2023-12-05)
 ##### Functional enhancement:
 - Option for automatic transect section recognition per GPS. Therefore, a prepared track file in GPX format is needed

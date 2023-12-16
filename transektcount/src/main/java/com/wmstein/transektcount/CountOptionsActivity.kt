@@ -38,7 +38,7 @@ import com.wmstein.transektcount.widgets.OptionsWidgetExt
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-12-08
+ * last edited on 2023-12-15
  */
 class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -132,7 +132,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
         try {
             supportActionBar!!.title = count!!.name
         } catch (e: NullPointerException) {
-            if (MyDebug.LOG) Log.e(TAG, "Problem setting title bar: $e")
+            if (MyDebug.LOG) Log.e(TAG, "135, Problem setting title bar: $e")
         }
         val alerts = alertDataSource!!.getAllAlertsForCount(countId)
 
@@ -383,7 +383,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
                     alertDataSource!!.saveAlert(acw.alertId, acw.alertValue, acw.alertName)
                 }
             } else {
-                if (MyDebug.LOG) Log.d(TAG, "Failed to save alert: " + acw.alertId)
+                if (MyDebug.LOG) Log.d(TAG, "386, Failed to save alert: " + acw.alertId)
             }
         }
     }
@@ -426,11 +426,9 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
         markedForDelete = view
         deleteAnAlert = view.tag as Int
         if (deleteAnAlert == 0) {
-            //Log.d(TAG, "(1) View tag was " + String.valueOf(deleteAnAlert));
             // the actual AlertCreateWidget is two levels up from the button in which it is embedded
             dynamicWidgetArea!!.removeView(view.parent.parent as AlertCreateWidget)
         } else {
-            //Log.d(TAG, "(2) View tag was " + String.valueOf(deleteAnAlert));
             // before removing this widget it is necessary to do the following:
             // (1) Check the user is sure they want to delete it and, if so...
             // (2) Delete the associated alert from the database.
@@ -443,7 +441,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
                     alertDataSource!!.deleteAlertById(deleteAnAlert)
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertCreateWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.LOG) Log.e(TAG, "Failed to delete a widget: $e")
+                    if (MyDebug.LOG) Log.e(TAG, "444, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }

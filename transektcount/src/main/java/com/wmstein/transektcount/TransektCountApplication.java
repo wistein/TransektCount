@@ -22,7 +22,7 @@ import androidx.preference.PreferenceManager;
  <p>
  * Partly based on BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016,
- * last edit on 2023-12-08
+ * last edit on 2023-12-15
  */
 public class TransektCountApplication extends Application
 {
@@ -48,7 +48,7 @@ public class TransektCountApplication extends Application
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
         } catch (Exception e)
         {
-            if (MyDebug.LOG) Log.e(TAG, e.toString());
+            if (MyDebug.LOG) Log.e(TAG, "51, " + e);
         }
     }
 

@@ -68,7 +68,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions inspired by milo's CountingActivity.java of BeeCount from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edit on 2023-11-22.
+ * last edit on 2023-12-15.
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -579,14 +579,14 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.LOG)
-                        Log.d(TAG, "569, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "582, SpinnerListener, count id: " + count.id
                             + ", code: " + count.code);
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.LOG)
-                        Log.e(TAG, "576, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "589, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -740,7 +740,7 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.LOG)
-            Log.d(TAG, "730, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "743, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -801,7 +801,7 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.LOG)
-            Log.d(TAG, "791, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "804, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -1307,7 +1307,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.LOG)
-            Log.d(TAG, "1297, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "1310, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1358,7 +1358,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.LOG)
-            Log.d(TAG, "1348, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "1361, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1967,7 +1967,7 @@ public class CountingActivity
             } catch (Exception e)
             {
                 if (MyDebug.LOG)
-                    Log.e(TAG, "1957, buttonVib, catch, could not vibrate.", e);
+                    Log.e(TAG, "1970, buttonVib, catch, could not vibrate.", e);
             }
         }
     }
@@ -1994,7 +1994,7 @@ public class CountingActivity
             } catch (Exception e)
             {
                 if (MyDebug.LOG)
-                    Log.e(TAG, "1984, buttonVib, catch, could not vibrate.", e);
+                    Log.e(TAG, "1997, buttonVib, catch, could not vibrate.", e);
             }
         }
     }
@@ -2097,12 +2097,12 @@ public class CountingActivity
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.LOG) Log.d(TAG, "2087, compSectionNames, sname = " + sname);
+            if (MyDebug.LOG) Log.d(TAG, "2100, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname))
             {
                 isDblName = true;
-                if (MyDebug.LOG) Log.d(TAG, "2092, compSectionNames, Double name = " + sname);
+                if (MyDebug.LOG) Log.d(TAG, "2105, compSectionNames, Double name = " + sname);
                 break;
             }
         }

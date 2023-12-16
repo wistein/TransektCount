@@ -1,0 +1,3 @@
+Version 4.0.1 (2023-12-15)
+- Code adaptation for Android 14
+- Code improvements
