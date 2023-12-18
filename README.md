@@ -14,10 +14,11 @@ That means, you will use a new database instance per inspection by importing a p
 - Editor for meta data to prepare an inspection
 - Editor for species remark or bulk count entry
 - Counting page with scroll menu to select species
-- Count input per internal/external counting area and here each with separate counters for ♂ or ♀ undefined, ♂, ♀, pupa, larva or egg.
+- Count input per internal/external counting area and here each with 6 separate counters for ♂♀-undefined, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to science4you entry masks.
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet like MS Excel.
+- Option for automatic section recognition by GPS.
 - The integrated help contains a detailed userguide.
 
 ### Prerequisites

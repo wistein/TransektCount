@@ -6,7 +6,7 @@ Zwei Optionen:
 
 1. Von F-Droid (freigegebene Versionen)
 
-   Apps, ohne Doku und Basis-Datenbank (Basis-DB) aber mit Updates über F-Droid-App-Store:
+   Apps, ohne Doku und Basis-Datenbank (Basis-DB) aber mit Updates Ã¼ber F-Droid-App-Store:
  
      https://f-droid.org/de/packages/com.wmstein.transektcount/
      https://f-droid.org/de/packages/com.wmstein.tourcount
@@ -16,7 +16,7 @@ Zwei Optionen:
    Diese in das Verzeichnis Documents/TransektCount bzw Documents/TourCount kopieren, welches beim 
    1. Start jeder App angelegt wird. 
 
-   Da bei F-Droid veröffentlichte Apps mit deren Signatur durch F-Droid kompiliert werden, 
+   Da bei F-Droid verÃ¶ffentlichte Apps mit deren Signatur durch F-Droid kompiliert werden, 
    sind diese nicht gegenseitig updatebar von oder mit den entsprechenden Entwickler-Versionen .
 
 
@@ -50,24 +50,24 @@ Zwei Optionen:
 Anmerkung zu F-Droid:
 
    Der Bezug von Apps aus F-Droid ist mindestens so sicher wie der Bezug durch den Google Play Store.
-   Alle Apps werden im Gegensatz zum Play Store auch datenschutzmäßig überprüft und durch F-Droid 
+   Alle Apps werden im Gegensatz zum Play Store auch datenschutzmÃ¤ÃŸig Ã¼berprÃ¼ft und durch F-Droid 
    selbst kompiliert. 
 
-   Falls eine App nicht alle Anforderungen von F-Droid hinsichtlich unerwünschter Merkmale erfüllt, 
+   Falls eine App nicht alle Anforderungen von F-Droid hinsichtlich unerwÃ¼nschter Merkmale erfÃ¼llt, 
    ist es vermerkt.
 
-   Die Quellcodes der F-Droid-Apps sind veröffentlicht und als Open Source lizenziert.
+   Die Quellcodes der F-Droid-Apps sind verÃ¶ffentlicht und als Open Source lizenziert.
 
 
 Anmerkung zu Updates:
 
-   Bei größeren Versionssprüngen mit funktionalen Ergänzungen können Strukturänderungen in der 
-   internen Datenbank einer App vorgenommen worden sein. Nach einer solchen Änderung wird die 
+   Bei grÃ¶ÃŸeren VersionssprÃ¼ngen mit funktionalen ErgÃ¤ungen kÃ¶nnen StrukturÃ¤erungen in der 
+   internen Datenbank einer App vorgenommen worden sein. Nach einer solchen Ã„derung wird die 
    Datenbank-Version inkrementiert. Das wird von der App erkannt und die aktuell genutzte DB 
    intern strukturell angepasst.
    
-   Eine Nutzung der aktuell angepassten DB ist aber nach einem Down-Grade zu einer Vorgänger-
+   Eine Nutzung der aktuell angepassten DB ist aber nach einem Down-Grade zu einer VorgÃ¤nger-
    App-Version nicht mehr verwendbar.
    
-   Die Beispiel-DBs sind in der aktuellen Struktur verfasst und veröffentlicht. 
+   Die Beispiel-DBs sind in der aktuellen Struktur verfasst und verÃ¶ffentlicht. 
    
