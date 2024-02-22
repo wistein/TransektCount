@@ -1,10 +1,16 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2023, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
+
+#### Version 4.0.2 (2024-02-22)
+- More pictures of species added
+- Bugs fixed
+- Docs updated
+- Example DBs updated
 
 #### Version 4.0.1 (2023-12-15)
 - Code adaptation for Android 14
-- Code improvements
+- Code refinements
 
 #### Version 4.0.0 (2023-12-05)
 ##### Functional enhancement:

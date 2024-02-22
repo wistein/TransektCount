@@ -74,7 +74,7 @@ import static android.graphics.Color.RED;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2023-12-15.
+ * last edited on 2024-02-20.
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -141,6 +141,15 @@ public class WelcomeActivity
     private TrackDataSource trackDataSource;
     private List<Track> trackPts;
 
+    private String gpxString;
+    private String gpxTrkString;
+    private int strStart;
+    private int strEnd;    // temp. index end of string
+    private int trkStart;  // temp index start of trk
+    private int trkEnd;    // temp index end of trk
+    private int trkpt = 1; // trackpoint counter
+    private int trk = 1;   // track counter
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -181,7 +190,7 @@ public class WelcomeActivity
             editor.commit();
         }
         if (MyDebug.LOG)
-            Log.d(TAG, "184, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "194, onCreate, autoSection: " + autoSection
                 + ", Section has track: " + sectionHasTrack);
 
         // check for DB integrity
@@ -228,7 +237,7 @@ public class WelcomeActivity
             secCount = 0;
         }
         if (MyDebug.LOG && autoSection)
-            Log.d(TAG, "231, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "241, onCreate, TrkPts: " + trackPts.size()
                 + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // check if tracks correspond to sections
@@ -303,7 +312,7 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.LOG) Log.d(TAG, "306, onResume");
+        if (MyDebug.LOG) Log.d(TAG, "316, onResume");
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
@@ -368,7 +377,7 @@ public class WelcomeActivity
 
                     mHandler.postDelayed(() -> doubleBackToExitPressedTwice = false, 1500);
                 }
-            );
+                                                                      );
         }
     } // end of onResume
 
@@ -496,7 +505,7 @@ public class WelcomeActivity
                 sectionDataSource.close();
                 insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
                 if (MyDebug.LOG)
-                    Log.d(TAG, "499, startCounting, Section ID: " + section.id + " Name: "
+                    Log.d(TAG, "509, startCounting, Section ID: " + section.id + " Name: "
                         + tSecName + " insideOfTrack: " + insideOfTrack);
 
                 // call CountingActivityA for section
@@ -561,7 +570,9 @@ public class WelcomeActivity
         editor.apply();
     }
 
-    /** @noinspection deprecation*/
+    /**
+     * @noinspection deprecation
+     */
     // press Back twice to end the app
     @Override
     public void onBackPressed()
@@ -605,7 +616,7 @@ public class WelcomeActivity
     @Override
     public void locationCaptureFragment()
     {
-        if (MyDebug.LOG) Log.d(TAG, "608 locationCaptureFragment()");
+        if (MyDebug.LOG) Log.d(TAG, "620 locationCaptureFragment()");
 
         locationPermission =
             (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -695,7 +706,7 @@ public class WelcomeActivity
             sectionDataSource.close();
             insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
             if (MyDebug.LOG)
-                Log.d(TAG, "698, startCounting, Section ID: " + section.id + " Name: "
+                Log.d(TAG, "710, startCounting, Section ID: " + section.id + " Name: "
                     + tSecName + " insideOfTrack: " + insideOfTrack);
 
             // call CountingActivityA for section
@@ -763,10 +774,10 @@ public class WelcomeActivity
 
         if (MyDebug.LOG)
         {
-            Log.d(TAG, "766, checkSectionTrack, GPS Lat: " + latitude + ", GPS Lon: " + longitude);
-            Log.d(TAG, "767, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
+            Log.d(TAG, "778, checkSectionTrack, GPS Lat: " + latitude + ", GPS Lon: " + longitude);
+            Log.d(TAG, "779, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
                 + ", dist: " + dist);
-            Log.d(TAG, "769, checkSectionTrack, tSecName: " + tSecName + ", insideOfTrack: " + insideOfTrack);
+            Log.d(TAG, "781, checkSectionTrack, tSecName: " + tSecName + ", insideOfTrack: " + insideOfTrack);
         }
         return new DataTrkpt(tSecName, insideOfTrack);
     }
@@ -1221,7 +1232,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1224, csv write internal failed");
+                if (MyDebug.LOG) Log.d(TAG, "1236, csv write internal failed");
             }
 
             /***********************************************************************/
@@ -1262,7 +1273,7 @@ public class WelcomeActivity
                 // get the external counts for the external count area
                 int curCount;
                 curCount = curCSVe.getCount();
-                if (MyDebug.LOG) Log.d(TAG, "1265, curCSVe, curCount: " + curCount);
+                if (MyDebug.LOG) Log.d(TAG, "1277, curCSVe, curCount: " + curCount);
 
                 if (curCount > 0) // build table only when there is any count at all
                 {
@@ -1271,7 +1282,7 @@ public class WelcomeActivity
                     String code1 = ""; // initial species code
                     if (isNotBlank(curCSVe.getString(3)))
                         code1 = curCSVe.getString(3);
-                    if (MyDebug.LOG) Log.d(TAG, "1274, curCSVe, code1: " + code1);
+                    if (MyDebug.LOG) Log.d(TAG, "1286, curCSVe, code1: " + code1);
 
                     boolean cDiff;
                     boolean firstCnt = true; // needed to write the first counts of the external species
@@ -1279,7 +1290,7 @@ public class WelcomeActivity
                     {
                         // read code of current position
                         code = curCSVe.getString(3); //species code
-                        if (MyDebug.LOG) Log.d(TAG, "1282, while curCSVe, code: " + code
+                        if (MyDebug.LOG) Log.d(TAG, "1294, while curCSVe, code: " + code
                             + ", code1: " + code1);
 
                         countmfe = countDataSource.getMFEWithCode(code);
@@ -1320,7 +1331,7 @@ public class WelcomeActivity
 
                         // check for writing the external count line
                         cDiff = !Objects.equals(code, code1);
-                        if (MyDebug.LOG) Log.d(TAG, "1323, curCSVe, cDiff: " + cDiff
+                        if (MyDebug.LOG) Log.d(TAG, "1335, curCSVe, cDiff: " + cDiff
                             + ", code: " + code + ", code1: " + code1);
 
                         code1 = code;
@@ -1359,7 +1370,7 @@ public class WelcomeActivity
                     }
                 }
                 curCSVe.close();
-                if (MyDebug.LOG) Log.d(TAG, "1362, ext. totals (mf,m,f,p,l,e): "
+                if (MyDebug.LOG) Log.d(TAG, "1374, ext. totals (mf,m,f,p,l,e): "
                     + totalmfe + ", " + totalme + ", " + totalfe + ", "
                     + totalpe + ", " + totalle + ", " + totalee);
 
@@ -1556,7 +1567,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1559, csv write external failed");
+                if (MyDebug.LOG) Log.d(TAG, "1571, csv write external failed");
             }
             headDataSource.close();
             metaDataSource.close();
@@ -1751,20 +1762,31 @@ public class WelcomeActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setMessage(R.string.confirmDBImport);
-            builder.setCancelable(false);
-            builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+            builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
             {
                 try
                 {
                     copy(infile, outfile);
 
-                    // make sure that import of an older versioned file or
-                    //   one without tracks makes no trouble
-                    editor = prefs.edit();
-                    editor.putBoolean("section_has_track", false);
-                    editor.commit();
+                    // make sure that import of a DB file sets sectionHasTrack correctly
+                    try
+                    {
+                        trackDataSource = new TrackDataSource(this);
+                        trackDataSource.open();
+                        sectionHasTrack = trackDataSource.getHasTrack();
+                        trackDataSource.close();
+                        if (MyDebug.LOG)
+                            Log.i(TAG, "1780, importDBFile, hasTrack: " + sectionHasTrack);
 
-                    showSnackbar(getString(R.string.importWin));
+                        editor = prefs.edit();
+                        editor.putBoolean("section_has_track", sectionHasTrack);
+                        editor.commit();
+                        showSnackbar(getString(R.string.importWin));
+                    } catch (SQLiteException e)
+                    {
+                        trackDataSource.close();
+                        showSnackbarRed(getString(R.string.corruptDb));
+                    }
 
                     headDataSource = new HeadDataSource(getApplicationContext());
                     headDataSource.open();
@@ -1816,7 +1838,7 @@ public class WelcomeActivity
         });
 
     /**********************************************************************************************/
-    @SuppressLint({"SdCardPath", "LongLogTag"})
+    @SuppressLint({"SdCardPath"})
     // Import of the basic DB, modified by wmstein
     public void importBasisDb()
     {
@@ -1849,32 +1871,49 @@ public class WelcomeActivity
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setMessage(R.string.confirmBasisImport);
         builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+        {
+            try
             {
+                copy(infile, outfile);
+
+                // make sure that import of the basic DB file sets sectionHasTrack correctly
                 try
                 {
-                    copy(infile, outfile);
+                    trackDataSource = new TrackDataSource(this);
+                    trackDataSource.open();
+                    sectionHasTrack = trackDataSource.getHasTrack();
+                    trackDataSource.close();
+                    if (MyDebug.LOG)
+                        Log.i(TAG, "1888, importBasisDb, hasTrack: " + sectionHasTrack);
+
+                    editor = prefs.edit();
+                    editor.putBoolean("section_has_track", sectionHasTrack);
+                    editor.commit();
                     showSnackbar(getString(R.string.importWin));
-
-                    headDataSource = new HeadDataSource(getApplicationContext());
-                    headDataSource.open();
-                    head = headDataSource.getHead();
-
-                    // set transect number as title
-                    try
-                    {
-                        Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
-                    } catch (NullPointerException e)
-                    {
-                        // nothing
-                    }
-
-                    headDataSource.close();
-                } catch (IOException e)
+                } catch (SQLiteException e)
                 {
-                    showSnackbarRed(getString(R.string.importFail));
+                    trackDataSource.close();
+                    showSnackbarRed(getString(R.string.corruptDb));
                 }
-                // END
-            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+
+                headDataSource = new HeadDataSource(getApplicationContext());
+                headDataSource.open();
+                head = headDataSource.getHead();
+                headDataSource.close();
+
+                // set transect number as title
+                try
+                {
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(head.transect_no);
+                } catch (NullPointerException e)
+                {
+                    // nothing
+                }
+            } catch (IOException e)
+            {
+                showSnackbarRed(getString(R.string.importFail));
+            }
+        }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
         alert = builder.create();
         alert.show();
     }
@@ -1899,6 +1938,8 @@ public class WelcomeActivity
 
     /*******************************************************************
      * Select and import gpx-file to store track coords into TRACK_TABLE
+     * ToDo: Works with internally converted database, but corrupts database with more than 4 sections
+     *       if database is prepared outside with DB Browser for SQLite 
      */
     public void importGPX()
     {
@@ -1918,122 +1959,129 @@ public class WelcomeActivity
         // with short delay to get the file name before the dialog appears
         mHandler.postDelayed(() ->
         {
+            StringBuilder gpxsb = new StringBuilder();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setMessage(R.string.confirmGPXImport);
             builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+            {
+                Toast.makeText(getApplicationContext(), getString(R.string.waitImport), Toast.LENGTH_SHORT).show();
+                try
                 {
-                    Toast.makeText(getApplicationContext(), getString(R.string.waitImport), Toast.LENGTH_SHORT).show();
-                    try
+                    FileInputStream fileIS;
+                    String gpxLine;
+                    fileIS = new FileInputStream(selectedFile);
+                    BufferedReader xmlBR = new BufferedReader(new InputStreamReader(fileIS));
+
+                    while ((gpxLine = xmlBR.readLine()) != null)
                     {
-                        FileInputStream fileIS;
-                        String gpxLine;
-                        fileIS = new FileInputStream(selectedFile);
-                        BufferedReader xmlBR = new BufferedReader(new InputStreamReader(fileIS));
-                        StringBuilder gpxsb = new StringBuilder();
+                        gpxsb.append(gpxLine).append('\n');
+                    }
+                    fileIS.close();
+                } catch (IOException e)
+                {
+                    if (MyDebug.LOG)
+                        Log.e(TAG, "1984, importGPX, Problem converting Stream to String: " + e);
+                }
 
-                        try
+                gpxString = gpxsb.toString();
+
+                // Parse gpxString to write fields into TRACK_TABLE
+                trackDataSource = new TrackDataSource(getApplicationContext());
+                trackDataSource.open();
+                sectionDataSource = new SectionDataSource(getApplicationContext());
+                sectionDataSource.open();
+                if (MyDebug.LOG)
+                    Log.i(TAG, "1995, importGPX, Datasources open");
+
+                strStart = gpxString.indexOf("<trk>"); // start of 1. track
+
+                if (gpxString.contains("<trk>")) // test for track data
+                {
+                    // reduce gpxString to all tracks <trk> ... </gpx>
+                    gpxString = gpxString.substring(strStart); // string with all tracks
+                    if (MyDebug.LOG)
+                        Log.i(TAG, "2004, importGPX, gpxString total: " + gpxString);
+
+                    // do in background
+//                    new Thread(new Runnable()
+//                    {
+//                        @Override
+//                        public void run()
+//                        {
+                    // For each track
+                    do
+                    {
+                        // get data of indexed track
+                        trkStart = gpxString.indexOf("<trk>");
+                        trkEnd = gpxString.indexOf("</trk>");
+                        gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
+                        if (MyDebug.LOG)
+                            Log.i(TAG, "2020, importGPX, gpxTrkString: " + gpxTrkString);
+
+                        // get track name as section name
+                        if (gpxTrkString.contains("<name>"))
                         {
-                            while ((gpxLine = xmlBR.readLine()) != null)
-                            {
-                                gpxsb.append(gpxLine).append('\n');
-                            }
-                        } catch (IOException e)
-                        {
-                            if (MyDebug.LOG)
-                                Log.e(TAG, "1944, importGPX, Problem converting Stream to String: " + e);
-                        } finally
-                        {
-                            try
-                            {
-                                fileIS.close();
-                            } catch (IOException e)
-                            {
-                                if (MyDebug.LOG)
-                                    Log.e(TAG, "1953, importGPX, Problem closing InputStream: " + e);
-                            }
+                            section = sectionDataSource.getSection(trk);
+                            tSecName = section.name; // name track same as section
+
+                            // reduce gpxString to rest after </trk>
+                            strEnd = gpxString.indexOf("</trk>");
+                            // offset = length of "</trk>" = 6
+                            gpxString = gpxString.substring(strEnd + 6);
                         }
-                        String gpxString = gpxsb.toString();
-                        String gpxSegString;
 
-                        // Parse gpxString to write fields into TRACK_TABLE
-                        trackDataSource = new TrackDataSource(this);
-                        trackDataSource.open();
-                        SectionDataSource sectionDataSource = new SectionDataSource(this);
-                        sectionDataSource.open();
-                        Section section;
-
-                        if (gpxString.contains("<trk>"))
+                        if (gpxTrkString.contains("<trkseg>"))
                         {
-                            int strStart;  // temp. index start of string
-                            int strEnd;    // temp. index end of string
-                            int trkpt = 1; // trackpoint counter
-                            int trk = 1;   // track counter
-
-                            // reduce gpxString to all tracks <trk> ... </gpx>
-                            strStart = gpxString.indexOf("<trk>");
-                            gpxString = gpxString.substring(strStart);
-
-                            // For each track
+                            // for each track point in trkseg
                             do
                             {
-                                // get track name as section name
-                                if (gpxString.contains("<name>"))
-                                {
-                                    section = sectionDataSource.getSection(trk);
-                                    tSecName = section.name; // name track like section
+                                if (MyDebug.LOG)
+                                    Log.i(TAG, "2040, importGPX, do trackpt");
+                                int nextTp; // index for next track point (after />)
+                                strStart = gpxTrkString.indexOf("lat=") + 5;
+                                strEnd = gpxTrkString.indexOf("lat=") + 13;
+                                String tlat = gpxTrkString.substring(strStart, strEnd);
 
-                                    // reduce gpxString to rest after </name>
-                                    strEnd = gpxString.indexOf("</name>");
-                                    gpxString = gpxString.substring(strEnd + 7); // + 7 (offset, length of "</name>")
-                                }
+                                strStart = gpxTrkString.indexOf("lon=") + 5;
+                                strEnd = gpxTrkString.indexOf("lon=") + 14;
+                                String tlon = gpxTrkString.substring(strStart, strEnd);
+                                if (MyDebug.LOG)
+                                    Log.i(TAG, "2050, importGPX, tSecName: "
+                                        + tSecName + ", " + tlat + ", " + tlon);
+                                trackDataSource.createTrackTp(tSecName, tlat, tlon);  // !!!
 
-                                // reduced gpxSegString to <trkseg> ... </trkseg>
-                                if (gpxString.contains("<trkseg>"))
-                                {
-                                    strStart = gpxString.indexOf("<trkseg>");
-                                    strEnd = gpxString.indexOf("</trkseg>") + 9;
-                                    gpxSegString = gpxString.substring(strStart, strEnd);
+                                // increment gpxTrkString line
+                                trkpt = trkpt + 1;
 
-                                    // for each track point in trkseg
-                                    do
-                                    {
-                                        int nextTp; // index for next track point (after />)
-                                        strStart = gpxSegString.indexOf("lat=") + 5;
-                                        strEnd = gpxSegString.indexOf("lat=") + 13;
-                                        String tlat = gpxSegString.substring(strStart, strEnd);
-
-                                        strStart = gpxSegString.indexOf("lon=") + 5;
-                                        strEnd = gpxSegString.indexOf("lon=") + 14;
-                                        String tlon = gpxSegString.substring(strStart, strEnd);
-                                        trackDataSource.createTrackTp(tSecName, tlat, tlon);
-
-                                        // increment gpxString line
-                                        trkpt = trkpt + 1;
-
-                                        // reduce gpxSegString to rest after current trkpt line
-                                        nextTp = gpxSegString.indexOf("/>");
-                                        gpxSegString = gpxSegString.substring(nextTp + 2);
-                                    } while (gpxSegString.contains("<trkpt"));
-                                    // reduce gpxString for next track segment
-                                }
-                                trk = trk + 1;
-                            } while (gpxString.contains(("<trk>")));
-
-                            trackDataSource.close();
-                            sectionDataSource.close();
+                                // reduce gpxTrkString to remainder after current trkpt line
+                                nextTp = gpxTrkString.indexOf("/>");
+                                gpxTrkString = gpxTrkString.substring(nextTp + 2);
+                                if (MyDebug.LOG)
+                                    Log.i(TAG, "2061, importGPX, trackpt " + trkpt);
+                            } while (gpxTrkString.contains("<trkpt"));
                         }
-                        sectionHasTrack = true;
-                        editor = prefs.edit();
-                        editor.putBoolean("section_has_track", sectionHasTrack);
-                        editor.apply();
 
-                        showSnackbar(getString(R.string.importGPX));
-                    } catch (Exception e)
-                    {
-                        // nothing
-                    }
-                }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+                        // reduce gpxString for next track segment
+                        trk = trk + 1;
+                    } while (gpxString.contains("<trk>"));
+
+//                        }
+//                    }).start();
+                    if (MyDebug.LOG)
+                        Log.i(TAG, "2072, importGPX, gpxString finished: " + gpxString);
+
+                    sectionHasTrack = true;
+                    editor = prefs.edit();
+                    editor.putBoolean("section_has_track", sectionHasTrack);
+                    editor.apply();
+                }
+                trackDataSource.close();
+                sectionDataSource.close();
+
+                showSnackbar(getString(R.string.importGPX));
+            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+
             alert = builder.create();
             alert.show();
         }, 100);

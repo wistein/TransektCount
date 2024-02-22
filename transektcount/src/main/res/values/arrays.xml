@@ -310,8 +310,11 @@
         <item comment="03998">Zygaena filipendulae</item>
         <item comment="03999">Zygaena lonicerae</item>
         <item comment="04000">Zygaena trifolii</item>
+		<item comment="04030">Sesia apiformis</item>
         <item comment="04044">Synanthedon scoliaeformis</item>
         <item comment="04151">Cossus cossus</item>
+		<item comment="04176">Zeuzera pyrina</item>
+		<item comment="04178">Phragmataecia castaneae</item>		
 		<item comment="04731">Celypha lacunana</item>
         <item comment="05562">Thyris fenestrella</item>
         <item comment="05751">Oncocera semirubella</item>
@@ -688,8 +691,11 @@
         <item comment="03998">Six-spot burnet</item>
         <item comment="03999">Narrow-bordered five-spot burnet</item>
         <item comment="04000">Five-spot burnet</item>
+		<item comment="04030">Hornet moth</item>
         <item comment="04044">Welsh clearwing</item>
         <item comment="04151">Goat moth</item>
+		<item comment="04176">Leopard moth</item>
+		<item comment="04178">Reed leopard</item>
 		<item comment="04731">Dark strawberry tortrix</item>
         <item comment="05562">Pygmy</item>
         <item comment="05751">Rosy-striped Knot-horn</item>
@@ -1066,8 +1072,11 @@
         <item>03998</item>
         <item>03999</item>
         <item>04000</item>
+		<item>04030</item>
         <item>04044</item>
         <item>04151</item>
+		<item>04176</item>
+		<item>04178</item>
         <item>04731</item>
         <item>05562</item>
         <item>05751</item>

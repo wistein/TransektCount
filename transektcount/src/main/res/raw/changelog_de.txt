@@ -39,7 +39,7 @@ _ Subtitle
   <body>
 
   % TransektCount
-  _ Copyright (C) 2016-2023, Wilhelm Stein
+  _ Copyright (C) 2016-2024, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
@@ -77,12 +77,21 @@ _ Subtitle
     * Melitaea parthenoides, Autor: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license, derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides
     * Muschampia lavatherae, Autor: Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
     * Pediasia contaminella, Autor: Ben Sale, Creative Commons Attribution 2.0 Generic License, erstellt aus https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
+	* Sesia apiformis, Autor: Jyrki Lehto, free use, erstellt aus Abbildung auf https://en.wikipedia.org/wiki/Hornet_moth	
   _
     ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
     ! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden.
     ! Aber es ist nicht erlaubt, Abbildungen auf Meta Platforms (Facebook) hochzuladen, da die meisten der genannten Lizenzen mit den Lizenzen von Meta Platforms kollidieren.
     ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
   _ 
+
+$ 4.0.2
+  % Version 4.0.2
+  _ 22.02.2024
+  * Einge Arten mit Abbildungen hinzugefügt
+  * Bug-Fixes
+  * Docs überarbeitet
+  * Beispiel-DBs überarbeitet
 
 $ 4.0.1
   % Version 4.0.1

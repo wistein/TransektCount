@@ -1,17 +1,16 @@
-TransektCount dient Transektzählern bei Transektbegehungen. 
-Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
+TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.0.0:
+Neu in Version 4.0.2:
 - Option für die automatische Transekt-Abschnittserkennung per GPS.
 - Importfunktion für eine GPX-Datei mit separaten Tracks der Transektabschnitte
-- Restrukturierte interne DB für die neuen Funktionen (Achtung! Ändert beim Update und beim Importieren von DB-Dateien mit Version < 4.0.0 die Artenlisten aller Abschnitte der aktuellen DB auf Standardauswahl.)
+- Restrukturierte interne DB für die neuen Funktionen (Achtung! Ändert beim Update der App oder beim Importieren von DB-Dateien mit App-Version < 4.0.0 die Artenlisten aller Abschnitte der aktuellen DB auf die Artenliste des 1. Abschnitts, da wegen der GPS-gesteuerten Abschnittsbestimmung alle Abschnittslisten nun identische Arten benötigen.)
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
 - Datenbanken beziehen sich auf ein Transekt und können innerhalb der App individuell erstellt und angepasst werden bezüglich Meta-Daten, Transektabschnitten und zu erwartenden Arten.
 - Die App enthält eine vorbereitete Datenbank mit den häufigsten in Deutschland zu erwartenden Arten als Ausgangspunkt.
 - Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂♀, ♂, ♀, Puppe, Raupe oder Ei.
-- Option zur GPS-gesteuerten Auswahl des aktuellen Transektabschnitts
+- Option zur GPS-gesteuerten Auswahl des aktuellen Transektabschnitts.
 - Ergebnisseite mit aufbereiteter Darstellung zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (www.tmd-daten.de).
 - Das Ergebnis kann als SQLite-Datei oder als CSV-Tabelle ausgegeben werden (u. a. zwecks Transfer und Weiterverwendung in einem Spreadsheet-Programm auf einem PC).
 - Die Hilfe enthält eine detaillierte Benutzeranleitung.

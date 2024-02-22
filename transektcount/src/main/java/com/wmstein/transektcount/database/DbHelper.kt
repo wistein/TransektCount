@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
+import com.wmstein.transektcount.TransektCountApplication.getAppContext
 
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
  * last edited in Java on 2023-06-11
  * converted to Kotlin on 2023-06-26
- * last edited on 2023-12-08
+ * last edited on 2024-02-22
  */
 class DbHelper   // constructor
     (private val mContext: Context) :
@@ -22,7 +23,7 @@ class DbHelper   // constructor
 
     // called once on database creation
     override fun onCreate(db: SQLiteDatabase) {
-        if (MyDebug.LOG) Log.d(TAG, "Creating database: $DATABASE_NAME")
+        if (MyDebug.LOG) Log.d(TAG, "22, Creating database: $DATABASE_NAME")
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
                 + S_CREATED_AT + " int, "
@@ -99,7 +100,7 @@ class DbHelper   // constructor
 
         //create initial data for COUNT_TABLE
         initialCount(db)
-        if (MyDebug.LOG) Log.d(TAG, "113, onCreate, Success!")
+        if (MyDebug.LOG) Log.d(TAG, "103, onCreate, Success!")
     }
     // end of onCreate
 
@@ -370,7 +371,7 @@ class DbHelper   // constructor
         db.execSQL(sql)
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "373, SECTION_TABLE resetted")
+        if (MyDebug.LOG) Log.d(TAG, "374, SECTION_TABLE resetted")
 
         // reset meta data
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -381,18 +382,15 @@ class DbHelper   // constructor
                 + M_START_TM + " = '', "
                 + M_END_TM + " = ''")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "384, META_TABLE resetted")
+        if (MyDebug.LOG) Log.d(TAG, "385, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
-        //   must contain the same species in the same order an
+        //   must contain the same species in the same order and with
         //   contiguous numbering of section ids)
-        sql = "DROP TABLE $COUNT_TABLE"
-        db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "392, COUNTS_TABLE dropped")
 
-        // create new empty counts table
-        sql = ("create table " + COUNT_TABLE + " ("
+        // create new empty counts1 table
+        sql = ("create table " + COUNT_TABLE1 + " ("
                 + C_ID + " integer primary key, "
                 + C_SECTION_ID + " int, "
                 + C_NAME + " text, "
@@ -412,13 +410,14 @@ class DbHelper   // constructor
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "415, new empty COUNTS_TABLE created")
+        if (MyDebug.LOG) Log.d(TAG, "413, new empty counts1 table created")
 
-        val specs: Array<String> = mContext.resources.getStringArray(R.array.initSpecs)
-        val codes: Array<String> = mContext.resources.getStringArray(R.array.initCodes)
-        val specsL: Array<String> = mContext.resources.getStringArray(R.array.initSpecs_l)
-        val specNum: Int = codes.size // 73 species
-        if (MyDebug.LOG) Log.d(TAG, "421, Anzahl Spez.: $specNum")
+        val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
+        val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
+        val specsL: List<String> = getAllSpeciesDataSrtCode(db).specsL
+        val specNum: Int = codes.size
+
+        if (MyDebug.LOG) Log.d(TAG, "420, Anzahl Spez.: $specNum")
 
         // fill table for all previous sections with initSpecs data
         var cnti = 1  // count index for new track table
@@ -428,9 +427,9 @@ class DbHelper   // constructor
         val sectionList: List<Section> = getAllSects(db)
         for (section in sectionList)
         {
-            // for all initial species
+            // for all species of section 1
             speci = 0
-            if (MyDebug.LOG) Log.d(TAG, "433, TRACK_TABLE filled for " + section.id)
+            if (MyDebug.LOG) Log.d(TAG, "432, TRACK_TABLE filled for " + section.id)
             while (speci < specNum)
             {
                 val values4 = ContentValues()
@@ -452,23 +451,48 @@ class DbHelper   // constructor
                 values4.put(C_COUNT_EE, 0)
                 values4.put(C_NOTES, "")
                 values4.put(C_NAME_G, specsL[speci])
-                db.insert(COUNT_TABLE, null, values4)
-                if (MyDebug.LOG) Log.d(TAG, "456, species cnti: " + cnti + ", " + specs[speci])
+                db.insert(COUNT_TABLE1, null, values4)
+                if (MyDebug.LOG) Log.d(TAG, "455, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
-                if (MyDebug.LOG) Log.d(TAG, "459, species cnti: $cnti, index speci: $speci")
+                if (MyDebug.LOG) Log.d(TAG, "458, species cnti: $cnti, index speci: $speci")
             }
-            if (MyDebug.LOG) Log.d(TAG, "461, last species-index: $cnti")
+            if (MyDebug.LOG) Log.d(TAG, "460, last species-index: $cnti")
 
             secti++
             sectIncr++
             cnti = (sectIncr * speci) + 1
         }
-        if (MyDebug.LOG) Log.d(TAG, "470, TRACK_TABLE filled, upgraded database to version 5")
+        sql = "DROP TABLE $COUNT_TABLE"
+        db.execSQL(sql)
+
+        sql = "ALTER TABLE $COUNT_TABLE1 RENAME TO $COUNT_TABLE"
+        db.execSQL(sql)
+
+        if (MyDebug.LOG) Log.d(TAG, "472, Upgraded database to version 5")
     }
 
+    data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
+
     @SuppressLint("Range")
-    fun getAllSects(db: SQLiteDatabase): List<Section> {
+    private fun getAllSpeciesDataSrtCode(db: SQLiteDatabase): SpcCdsSpL {
+        val sNames: MutableList<String> = ArrayList()
+        val sCodes: MutableList<String> = ArrayList()
+        val sNamesL: MutableList<String> = ArrayList()
+        val cursor = db.rawQuery("select * from " + COUNT_TABLE
+                    + " WHERE " + " (" + C_SECTION_ID + " = 1) order by " + C_CODE, null)
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            sNames.add(cursor.getString(cursor.getColumnIndex(C_NAME)))
+            sCodes.add(cursor.getString(cursor.getColumnIndex(C_CODE)))
+            sNamesL.add(cursor.getString(cursor.getColumnIndex(C_NAME_G)))
+            cursor.moveToNext()
+        }
+        cursor.close()
+        return SpcCdsSpL(sNames, sCodes, sNamesL)
+    }
+
+    private fun getAllSects(db: SQLiteDatabase): List<Section> {
         val sections: MutableList<Section> = ArrayList()
         val cursor = db.rawQuery("select * from " + SECTION_TABLE
                 + " order by '" + S_ID + "'", null)
@@ -497,6 +521,7 @@ class DbHelper   // constructor
         const val HEAD_TABLE = "head"
         const val META_TABLE = "meta"
         const val TRACK_TABLE = "tracks"
+        const val COUNT_TABLE1 = "counts1" // temporary table for update to version 5
 
         // fields of table sections
         const val S_ID = "_id"

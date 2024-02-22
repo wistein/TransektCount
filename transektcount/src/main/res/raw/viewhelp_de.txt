@@ -35,6 +35,7 @@
   !
   ! Diese Zähler-App soll bei der Erfassung der Schmetterlinge im Transekt unterstützen.
   ! Mit ihr können Individuen artspezifisch pro Transektabschnitt erfasst werden.
+  ! Transektabschnitte können manuell gewählt oder automatisch per GPS bestimmt werden.
   ! Sie ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos von interessanten Arten.
   _ 
   ! Die integrierte Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.

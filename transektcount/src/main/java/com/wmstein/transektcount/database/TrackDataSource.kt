@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase
 
 /**********************************
  * Created by wmstein on 2023-09-06
- * last edited on 2023-12-08
+ * last edited on 2023-12-18
  */
 class TrackDataSource(context: Context?) {
     // Database fields
@@ -35,7 +35,7 @@ class TrackDataSource(context: Context?) {
         dbHandler.close()
     }
 
-    fun createTrackTp(tsection: String, tlat: String, tlon: String): Track {
+    fun createTrackTp(tsection: String, tlat: String, tlon: String) {
         val values = ContentValues()
         values.put(DbHelper.T_SECTION, tsection)
         values.put(DbHelper.T_LAT, tlat)
@@ -48,15 +48,16 @@ class TrackDataSource(context: Context?) {
             null, null, null
         )
         cursor.moveToFirst()
-        val newTrack = cursorToTrack(cursor)
+//        val newTrack = cursorToTrack(cursor)
+        cursorToTrack(cursor)
         cursor.close()
-        return newTrack
+//        return newTrack
     }
 
     @SuppressLint("Range")
     private fun cursorToTrack(cursor: Cursor): Track {
         val newtrack = Track()
-        newtrack.id = cursor.getInt(cursor.getColumnIndex(DbHelper.T_ID))
+        newtrack.id = cursor.getInt(cursor.getColumnIndex(DbHelper.T_ID)) // !!!
         newtrack.tsection = cursor.getString(cursor.getColumnIndex(DbHelper.T_SECTION))
         newtrack.tlat = cursor.getString(cursor.getColumnIndex(DbHelper.T_LAT))
         newtrack.tlon = cursor.getString(cursor.getColumnIndex(DbHelper.T_LON))
@@ -107,5 +108,22 @@ class TrackDataSource(context: Context?) {
             database!!.update(DbHelper.TRACK_TABLE, dataToInsert, where, whereArgs)
         }
     }
+
+    // Used by WelcomeActivity
+    val hasTrack: Boolean
+        get() {
+            var hasTrack: Boolean = true
+            val cursor = database!!.rawQuery(
+                "select exists (select 1 from tracks)", null)
+
+            if (cursor != null) {
+                cursor.moveToFirst()
+                if (cursor.getInt(0) == 0) {
+                    hasTrack = false
+                }
+            }
+            cursor.close()
+            return hasTrack
+        }
 
 }

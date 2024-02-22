@@ -1,9 +1,9 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 4.0.0:
+New in Version 4.0.2:
 - Option for automatic transect section recognition via GPS.
 - Import function for a GPX file with separate tracks of the transect sections
-- Restructured internal DB for the new functions (Attention! Updating the app or importing DB files of version < 4.0.0 change the species lists of all sections of the current DB to standard selection, as all section lists need to have identical species).
+- Restructured internal DB for the new functions (Attention! Updating the app or importing DB files of app versions < 4.0.0 change the species lists of all sections of the current DB to to list of the 1st section, as for the GPS controlled sections all section lists need to have identical species).
 
 Features:
 - Data collection is based on a transect inspection.

@@ -1,4 +1,4 @@
-/* SQL-script to sort the species list of the TransektCount Basic DB by section ID and species code */
+/* SQL-script to sort the species list of the TransektCount Basic DB by section_id and code */
 ALTER TABLE counts RENAME TO counts_old;
 
 CREATE TABLE counts

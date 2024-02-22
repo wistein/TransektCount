@@ -1,0 +1,5 @@
+Version 4.0.2 (2024-02-22)
+- More pictures of species added
+- Bugs fixed
+- Docs updated
+- Example DBs updated

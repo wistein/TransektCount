@@ -196,7 +196,7 @@ class SectionDataSource(context: Context?) {
         return section
     }
 
-    // called from NewSectionActivity, CountingActivity and EditSectionActivity
+    // called from WelcomeActivity, NewSectionActivity, CountingActivity and EditSectionActivity
     fun getSection(sectionId: Int): Section {
         val section: Section
         val cursor = database!!.query(

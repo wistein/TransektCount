@@ -35,7 +35,7 @@ import java.util.Locale;
  See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2023-12-08
+ last change by wmstein on 2024-02-12
  */
 public class ChangeLog
 {
@@ -128,8 +128,7 @@ public class ChangeLog
         String fullTitle = context.getResources().getString(R.string.changelog_full_title)
             + " Ver. " + thisVersion;
         String changeTitle = "Ver. " + thisVersion + ": "
-            + context.getResources().getString(R.string.changelog_title)
-            + " " + thisVersion;
+            + context.getResources().getString(R.string.changelog_title);
         builder.setTitle(full ? fullTitle : changeTitle)
             .setView(wv)
             .setCancelable(false)

@@ -13,7 +13,7 @@ import com.wmstein.transektcount.TransektCountApplication
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2023-12-08
+ * last edited on 2024-02-22
  */
 class CountDataSource(context: Context?) {
     // Database fields

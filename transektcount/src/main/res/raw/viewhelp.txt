@@ -34,6 +34,8 @@
   %1. Introduction
   !
   ! This counting app should support you when monitoring butterflies in a transect.
+  ! It can be used to record individuals on a species-specific basis per transect section.
+  ! Transect sections can be selected manually or determined automatically via GPS.
   ! It can substitute your field book and pencil, and if applicable a camera for documentary pictures of interesting species.
   _ 
   ! The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.

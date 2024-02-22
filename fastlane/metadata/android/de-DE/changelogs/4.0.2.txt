@@ -1,0 +1,5 @@
+Version 4.0.2 (22.02.2024)
+- Einge Arten mit Abbildungen hinzugefügt
+- Bug-Fixes
+- Docs überarbeitet
+- Beispiel-DBs überarbeitet
