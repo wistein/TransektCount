@@ -74,7 +74,7 @@ import static android.graphics.Color.RED;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-02-20.
+ * last edited on 2024-02-23.
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -1938,8 +1938,6 @@ public class WelcomeActivity
 
     /*******************************************************************
      * Select and import gpx-file to store track coords into TRACK_TABLE
-     * ToDo: Works with internally converted database, but corrupts database with more than 4 sections
-     *       if database is prepared outside with DB Browser for SQLite 
      */
     public void importGPX()
     {
