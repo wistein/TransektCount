@@ -85,6 +85,12 @@ _ Subtitle
     ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
   _ 
 
+$ 4.0.3
+  % Version 4.0.3
+  _ 26.02.2024
+  * Einige lokale Artnamen ergänzt
+  * Bug-Fix
+
 $ 4.0.2
   % Version 4.0.2
   _ 22.02.2024
@@ -96,12 +102,6 @@ $ 4.0.2
 $ 4.0.1
   % Version 4.0.1
   _ 15.12.2023
-  * Code-Anpassungen für Android 14
-  * Code-Verbesserungen
-
-$ 4.0.0
-  % Version 4.0.0
-  _ 05.12.2023
   # Funktionale Erweiterung:
   * Option für die automatische Transekt-Abschnittserkennung per GPS. Benötigt eine vorbereitete Track-Datei im GPX-Dateiformat
   * Automatische Unterscheidung bei GPS-Nutzung zwischen innerhalb und außerhalb von Transektabschnitten mit entsprechender Zähler-Darstellung
@@ -117,6 +117,7 @@ $ 4.0.0
   * Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
   * Code Verbesserungen
   * Bug-Fixes
+  * Code-Anpassungen für Android 14
 
 $ 3.4.3
   % Version 3.4.3

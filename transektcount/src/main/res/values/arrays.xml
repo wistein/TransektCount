@@ -120,6 +120,7 @@
         <item comment="10603">Callimorpha dominula</item>
         <item comment="10605">Euplagia quadripunctaria</item>
         <item comment="10607">Tyria jacobaeae</item>
+        <item comment="20000">NN</item>
     </string-array>
 
     <string-array name="initSpecs_l">
@@ -196,6 +197,7 @@
         <item comment="10603">Scarlet tiger</item>
         <item comment="10605">Jersey tiger</item>
         <item comment="10607">Cinnabar</item>
+        <item comment="20000">New species</item>
     </string-array>
 
     <string-array name="initCodes">
@@ -272,6 +274,7 @@
         <item>10603</item>
         <item>10605</item>
         <item>10607</item>
+        <item>20000</item>
     </string-array>
 
     <string-array name="selSpecs">
@@ -356,6 +359,7 @@
         <item comment="06853">Hyles euphorbiae</item>
         <item comment="06855">Hyles gallii</item>
         <item comment="06858">Hyles vespertilio</item>
+        <item comment="06859">Hyles hippophaes</item>
         <item comment="06860">Hyles livornica</item>
         <item comment="06862">Deilephila elpenor</item>
         <item comment="06863">Deilephila porcellus</item>
@@ -541,6 +545,7 @@
         <item comment="07391">Erebia tyndarus</item>
         <item comment="07394">Erebia cassioides</item>
         <item comment="07396">Erebia pronoe</item>
+        <item comment="07399">Erebia stirius</item>
         <item comment="07400">Erebia styx</item>
         <item comment="07401">Erebia montanus</item>
         <item comment="07405">Erebia oeme</item>
@@ -663,7 +668,7 @@
         <item comment="00338">Yellow-barred long-horn</item>
         <item comment="01348">Orchard ermine</item>
 		<item comment="01350">Spindle ermine</item>
-        <item comment="02321">-</item>
+        <item comment="02321">Hedge Beauty</item>
         <item comment="03907">Festoon</item>
         <item comment="03925">Blackthorn aurora moth</item>
         <item comment="03933">Thistle forester</item>
@@ -676,10 +681,10 @@
         <item comment="03956*">Adscita-compl.</item>
         <item comment="03959">Hedge burnet</item>
         <item comment="03967">Calcareous burnet</item>
-        <item comment="03973">03973</item>
+        <item comment="03973">-</item>
         <item comment="03974">Transparent burnet</item>
         <item comment="03974*">Zygaena min./pur.-compl.</item>
-        <item comment="03979">03979</item>
+        <item comment="03979">Auspicious burnet</item>
         <item comment="03980">Crepuscular burnet</item>
         <item comment="03983">Slender burnet</item>
         <item comment="03988">Mountain burnet</item>
@@ -687,7 +692,7 @@
         <item comment="03992">New forest burnet</item>
         <item comment="03995">Billowing burnet</item>
         <item comment="03996">Southerly burnet</item>
-        <item comment="03997">-</item>
+        <item comment="03997">Slender Scotch burnet</item>
         <item comment="03998">Six-spot burnet</item>
         <item comment="03999">Narrow-bordered five-spot burnet</item>
         <item comment="04000">Five-spot burnet</item>
@@ -709,10 +714,10 @@
 		<item comment="06364">Waste grass-veneer</item>
         <item comment="06416">Brown china-mark</item>
 		<item comment="06499">Marbled yellow pearl</item>
-        <item comment="06601">-</item>
+        <item comment="06601">Straw-barred pearl</item>
         <item comment="06604">Mint moth</item>
-        <item comment="06605">-</item>
-        <item comment="06623">-</item>
+        <item comment="06605">Common purple &amp; gold</item>
+        <item comment="06623">Sulphur Pearl</item>
         <item comment="06658">Small magpie</item>
         <item comment="06667">Mother of pearl moth</item>
         <item comment="06720a">Box tree moth</item>
@@ -736,7 +741,8 @@
         <item comment="06849">Willowherb hawk-moth</item>
         <item comment="06853">Spurge hawk-moth</item>
         <item comment="06855">Bedstraw hawk-moth</item>
-        <item comment="06858">-</item>
+        <item comment="06858">Dusky hawk-moth</item>
+        <item comment="06859">Seathorn hawk-moth</item>
         <item comment="06860">Striped hawk-moth</item>
         <item comment="06862">Elephant hawk-moth</item>
         <item comment="06863">Small elephant hawk-moth</item>
@@ -922,6 +928,7 @@
         <item comment="07391">Swiss brassy ringlet</item>
         <item comment="07394">Common brassy ringlet</item>
         <item comment="07396">Water ringlet</item>
+        <item comment="07399">Styrian ringlet</item>
         <item comment="07400">Stygian ringlet</item>
         <item comment="07401">Marbled ringlet</item>
         <item comment="07405">Bright-eyed ringlet</item>
@@ -1118,6 +1125,7 @@
         <item>06853</item>
         <item>06855</item>
         <item>06858</item>
+        <item>06859</item>
         <item>06860</item>
         <item>06862</item>
         <item>06863</item>
@@ -1303,6 +1311,7 @@
         <item>07391</item>
         <item>07394</item>
         <item>07396</item>
+        <item>07399</item>
         <item>07400</item>
         <item>07401</item>
         <item>07405</item>

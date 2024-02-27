@@ -85,6 +85,12 @@ _ Subtitle
     ! Illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
 
+$ 4.0.3
+  % Version 4.0.3
+  _ 2024-02-26
+  * Some local species names added
+  * Bug fixed
+
 $ 4.0.2
   % Version 4.0.2
   _ 2024-02-22
@@ -96,12 +102,6 @@ $ 4.0.2
 $ 4.0.1
   % Version 4.0.1
   _ 2023-12-15
-  * Code adaptation for Android 14
-  * Code improvements
-
-$ 4.0.0
-  % Version 4.0.0
-  _ 2023-12-05
   # Functional enhancement:
   * Option for automatic transect section recognition per GPS. Therefore, a prepared track file in GPX format is needed
   * GPS usage automatically determines between on- and off-track and shows appropriate counting screens
@@ -117,6 +117,7 @@ $ 4.0.0
   * Docs updated with explanation how to create and handle an appropriate GPX file
   * Code refinements
   * Bug fixes
+  * Code adaptation for Android 14
 
 $ 3.4.3
   % Version 3.4.3

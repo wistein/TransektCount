@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
+#### Version 4.0.3 (2024-02-26)
+- More pictures of species added
+- Some missing local species names added
+- Bug fixed
+
 #### Version 4.0.2 (2024-02-22)
 - More pictures of species added
 - Bugs fixed
@@ -9,10 +14,6 @@
 - Example DBs updated
 
 #### Version 4.0.1 (2023-12-15)
-- Code adaptation for Android 14
-- Code refinements
-
-#### Version 4.0.0 (2023-12-05)
 ##### Functional enhancement:
 - Option for automatic transect section recognition per GPS. Therefore, a prepared track file in GPX format is needed
 - GPS usage automatically determines between on- and off-track and shows appropriate counting screens
@@ -28,6 +29,7 @@
 - Docs updated with explanation how to create and handle an appropriate GPX file
 - Code refinements
 - Bug fixes
+- Code adaptation for Android 14
 
 #### Version 3.4.3 (2023-08-09)
 - Last version without automatic transect sections recognition

@@ -26,7 +26,7 @@ The app demands for
 - the permit to keep the device awake,
 - the permit to read location data if GPS is used for automatic section recognition.
 
-The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
+The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 7.1 (Nougat) or newer.
 
 ### General
@@ -69,6 +69,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Pictures of this work by Wilhelm Stein may be used for scientific or other non-commercial purposes without prior permission.
+But it is not permitted to upload pictures to social media platforms, as most of their licenses do not comply with and I do not agree with the licensing terms of these platforms.
+
+Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their permission.
+
+### External references
+
 Integrated code from external references:
 - Counting functions based on BeeCount, (C) 2016 Milo Thurston (knirirr), 
   Apache License, Version 2.0, https://github.com/knirirr/BeeCount
@@ -80,7 +87,7 @@ Integrated code from external references:
   Apache License, Version 2.0
 - filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
 
-Butterfly pictures: 
+Butterfly pictures from external references:
 - Crambus pascuella derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg,
   Author: Olaf Leillinger, GNU Free Documentation License
 - Deltote bankiana derived from freenatureimages.eu,
@@ -94,13 +101,11 @@ Butterfly pictures:
   Author: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license
 - Muschampia lavatherae derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae,
   Author: Dumi, GNU Free Documentation License, version 1.2
-- Pediasia contaminella derived from https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg,
+- Pediasia contaminella derived from https://commons.wikimedia.org/wiki/File:Pediasia_contaminella_(33480878804).jpg,
   Author: Ben Sale, Creative Commons Attribution 2.0 Generic License
+- Phragmataecia castaneae derived from https://species.wikimedia.org/wiki/Phragmataecia_castaneae,
+  Author: Dumi, GNU Free Documentation License, version 1.2 
 - Sesia apiformis derived from picture on https://en.wikipedia.org/wiki/Hornet_moth
   Author: Jyrki Lehto, free use
 
 - All other pictures, app icon and background (C) Wilhelm Stein. 
-
-Pictures of this work by Wilhelm Stein may be used for scientific or other non-commercial purposes without prior permission. 
-But it is not permitted to upload pictures to social media platforms, as most of the mentioned licenses do not comply with and I do not agree with the licensing terms of these platforms.
-Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their permission.

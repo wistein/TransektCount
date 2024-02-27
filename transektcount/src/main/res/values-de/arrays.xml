@@ -120,6 +120,7 @@
         <item comment="10603">Schönbär</item>
         <item comment="10605">Spanische Flagge</item>
         <item comment="10607">Blutbär</item>
+        <item comment="20000">NN</item>
     </string-array>
 
     <string-array name="selSpecs_l">
@@ -204,6 +205,7 @@
         <item comment="06853">Wolfsmilchschwärmer</item>
         <item comment="06855">Labkrautschwärmer</item>
         <item comment="06858">Fledermausschwärmer</item>
+        <item comment="06859">Sanddornschwärmer</item>
         <item comment="06860">Altweltlicher Linienschwärmer</item>
         <item comment="06862">Mittlerer Weinschwärmer</item>
         <item comment="06863">Kleiner Weinschwärmer</item>
@@ -389,6 +391,7 @@
         <item comment="07391">Schweizer schillernder Mohrenfalter</item>
         <item comment="07394">Schillernder Mohrenfalter</item>
         <item comment="07396">Quellen-Mohrenfalter</item>
+        <item comment="07399">Steirischer Mohrenfalter</item>
         <item comment="07400">Freyers Alpen-Mohrenfalter</item>
         <item comment="07401">Marmorierter Mohrenfalter</item>
         <item comment="07405">Doppelaugen-Mohrenfalter</item>
