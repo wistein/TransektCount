@@ -4,7 +4,7 @@ Neu seit Version 4.0.0:
 - Option für die automatische Transekt-Abschnittserkennung per GPS.
 - Importfunktion für eine GPX-Datei mit separaten Tracks der Transektabschnitte
 - Restrukturierte interne DB für die neuen Funktionen (Achtung! Ändert beim Update der App oder beim Importieren von DB-Dateien mit App-Version < 4.0.0 die Artenlisten aller Abschnitte der aktuellen DB auf die Artenliste des 1. Abschnitts, da wegen der GPS-gesteuerten Abschnittsbestimmung alle Abschnittslisten nun identische Arten benötigen.)
-- Einge Arten mit Abbildungen hinzugefügt
+- Einge fehlende Arten und Abbildungen hinzugefügt
 - Einige lokale Artnamen ergänzt
 - Bug-Fixes
 

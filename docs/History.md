@@ -3,7 +3,7 @@
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
 #### Version 4.0.3 (2024-02-26)
-- More pictures of species added
+- One missing species with picture added
 - Some missing local species names added
 - Bug fixed
 
