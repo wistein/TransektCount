@@ -36,7 +36,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2023-11-29
+ * last edited on 2024-03-09
  */
 public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -128,11 +128,14 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         // display the editable meta data
         etw = new EditMetaWidget(this, null);
         etw.setWidgetTemp1(getString(R.string.temperature));
-        etw.setWidgetTemp2(meta.tempe);
+        etw.setWidgetStartTemp2(meta.temps);
+        etw.setWidgetEndTemp2(meta.tempe);
         etw.setWidgetWind1(getString(R.string.wind));
-        etw.setWidgetWind2(meta.wind);
+        etw.setWidgetStartWind2(meta.winds);
+        etw.setWidgetEndWind2(meta.winde);
         etw.setWidgetClouds1(getString(R.string.clouds));
-        etw.setWidgetClouds2(meta.clouds);
+        etw.setWidgetStartClouds2(meta.clouds);
+        etw.setWidgetEndClouds2(meta.cloude);
         etw.setWidgetDate1(getString(R.string.date));
         etw.setWidgetDate2(meta.date);
         etw.setWidgetSTime1(getString(R.string.starttm));
@@ -280,7 +283,17 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         headDataSource.saveHead(head);
 
         // Save meta data
-        meta.tempe = etw.getWidgetTemp();
+        meta.temps = etw.getWidgetTemps();
+        if (meta.temps > 50 || meta.temps < 0)
+        {
+            Snackbar sB = Snackbar.make(etw, getString(R.string.valTemp), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+            sB.show();
+            return false;
+        }
+        meta.tempe = etw.getWidgetTempe();
         if (meta.tempe > 50 || meta.tempe < 0)
         {
             Snackbar sB = Snackbar.make(etw, getString(R.string.valTemp), Snackbar.LENGTH_LONG);
@@ -290,8 +303,18 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             sB.show();
             return false;
         }
-        meta.wind = etw.getWidgetWind();
-        if (meta.wind > 4 || meta.wind < 0)
+        meta.winds = etw.getWidgetWinds();
+        if (meta.winds > 4 || meta.winds < 0)
+        {
+            Snackbar sB = Snackbar.make(etw, getString(R.string.valWind), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+            sB.show();
+            return false;
+        }
+        meta.winde = etw.getWidgetWinde();
+        if (meta.winde > 4 || meta.winde < 0)
         {
             Snackbar sB = Snackbar.make(etw, getString(R.string.valWind), Snackbar.LENGTH_LONG);
             TextView tv = sB.getView().findViewById(R.id.snackbar_text);
@@ -302,6 +325,16 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         }
         meta.clouds = etw.getWidgetClouds();
         if (meta.clouds > 100 || meta.clouds < 0)
+        {
+            Snackbar sB = Snackbar.make(etw, getString(R.string.valClouds), Snackbar.LENGTH_LONG);
+            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+            sB.show();
+            return false;
+        }
+        meta.cloude = etw.getWidgetCloude();
+        if (meta.cloude > 100 || meta.cloude < 0)
         {
             Snackbar sB = Snackbar.make(etw, getString(R.string.valClouds), Snackbar.LENGTH_LONG);
             TextView tv = sB.getView().findViewById(R.id.snackbar_text);

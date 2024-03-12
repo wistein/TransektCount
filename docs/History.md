@@ -2,9 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
-#### Version 4.0.3 (2024-02-26)
+#### Version 4.0.3 (2024-03-10)
+- Meta data page enhanced with start and end time values for temperature, wind and clouds
+- Results page and csv-export file ditto
 - One missing species with picture added
 - Some missing local species names added
+- Docs revised
 - Bug fixed
 
 #### Version 4.0.2 (2024-02-22)

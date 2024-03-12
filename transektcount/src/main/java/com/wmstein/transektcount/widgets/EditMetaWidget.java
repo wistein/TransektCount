@@ -14,21 +14,24 @@ import java.util.Objects;
 /*****************************************************
  * EditMetaWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 2016-04-02
- * last edited on 2023-05-09
+ * last edited on 2024-03-09
  */
 public class EditMetaWidget extends LinearLayout
 {
-    final TextView widget_temp1; // temperature
-    final EditText widget_temp2;
-    final TextView widget_wind1; // wind
-    final EditText widget_wind2;
-    final TextView widget_clouds1; // clouds
-    final EditText widget_clouds2;
-    final TextView widget_date1; // date
+    final TextView widget_temp1;   // start temperature
+    final EditText widget_starttemp2;
+    final TextView widget_wind1;   // start wind
+    final EditText widget_startwind2;
+    final TextView widget_clouds1; // start clouds
+    final EditText widget_startclouds2;
+    final EditText widget_endtemp2;     // end temperature
+    final EditText widget_endwind2;     // end wind
+    final EditText widget_endclouds2;   // end clouds
+    final TextView widget_date1;        // date
     final TextView widget_date2;
-    final TextView widget_stime1; // start-time
+    final TextView widget_stime1;       // start-time
     final TextView widget_stime2;
-    final TextView widget_etime1; // end-time
+    final TextView widget_etime1;       // end-time
     final TextView widget_etime2;
 
     final String regEx = "^[0-9]*$"; // plausi for numeric input
@@ -39,11 +42,14 @@ public class EditMetaWidget extends LinearLayout
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_meta, this, true);
         widget_temp1 = findViewById(R.id.widgetTemp1);
-        widget_temp2 = findViewById(R.id.widgetTemp2);
+        widget_starttemp2 = findViewById(R.id.widgetStartTemp2);
+        widget_endtemp2 = findViewById(R.id.widgetEndTemp2);
         widget_wind1 = findViewById(R.id.widgetWind1);
-        widget_wind2 = findViewById(R.id.widgetWind2);
+        widget_startwind2 = findViewById(R.id.widgetStartWind2);
+        widget_endwind2 = findViewById(R.id.widgetEndWind2);
         widget_clouds1 = findViewById(R.id.widgetClouds1);
-        widget_clouds2 = findViewById(R.id.widgetClouds2);
+        widget_startclouds2 = findViewById(R.id.widgetStartClouds2);
+        widget_endclouds2 = findViewById(R.id.widgetEndClouds2);
         widget_date1 = findViewById(R.id.widgetDate1);
         widget_date2 = findViewById(R.id.widgetDate2);
         widget_stime1 = findViewById(R.id.widgetSTime1);
@@ -58,10 +64,13 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_temp1.setText(title);
     }
-
-    public void setWidgetTemp2(int name)
+    public void setWidgetStartTemp2(int name)
     {
-        widget_temp2.setText(String.valueOf(name));
+        widget_starttemp2.setText(String.valueOf(name));
+    }
+    public void setWidgetEndTemp2(int name)
+    {
+        widget_endtemp2.setText(String.valueOf(name));
     }
 
     // wind
@@ -69,10 +78,13 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_wind1.setText(title);
     }
-
-    public void setWidgetWind2(int name)
+    public void setWidgetStartWind2(int name)
     {
-        widget_wind2.setText(String.valueOf(name));
+        widget_startwind2.setText(String.valueOf(name));
+    }
+    public void setWidgetEndWind2(int name)
+    {
+        widget_endwind2.setText(String.valueOf(name));
     }
 
     // clouds
@@ -80,10 +92,10 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_clouds1.setText(title);
     }
-
-    public void setWidgetClouds2(int name)
+    public void setWidgetStartClouds2(int name) {widget_startclouds2.setText(String.valueOf(name));}
+    public void setWidgetEndClouds2(int name)
     {
-        widget_clouds2.setText(String.valueOf(name));
+        widget_endclouds2.setText(String.valueOf(name));
     }
 
     // date
@@ -91,7 +103,6 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_date1.setText(title);
     }
-
     public void setWidgetDate2(String name)
     {
         widget_date2.setText(name);
@@ -102,7 +113,6 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_stime1.setText(title);
     }
-
     public void setWidgetSTime2(String name)
     {
         widget_stime2.setText(name);
@@ -113,7 +123,6 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_etime1.setText(title);
     }
-
     public void setWidgetETime2(String name)
     {
         widget_etime2.setText(name);
@@ -121,9 +130,26 @@ public class EditMetaWidget extends LinearLayout
 
     // following the GETS
     // get temperature with plausi
-    public int getWidgetTemp()
+    public int getWidgetTemps()
     {
-        String text = widget_temp2.getText().toString();
+        String text = widget_starttemp2.getText().toString();
+        if (isEmpty(text))
+            return 0;
+        else if (!text.trim().matches(regEx))
+            return 100;
+        else
+            try
+            {
+                return Integer.parseInt(text.replaceAll("\\D",""));
+            } catch (NumberFormatException e)
+            {
+                return 100;
+            }
+    }
+
+    public int getWidgetTempe()
+    {
+        String text = widget_endtemp2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))
@@ -139,9 +165,26 @@ public class EditMetaWidget extends LinearLayout
     }
 
     // get wind with plausi
-    public int getWidgetWind()
+    public int getWidgetWinds()
     {
-        String text = widget_wind2.getText().toString();
+        String text = widget_startwind2.getText().toString();
+        if (isEmpty(text))
+            return 0;
+        else if (!text.trim().matches(regEx))
+            return 100;
+        else
+            try
+            {
+                return Integer.parseInt(text.replaceAll("\\D",""));
+            } catch (NumberFormatException e)
+            {
+                return 100;
+            }
+    }
+
+    public int getWidgetWinde()
+    {
+        String text = widget_endwind2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))
@@ -159,7 +202,24 @@ public class EditMetaWidget extends LinearLayout
     // get clouds with plausi
     public int getWidgetClouds()
     {
-        String text = widget_clouds2.getText().toString();
+        String text = widget_startclouds2.getText().toString();
+        if (isEmpty(text))
+            return 0;
+        else if (!text.trim().matches(regEx))
+            return 200;
+        else
+            try
+            {
+                return Integer.parseInt(text.replaceAll("\\D",""));
+            } catch (NumberFormatException e)
+            {
+                return 200;
+            }
+    }
+
+    public int getWidgetCloude()
+    {
+        String text = widget_endclouds2.getText().toString();
         if (isEmpty(text))
             return 0;
         else if (!text.trim().matches(regEx))

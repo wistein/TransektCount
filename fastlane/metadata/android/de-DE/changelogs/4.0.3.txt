@@ -1,3 +1,7 @@
-Version 4.0.3 (26.02.2024)
-- Einige lokale Artnamen ergänzt
+Version 4.0.3 (10.03.2024)
+- Meta-Daten-Erfassung erweitert mit Start- und Endezeit für Temperatur, Wind und Wolken
+- Ergebnisseite und csv-Exportdatei dito
+- Eine weitere Art mit Abbildung hinzugeführt
+- Einige noch fehlende lokale Artnamen ergänzt
+- Doku überarbeitet
 - Bug-Fix

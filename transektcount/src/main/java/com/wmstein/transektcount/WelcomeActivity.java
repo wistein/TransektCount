@@ -74,7 +74,7 @@ import static android.graphics.Color.RED;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by milo from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-02-23.
+ * last edited on 2024-03-10.
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -956,7 +956,7 @@ public class WelcomeActivity
 
         Meta meta;
         String transNo, inspecName;
-        int tempe, wind, clouds;
+        int temps, tempe, winds, winde, clouds, cloude;
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int total, sumSpec;
         String date, start_tm, end_tm, kw;
@@ -1013,12 +1013,14 @@ public class WelcomeActivity
                     {
                         getString(R.string.transectnumber),
                         getString(R.string.inspector),
+                        getString(R.string.date),
+                        "",
+                        "",
+                        getString(R.string.timehead),
                         getString(R.string.temperature),
                         getString(R.string.wind),
                         getString(R.string.clouds),
-                        getString(R.string.date),
-                        getString(R.string.starttm),
-                        getString(R.string.endtm),
+                        "",
                         getString(R.string.kal_w),
                     };
                 csvWrite.writeNext(arrCol); // write line to csv-file
@@ -1030,9 +1032,12 @@ public class WelcomeActivity
 
                 // open Meta table for meta info
                 meta = metaDataSource.getMeta();
+                temps = meta.temps;
                 tempe = meta.tempe;
-                wind = meta.wind;
+                winds = meta.winds;
+                winde = meta.winde;
                 clouds = meta.clouds;
+                cloude = meta.cloude;
                 date = meta.date;
                 start_tm = meta.start_tm;
                 end_tm = meta.end_tm;
@@ -1088,15 +1093,31 @@ public class WelcomeActivity
                     {
                         transNo,
                         inspecName,
-                        String.valueOf(tempe),
-                        String.valueOf(wind),
-                        String.valueOf(clouds),
                         date,
+                        "",
+                        getString(R.string.from),
                         start_tm,
-                        end_tm,
+                        String.valueOf(temps),
+                        String.valueOf(winds),
+                        String.valueOf(clouds),
+                        "",
                         kw,
                     };
                 csvWrite.writeNext(arrMeta);
+
+                String[] arrMeta1 =
+                    {
+                        "",
+                        "",
+                        "",
+                        "",
+                        getString(R.string.to),
+                        end_tm,
+                        String.valueOf(tempe),
+                        String.valueOf(winde),
+                        String.valueOf(cloude),
+                    };
+                csvWrite.writeNext(arrMeta1);
 
                 // Empty row
                 String[] arrEmpt = {};
@@ -1712,9 +1733,12 @@ public class WelcomeActivity
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.META_TABLE + " SET "
+                + DbHelper.M_TEMPS + " = 0, "
                 + DbHelper.M_TEMPE + " = 0, "
-                + DbHelper.M_WIND + " = 0, "
+                + DbHelper.M_WINDS + " = 0, "
+                + DbHelper.M_WINDE + " = 0, "
                 + DbHelper.M_CLOUDS + " = 0, "
+                + DbHelper.M_CLOUDE + " = 0, "
                 + DbHelper.M_DATE + " = '', "
                 + DbHelper.M_START_TM + " = '', "
                 + DbHelper.M_END_TM + " = '';";

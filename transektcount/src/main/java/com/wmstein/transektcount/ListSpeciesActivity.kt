@@ -29,7 +29,7 @@ import com.wmstein.transektcount.widgets.ListSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-11-04
+ * last edited on 2024-03-09
  */
 class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -118,12 +118,15 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
 
         // display the editable meta data
         lmw = ListMetaWidget(this, null)
-        lmw!!.setWidgetLMeta1(getString(R.string.temperature))
-        lmw!!.setWidgetLItem1(meta!!.tempe)
-        lmw!!.setWidgetLMeta2(getString(R.string.wind))
-        lmw!!.setWidgetLItem2(meta!!.wind)
-        lmw!!.setWidgetLMeta3(getString(R.string.clouds))
-        lmw!!.setWidgetLItem3(meta!!.clouds)
+        lmw!!.setWidgetLTemp(getString(R.string.temperature))
+        lmw!!.setWidgetLTemps(meta!!.temps)
+        lmw!!.setWidgetLTempe(meta!!.tempe)
+        lmw!!.setWidgetLWind(getString(R.string.wind))
+        lmw!!.setWidgetLWinds(meta!!.winds)
+        lmw!!.setWidgetLWinde(meta!!.winde)
+        lmw!!.setWidgetLCloud(getString(R.string.clouds))
+        lmw!!.setWidgetLClouds(meta!!.clouds)
+        lmw!!.setWidgetLCloude(meta!!.cloude)
         lmw!!.setWidgetLDate1(getString(R.string.date))
         lmw!!.setWidgetLDate2(meta!!.date)
         lmw!!.setWidgetLTime1(getString(R.string.starttm))

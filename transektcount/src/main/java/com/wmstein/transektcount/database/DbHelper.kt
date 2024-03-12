@@ -8,15 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
-import com.wmstein.transektcount.TransektCountApplication.getAppContext
 
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18
  * last edited in Java on 2023-06-11
  * converted to Kotlin on 2023-06-26
- * last edited on 2024-02-22
+ * last edited on 2024-03-10
  */
+
+/** Attention: Adapt the version for val DATABASE_VERSION in the companion object when changing it */
 class DbHelper   // constructor
     (private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -63,9 +64,12 @@ class DbHelper   // constructor
         db.execSQL(sql)
         sql = ("create table " + META_TABLE + " ("
                 + M_ID + " integer primary key, "
+                + M_TEMPS + " int, "
                 + M_TEMPE + " int, "
-                + M_WIND + " int, "
+                + M_WINDS + " int, "
+                + M_WINDE + " int, "
                 + M_CLOUDS + " int, "
+                + M_CLOUDE + " int, "
                 + M_DATE + " text, "
                 + M_START_TM + " text, "
                 + M_END_TM + " text)")
@@ -87,9 +91,12 @@ class DbHelper   // constructor
         //create empty row for META_TABLE
         val values2 = ContentValues()
         values2.put(M_ID, 1)
+        values2.put(M_TEMPS, 0)
         values2.put(M_TEMPE, 0)
-        values2.put(M_WIND, 0)
+        values2.put(M_WINDS, 0)
+        values2.put(M_WINDE, 0)
         values2.put(M_CLOUDS, 0)
+        values2.put(M_CLOUDE, 0)
         values2.put(M_DATE, "")
         values2.put(M_START_TM, "")
         values2.put(M_END_TM, "")
@@ -148,23 +155,30 @@ class DbHelper   // constructor
     // see https://www.androidpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 
+        if (oldVersion == 5) {
+            version6(db)
+        }
         if (oldVersion == 4) {
             version5(db)
+            version6(db)
         }
         if (oldVersion == 3) {
             version4(db)
             version5(db)
+            version6(db)
         }
         if (oldVersion == 2) {
             version3(db)
             version4(db)
             version5(db)
+            version6(db)
         }
         if (oldVersion == 1) {
             version2(db)
             version3(db)
             version4(db)
             version5(db)
+            version6(db)
         }
     }
 
@@ -425,13 +439,11 @@ class DbHelper   // constructor
         var secti = 1 // for new contiguous section index
         var sectIncr = 0
         val sectionList: List<Section> = getAllSects(db)
-        for (section in sectionList)
-        {
+        for (section in sectionList) {
             // for all species of section 1
             speci = 0
             if (MyDebug.LOG) Log.d(TAG, "432, TRACK_TABLE filled for " + section.id)
-            while (speci < specNum)
-            {
+            while (speci < specNum) {
                 val values4 = ContentValues()
                 values4.put(C_ID, cnti) // id from count index
                 values4.put(C_SECTION_ID, secti)
@@ -472,6 +484,62 @@ class DbHelper   // constructor
         if (MyDebug.LOG) Log.d(TAG, "472, Upgraded database to version 5")
     }
 
+    /*** V6 ***/
+    // DATABASE_VERSION 6: Modified table META_TABLE for start and end values
+    private fun version6(db: SQLiteDatabase) {
+
+        // update meta table for start and end values of temp., wind and clouds
+        var sql = "alter table $META_TABLE rename to meta_backup"
+        db.execSQL(sql)
+
+        // create new meta table
+        sql = ("create table " + META_TABLE + " ("
+                + M_ID + " integer primary key, "
+                + M_TEMPS + " int, "
+                + M_TEMPE + " int, "
+                + M_WINDS + " int, "
+                + M_WINDE + " int, "
+                + M_CLOUDS + " int, "
+                + M_CLOUDE + " int, "
+                + M_DATE + " text, "
+                + M_START_TM + " text, "
+                + M_END_TM + " text)")
+        db.execSQL(sql)
+/*
+        //create empty row for META_TABLE
+        val values2 = ContentValues()
+        values2.put(M_ID, 1)
+        values2.put(M_TEMPS, 0)
+        values2.put(M_TEMPE, 0)
+        values2.put(M_WINDS, 0)
+        values2.put(M_WINDE, 0)
+        values2.put(M_CLOUDS, 0)
+        values2.put(M_CLOUDE, 0)
+        values2.put(M_DATE, "")
+        values2.put(M_START_TM, "")
+        values2.put(M_END_TM, "")
+        db.insert(META_TABLE, null, values2)
+*/
+        // insert the old data into meta
+        sql = ("INSERT INTO " + META_TABLE + " SELECT "
+                + M_ID + ", "
+                + M_TEMPE + ", "
+                + "0, "
+                + M_WIND + ", "
+                + "0, "
+                + M_CLOUDS + ", "
+                + "0, "
+                + M_DATE + ", "
+                + M_START_TM + ", "
+                + M_END_TM + " FROM meta_backup")
+        db.execSQL(sql)
+
+        sql = "DROP TABLE meta_backup"
+        db.execSQL(sql)
+
+        if (MyDebug.LOG) Log.d(TAG, "385, META_TABLE initialized")
+    }
+
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
 
     @SuppressLint("Range")
@@ -479,8 +547,10 @@ class DbHelper   // constructor
         val sNames: MutableList<String> = ArrayList()
         val sCodes: MutableList<String> = ArrayList()
         val sNamesL: MutableList<String> = ArrayList()
-        val cursor = db.rawQuery("select * from " + COUNT_TABLE
-                    + " WHERE " + " (" + C_SECTION_ID + " = 1) order by " + C_CODE, null)
+        val cursor = db.rawQuery(
+            "select * from " + COUNT_TABLE
+                    + " WHERE " + " (" + C_SECTION_ID + " = 1) order by " + C_CODE, null
+        )
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             sNames.add(cursor.getString(cursor.getColumnIndex(C_NAME)))
@@ -494,8 +564,10 @@ class DbHelper   // constructor
 
     private fun getAllSects(db: SQLiteDatabase): List<Section> {
         val sections: MutableList<Section> = ArrayList()
-        val cursor = db.rawQuery("select * from " + SECTION_TABLE
-                + " order by '" + S_ID + "'", null)
+        val cursor = db.rawQuery(
+            "select * from " + SECTION_TABLE
+                    + " order by '" + S_ID + "'", null
+        )
         cursor.moveToFirst()
         var i = 1
         while (!cursor.isAfterLast) {
@@ -512,7 +584,7 @@ class DbHelper   // constructor
     companion object {
         private const val TAG = "TransektCount DBHelper"
         private const val DATABASE_NAME = "transektcount.db"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 6
 
         // tables
         const val SECTION_TABLE = "sections"
@@ -548,6 +620,8 @@ class DbHelper   // constructor
         const val C_COUNT_EE = "count_ee"
         const val C_NOTES = "notes"
         const val C_NAME_G = "name_g"
+
+        // fields of old counts table version 1
         private const val C_COUNT = "count" //deprecated in database version 2
         private const val C_COUNTA = "counta" //deprecated in database version 2
 
@@ -564,13 +638,19 @@ class DbHelper   // constructor
 
         // fields of table meta
         const val M_ID = "_id"
+        const val M_TEMPS = "temps"
         const val M_TEMPE = "tempe"
-        const val M_WIND = "wind"
+        const val M_WINDS = "winds"
+        const val M_WINDE = "winde"
         const val M_CLOUDS = "clouds"
+        const val M_CLOUDE = "cloude"
         const val M_DATE = "date"
         const val M_START_TM = "start_tm"
         const val M_END_TM = "end_tm"
+
+        // fields of old meta table version 4 and 5
         private const val M_TEMP = "temp"
+        private const val M_WIND = "wind"
 
         // fields of table tracks
         const val T_ID = "_id"

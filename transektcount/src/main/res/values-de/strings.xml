@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2023-12-05 -->
+     last edited 2024-03-10 -->
 
 <resources>
 
     <!-- generic -->
     <string name="app_name">TransektCount</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="title_activity_new_section">Neuer Abschnitt</string>
     <string name="title_activity_meta">Meta-Daten</string>
     <string name="title_activity_list_section">Transektabschnitte</string>
 
@@ -15,8 +14,7 @@
     <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
     <string name="viewSectionButton">Zählen</string>
     <string name="viewSpeciesButton">Ergebnis anzeigen</string>
-    <string name="editMetaButton">Begehung vorbereiten</string>
-    <string name="newSectTitle">Neuer Abschnitt</string>
+    <string name="editMetaButton">Meta-Daten editieren</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="viewHelpTitle">Hilfe</string>
     <string name="noCard">Das TransektCount files-Directory kann nicht verwendet werden!</string>
@@ -62,7 +60,10 @@
     <string name="sume">Summen (extern):</string>
     <string name="sum_total">Summen (total):</string>
     <string name="sumSpec">Arten:</string>
-    <string name="kal_w">KW</string>
+    <string name="kal_w">KW:</string>
+    <string name="timehead">Zeit:</string>
+    <string name="from">von:</string>
+    <string name="to">bis:</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
     <string name="track_err">GPS-Tracks entsprechen nicht den Transekt-Abschnitten! GPS-Funktion wird abgeschaltet.</string>
     <string name="track_err1">Keine GPS-Tracks vorhanden, GPS-Funktion wird nicht aktiviert.</string>
@@ -83,6 +84,8 @@
     <string name="starttm">Zeit von:</string>
     <string name="hinttm">Tippe hier</string>
     <string name="endtm">bis:</string>
+    <string name="start">Start: </string>
+    <string name="end">Ende: </string>
     <string name="valTemp">Unrealistische Temperatur!</string>
     <string name="valWind">Wind überprüfen!</string>
     <string name="valClouds">Wolken überprüfen!</string>

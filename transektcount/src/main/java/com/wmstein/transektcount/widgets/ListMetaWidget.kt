@@ -16,34 +16,40 @@ import java.util.Objects
  * Last edit on 2023-09-23.
  */
 class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    private val widgetLmeta1 // temperature
-            : TextView
-    private val widgetLitem1: TextView
-    private val widgetLmeta2 // wind
-            : TextView
-    private val widgetLitem2: TextView
-    private val widgetLmeta3 // clouds
-            : TextView
-    private val widgetLitem3: TextView
-    private val widgetLdate1 // date
-            : TextView
+    // temperature
+    private val widgetLTemp: TextView
+    private val widgetLTemps: TextView
+    private val widgetLTempe: TextView
+    // wind
+    private val widgetLWind: TextView
+    private val widgetLWinds: TextView
+    private val widgetLWinde: TextView
+    // clouds
+    private val widgetLCloud: TextView
+    private val widgetLClouds: TextView
+    private val widgetLCloude: TextView
+    // date
+    private val widgetLdate1: TextView
     private val widgetLdate2: TextView
-    private val widgetLtime1 // start_tm
-            : TextView
+    // start_tm
+    private val widgetLtime1: TextView
     private val widgetLitem4: TextView
-    private val widgetLtime2 // end_tm
-            : TextView
+    // end_tm
+    private val widgetLtime2: TextView
     private val widgetLitem5: TextView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_list_meta, this, true)
-        widgetLmeta1 = findViewById(R.id.widgetLMeta1)
-        widgetLitem1 = findViewById(R.id.widgetLItem1)
-        widgetLmeta2 = findViewById(R.id.widgetLMeta2)
-        widgetLitem2 = findViewById(R.id.widgetLItem2)
-        widgetLmeta3 = findViewById(R.id.widgetLMeta3)
-        widgetLitem3 = findViewById(R.id.widgetLItem3)
+        widgetLTemp = findViewById(R.id.widgetLTemp)
+        widgetLTemps = findViewById(R.id.widgetLTemps)
+        widgetLTempe = findViewById(R.id.widgetLTempe)
+        widgetLWind = findViewById(R.id.widgetLWind)
+        widgetLWinds = findViewById(R.id.widgetLWinds)
+        widgetLWinde = findViewById(R.id.widgetLWinde)
+        widgetLCloud = findViewById(R.id.widgetLCloud)
+        widgetLClouds = findViewById(R.id.widgetLClouds)
+        widgetLCloude = findViewById(R.id.widgetLCloude)
         widgetLdate1 = findViewById(R.id.widgetLDate1)
         widgetLdate2 = findViewById(R.id.widgetLDate2)
         widgetLtime1 = findViewById(R.id.widgetLTime1)
@@ -54,30 +60,42 @@ class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     // Following the SETS
     // temperature
-    fun setWidgetLMeta1(title: String?) {
-        widgetLmeta1.text = title
+    fun setWidgetLTemp(title: String?) {
+        widgetLTemp.text = title
     }
 
-    fun setWidgetLItem1(name: Int) {
-        widgetLitem1.text = name.toString()
+    fun setWidgetLTemps(name: Int) {
+        widgetLTemps.text = name.toString()
+    }
+
+    fun setWidgetLTempe(name: Int) {
+        widgetLTempe.text = name.toString()
     }
 
     // wind
-    fun setWidgetLMeta2(title: String?) {
-        widgetLmeta2.text = title
+    fun setWidgetLWind(title: String?) {
+        widgetLWind.text = title
     }
 
-    fun setWidgetLItem2(name: Int) {
-        widgetLitem2.text = name.toString()
+    fun setWidgetLWinds(name: Int) {
+        widgetLWinds.text = name.toString()
+    }
+
+    fun setWidgetLWinde(name: Int) {
+        widgetLWinde.text = name.toString()
     }
 
     // clouds
-    fun setWidgetLMeta3(title: String?) {
-        widgetLmeta3.text = title
+    fun setWidgetLCloud(title: String?) {
+        widgetLCloud.text = title
     }
 
-    fun setWidgetLItem3(name: Int) {
-        widgetLitem3.text = name.toString()
+    fun setWidgetLClouds(name: Int) {
+        widgetLClouds.text = name.toString()
+    }
+
+    fun setWidgetLCloude(name: Int) {
+        widgetLCloude.text = name.toString()
     }
 
     // date

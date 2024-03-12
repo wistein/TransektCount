@@ -80,15 +80,20 @@ _ Subtitle
 	* Sesia apiformis, Autor: Jyrki Lehto, free use, erstellt aus Abbildung auf https://en.wikipedia.org/wiki/Hornet_moth	
   _
     ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
+  _ 
     ! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden.
-    ! Aber es ist nicht erlaubt, Abbildungen auf Meta Platforms (Facebook) hochzuladen, da die meisten der genannten Lizenzen mit den Lizenzen von Meta Platforms kollidieren.
+    ! Aber es ist nicht erlaubt, Abbildungen auf Social-Media-Plattformen hochzuladen, da die meisten der oben genannten Lizenzen mit den Lizenzen dieser Plattformen kollidieren und ich nicht mit den Lizenzbedingungen dieser Plattformen einverstanden bin.
     ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
   _ 
 
 $ 4.0.3
   % Version 4.0.3
-  _ 26.02.2024
-  * Einige lokale Artnamen ergänzt
+  _ 09.03.2024
+  * Meta-Daten-Erfassung erweitert mit Start- und Endezeit für Temperatur, Wind und Wolken
+  * Ergebnisseite und csv-Exportdatei dito
+  * Eine weitere Art mit Abbildung hinzugeführt
+  * Einige noch fehlende lokale Artnamen ergänzt
+  * Doku überarbeitet
   * Bug-Fix
 
 $ 4.0.2

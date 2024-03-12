@@ -78,17 +78,23 @@ _ Subtitle
     * Muschampia lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2, derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
     * Pediasia contaminella, Author: Ben Sale, Creative Commons Attribution 2.0 Generic License, derived from https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
 	* Sesia apiformis, Author: Jyrki Lehto, free use, derived from picture on https://en.wikipedia.org/wiki/Hornet_moth
-  _
+  _ 
     ! All other pictures, app icon and background (C) Wilhelm Stein. 
+  _ 
     ! Pictures of this work by Wilhelm Stein may be used for research or other non-commercial purposes without prior permission.
-    ! But it is not permitted to upload pictures to Meta Platforms (Facebook), as most of the mentioned licenses do not comply with and I do not agree with the licensing terms of Meta Platforms.
+    ! But it is not permitted to upload pictures to social media platforms, as most of the mentioned licenses do not comply with and I do not agree with the licensing terms of these platforms.
+  _ 
     ! Illustrations provided by other authors remain the copyright of those authors and should not be reproduced other than with their permission.
   _ 
 
 $ 4.0.3
   % Version 4.0.3
-  _ 2024-02-26
-  * Some local species names added
+  _ 2024-03-10
+  * Meta data page enhanced with start and end time values for temperature, wind and clouds
+  * Results page and csv-export file ditto
+  * One missing species with picture added
+  * Some missing local species names added
+  * Docs revised
   * Bug fixed
 
 $ 4.0.2
