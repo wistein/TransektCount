@@ -1,0 +1,13 @@
+Version 4.1.0 (2024-06-10)
+- Functionality of GPS-based selection of section eliminated as too unreliable
+- File selection view enhanced with headline
+- Preferences view enhanced with headline
+- Preferences show their states in menu
+- Meta data enhanced with field for inspection remark
+- Internal Butterfly list now identical with the list of TourCount
+- Import function for the counting list of selected butterflies from TourCount
+- CSV-export of external species counts each summarized from all sections
+- Some code and layout improvements
+- Deprecated function replaced
+- Docs revised
+- Bugs fixed

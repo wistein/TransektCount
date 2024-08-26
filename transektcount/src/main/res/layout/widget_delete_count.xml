@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    widget_delete_count.xml
+    used by EditSpeciesWidget.java
+    Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+    Last change: 2023-12-09.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="5dp"
+              android:layout_marginRight="5dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/rounded_corner_ec"
+              android:orientation="vertical"
+              android:paddingEnd="5dp"
+              android:paddingStart="5dp"
+              android:paddingTop="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/countName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start|end|top"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="8"
+            android:background="@drawable/edit_background"
+            android:hint="@string/countName"
+            android:inputType="textCapSentences|textNoSuggestions"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="14sp"
+            tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/countCode"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start|end|top"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="3"
+            android:background="@drawable/edit_background"
+            android:hint="@string/countCode"
+            android:inputType="textPostalAddress"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            tools:ignore="Autofill" />
+
+        <ImageView
+            android:id="@+id/pSpec"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start|end|top"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="3.4"
+            android:scaleType="fitCenter"
+            android:src="@drawable/p00000"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        
+        <EditText
+            android:id="@+id/countNameG"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start|end|top"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="10"
+            android:background="@drawable/edit_background"
+            android:hint="@string/countNameG"
+            android:inputType="textCapSentences|textNoSuggestions"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#AEAEAE"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="13sp"
+            tools:ignore="Autofill" />
+
+        <ImageButton
+            android:id="@+id/deleteCount"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start|end|top"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical|end"
+            android:onClick="deleteCount"
+            android:src="@android:drawable/ic_menu_delete"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+</LinearLayout>
