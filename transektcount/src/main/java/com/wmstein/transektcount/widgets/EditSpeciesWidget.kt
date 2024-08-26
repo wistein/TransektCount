@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.wmstein.transektcount.R
@@ -14,13 +13,13 @@ import java.io.Serializable
 import java.util.Objects
 
 /****************************************************
- * EditCountWidget is used by EditSpeciesListActivity
+ * EditSpeciesWidget is used by EditSpeciesListActivity
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2024-06-20
+ * Last edited on 2024-08-23
  */
-class EditCountWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
+class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
     @Transient
     private val countName: EditText
@@ -33,7 +32,6 @@ class EditCountWidget(context: Context, attrs: AttributeSet?) : LinearLayout(con
 
     @Transient
     private val pSpecies: ImageView
-    private val deleteButton: ImageButton
 
     @JvmField
     var countId = 0
@@ -45,8 +43,6 @@ class EditCountWidget(context: Context, attrs: AttributeSet?) : LinearLayout(con
         countNameG = findViewById(R.id.countNameG)
         countCode = findViewById(R.id.countCode)
         pSpecies = findViewById(R.id.pSpec)
-        deleteButton = findViewById(R.id.deleteCount)
-        deleteButton.tag = 0
     }
 
     fun getCountName(): String {
@@ -75,13 +71,12 @@ class EditCountWidget(context: Context, attrs: AttributeSet?) : LinearLayout(con
 
     fun setCountId(id: Int) {
         countId = id
-        deleteButton.tag = id
     }
 
     fun setPSpec(spec: Count) {
         val rname = "p" + spec.code // species picture resource name
         val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResID(rname)
+        val resId = transektCountApp.getResId(rname)
 
         if (resId != 0) {
             pSpecies.setImageResource(resId)

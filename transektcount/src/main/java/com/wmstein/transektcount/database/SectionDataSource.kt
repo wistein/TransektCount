@@ -9,6 +9,7 @@ import android.database.DatabaseUtils
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.wmstein.transektcount.R
+import com.wmstein.transektcount.TransektCountApplication
 import java.util.Date
 import java.util.Objects
 
@@ -17,7 +18,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2023-12-08
+ * last edited on 2024-06-20
  */
 class SectionDataSource(context: Context?) {
     // Database fields
@@ -32,12 +33,11 @@ class SectionDataSource(context: Context?) {
 
     init {
         dbHandler = context?.let { DbHelper(it) }!!
-//        dbHandler = DbHelper(context!!)
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = TransektCountApplication.getDatabase()
     }
 
     fun close() {
@@ -104,24 +104,12 @@ class SectionDataSource(context: Context?) {
                 + DbHelper.C_SECTION_ID + " = " + id + ")")
         database!!.execSQL(sql)
         database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_SECTION_ID + " = " + id, null)
-        database!!.delete(DbHelper.TRACK_TABLE, DbHelper.T_SECTION + " = '" + sname + "'", null)
     }
 
     fun saveSection(section: Section) {
         if (database!!.isOpen) {
             val dataToInsert = ContentValues()
             dataToInsert.put(DbHelper.S_NAME, section.name)
-            dataToInsert.put(DbHelper.S_NOTES, section.notes)
-            val where = DbHelper.S_ID + " = ?"
-            val whereArgs = arrayOf(section.id.toString())
-            database!!.update(DbHelper.SECTION_TABLE, dataToInsert, where, whereArgs)
-        }
-    }
-
-    fun saveSectionNotes(section: Section) {
-        if (database!!.isOpen) {
-            val dataToInsert = ContentValues()
-            dataToInsert.put(DbHelper.S_NOTES, section.notes)
             val where = DbHelper.S_ID + " = ?"
             val whereArgs = arrayOf(section.id.toString())
             database!!.update(DbHelper.SECTION_TABLE, dataToInsert, where, whereArgs)
@@ -144,7 +132,7 @@ class SectionDataSource(context: Context?) {
     fun getAllSections(prefs: SharedPreferences): List<Section> {
         val sections: MutableList<Section> = ArrayList()
         val orderBy: String
-        val sortString = prefs.getString("pref_sort", "name_asc")
+        val sortString = prefs.getString("pref_sort_sect", "name_asc")
         orderBy = when (Objects.requireNonNull(sortString)) {
             "name_desc" -> DbHelper.S_NAME + " DESC"
             "name_asc" -> DbHelper.S_NAME + " ASC"
@@ -164,7 +152,7 @@ class SectionDataSource(context: Context?) {
         return sections
     }
 
-    // Called from NewSectionActivity and EditSectionActivity
+    // Called from NewSectionActivity and EditSpeciesListActivity
     val allSectionNames: List<Section>
         get() {
             val sections: MutableList<Section> = ArrayList()
@@ -196,7 +184,7 @@ class SectionDataSource(context: Context?) {
         return section
     }
 
-    // called from WelcomeActivity, NewSectionActivity, CountingActivity and EditSectionActivity
+    // called from WelcomeActivity, NewSectionActivity, CountingActivity and EditSpeciesListActivity
     fun getSection(sectionId: Int): Section {
         val section: Section
         val cursor = database!!.query(
@@ -221,4 +209,5 @@ class SectionDataSource(context: Context?) {
         cursor.close()
         return section
     }
+
 }

@@ -5,6 +5,24 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/adMob0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fileHead"
+            android:gravity="center"
+            android:textSize="18sp">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/adMob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

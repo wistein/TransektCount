@@ -32,8 +32,8 @@ import java.util.Locale;
  * Author: Karsten Priegnitz
  * See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
- * Adaptation for ViewHelp:
- * Last edited by wmstein on 2023-12-08
+ * Adaptation for ViewHelp on 2016-06-19,
+ * last edited by wmstein on 2024-07-10
  */
 public class ViewHelp
 {
@@ -58,7 +58,7 @@ public class ViewHelp
         {
             thisVersion = NO_VERSION;
             if (MyDebug.LOG)
-                Log.e(TAG, "Could not get version name from manifest!", e);
+                Log.e(TAG, "61, Could not get version name from manifest!", e);
         }
         if (MyDebug.LOG)
             Log.d(TAG, "64, appVersion: " + this.thisVersion);
@@ -88,7 +88,7 @@ public class ViewHelp
             // OK button
             .setPositiveButton(
                 context.getResources().getString(
-                    R.string.viewhelp_ok_button),
+                    R.string.ok_button),
                 (dialog, which) -> {
                 });
 
@@ -112,7 +112,7 @@ public class ViewHelp
             while ((line = br.readLine()) != null)
             {
                 line = line.trim();
-                char marker = line.length() > 0 ? line.charAt(0) : 0;
+                char marker = !line.isEmpty() ? line.charAt(0) : 0;
                 switch (marker)
                 {
                     case '%' ->
@@ -125,9 +125,17 @@ public class ViewHelp
                     }
                     case '&' ->
                     {
-                        // line contains bold red text
+                        // line contains bold text
                         this.closeList();
-                        sb.append("<div class='boldredtext'>");
+                        sb.append("<div class='boldtext'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
+                    }
+                    case ']' ->
+                    {
+                        // line contains italic text
+                        this.closeList();
+                        sb.append("<div class='italictext'>");
                         sb.append(line.substring(1).trim());
                         sb.append("</div>\n");
                     }
@@ -151,7 +159,9 @@ public class ViewHelp
                     {
                         // line contains small text
                         this.closeList();
-                        sb.append("<div class='smalltext'>").append(line.substring(1).trim()).append("</div>\n");
+                        sb.append("<div class='smalltext'>");
+                        sb.append(line.substring(1).trim());
+                        sb.append("</div>\n");
                     }
                     case '#' ->
                     {

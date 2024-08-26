@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Adapted for TransektCount by wmstein on 18.02.2016
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-12-08.
+ * last edited on 2024-07-27
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
@@ -22,10 +22,12 @@ class SettingsActivity : AppCompatActivity() {
 
     @SuppressLint("CommitPrefEdits", "SourceLockedOrientationActivity")
     public override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
-        supportActionBar!!.hide()
         setContentView(R.layout.settings)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         //add Preferences From Resource (R.xml.preferences);
         supportFragmentManager

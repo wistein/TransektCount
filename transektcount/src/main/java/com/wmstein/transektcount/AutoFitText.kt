@@ -26,7 +26,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2023-12-15
+ * last edit on 2024-05-15
  */
 class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
@@ -49,7 +49,6 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
     constructor(context: Context) : this(context, null)
 
     init {
-//        mScaledDensityFactor = context.resources.displayMetrics.scaledDensity // deprecated 34
         mScaledDensityFactor = context.resources.displayMetrics.density
         mTestView = TextView(context)
         mTestPaint = Paint()
@@ -145,27 +144,6 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
         }
     }
 
-    /**
-     * This method is guaranteed to be called by [TextView.setText] immediately.
-     * Therefore we can safely add our modifications here and then have the parent class resume its
-     * work. So if text has changed you should always call [TextView.setText].
-     *
-    override fun setText(text: CharSequence, type: BufferType) {
-        val targetFieldWidth = this.width
-        val targetFieldHeight = this.height
-
-        if (targetFieldWidth <= 0 || targetFieldHeight <= 0 || text == "") {
-            if (MyDebug.LOG) {
-                Log.d(
-                    "tag", "160, Width: " + targetFieldWidth + " Height: " + targetFieldHeight + " Text: " + text
-                )
-            }
-        } else {
-            refitText(text.toString(), targetFieldWidth, targetFieldHeight)
-        }
-        super.setText(text, type)
-    }
-*/
     companion object {
         // Global min and max for text size. Remember: values are in pixels!
         const val MIN_TEXT_SIZE = 8 // was 10

@@ -15,7 +15,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2023-11-05.
+ * Last edit on 2024-06-15.
  */
 class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val sumCountf1i: AutoFitText
@@ -32,7 +32,7 @@ class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     private val sumCountee: AutoFitText
     private val sumIndInt: AutoFitText
     private val sumIndExt: AutoFitText
-    private val sumDiffInd: TextView
+    private val sumDiffSpec: TextView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -51,7 +51,7 @@ class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         sumCountee = findViewById(R.id.sumCountee)
         sumIndInt = findViewById(R.id.sumIndInt)
         sumIndExt = findViewById(R.id.sumIndExt)
-        sumDiffInd = findViewById(R.id.sumDiffInd)
+        sumDiffSpec = findViewById(R.id.sumDiffSpec)
     }
 
     fun setSum(
@@ -73,7 +73,7 @@ class ListSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         if (sumoe > 0) sumCountee.text = sumoe.toString()
         if (sumInt > 0) sumIndInt.text = sumInt.toString()
         if (sumExt > 0) sumIndExt.text = sumExt.toString()
-        if (sumDiff > 0) sumDiffInd.text = sumDiff.toString()
+        if (sumDiff > 0) sumDiffSpec.text = sumDiff.toString()
     }
 
 }

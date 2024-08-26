@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- listview_section_row.xml is used by ListSectionActivity.java.
+<!-- listview_section_row.xml is used by ListSectionAdapter.kt.
    ~ Shows Line of List of transect sections including a delete button
-   ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+   ~ Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
     <Button
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="3.5"
+        android:layout_weight="5"
         android:id="@+id/txtTitle"
         android:singleLine="true"
         android:gravity="center"
@@ -25,46 +25,36 @@
         android:textSize="18sp"
         android:padding="4dp"/>
 
-    <!-- Remark of transect section -->
+    <!-- Hint for Date and time of first count -->
     <TextView
+        android:id="@+id/txtRemark"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="5"
-        android:id="@+id/txtRemark"
-        android:gravity="center_vertical|start"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:layout_weight="4"
+        android:layout_marginEnd="5dp"
+        android:textColor="#bfffff"
+        android:gravity="center_vertical|end"
+        android:textSize="13sp"
         android:maxLines="2"
         android:padding="4dp"/>
 
     <!-- Date and time of first count -->
     <TextView
+        android:id="@+id/txtDate"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="4"
+        android:layout_marginStart="5dp"
         android:textColor="#FFFFFF"
-        android:gravity="center_vertical|end"
+        android:gravity="center_vertical|start"
         android:padding="4dp"
-        android:maxLines="2"
-        android:id="@+id/txtDate"/>
-
-    <!-- Edit button -->
-    <ImageButton
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:id="@+id/editSection"
-        android:gravity="center"
-        android:src="@android:drawable/ic_menu_edit"
-        android:layout_gravity="bottom|end|top"
-        android:layout_margin="1dp"
-        tools:ignore="ContentDescription" />
+        android:maxLines="2"/>
 
     <!-- Delete button -->
     <ImageButton
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3.5"
         android:id="@+id/deleteSection"
         android:gravity="center"
         android:layout_gravity="bottom|end|top"

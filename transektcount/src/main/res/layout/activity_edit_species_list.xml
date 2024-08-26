@@ -1,55 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_edit_section.xml is used by EditSpeciesListActivity.java in conjunction with
-    widget_edit_title.xml, widget_edit_notes.xml and widget_edit_count.xml -->
+<!-- activity_edit_species_list.xml is used by EditSpeciesListActivity.kt in conjunction with
+     widget_edit_title.xml and widget_edit_count.xml
+     Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany.
+  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/editSect"
+    android:id="@+id/editSpecList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <!-- insert section title -->
     <LinearLayout
-        android:id="@+id/editingNotesLayout"
+        android:id="@+id/editingLineLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner"
         android:fillViewport="true"
         android:orientation="vertical">
-    </LinearLayout>
-
-    <!-- insert buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
-
-        <Button
-            android:id="@+id/addNewCountButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:onClick="newCount"
-            android:text="@string/labelNewCountButton"
-            tools:ignore="ButtonStyle">
-        </Button>
-
-        <Button
-            android:id="@+id/newsectDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:onClick="doneAndExit"
-            android:text="@string/labelEditSectDoneButton"
-            tools:ignore="ButtonStyle">
-        </Button>
     </LinearLayout>
 
     <!-- insert hint -->
@@ -71,7 +39,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/editingCountsLayout"
+            android:id="@+id/editingSpeciesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

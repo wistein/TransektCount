@@ -21,7 +21,7 @@ import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
 import com.wmstein.transektcount.database.Meta;
 import com.wmstein.transektcount.database.MetaDataSource;
-import com.wmstein.transektcount.widgets.EditHeadWidget;
+import com.wmstein.transektcount.widgets.EditMetaHeadWidget;
 import com.wmstein.transektcount.widgets.EditMetaWidget;
 
 import java.text.DateFormat;
@@ -36,18 +36,13 @@ import androidx.appcompat.app.AppCompatActivity;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2024-03-09
+ * last edited on 2024-06-30
  */
-public class EditMetaActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class EditMetaActivity extends AppCompatActivity
 {
-//    private static final String TAG = "EditMetaAct";
-    @SuppressLint("StaticFieldLeak")
-    private static TransektCountApplication transektCount;
 
     private Head head;
     private Meta meta;
-    private Bitmap bMap;
-    private BitmapDrawable bg;
 
     private Calendar pdate, ptime;
 
@@ -61,11 +56,10 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     private LinearLayout head_area;
     private TextView sDate, sTime, eTime;
 
-    private EditHeadWidget ehw;
-    private EditMetaWidget etw;
+    private EditMetaHeadWidget ehw;
+    private EditMetaWidget emw;
 
     @Override
-    @SuppressLint({"LongLogTag", "SourceLockedOrientationActivity"})
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -73,8 +67,8 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         head_area = findViewById(R.id.edit_head);
 
-        transektCount = (TransektCountApplication) getApplication();
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        //    private static final String TAG = "EditMetaAct";  // potentially for debugging
+        TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         brightPref = prefs.getBoolean("pref_bright", true);
 
         // Set full brightness of screen
@@ -86,12 +80,16 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             getWindow().setAttributes(params);
         }
 
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
+        Bitmap bMap = transektCount.decodeBitmap(R.drawable.edbackground,
+            transektCount.width, transektCount.height);
         ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
-        bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
+        BitmapDrawable bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
         editHead_screen.setBackground(bg);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.editHeadTitle));
+
+        headDataSource = TransektCountApplication.getHeadDS();
+        metaDataSource = TransektCountApplication.getMetaDS();
     }
     
     @SuppressLint("SourceLockedOrientationActivity")
@@ -100,7 +98,6 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
     {
         super.onResume();
 
-        prefs.registerOnSharedPreferenceChangeListener(this);
         brightPref = prefs.getBoolean("pref_bright", true);
 
         // build the Edit Meta Data screen
@@ -108,9 +105,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         head_area.removeAllViews();
 
         //setup data sources
-        headDataSource = new HeadDataSource(this);
         headDataSource.open();
-        metaDataSource = new MetaDataSource(this);
         metaDataSource.open();
 
         // load head and meta data
@@ -118,7 +113,7 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         meta = metaDataSource.getMeta();
 
         // display the editable head data
-        ehw = new EditHeadWidget(this, null);
+        ehw = new EditMetaHeadWidget(this, null);
         ehw.setWidgetNo(getString(R.string.transectnumber));
         ehw.setWidgetNo1(head.transect_no);
         ehw.setWidgetName(getString(R.string.inspector));
@@ -126,29 +121,33 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
         head_area.addView(ehw);
 
         // display the editable meta data
-        etw = new EditMetaWidget(this, null);
-        etw.setWidgetTemp1(getString(R.string.temperature));
-        etw.setWidgetStartTemp2(meta.temps);
-        etw.setWidgetEndTemp2(meta.tempe);
-        etw.setWidgetWind1(getString(R.string.wind));
-        etw.setWidgetStartWind2(meta.winds);
-        etw.setWidgetEndWind2(meta.winde);
-        etw.setWidgetClouds1(getString(R.string.clouds));
-        etw.setWidgetStartClouds2(meta.clouds);
-        etw.setWidgetEndClouds2(meta.cloude);
-        etw.setWidgetDate1(getString(R.string.date));
-        etw.setWidgetDate2(meta.date);
-        etw.setWidgetSTime1(getString(R.string.starttm));
-        etw.setWidgetSTime2(meta.start_tm);
-        etw.setWidgetETime1(getString(R.string.endtm));
-        etw.setWidgetETime2(meta.end_tm);
-        head_area.addView(etw);
+        emw = new EditMetaWidget(this, null);
+        emw.setWidgetTemp1(getString(R.string.temperature));
+        emw.setWidgetWind1(getString(R.string.wind));
+        emw.setWidgetClouds1(getString(R.string.clouds));
+
+        emw.setWidgetStartTemp2(meta.temps);
+        emw.setWidgetEndTemp2(meta.tempe);
+        emw.setWidgetStartWind2(meta.winds);
+        emw.setWidgetEndWind2(meta.winde);
+        emw.setWidgetStartClouds2(meta.clouds);
+        emw.setWidgetEndClouds2(meta.cloude);
+
+        emw.setWidgetDate1(getString(R.string.date));
+        emw.setWidgetDate2(meta.date);
+        emw.setWidgetSTime1(getString(R.string.starttm));
+        emw.setWidgetSTime2(meta.start_tm);
+        emw.setWidgetETime1(getString(R.string.endtm));
+        emw.setWidgetETime2(meta.end_tm);
+        emw.setWidgetNote1(getString(R.string.note));
+        emw.setWidgetNote2(meta.note);
+        head_area.addView(emw);
 
         // check for focus
         String newTransectNo = head.transect_no;
         if (isNotEmpty(newTransectNo))
         {
-            etw.requestFocus();
+            emw.requestFocus();
         }
         else
         {
@@ -232,29 +231,29 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
             return true;
         });
     }
+    // end of onResume()
 
-    // formatted date
-    public static String getformDate(Date date)
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-        DateFormat dform;
-        String lng = Locale.getDefault().toString().substring(0, 2);
-
-        if (lng.equals("de"))
-        {
-            dform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
-        }
-        else
-        {
-            dform = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        }
-        return dform.format(date);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_meta, menu);
+        return true;
     }
 
-    // date for start_tm and end_tm
-    public static String getformTime(Date date)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
     {
-        DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
-        return dform.format(date);
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.menuSaveExit)
+        {
+            if (saveData())
+                super.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -282,109 +281,74 @@ public class EditMetaActivity extends AppCompatActivity implements SharedPrefere
 
         headDataSource.saveHead(head);
 
-        // Save meta data
-        meta.temps = etw.getWidgetTemps();
-        if (meta.temps > 50 || meta.temps < 0)
+        // Save meta data with plausi
+        meta.temps = emw.getWidgetTemps();
+        meta.tempe = emw.getWidgetTempe();
+        if (meta.temps > 50 || meta.temps < 0 || meta.tempe > 50 || meta.tempe < 0)
         {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valTemp), Snackbar.LENGTH_LONG);
+            Snackbar sB = Snackbar.make(emw, getString(R.string.valTemp), Snackbar.LENGTH_LONG);
             TextView tv = sB.getView().findViewById(R.id.snackbar_text);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
             sB.show();
             return false;
         }
-        meta.tempe = etw.getWidgetTempe();
-        if (meta.tempe > 50 || meta.tempe < 0)
+        meta.winds = emw.getWidgetWinds();
+        meta.winde = emw.getWidgetWinde();
+        if (meta.winds > 4 || meta.winds < 0 || meta.winde > 4 || meta.winde < 0)
         {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valTemp), Snackbar.LENGTH_LONG);
+            Snackbar sB = Snackbar.make(emw, getString(R.string.valWind), Snackbar.LENGTH_LONG);
             TextView tv = sB.getView().findViewById(R.id.snackbar_text);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
             sB.show();
             return false;
         }
-        meta.winds = etw.getWidgetWinds();
-        if (meta.winds > 4 || meta.winds < 0)
+        meta.clouds = emw.getWidgetClouds();
+        meta.cloude = emw.getWidgetCloude();
+        if (meta.clouds > 100 || meta.clouds < 0 || meta.cloude > 100 || meta.cloude < 0)
         {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valWind), Snackbar.LENGTH_LONG);
+            Snackbar sB = Snackbar.make(emw, getString(R.string.valClouds), Snackbar.LENGTH_LONG);
             TextView tv = sB.getView().findViewById(R.id.snackbar_text);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
             sB.show();
             return false;
         }
-        meta.winde = etw.getWidgetWinde();
-        if (meta.winde > 4 || meta.winde < 0)
-        {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valWind), Snackbar.LENGTH_LONG);
-            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-            sB.show();
-            return false;
-        }
-        meta.clouds = etw.getWidgetClouds();
-        if (meta.clouds > 100 || meta.clouds < 0)
-        {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valClouds), Snackbar.LENGTH_LONG);
-            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-            sB.show();
-            return false;
-        }
-        meta.cloude = etw.getWidgetCloude();
-        if (meta.cloude > 100 || meta.cloude < 0)
-        {
-            Snackbar sB = Snackbar.make(etw, getString(R.string.valClouds), Snackbar.LENGTH_LONG);
-            TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-            sB.show();
-            return false;
-        }
-        meta.date = etw.getWidgetDate();
-        meta.start_tm = etw.getWidgetSTime();
-        meta.end_tm = etw.getWidgetETime();
+
+        meta.date = emw.getWidgetDate();
+        meta.start_tm = emw.getWidgetSTime();
+        meta.end_tm = emw.getWidgetETime();
+        meta.note = emw.getWidgetNote();
 
         metaDataSource.saveMeta(meta);
         return true;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    // formatted date
+    public static String getformDate(Date date)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_meta, menu);
-        return true;
+        DateFormat dform;
+        String lng = Locale.getDefault().toString().substring(0, 2);
+
+        if (lng.equals("de"))
+        {
+            dform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
+        }
+        else
+        {
+            dform = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        }
+        return dform.format(date);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    // date for start_tm and end_tm
+    public static String getformTime(Date date)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.menuSaveExit)
-        {
-            if (saveData())
-                super.finish();
-        }
-        return super.onOptionsItemSelected(item);
+        DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
+        return dform.format(date);
     }
-    
-    @SuppressLint("SourceLockedOrientationActivity")
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-    {
-        ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
-        brightPref = prefs.getBoolean("pref_bright", true);
-        bMap = transektCount.decodeBitmap(R.drawable.kbackground, transektCount.width, transektCount.height);
-        editHead_screen.setBackground(null);
-        bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
-        editHead_screen.setBackground(bg);
-    }
-    
+
     /**
      * Following functions are taken from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004

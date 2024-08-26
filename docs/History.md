@@ -2,6 +2,23 @@
 
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
+#### Version 4.1.0 (2024-08-26)
+- Functionality of GPS-based selection of section removed as too unreliable
+- File selection view enhanced with headline
+- Preferences view enhanced with headline
+- Preferences show their states in menu
+- Separate views for editing, deleting and adding species
+- Checkboxes for bulk deleting of species from the counting list
+- Checkboxes for bulk adding further species to the counting list
+- Meta data enhanced with field for inspection note (replaces section notes)
+- Preferences option added for sorting results either by section or species names
+- CSV-export adapted to structural changes
+- Internal butterfly list now identical with the list of TourCount
+- Other code, text and layout improvements
+- Licenses text separated
+- Docs revised
+- Bugs fixed
+
 #### Version 4.0.3 (2024-03-10)
 - Meta data page enhanced with start and end time values for temperature, wind and clouds
 - Results page and csv-export file ditto
@@ -253,7 +270,7 @@
 
 #### Version 1.0.0 (2016-02-12)
 ##### 1. Release.
-Counting and DB functionality are partly derived from BeeCount by knirirr
+Counting and DB functionality are partly derived from BeeCount by Milo Thurston(knirirr)
 (https://github.com/knirirr/BeeCount.git)
 
 Main features comprise:

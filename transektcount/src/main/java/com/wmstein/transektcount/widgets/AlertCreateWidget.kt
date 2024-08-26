@@ -85,7 +85,7 @@ class AlertCreateWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
          * @return `true` if the CharSequence is empty or null
          */
         fun isEmpty(cs: CharSequence?): Boolean {
-            return cs == null || cs.length == 0
+            return cs.isNullOrEmpty()
         }
     }
 }

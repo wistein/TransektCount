@@ -20,20 +20,16 @@ import androidx.fragment.app.DialogFragment
  * necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2023-10-31
+ * last edited on 2024-06-20
  */
 class PermissionsDialogFragment : DialogFragment() {
     private var context: Context? = null
-    private var listener: PermissionsGrantedCallback? = null
     private var shouldResolve = false
     private var externalGrantNeeded = false
     private var externalGrant30Needed = false
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.context = context
-        if (context is PermissionsGrantedCallback) {
-            listener = context
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +48,6 @@ class PermissionsDialogFragment : DialogFragment() {
             @RequiresApi(Build.VERSION_CODES.R)
             if (externalGrant30Needed) {
                 showAppSettingsDialog30()
-            } else {
-                //permissions have been accepted
-                if (listener != null) {
-                    listener!!.locationCaptureFragment()
-                    dismiss()
-                }
             }
         }
     }
@@ -65,15 +55,12 @@ class PermissionsDialogFragment : DialogFragment() {
     override fun onDetach() {
         super.onDetach()
         context = null
-        listener = null
     }
 
     // Solution with multiple permissions launcher
     private fun requestNecessaryPermissions() {
 
         val permissions = arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
@@ -97,7 +84,7 @@ class PermissionsDialogFragment : DialogFragment() {
         var allAreGranted = true
         shouldResolve = true
         for (isGranted in result.values) {
-            Log.d(TAG, "100, onActivityResult: isGranted: $isGranted")
+            Log.d(TAG, "87, onActivityResult: isGranted: $isGranted")
             allAreGranted = allAreGranted && isGranted
         }
 
@@ -107,7 +94,7 @@ class PermissionsDialogFragment : DialogFragment() {
         } else {
             //All or some Permissions were denied so can't do the task that requires that permission
             externalGrantNeeded = true
-            Log.d(TAG, "110, onActivityResult: All or some permissions denied...")
+            Log.d(TAG, "97, onActivityResult: All or some permissions denied...")
             Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
         }
     }
@@ -118,7 +105,7 @@ class PermissionsDialogFragment : DialogFragment() {
     )
     { isGranted ->
         shouldResolve = true
-        Log.d(TAG, "121, onActivityResult: isGranted: $isGranted")
+        Log.d(TAG, "108, onActivityResult: isGranted: $isGranted")
 
         if (isGranted) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -132,7 +119,7 @@ class PermissionsDialogFragment : DialogFragment() {
             } else {
                 externalGrant30Needed = true
 
-                Log.d(TAG, "135, onActivityResult: Permission denied...")
+                Log.d(TAG, "122, onActivityResult: Permission denied...")
                 Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
             }
         }
@@ -142,7 +129,7 @@ class PermissionsDialogFragment : DialogFragment() {
     private fun showAppSettingsDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.perm_required))
-            .setMessage(getString(R.string.perm_hint) + " " + getString(R.string.perm_hint1))
+            .setMessage(getString(R.string.perm_hint1))
             .setPositiveButton(getString(R.string.app_settings)) { _: DialogInterface?, _: Int ->
                 val intent = Intent()
                 intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -167,10 +154,6 @@ class PermissionsDialogFragment : DialogFragment() {
         dismiss()
     }
 
-    interface PermissionsGrantedCallback {
-        fun locationCaptureFragment()
-    }
-
     companion object {
         private const val TAG = "TransektCntPermDialogFragment"
 
@@ -179,4 +162,5 @@ class PermissionsDialogFragment : DialogFragment() {
             return PermissionsDialogFragment()
         }
     }
+
 }

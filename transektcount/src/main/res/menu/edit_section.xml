@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   edit_section.xml is used by EditSectionActivity.java
+   edit_section.xml is used by EditSpeciesListActivity.kt
    -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.wmstein.transektcount.EditSectionActivity">
-
-    <item
-        android:id="@+id/newCount"
-        android:title="@string/labelNewCountButton"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_add"/>
-
-    <item
-        android:id="@+id/menuSaveExit"
-        android:title="@string/saveCountsButton"
-        android:icon="@android:drawable/ic_menu_save"
-        app:showAsAction="ifRoom"/>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.wmstein.transektcount.EditSpeciesListActivity">
 
 </menu>

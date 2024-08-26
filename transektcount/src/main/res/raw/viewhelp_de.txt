@@ -1,7 +1,7 @@
 <html>
   <head>
     <style type='text/css'>
-      a            { color:#a0a0e0 }
+      a { color:#a0a0e0 }
       div.title    { 
           color:#C0F0C0; 
           font-size:1.2em; 
@@ -10,12 +10,21 @@
           margin-bottom:0.5em; 
           text-align:center }
       div.smalltext    { 
-          color:#F0F0F0; 
-          font-size:0.7em }
-      div.boldredtext {
-          color:#FF0000;
+          margin-top:0.5em;
+          margin-bottom:0.5em;
+          color:#F0F0F0;
+          font-size:0.8em }
+      div.boldtext {
+          color:#F0F0F0;
           font-size:1.0em;
           font-weight:bold;
+          margin-top:1em;
+          margin-bottom:0.5em;
+          text-align:start }
+      div.italictext {
+          color:#BFFFFF;
+          font-size:1.0em;
+          font-style:italic;
           margin-top:1em;
           margin-bottom:0.5em;
           text-align:start }
@@ -26,7 +35,7 @@
           margin-bottom:1em;
           text-align:center }
       div.freetext { color:#F0F0F0 }
-      div.list     { color:#C0C0F0 }
+      div.list { color:#C0C0F0 }
     </style>
   </head>
   <body>
@@ -35,69 +44,64 @@
   !
   ! Diese Zähler-App soll bei der Erfassung der Schmetterlinge im Transekt unterstützen.
   ! Mit ihr können Individuen artspezifisch pro Transektabschnitt erfasst werden.
-  ! Transektabschnitte können manuell gewählt oder automatisch per GPS bestimmt werden.
   ! Sie ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos von interessanten Arten.
   _ 
   ! Die integrierte Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
   ! Datenbanken können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden.
   ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder von der Ergebnisseite geordnet abgelesen oder für eigene Bearbeitung auf einen PC übertragen und dort besser gelesen oder weiterverarbeitet werden.
   _ 
-  ! Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source und enthält weder Tracking- noch Werbefunktionen, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: Import von DB- oder GPX-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien und ggf. Standortabfrage bei GPS-Nutzung.
+  ! Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source und enthält weder Tracking- noch Werbefunktionen, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien und Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet.
 
   %2. Einrichtung
   !
   ! Vor der erstmaligen Verwendung sollten die App-Einstellungen den eigenen Wünschen angepasst werden.
-  ! Hierbei zunächst den Punkt "Finde Transektabschnitt per GPS" ignorieren, da zur GPS-Nutzung zusätzliche Vorbereitungen erforderlich sind (siehe 5. GPS-Nutzung).
+  _
+  ! Dazu sollte die vorbereitete Artenliste mittels der Editierfunktionen (Hinzufügen, Löschen oder Editieren) angepasst werden an die zu erwartenden Arten im Transekt. Hier ggf. Arten löschen oder weitere Arten per Checkbox aus der integrierten, umfassenden Liste europäischer Arten hinzufügen.
   _ 
-  ! Dann sollte die vorbereitete Artenliste des 1. Transekt-Abschnitts mittels Abschnitts-Editor editiert werden. Hier ggf. Arten löschen oder weitere Arten per (+)-Button aus der integrierten, umfassenden Liste europäischer Arten hinzufügen.
-  _ 
-  ! Alternativ kann auch eine erstellte Basis-Datenbank importiert und angepasst werden.
-  ! Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, in das öffentliche App-Datenverzeichnis "Documents/TransektCount" kopiert und von dort importiert und dann angepasst werden.
+  ! Alternativ kann auch eine erstellte Basis-Datenbank importiert und angepasst werden. Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, in das öffentliche App-Datenverzeichnis "Documents/TransektCount" kopiert und von dort importiert und dann angepasst werden.
   ! Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. Bei Deinstallation von TransektCount werden die Daten in diesem Verzeichnis nicht gelöscht.
   _ 
-  ! Zum editieren der Artenliste des 1. Transektabschnitts den Bleistift-Button in der Abschnittszeile der Seite "Transektabschnitte" klicken.
-  ! Im Abschnittseditor das (+)-Symbol oder den Button "ART HINZUF." verwenden, um eine neue Art hinzuzufügen. Die neue Art in der blauen Scroll-Down-Liste der übrigen Arten auswählen. Nacheinander alle erforderlichen Arten hinzufügen und mit "ABSCHN. SPEICHERN" abschließen. 
-  ! Am Ende der Scroll-Down-Liste kann eine nicht vorhandene Art (NN) ausgewählt und anschließend ggf. editiert werden (Art-Name, wissenschaftlich und deutsch, und Art-Code, 5-stellig mit führenden Nullen). Dazu siehe "Liste kodierter Schmetterlinge - TransektCount.pdf" unter
-  ! <a href="https://github.com/wistein/TourCount/tree/master/docs" target="_blank">https://github.com/wistein/TourCount/tree/master/docs</a>).
+  ! Zum editieren des Abschnittsnamens oder der Artnamen der Artenliste den Bleistift-Button in der Abschnittszeile der Seite "Transektabschnitte" oder in der Kopfzeile der Zählseite klicken.
+  _
+  ! Um neue Arten hinzuzufügen, auf der Zählseite das (+)-Symbol der Kopfzeile verwenden. Neue Arten in der blauen Scroll-Down-Liste per Checkbox markieren. Mit dem Zurück-Button in Kopf- oder Fußzeile abschließen.
+  _
+  ! Um Arten zu löschen, auf der Zählseite das Lösch-Symbol in der Kopfzeile verwenden. Auf der Löschen-Seite die zu löschenden Arten in der Scroll-Down-Liste per Checkbox markieren und per Lösch-Button löschen. Mit dem Zurück-Button in Kopf- oder Fußzeile abschließen.
+  _
+  ! Am Ende der Speziesliste befindet sich eine unbekannte Art (NN). Diese kann hinzugefügt und ggf. nach Bestimmung editiert werden (Art-Name, wissenschaftlich und deutsch, und Art-Code, 5-stellig mit führenden Nullen). Dazu siehe "Liste kodierter Schmetterlinge.pdf" unter
+  ! <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>).
   _ 
-  ! Die Abschnittsliste kann jederzeit später geändert oder ergänzt werden. Änderungen wirken sich immer auf alle vorhandenen Abschnittslisten aus.
+  ! Die Artenliste kann jederzeit später geändert oder ergänzt werden. Änderungen hinsichtlich Arten wirken sich immer auf alle vorhandenen Abschnittslisten aus. Der Abschnittsname wird dabei aber nur für den aktuellen Abschnitt geändert.
   _ 
-  ! Für den automatischen, GPS-gesteuerten Wechsel müssen alle Anschnittslisten die gleichen Arten enthalten. Deshalb werden beim nachträglichen Editieren eines Abschnitts alle anderen Abschnitte zwecks Wahrung der Konsistenz automatisch gleichermaßen geändert. 
-  _ 
-  !Ab 01      (Ausschnitt einer Abschnittsliste)
-  !---------------------------------------------
+  !Ab 01      (Ausschnitt der Artenliste)
+  !--------------------------------------
   !...
   ! Pieris rapae .............. 06998
-  ) Kleiner Kohlweißling 
+  ) Kleiner Kohlweißling
+  )
   ! Pieris napi ................ 07000
   ) Grünaderweißling
-  ! Pieris na./ra.-Kompl.	07000*
+  )
+  ! Pieris na./ra.-Kompl..07000*
   ) Weißlinge-Komplex
   !...
   _ 
   ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski und werden ebenfalls in der Kartiereranleitung und im Lepiforum <a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a> verwendet.
   _ 
-  ! Das am Code 07000 angehängte *-Symbol kennzeichnet eine Gruppe schwer unterscheidbarer Arten. Zwecks Sortierfolge sollte hierzu der größere der Gruppenarten-Codes gewählt werden. 
+  ! Das am Code 07000 angehängte *-Zeichen kennzeichnet eine Gruppe schwer unterscheidbarer Arten. Zwecks Sortierfolge sollte für solche Gruppen der größere der Gruppenarten-Codes gewählt werden.
   _ 
   ! Im nächsten Schritt sollten die fixen Meta-Daten wie Transekt-Nr. und Kartierername eingegeben werden. Dazu "Meta-Daten editieren" klicken und die Eingaben mit Klick aufs Speichersymbol sichern.
   _ 
   ! Ist die Abschnitts-Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Menü der Zählerseite: "Abschnittsliste Duplizieren" aufrufen und dabei jeweils sinnvoll benennen,  möglichst in der Reihenfolge wie die Abschnitte begangen werden
   ! (z.B.: Ab 02, Ab 03, ...).
   _ 
-  ! Sind die Meta-Daten eingegeben und für alle Transektabschnitte die Listen eingerichtet, ist die Datenbank fertig vorbereitet und sollte nun als Basis-Datenbank exportiert werden.
+  ! Sind für alle Transektabschnitte die Listen eingerichtet und die generellen Meta-Daten eingegeben, ist die Datenbank fertig vorbereitet und sollte nun als Basis-Datenbank exportiert werden.
   ! Das geht mit Hilfe der Funktion "Export als Basis-DB" im Menü der Startseite.
   ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0.db) im internen Daten-Verzeichnis der App "Documents/TransektCount" abgelegt.
   _
-  ! Die Basis-DB enthält keine Begehungs-spezifischen Daten und dient als Vorlage für zukünftige Begehungen. Die Basis-DB kann auch später, z.B. nach Änderungen an Listen, jederzeit erneut exportiert werden.
+  ! Die Basis-DB enthält keine Begehungs-spezifischen Daten und dient als Vorlage für zukünftige Begehungen. Die Basis-DB kann auch später, z.B. nach Änderungen an Listen, erneut exportiert werden.
   _ 
-  ! Zur Begehungsvorbereitung werden nur noch die Begehungs-spezifischen Meta-Daten (Temperatur, Wind, Wolken, Datum und Zeiten) eingegeben. 
+  ! Zur Begehungsvorbereitung werden nur noch die Begehungs-spezifischen Meta-Daten (Datum, Startzeit, Temperatur, Wind und Wolken) eingegeben.
   _ 
-  ! Falls die Möglichkeit besteht, GPS per Smartphone zu nutzen, können als GPX-Datei gespeicherte Tracks der Abschnitte zur automatischen Abschnittsumschaltung bei der Begehung verwendet werden.
-  _ 
-  ! Der Import einer z. B. per Garmin BaseCamp erstellten GPX-Datei geschieht über den Menüpunkt "Import GPX-Track". Unter "Einstellungen" ist dann die Option „Finde Transektabschnitt per GPS“ zu aktivieren und die Berechtigung „Standort“ zu erteilen.
-  _
-  ! Die Begehungsvorbereitung zur GPS-gesteuerten Transekt-Abschnitts-Umschaltung wird weiter unten unter "5. GPS-Nutzung" beschrieben.
-  _
   ! Bei älteren Smartphones kann es wegen mangelndem RAM-Speicher bei zuvielen Abschnittslisten zur Fehldarstellung und Funktionseinschränkung beim letztes Lösch-Icon in der Abschnittsliste kommen (nicht aktiv, durchgestrichen). Hierzu mehr unter 6.2 Meldungen.
   
   %3. Benutzung
@@ -105,36 +109,30 @@
   ! Beginne mit "Meta-Daten editieren". Gib die relevanten Metadaten der Transektbegehung ein. Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden.
   ! Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden.
   _ 
-  ! Dann wähle "Zählen". Ohne GPS-Unterstützung wird hier die Liste mit allen Transektabschnitten angezeigt.
-  ! Wähle den zutreffenden Transektabschnitt durch tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Abschnittsliste. Wähle die zutreffende Art durch Klicken des Falter-Icons. 
+  ! Dann wähle "Zählen". Hier wird die Liste aller Transektabschnitte angezeigt.
+  ! Wähle den zutreffenden Transektabschnitt durch Tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Artenliste. Wähle die zutreffende Art in der Rollliste durch Klicken des Falter-Icons.
   ! Da beim Zählen im Transekt unterschieden wird zwischen Faltern, die innerhalb des imaginären Zählbereichs (eines Kubus von 5 m Kantenlänge vor dem/der Zählenden) oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern.
   ! Zum Zählen tippe jeweils auf den entsprechenden (+)-Button der gesichteten Kategorie (♂♀, ♂, ♀, Puppe, Raupe, Ei) der Art. Mit den (-)-Buttons kann ggf. korrigiert werden.
-  ! Beim Speichern der 1. Zählung in einem Abschnitt werden ebenfalls Datum und Uhrzeit abschnitts-spezifisch gespeichert. Das Datum und ggf. eine eingegebene Bemerkung zum Abschnitt erscheinen anschließend in der Liste der Transektabschnitte und zeigen deren erfolgreiche Begehung an.
+  ! Beim Speichern der 1. Zählung in einem Abschnitt werden ebenfalls Datum und Uhrzeit abschnitts-spezifisch gespeichert. Das Datum zum Abschnitt erscheint anschließend in der Liste der Transektabschnitte und zeigt dessen erfolgreiche Begehung an.
   _ 
-  ! Mit dem Bleistift-Button in der Kopfzeile der Zählerseite (oder in der Liste der Transektabschnitte) wird die Abschnitt-editieren-Seite aufgerufen.
-  ! Hier lassen sich Bemerkungen zum Abschnitt hinzufügen sowie dessen Name und Art-Einträge Abschnitts-übergreifend editieren. Abschnittsbemerkungen werden unterhalb der Kopfzeile auf der Zählerseite und in der Seite "Transektabschnitte" angezeigt.
-  _ 
-  ! Der Bleistift-Button unter der Artnamen-Zeile auf der Zählerseite ruft die Seite "Art-editieren" auf. Hier können Art-spezifische Bemerkungen hinzugefügt
-  ! und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden (z. B. für geschätzte Massenvorkommen).
+  ! Der Bleistift-Button unter der Artnamen-Zeile auf der Zählerseite ruft die Seite "Art editieren" auf. Hier können Art-spezifische Bemerkungen hinzugefügt und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden (z. B. für geschätzte Massenvorkommen).
   ! Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen der eingestellten Zahl von Faltern (Summe aller ♂ und ♀) im internen Zählbereich einen entsprechenden Hinweis anzeigen
   ! (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde, als beim letzten Mal.)
   _ 
   ! Eine Art-spezifische Bemerkung wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet und in die Ergebnistabelle geschrieben (z. B.: "Foto").
   _  
-  ! Eine Ansicht zurück in der App gelangt man mit dem Pfeil ← in der oberen linken Ecke bzw. eine Ebene zurück mit ◄ in der Fußzeile. 
+  ! Bei großen Datenmengen kann sich die Reaktion der App z. B. bei Import-Funktionen oder beim Aufruf der Ergebnisseite etwas verzögern, da hier im Hintergrund umfangreiche Berechnungen laufen. Das wird durch einen kurzen Hinweis „Liste wird berechnet...“ angezeigt.
   _ 
-  ! Bei großen Datenmengen kann sich die Reaktion der App bei Import-Funktionen oder beim Aufruf der Ergebnisseite etwas verzögern, da hier im Hintergrund umfangreiche Berechnungen laufen. Das wird durch einen kurzen Hinweis „Liste wird berechnet...“ angezeigt.
-  _ 
-  ! Die Ergebnisseite zeigt die Begehungs-Meta-Daten, die Summen pro Kategorie und darunter die Auflistung der gezählten Individuen an.
-  ! Diese Seite wird von der Startseite aus erreicht mit "Ergebnis anzeigen" bzw. per Augen-Icon in der App-Leiste.
+  ! Die Ergebnisseite zeigt die erfassten Daten: Nach den Begehungs-Meta-Daten, die Summen pro Kategorie und darunter die Auflistung der gezählten Individuen, sortiert entweder nach Arten oder nach Abschnitten, an.
+  ! Diese Seite wird von der Startseite aus erreicht mit "Ergebnis anzeigen" bzw. per Augen-Icon in der Kopfzeile. Die Anzeige benötigt evtl. etwas Zeit bis sie erscheint.
 
   %4. Weitere Funktionen
   !
   ! Das System-Menü auf der Eingangsseite bietet Einstellungs-, Reset-, Import-, Export-, Info- und Hilfefunktionen.
   _ 
-  ! Unter "Einstellungen" können das Aussehen und Verhalten der App dem eigenen Geschmack angepasst werden, z. B. Hintergrundbild, Sortierreihenfolge, Rechts-/ Linkshänder-Darstellung oder Sounds. Hier kann auch die GPS-Funktion zur automatischen Transekt-Abschnittsauswahl aktiviert werden, vorausgesetzt, eine GPX-Track-Datei des Transekts wurde zuvor importiert (siehe "5. GPS-Nutzung").
+  ! Unter "Einstellungen" können das Aussehen und Verhalten der App dem eigenen Geschmack angepasst werden, z. B. Hintergrundbild, Sortierreihenfolge, Rechts-/Linkshänder-Darstellung oder Sounds.
   _ 
-  ! Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Daten" die begehungsspezifischen Metadaten und alle Zähldaten gelöscht werden. Alle anderen transekt-spezifischen Daten, einschließlich der GPS-Track-Daten bleiben dabei erhalten.
+  ! Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Zähl-Daten" die begehungsspezifischen Metadaten und alle Zähldaten gelöscht werden. Alle anderen Transekt-spezifischen Daten bleiben dabei erhalten.
   _ 
   ! TransektCount arbeitet Android-spezifisch intern immer mit derselben SQLite-DB im App-eigenen, für den Anwender gesperrten Speicherbereich.
   ! Dadurch sind Anwenderdaten nur per Import für die App nutzbar und DB-Daten bzw. Ergebnisse nur per Export zur weiteren Verwendung durch den Anwender erreichbar. 
@@ -143,29 +141,19 @@
   _ 
   ! Die Funktion "Import Basis-DB" liest diese Datei wieder ein, z. B. falls irrtümlich falsche Struktur-Änderungen vorgenommen wurden.
   _ 
-  ! "Export akt. DB" schreibt eine Kopie der aktuellen DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_JJJJ-MM-TT_hhmmss.db (mit dem Dateinamensschema: transektcount_DATUM_UHRZEIT.db). 
+  ! "Export akt. DB" schreibt eine Kopie der aktuellen DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_JJJJ-MM-TT_hhmmss.db.
   _ 
   ! Für die eigene Verwendung kann eine exportierte DB-Datei mittels File Manager umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw.
-  ! Der Dateiname muss dabei zwecks Import immer mit der exakten Zeichenfolge "transektcount" beginnen, ansonsten kann die Datei nicht importiert werden.
+  ! (Merke: Der Dateiname muss dabei immer mit der exakten Zeichenfolge "transektcount" beginnen, ansonsten kann die Datei nicht importiert werden).
   _ 
   ! Der Import einer zuvor vorbereiteten, exportierten und entsprechend benannten TransektCount-DB ist sinnvoll, wenn mehrere Transekte mit unterschiedlichen Abschnitten und Schmetterlingsvorkommen begangen werden sollen.
-  _ 
-  ! In der Zähler-Ansicht kann über den dortigen Menüpunkt "Abschnittsliste duplizieren" diese dupliziert werden.
-  ! Diese Funktion empfiehlt sich, wie unter "2. Einrichtung" beschrieben, bei erstmaligem Anlegen der Datenbankstruktur.
-  _ 
-  ! In dieser Ansicht kann auch über das Mitteilungssymbol eine Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
-  _ 
-  ! In der Zähler-Ansicht kann die Anzeige temporär per Näherungssensors abgeschaltet werden, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn sie wieder normal genutzt wird.
-  _ 
-  ! Die Funktion "Import GPX-Track" liest eine vorbereitete GPX-Track-Datei (z.B. transektcount_t1.gpx) vom Verzeichnis "Documents/TransektCount". Wie eine solche GPX-Datei erstellt werden kann, ist im nächsten Abschnitt "5. GPS-Nutzung" beschrieben.
-  _ 
+  _
   ! IT-affine Anwender können die mittels Exportfunktion erzeugte Datei "transektcount_JJJJ-MM-TT_hhmmss.db" von "Documents/TransektCount" auf einen PC übertragen.
   ! Mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) können die .db-Dateien manuell oder per SQL-Script bearbeitet werden.
   ! Einige nützliche vorbereitete SQL-Scripte finden sich im docs-Verzeichnis der GitHub-Webseite  <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
-  _ 
+  _
   ! Die Funktion "Export Daten -> CSV-Datei" scheibt die Zählergebnisse als aufbereitete Spreadsheet-kompatible Tabelle "transektcount_JJJJ-MM-TT_hhmmss.csv" in das Verzeichnis
-  ! "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App wie
-  ! - Collabora (Open Source, kostenlos erhältlich im F-Droid-App-Store) erfolgen.
+  ! "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App wie Collabora (Open Source, kostenlos erhältlich im F-Droid-App-Store) erfolgen.
   _ 
   ! Hierbei ist beim Laden der Daten zur korrekten Darstellung der Formate und Zeichensätze darauf zu achten, dass
   _ 
@@ -175,55 +163,27 @@
   ! - alle Spalten in Textformat
   _ 
   ! gesetzt sind.
-  _ 
-  ! Die exportierte Tabelle ist hinsichtlich einer einfachen Dateneingabe in eine zentrale Monitoring Web-Seite, wie
-  ! <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a> optimiert.
+  _
+  ! Die exportierte Tabelle kann per Sortier-Option (nach Spezies oder Abschnitt) hinsichtlich einer einfachen Dateneingabe in eine zentrale Monitoring Web-Seite, wie <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>
+   ! bzw.
+   ! <a href="https://web.app.ufz.de/tagfalter-monitoring/" target="_blank">https://web.app.ufz.de/tagfalter-monitoring/</a> aufbereitet werden.
+  _
+  ! In der Zähler-Ansicht kann die Anzeige temporär per Näherungssensors abgeschaltet werden, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn sie wieder normal genutzt wird.
+  _
+  ! In dieser Ansicht kann auch über das Mitteilungssymbol eine Nachricht über eine Standard-App, wie SMS oder E-Mail versendet werden.
 
-  %5. GPS-Nutzung
+  %5. GPS-Nutzung (entfernt)
   ! 
-  ! Die automatische Abschnittserkennung im Transekt geschieht bei der Zähleingabe durch Vergleich des aktuellen Standpunkts mit den gespeichtern Track-Koordinaten der Abschnitte. Ist der momentane Standpunkt nicht weiter als 5 m (Voreinstellung) von einem Abschnitts-Trackpunkt entfernt, wird der Abschnitt für die Registrierung gesetzt. Leichte Überschneidungen zwischen 2 benachbarten Transektabschnitten und GPS-Ungenauigkeiten müssen dabei leider in Kauf genommen werden.
-  ! Kleinere Abstände würden wegen der generellen GPS-Ungenauigkeit zu häufigeren Fehlergebnissen führen. Wird kein Trackpunkt im Umkreis von 5 m erkannt, wird die Erfassung unter "Extern" gespeichert. 
-  _ 
-  ! Der Abstandsradius der Voreinstellung kann zur Anpaasung an die GPS-Genauigkeit zwischen 3 und 10 m eingestellt werden. 
-  _ 
-  ! Eine passende GPX-Datei kann am PC mittels frei verfügbarer Software und Karten erzeugt werden.
-  ! Mittels des kostenlosen Programms BaseCamp von Garmin können auf OpenStreetMap basierenden, kostenlosen Karten die Trackabschnitte eingezeichnet und benannt werden. 
-  _ 
-  ! Das Ergebnis kann dann als "transektcount_xxx.gpx" exportiert werden (mit xxx als Platzhalter für eine individuelle Benennung). 
-  _ 
-  ! Es empfiehlt sich, die Trackaufzeichnung mit dem Smartphone vor Ort, als Kontroll-Ergänzung zur Vorbereitung für eine manuelle Erstellung der GPX-Datei. Die aufgezeichneten Tracks sollten sich möglichst genau mit der Wegführung der Karte decken. Größere Abweichungen, die bei mehreren Aufzeichnungen ähnlich sind, lassen auf Ungenauigkeiten der Karte schließen. 
-  _ 
-  ! Das Zeichnen der Trackabschnitte in BaseCamp sollte bei Zoom 20 m vorgenommen werden, da dann optimale Abstände von ca. 1 m zwischen den einzelnen Trackpunkten erzielt werden und eine hinreichende Genauigkeit für den Koordinatenabgleich zur Abschnittsbestimmung innerhalb der App erzielt wird.
-  ! Die Transektabschnitte sollten in gleicher Anzahl und Reihenfolge gezeichnet werden, wie sie in TransektCount gelistet sind. Beim Import werden sie in dieser Reihenfolge den vorhandenen Transektabschnitten zugeordnet. 
-  _ 
-  ! Da die Anzahl der Transektabschnitte gleich der Anzahl der Tracks sein muss, ist das Hinzufügen eines neuen Transektabschnitts nur solange möglich, wie noch keine Tracks importiert sind. Daher müssen zuvor die Tracks aus der Datenbank mit der Funktion "Lösche GPX-Track-Daten" gelöscht werden, falls ein Transektabschnitt hinzugefügt werden soll. 
-  _ 
-  ! Nach Hinzufügen eines neuen Abschnitts muss auch die dem Transekt-zugeordnete Track-Datei mit dem Track des neuen Abschnitts in BaseCamp ergänzt und neu importiert werden. 
-  _ 
-  ! Die erzeugte GPX-Track-datei muss dann ins Smartphone nach "Documents/TransektCount" kopiert werden. Dort wird sie von der App beim Import erwartet.
-  _ 
-  ! Als letztes unter Einstellungen den Punkt „Finde Transektabschnitt per GPS“ aktivieren und ggf. die Empfindlichkeit bei „Maximal erlaubte GPS-Abweichung“ anpassen.
-  _ 
-  ! Bei der Löschung eines Transektabschnitts wird auch der zugehörige GPX-Track in der Datenbank gelöscht. 
+  ! Die automatische Abschnittserkennung im Transekt per GPS war leider mehr als enttäuschend und wurde daher wieder vollständig entfernt. Genauigkeit und Zuverlässigkeit der Standortdienste schwanken stark und führten häufig zur falschen, verspäteten oder keiner Abschnittsauswahl.
 
   %6. Meldungen
   !
-  & Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug RAM um die Funktion auszuführen. 
+  ] Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um die Funktion auszuführen.
   _ 
   ! Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr vielen Transektabschnitten vorkommen. Andere Funktionen der App sind von dieser Einschränkung nicht betroffen.
   _ 
-  ! Mögliche Abhilfe (ohne Gewähr):
-  _ 
-  ! 1. DB verkleinern mit "SqliteBrowser"
-  ! Die DB auf einen PC kopieren, dort mit Hilfe des Tools "SqliteBrowser" um einen Abschnitt verkleinern.
-  ! Hierzu sind alle Einträge in der Tabelle "counts" mit der letzten "section_id" zu löschen. Dann den letzten Eintrag in der Tabelle "sections" löschen und die Änderungen speichern.
-  ! Die modifizierte DB zurück auf das Android-Gerät kopieren. Ggf. den Vorgang wiederholen.
-  _ 
-  ! 2. DB verkleinern mit zweitem Android Gerät
-  ! Die DB um einen Abschnitt verkleinern. Dazu die DB exportieren und auf ein Android Gerät mit mehr RAM kopieren, dort in TransektCount importieren, den letzten Abschnitt löschen, die DB exportieren und zurück kopieren. Ggf. den Vorgang wiederholen.
-  _ 
-  ! 3. Die TransektCount-DB neu aufsetzen und die Artenzahl auf die tatsächlich zu erwartenden Arten reduzieren.
-  _ 
-  
+  ! Mögliche Abhilfe nicht bekannt. Weitere Info dazu siehe Dokument "TransektCount_Anleitung_4.1.pdf" unter <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+  _
+
   </body>
 </html>

@@ -1,5 +1,7 @@
 package com.wmstein.transektcount;
 
+import static android.graphics.Color.RED;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,15 +20,26 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
+import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
@@ -35,79 +48,48 @@ import com.wmstein.transektcount.database.Meta;
 import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
-import com.wmstein.transektcount.database.Track;
-import com.wmstein.transektcount.database.TrackDataSource;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import sheetrock.panda.changelog.ChangeLog;
 import sheetrock.panda.changelog.ViewHelp;
-
-import static android.graphics.Color.RED;
+import sheetrock.panda.changelog.ViewLicense;
 
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
  * import/export/help/info methods and starts
  * EditMetaActivity, ListSectionActivity and ListSpeciesActivity.
- * It uses further LocationService and PermissionDialogFragment.
+ * It uses further the PermissionDialogFragment.
  * <p>
- * Based on BeeCount's WelcomeActivity.java by milo from 2014-05-05.
+ * Database handling is mainly done in WelcomeActivity as upgrade to current
+ * DB version when importing an older DB file by importDBFile().
+ * <p>
+ * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-03-10.
+ * last edited on 2024-08-15.
  */
 public class WelcomeActivity
     extends AppCompatActivity
-    implements SharedPreferences.OnSharedPreferenceChangeListener,
-               PermissionsDialogFragment.PermissionsGrantedCallback
+    implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static final String TAG = "WelcomeAct";
 
     @SuppressLint("StaticFieldLeak")
     private static TransektCountApplication transektCount;
 
-    // GPS tracks related
-    LocationService locationService;
-    private boolean locServiceOn = false;
-    private double latitude, longitude; // gps position
-    private String tSecName;            // track section name
-    private String tSectionMatch;       // outside track section name
-    private boolean insideOfTrack = true; // inside of track (always true for manual section selection)
-    private DataTrkpt dataTrkpt;        // data class with tSecName and insideOfTrack
-
-    // Permission dispatcher mode locationPermissionDispatcherMode:
-    //  1 = use location service
-    //  2 = end location service
-    private int locationPermissionDispatcherMode;
-
-    // locationPermission contains initial location permission state that controls
-    // if location listener has to be stopped after permission changed:
-    // Stop listener if permission was denied after listener start.
-    // Don't stop listener if permission was allowed later and listener has not been started
-    private boolean locationPermission;
-
     private ChangeLog cl;
     private ViewHelp vh;
+    private ViewLicense vl;
 
     private final Handler mHandler = new Handler();
 
@@ -117,7 +99,6 @@ public class WelcomeActivity
     private File infile;
     private File outfile;
     private String selectedFile;
-
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
     final String state = Environment.getExternalStorageState();
@@ -126,10 +107,7 @@ public class WelcomeActivity
 
     // preferences
     private SharedPreferences prefs;
-    private String sortPref;
-    private boolean autoSection; // true for GPS track selection
-    private boolean sectionHasTrack = false; // transect sections have tracks
-    private SharedPreferences.Editor editor;
+    private String outPref;
 
     // db handling
     private SQLiteDatabase database;
@@ -137,18 +115,9 @@ public class WelcomeActivity
     private HeadDataSource headDataSource;
     private Head head;
     private SectionDataSource sectionDataSource;
-    private Section section;
-    private TrackDataSource trackDataSource;
-    private List<Track> trackPts;
-
-    private String gpxString;
-    private String gpxTrkString;
-    private int strStart;
-    private int strEnd;    // temp. index end of string
-    private int trkStart;  // temp index start of trk
-    private int trkEnd;    // temp index end of trk
-    private int trkpt = 1; // trackpoint counter
-    private int trk = 1;   // track counter
+    private MetaDataSource metaDataSource;
+    private CountDataSource countDataSource;
+    private AlertDataSource alertDataSource;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -168,9 +137,7 @@ public class WelcomeActivity
         {
             PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
             if (!isStorageGranted())
-            {
                 showSnackbarRed(getString(R.string.perm_cancel));
-            }
         }
 
         selectedFile = "";
@@ -180,23 +147,19 @@ public class WelcomeActivity
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        sectionHasTrack = prefs.getBoolean("section_has_track", false);
-        autoSection = prefs.getBoolean("pref_auto_section", false);
-        if (!sectionHasTrack && autoSection)
-        {
-            autoSection = false;
-            editor = prefs.edit();
-            editor.putBoolean("pref_auto_section", autoSection);
-            editor.commit();
-        }
-        if (MyDebug.LOG)
-            Log.d(TAG, "194, onCreate, autoSection: " + autoSection
-                + ", Section has track: " + sectionHasTrack);
+        // setup the data sources
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
+
+        headDataSource = TransektCountApplication.getHeadDS();
+        sectionDataSource = TransektCountApplication.getSectionDS();
+        metaDataSource = TransektCountApplication.getMetaDS();
+        countDataSource = TransektCountApplication.getCountDS();
+        alertDataSource = TransektCountApplication.getAlertDS();
 
         // check for DB integrity
         try
         {
-            headDataSource = new HeadDataSource(this);
             headDataSource.open();
             head = headDataSource.getHead();
             String tName = head.transect_no; // just dummy read for DB integrity test
@@ -205,88 +168,20 @@ public class WelcomeActivity
         {
             headDataSource.close();
             showSnackbarRed(getString(R.string.corruptDb));
+            finish();
         }
 
-        // try to get list of trackpts and number of tracks
-        int trCount;
-        try
-        {
-            trackDataSource = new TrackDataSource(this);
-            trackDataSource.open();
-            trackPts = trackDataSource.getAllTrackPoints();
-            trCount = trackDataSource.getDiffTrks();
-            trackDataSource.close();
-        } catch (SQLiteException e)
-        {
-            trackDataSource.close();
-            trCount = 0;
-        }
+        dbHandler.close();
 
-        // get number of sections and name for 1st use of new DB
-        int secCount;
-        try
-        {
-            sectionDataSource = new SectionDataSource(this);
-            sectionDataSource.open();
-            secCount = sectionDataSource.getNumEntries();
-            tSecName = sectionDataSource.getSection(1).name;
-            sectionDataSource.close();
-        } catch (SQLiteException e)
-        {
-            sectionDataSource.close();
-            secCount = 0;
-        }
-        if (MyDebug.LOG && autoSection)
-            Log.d(TAG, "241, onCreate, TrkPts: " + trackPts.size()
-                + ", trCount: " + trCount + ", secCount: " + secCount);
-
-        // check if tracks correspond to sections
-        if (trCount > 0 && trCount != secCount)
-        {
-            autoSection = false;
-
-            // store autoSection in SharedPreferences
-            editor = prefs.edit();
-            editor.putBoolean("pref_auto_section", autoSection);
-            editor.commit();
-            showSnackbarRed(getString(R.string.track_err));
-        }
-
-        // check if tracks exist and correspond to sections
-        if (autoSection && (trCount != secCount))
-        {
-            autoSection = false;
-            sectionHasTrack = false;
-
-            // store autoSection and sectionHasTrack in SharedPreferences
-            editor = prefs.edit();
-            editor.putBoolean("pref_auto_section", autoSection);
-            editor.putBoolean("section_has_track", sectionHasTrack);
-            editor.commit();
-            showSnackbarRed(getString(R.string.track_err));
-        }
-
-        // check initial location permission state
-        if (autoSection && sectionHasTrack)
-        {
-            locationPermission =
-                (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-        }
-
-        // store locationPermission in SharedPreferences
-        editor = prefs.edit();
-        editor.putBoolean("location_permission", locationPermission);
-        editor.apply();
-
+        if (MyDebug.LOG) Log.d(TAG, "174, onCreate, vor ChangeLog");
         // Show changelog for new version
         cl = new ChangeLog(this);
         vh = new ViewHelp(this);
+        vl = new ViewLicense(this);
         if (cl.firstRun())
             cl.getLogDialog().show();
 
-        // test for existence of directory /storage/emulated/0/Android/data/com.wmstein.transektcount/files/transektcount0.db
-        // test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
+        // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -298,13 +193,47 @@ public class WelcomeActivity
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
         }
-        //noinspection ResultOfMethodCallIgnored
-        path.mkdirs(); // Verify path
+
         infile = new File(path, "/transektcount0.db");
         if (!infile.exists())
-            exportBasisDb(); // create directory and initial Basis DB (getExternalFilesDir, getExternalDir)
+            exportBasisDb(); // create directory and copy internal DB-data to initial Basis DB-file
+
+        // new onBackPressed logic
+        if (Build.VERSION.SDK_INT >= 33)
+        {
+            getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true)
+                {
+                    @Override
+                    public void handleOnBackPressed()
+                    {
+                        if (doubleBackToExitPressedTwice)
+                        {
+                            finish();
+                        }
+
+                        doubleBackToExitPressedTwice = true;
+
+                        Toast t = new Toast(getApplicationContext());
+                        LayoutInflater inflater = getLayoutInflater();
+
+                        @SuppressLint("InflateParams")
+                        View toastView = inflater.inflate(R.layout.toast_view, null);
+                        TextView textView = toastView.findViewById(R.id.toast);
+                        textView.setText(R.string.back_twice);
+
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                        t.show();
+
+                        mHandler.postDelayed(() ->
+                            doubleBackToExitPressedTwice = false, 1500);
+                    }
+                }
+            );
+        }
     }
-    // end of onCreate
+    // end of onCreate()
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -312,26 +241,19 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.LOG) Log.d(TAG, "316, onResume");
+        if (MyDebug.LOG) Log.d(TAG, "241, onResume");
         prefs = TransektCountApplication.getPrefs();
-        prefs.registerOnSharedPreferenceChangeListener(this);
-        sortPref = prefs.getString("pref_sort_sp", "none"); // sort mode species list
-        sectionHasTrack = prefs.getBoolean("section_has_track", false);
-        locationPermission = prefs.getBoolean("location_permission", false);
-        autoSection = prefs.getBoolean("pref_auto_section", false);
-        if (!sectionHasTrack && autoSection)
-        {
-            showSnackbarRed(getString(R.string.track_err1));
-            autoSection = false;
-            editor = prefs.edit();
-            editor.putBoolean("pref_auto_section", autoSection);
-            editor.commit();
-        }
+        outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
-        headDataSource = new HeadDataSource(this);
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
         headDataSource.open();
+        sectionDataSource.open();
+        metaDataSource.open();
+        countDataSource.open();
+        alertDataSource.open();
+
         head = headDataSource.getHead();
-        headDataSource.close();
 
         // set transect name as title
         try
@@ -341,45 +263,8 @@ public class WelcomeActivity
         {
             // nothing
         }
-
-        // for GPS check permission and get location
-        if (autoSection)
-        {
-            locationPermissionDispatcherMode = 1;
-            locationCaptureFragment();
-        }
-
-        // new onBackPressed logic TODO
-        if (Build.VERSION.SDK_INT >= 33)
-        {
-            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                () ->
-                {
-                    /**
-                     * onBackPressed logic goes here - For instance:
-                     * Prevents closing the app to go home screen when in the
-                     * middle of entering data to a form
-                     * or from accidentally leaving a fragment with a WebView in it
-                     *
-                     * Unregistering the callback to stop intercepting the back gesture:
-                     * When the user transitions to the topmost screen (activity, fragment)
-                     * in the BackStack, unregister the callback by using
-                     * OnBackInvokeDispatcher.unregisterOnBackInvokedCallback
-                     */
-                    if (doubleBackToExitPressedTwice)
-                    {
-                        finish();
-                    }
-
-                    this.doubleBackToExitPressedTwice = true;
-                    Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
-
-                    mHandler.postDelayed(() -> doubleBackToExitPressedTwice = false, 1500);
-                }
-                                                                      );
-        }
-    } // end of onResume
+    }
+    // end of onResume()
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -397,7 +282,8 @@ public class WelcomeActivity
         int id = item.getItemId();
         if (id == R.id.action_settings)
         {
-            startActivity(new Intent(this, SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity(new Intent(this, SettingsActivity.class).addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.exportMenu)
@@ -414,7 +300,8 @@ public class WelcomeActivity
             }
             else
             {
-                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
+                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
+                    PermissionsDialogFragment.class.getName());
                 if (isStorageGranted())
                 {
                     exportDb2CSV();
@@ -441,35 +328,18 @@ public class WelcomeActivity
             importDBFile();
             return true;
         }
-        else if (id == R.id.importGPXMenu)
-        {
-            if (!sectionHasTrack)
-            {
-                importGPX();
-            }
-            else
-            {
-                showSnackbarRed(getString(R.string.importTrackFail));
-            }
-            return true;
-        }
-        else if (id == R.id.deleteGPXMenu)
-        {
-            if (sectionHasTrack)
-            {
-                deleteGPX();
-            }
-            else
-            {
-                showSnackbarRed(getString(R.string.deleteTrackFail));
-            }
-            return true;
-        }
         else if (id == R.id.resetDBMenu)
         {
             resetToBasisDb();
             return true;
         }
+/*
+        else if (id == R.id.importListMenu)
+        {
+            importTourCountList();
+            return true;
+        }
+ */
         else if (id == R.id.viewHelp)
         {
             vh.getFullLogDialog().show();
@@ -480,48 +350,17 @@ public class WelcomeActivity
             cl.getFullLogDialog().show();
             return true;
         }
+        else if (id == R.id.viewLicense)
+        {
+            vl.getFullLogDialog().show();
+            return true;
+        }
         else if (id == R.id.startCounting)
         {
-            if (autoSection && locationPermission && sectionHasTrack)
-            {
-                /*****************************************
-                 Automatic selection of transect section:
-                 - get location,
-                 - read track info,
-                 - check position on track,
-                 - get section for track and
-                 - determine location is inside of tracks
-                 */
-                // Get location with permissions check
-                locationPermissionDispatcherMode = 1; // allow to get location
-                locationCaptureFragment();            // get location
-
-                dataTrkpt = checkSectionTrack();
-                if (dataTrkpt.tsection != null)
-                    tSecName = dataTrkpt.tsection; // set section name of located section
-                sectionDataSource = new SectionDataSource(this);
-                sectionDataSource.open();
-                section = sectionDataSource.getSectionByName(tSecName);
-                sectionDataSource.close();
-                insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
-                if (MyDebug.LOG)
-                    Log.d(TAG, "509, startCounting, Section ID: " + section.id + " Name: "
-                        + tSecName + " insideOfTrack: " + insideOfTrack);
-
-                // call CountingActivityA for section
-                Intent intent;
-                intent = new Intent(WelcomeActivity.this, CountingActivityA.class);
-                intent.putExtra("section_id", section.id);
-                intent.putExtra("welcome_act", true); // controls itemPosition handling
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-            else
-            {
-                // manual selection of transect section
-                Intent intent;
-                intent = new Intent(WelcomeActivity.this, ListSectionActivity.class);
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+            // call CountingActivity
+            Intent intent;
+            intent = new Intent(WelcomeActivity.this, ListSectionActivity.class);
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
         }
         else if (id == R.id.editMeta)
@@ -540,34 +379,35 @@ public class WelcomeActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    // end of onOptionsItemSelected
 
-    } // end of onOptionsItemSelected
-
-    // Save activity state for CountingActivityA and ListSectionActivity
-    @Override
+    // Save activity state
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         View baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(null);
         baseLayout.setBackground(transektCount.setBackground());
-        sortPref = prefs.getString("pref_sort_sp", "none");
-        autoSection = prefs.getBoolean("pref_auto_section", false);
-        sectionHasTrack = prefs.getBoolean("section_has_track", false);
+        outPref = prefs.getString("pref_csv_out", "species");
     }
 
+    @Override
     public void onPause()
     {
         super.onPause();
 
-        editor = prefs.edit();
-        editor.putBoolean("location_permission", locationPermission);
-        editor.putInt("j", 1); // reset counter in DummyActivity
-        editor.apply();
+        headDataSource.close();
+        sectionDataSource.close();
+        metaDataSource.close();
+        countDataSource.close();
+        alertDataSource.close();
+        dbHandler.close();
     }
 
     /**
@@ -584,21 +424,36 @@ public class WelcomeActivity
         }
 
         this.doubleBackToExitPressedTwice = true;
-        Toast.makeText(this, R.string.back_twice, Toast.LENGTH_SHORT).show();
+
+        Toast t = new Toast(this);
+        LayoutInflater inflater = getLayoutInflater();
+
+        @SuppressLint("InflateParams")
+        View toastView = inflater.inflate(R.layout.toast_view, null);
+        TextView textView = toastView.findViewById(R.id.toast);
+        textView.setText(R.string.back_twice);
+
+        t.setView(toastView);
+        t.setDuration(Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+        t.show();
 
         mHandler.postDelayed(() -> doubleBackToExitPressedTwice = false, 1500);
     }
 
+    @Override
     public void onStop()
     {
         super.onStop();
+    }
 
-        if (locationPermission && autoSection && sectionHasTrack)
-        {
-            // Stop location service with permissions check
-            locationPermissionDispatcherMode = 2;
-            locationCaptureFragment();
-        }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        dbHandler.close();
     }
 
     // check initial external storage permission
@@ -612,64 +467,6 @@ public class WelcomeActivity
             return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    // Part of permission handling
-    @Override
-    public void locationCaptureFragment()
-    {
-        if (MyDebug.LOG) Log.d(TAG, "620 locationCaptureFragment()");
-
-        locationPermission =
-            (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-
-        if (locationPermission) // current location permission state
-        {
-            switch (locationPermissionDispatcherMode)
-            {
-                case 1 ->
-                {
-                    if (autoSection && sectionHasTrack)
-                    {
-                        if (locServiceOn)
-                        {
-                            getLoc(); // start location service and get location
-                        }
-                        else
-                        {
-                            locationService = new LocationService(this);
-                            locServiceOn = true;
-                            getLoc();
-                        }
-                    }
-                }
-                case 2 ->
-                {
-                    if (locServiceOn)
-                    {
-                        locationService.stopListener(); // stop location service
-                        locServiceOn = false;
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (locationPermissionDispatcherMode == 1 && autoSection && sectionHasTrack)
-                PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
-                    PermissionsDialogFragment.class.getName());
-        }
-    }
-
-    // get the location data
-    private void getLoc()
-    {
-        if (locationService.canGetLocation())
-        {
-            longitude = locationService.getLongitude();
-            latitude = locationService.getLatitude();
-        }
-    }
-
     // Date for filename of Export-DB
     public static String getcurDate()
     {
@@ -679,50 +476,13 @@ public class WelcomeActivity
         return dform.format(date);
     }
 
-    // Prepare for and start the appropriate CountingActivity depending on
-    //   manual or automatic selection of sections
+    // Start CountingActivity
     public void startCounting(View view)
     {
-        if (autoSection && locationPermission && sectionHasTrack)
-        {
-            /********************************************
-             * Automatic selection of transect section:
-             *   get location,
-             *   read track info,
-             *   check position on track,
-             *   get section for track and
-             *   determine if location is inside of track
-             */
-            // Get location with permissions check
-            locationPermissionDispatcherMode = 1; // allow to get location
-            locationCaptureFragment();            // get location
-
-            dataTrkpt = checkSectionTrack();
-            if (dataTrkpt.tsection != null)
-                tSecName = dataTrkpt.tsection; // set section name of located section
-            sectionDataSource = new SectionDataSource(this);
-            sectionDataSource.open();
-            section = sectionDataSource.getSectionByName(tSecName);
-            sectionDataSource.close();
-            insideOfTrack = dataTrkpt.insideOfTrack; // true = position is inside of tracks
-            if (MyDebug.LOG)
-                Log.d(TAG, "710, startCounting, Section ID: " + section.id + " Name: "
-                    + tSecName + " insideOfTrack: " + insideOfTrack);
-
-            // call CountingActivityA for section
-            Intent intent;
-            intent = new Intent(WelcomeActivity.this, CountingActivityA.class);
-            intent.putExtra("section_id", section.id);
-            intent.putExtra("welcome_act", true); // controls itemPosition handling
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
-        else
-        {
-            // no use of transect GPS track data
-            Intent intent;
-            intent = new Intent(WelcomeActivity.this, ListSectionActivity.class);
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        }
+        // Start ListSectionActivity to select section to be used for counting
+        Intent intent;
+        intent = new Intent(WelcomeActivity.this, ListSectionActivity.class);
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     public void editMeta(View view)
@@ -740,122 +500,25 @@ public class WelcomeActivity
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
     }
 
-    /************************************************
-     * check if tracks exist and coords match section
-     */
-    private DataTrkpt checkSectionTrack()
-    {
-        double dist = 0.0;
-        String tLat = "0.0";
-        String tLon = "0.0";
-        // read all TRACK_TABLE entries until dist matches distMax
-        for (Track trackpt : trackPts)
-        {
-            tSecName = trackpt.tsection;
-            if (trackpt.id == 1)
-                tSectionMatch = tSecName; // initial value
-            tLat = trackpt.tlat;
-            tLon = trackpt.tlon;
-            dist = sDistance(tLat, tLon, latitude, longitude);
-            double distMax = 5.0; // 5 meters
-            if (dist < distMax)
-            {
-                insideOfTrack = true;
-                tSectionMatch = tSecName;
-                break;
-            }
-            else
-            {
-                insideOfTrack = false;
-                tSecName = tSectionMatch;
-            }
-            // check next trackpt
-        }
-
-        if (MyDebug.LOG)
-        {
-            Log.d(TAG, "778, checkSectionTrack, GPS Lat: " + latitude + ", GPS Lon: " + longitude);
-            Log.d(TAG, "779, checkSectionTrack, Track-Lat: " + tLat + ", Track-Lon: " + tLon
-                + ", dist: " + dist);
-            Log.d(TAG, "781, checkSectionTrack, tSecName: " + tSecName + ", insideOfTrack: " + insideOfTrack);
-        }
-        return new DataTrkpt(tSecName, insideOfTrack);
-    }
-
-    // Allows to return a complex result by DataTrkpt
-    public static class DataTrkpt
-    {
-        private final String tsection;
-        private final boolean insideOfTrack;
-
-        public DataTrkpt(String tsection, boolean insideOfTrack)
-        {
-            this.tsection = tsection;
-            this.insideOfTrack = insideOfTrack;
-        }
-    }
-
-    /**************************************************
-     * Calculate distance between two coordinate points
-     * Uses Pythagorean method as its base.
-     * Distance in meters
-     */
-    private double sDistance(String latDB, String lonDB, Double latGPS, Double lonGPS)
-    {
-        double latiDB = Double.parseDouble(latDB);
-        double loniDB = Double.parseDouble(lonDB);
-
-        return FlatEarthDist.distance(latiDB, loniDB, latGPS, lonGPS);
-    }
-
-    private static class FlatEarthDist
-    {
-        public static double distance(double lat1, double lon1, double lat2, double lon2)
-        {
-            double a = (lat1 - lat2) * FlatEarthDist.distPerLat(lat1);
-            double b = (lon1 - lon2) * FlatEarthDist.distPerLon(lat1);
-            return Math.sqrt(a * a + b * b);
-        }
-
-        private static double distPerLat(double lat)
-        {
-            return -0.000000487305676 * Math.pow(lat, 4)
-                - 0.0033668574 * Math.pow(lat, 3)
-                + 0.4601181791 * lat * lat
-                - 1.4558127346 * lat + 110579.25662316;
-        }
-
-        private static double distPerLon(double lat)
-        {
-            return 0.0003121092 * Math.pow(lat, 4)
-                + 0.0101182384 * Math.pow(lat, 3)
-                - 17.2385140059 * lat * lat
-                + 5.5485277537 * lat + 111301.967182595;
-        }
-    }
-    // end of checkSectionTrack() and sub-routines
-
     /********************************************************************************
      * The seven functions below are for exporting and importing of (database) files.
      * They've been put here because no database should be left open at this point.
+     * Exports DB to Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
+     *   supplemented with date and time in filename
+     * outfile ->
+     *   /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
      */
-    // Exports DB to Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
-    //   supplemented with date and time in filename
-    // outfile ->
-    //   /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
     {
         /*
-         outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
-
          1. Solution for Android >= 10 (Q)
          path = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
 
          2. Solution for Android < 10 (deprecated in Q)
          path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-           + "/TransektCount");
-        */
+         + "/TransektCount");
+         */
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -916,13 +579,14 @@ public class WelcomeActivity
     }
     // end of exportDb()
 
-    /********************************************************************************************/
-    // Exports DB contents as transektcount_yyyy-MM-dd_HHmmss.csv-file to Documents/TransektCount/
-    //   with purged data set
-    // Spreadsheet programs can import this csv file with
-    //   - Unicode UTF-8 filter,
-    //   - comma delimiter and
-    //   - "" for text recognition.
+    /*********************************************************************************************
+     // Exports DB contents as transektcount_yyyy-MM-dd_HHmmss.csv-file to Documents/TransektCount/
+     //   with purged data set
+     // Spreadsheet programs can import this csv file with
+     //   - Unicode UTF-8 filter,
+     //   - comma delimiter and
+     //   - "" for text recognition.
+     */
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb2CSV()
     {
@@ -950,18 +614,25 @@ public class WelcomeActivity
         outfile = new File(path, "/transektcount_" + getcurDate() + ".csv");
 
         Section section;
-        String sectName;
-        String sectNotes;
+        String sectName;  // name shown in list
         int sect_id;
 
-        Meta meta;
+        Meta meta; // meta database instance
         String transNo, inspecName;
-        int temps, tempe, winds, winde, clouds, cloude;
-        int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
-        int total, sumSpec;
-        String date, start_tm, end_tm, kw;
+        int temps, tempe;   // temperature at start time and end time
+        int winds, winde;   // wind
+        int clouds, cloude; // clouds
+
+        String date, start_tm, end_tm, kw, inspection_note; // kw = calendar week (String)
         int yyyy, mm, dd;
-        int Kw = 0; // calendar week
+        int Kw = 0; // calendar week (Int)
+
+        //  ♂,♀        ♂         ♀         pupa      larva     ovo
+        int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
+        int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
+
+        int totali, totale;
+        int total, sumSpec;
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -990,31 +661,27 @@ public class WelcomeActivity
             // export purged db as csv
             dbHandler = new DbHelper(this);
             database = dbHandler.getWritableDatabase();
-            headDataSource = new HeadDataSource(this);
+            headDataSource = TransektCountApplication.getHeadDS();
             headDataSource.open();
-            MetaDataSource metaDataSource = new MetaDataSource(this);
             metaDataSource.open();
-            SectionDataSource sectionDataSource = new SectionDataSource(this);
             sectionDataSource.open();
-            CountDataSource countDataSource = new CountDataSource(this);
             countDataSource.open();
 
             // get number of different species
             sumSpec = countDataSource.getDiffSpec();
 
-            /*********************************/
+            //********************************
             // start creating csv table output
             try
             {
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
 
-                // set header according to table representation in MS Excel
+                // set header according to table representation in spreadsheet
                 String[] arrCol =
                     {
                         getString(R.string.transectnumber),
                         getString(R.string.inspector),
                         getString(R.string.date),
-                        "",
                         "",
                         getString(R.string.timehead),
                         getString(R.string.temperature),
@@ -1022,6 +689,8 @@ public class WelcomeActivity
                         getString(R.string.clouds),
                         "",
                         getString(R.string.kal_w),
+                        "", "", "", "", "", "",
+                        getString(R.string.note),
                     };
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
@@ -1041,12 +710,13 @@ public class WelcomeActivity
                 date = meta.date;
                 start_tm = meta.start_tm;
                 end_tm = meta.end_tm;
+                inspection_note = meta.note;
 
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
                 assert date != null;
-                if (!date.equals(""))
+                if (!date.isEmpty())
                 {
                     String language = Locale.getDefault().toString().substring(0, 2);
                     if (language.equals("de"))
@@ -1085,16 +755,15 @@ public class WelcomeActivity
                     Kw = cal.get(Calendar.WEEK_OF_YEAR);
                 }
 
-                // main headline with
-                //   transect no., inspector name, temperature, wind, clouds, date, start-time,
-                //   end-time, calendar week
+                // 1. headline info with
+                //    transect no., inspector name, date, start-time, start-temperature, start-wind,
+                //    clouds, calendar week
                 kw = String.valueOf(Kw);
                 String[] arrMeta =
                     {
                         transNo,
                         inspecName,
                         date,
-                        "",
                         getString(R.string.from),
                         start_tm,
                         String.valueOf(temps),
@@ -1102,15 +771,16 @@ public class WelcomeActivity
                         String.valueOf(clouds),
                         "",
                         kw,
+                        "", "", "", "", "", "",
+                        inspection_note,
                     };
                 csvWrite.writeNext(arrMeta);
 
+                // 2. headline info with
+                //    end-time, end-temperature, end-clouds
                 String[] arrMeta1 =
                     {
-                        "",
-                        "",
-                        "",
-                        "",
+                        "", "", "",
                         getString(R.string.to),
                         end_tm,
                         String.valueOf(tempe),
@@ -1123,61 +793,121 @@ public class WelcomeActivity
                 String[] arrEmpt = {};
                 csvWrite.writeNext(arrEmpt);
 
-                // species table headline with
-                //   Species Name, Local Name, Code, Section, Section Note, Counts, Spec.-Note
-                String[] arrCol1 =
-                    {
-                        getString(R.string.name_spec),
-                        getString(R.string.name_spec_g),
-                        getString(R.string.code_spec),
-                        getString(R.string.name_sect),
-                        getString(R.string.notes_sect),
-                        getString(R.string.countImagomfHint),
-                        getString(R.string.countImagomHint),
-                        getString(R.string.countImagofHint),
-                        getString(R.string.countPupaHint),
-                        getString(R.string.countLarvaHint),
-                        getString(R.string.countOvoHint),
-                        getString(R.string.rem_spec)
-                    };
-                csvWrite.writeNext(arrCol1);
+                // Intern, extern
+                String[] arrIE = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                csvWrite.writeNext(arrIE);
 
-                /***********************************************************************/
-                // build the internal species array according to the sorted species list
-                Cursor curCSV;
-                if ("codes".equals(sortPref))
+                // headline of species table with
+                if (outPref.equals("sections"))
                 {
-                    // cursor contains sorted by code list with all internal count entries > 0
-                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0)"
-                        + " order by " + DbHelper.C_CODE, null);
+                    // Section, Species Name, Local Name, Code, Internal Counts, External Counts, Spec.-Notes
+                    String[] arrCol1 =
+                        {
+                            getString(R.string.name_sect),
+                            getString(R.string.name_spec),
+                            getString(R.string.name_spec_g),
+                            getString(R.string.code_spec),
+                            getString(R.string.countImagomfHint),
+                            getString(R.string.countImagomHint),
+                            getString(R.string.countImagofHint),
+                            getString(R.string.countPupaHint),
+                            getString(R.string.countLarvaHint),
+                            getString(R.string.countOvoHint),
+                            getString(R.string.countImagomfHint),
+                            getString(R.string.countImagomHint),
+                            getString(R.string.countImagofHint),
+                            getString(R.string.countPupaHint),
+                            getString(R.string.countLarvaHint),
+                            getString(R.string.countOvoHint),
+                            getString(R.string.rem_spec)
+                        };
+                    csvWrite.writeNext(arrCol1);
+                } else {
+                    // Species Name, Local Name, Code, Section, Internal Counts, External Counts, Spec.-Note
+                    String[] arrCol1 =
+                        {
+                            getString(R.string.name_spec),
+                            getString(R.string.name_spec_g),
+                            getString(R.string.code_spec),
+                            getString(R.string.name_sect),
+                            getString(R.string.countImagomfHint),
+                            getString(R.string.countImagomHint),
+                            getString(R.string.countImagofHint),
+                            getString(R.string.countPupaHint),
+                            getString(R.string.countLarvaHint),
+                            getString(R.string.countOvoHint),
+                            getString(R.string.countImagomfHint),
+                            getString(R.string.countImagomHint),
+                            getString(R.string.countImagofHint),
+                            getString(R.string.countPupaHint),
+                            getString(R.string.countLarvaHint),
+                            getString(R.string.countOvoHint),
+                            getString(R.string.rem_spec)
+                        };
+                    csvWrite.writeNext(arrCol1);
+                }
+
+                //*****************************************************************************
+                // build the internal species array according to the sorted species or sections
+                Cursor curCSV;
+                if (outPref.equals("sections"))
+                {
+                        // cursor contains list sorted by name with all internal count entries > 0
+                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                            + " WHERE ("
+                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                            + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
                 }
                 else
                 {
-                    // cursor contains sorted by name list with all internal count entries > 0
-                    curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0)"
-                        + " order by " + DbHelper.C_NAME, null);
+                        // cursor contains list sorted by name with all internal count entries > 0
+                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                            + " WHERE ("
+                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                            + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
                 }
 
-                // get the internal counts for the internal count area
+                String code;       // current species code
+                String name_s;     // scientific name
+                String name_l;     // local name
+                String sp_notes;   // species notes
+
+                // internal counts variables
                 int countmf, countm, countf, countp, countl, counte;
                 String strcountmf, strcountm, strcountf, strcountp, strcountl, strcounte;
 
-                // get the internal counts for the internal count area
+                // external counts variables
+                int countmfe = 0, countme = 0, countfe = 0, countpe = 0, countle = 0, countee = 0;
+                String strcountmfe, strcountme, strcountfe, strcountpe, strcountle, strcountee;
+
+                // sums and totals variables
+                int totalsmfie = 0, totalsmie = 0, totalsfie = 0, totalspie = 0, totalslie = 0, totalseie = 0;
+                String strsummf, strsumm, strsumf, strsump, strsuml, strsumo;
+                String strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe;
+                String strtotalsmfie, strtotalsmie, strtotalsfie, strtotalspie, strtotalslie, strtotalseie;
+
+                String strtotali, strtotale, strtotal;
+
                 curCSV.moveToFirst();
                 while (!curCSV.isAfterLast())
                 {
                     sect_id = curCSV.getInt(1);
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
-                    sectNotes = section.notes;
+                    code = curCSV.getString(3); //species code
+                    name_s = curCSV.getString(2);
+                    name_l = curCSV.getString(17);
+                    sp_notes = curCSV.getString(16);
 
                     countmf = curCSV.getInt(4);
                     if (countmf > 0)
@@ -1215,23 +945,88 @@ public class WelcomeActivity
                     else
                         strcounte = "";
 
-                    // show internal counts line only if there is a count
-                    if (countmf + countm + countf + countp + countl + counte > 0)
+                    countmfe = curCSV.getInt(10);
+                    if (countmfe > 0)
+                        strcountmfe = Integer.toString(countmfe);
+                    else
+                        strcountmfe = "";
+
+                    countme = curCSV.getInt(11);
+                    if (countme > 0)
+                        strcountme = Integer.toString(countme);
+                    else
+                        strcountme = "";
+
+                    countfe = curCSV.getInt(12);
+                    if (countfe > 0)
+                        strcountfe = Integer.toString(countfe);
+                    else
+                        strcountfe = "";
+
+                    countpe = curCSV.getInt(13);
+                    if (countpe > 0)
+                        strcountpe = Integer.toString(countpe);
+                    else
+                        strcountpe = "";
+
+                    countle = curCSV.getInt(14);
+                    if (countle > 0)
+                        strcountle = Integer.toString(countle);
+                    else
+                        strcountle = "";
+
+                    countee = curCSV.getInt(15);
+                    if (countee > 0)
+                        strcountee = Integer.toString(countee);
+                    else
+                        strcountee = "";
+
+                    if (outPref.equals("sections"))
                     {
+                        // build line in species table for species in section
                         String[] arrStr =
                             {
-                                curCSV.getString(2),   //species name
-                                curCSV.getString(17),  //species name_g
-                                curCSV.getString(3),   //species code
-                                sectName,              //section name
-                                sectNotes,             //section note
-                                strcountmf,            //count mf
-                                strcountm,             //count m
-                                strcountf,             //count f
-                                strcountp,             //count p
-                                strcountl,             //count l
-                                strcounte,             //count e
-                                curCSV.getString(16)   //notes
+                                sectName,    // section name
+                                name_s,      // species name
+                                name_l,      // species local name
+                                code,        // species code
+                                strcountmf,  // count mf
+                                strcountm,   // count m
+                                strcountf,   // count f
+                                strcountp,   // count p
+                                strcountl,   // count l
+                                strcounte,   // count e
+                                strcountmfe, // count mfe
+                                strcountme,  // count me
+                                strcountfe,  // count fe
+                                strcountpe,  // count pe
+                                strcountle,  // count le
+                                strcountee,  // count ee
+                                sp_notes     // spec. notes
+                            };
+                        csvWrite.writeNext(arrStr);
+                    } else
+                    {
+                        // build line in species table for species in section
+                        String[] arrStr =
+                            {
+                                name_s,      // species name
+                                name_l,      // species local name
+                                code,        // species code
+                                sectName,    // section name
+                                strcountmf,  // count mf
+                                strcountm,   // count m
+                                strcountf,   // count f
+                                strcountp,   // count p
+                                strcountl,   // count l
+                                strcounte,   // count e
+                                strcountmfe, // count mfe
+                                strcountme,  // count me
+                                strcountfe,  // count fe
+                                strcountpe,  // count pe
+                                strcountle,  // count le
+                                strcountee,  // count ee
+                                sp_notes     // spec. notes
                             };
                         csvWrite.writeNext(arrStr);
                     }
@@ -1242,184 +1037,38 @@ public class WelcomeActivity
                     sump = sump + curCSV.getInt(7);
                     suml = suml + curCSV.getInt(8);
                     sumo = sumo + curCSV.getInt(9);
+                    summfe = summfe + curCSV.getInt(10);
+                    summe = summe + curCSV.getInt(11);
+                    sumfe = sumfe + curCSV.getInt(12);
+                    sumpe = sumpe + curCSV.getInt(13);
+                    sumle = sumle + curCSV.getInt(14);
+                    sumoe = sumoe + curCSV.getInt(15);
                     curCSV.moveToNext();
                 }
                 curCSV.close();
 
-                // empty row followed before external counts area
-                csvWrite.writeNext(arrEmpt);
-                csvWrite.close();
-                showSnackbar(getString(R.string.savecsv));
-            } catch (Exception e)
-            {
-                showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1236, csv write internal failed");
-            }
-
-            /***********************************************************************/
-            // build the external species array according to the sorted species list
-            //   and append it to internal array by CSVWriter parameter 'true'
-            try
-            {
-                CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile, true));
-                Cursor curCSVe;
-                if ("codes".equals(sortPref))
-                {
-                    // cursor contains sorted by code list with all external count entries > 0
-                    curCSVe = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_CODE, null);
-                }
-                else
-                {
-                    // cursor contains sorted by name list with all external count entries > 0
-                    curCSVe = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_NAME, null);
-                }
-
-                // get the external counts for the external count area
-                int countmfe, countme, countfe, countpe, countle, countee; // ext. counts
-                String strcountmfe, strcountme, strcountfe, strcountpe, strcountle, strcountee;
-
-                int totalmfe = 0, totalme = 0, totalfe = 0, totalpe = 0, totalle = 0, totalee = 0;
-                String strtotalmfe, strtotalme, strtotalfe, strtotalpe, strtotalle, strtotalee;
-
-                // get the external counts for the external count area
-                int curCount;
-                curCount = curCSVe.getCount();
-                if (MyDebug.LOG) Log.d(TAG, "1277, curCSVe, curCount: " + curCount);
-
-                if (curCount > 0) // build table only when there is any count at all
-                {
-                    curCSVe.moveToFirst();
-                    String code;       // current species code
-                    String code1 = ""; // initial species code
-                    if (isNotBlank(curCSVe.getString(3)))
-                        code1 = curCSVe.getString(3);
-                    if (MyDebug.LOG) Log.d(TAG, "1286, curCSVe, code1: " + code1);
-
-                    boolean cDiff;
-                    boolean firstCnt = true; // needed to write the first counts of the external species
-                    while (!curCSVe.isAfterLast())
-                    {
-                        // read code of current position
-                        code = curCSVe.getString(3); //species code
-                        if (MyDebug.LOG) Log.d(TAG, "1294, while curCSVe, code: " + code
-                            + ", code1: " + code1);
-
-                        countmfe = countDataSource.getMFEWithCode(code);
-                        if (countmfe > 0)
-                            strcountmfe = Integer.toString(countmfe);
-                        else
-                            strcountmfe = "";
-
-                        countme = countDataSource.getMEWithCode(code);
-                        if (countme > 0)
-                            strcountme = Integer.toString(countme);
-                        else
-                            strcountme = "";
-
-                        countfe = countDataSource.getFEWithCode(code);
-                        if (countfe > 0)
-                            strcountfe = Integer.toString(countfe);
-                        else
-                            strcountfe = "";
-
-                        countpe = countDataSource.getPEWithCode(code);
-                        if (countpe > 0)
-                            strcountpe = Integer.toString(countpe);
-                        else
-                            strcountpe = "";
-
-                        countle = countDataSource.getLEWithCode(code);
-                        if (countle > 0)
-                            strcountle = Integer.toString(countle);
-                        else
-                            strcountle = "";
-
-                        countee = countDataSource.getEEWithCode(code);
-                        if (countee > 0)
-                            strcountee = Integer.toString(countee);
-                        else
-                            strcountee = "";
-
-                        // check for writing the external count line
-                        cDiff = !Objects.equals(code, code1);
-                        if (MyDebug.LOG) Log.d(TAG, "1335, curCSVe, cDiff: " + cDiff
-                            + ", code: " + code + ", code1: " + code1);
-
-                        code1 = code;
-
-                        // show external counts line only if there is a count
-                        if ((cDiff || firstCnt) && (countmfe + countme + countfe + countpe + countle + countee > 0))
-                        {
-                            // show external counts section as "External"
-                            String sectName1 = getString(R.string.external);
-                            String[] arrStrExt =
-                                {
-                                    curCSVe.getString(2),   //species name
-                                    curCSVe.getString(17),  //species name_g
-                                    code,                  //species code
-                                    sectName1,             //section name
-                                    "",                    //section note
-                                    strcountmfe,           //count mfe
-                                    strcountme,            //count me
-                                    strcountfe,            //count fe
-                                    strcountpe,            //count pe
-                                    strcountle,            //count le
-                                    strcountee,            //count ee
-                                    curCSVe.getString(16)   //notes
-                                };
-                            csvWrite.writeNext(arrStrExt);
-
-                            totalmfe = totalmfe + countmfe;
-                            totalme = totalme + countme;
-                            totalfe = totalfe + countfe;
-                            totalpe = totalpe + countpe;
-                            totalle = totalle + countle;
-                            totalee = totalee + countee;
-                        }
-                        firstCnt = false;
-                        curCSVe.moveToNext();
-                    }
-                }
-                curCSVe.close();
-                if (MyDebug.LOG) Log.d(TAG, "1374, ext. totals (mf,m,f,p,l,e): "
-                    + totalmfe + ", " + totalme + ", " + totalfe + ", "
-                    + totalpe + ", " + totalle + ", " + totalee);
-
-                /********************************/
-                // Empty row followed by sum area
-                String[] arrEmpt = {};
+                //**************************
+                // Empty row before sum area
                 csvWrite.writeNext(arrEmpt);
 
-                // Counts, Total headline
+                totali = summf + summ + sumf + sump + suml + sumo;
+                totale = summfe + summe + sumfe + sumpe + sumle + sumoe;
+                total = totali + totale;
+
+                // Internal counts, External counts, Totals
                 String[] arrCol2 =
                     {
-                        "", "", "", "", "",
+                        "", "", "", "",
                         getString(R.string.countImagomfHint),
                         getString(R.string.countImagomHint),
                         getString(R.string.countImagofHint),
                         getString(R.string.countPupaHint),
                         getString(R.string.countLarvaHint),
                         getString(R.string.countOvoHint),
+                        "", "", "", "", "", "",
                         getString(R.string.hintTotal)
                     };
                 csvWrite.writeNext(arrCol2);
-
-                int totali = summf + summ + sumf + sump + suml + sumo;
-                int totale = totalmfe + totalme + totalfe + totalpe + totalle + totalee;
-                total = totali + totale;
-
-                String strsummf, strsumm, strsumf, strsump, strsuml, strsumo;
-                String strtotali, strtotale, strtotal;
 
                 //internal sums
                 if (summf > 0)
@@ -1457,10 +1106,10 @@ public class WelcomeActivity
                 else
                     strtotali = "";
 
-                // write internal total sum
+                // write internal total sums
                 String[] arrSumi =
                     {
-                        "", "",
+                        "",
                         getString(R.string.sumSpec),
                         Integer.toString(sumSpec),
                         getString(R.string.sum),
@@ -1470,125 +1119,128 @@ public class WelcomeActivity
                         strsump,
                         strsuml,
                         strsumo,
+                        "", "", "", "", "", "",
                         strtotali
                     };
                 csvWrite.writeNext(arrSumi);
 
                 // external sums
-                if (totalmfe > 0)
-                    strtotalmfe = Integer.toString(totalmfe);
+                if (summfe > 0)
+                    strsummfe = Integer.toString(summfe);
                 else
-                    strtotalmfe = "";
+                    strsummfe = "";
 
-                if (totalme > 0)
-                    strtotalme = Integer.toString(totalme);
+                if (summe > 0)
+                    strsumme = Integer.toString(summe);
                 else
-                    strtotalme = "";
+                    strsumme = "";
 
-                if (totalfe > 0)
-                    strtotalfe = Integer.toString(totalfe);
+                if (sumfe > 0)
+                    strsumfe = Integer.toString(sumfe);
                 else
-                    strtotalfe = "";
+                    strsumfe = "";
 
-                if (totalpe > 0)
-                    strtotalpe = Integer.toString(totalpe);
+                if (sumpe > 0)
+                    strsumpe = Integer.toString(sumpe);
                 else
-                    strtotalpe = "";
+                    strsumpe = "";
 
-                if (totalle > 0)
-                    strtotalle = Integer.toString(totalle);
+                if (sumle > 0)
+                    strsumle = Integer.toString(sumle);
                 else
-                    strtotalle = "";
+                    strsumle = "";
 
-                if (totalee > 0)
-                    strtotalee = Integer.toString(totalee);
+                if (sumoe > 0)
+                    strsumoe = Integer.toString(sumoe);
                 else
-                    strtotalee = "";
+                    strsumoe = "";
 
                 if (totale > 0)
                     strtotale = Integer.toString(totale);
                 else
                     strtotale = "";
 
-                // write external total sum
+                // write external total sums
                 String[] arrSume =
                     {
-                        "", "", "", "",
+                        "", "", "",
                         getString(R.string.sume),
-                        strtotalmfe,
-                        strtotalme,
-                        strtotalfe,
-                        strtotalpe,
-                        strtotalle,
-                        strtotalee,
-                        strtotale
+                        strsummfe,
+                        strsumme,
+                        strsumfe,
+                        strsumpe,
+                        strsumle,
+                        strsumoe,
+                        "", "", "", "", "", "",
+                        strtotale,
                     };
                 csvWrite.writeNext(arrSume);
 
-                // totals
-                String strtotalsmfe, strtotalsme, strtotalsfe, strtotalspe, strtotalsle, strtotalsee;
-                int totalsmfe = totalmfe + summf;
-                if (totalsmfe > 0)
-                    strtotalsmfe = Integer.toString(totalsmfe);
+                // overall totals
+                totalsmfie = summf + summfe;
+                if (totalsmfie > 0)
+                    strtotalsmfie = Integer.toString(totalsmfie);
                 else
-                    strtotalsmfe = "";
+                    strtotalsmfie = "";
 
-                int totalsme = totalme + summ;
-                if (totalsme > 0)
-                    strtotalsme = Integer.toString(totalsme);
+                totalsmie = summ + summe;
+                if (totalsmie > 0)
+                    strtotalsmie = Integer.toString(totalsmie);
                 else
-                    strtotalsme = "";
+                    strtotalsmie = "";
 
-                int totalsfe = totalfe + sumf;
-                if (totalsfe > 0)
-                    strtotalsfe = Integer.toString(totalsfe);
+                totalsfie = sumf + sumfe;
+                if (totalsfie > 0)
+                    strtotalsfie = Integer.toString(totalsfie);
                 else
-                    strtotalsfe = "";
+                    strtotalsfie = "";
 
-                int totalspe = totalpe + sump;
-                if (totalspe > 0)
-                    strtotalspe = Integer.toString(totalspe);
+                totalspie = sump + sumpe;
+                if (totalspie > 0)
+                    strtotalspie = Integer.toString(totalspie);
                 else
-                    strtotalspe = "";
+                    strtotalspie = "";
 
-                int totalsle = totalle + suml;
-                if (totalsle > 0)
-                    strtotalsle = Integer.toString(totalsle);
+                totalslie = suml + sumle;
+                if (totalslie > 0)
+                    strtotalslie = Integer.toString(totalslie);
                 else
-                    strtotalsle = "";
+                    strtotalslie = "";
 
-                int totalsee = totalee + sumo;
-                if (totalsee > 0)
-                    strtotalsee = Integer.toString(totalsee);
+                totalseie = sumo + sumoe;
+                if (totalseie > 0)
+                    strtotalseie = Integer.toString(totalseie);
                 else
-                    strtotalsee = "";
+                    strtotalseie = "";
 
                 if (total > 0)
                     strtotal = Integer.toString(total);
                 else
                     strtotal = "";
 
-                // write total sum
+                // write overall total sum
                 String[] arrTotal =
                     {
-                        "", "", "", "",
+                        "", "", "",
                         getString(R.string.sum_total),
-                        strtotalsmfe,
-                        strtotalsme,
-                        strtotalsfe,
-                        strtotalspe,
-                        strtotalsle,
-                        strtotalsee,
+                        strtotalsmfie,
+                        strtotalsmie,
+                        strtotalsfie,
+                        strtotalspie,
+                        strtotalslie,
+                        strtotalseie,
+                        "", "", "", "", "", "",
                         strtotal
                     };
                 csvWrite.writeNext(arrTotal);
 
                 csvWrite.close();
                 showSnackbar(getString(R.string.savecsv));
+
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.LOG) Log.d(TAG, "1571, csv write external failed");
+                if (MyDebug.LOG) Log.e(TAG, "1178, csv write external failed");
             }
             headDataSource.close();
             metaDataSource.close();
@@ -1705,8 +1357,8 @@ public class WelcomeActivity
     public boolean clearDBValues()
     {
         // clear values in DB
-        dbHandler = new DbHelper(this);
-        database = dbHandler.getWritableDatabase();
+        database = TransektCountApplication.getDatabase();
+
         boolean r_ok = true; // gets false when reset fails
 
         try
@@ -1747,7 +1399,6 @@ public class WelcomeActivity
             sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
             database.execSQL(sql);
 
-            dbHandler.close();
         } catch (Exception e)
         {
             showSnackbarRed(getString(R.string.resetFail));
@@ -1758,20 +1409,17 @@ public class WelcomeActivity
 
     /**********************************************************************************************/
     @SuppressLint("SdCardPath")
-    // Choose a db-file to load and set it to transektcount.db
-    // based on android-file-chooser from Google Code Archive.
-    // Created by wmstein
+    // Choose a transektcount db-file to load and set it to transektcount.db
     public void importDBFile()
     {
-        ArrayList<String> extensions = new ArrayList<>();
-        extensions.add(".db");
-        String filterFileName = "transektcount";
+        String fileExtension = ".db";
+        String fileName = "transektcount";
         infile = null;
 
         Intent intent;
         intent = new Intent(this, AdvFileChooser.class);
-        intent.putStringArrayListExtra("filterFileExtension", extensions);
-        intent.putExtra("filterFileName", filterFileName);
+        intent.putExtra("filterFileExtension", fileExtension);
+        intent.putExtra("filterFileName", fileName);
         myActivityResultLauncher.launch(intent);
 
         // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
@@ -1792,30 +1440,9 @@ public class WelcomeActivity
                 {
                     copy(infile, outfile);
 
-                    // make sure that import of a DB file sets sectionHasTrack correctly
-                    try
-                    {
-                        trackDataSource = new TrackDataSource(this);
-                        trackDataSource.open();
-                        sectionHasTrack = trackDataSource.getHasTrack();
-                        trackDataSource.close();
-                        if (MyDebug.LOG)
-                            Log.i(TAG, "1780, importDBFile, hasTrack: " + sectionHasTrack);
+                    showSnackbar(getString(R.string.importDB));
 
-                        editor = prefs.edit();
-                        editor.putBoolean("section_has_track", sectionHasTrack);
-                        editor.commit();
-                        showSnackbar(getString(R.string.importWin));
-                    } catch (SQLiteException e)
-                    {
-                        trackDataSource.close();
-                        showSnackbarRed(getString(R.string.corruptDb));
-                    }
-
-                    headDataSource = new HeadDataSource(getApplicationContext());
-                    headDataSource.open();
                     head = headDataSource.getHead();
-                    headDataSource.close();
 
                     // set transect number as title
                     try
@@ -1825,7 +1452,6 @@ public class WelcomeActivity
                     {
                         // nothing
                     }
-
                 } catch (IOException e)
                 {
                     showSnackbarRed(getString(R.string.importFail));
@@ -1852,9 +1478,7 @@ public class WelcomeActivity
                     assert data != null;
                     selectedFile = data.getStringExtra("fileSelected");
                     if (MyDebug.LOG)
-                    {
                         showSnackbar("Selected file: " + selectedFile);
-                    }
                     assert selectedFile != null;
                     infile = new File(selectedFile);
                 }
@@ -1900,30 +1524,9 @@ public class WelcomeActivity
             {
                 copy(infile, outfile);
 
-                // make sure that import of the basic DB file sets sectionHasTrack correctly
-                try
-                {
-                    trackDataSource = new TrackDataSource(this);
-                    trackDataSource.open();
-                    sectionHasTrack = trackDataSource.getHasTrack();
-                    trackDataSource.close();
-                    if (MyDebug.LOG)
-                        Log.i(TAG, "1888, importBasisDb, hasTrack: " + sectionHasTrack);
+                showSnackbar(getString(R.string.importDB));
 
-                    editor = prefs.edit();
-                    editor.putBoolean("section_has_track", sectionHasTrack);
-                    editor.commit();
-                    showSnackbar(getString(R.string.importWin));
-                } catch (SQLiteException e)
-                {
-                    trackDataSource.close();
-                    showSnackbarRed(getString(R.string.corruptDb));
-                }
-
-                headDataSource = new HeadDataSource(getApplicationContext());
-                headDataSource.open();
                 head = headDataSource.getHead();
-                headDataSource.close();
 
                 // set transect number as title
                 try
@@ -1960,205 +1563,6 @@ public class WelcomeActivity
         out.close();
     }
 
-    /*******************************************************************
-     * Select and import gpx-file to store track coords into TRACK_TABLE
-     */
-    public void importGPX()
-    {
-        ArrayList<String> extensions = new ArrayList<>();
-        extensions.add(".gpx");
-        String filterFileName = "transektcount";
-        infile = null;
-        selectedFile = null;
-
-        Intent intent;
-        intent = new Intent(this, AdvFileChooser.class);
-        intent.putStringArrayListExtra("filterFileExtension", extensions);
-        intent.putExtra("filterFileName", filterFileName);
-        myActivityResultLauncher.launch(intent);
-
-        // confirm dialogue before importing
-        // with short delay to get the file name before the dialog appears
-        mHandler.postDelayed(() ->
-        {
-            StringBuilder gpxsb = new StringBuilder();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage(R.string.confirmGPXImport);
-            builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
-            {
-                Toast.makeText(getApplicationContext(), getString(R.string.waitImport), Toast.LENGTH_SHORT).show();
-                try
-                {
-                    FileInputStream fileIS;
-                    String gpxLine;
-                    fileIS = new FileInputStream(selectedFile);
-                    BufferedReader xmlBR = new BufferedReader(new InputStreamReader(fileIS));
-
-                    while ((gpxLine = xmlBR.readLine()) != null)
-                    {
-                        gpxsb.append(gpxLine).append('\n');
-                    }
-                    fileIS.close();
-                } catch (IOException e)
-                {
-                    if (MyDebug.LOG)
-                        Log.e(TAG, "1984, importGPX, Problem converting Stream to String: " + e);
-                }
-
-                gpxString = gpxsb.toString();
-
-                // Parse gpxString to write fields into TRACK_TABLE
-                trackDataSource = new TrackDataSource(getApplicationContext());
-                trackDataSource.open();
-                sectionDataSource = new SectionDataSource(getApplicationContext());
-                sectionDataSource.open();
-                if (MyDebug.LOG)
-                    Log.i(TAG, "1995, importGPX, Datasources open");
-
-                strStart = gpxString.indexOf("<trk>"); // start of 1. track
-
-                if (gpxString.contains("<trk>")) // test for track data
-                {
-                    // reduce gpxString to all tracks <trk> ... </gpx>
-                    gpxString = gpxString.substring(strStart); // string with all tracks
-                    if (MyDebug.LOG)
-                        Log.i(TAG, "2004, importGPX, gpxString total: " + gpxString);
-
-                    // do in background
-//                    new Thread(new Runnable()
-//                    {
-//                        @Override
-//                        public void run()
-//                        {
-                    // For each track
-                    do
-                    {
-                        // get data of indexed track
-                        trkStart = gpxString.indexOf("<trk>");
-                        trkEnd = gpxString.indexOf("</trk>");
-                        gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
-                        if (MyDebug.LOG)
-                            Log.i(TAG, "2020, importGPX, gpxTrkString: " + gpxTrkString);
-
-                        // get track name as section name
-                        if (gpxTrkString.contains("<name>"))
-                        {
-                            section = sectionDataSource.getSection(trk);
-                            tSecName = section.name; // name track same as section
-
-                            // reduce gpxString to rest after </trk>
-                            strEnd = gpxString.indexOf("</trk>");
-                            // offset = length of "</trk>" = 6
-                            gpxString = gpxString.substring(strEnd + 6);
-                        }
-
-                        if (gpxTrkString.contains("<trkseg>"))
-                        {
-                            // for each track point in trkseg
-                            do
-                            {
-                                if (MyDebug.LOG)
-                                    Log.i(TAG, "2040, importGPX, do trackpt");
-                                int nextTp; // index for next track point (after />)
-                                strStart = gpxTrkString.indexOf("lat=") + 5;
-                                strEnd = gpxTrkString.indexOf("lat=") + 13;
-                                String tlat = gpxTrkString.substring(strStart, strEnd);
-
-                                strStart = gpxTrkString.indexOf("lon=") + 5;
-                                strEnd = gpxTrkString.indexOf("lon=") + 14;
-                                String tlon = gpxTrkString.substring(strStart, strEnd);
-                                if (MyDebug.LOG)
-                                    Log.i(TAG, "2050, importGPX, tSecName: "
-                                        + tSecName + ", " + tlat + ", " + tlon);
-                                trackDataSource.createTrackTp(tSecName, tlat, tlon);  // !!!
-
-                                // increment gpxTrkString line
-                                trkpt = trkpt + 1;
-
-                                // reduce gpxTrkString to remainder after current trkpt line
-                                nextTp = gpxTrkString.indexOf("/>");
-                                gpxTrkString = gpxTrkString.substring(nextTp + 2);
-                                if (MyDebug.LOG)
-                                    Log.i(TAG, "2061, importGPX, trackpt " + trkpt);
-                            } while (gpxTrkString.contains("<trkpt"));
-                        }
-
-                        // reduce gpxString for next track segment
-                        trk = trk + 1;
-                    } while (gpxString.contains("<trk>"));
-
-//                        }
-//                    }).start();
-                    if (MyDebug.LOG)
-                        Log.i(TAG, "2072, importGPX, gpxString finished: " + gpxString);
-
-                    sectionHasTrack = true;
-                    editor = prefs.edit();
-                    editor.putBoolean("section_has_track", sectionHasTrack);
-                    editor.apply();
-                }
-                trackDataSource.close();
-                sectionDataSource.close();
-
-                showSnackbar(getString(R.string.importGPX));
-            }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-
-            alert = builder.create();
-            alert.show();
-        }, 100);
-    }
-
-    /****************************************/
-    // Delete all track info from TRACK_TABLE
-    public void deleteGPX()
-    {
-        // confirm dialogue before anything else takes place
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.confirmGPXDelete);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.deleteButton, (dialog, id) ->
-        {
-            boolean r_ok = clearGPXValues();
-            if (r_ok)
-            {
-                // switch autoSection off
-                sectionHasTrack = false;
-                autoSection = false;
-                editor = prefs.edit();
-                editor.putBoolean("pref_auto_section", autoSection);
-                editor.putBoolean("section_has_track", sectionHasTrack);
-                editor.apply();
-                showSnackbar(getString(R.string.resetTracks));
-            }
-        });
-        builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-        alert = builder.create();
-        alert.show();
-    }
-
-    // Clear track coordinates from TRACK_TABLE
-    public boolean clearGPXValues()
-    {
-        dbHandler = new DbHelper(this);
-        database = dbHandler.getWritableDatabase();
-        boolean r_ok = true; // gets false when reset fails
-
-        try
-        {
-            String sql = "DELETE FROM " + DbHelper.TRACK_TABLE;
-            database.execSQL(sql);
-
-            dbHandler.close();
-        } catch (Exception e)
-        {
-            showSnackbarRed(getString(R.string.resetFail));
-            r_ok = false;
-        }
-        return r_ok;
-    }
-
     private void showSnackbar(String str) // green text
     {
         View view = findViewById(R.id.baseLayout);
@@ -2178,37 +1582,6 @@ public class WelcomeActivity
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         sB.show();
-    }
-
-    /*******************************************************************************
-     * Checks if a CharSequence is not empty (""), not null and not whitespace only.
-     * <p>
-     * isNotBlank(null)      = false
-     * isNotBlank("")        = false
-     * isNotBlank(" ")       = false
-     * isNotBlank("bob")     = true
-     * isNotBlank("  bob  ") = true
-     *
-     * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is
-     * not empty and not null and not whitespace
-     */
-    public static boolean isNotBlank(final CharSequence cs)
-    {
-        return !isBlank(cs);
-    }
-
-    private static boolean isBlank(final CharSequence cs)
-    {
-        int strLen = cs.length();
-        if (strLen == 0)
-            return true;
-        for (int i = 0; i < strLen; i++)
-        {
-            if (!Character.isWhitespace(cs.charAt(i)))
-                return false;
-        }
-        return true;
     }
 
 }

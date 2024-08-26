@@ -27,49 +27,72 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2023-12-05
+ * last edited on 2024-06-20
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
     private var adapter: FileArrayAdapter? = null
     private var fileFilter: FileFilter? = null
-    private var extensions: ArrayList<String>? = null
-    private var filterFileName: String? = null
+    private var fileExtension: String = ""
+    private var fileName: String? = null
+    private var fName: String? = null
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.list_view)
+
         val extras = intent.extras
         if (extras != null) {
-            if (extras.getStringArrayList("filterFileExtension") != null) {
-                extensions = extras.getStringArrayList("filterFileExtension")
-                filterFileName = extras.getString("filterFileName")
+            if (extras.getString("filterFileExtension") != null) {
+                fileExtension = extras.getString("filterFileExtension")!!
+                fileName = extras.getString("filterFileName")
+
                 fileFilter = FileFilter { pathname: File ->
                     pathname.name.contains(".") &&
-                            pathname.name.contains(filterFileName!!) &&
-                            extensions!!.contains(
+                            pathname.name.contains(fileName!!) &&
+                            fileExtension.contains(
                                 pathname.name.substring(
-                                    pathname.name.lastIndexOf(
-                                        "."
-                                    )
+                                    pathname.name.lastIndexOf(".")
                                 )
                             )
                 }
             }
         }
 
+        // set FileChooser Headline
+        var fileHd = ""
+        if (fileExtension.endsWith("db")) // headline for db-file
+        {
+            fileHd = getString(R.string.fileHeadlineDB)
+        }
+        else if (fileExtension.endsWith("exp")) // headline for gpx-file
+        {
+            fileHd = getString(R.string.fileHeadlineEXP)
+        }
+        val fileHead: TextView = findViewById(R.id.fileHead)
+        fileHead.text = fileHd
+
         // currentDir = /storage/emulated/0/Documents/TransektCount/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             currentDir = Environment.getExternalStorageDirectory()
-            currentDir = File("$currentDir/Documents/TransektCount")
+            if(fileName.equals("tourcount"))
+                currentDir = File("$currentDir/Documents/TourCount")
+            else
+                currentDir = File("$currentDir/Documents/TransektCount")
         } else {
-            currentDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-            currentDir = File("$currentDir/TransektCount")
+            currentDir = Environment.getExternalStoragePublicDirectory(Environment
+                    .DIRECTORY_DOCUMENTS)
+            if(fileName.equals("tourcount"))
+                currentDir = File("$currentDir/TourCount")
+            else
+                currentDir = File("$currentDir/TransektCount")
         }
         fill(currentDir!!)
     }
+    // end of onCreate()
 
     // Disable Back-key in AdvFileChooser as return with no selected file produces
     //   NullPointerException of FileInputStream
@@ -85,7 +108,7 @@ class AdvFileChooser : Activity() {
     private fun fill(f: File) {
         val dirs: Array<File>? = if (fileFilter != null) f.listFiles(fileFilter) else f.listFiles()
         this.title = getString(R.string.currentDir) + ": " + f.name
-        val fls: MutableList<Option> = ArrayList()
+        val fls: MutableList<Option> = ArrayList() // list of files to choose from
         @SuppressLint("SimpleDateFormat") val dform: DateFormat =
             SimpleDateFormat("yyyy-MM-dd HH:mm")
         try {
@@ -106,18 +129,28 @@ class AdvFileChooser : Activity() {
         } catch (e: Exception) {
             // do nothing
         }
-        fls.sort()
-        val listView = findViewById<ListView>(R.id.lvFiles)
-        adapter = FileArrayAdapter(listView.context, R.layout.file_view, fls)
-        listView.adapter = adapter
-        listView.onItemClickListener =
-            OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                val o = adapter!!.getItem(position)
-                if (!o.isBack) doSelect(o) else {
-                    currentDir = File(o.path)
-                    fill(currentDir!!)
+
+        if (fls.isNotEmpty()) {
+            fls.sort()
+            val listView = findViewById<ListView>(R.id.lvFiles)
+            adapter = FileArrayAdapter(listView.context, R.layout.file_view, fls)
+            listView.adapter = adapter
+            listView.onItemClickListener =
+                OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
+                    val o = adapter!!.getItem(position)
+                    if (!o.isBack) doSelect(o) else {
+                        currentDir = File(o.path)
+                        fill(currentDir!!)
+                    }
                 }
-            }
+        }
+        else {
+            showSnackbarRed(getString(R.string.noFile))
+            val intent = Intent()
+            intent.putExtra("fileSelected", "")
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     private fun doSelect(o: Option?) {
@@ -141,6 +174,20 @@ class AdvFileChooser : Activity() {
         val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
         tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
         sB.show()
+    }
+
+    private fun showSnackbarRed(str: String) // red text
+    {
+        val view = findViewById<View>(R.id.lvFiles)
+        val sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
+        sB.setTextColor(Color.RED)
+        val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
+        tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        sB.show()
+    }
+
+    companion object {
+        private const val TAG = "AdvFileChooser"
     }
 
 }

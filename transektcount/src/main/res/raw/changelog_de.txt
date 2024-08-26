@@ -2,7 +2,7 @@
 <!--
 Formattierungsbefehle:
 % Title
-& bold red
+& bold
 _ Subtitle
 ! free text
 # numbered list item
@@ -10,16 +10,16 @@ _ Subtitle
 -->
   <head>
     <style type='text/css'>
-      a            { color:#a0a0e0 }
-      div.title    { 
+      a { color:#a0a0e0 }
+      div.title {
           color:#C0F0C0; 
           font-size:1.2em; 
           font-weight:bold; 
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
-      div.boldredtext { 
-          color:#FF0000; 
+      div.boldtext {
+          color:#F0F0F0;
           font-size:1.2em; 
           font-weight:bold; 
           margin-top:1em; 
@@ -52,46 +52,32 @@ _ Subtitle
     ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
     ! Geeignet für Android 7.1 (Nougat) oder neuer.
-  _ 
-    ! Lizenz
-  _ 
-  _ Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“); Nutzung dieser Datei nur in Übereinstimmung mit der Lizenz erlaubt. Eine Kopie der Lizenz erhalten Sie auf 
-  _ 
-  _ <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">http://www.apache.org/licenses/LICENSE-2.0</a>
-  _ 
-  _ Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, wird die Software unter der Lizenz so wie sie ist ("AS IS") OHNE JEGLICHE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GEWÄHRLEISTUNGSANSPRÜCHE übertragen. Siehe in Bezug auf die einzelnen Rechte und Einschränkungen die Bestimmungen des Lizenztexts.
-  _ 
-    ! Integrierter Code von externen Quellen:
-    * Grundlegende Zählerfunktionen basieren auf BeeCount, (C) 2016 Milo Thurston (knirirr ), Apache License, Version 2.0, https://github.com/knirirr/BeeCount
-    * AutoFitText.java, modifiziert, original code from author: pheuschk, 18.04.2013, Open Source, https://pastebin.com/raw/e6WyrwSN
-    * ChangeLog.java, modifiziert, Original-Code (C) 2011-2013, Karsten Priegnitz, Other Open Source, https://github.com/koem/android-change-log/
-    * CSVWriter.java, modifiziert, Original-Code (C) 2015 Bytecode Pty Ltd., Apache License, Version 2.0
-    * filechooser basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   _
-    ! Schmetterlings-Abbildungen: 
-    * Crambus pascuella, Autor: Olaf Leillinger, GNU Free Documentation License, erstellt aus https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
-    * Deltote bankiana, Autor: Andre den Ouden, lizensiert von www.saxifraga.nl, nicht-kommerzielle Verwendung erlaubt, erstellt aus http://freenatureimages.eu/Animals/Microlepidoptera-Heterocera%2C%20Nachtvlinders%2C%20Moths/index.html
-    * Evergestis extimalis, Autor: Adam Furlepa, CC BY-SA 3.0, erstellt aus https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
-    * Hyles gallii (A.R. Pittaway, non-commercial use allowed), erstellt aus https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
-    * Jordanita globulariae, Autor: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0), Wikimedia
-    * Melitaea parthenoides, Autor: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license, derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides
-    * Muschampia lavatherae, Autor: Dumi, GNU Free Documentation License, version 1.2, erstellt aus https://en.wikipedia.org/wiki/Muschampia_lavatherae
-    * Pediasia contaminella, Autor: Ben Sale, Creative Commons Attribution 2.0 Generic License, erstellt aus https://upload.wikimedia.org/wikipedia/commons/f/f6/%281323%29_Pediasia_contaminella_%2833480878804%29.jpg
-	* Sesia apiformis, Autor: Jyrki Lehto, free use, erstellt aus Abbildung auf https://en.wikipedia.org/wiki/Hornet_moth	
-  _
-    ! Alle anderen Abbildungen sowie App-Icon und -Hintergrundbilder (C) Wilhelm Stein. 
-  _ 
-    ! Abbildungen dieser App von Wilhelm Stein dürfen für wissenschaftliche oder nicht-kommerzielle Zwecke ohne explizite Erlaubnis genutzt werden.
-    ! Aber es ist nicht erlaubt, Abbildungen auf Social-Media-Plattformen hochzuladen, da die meisten der oben genannten Lizenzen mit den Lizenzen dieser Plattformen kollidieren und ich nicht mit den Lizenzbedingungen dieser Plattformen einverstanden bin.
-    ! Bitte beachten Sie bei Verwendung der Abbildungen anderer Autoren die jeweiligen Copyright-Bedingungen der anderen Autoren.
-  _ 
+
+$ 4.1.0
+  % Version 4.1.0
+  _ 26.08.2024
+  * Funktion der Bestimmung des Abschnitts per GPS entfernt, da zu unzuverlässig
+  * Überschrift für Dateiauswahlseite hinzugefügt
+  * Überschrift für Einstellungsmenü hinzugefügt
+  * Einstellungsmenü zeigt nun die Zustände der Optionen an
+  * Getrennte Ansichten für Editieren, Löschen und Hinzufügen von Arten
+  * Checkboxen zum mehrfachen Löschen von Arten der Zählliste
+  * Checkboxen zum mehrfachen Hinzufügen weiterer Arten zur Zählliste
+  * Meta-Daten ergänzt mit Feld für Bemerkung zur aktuellen Begehung (ersetzt Abschnittsbemerkungen)
+  * Einstellungsoption hinzugefügt für das Sortieren der Ergebnisse nach Abschnitten oder Artnamen
+  * CSV-Export an strukturelle Änderungen angepasst
+  * Interne Falterliste jetzt identisch mit der Liste von TourCount
+  * Verbesserungen bei Code, Text und Layouts
+  * Lizenzentext separat
+  * Doku angepasst
+  * Bug-Fixes
 
 $ 4.0.3
   % Version 4.0.3
   _ 09.03.2024
   * Meta-Daten-Erfassung erweitert mit Start- und Endezeit für Temperatur, Wind und Wolken
   * Ergebnisseite und csv-Exportdatei dito
-  * Eine weitere Art mit Abbildung hinzugeführt
   * Einige noch fehlende lokale Artnamen ergänzt
   * Doku überarbeitet
   * Bug-Fix
@@ -136,25 +122,20 @@ $ 3.4.2
 _ 30.07.2023
   * Einge noch fehlende Abbildungen ergänzt
   * Seite der Abschnittsbearbeitung verbessert
-  * Weitere Module von Java nach Kotlin übersetzt
   * Docs überarbeitet
 
 $ 3.4.0
 % Version 3.4.0
 _ 05.07.2023
   * Option Landscape-Modus entfernt, da der Portrait-Modus selbst auf Tablets passender ist
-  * RAM-Bereinigung vor der Erzeugung der Liste der Transektabschnitte erlaubt mehr Abschnitte, ist aber abhängig von der RAM-Größe
   * Zur Vermeidung von DB-Korruption kann nur der jeweils letzte Abschnitt gelöscht werden
-  * Weitere Module von Java nach Kotlin übersetzt
   * Einige Code-Verbesserungen
   * Docs überarbeitet
 
 $ 3.3.8
   % Version 3.3.8
   _ 20.06.2023
-  * Gradle Plugin Upgrade -> 8.0.2
-  * Gradle Upgrade -> 8.0
-  * Veraltete (deprecated) Funktionen ersetzt
+  * Einige veraltete (deprecated) Funktionen ersetzt
   * Berechtigungsfunktionen an Android 11+ angepasst
   * Export von .csv-Files nach Documents/TransektCount/ (erlaubt Bearbeitung mit anderen Apps)
   * Option für Vibration, kurz beim Hoch- und länger beim Runterzählen
@@ -167,41 +148,34 @@ $ 3.3.8
 $ 3.3.7
   % Version 3.3.7
   _ 26.03.2023
-  * Projekt Anpassung für Android Studio 2021.2.1 und Gradle 7.5
-  * Kompiliert mit SDK Ver. 33 für Target-SDK Ver. 33
-  * Update der Copyright- und Lizenz-Texte
-  * Update der Doku
   * Weitere Falterarten mit Abbildungen hinzugefügt
   * Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
   * Portrait/Landscape-Funktion verbessert
+  * Update der Doku
   * Bug-Fix für Bearbeitung der Abschnittslisten
 
 $ 3.3.0
   % Version 3.3.0
   _ 17.04.2022
   * Einige weitere Falterarten mit Abbildungen hinzugefügt
-  * Update der Copyright und Lizenztexte
   * Update der Doku
-  * Projekt Anpassung für Android Studio 2021.1.1 und Gradle 7.2
-  * Kompiliert für SDK-Version 31 (benötigt für aktuelle Bibliotheken)
   * Einige weitere Arten mit Abbildungen hinzugefügt
   * Veraltete Speziesnamen korrigiert (in App und Beispiel-DBs)
-  * Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
   * Übersichtlicheres Layout für Transektabschnitt-Editor
   * Veraltete Code-Bezeichnungen aktualisiert
-  * Code-Anpassung für Fehlfunktion der Bilderanzeige unter Gradle 6.5
+  * Fehlfunktion der Bilderanzeige unter Gradle 6.5 behoben
   * Geänderte Familiennamen angepasst
+  * Bugs in "Neuer Abschnitt" und "Abschnitts-Artenliste duplizieren" korrigiert
+  * Kompiliert für SDK-Version 31 (benötigt für aktuelle Bibliotheken)
 
 $ 3.2.5
   % Version 3.2.5
   _ 09.09.2020
-	* Projekt-Anpassung für Android Studio 4.0.1 and Gradle 6.1.1
 	* Weitere Schmetterlingsabbildungen integriert
 	* Integrierte Auswahlliste der Arten vergrößert
 	* Hintergrundbild besser skaliert für längere Displays
 	* Code für Einstellungen angepasst für Android 10
 	* .CSV-Export: In Summenzeile Nullen unterdrückt
-	* Meldungen bereinigt
 	* Doku angepasst
 	* Fehler in csv-Export behoben
 
@@ -253,7 +227,6 @@ $ 3.1.0
   	* Absturzfehler bei schnell wiederholtem Klicken der Art-Auswahl behoben
   	* Absturz-Fehler im Permission-Handling von Android >= Marshmallow behoben
   	* Absturz-Fehler im Modul "Edit Speziesliste" behoben
-  	* Fehler behoben
 
 $ 3.0.1
   % Version 3.0.1
@@ -267,7 +240,6 @@ $ 3.0.1
   	* Funktion Abschnitt editieren in Abschnittsliste integriert
   	* Kamera-Button in Menüleiste der Zählseite hinzugefügt
   	* Docs: Einführende Prasentation hinzugefügt
-  	* Fehler behoben
 
 $ 2.1.0
   % Version 2.1.0
@@ -293,7 +265,6 @@ $ 2.1.0
     * Kleinere Code-Verbesserungen
   	* Zusätzliches Feld Kalenderwoche in csv-Export
     * Fix gegen Absturz beim Laden einer Datenbank in alter Struktur (vor 2.0.0)
-  	* Fehler behoben
 
 $ 2.0.0
   % Version 2.0.0
@@ -308,70 +279,44 @@ $ 2.0.0
     * Neue Abschnittsliste erstellen ruft direkt Abschnittsliste editieren auf
     * Icons auf der Seite "Einstellungen"
     * Icons für die Menüeinträge
-    * Benutzung von Arten-Codes
+    * Arten-Codes für Arten-Referenz
     * Option: Sortierung der Artenliste nach Artnamen oder Arten-Codes
-    * Seite "Neuer Abschnitt" vereinfacht
-    * Layout der Ergebnisseite verbessert
-    * Option Zählseitendarstellung für Linkshänder 
-    * Exportierbare csv-Tabelle verbessert
+    * Option Zählseitendarstellung für Linkshänder
     * Schaltet Anzeige der Zählseite ab, wenn Handy eingesteckt wird
-    * Code Optimierung
-    * Fehlerbehebung
 
 $ 1.3.0
   % Version 1.3.0
   _ 22.06.2016
     * Option "Bildschirm hell" in Einstellungen
     * Berechtigungsprüfung für Android-M
-    * Import Dialog für existierende DB
-    * Meldung "Bitte warten..." beim Aufruf der Zählerseite oder Ergebnisseite
-    * Transekt-Nr. in Kopfzeile der Startseite anzeigen
+    * Import Dialog für eine gespeicherte DB
     * Verhindern von doppelten Speziesnamen in "Edit Abschnitte"
 	* Verhindern von doppelten Abschnittsnamen in "Abschnittsliste duplizieren"
     * (+)-Button in Kopfzeile der Seite "Liste Transektabschn."
     * Neu: Funktion "Reset Daten"
     * Neu: Eingabeseite für Stammdaten
-    * Neu: Ergebnisseite mit Stammdaten
-    * Neu: Exportfunktionen mit Stammdaten
-    * Hintergrund der Editierseiten einfarbig
+    * Ergebnisseite mit Stammdaten
+    * Exportfunktionen mit Stammdaten
     * App läuft immer im Portraitmodus
-    * Leere Basis DB kann jederzeit exportiert werden 
     * Neu: Export-DB in csv-Format
     * Exportierte DB enthält nur Zählergebnisse >0
-    * Bessere Darstellung auf kleinen Displays
 
 $ 1.2.0
   % Version 1.2.0
   _ 19.03.2016
     * Neu: View für Zählergebnis 
-    * Edit Abschnittsliste: Anfangsfokus auf Feld "Bemerkungen"
     * Alarm nur für "interne" Zähler
-    * "Alarm hinzuf." scrollt bis Seitenende und setzt Fokus auf neues Feld 
-    * Design der Startseite verbessert
-    * Design der Zählerseite verbessert
 
 $ 1.1.0
   % Version 1.1.0
   _ 05.03.2016
-    * Layout der Zähler-Seite verbessert
-    * Export-DB mit Datum im Dateinamen
     * (+)-Button in Kopfzeile der Seite "Art hinzuf."
-    * "Art hinzuf." scrollt bis Seitenende und setzt Fokus auf neues Feld
-    * Speichern-Icon in Kopfzeile der Seite "Neuer Abschnitt"
-    * Zusätzlicher Zähler pro Art für externe Sichtung, dazu Layout in Widgets und DB-Struktur angepasst
-    * Dazu auch Datenbank-und Zähler-Routinen ergänzt für 2. Zähler
-    * In Zähler-Optionen können Werte für beide Zähler pro Art gesetzt werden
-    * Abschnittsliste zeigt Anmerkungen
-    * Abschnittsdatum wird nur gezeigt, wenn ungleich 0
-    * Deutsche Texte verbessert
-    * Einige kleinere Verbesserungen im Code
+    * Zusätzlicher Zähler pro Art für externe Sichtung
     * Neu: Ausführliche Hilfe-Seite
     * Basis-DB-Import: Leere Datenbank 'transektcount0.db'
     * Basis-DB-Export: Leere Datenbank 'transektcount0.db'
-    * DB-Export: Datenbank 'transektcount.db'
-    * Sortier-Default: Abschnittsname aufsteigend
+    * Export-DB: Datenbank 'transektcount_yyyy-mm-dd_hhmmss.db'
     * Deutsche Übersetzung.
-    * Entfernung unnützer Funktionen
 
 $ 1.0.0
   % Version 1.0.0
@@ -379,14 +324,14 @@ $ 1.0.0
   ! 1. Release.
     * Zähler- und DB-Funtionalität basieren teilweise auf BeeCount von knirirr
     * (https://github.com/knirirr/BeeCount.git)
+    * Text- und Struktur-Anpassung für Tagfaltermonitoring
 
   ! Änderungen umfassen:
-    * Text- und Struktur-Anpassung für Tagfaltermonitoring
-    * Modifizierte AutoFitText.java, original Code von Autor: pheuschk
-    * Modifizierte ChangeLog.java original Code von Autor: Karsten Priegnitz
-    * Modifizierte CSVWriter.java original Code Copyright 2015 Bytecode Pty Ltd.
-    * Modifizierter Datei-Auswahl-Dialog basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3
-
+    * Seite für die Abschnittsauswahl
+    * Zählseite
+    * Editor für Zähloptionen
+    * Seite für App-Einstellungen
+  _
 $ END_OF_CHANGE_LOG
   </body>
 </html>

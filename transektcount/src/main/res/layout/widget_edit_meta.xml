@@ -2,6 +2,7 @@
 <!--
   - widget_edit_meta.xml used by EditMetaActivity.java  
   ~ Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2024-05-04.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,7 +49,7 @@
 
             <TextView
                 android:id="@+id/widgetDate2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -82,7 +83,7 @@
 
             <TextView
                 android:id="@+id/widgetSTime2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -117,7 +118,7 @@
 
             <TextView
                 android:id="@+id/widgetETime2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -195,7 +196,7 @@
 
             <EditText
                 android:id="@+id/widgetStartTemp2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -209,7 +210,7 @@
 
             <EditText
                 android:id="@+id/widgetStartWind2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -223,7 +224,7 @@
 
             <EditText
                 android:id="@+id/widgetStartClouds2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -246,7 +247,7 @@
 
             <EditText
                 android:id="@+id/widgetEndTemp2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -260,7 +261,7 @@
 
             <EditText
                 android:id="@+id/widgetEndWind2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -274,7 +275,7 @@
 
             <EditText
                 android:id="@+id/widgetEndClouds2"
-                style="@style/LineText"
+                style="@style/BoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/count_background"
@@ -287,7 +288,45 @@
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="5dp">
+
+            <TextView
+                android:id="@+id/widgetNote1"
+                style="@style/HeadlineText"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.66"
+                android:gravity="end|top"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <EditText
+                android:id="@+id/widgetNote2"
+                style="@style/SimpleText"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:background="@drawable/count_background"
+                android:layout_weight="1"
+                android:importantForAutofill="no"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:ignore="LabelFor,TextFields" />
+
+    </LinearLayout>
 </LinearLayout>

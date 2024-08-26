@@ -30,10 +30,10 @@
             android:gravity="start|top"/>
 
         <EditText
-			style="@style/LineText"
+			style="@style/BoldText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sectionNotes"
+            android:id="@+id/sNotes"
             android:background="@drawable/count_background"
             android:inputType="textCapSentences"
             android:paddingStart="10dp"

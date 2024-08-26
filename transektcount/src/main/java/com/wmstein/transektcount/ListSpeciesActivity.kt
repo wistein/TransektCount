@@ -1,8 +1,6 @@
 package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
-import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -29,10 +27,11 @@ import com.wmstein.transektcount.widgets.ListSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-03-09
+ * last edited on 2024-07-27
  */
-class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class ListSpeciesActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
+
     private var spec_area: LinearLayout? = null
     var head: Head? = null
     var meta: Meta? = null
@@ -40,7 +39,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
     // preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var awakePref = false
-    private var sortPref: String? = null
+    private var outPref: String? = null
 
     // the actual data
     private var countDataSource: CountDataSource? = null
@@ -55,21 +54,20 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_list_species)
-        countDataSource = CountDataSource(this)
-        sectionDataSource = SectionDataSource(this)
-        headDataSource = HeadDataSource(this)
-        metaDataSource = MetaDataSource(this)
-
         transektCount = application as TransektCountApplication
-        prefs = TransektCountApplication.getPrefs()
-        prefs.registerOnSharedPreferenceChangeListener(this)
         awakePref = prefs.getBoolean("pref_awake", true)
-        sortPref = prefs.getString("pref_sort_sp", "none") // sorted species list
+        outPref = prefs.getString("pref_csv_out", "species") // sort mode output
+
+        setContentView(R.layout.activity_list_species)
+        headDataSource = TransektCountApplication.getHeadDS()
+        sectionDataSource = TransektCountApplication.getSectionDS()
+        metaDataSource = TransektCountApplication.getMetaDS()
+        countDataSource = TransektCountApplication.getCountDS()
 
         val listSpec_screen = findViewById<ScrollView>(R.id.listSpecScreen)
         listSpec_screen.background = transektCount!!.background
         supportActionBar!!.title = getString(R.string.viewSpecTitle)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         spec_area = findViewById(R.id.listSpecLayout)
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -81,6 +79,11 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+
+        headDataSource!!.open()
+        metaDataSource!!.open()
+        countDataSource!!.open()
+        sectionDataSource!!.open()
 
         // build Show Results screen
         spec_area!!.removeAllViews()
@@ -101,8 +104,6 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         var sumpe = 0
         var sumle = 0
         var sumoe = 0
-        headDataSource!!.open()
-        metaDataSource!!.open()
 
         //load head and meta data
         head = headDataSource!!.head
@@ -133,18 +134,22 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         lmw!!.setWidgetLItem4(meta!!.start_tm)
         lmw!!.setWidgetLTime2(getString(R.string.endtm))
         lmw!!.setWidgetLItem5(meta!!.end_tm)
+        lmw!!.setWidgetLNote1(getString(R.string.note))
+        lmw!!.setWidgetLNote2(meta!!.note)
         spec_area!!.addView(lmw)
 
         // display all the sorted counts by adding them to listSpecies layout
         var sect_id: Int
         var section: Section
-        countDataSource!!.open()
-        sectionDataSource!!.open()
-        val specs: List<Count> = when (sortPref) {
-            "names_alpha" -> countDataSource!!.allCountsForSrtName
-            "codes" -> countDataSource!!.allCountsForSrtCode
-            else -> countDataSource!!.allCounts
-        } // List of species
+        val specs: List<Count> // List of sorted species
+
+        if (outPref.equals("sections")) {
+            // sort criteria are section and name
+            specs = countDataSource!!.allCountsForSrtSectionName
+        } else {
+            // sort criteria are name and section
+            specs = countDataSource!!.allCountsForSrtNameSection
+        }
 
         val sumSpec: Int = countDataSource!!.diffSpec // get number of different species
         var spec_countf1i: Int
@@ -159,7 +164,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         var spec_countpe: Int
         var spec_countle: Int
         var spec_countee: Int
-        
+
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
             sect_id = widget.getSpec_sectionid(spec)
@@ -177,7 +182,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             spec_countpe = widget.getSpec_countpe(spec)
             spec_countle = widget.getSpec_countle(spec)
             spec_countee = widget.getSpec_countee(spec)
-            
+
             summf += spec_countf1i
             summ += spec_countf2i
             sumf += spec_countf3i
@@ -191,6 +196,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             sumle += spec_countle
             sumoe += spec_countee
         }
+
         val sumInt: Int = summf + summ + sumf + sump + suml + sumo // sum of internal counts
         val sumExt: Int = summfe + summe + sumfe + sumpe + sumle + sumoe // sum of external counts
 
@@ -233,19 +239,7 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         metaDataSource!!.close()
         countDataSource!!.close()
         sectionDataSource!!.close()
-        if (awakePref) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
-    }
 
-    override fun onStop() {
-        super.onStop()
-
-        // close the data sources
-        headDataSource!!.close()
-        metaDataSource!!.close()
-        countDataSource!!.close()
-        sectionDataSource!!.close()
         if (awakePref) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
@@ -255,17 +249,4 @@ class ListSpeciesActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         super.finish()
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
-        val listSpec_screen = findViewById<ScrollView>(R.id.listSpecScreen)
-        listSpec_screen.background = null
-        listSpec_screen.background = transektCount!!.setBackground()
-        if (prefs != null) {
-            awakePref = prefs.getBoolean("pref_awake", true)
-            sortPref = prefs.getString("pref_sort_sp", "none")
-        } // sorted species list
-    }
-
-    companion object {
-        //private static final String TAG = "ListSpecAct"; // for future use
-    }
 }

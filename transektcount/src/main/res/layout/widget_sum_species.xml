@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_sum_species.xmls used by ListSpeciesWidget.java and ListSpeciesActivity.java.
-     Shows totals of species counts
-   ~ Copyright (c) 2017-2023, Wilhelm Stein, Bonn, Germany.  -->
+   - Shows totals of species counts
+   - Copyright (c) 2017-2024, Wilhelm Stein, Bonn, Germany,
+   - last edited on 2024-07-24
+   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
@@ -501,13 +503,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
                 android:padding="2sp"
-                android:text="@string/totalInternal"/>
+                android:text="@string/totalsIES"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
 
             <!-- sumint -->
             <com.wmstein.transektcount.AutoFitText
@@ -549,46 +552,23 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"/>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
+            <!-- sumSpec -->
             <TextView
-                android:id="@+id/txtDiffTotal"
-                style="@style/HeadlineText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|top"
-                android:padding="2sp"
-                android:text="@string/difftotal"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="TooManyViews">
-
-            <!-- sumint -->
-            <TextView
-                android:id="@+id/sumDiffInd"
+                android:id="@+id/sumDiffSpec"
                 android:layout_width="90dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center|top"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="bottom|end|top"
                 android:background="@drawable/count_background"
-                android:gravity="center|center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 android:hint="@string/charZero"
-                android:padding="0dp"
+                android:paddingBottom="1dp"
+                android:paddingEnd="1dp"
+                android:paddingStart="1dp"
+                android:paddingTop="1dp"
+                android:textSize="20sp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
                 android:textStyle="bold"
                 android:maxLines="1"/>
         </LinearLayout>

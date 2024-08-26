@@ -2,7 +2,7 @@
 <!-- widget_list_species.xml 
     used by ListSpeciesWidget.java and ListSpeciesActivity.java.
     Shows purged list of species counts
-    Copyright (c) 2016 - 2023, Wilhelm Stein, Bonn, Germany.
+    Copyright (c) 2016 - 2024, Wilhelm Stein, Bonn, Germany.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -108,18 +108,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- Remark of transect section -->
+            <!-- Sp. Rem -->
             <TextView
                 android:id="@+id/txtSectRem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:layout_weight="5.8"
+                android:layout_weight="3"
                 android:gravity="start|top"
                 android:padding="4sp"
                 android:paddingStart="10sp"
-                android:textColor="#ffff80"
+                android:textColor="#8FFFFF"
                 android:textSize="14sp"
+                android:textStyle="italic"
                 tools:ignore="RtlSymmetry" />
 
             <!-- Remark of species -->
@@ -127,10 +128,10 @@
                 android:id="@+id/txtSpecRem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5.8"
+                android:layout_weight="9.5"
                 android:gravity="start|top"
                 android:padding="4sp"
-                android:textColor="#8FFFFF"
+                android:textColor="#B0B0B0"
                 android:textSize="14sp"/>
         </LinearLayout>
 
@@ -150,8 +151,8 @@
                 android:paddingStart="10sp"
                 android:text="@string/countInternalHint"
                 android:textColor="#BFFFFF"
-                android:textStyle="italic"
                 android:textSize="16sp"
+                android:textStyle="italic"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
 

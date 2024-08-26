@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,20 +14,27 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import java.util.Objects;
-
 import androidx.preference.PreferenceManager;
 
-/**********************************************************
+import com.wmstein.transektcount.database.AlertDataSource;
+import com.wmstein.transektcount.database.CountDataSource;
+import com.wmstein.transektcount.database.DbHelper;
+import com.wmstein.transektcount.database.HeadDataSource;
+import com.wmstein.transektcount.database.MetaDataSource;
+import com.wmstein.transektcount.database.SectionDataSource;
+
+import java.util.Objects;
+
+/********************************************************************
  * Handle background image, prefs and get image ids
  <p>
- * Partly based on BeeCountApplication.java by milo on 14/05/2014.
+ * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016,
- * last edit on 2023-12-15
+ * last edit on 2024-06-20
  */
 public class TransektCountApplication extends Application
 {
-    private static final String TAG = "TransektCountAppl";
+    private static final String TAG = "TransektCntAppl";
     private static SharedPreferences prefs;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
@@ -35,6 +43,13 @@ public class TransektCountApplication extends Application
     int width;
     int height;
     int resID;
+    private static DbHelper dbHandler;
+    private static SQLiteDatabase database;
+    private static HeadDataSource headDataSource;
+    private static SectionDataSource sectionDataSource;
+    private static MetaDataSource metaDataSource;
+    private static CountDataSource countDataSource;
+    private static AlertDataSource alertDataSource;
 
     @Override
     public void onCreate()
@@ -48,8 +63,47 @@ public class TransektCountApplication extends Application
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
         } catch (Exception e)
         {
-            if (MyDebug.LOG) Log.e(TAG, "51, " + e);
+            if (MyDebug.LOG) Log.e(TAG, "68, " + e);
         }
+
+        dbHandler = new DbHelper(getApplicationContext());
+        database = dbHandler.getWritableDatabase();
+
+        headDataSource = new HeadDataSource(getApplicationContext());
+        sectionDataSource = new SectionDataSource(getApplicationContext());
+        metaDataSource = new MetaDataSource(getApplicationContext());
+        countDataSource = new CountDataSource(getApplicationContext());
+        alertDataSource = new AlertDataSource(getApplicationContext());
+    }
+
+    public static SQLiteDatabase getDatabase()
+    {
+        return database;
+    }
+
+    public static HeadDataSource getHeadDS()
+    {
+        return headDataSource;
+    }
+
+    public static SectionDataSource getSectionDS()
+    {
+        return sectionDataSource;
+    }
+
+    public static MetaDataSource getMetaDS()
+    {
+        return metaDataSource;
+    }
+
+    public static CountDataSource getCountDS()
+    {
+        return countDataSource;
+    }
+
+    public static AlertDataSource getAlertDS()
+    {
+        return alertDataSource;
     }
 
     // Provide access to Application Context
@@ -84,7 +138,7 @@ public class TransektCountApplication extends Application
         display.getSize(size);
         width = size.x;
         height = size.y;
-//        if (MyDebug.LOG) Log.d(TAG, "width = " + width + ", height = " + height);
+//        if (MyDebug.LOG) Log.d(TAG, "142, width = " + width + ", height = " + height);
 
         switch (Objects.requireNonNull(backgroundPref))
         {
@@ -97,7 +151,6 @@ public class TransektCountApplication extends Application
             }
             case "default" ->
             {
-                // portrait
                 if ((double) height / width < 1.8)
                 {
                     // normal screen
@@ -160,10 +213,9 @@ public class TransektCountApplication extends Application
         return prefs;
     }
 
-
     // Get resource ID from resource name
     @SuppressLint("DiscouragedApi")
-    public int getResID(String rName) // non-static method
+    public int getResId(String rName) // non-static method
     {
         try
         {

@@ -15,6 +15,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -41,6 +42,8 @@ import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
+import com.wmstein.transektcount.database.Head;
+import com.wmstein.transektcount.database.HeadDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 import com.wmstein.transektcount.widgets.CountingWidgetExt;
@@ -58,17 +61,17 @@ import java.util.List;
 import java.util.Objects;
 
 /**********************************************************************************************
- * CountingActivity
- * does the actual counting on portrait layout for a manually selected section with 12 counters,
- * checks for alerts,
- * calls CountOptionsActivity, EditSectionActivity and DummyActivity,
- * clones a section,
- * switches screen off when device is pocketed
- * and lets you send a message.
+ * CountingActivity is used when sections are manually selected in ListSectionActivity.
+ *   Does the actual counting with 12 counters,
+ *   checks for alerts,
+ *   calls CountOptionsActivity, EditSpeciesListActivity and DummyActivity,
+ *   clones a section,
+ *   switches screen off when device is pocketed
+ *   and lets you send a message.
  * <p>
  * Basic counting functions inspired by milo's CountingActivity.java of BeeCount from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edit on 2023-12-15.
+ * last edit on 2024-08-14.
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -78,14 +81,14 @@ public class CountingActivity
 
     private int sectionId;  // section ID
     private int iid = 1;    // count ID
+    private int itemPosition = 0; // 0 = 1. position of selected species in array for Spinner
 
-    private LinearLayout sectionNotesArea1;     // section notes line
-    private LinearLayout countsFieldHeadArea3;  // headline internal/external
-    private LinearLayout countsField1Area4;     // internal counts field
-    private LinearLayout countsFieldHeadArea5;  // headline external
-    private LinearLayout countsField2Area6;     // external counts field
-    private LinearLayout speciesRemarkArea7;    // species remark line
-    private LinearLayout alertRemarkArea8;      // alert remark line
+    private LinearLayout countsFieldHeadArea1; // headline internal/external
+    private LinearLayout countsFieldArea1;     // internal counts field
+    private LinearLayout countsFieldHeadArea2; // headline external
+    private LinearLayout countsFieldArea2;     // external counts field
+    private LinearLayout speciesNotesArea;     // species notes line
+    private LinearLayout alertNotesArea;       // alert notes line
 
     // Proximity sensor handling for screen on/off
     private PowerManager.WakeLock mProximityWakeLock;
@@ -97,19 +100,17 @@ public class CountingActivity
     private String sortPref;
     private boolean fontPref;
     private boolean lhandPref; // true for lefthand mode of counting screen
-    private boolean alertSoundPref;
-    private boolean buttonSoundPref;
-    private boolean buttonVibPref;
     private String alertSound;
+    private boolean alertSoundPref;
     private String buttonSound;
     private String buttonSoundMinus;
-    private int itemPosition = 0; // 0 = 1. position of selected species in array for Spinner
+    private boolean buttonSoundPref;
+    private boolean buttonVibPref;
     private String specCode = "";
-    private boolean sectionHasTrack;
 
     // the actual data
-    private Count count;     // line in SQLite counts table for a counted species with all fields
-    private Section section; // line in SQLite sections table
+    private Count count;     // record in SQLite counts table for a counted species
+    private Section section; // record in SQLite sections table
     private List<Alert> alerts;
     private Spinner spinner; // species selector
     private int oldCounter;
@@ -125,6 +126,9 @@ public class CountingActivity
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
+    private HeadDataSource headDataSource;
+
+    private final Handler mHandler = new Handler();
 
     private Ringtone r;
     private VibratorManager vibratorManager;
@@ -140,25 +144,26 @@ public class CountingActivity
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        setPrefVariables(); // set all prefs into their variables
+        setPrefVariables(); // set all stored preferences into their variables
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         // get values from calling activity
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            if (extras.getBoolean("welcome_act")) // called from ListSectionAdapter
-            {
-                // store initial itemPosition = 0 for Spinner into SharedPreferences
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("item_position", 0);
-                editor.commit();
-            }
             sectionId = extras.getInt("section_id");
+            itemPosition = extras.getInt("item_position");
+        }
+        else
+        {
+            sectionId = 1;
+            itemPosition = 0;
         }
 
-        sectionDataSource = new SectionDataSource(this);
-        countDataSource = new CountDataSource(this);
-        alertDataSource = new AlertDataSource(this);
+        sectionDataSource = TransektCountApplication.getSectionDS();
+        countDataSource = TransektCountApplication.getCountDS();
+        alertDataSource = TransektCountApplication.getAlertDS();
+        headDataSource = TransektCountApplication.getHeadDS();
 
         // Set full brightness of screen
         if (brightPref)
@@ -175,32 +180,25 @@ public class CountingActivity
             setContentView(R.layout.activity_counting_lh);
             LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
             counting_screen.setBackground(transektCount.getBackground());
-            sectionNotesArea1 = findViewById(R.id.sectionNotesLH);
-            countsFieldHeadArea3 = findViewById(R.id.countsFieldHead1LH);
-            countsField1Area4 = findViewById(R.id.countsField1LH);
-            countsFieldHeadArea5 = findViewById(R.id.countsFieldHead2LH);
-            countsField2Area6 = findViewById(R.id.countsField2LH);
-            speciesRemarkArea7 = findViewById(R.id.speciesRemarkLH);
-            alertRemarkArea8 = findViewById(R.id.alertRemarkLH);
+            countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1LH);
+            countsFieldArea1 = findViewById(R.id.countsField1LH);
+            countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2LH);
+            countsFieldArea2 = findViewById(R.id.countsField2LH);
+            speciesNotesArea = findViewById(R.id.speciesNotesLH);
+            alertNotesArea = findViewById(R.id.alertRemarkLH);
         }
         else
         {
             setContentView(R.layout.activity_counting);
             LinearLayout counting_screen = findViewById(R.id.countingScreen);
             counting_screen.setBackground(transektCount.getBackground());
-            sectionNotesArea1 = findViewById(R.id.sectionNotesRH);
-            countsFieldHeadArea3 = findViewById(R.id.countsFieldHead1RH);
-            countsField1Area4 = findViewById(R.id.countsField1RH);
-            countsFieldHeadArea5 = findViewById(R.id.countsFieldHead2RH);
-            countsField2Area6 = findViewById(R.id.countsField2RH);
-            speciesRemarkArea7 = findViewById(R.id.speciesRemarkRH);
-            alertRemarkArea8 = findViewById(R.id.alertRemarkRH);
+            countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1RH);
+            countsFieldArea1 = findViewById(R.id.countsField1RH);
+            countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2RH);
+            countsFieldArea2 = findViewById(R.id.countsField2RH);
+            speciesNotesArea = findViewById(R.id.speciesNotesRH);
+            alertNotesArea = findViewById(R.id.alertRemarkRH);
         }
-
-        // set visibility in case of invisible mode left over from CountingActivityA
-        countsField1Area4.setVisibility(View.VISIBLE);
-        countsFieldHeadArea5.setVisibility(View.VISIBLE);
-        alertRemarkArea8.setVisibility(View.VISIBLE);
 
         if (awakePref)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -234,7 +232,6 @@ public class CountingActivity
         buttonSound = prefs.getString("button_sound", null);
         buttonSoundMinus = prefs.getString("button_sound_minus", null); //use deeper button sound
         buttonVibPref = prefs.getBoolean("pref_button_vib", false);
-        sectionHasTrack = prefs.getBoolean("section_has_track", false);
     }
 
     @SuppressLint("LongLogTag")
@@ -245,8 +242,7 @@ public class CountingActivity
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        setPrefVariables(); // set all prefs into their variables
-        itemPosition = prefs.getInt("item_position", 0);
+        setPrefVariables(); // set prefs into their variables
 
         enableProximitySensor();
 
@@ -261,13 +257,12 @@ public class CountingActivity
 
         // build the counting screen
         //   clear any existing views
-        sectionNotesArea1.removeAllViews();    // section notes
-        countsFieldHeadArea3.removeAllViews(); // headline internal/external
-        countsField1Area4.removeAllViews();    // internal counts
-        countsFieldHeadArea5.removeAllViews(); // headline for external counts
-        countsField2Area6.removeAllViews();    // external counts
-        speciesRemarkArea7.removeAllViews();   // species remarks
-        alertRemarkArea8.removeAllViews();     // alert remarks
+        countsFieldHeadArea1.removeAllViews(); // headline internal/external
+        countsFieldArea1.removeAllViews();    // internal counts
+        countsFieldHeadArea2.removeAllViews(); // headline for external counts
+        countsFieldArea2.removeAllViews();    // external counts
+        speciesNotesArea.removeAllViews();   // species remarks
+        alertNotesArea.removeAllViews();     // alert remarks
 
         // setup the data sources
         sectionDataSource.open();
@@ -332,18 +327,6 @@ public class CountingActivity
         countingWidgetLH_i = new ArrayList<>();
         countingWidgetLH_e = new ArrayList<>();
 
-        // 1. show section notes if there are any
-        if (section.notes != null)
-        {
-            if (!section.notes.isEmpty())
-            {
-                NotesWidget section_notes = new NotesWidget(this, null);
-                section_notes.setNotes(section.notes);
-                section_notes.setFont(fontPref);
-                sectionNotesArea1.addView(section_notes);
-            }
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             vibratorManager = (VibratorManager) getSystemService(VIBRATOR_MANAGER_SERVICE);
         else
@@ -362,7 +345,6 @@ public class CountingActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("new_spec_code", ""); // clear prefs value after use
             editor.apply();
-
         }
 
         if (!Objects.equals(specCode, ""))
@@ -417,17 +399,41 @@ public class CountingActivity
             return true;
         }
 
+        if (id == R.id.menuDelSpecies)
+        {
+            disableProximitySensor();
+
+            Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("section_id", sectionId);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.menuAddSpecies)
+        {
+            disableProximitySensor();
+
+            // A Snackbar here comes incomplete
+            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT)
+                .show();
+
+            // Trick: Pause for 100 msec to show toast
+            Intent intent = new Intent(CountingActivity.this, AddSpeciesActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("section_id", sectionId);
+            mHandler.postDelayed(() ->
+                startActivity(intent), 100);
+            return true;
+        }
+
         if (id == R.id.menuEditSection)
         {
             disableProximitySensor();
 
-            // store sectionId into SharedPreferences
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("section_id", sectionId);
-            editor.commit();
-
-            Intent intent = new Intent(CountingActivity.this, EditSectionActivity.class);
-            intent.putExtra("inside_of_track", true);
+            Intent intent = new Intent(CountingActivity.this, EditSpeciesListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("section_id", sectionId);
             startActivity(intent);
             return true;
         }
@@ -438,7 +444,7 @@ public class CountingActivity
             PackageManager packageManager = getPackageManager();
             List<ResolveInfo> activities = packageManager.queryIntentActivities(camIntent,
                 PackageManager.MATCH_DEFAULT_ONLY);
-            boolean isIntentSafe = activities.size() > 0;
+            boolean isIntentSafe = !activities.isEmpty();
 
             if (isIntentSafe)
             {
@@ -459,28 +465,21 @@ public class CountingActivity
         }
         else if (id == R.id.menuClone)
         {
-            if (sectionHasTrack)
-                showSnackbarRed(getString(R.string.hasTrack));
-            else
-            {
-                // store section_id into SharedPreferences
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("section_id", sectionId);
-                editor.commit();
-
-                cloneSection();
-            }
+            cloneSection();
             return true;
         }
         else if (id == R.id.action_share)
         {
+            headDataSource.open();
+            Head head = headDataSource.getHead();
+            headDataSource.close();
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Transekt " + section.name);
-            sendIntent.putExtra(Intent.EXTRA_TITLE, "Message by Transekt");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, section.notes);
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "TransektCount " + head.transect_no);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Message by TransektCount");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, section.name + ": ");
             sendIntent.setType("text/plain");
-            startActivity(sendIntent);
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             return true;
         }
 
@@ -494,11 +493,10 @@ public class CountingActivity
         intent.putExtra("count_id", iid);
         intent.putExtra("section_id", sectionId);
         intent.putExtra("section_name", section.name);
-        intent.putExtra("item_position", itemPosition);
-        intent.putExtra("inside_of_track", true);
         startActivity(intent);
     }
 
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         setPrefVariables();
@@ -510,9 +508,20 @@ public class CountingActivity
     {
         super.onSaveInstanceState(savedInstanceState);
 
+        savedInstanceState.putInt("section_id", sectionId);
         savedInstanceState.putInt("count_id", iid);
         savedInstanceState.putInt("item_position", itemPosition);
-        savedInstanceState.putInt("section_id", sectionId);
+        savedInstanceState.putString("new_spec_code", "");
+    }
+
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        sectionId = savedInstanceState.getInt("section_id");
+        iid = savedInstanceState.getInt("count_id");
+        itemPosition = savedInstanceState.getInt("item_position");
     }
 
     @Override
@@ -521,12 +530,6 @@ public class CountingActivity
         super.onPause();
 
         disableProximitySensor();
-
-        // save section id in case it is lost on pause
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("section_id", sectionId);
-        editor.putInt("count_id", iid);
-        editor.apply();
 
         // close the data sources
         sectionDataSource.close();
@@ -539,6 +542,7 @@ public class CountingActivity
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
     // end of onPause()
 
@@ -546,8 +550,9 @@ public class CountingActivity
     public void onStop()
     {
         super.onStop();
+
         if (r != null)
-            r.stop();
+            r.stop(); // stop media player
     }
 
     // Spinner listener
@@ -560,33 +565,28 @@ public class CountingActivity
             {
                 try
                 {
-                    countsFieldHeadArea3.removeAllViews(); // headline internal/external
-                    countsField1Area4.removeAllViews();    // internal counts
-                    countsFieldHeadArea5.removeAllViews(); // headline for external counts
-                    countsField2Area6.removeAllViews();    // external counts
-                    speciesRemarkArea7.removeAllViews();   // species remark
-                    alertRemarkArea8.removeAllViews();     // alert remark
+                    countsFieldHeadArea1.removeAllViews(); // headline internal/external
+                    countsFieldArea1.removeAllViews();    // internal counts
+                    countsFieldHeadArea2.removeAllViews(); // headline for external counts
+                    countsFieldArea2.removeAllViews();    // external counts
+                    speciesNotesArea.removeAllViews();   // species remark
+                    alertNotesArea.removeAllViews();     // alert remark
 
                     String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
                     iid = Integer.parseInt(sid);
                     itemPosition = position; // position of new selected item in Spinner
 
-                    // store new itemPosition into SharedPreferences
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("item_position", itemPosition);
-                    editor.commit();
-
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.LOG)
-                        Log.d(TAG, "582, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "567, SpinnerListener, count id: " + count.id
                             + ", code: " + count.code);
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.LOG)
-                        Log.e(TAG, "589, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "574, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -601,61 +601,60 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count)
     {
-        // 1. Section remark is set by sectionNotesArea1 in onResume
-        // 2. Species line is set by CountingWidgetHead1 in onResume, Spinner
+        // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
 
-        // 3. Headline Counting Area 1 (internal)
+        // 2. Headline Counting Area 1 (internal)
         CountingWidgetHead2 head2 = new CountingWidgetHead2(this, null, true);
         head2.setCountHead2(count);
-        countsFieldHeadArea3.addView(head2);
+        countsFieldHeadArea1.addView(head2);
 
-        // 4. counts internal
+        // 3. counts internal
         if (lhandPref) // if left-handed counting page
         {
             CountingWidgetLhInt widgeti = new CountingWidgetLhInt(this, null);
             widgeti.setCountLHi(count);
             countingWidgetLH_i.add(widgeti);
-            countsField1Area4.addView(widgeti);
+            countsFieldArea1.addView(widgeti);
         }
         else
         {
             CountingWidgetInt widgeti = new CountingWidgetInt(this, null);
             widgeti.setCounti(count);
             countingWidget_i.add(widgeti);
-            countsField1Area4.addView(widgeti);
+            countsFieldArea1.addView(widgeti);
         }
 
-        // 5. Headline Counting Area 2 (external)
+        // 4. Headline Counting Area 2 (external)
         CountingWidgetHead3 head3 = new CountingWidgetHead3(this, null);
         head3.setCountHead3();
-        countsFieldHeadArea5.addView(head3);
+        countsFieldHeadArea2.addView(head3);
 
-        // 6. counts external
+        // 5. counts external
         if (lhandPref) // if left-handed counting page
         {
             CountingWidgetLhExt widgete = new CountingWidgetLhExt(this, null);
             widgete.setCountLHe(count);
             countingWidgetLH_e.add(widgete);
-            countsField2Area6.addView(widgete);
+            countsFieldArea2.addView(widgete);
         }
         else
         {
             CountingWidgetExt widgete = new CountingWidgetExt(this, null);
             widgete.setCounte(count);
             countingWidget_e.add(widgete);
-            countsField2Area6.addView(widgete);
+            countsFieldArea2.addView(widgete);
         }
 
-        // 7. species note widget if there are any notes
+        // 6. species note widget if there are any notes
         if (isNotBlank(count.notes))
         {
             NotesWidget count_notes = new NotesWidget(this, null);
             count_notes.setNotes(count.notes);
             count_notes.setFont(fontPref);
-            speciesRemarkArea7.addView(count_notes);
+            speciesNotesArea.addView(count_notes);
         }
 
-        // 8. species alerts note widget if there are any alert notes to show
+        // 7. species alerts note widget if there are any alert notes to show
         List<String> alertExtras = new ArrayList<>();
         alerts = new ArrayList<>();
         List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
@@ -671,7 +670,7 @@ public class CountingActivity
             NotesWidget alertNotes = new NotesWidget(this, null);
             alertNotes.setNotes(join(alertExtras, "\n"));
             alertNotes.setFont(fontPref);
-            alertRemarkArea8.addView(alertNotes);
+            alertNotesArea.addView(alertNotes);
         }
     }
     // end of countingScreen
@@ -740,7 +739,7 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.LOG)
-            Log.d(TAG, "743, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "728, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -801,7 +800,7 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.LOG)
-            Log.d(TAG, "804, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "789, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -1307,7 +1306,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.LOG)
-            Log.d(TAG, "1310, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "1295, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1358,7 +1357,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.LOG)
-            Log.d(TAG, "1361, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "1346, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1849,6 +1848,7 @@ public class CountingActivity
         }
     }
     // end of counters
+
     /*****************/
 
     // Call DummyActivity to overcome Spinner deficiency for repeated item
@@ -1894,10 +1894,9 @@ public class CountingActivity
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
-//                new Handler().postDelayed(r::stop, 1000);
             } catch (Exception e)
             {
-                e.printStackTrace();
+                // do nothing
             }
         }
     }
@@ -1907,6 +1906,8 @@ public class CountingActivity
     {
         if (buttonSoundPref)
         {
+            if (r != null)
+                r.stop();
             try
             {
                 Uri notification;
@@ -1916,10 +1917,9 @@ public class CountingActivity
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
-//                new Handler().postDelayed(r::stop, 300);
             } catch (Exception e)
             {
-                e.printStackTrace();
+                // do nothing
             }
         }
     }
@@ -1928,6 +1928,8 @@ public class CountingActivity
     {
         if (buttonSoundPref)
         {
+            if (r != null)
+                r.stop();
             try
             {
                 Uri notification;
@@ -1937,10 +1939,9 @@ public class CountingActivity
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
-//                new Handler().postDelayed(r::stop, 400);
             } catch (Exception e)
             {
-                e.printStackTrace();
+                // do nothing
             }
         }
     }
@@ -1966,8 +1967,7 @@ public class CountingActivity
                 }
             } catch (Exception e)
             {
-                if (MyDebug.LOG)
-                    Log.e(TAG, "1970, buttonVib, catch, could not vibrate.", e);
+                // do nothing
             }
         }
     }
@@ -1993,8 +1993,7 @@ public class CountingActivity
                 }
             } catch (Exception e)
             {
-                if (MyDebug.LOG)
-                    Log.e(TAG, "1997, buttonVib, catch, could not vibrate.", e);
+                // do nothing
             }
         }
     }
@@ -2021,7 +2020,7 @@ public class CountingActivity
             // check for empty section name
             if (sect_name.isEmpty())
             {
-                showSnackbarRed(getString(R.string.newName));
+                showSnackbarRed(getString(R.string.newSectName));
                 return;
             }
 
@@ -2060,14 +2059,12 @@ public class CountingActivity
 
             // Creating the new section
             Section newSection = sectionDataSource.createSection(sect_name);
-            newSection.notes = section.notes;
             sectionDataSource.saveSection(newSection);
             for (Count c : countDataSource.getAllCountsForSection(sectionId))
             {
                 Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
                 if (newCount != null)
                 {
-                    newCount.notes = c.notes;
                     countDataSource.saveCount(newCount);
                 }
             }
@@ -2097,12 +2094,12 @@ public class CountingActivity
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.LOG) Log.d(TAG, "2100, compSectionNames, sname = " + sname);
+            if (MyDebug.LOG) Log.d(TAG, "2084, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname))
             {
                 isDblName = true;
-                if (MyDebug.LOG) Log.d(TAG, "2105, compSectionNames, Double name = " + sname);
+                if (MyDebug.LOG) Log.d(TAG, "2089, compSectionNames, Double name = " + sname);
                 break;
             }
         }

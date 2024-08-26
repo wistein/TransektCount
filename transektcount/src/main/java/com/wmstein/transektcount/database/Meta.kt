@@ -25,4 +25,6 @@ class Meta {
     var start_tm: String? = null
     @JvmField
     var end_tm: String? = null
+    @JvmField
+    var note: String? = null
 }

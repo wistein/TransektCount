@@ -15,7 +15,7 @@ import java.util.Objects
  * Created by wmstein on 2016-02-16,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2023-09-18
+ * last edited on 2024-05-15
  */
 class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView
@@ -124,8 +124,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         instructionsee.text = i
     }
 
-    // this is set to return 0 if it can't parse a value from the box in order
-    //   that transektcount doesn't crash.
+    // this is set to return 0 if it can't parse a value from the box
+    //   in order that transektcount doesn't crash.
     // For transect internal counters
     var parameterValuef1i: Int
         get() {
@@ -349,7 +349,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
          * @return `true` if the CharSequence is empty or null
          */
         fun isEmpty(cs: CharSequence?): Boolean {
-            return cs == null || cs.length == 0
+            return cs.isNullOrEmpty()
         }
     }
 }

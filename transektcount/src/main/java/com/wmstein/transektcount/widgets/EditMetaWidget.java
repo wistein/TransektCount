@@ -14,25 +14,30 @@ import java.util.Objects;
 /*****************************************************
  * EditMetaWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 2016-04-02
- * last edited on 2024-03-09
+ * last edited on 2024-05-28
  */
 public class EditMetaWidget extends LinearLayout
 {
-    final TextView widget_temp1;   // start temperature
+    final TextView widget_temp1;        // start temperature
     final EditText widget_starttemp2;
-    final TextView widget_wind1;   // start wind
-    final EditText widget_startwind2;
-    final TextView widget_clouds1; // start clouds
-    final EditText widget_startclouds2;
     final EditText widget_endtemp2;     // end temperature
+
+    final TextView widget_wind1;        // start wind
+    final EditText widget_startwind2;
     final EditText widget_endwind2;     // end wind
+
+    final TextView widget_clouds1;      // start clouds
+    final EditText widget_startclouds2;
     final EditText widget_endclouds2;   // end clouds
+
     final TextView widget_date1;        // date
     final TextView widget_date2;
     final TextView widget_stime1;       // start-time
     final TextView widget_stime2;
     final TextView widget_etime1;       // end-time
     final TextView widget_etime2;
+    final TextView widget_note1;
+    final TextView widget_note2;
 
     final String regEx = "^[0-9]*$"; // plausi for numeric input
 
@@ -56,6 +61,8 @@ public class EditMetaWidget extends LinearLayout
         widget_stime2 = findViewById(R.id.widgetSTime2);
         widget_etime1 = findViewById(R.id.widgetETime1);
         widget_etime2 = findViewById(R.id.widgetETime2);
+        widget_note1 = findViewById(R.id.widgetNote1);
+        widget_note2 = findViewById(R.id.widgetNote2);
     }
 
     // Following the SETS
@@ -66,11 +73,17 @@ public class EditMetaWidget extends LinearLayout
     }
     public void setWidgetStartTemp2(int name)
     {
-        widget_starttemp2.setText(String.valueOf(name));
+        if (name == 0)
+            widget_starttemp2.setText("");
+        else
+            widget_starttemp2.setText(String.valueOf(name));
     }
     public void setWidgetEndTemp2(int name)
     {
-        widget_endtemp2.setText(String.valueOf(name));
+        if (name == 0)
+            widget_endtemp2.setText("");
+        else
+            widget_endtemp2.setText(String.valueOf(name));
     }
 
     // wind
@@ -80,11 +93,17 @@ public class EditMetaWidget extends LinearLayout
     }
     public void setWidgetStartWind2(int name)
     {
-        widget_startwind2.setText(String.valueOf(name));
+        if (name == 0)
+            widget_startwind2.setText("");
+        else
+            widget_startwind2.setText(String.valueOf(name));
     }
     public void setWidgetEndWind2(int name)
     {
-        widget_endwind2.setText(String.valueOf(name));
+        if (name == 0)
+            widget_endwind2.setText("");
+        else
+            widget_endwind2.setText(String.valueOf(name));
     }
 
     // clouds
@@ -92,10 +111,19 @@ public class EditMetaWidget extends LinearLayout
     {
         widget_clouds1.setText(title);
     }
-    public void setWidgetStartClouds2(int name) {widget_startclouds2.setText(String.valueOf(name));}
+    public void setWidgetStartClouds2(int name)
+    {
+        if (name == 0)
+            widget_startclouds2.setText("");
+        else
+            widget_startclouds2.setText(String.valueOf(name));
+    }
     public void setWidgetEndClouds2(int name)
     {
-        widget_endclouds2.setText(String.valueOf(name));
+        if (name == 0)
+            widget_endclouds2.setText("");
+        else
+            widget_endclouds2.setText(String.valueOf(name));
     }
 
     // date
@@ -126,6 +154,16 @@ public class EditMetaWidget extends LinearLayout
     public void setWidgetETime2(String name)
     {
         widget_etime2.setText(name);
+    }
+
+    // note
+    public void setWidgetNote1(String title)
+    {
+        widget_note1.setText(title);
+    }
+    public void setWidgetNote2(String name)
+    {
+        widget_note2.setText(name);
     }
 
     // following the GETS
@@ -250,6 +288,12 @@ public class EditMetaWidget extends LinearLayout
     public String getWidgetETime()
     {
         return widget_etime2.getText().toString();
+    }
+
+    // get stop time
+    public String getWidgetNote()
+    {
+        return widget_note2.getText().toString();
     }
 
     // set the hint

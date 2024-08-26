@@ -1,13 +1,16 @@
-Version 4.1.0 (10.06.2024)
-- Funktion der automatischen Auswahl des Abschnitts per GPS eliminiert, da zu unzuverlässig
+Version 4.1.0 (26.08.2024)
+- Funktion zur Bestimmung des Abschnitts per GPS entfernt, da zu unzuverlässig
 - Überschrift für Dateiauswahlseite hinzugefügt
 - Überschrift für Einstellungsmenü hinzugefügt
-- Einstellungsmenü zeigt den Status der Optionen an
-- Meta-Daten ergänzt mit Feld für Bemerkung zur aktuellen Begehung
+- Einstellungsmenü zeigt nun die Zustände der Optionen an
+- Getrennte Ansichten für Editieren, Löschen und Hinzufügen von Arten
+- Checkboxen zum mehrfachen Löschen von Arten der Zählliste
+- Checkboxen zum mehrfachen Hinzufügen weiterer Arten zur Zählliste
+- Meta-Daten ergänzt mit Feld für Bemerkung zur aktuellen Begehung (ersetzt Abschnittsbemerkungen)
+- Einstellungsoption hinzugefügt für das Sortieren der Ergebnisse nach Abschnitten oder Artnamen
+- CSV-Export an strukturelle Änderungen angepasst
 - Interne Falterliste jetzt identisch mit der Liste von TourCount
-- Import-Funktion für die Zählliste der ausgewählten Falter von TourCount
-- CSV-Export gezählter externer Arten je als Summe zusammengefasst
-- Verbesserungen bei Code und Bildschirm-Layout
-- Veraltete (deprecated) Funktion ersetzt
+- Verbesserungen bei Code, Text und Layouts
+- Lizenztext separiert
 - Doku angepasst
 - Bug-Fixes

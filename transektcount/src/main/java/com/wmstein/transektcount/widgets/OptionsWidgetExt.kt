@@ -9,11 +9,11 @@ import com.wmstein.transektcount.AutoFitEditText
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/***********************************************************************
+/*************************************************************************
  * Edit options for species
- * used by CountOptionsActivity in conjunction with widget_options.xml
+ * used by CountOptionsActivity in conjunction with widget_options_ext.xml
  * Created by wmstein on 2023-09-03,
- * last edited on 2023-09-18
+ * last edited on 2024-05-15
  */
 class OptionsWidgetExt(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1e: TextView
@@ -72,10 +72,8 @@ class OptionsWidgetExt(context: Context, attrs: AttributeSet?) : LinearLayout(co
         instructionsee.text = i
     }
 
-    // this is set to return 0 if it can't parse a value from the box in order
-    // that transektcount doesn't crash
-    // For transect internal counters
-    // For transect external counters
+    // this is set to return 0 if it can't parse a value from the box
+    //   in order that transektcount doesn't crash
     var parameterValuef1e: Int
         get() {
             val text = numberf1e.text.toString()
@@ -197,7 +195,7 @@ class OptionsWidgetExt(context: Context, attrs: AttributeSet?) : LinearLayout(co
          * @return `true` if the CharSequence is empty or null
          */
         fun isEmpty(cs: CharSequence?): Boolean {
-            return cs == null || cs.length == 0
+            return cs.isNullOrEmpty()
         }
     }
 }

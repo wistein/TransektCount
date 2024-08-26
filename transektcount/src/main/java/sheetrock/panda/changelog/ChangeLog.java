@@ -35,7 +35,7 @@ import java.util.Locale;
  See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2024-02-12
+ last change by wmstein on 2024-07-16
  */
 public class ChangeLog
 {
@@ -61,7 +61,7 @@ public class ChangeLog
         // get version numbers
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (MyDebug.LOG)
-            Log.d(TAG, "75, lastVersion: " + lastVersion);
+            Log.d(TAG, "64, lastVersion: " + lastVersion);
 
         try
         {
@@ -71,7 +71,7 @@ public class ChangeLog
         {
             thisVersion = NO_VERSION;
             if (MyDebug.LOG)
-                Log.e(TAG, "Could not get version name from manifest!", e);
+                Log.e(TAG, "74, Could not get version name from manifest!", e);
         }
         if (MyDebug.LOG)
             Log.d(TAG, "77, appVersion: " + this.thisVersion);
@@ -134,14 +134,13 @@ public class ChangeLog
             .setCancelable(false)
             // OK button
             .setPositiveButton(context.getResources().getString(
-                    R.string.changelog_ok_button), (dialog, which) -> updateVersionInPreferences());
+                    R.string.ok_button), (dialog, which) -> updateVersionInPreferences());
 
         if (!full)
         {
             // "more ..." button
             builder.setNegativeButton(R.string.changelog_show_full, (dialog, id) -> getFullLogDialog().show());
         }
-
         return builder.create();
     }
 
@@ -176,10 +175,11 @@ public class ChangeLog
             while ((line = br.readLine()) != null)
             {
                 line = line.trim();
-                char marker = line.length() > 0 ? line.charAt(0) : 0;
+                char marker = !line.isEmpty() ? line.charAt(0) : 0;
+
+                // begin of a version section
                 if (marker == '$')
                 {
-                    // begin of a version section
                     this.closeList();
                     String version = line.substring(1).trim();
                     // stop output?
@@ -191,61 +191,62 @@ public class ChangeLog
                             advanceToEOVS = false;
                     }
                 }
+                // other text
                 else if (!advanceToEOVS)
                 {
                     switch (marker)
                     {
+                        // line contains version title
                         case '%' ->
                         {
-                            // line contains version title
                             this.closeList();
                             sb.append("<div class='title'>");
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
+                        // line contains bold red text
                         case '&' ->
                         {
-                            // line contains bold red text
                             this.closeList();
-                            sb.append("<div class='boldredtext'>");
+                            sb.append("<div class='boldtext'>");
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
+                        // line contains version subtitle
                         case '_' ->
                         {
-                            // line contains version subtitle
                             this.closeList();
                             sb.append("<div class='subtitle'>");
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
+                        // line contains free text
                         case '!' ->
                         {
-                            // line contains free text
                             this.closeList();
                             sb.append("<div class='freetext'>");
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
+                        // line contains numbered list item
                         case '#' ->
                         {
-                            // line contains numbered list item
                             this.openList(Listmode.ORDERED);
                             sb.append("<li>");
                             sb.append(line.substring(1).trim());
                             sb.append("</li>\n");
                         }
+                        // line contains bullet list item
                         case '*' ->
                         {
-                            // line contains bullet list item
                             this.openList(Listmode.UNORDERED);
                             sb.append("<li>");
                             sb.append(line.substring(1).trim());
                             sb.append("</li>\n");
                         }
+                        // just use line as is
                         default ->
                         {
-                            // no special character: just use line as is
                             this.closeList();
                             sb.append(line);
                             sb.append("\n");

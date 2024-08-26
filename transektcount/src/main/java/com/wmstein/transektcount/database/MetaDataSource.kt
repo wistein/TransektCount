@@ -6,12 +6,13 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+import com.wmstein.transektcount.TransektCountApplication
 
 /***********************************
  * Created by wmstein on 2016-03-31,
  * last edited on 2022-04-26,
  * converted to Kotlin on 2023-06-26
- * last edited on 2024-03-09
+ * last edited on 2024-05-04
  */
 class MetaDataSource(context: Context?) {
     // Database fields
@@ -27,16 +28,17 @@ class MetaDataSource(context: Context?) {
         DbHelper.M_CLOUDE,
         DbHelper.M_DATE,
         DbHelper.M_START_TM,
-        DbHelper.M_END_TM
+        DbHelper.M_END_TM,
+        DbHelper.M_NOTE
     )
 
     init {
-        dbHandler = DbHelper(context!!)
+        dbHandler = context?.let { DbHelper(it) }!!
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = TransektCountApplication.getDatabase()
     }
 
     fun close() {
@@ -55,6 +57,7 @@ class MetaDataSource(context: Context?) {
         dataToInsert.put(DbHelper.M_DATE, meta.date)
         dataToInsert.put(DbHelper.M_START_TM, meta.start_tm)
         dataToInsert.put(DbHelper.M_END_TM, meta.end_tm)
+        dataToInsert.put(DbHelper.M_NOTE, meta.note)
         database!!.update(DbHelper.META_TABLE, dataToInsert, null, null)
     }
 
@@ -71,6 +74,7 @@ class MetaDataSource(context: Context?) {
         meta.date = cursor.getString(cursor.getColumnIndex(DbHelper.M_DATE))
         meta.start_tm = cursor.getString(cursor.getColumnIndex(DbHelper.M_START_TM))
         meta.end_tm = cursor.getString(cursor.getColumnIndex(DbHelper.M_END_TM))
+        meta.note = cursor.getString(cursor.getColumnIndex(DbHelper.M_NOTE))
         return meta
     }
 

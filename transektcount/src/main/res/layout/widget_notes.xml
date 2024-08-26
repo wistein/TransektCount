@@ -19,8 +19,7 @@
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        android:layout_gravity="bottom|start|end|top"
-        android:hint="@string/hintSectionNotes"/>
+        android:layout_gravity="bottom|start|end|top"/>
     
 </LinearLayout>
 

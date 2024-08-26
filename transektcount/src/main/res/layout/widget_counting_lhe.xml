@@ -50,13 +50,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/f1eNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countImagomfHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHf1e"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -68,18 +80,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/f1eNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countImagomfHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -116,13 +116,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/f2eNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countImagomHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHf2e"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -134,18 +146,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/f2eNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countImagomHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -182,13 +182,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/f3eNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countImagofHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHf3e"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -200,18 +212,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/f3eNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countImagofHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -248,13 +248,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/peNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countPupaHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHpe"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -266,18 +278,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/peNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countPupaHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -314,13 +314,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/leNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countLarvaHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -332,18 +344,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/leNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countLarvaHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -380,13 +380,25 @@
             android:textStyle="bold"
             tools:ignore="ContentDescription" />
 
+        <TextView
+            android:id="@+id/eeNameLH"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.5"
+            android:hint="@string/countOvoHint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#bfffff"
+            android:textSize="17sp" />
+
         <com.wmstein.transektcount.AutoFitText
             android:id="@+id/countCountLHee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end|top"
             android:layout_marginBottom="0dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:background="@drawable/count_background"
             android:gravity="center_vertical|center_horizontal"
@@ -398,18 +410,6 @@
             android:paddingBottom="1dp"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/eeNameLH"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="3.5"
-            android:hint="@string/countOvoHint"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#bfffff"
-            android:textSize="17sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -13,7 +13,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2023-09-23.
+ * Last edit on 2024-05-05.
  */
 class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     // temperature
@@ -37,6 +37,9 @@ class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     // end_tm
     private val widgetLtime2: TextView
     private val widgetLitem5: TextView
+    // note
+    private val widgetLNote1: TextView
+    private val widgetLNote2: TextView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -56,6 +59,8 @@ class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         widgetLitem4 = findViewById(R.id.widgetLItem4)
         widgetLtime2 = findViewById(R.id.widgetLTime2)
         widgetLitem5 = findViewById(R.id.widgetLItem5)
+        widgetLNote1 = findViewById(R.id.widgetLNote1)
+        widgetLNote2 = findViewById(R.id.widgetLNote2)
     }
 
     // Following the SETS
@@ -124,4 +129,14 @@ class ListMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     fun setWidgetLItem5(name: String?) {
         widgetLitem5.text = name
     }
+
+    // note
+    fun setWidgetLNote1(title: String?) {
+        widgetLNote1.text = title
+    }
+
+    fun setWidgetLNote2(name: String?) {
+        widgetLNote2.text = name
+    }
+
 }

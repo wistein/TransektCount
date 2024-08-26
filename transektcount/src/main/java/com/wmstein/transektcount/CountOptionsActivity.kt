@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -27,7 +25,6 @@ import com.wmstein.transektcount.widgets.AddAlertWidget
 import com.wmstein.transektcount.widgets.AlertCreateWidget
 import com.wmstein.transektcount.widgets.EditNotesWidget
 import com.wmstein.transektcount.widgets.OptionsWidget
-import com.wmstein.transektcount.widgets.OptionsWidgetExt
 
 /************************************************************
  * CountOptionsActivity
@@ -38,9 +35,9 @@ import com.wmstein.transektcount.widgets.OptionsWidgetExt
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-12-15
+ * last edited on 2024-07-27
  */
-class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class CountOptionsActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
 
     private var count: Count? = null
@@ -56,14 +53,12 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
     private var staticWidgetArea: LinearLayout? = null
     private var dynamicWidgetArea: LinearLayout? = null
     private var optWidget: OptionsWidget? = null
-    private var optWidgetExt: OptionsWidgetExt? = null
     private var enw: EditNotesWidget? = null
     private var aaWidget: AddAlertWidget? = null
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
-    private var insideOfTrack = true // current location is inside of any section
 
     private var savedAlerts: ArrayList<AlertCreateWidget>? = null
 
@@ -73,7 +68,6 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
 
         transektCount = application as TransektCountApplication
         prefs = TransektCountApplication.getPrefs()
-        prefs.registerOnSharedPreferenceChangeListener(this)
         brightPref = prefs.getBoolean("pref_bright", true)
 
         setContentView(R.layout.activity_count_options)
@@ -88,7 +82,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
         }
 
         bMap = transektCount!!.decodeBitmap(
-            R.drawable.kbackground,
+            R.drawable.edbackground,
             transektCount!!.width,
             transektCount!!.height
         )
@@ -102,16 +96,19 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
             countId = extras.getInt("count_id")
             sectionId = extras.getInt("section_id")
             sectionName = extras.getString("section_name").toString()
-            insideOfTrack = extras.getBoolean("inside_of_track")
         }
 
         savedAlerts = ArrayList()
         if (savedInstanceState != null) {
             @Suppress("DEPRECATION")
             if (savedInstanceState.getSerializable("savedAlerts") != null) {
-                savedAlerts = savedInstanceState.getSerializable("savedAlerts") as ArrayList<AlertCreateWidget>?
+                savedAlerts =
+                    savedInstanceState.getSerializable("savedAlerts") as ArrayList<AlertCreateWidget>?
             }
         }
+
+        countDataSource = TransektCountApplication.getCountDS()
+        alertDataSource = TransektCountApplication.getAlertDS()
     }
     // end of onCreate()
 
@@ -124,15 +121,15 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
         dynamicWidgetArea!!.removeAllViews()
 
         // get the data sources
-        countDataSource = CountDataSource(this)
         countDataSource!!.open()
-        alertDataSource = AlertDataSource(this)
         alertDataSource!!.open()
+
         count = countDataSource!!.getCountById(countId)
         try {
             supportActionBar!!.title = count!!.name
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         } catch (e: NullPointerException) {
-            if (MyDebug.LOG) Log.e(TAG, "135, Problem setting title bar: $e")
+            if (MyDebug.LOG) Log.e(TAG, "131, Problem setting title bar: $e")
         }
         val alerts = alertDataSource!!.getAllAlertsForCount(countId)
 
@@ -140,162 +137,108 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
         // 1. Current count values (internal counters)
         // 2. Current count values (external counters)
         // 3. Alert add/remove
-        if (insideOfTrack) {
-            optWidget = OptionsWidget(this, null)
-            optWidget!!.setInstructionsf1i(
-                String.format(
-                    getString(R.string.editCountValuef1i),
-                    count!!.count_f1i
-                )
+        optWidget = OptionsWidget(this, null)
+        optWidget!!.setInstructionsf1i(
+            String.format(
+                getString(R.string.editCountValuef1i),
+                count!!.count_f1i
             )
-            optWidget!!.setInstructionsf2i(
-                String.format(
-                    getString(R.string.editCountValuef2i),
-                    count!!.count_f2i
-                )
+        )
+        optWidget!!.setInstructionsf2i(
+            String.format(
+                getString(R.string.editCountValuef2i),
+                count!!.count_f2i
             )
-            optWidget!!.setInstructionsf3i(
-                String.format(
-                    getString(R.string.editCountValuef3i),
-                    count!!.count_f3i
-                )
+        )
+        optWidget!!.setInstructionsf3i(
+            String.format(
+                getString(R.string.editCountValuef3i),
+                count!!.count_f3i
             )
-            optWidget!!.setInstructionspi(
-                String.format(
-                    getString(R.string.editCountValuepi),
-                    count!!.count_pi
-                )
+        )
+        optWidget!!.setInstructionspi(
+            String.format(
+                getString(R.string.editCountValuepi),
+                count!!.count_pi
             )
-            optWidget!!.setInstructionsli(
-                String.format(
-                    getString(R.string.editCountValueli),
-                    count!!.count_li
-                )
+        )
+        optWidget!!.setInstructionsli(
+            String.format(
+                getString(R.string.editCountValueli),
+                count!!.count_li
             )
-            optWidget!!.setInstructionsei(
-                String.format(
-                    getString(R.string.editCountValueei),
-                    count!!.count_ei
-                )
+        )
+        optWidget!!.setInstructionsei(
+            String.format(
+                getString(R.string.editCountValueei),
+                count!!.count_ei
             )
-            optWidget!!.setInstructionsf1e(
-                String.format(
-                    getString(R.string.editCountValuef1e),
-                    count!!.count_f1e
-                )
+        )
+        optWidget!!.setInstructionsf1e(
+            String.format(
+                getString(R.string.editCountValuef1e),
+                count!!.count_f1e
             )
-            optWidget!!.setInstructionsf2e(
-                String.format(
-                    getString(R.string.editCountValuef2e),
-                    count!!.count_f2e
-                )
+        )
+        optWidget!!.setInstructionsf2e(
+            String.format(
+                getString(R.string.editCountValuef2e),
+                count!!.count_f2e
             )
-            optWidget!!.setInstructionsf3e(
-                String.format(
-                    getString(R.string.editCountValuef3e),
-                    count!!.count_f3e
-                )
+        )
+        optWidget!!.setInstructionsf3e(
+            String.format(
+                getString(R.string.editCountValuef3e),
+                count!!.count_f3e
             )
-            optWidget!!.setInstructionspe(
-                String.format(
-                    getString(R.string.editCountValuepe),
-                    count!!.count_pe
-                )
+        )
+        optWidget!!.setInstructionspe(
+            String.format(
+                getString(R.string.editCountValuepe),
+                count!!.count_pe
             )
-            optWidget!!.setInstructionsle(
-                String.format(
-                    getString(R.string.editCountValuele),
-                    count!!.count_le
-                )
+        )
+        optWidget!!.setInstructionsle(
+            String.format(
+                getString(R.string.editCountValuele),
+                count!!.count_le
             )
-            optWidget!!.setInstructionsee(
-                String.format(
-                    getString(R.string.editCountValueee),
-                    count!!.count_ee
-                )
+        )
+        optWidget!!.setInstructionsee(
+            String.format(
+                getString(R.string.editCountValueee),
+                count!!.count_ee
             )
-            optWidget!!.parameterValuef1i = count!!.count_f1i
-            optWidget!!.parameterValuef2i = count!!.count_f2i
-            optWidget!!.parameterValuef3i = count!!.count_f3i
-            optWidget!!.parameterValuepi = count!!.count_pi
-            optWidget!!.parameterValueli = count!!.count_li
-            optWidget!!.parameterValueei = count!!.count_ei
-            optWidget!!.parameterValuef1e = count!!.count_f1e
-            optWidget!!.parameterValuef2e = count!!.count_f2e
-            optWidget!!.parameterValuef3e = count!!.count_f3e
-            optWidget!!.parameterValuepe = count!!.count_pe
-            optWidget!!.parameterValuele = count!!.count_le
-            optWidget!!.parameterValueee = count!!.count_ee
-            staticWidgetArea!!.addView(optWidget)
+        )
+        optWidget!!.parameterValuef1i = count!!.count_f1i
+        optWidget!!.parameterValuef2i = count!!.count_f2i
+        optWidget!!.parameterValuef3i = count!!.count_f3i
+        optWidget!!.parameterValuepi = count!!.count_pi
+        optWidget!!.parameterValueli = count!!.count_li
+        optWidget!!.parameterValueei = count!!.count_ei
+        optWidget!!.parameterValuef1e = count!!.count_f1e
+        optWidget!!.parameterValuef2e = count!!.count_f2e
+        optWidget!!.parameterValuef3e = count!!.count_f3e
+        optWidget!!.parameterValuepe = count!!.count_pe
+        optWidget!!.parameterValuele = count!!.count_le
+        optWidget!!.parameterValueee = count!!.count_ee
+        staticWidgetArea!!.addView(optWidget)
 
-            enw = EditNotesWidget(this, null)
-            enw!!.sectionNotes = count!!.notes
-            enw!!.setWidgetNotes(getString(R.string.notesSpecies, sectionName))
-            enw!!.setHint(getString(R.string.notesHint))
-            staticWidgetArea!!.addView(enw)
+        enw = EditNotesWidget(this, null)
+        enw!!.sNotes = count!!.notes
+        enw!!.setWidgetNotes(getString(R.string.notesSpecies, sectionName))
+        enw!!.setHint(getString(R.string.notesHint))
+        staticWidgetArea!!.addView(enw)
 
-            aaWidget = AddAlertWidget(this, null)
-            staticWidgetArea!!.addView(aaWidget)
+        aaWidget = AddAlertWidget(this, null)
+        staticWidgetArea!!.addView(aaWidget)
 
-            for (alert in alerts) {
-                val acw = AlertCreateWidget(this, null)
-                acw.alertName = alert.alert_text
-                acw.alertValue = alert.alert
-                acw.alertId = alert.id
-                dynamicWidgetArea!!.addView(acw)
-            }
-        }
-        else{
-            optWidgetExt = OptionsWidgetExt(this, null)
-            optWidgetExt!!.setInstructionsf1e(
-                String.format(
-                    getString(R.string.editCountValuef1e),
-                    count!!.count_f1e
-                )
-            )
-            optWidgetExt!!.setInstructionsf2e(
-                String.format(
-                    getString(R.string.editCountValuef2e),
-                    count!!.count_f2e
-                )
-            )
-            optWidgetExt!!.setInstructionsf3e(
-                String.format(
-                    getString(R.string.editCountValuef3e),
-                    count!!.count_f3e
-                )
-            )
-            optWidgetExt!!.setInstructionspe(
-                String.format(
-                    getString(R.string.editCountValuepe),
-                    count!!.count_pe
-                )
-            )
-            optWidgetExt!!.setInstructionsle(
-                String.format(
-                    getString(R.string.editCountValuele),
-                    count!!.count_le
-                )
-            )
-            optWidgetExt!!.setInstructionsee(
-                String.format(
-                    getString(R.string.editCountValueee),
-                    count!!.count_ee
-                )
-            )
-            optWidgetExt!!.parameterValuef1e = count!!.count_f1e
-            optWidgetExt!!.parameterValuef2e = count!!.count_f2e
-            optWidgetExt!!.parameterValuef3e = count!!.count_f3e
-            optWidgetExt!!.parameterValuepe = count!!.count_pe
-            optWidgetExt!!.parameterValuele = count!!.count_le
-            optWidgetExt!!.parameterValueee = count!!.count_ee
-            staticWidgetArea!!.addView(optWidgetExt)
-
-            enw = EditNotesWidget(this, null)
-            enw!!.sectionNotes = count!!.notes
-            enw!!.setWidgetNotes(getString(R.string.notesSpecies, sectionName))
-            enw!!.setHint(getString(R.string.notesHint))
-            staticWidgetArea!!.addView(enw)
+        for (alert in alerts) {
+            val acw = AlertCreateWidget(this, null)
+            acw.alertName = alert.alert_text
+            acw.alertValue = alert.alert
+            acw.alertId = alert.id
+            dynamicWidgetArea!!.addView(acw)
         }
 
         /*
@@ -307,10 +250,8 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
     } // end of onResume()
 
     override fun onSaveInstanceState(outState: Bundle) {
-        /*
-        * Before these widgets can be serialised they must be removed from their parent, or else
-        * trying to add them to a new parent causes a crash because they've already got one.
-        */
+        // Before these widgets can be serialised they must be removed from their parent, or else
+        // trying to add them to a new parent causes a crash because they've already got one.
         for (acw in savedAlerts!!) {
             (acw.parent as ViewGroup).removeView(acw)
         }
@@ -342,29 +283,19 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
             Toast.LENGTH_SHORT
         ).show()
 
-        if(insideOfTrack) {
-            count!!.count_f1i = optWidget!!.parameterValuef1i
-            count!!.count_f2i = optWidget!!.parameterValuef2i
-            count!!.count_f3i = optWidget!!.parameterValuef3i
-            count!!.count_pi = optWidget!!.parameterValuepi
-            count!!.count_li = optWidget!!.parameterValueli
-            count!!.count_ei = optWidget!!.parameterValueei
-            count!!.count_f1e = optWidget!!.parameterValuef1e
-            count!!.count_f2e = optWidget!!.parameterValuef2e
-            count!!.count_f3e = optWidget!!.parameterValuef3e
-            count!!.count_pe = optWidget!!.parameterValuepe
-            count!!.count_le = optWidget!!.parameterValuele
-            count!!.count_ee = optWidget!!.parameterValueee
-        }
-        else{
-            count!!.count_f1e = optWidgetExt!!.parameterValuef1e
-            count!!.count_f2e = optWidgetExt!!.parameterValuef2e
-            count!!.count_f3e = optWidgetExt!!.parameterValuef3e
-            count!!.count_pe = optWidgetExt!!.parameterValuepe
-            count!!.count_le = optWidgetExt!!.parameterValuele
-            count!!.count_ee = optWidgetExt!!.parameterValueee
-        }
-        count!!.notes = enw!!.sectionNotes
+        count!!.count_f1i = optWidget!!.parameterValuef1i
+        count!!.count_f2i = optWidget!!.parameterValuef2i
+        count!!.count_f3i = optWidget!!.parameterValuef3i
+        count!!.count_pi = optWidget!!.parameterValuepi
+        count!!.count_li = optWidget!!.parameterValueli
+        count!!.count_ei = optWidget!!.parameterValueei
+        count!!.count_f1e = optWidget!!.parameterValuef1e
+        count!!.count_f2e = optWidget!!.parameterValuef2e
+        count!!.count_f3e = optWidget!!.parameterValuef3e
+        count!!.count_pe = optWidget!!.parameterValuepe
+        count!!.count_le = optWidget!!.parameterValuele
+        count!!.count_ee = optWidget!!.parameterValueee
+        count!!.notes = enw!!.sNotes
         countDataSource!!.saveCount(count!!)
 
         /*
@@ -383,7 +314,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
                     alertDataSource!!.saveAlert(acw.alertId, acw.alertValue, acw.alertName)
                 }
             } else {
-                if (MyDebug.LOG) Log.d(TAG, "386, Failed to save alert: " + acw.alertId)
+                if (MyDebug.LOG) Log.d(TAG, "316, Failed to save alert: " + acw.alertId)
             }
         }
     }
@@ -441,7 +372,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
                     alertDataSource!!.deleteAlertById(deleteAnAlert)
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertCreateWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.LOG) Log.e(TAG, "444, Failed to delete a widget: $e")
+                    if (MyDebug.LOG) Log.e(TAG, "374, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }
@@ -470,22 +401,6 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
             super.finish()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @SuppressLint("SourceLockedOrientationActivity")
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
-        val countOptScreen = findViewById<ScrollView>(R.id.count_options)
-        countOptScreen.background = null
-        if (prefs != null) {
-            brightPref = prefs.getBoolean("pref_bright", true)
-        }
-        bMap = transektCount!!.decodeBitmap(
-            R.drawable.kbackground,
-            transektCount!!.width,
-            transektCount!!.height
-        )
-        bg = BitmapDrawable(countOptScreen.resources, bMap)
-        countOptScreen.background = bg
     }
 
     companion object {
@@ -526,7 +441,7 @@ class CountOptionsActivity : AppCompatActivity(), OnSharedPreferenceChangeListen
          * @return `true` if the CharSequence is empty or null
          */
         private fun isEmpty(cs: CharSequence?): Boolean {
-            return cs == null || cs.length == 0
+            return cs.isNullOrEmpty()
         }
     }
 

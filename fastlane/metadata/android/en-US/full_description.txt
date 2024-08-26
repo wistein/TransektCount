@@ -1,36 +1,44 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New since Version 4.0.0:
-- Option for automatic transect section recognition via GPS.
-- Import function for a GPX file with separate tracks of the transect sections
-- Restructured internal DB for the new functions (Attention! Updating the app or importing DB files of app versions < 4.0.0 change the species lists of all sections of the current DB to to list of the 1st section, as for the GPS controlled sections all section lists need to have identical species).
-- Some missing species and pictures added
-- Some missing local species names added
-- Bug fixed
+New since Version 4.1.0:
+- Functionality of GPS-based selection of section removed as too unreliable
+- File selection view enhanced with headline
+- Preferences view enhanced with headline
+- Preferences show their states in menu
+- Separate views for editing, deleting and adding species
+- Checkboxes for bulk deleting of species from the counting list
+- Checkboxes for bulk appending of further species to the counting list
+- Meta data enhanced with field for inspection note (replaces section notes)
+- Preferences option added for sorting results either by section or species names
+- CSV-export adapted to changes
+- Internal Butterfly list now identical with the list of TourCount
+- Other code, text and layout improvements
+- Licenses text separated
+- Deprecated function replaced
+- Docs revised
+- Bugs fixed
 
 Features:
-- Data collection is based on a transect inspection.
-- Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species.
-- The app contains a pre-prepared database with the most common species to be expected in Germany as a starting point.
-- Separate counters for internal/external counting areas and separately for ♂♀, ♂, ♀, pupa, caterpillar or egg.
-- Option for GPS-controlled selection of the current transect section.
-- Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (www.tmd-daten.de).
-- The result can be output as an SQLite file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC).
-- The help contains detailed user instructions.
+- Data collection is based on a transect inspection
+- Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species
+- The app contains a pre-prepared database with the most common species to be expected in Germany as a starting point
+- Separate counters for internal/external counting areas and separately for ♂♀, ♂, ♀, pupa, caterpillar or egg
+- Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (www.tmd-daten.de or new: web.app.ufz.de/tagfalter-monitoring/)
+- The result can be output as an SQLite DB file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC)
+- The help contains detailed user instructions
 
 Functions:
-- Editor for setting up transect sections with species selection from a comprehensive scroll-down list
 - Editor for metadata in preparation for an inspection
-- Editor for species annotation and bulk counter entries
 - Counter page per section with scroll-down list for species selection
-- The results page shows metadata, comments, totals and counting results per species and transect section.
+- Species editor for annotation, bulk counter entries and count alert
+- Editor for setting up transect sections with species selection from a comprehensive scroll-down list
+- The results page shows metadata, notes, totals and counting results per species and transect section
 
 Prerequisites:
 The app requires
 - storage access permit for importing and exporting counting data, 
 - the permit to set the screen brightness, 
-- the permit to prevent the sleep mode,
-- optional location query for GPS use.
+- the permit to prevent the sleep mode.
 
 The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app can be used with Android version 7.1 (Nougat) or newer.

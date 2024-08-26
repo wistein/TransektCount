@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  - widget_edit_title.xml used by EditSectionActivity.java  
-  ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+<?xml version="1.0" encoding="utf-8"?>
+<!-- widget_edit_title.xml used by EditSpeciesListActivity.kt
+     Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +31,7 @@
 
     <EditText
         android:id="@+id/editsectionName"
-        style="@style/LineText"
+        style="@style/BoldText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/count_background"

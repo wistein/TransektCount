@@ -19,7 +19,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edit on 2023-11-05.
+ * Last edit on 2024-07-10.
  */
 class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -75,25 +75,15 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
             }
         }
         setImage(spec) // get picSpecies
-        if (section.notes != null) {
-            if (section.notes!!.isNotEmpty()) {
-                txtSectRem.text = section.notes
-                txtSectRem.visibility = VISIBLE
-            } else if (spec.notes != null) {
-                if (spec.notes!!.isNotEmpty()) {
-                    txtSectRem.visibility = INVISIBLE
-                } else {
-                    txtSectRem.visibility = GONE
-                }
-            } else {
-                txtSectRem.visibility = GONE
-            }
-        }
+
         if (spec.notes != null) {
             if (spec.notes!!.isNotEmpty()) {
+                txtSectRem.text = context.getString(R.string.rem_sp)
+                txtSectRem.visibility = VISIBLE
                 txtSpecRem.text = spec.notes
                 txtSpecRem.visibility = VISIBLE
             } else {
+                txtSectRem.visibility = GONE
                 txtSpecRem.visibility = GONE
             }
         }
@@ -170,7 +160,7 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
 
         // make instance of class TransektCountApplication to reference non-static method 
         val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResID(rname)
+        val resId = transektCountApp.getResId(rname)
         if (resId != 0) {
             picSpecies.setImageResource(resId)
         }

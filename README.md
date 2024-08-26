@@ -9,22 +9,21 @@ It allows a species-specific counting per transect section.
 That means, you will use a fesh database instance per inspection by clearing the current database or importing a prepared basic Database.
 - It contains a prepared basic database with some of the expected species as a starting point.
 - Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
-- Transect sections can be selected manually or determined automatically via GPS.
+- Transect sections can be selected manually (automatically via GPS has been abandoned due to faulty performance).
 - There are editors for the transect sections to setup or adapt its species,
 -  for meta data to prepare an inspection and
 -  for species remark or bulk count entry.
 - The counting page has a scroll-list to select species
 - Counts are recorded per internal/external counting area and here each with separate counters for ♂, ♀ or undefined, pupa, larva or egg.
-- Results are prepared for easy readout to transfer them to science4you entry masks.
+- Results are prepared for easy readout to transfer them to science4you or Tagfalter-Monitoring Deutschland entry masks.
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
 - The integrated help contains a detailed userguide.
 
 ### Prerequisites
 The app demands for 
-- storage access permit which is needed for im-/exporting the counting data, 
-- the permit to keep the device awake,
-- the permit to read location data if GPS is used for automatic section recognition.
+- storage access permit which is needed for im-/exporting the counting data and 
+- the permit to keep the device awake.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 7.1 (Nougat) or newer.

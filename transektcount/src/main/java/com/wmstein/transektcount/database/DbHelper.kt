@@ -11,20 +11,22 @@ import com.wmstein.transektcount.R
 
 /***********************************************
  * Based on DbHelper.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 2016-02-18
- * last edited in Java on 2023-06-11
- * converted to Kotlin on 2023-06-26
- * last edited on 2024-03-10
+ * Adopted for TransektCount by wmstein on 2016-02-18.
+ * Last edited in Java on 2023-06-11,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2024-05-15.
  */
 
-/** Attention: Adapt the version for val DATABASE_VERSION in the companion object when changing it */
+/** Attention: Adapt the version for val DATABASE_VERSION in the companion object when changing it
+ *  adjust check for latest DB version in WelcomeActivity.onResume if necessary
+ * */
 class DbHelper   // constructor
     (private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    // called once on database creation
+    // called once on initial database creation
     override fun onCreate(db: SQLiteDatabase) {
-        if (MyDebug.LOG) Log.d(TAG, "22, Creating database: $DATABASE_NAME")
+        if (MyDebug.LOG) Log.d(TAG, "29, Creating database: $DATABASE_NAME")
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
                 + S_CREATED_AT + " int, "
@@ -72,7 +74,8 @@ class DbHelper   // constructor
                 + M_CLOUDE + " int, "
                 + M_DATE + " text, "
                 + M_START_TM + " text, "
-                + M_END_TM + " text)")
+                + M_END_TM + " text, "
+                + M_NOTE + " text)")
         db.execSQL(sql)
         sql = ("create table " + TRACK_TABLE + " ("
                 + T_ID + " integer primary key, "
@@ -100,6 +103,7 @@ class DbHelper   // constructor
         values2.put(M_DATE, "")
         values2.put(M_START_TM, "")
         values2.put(M_END_TM, "")
+        values2.put(M_NOTE, "")
         db.insert(META_TABLE, null, values2)
 
         //create initial data for SECTION_TABLE
@@ -107,7 +111,7 @@ class DbHelper   // constructor
 
         //create initial data for COUNT_TABLE
         initialCount(db)
-        if (MyDebug.LOG) Log.d(TAG, "103, onCreate, Success!")
+        if (MyDebug.LOG) Log.d(TAG, "114, onCreate, Success!")
     }
     // end of onCreate
 
@@ -128,7 +132,7 @@ class DbHelper   // constructor
         val specsL: Array<String> = mContext.resources.getStringArray(R.array.initSpecs_l)
         for (i in 1 until codes.size) {
             val values4 = ContentValues()
-            values4.put(C_ID, 1)
+            values4.put(C_ID, i)
             values4.put(C_SECTION_ID, 1) // sect01
             values4.put(C_NAME, specs[i])
             values4.put(C_CODE, codes[i])
@@ -150,10 +154,12 @@ class DbHelper   // constructor
         }
     }
 
-    // ******************************************************************************************
-    // called if newVersion != oldVersion
-    // see https://www.androidpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
+    /** ******************************************************************************************
+    // Called if newVersion != (old)Version of loaded DB
+    // see https://www.nextpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
+    */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        if (MyDebug.LOG) Log.d(TAG, "162, upGrade")
 
         if (oldVersion == 5) {
             version6(db)
@@ -385,7 +391,7 @@ class DbHelper   // constructor
         db.execSQL(sql)
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "374, SECTION_TABLE resetted")
+        if (MyDebug.LOG) Log.d(TAG, "394, SECTION_TABLE resetted")
 
         // reset meta data
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -396,7 +402,7 @@ class DbHelper   // constructor
                 + M_START_TM + " = '', "
                 + M_END_TM + " = ''")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "385, META_TABLE resetted")
+        if (MyDebug.LOG) Log.d(TAG, "405, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -424,14 +430,14 @@ class DbHelper   // constructor
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "413, new empty counts1 table created")
+        if (MyDebug.LOG) Log.d(TAG, "433, new empty counts1 table created")
 
         val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
         val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
         val specsL: List<String> = getAllSpeciesDataSrtCode(db).specsL
         val specNum: Int = codes.size
 
-        if (MyDebug.LOG) Log.d(TAG, "420, Anzahl Spez.: $specNum")
+        if (MyDebug.LOG) Log.d(TAG, "440, Anzahl Spez.: $specNum")
 
         // fill table for all previous sections with initSpecs data
         var cnti = 1  // count index for new track table
@@ -442,7 +448,6 @@ class DbHelper   // constructor
         for (section in sectionList) {
             // for all species of section 1
             speci = 0
-            if (MyDebug.LOG) Log.d(TAG, "432, TRACK_TABLE filled for " + section.id)
             while (speci < specNum) {
                 val values4 = ContentValues()
                 values4.put(C_ID, cnti) // id from count index
@@ -464,12 +469,12 @@ class DbHelper   // constructor
                 values4.put(C_NOTES, "")
                 values4.put(C_NAME_G, specsL[speci])
                 db.insert(COUNT_TABLE1, null, values4)
-                if (MyDebug.LOG) Log.d(TAG, "455, species cnti: " + cnti + ", " + specs[speci])
+                if (MyDebug.LOG) Log.d(TAG, "473, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
-                if (MyDebug.LOG) Log.d(TAG, "458, species cnti: $cnti, index speci: $speci")
+                if (MyDebug.LOG) Log.d(TAG, "476, species cnti: $cnti, index speci: $speci")
             }
-            if (MyDebug.LOG) Log.d(TAG, "460, last species-index: $cnti")
+            if (MyDebug.LOG) Log.d(TAG, "478, last species-index: $cnti")
 
             secti++
             sectIncr++
@@ -481,7 +486,7 @@ class DbHelper   // constructor
         sql = "ALTER TABLE $COUNT_TABLE1 RENAME TO $COUNT_TABLE"
         db.execSQL(sql)
 
-        if (MyDebug.LOG) Log.d(TAG, "472, Upgraded database to version 5")
+        if (MyDebug.LOG) Log.d(TAG, "490, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -503,23 +508,10 @@ class DbHelper   // constructor
                 + M_CLOUDE + " int, "
                 + M_DATE + " text, "
                 + M_START_TM + " text, "
-                + M_END_TM + " text)")
+                + M_END_TM + " text, "
+                + M_NOTE + " text)")
         db.execSQL(sql)
-/*
-        //create empty row for META_TABLE
-        val values2 = ContentValues()
-        values2.put(M_ID, 1)
-        values2.put(M_TEMPS, 0)
-        values2.put(M_TEMPE, 0)
-        values2.put(M_WINDS, 0)
-        values2.put(M_WINDE, 0)
-        values2.put(M_CLOUDS, 0)
-        values2.put(M_CLOUDE, 0)
-        values2.put(M_DATE, "")
-        values2.put(M_START_TM, "")
-        values2.put(M_END_TM, "")
-        db.insert(META_TABLE, null, values2)
-*/
+
         // insert the old data into meta
         sql = ("INSERT INTO " + META_TABLE + " SELECT "
                 + M_ID + ", "
@@ -531,13 +523,14 @@ class DbHelper   // constructor
                 + "0, "
                 + M_DATE + ", "
                 + M_START_TM + ", "
-                + M_END_TM + " FROM meta_backup")
+                + M_END_TM + ", "
+                + "''" + " FROM meta_backup")
         db.execSQL(sql)
 
         sql = "DROP TABLE meta_backup"
         db.execSQL(sql)
 
-        if (MyDebug.LOG) Log.d(TAG, "385, META_TABLE initialized")
+        if (MyDebug.LOG) Log.d(TAG, "534, META_TABLE initialized")
     }
 
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
@@ -549,7 +542,7 @@ class DbHelper   // constructor
         val sNamesL: MutableList<String> = ArrayList()
         val cursor = db.rawQuery(
             "select * from " + COUNT_TABLE
-                    + " WHERE " + " (" + C_SECTION_ID + " = 1) order by " + C_CODE, null
+                    + " WHERE (" + C_SECTION_ID + " = 1) order by " + C_CODE, null
         )
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
@@ -582,9 +575,9 @@ class DbHelper   // constructor
     }
 
     companion object {
-        private const val TAG = "TransektCount DBHelper"
-        private const val DATABASE_NAME = "transektcount.db"
         private const val DATABASE_VERSION = 6
+        private const val TAG = "TransektCnt DBHelper"
+        private const val DATABASE_NAME = "transektcount.db"
 
         // tables
         const val SECTION_TABLE = "sections"
@@ -647,8 +640,9 @@ class DbHelper   // constructor
         const val M_DATE = "date"
         const val M_START_TM = "start_tm"
         const val M_END_TM = "end_tm"
+        const val M_NOTE = "note"
 
-        // fields of old meta table version 4 and 5
+        // fields of old meta table version 4 and 5 deprecated in version 6
         private const val M_TEMP = "temp"
         private const val M_WIND = "wind"
 

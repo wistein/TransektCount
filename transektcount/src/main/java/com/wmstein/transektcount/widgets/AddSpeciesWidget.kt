@@ -3,7 +3,7 @@ package com.wmstein.transektcount.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageButton
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -14,10 +14,13 @@ import java.util.Objects
 
 /************************************************
  * Used by AddSpeciesActivity
- * shows list of selectable species with name, code, picture and add button
- * Created for TourCount by wmstein on 2019-04-03
- * last edited in Java by wmstein on 2023-05-09
- * converted to Kotlin on 2023-06-26
+ * shows list of selectable species with name, code, picture and add checkbox
+ *
+ * Created for TourCount by wmstein on 2019-04-03,
+ * last edited in Java by wmstein on 2023-05-09,
+ * converted to Kotlin on 2023-05-26,
+ * renamed to AddSpeciesWidget.kt on 2024-06-14
+ * last edited in Kotlin on 2023-08-23
  */
 class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -35,7 +38,8 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     @Transient
     private val specPic: ImageView
-    private val addButton: ImageButton
+    private val markButton: CheckBox
+
     val inflater: LayoutInflater
 
     init {
@@ -46,8 +50,8 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         specCode = findViewById(R.id.specCode)
         specId = findViewById(R.id.specId)
         specPic = findViewById(R.id.specPic)
-        addButton = findViewById(R.id.addCount)
-        addButton.tag = 0
+        markButton = findViewById(R.id.checkBoxAdd)
+        markButton.tag = 0
     }
 
     fun getSpecName(): String {
@@ -74,17 +78,29 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         specCode.text = code
     }
 
-    fun setSpecId(id: String) {
-        specId.text = id
-        addButton.tag = id.toInt() - 1
+    // get state of add checkbox
+    fun getMarkSpec(): Boolean {
+        val checked: Boolean
+        if (markButton.isChecked)
+            checked = true
+        else
+            checked = false
+        return checked
     }
 
+    fun setSpecId(id: String) {
+        specId.text = id
+        markButton.tag = id.toInt() - 1
+    }
+
+    // set picture resource by code
     fun setPSpec(ucode: String) {
         val rname = "p$ucode" // species picture resource name
 
         // make instance of class TransektCountApplication to reference non-static method 
         val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResID(rname)
+        val resId = transektCountApp.getResId(rname)
+
         if (resId != 0) {
             specPic.setImageResource(resId)
         }

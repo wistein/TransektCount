@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_add_species.xml is used by activity_add_species.xml
-     and AddSpeciesActivity.java -->
+     and AddSpeciesActivity.kt
+     Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany.
+     Last change: 2024-07-27.
+  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,10 +28,10 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|start|end|top"
-            android:gravity="start|center"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="8"
+            android:gravity="start|center"
             android:background="@drawable/edit_background"
             android:hint="@string/countName"
             android:padding="5dp"
@@ -44,10 +47,10 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|start|end|top"
-            android:gravity="start|center"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="3"
+            android:gravity="start|center"
             android:background="@drawable/edit_background"
             android:hint="@string/countCode"
             android:padding="5dp"
@@ -59,7 +62,6 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|start|end|top"
-            android:gravity="center"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="3.4"
@@ -79,18 +81,18 @@
             android:layout_height="48dp"
             android:layout_gravity="bottom|start|end|top"
             android:gravity="start|center"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="10"
+            android:layout_weight="12"
             android:background="@drawable/edit_background"
             android:hint="@string/countNameG"
             android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#FFFFFF"
+            android:textColor="#AEAEAE"
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"
-            android:textSize="14sp"/>
+            android:textSize="13sp"/>
 
         <!-- not visible, used for getting the species Id -->
         <TextView
@@ -100,17 +102,15 @@
             android:layout_height="match_parent"
             android:visibility="invisible"/>
 
-        <ImageButton
-            android:id="@+id/addCount"
+        <CheckBox
+            android:id="@+id/checkBoxAdd"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="26dp"
             android:layout_gravity="bottom|start|end|top"
-            android:gravity="center"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="3"
-            android:onClick="addCount"
-            android:src="@android:drawable/ic_menu_add"
-            tools:ignore="ContentDescription" />
+            android:onClick="checkBoxAdd"
+            android:layout_weight="2.5"/>
+
     </LinearLayout>
 
 </LinearLayout>

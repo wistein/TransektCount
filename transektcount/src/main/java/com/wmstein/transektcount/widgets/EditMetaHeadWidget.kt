@@ -10,13 +10,13 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /*****************************************************************
- * EditHeadWidget.java used by EditMetaActivity.java
+ * EditMetaHeadWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 31.03.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2023-12-08.
+ * Last edit on 2024-06-15.
  */
-class EditHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetno // used for transect_no title
             : TextView
     private val widgetno1 // used for transect_no

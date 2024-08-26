@@ -9,7 +9,7 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /*************************************************************
- * HintWidget used by CountingActivity and EditSectionActivity
+ * HintWidget used by CountingActivity and EditSpeciesListActivity
  * shows single Hint line
  * Created by wmstein on 2023-05-16,
  * last edited in java on 2023-05-16,

@@ -1,25 +1,27 @@
 package com.wmstein.transektcount
 
-import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ListView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 
 /************************************************************************************
  * Shows the list of selectable sections which is put together by ListSectionAdapter.
  * Based on ListProjectActivity.java by milo on 05/05/2014.
- * Starts EditSectionActivity.
+ * Starts EditSpeciesListActivity.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-11-28
+ * last edited on 2024-08-23
  */
-class ListSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class ListSectionActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
 
     // preferences
@@ -36,8 +38,28 @@ class ListSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
 
         setContentView(R.layout.activity_list_section)
         transektCount = application as TransektCountApplication
-        prefs = TransektCountApplication.getPrefs()
-        prefs.registerOnSharedPreferenceChangeListener(this)
+
+        val listView = findViewById<LinearLayout>(R.id.list_view)
+        listView.background = transektCount!!.background
+        list = findViewById(android.R.id.list)
+
+        sectionDataSource = TransektCountApplication.getSectionDS()
+
+        // new onBackPressed logic
+        if (Build.VERSION.SDK_INT >= 33) {
+            onBackPressedDispatcher.addCallback(object :
+                OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    NavUtils.navigateUpFromSameTask(this@ListSectionActivity)
+                }
+            })
+        }
+    }
+    // end of onCreate
+
+    override fun onResume() {
+        super.onResume()
+
         brightPref = prefs.getBoolean("pref_bright", true)
 
         // Set full brightness of screen
@@ -47,20 +69,7 @@ class ListSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
             params.screenBrightness = 1.0f
             window.attributes = params
         }
-        val listView = findViewById<LinearLayout>(R.id.list_view)
-        listView.background = transektCount!!.background
-        list = findViewById(android.R.id.list)
-    }
-    // end of onCreate
 
-    override fun onResume() {
-        super.onResume()
-
-        prefs = TransektCountApplication.getPrefs()
-        prefs.registerOnSharedPreferenceChangeListener(this)
-        brightPref = prefs.getBoolean("pref_bright", true)
-
-        sectionDataSource = SectionDataSource(this)
         sectionDataSource!!.open()
         sections = sectionDataSource!!.getAllSections(prefs!!)
         maxId = sectionDataSource!!.maxId
@@ -75,16 +84,18 @@ class ListSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
         sectionDataSource!!.close()
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
-        val listView = findViewById<LinearLayout>(R.id.list_view)
-        listView.background = null
-        listView.background = transektCount!!.setBackground()
-        if (prefs != null) {
-            brightPref = prefs.getBoolean("pref_bright", true)
-        }
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("ApplySharedPref", "MissingSuperCall")
+    override fun onBackPressed() {
+        // close the data sources
+        sectionDataSource!!.close()
+
+        NavUtils.navigateUpFromSameTask(this)
+        @Suppress("DEPRECATION")
+        super.onBackPressed()
     }
 
-    // delete section and respective gpx track as well as respective alerts
+    // delete section as well as respective alerts
     fun deleteSection(sct: Section?) {
         sectionDataSource!!.deleteSection(sct!!)
         sections = sectionDataSource!!.getAllSections(prefs!!)
@@ -96,7 +107,8 @@ class ListSectionActivity : AppCompatActivity(), OnSharedPreferenceChangeListene
 
     // show sections list by ListSectionAdapter
     private fun showData() {
-//        Runtime.getRuntime().gc() // garbage collection to free memory
+        // garbage collection to free memory for longer section list
+//        Runtime.getRuntime().gc()
         val adapter = ListSectionAdapter(
             this,
             R.layout.listview_section_row,

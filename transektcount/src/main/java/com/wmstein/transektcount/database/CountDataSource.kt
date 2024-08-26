@@ -13,7 +13,7 @@ import com.wmstein.transektcount.TransektCountApplication
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-02-22
+ * last edited on 2024-08-21
  */
 class CountDataSource(context: Context?) {
     // Database fields
@@ -47,14 +47,14 @@ class CountDataSource(context: Context?) {
 
     @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = TransektCountApplication.getDatabase()
     }
 
     fun close() {
         dbHandler.close()
     }
 
-    // Used by EditSectionActivity and CountingActivity
+    // Used by AddSpeciesActivity and CountingActivity
     fun createCount(sectionId: Int, name: String?, code: String?, nameG: String?): Count? {
         return if (database!!.isOpen) {
             val values = ContentValues()
@@ -112,154 +112,36 @@ class CountDataSource(context: Context?) {
         return newcount
     }
 
-    // Used by EditSectionActivity
+    // Used by EditSpeciesListActivity
     fun deleteAllCountsWithCode(code: String?) {
-        println("116, CntDataSrc, deleteAllCountsWithCode, Löschen: Count mit Code: $code")
+        println("118, CntDataSrc, deleteAllCountsWithCode, Löschen: Count mit Code: $code")
         val allCtsWithCode: List<Count> = getAllCountsWithCode(code)
         for (count in allCtsWithCode) {
-            println("119, deleteAllCountsWithCode, cntId: $count.id")
+            println("121, deleteAllCountsWithCode, cntId: $count.id")
             database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + count.id, null)
         }
 
         // delete associated alerts
-        // get array of all IDs by code
         for (count in allCtsWithCode) {
             database!!.delete(DbHelper.ALERT_TABLE, DbHelper.A_COUNT_ID + " = " + count.id, null)
         }
     }
 
-    private fun getAllCountsWithCode(code: String?): List<Count>
-        {
-            val counts: MutableList<Count> = ArrayList()
-            val cursor = database!!.rawQuery(
-                "select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE " + " ("
-                        + DbHelper.C_CODE + " = '" + code + "')", null
-            )
-            cursor.moveToFirst()
-            while (!cursor.isAfterLast) {
-                val count = cursorToCount(cursor)
-                counts.add(count)
-                cursor.moveToNext()
-            }
-            cursor.close()
-            return counts
-        }
-
-    // Used by WelcomeActivity
-    // get number of counts of mfe (f1e) for code
-    fun getMFEWithCode(code: String?): Int
-    {
-        var numCode = 0
+    private fun getAllCountsWithCode(code: String?): List<Count> {
+        val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
             "select * from " + DbHelper.COUNT_TABLE
                     + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_F1E + " > 0)", null
+                    + DbHelper.C_CODE + " = '" + code + "')", null
         )
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             val count = cursorToCount(cursor)
-            numCode += count.count_f1e
+            counts.add(count)
             cursor.moveToNext()
         }
         cursor.close()
-        return numCode
-    }
-
-    fun getMEWithCode(code: String?): Int
-    {
-        var numCode = 0
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_F2E + " > 0)", null
-        )
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val count = cursorToCount(cursor)
-            numCode += count.count_f2e
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return numCode
-    }
-
-    fun getFEWithCode(code: String?): Int
-    {
-        var numCode = 0
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_F3E + " > 0)", null
-        )
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val count = cursorToCount(cursor)
-            numCode += count.count_f3e
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return numCode
-    }
-
-    fun getLEWithCode(code: String?): Int
-    {
-        var numCode = 0
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_LE + " > 0)", null
-        )
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val count = cursorToCount(cursor)
-            numCode += count.count_le
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return numCode
-    }
-
-    fun getPEWithCode(code: String?): Int
-    {
-        var numCode = 0
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_PE + " > 0)", null
-        )
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val count = cursorToCount(cursor)
-            numCode += count.count_pe
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return numCode
-    }
-
-    fun getEEWithCode(code: String?): Int
-    {
-        var numCode = 0
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + " ("
-                    + DbHelper.C_CODE + " = '" + code + "' AND "
-                    + DbHelper.C_COUNT_EE + " > 0)", null
-        )
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val count = cursorToCount(cursor)
-            numCode += count.count_ee
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return numCode
+        return counts
     }
 
     // Used by CountOptionsActivity and CountingActivity
@@ -394,20 +276,25 @@ class CountDataSource(context: Context?) {
         database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    // Used by EditSectionActivity
-    fun updateCountName(id: Int, name: String?, code: String?, nameG: String?) {
-        if (database!!.isOpen) {
-            val dataToInsert = ContentValues()
-            dataToInsert.put(DbHelper.C_NAME, name)
-            dataToInsert.put(DbHelper.C_CODE, code)
-            dataToInsert.put(DbHelper.C_NAME_G, nameG)
-            val where = DbHelper.C_ID + " = ?"
-            val whereArgs = arrayOf(id.toString())
-            database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
-        }
+    // Used by EditSpeciesListActivity
+    fun updateCountForAllSections(
+        sectid: Int,
+        countid: Int,
+        name: String?,
+        code: String?,
+        nameG: String?,
+    ) {
+        val dataToInsert = ContentValues()
+        dataToInsert.put(DbHelper.C_SECTION_ID, sectid)
+        dataToInsert.put(DbHelper.C_NAME, name)
+        dataToInsert.put(DbHelper.C_CODE, code)
+        dataToInsert.put(DbHelper.C_NAME_G, nameG)
+        val where = DbHelper.C_ID + " = ?"
+        val whereArgs = arrayOf(countid.toString())
+        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    // Used by EditSectionActivity and CountingActivity
+    // Used by EditSpeciesListActivity and CountingActivity
     fun getAllCountsForSection(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.query(
@@ -424,7 +311,7 @@ class CountDataSource(context: Context?) {
         return counts
     }
 
-    // Used by EditSectionActivity
+    // Used by EditSpeciesListActivity
     fun getAllSpeciesForSectionSrtCode(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
@@ -443,7 +330,7 @@ class CountDataSource(context: Context?) {
         return counts
     }
 
-    // Used by EditSectionActivity
+    // Used by EditSpeciesListActivity
     fun getAllSpeciesForSectionSrtName(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
@@ -463,7 +350,7 @@ class CountDataSource(context: Context?) {
     }
 
     // Used by ListSpeciesActivity
-    val allCountsForSrtName: List<Count>
+    val allCountsForSrtSectionName: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
             val cursor = database!!.rawQuery(
@@ -475,7 +362,7 @@ class CountDataSource(context: Context?) {
                         + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
                         + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
                         + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null
+                        + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null
             )
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
@@ -488,7 +375,7 @@ class CountDataSource(context: Context?) {
         }
 
     // Used by ListSpeciesActivity
-    val allCountsForSrtCode: List<Count>
+    val allCountsForSrtNameSection: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
             val cursor = database!!.rawQuery(
@@ -500,32 +387,7 @@ class CountDataSource(context: Context?) {
                         + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
                         + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
                         + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_CODE + ", " + DbHelper.C_SECTION_ID, null
-            )
-            cursor.moveToFirst()
-            while (!cursor.isAfterLast) {
-                val count = cursorToCount(cursor)
-                counts.add(count)
-                cursor.moveToNext()
-            }
-            cursor.close()
-            return counts
-        }
-
-    // Used by ListSpeciesActivity and WelcomeActivity
-    val allCounts: List<Count>
-        get() {
-            val counts: MutableList<Count> = ArrayList()
-            val cursor = database!!.rawQuery(
-                "select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE " + " ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_SECTION_ID, null
+                        + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null
             )
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
@@ -692,8 +554,8 @@ class CountDataSource(context: Context?) {
             @SuppressLint("Range")
             val ucode = cursor.getString(cursor.getColumnIndex("code"))
             val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResID(rname)
-            val resId0 = transektCountApp.getResID("p00000")
+            val resId = transektCountApp.getResId(rname)
+            val resId0 = transektCountApp.getResId("p00000")
             if (resId != 0) {
                 imageArray[i] = resId
             } else {
@@ -720,8 +582,8 @@ class CountDataSource(context: Context?) {
             @SuppressLint("Range")
             val ucode = cursor.getString(cursor.getColumnIndex("code"))
             val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResID(rname)
-            val resId0 = transektCountApp.getResID("p00000")
+            val resId = transektCountApp.getResId(rname)
+            val resId0 = transektCountApp.getResId("p00000")
             if (resId != 0) {
                 imageArray[i] = resId
             } else {
@@ -747,8 +609,8 @@ class CountDataSource(context: Context?) {
         while (!cursor.isAfterLast) {
             @SuppressLint("Range") val ucode = cursor.getString(cursor.getColumnIndex("code"))
             val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResID(rname)
-            val resId0 = transektCountApp.getResID("p00000")
+            val resId = transektCountApp.getResId(rname)
+            val resId0 = transektCountApp.getResId("p00000")
             if (resId != 0) {
                 imageArray[i] = resId
             } else {
@@ -774,31 +636,47 @@ class CountDataSource(context: Context?) {
         return count
     }
 
-    // Used by CountingActivity
-    fun getCodeById(countId: Int): String? {
-        val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
-            DbHelper.C_ID + " = " + countId,
-            null, null, null, null
-        )
-        cursor.moveToFirst()
-        val count = cursorToCount(cursor)
-        cursor.close()
-        return count.code
-    }
+    // Sorts COUNT_TABLE for C_SECTION_ID, C_CODE and contiguous index
+    fun sortCounts() {
+        var sql = "alter table 'counts' rename to 'counts_backup'"
+        database!!.execSQL(sql)
 
-    // Used by CountingActivityA
-    fun getIdBySectionAndCode(sectionId: Int, countCode: String): Int {
-        val cursor = database!!.rawQuery("select * from "
-           + DbHelper.COUNT_TABLE + " where "
-           + DbHelper.C_SECTION_ID + " = " + sectionId
-           + " AND " + DbHelper.C_CODE + " = '" + countCode + "'",
-            null
-        )
-        cursor.moveToFirst()
-        val count = cursorToCount(cursor)
-        cursor.close()
-        return count.id
+        // create new counts table
+        sql = ("create table counts("
+                + DbHelper.C_ID + " integer primary key, "
+                + DbHelper.C_SECTION_ID + " int, "
+                + DbHelper.C_NAME + " text, "
+                + DbHelper.C_CODE + " text, "
+                + DbHelper.C_COUNT_F1I + " int, "
+                + DbHelper.C_COUNT_F2I + " int, "
+                + DbHelper.C_COUNT_F3I + " int, "
+                + DbHelper.C_COUNT_PI + " int, "
+                + DbHelper.C_COUNT_LI + " int, "
+                + DbHelper.C_COUNT_EI + " int, "
+                + DbHelper.C_COUNT_F1E + " int, "
+                + DbHelper.C_COUNT_F2E + " int, "
+                + DbHelper.C_COUNT_F3E + " int, "
+                + DbHelper.C_COUNT_PE + " int, "
+                + DbHelper.C_COUNT_LE + " int, "
+                + DbHelper.C_COUNT_EE + " int, "
+                + DbHelper.C_NOTES + " text, "
+                + DbHelper.C_NAME_G + " text)")
+        database!!.execSQL(sql)
+
+        // insert the whole COUNT_TABLE data sorted into counts
+        sql = ("INSERT INTO 'counts' ('section_id', 'name', 'code', " +
+                "'count_f1i', 'count_f2i', 'count_f3i', 'count_pi', 'count_li', 'count_ei', " +
+                "'count_f1e', 'count_f2e', 'count_f3e', 'count_pe', 'count_le', 'count_ee', " +
+                "'notes', 'name_g') " +
+                "SELECT section_id, name, code, " +
+                "count_f1i, count_f2i, count_f3i, count_pi, count_li, count_ei, " +
+                "count_f1e, count_f2e, count_f3e, count_pe, count_le, count_ee, " +
+                "notes, name_g " +
+                "from 'counts_backup' order by section_id, code")
+        database!!.execSQL(sql)
+
+        sql = "DROP TABLE 'counts_backup'"
+        database!!.execSQL(sql)
     }
 
 }

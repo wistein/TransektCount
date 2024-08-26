@@ -1,12 +1,12 @@
 package com.wmstein.transektcount
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
@@ -31,7 +31,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2023-11-22
+ * last edited on 2024-08-23
  */
 internal class ListSectionAdapter(
     private val context: Context,
@@ -39,8 +39,7 @@ internal class ListSectionAdapter(
     private val sections: List<Section>, // list of all sections
     private val maxId: Int, // highest section ID
 ) : ArrayAdapter<Section?>
-    (context, layoutResourceId, sections),
-    OnSharedPreferenceChangeListener {
+    (context, layoutResourceId, sections) {
     private val mContext: Context = context
     private var sct: Section? = null
 
@@ -60,17 +59,16 @@ internal class ListSectionAdapter(
         var txtTitle: TextView? = null
         var txtRemark: TextView? = null
         var txtDate: TextView? = null
-        var editSection: ImageButton? = null
         var deleteSection: ImageButton? = null
     }
 
     // Constructor of entries for the sections list per position
     //   may need garbage collection in ListSectionActivity as RAM may run short
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var sectionsListRow = convertView
         val holder: SectionHolder
         prefs = TransektCountApplication.getPrefs()
-        prefs!!.registerOnSharedPreferenceChangeListener(this)
         setPrefs()
 
         val section = sections[position]
@@ -84,12 +82,10 @@ internal class ListSectionAdapter(
             holder.txtTitle = sectionsListRow?.findViewById(R.id.txtTitle)
             holder.txtRemark = sectionsListRow?.findViewById(R.id.txtRemark)
             holder.txtDate = sectionsListRow?.findViewById(R.id.txtDate)
-            holder.editSection = sectionsListRow?.findViewById(R.id.editSection)
             holder.deleteSection = sectionsListRow?.findViewById(R.id.deleteSection)
 
             holder.txtTitle!!.setOnClickListener(mOnTitleClickListener)
             holder.txtRemark!!.setOnClickListener(mOnTitleClickListener)
-            holder.editSection!!.setOnClickListener(mOnEditClickListener)
 
             // set an active delete button only for maxId (problem with large section list!)
             if (sectionId == maxId) {
@@ -110,10 +106,8 @@ internal class ListSectionAdapter(
         holder.txtTitle!!.tag = section
         holder.txtRemark!!.tag = section
         holder.txtDate!!.tag = section
-        holder.editSection!!.tag = section
         holder.deleteSection!!.tag = section
         holder.txtTitle!!.text = section.name
-        holder.txtRemark!!.text = section.notes
 
         // LongDate contains Date as Long value
         // HexDate is LongDate as Hex-String
@@ -122,9 +116,11 @@ internal class ListSectionAdapter(
 
         // Provides Date of Section list, if any
         if (hexDate == "0") {
+            holder.txtRemark!!.text = ""
             holder.txtDate!!.text = ""
         } else {
             // section.getDateTime fetches date and time as string from created_at
+            holder.txtRemark!!.text = context.getString(R.string.hintDateTime)
             holder.txtDate!!.text = section.dateTime
         }
         return sectionsListRow!!
@@ -138,25 +134,6 @@ internal class ListSectionAdapter(
         sct = v.tag as Section
         val intent = Intent(getContext(), CountingActivity::class.java)
         intent.putExtra("section_id", sct!!.id)
-        intent.putExtra("welcome_act", true) // controls itemPosition handling
-        mContext.startActivity(intent)
-    }
-
-    // Edit section by clicking on edit button
-    private val mOnEditClickListener = View.OnClickListener { v ->
-        setPrefs()
-        soundButtonSound()
-        buttonVib()
-        sct = v.tag as Section
-
-        // Store sectionId into SharedPreferences.
-        // That makes sure that the current selected section can be retrieved
-        // by EditSectionActivity when returning from AddSpeciesActivity
-        val editor = prefs!!.edit()
-        editor.putInt("section_id", sct!!.id)
-        editor.commit()
-        if (MyDebug.LOG) Log.d(TAG, "158, mOnEditClickListener, Sect Id = " + sct!!.id)
-        val intent = Intent(getContext(), EditSectionActivity::class.java)
         mContext.startActivity(intent)
     }
 
@@ -242,13 +219,9 @@ internal class ListSectionAdapter(
                     vibrator.cancel()
                 }
             } catch (e: java.lang.Exception) {
-                if (MyDebug.LOG) Log.e(TAG, "245, buttonVib, could not vibrate.", e)
+                if (MyDebug.LOG) Log.e(TAG, "243, buttonVib, could not vibrate.", e)
             }
         }
-    }
-
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
-        setPrefs()
     }
 
     companion object {
@@ -282,4 +255,5 @@ internal class ListSectionAdapter(
             return true
         }
     }
+
 }
