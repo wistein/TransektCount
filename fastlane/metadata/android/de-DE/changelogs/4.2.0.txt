@@ -1,0 +1,8 @@
+Version 4.2.0 (07.12.2024)
+- csv Ergebnistabelle modifiziert
+- Dateinamen der exportierten akt. DB und csv-Tabelle mit Transekt-Nr.
+- App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
+- Option der Vorauswahl mit 2 Anfangsbuchstaben bei Hinzufügen, Löschen und Editieren von Arten
+- Code-Verbesserungen
+- Bug-Fixes
+- Doku-Update

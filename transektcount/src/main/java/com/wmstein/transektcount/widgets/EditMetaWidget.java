@@ -14,21 +14,21 @@ import java.util.Objects;
 /*****************************************************
  * EditMetaWidget.java used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 2016-04-02
- * last edited on 2024-05-28
+ * last edited on 2024-12-06
  */
 public class EditMetaWidget extends LinearLayout
 {
     final TextView widget_temp1;        // start temperature
-    final EditText widget_starttemp2;
-    final EditText widget_endtemp2;     // end temperature
+    EditText widget_starttemp2;
+    EditText widget_endtemp2;           // end temperature
 
     final TextView widget_wind1;        // start wind
-    final EditText widget_startwind2;
-    final EditText widget_endwind2;     // end wind
+    EditText widget_startwind2;
+    EditText widget_endwind2;           // end wind
 
     final TextView widget_clouds1;      // start clouds
-    final EditText widget_startclouds2;
-    final EditText widget_endclouds2;   // end clouds
+    EditText widget_startclouds2;
+    EditText widget_endclouds2;         // end clouds
 
     final TextView widget_date1;        // date
     final TextView widget_date2;
@@ -36,7 +36,7 @@ public class EditMetaWidget extends LinearLayout
     final TextView widget_stime2;
     final TextView widget_etime1;       // end-time
     final TextView widget_etime2;
-    final TextView widget_note1;
+    final TextView widget_note1;        // notes
     final TextView widget_note2;
 
     final String regEx = "^[0-9]*$"; // plausi for numeric input
@@ -105,6 +105,7 @@ public class EditMetaWidget extends LinearLayout
         else
             widget_endwind2.setText(String.valueOf(name));
     }
+
 
     // clouds
     public void setWidgetClouds1(String title)
@@ -300,6 +301,17 @@ public class EditMetaWidget extends LinearLayout
     public void setHint(String hint)
     {
         widget_temp1.setHint(hint);
+    }
+
+    // Trial to avoid memory leak when EditText has been used
+    public void clearWidgetsMeta()
+    {
+        widget_starttemp2 = null;
+        widget_endtemp2 = null;
+        widget_startwind2 = null;
+        widget_endwind2 = null;
+        widget_startclouds2 = null;
+        widget_endclouds2 = null;
     }
 
     /**

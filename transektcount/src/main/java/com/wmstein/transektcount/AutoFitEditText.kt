@@ -182,8 +182,6 @@ class AutoFitEditText @JvmOverloads constructor(
                 lastBest = hi
             } else return mid
         }
-        // make sure to return last best
-        // this is what should always be returned
         return lastBest
     }
 

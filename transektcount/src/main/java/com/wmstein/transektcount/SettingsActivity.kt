@@ -61,17 +61,13 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-
             startActivity(
-                Intent(
-                    this,
-                    WelcomeActivity::class.java
+                Intent(this, WelcomeActivity::class.java
                 ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             )
-        } else {
-            return super.onOptionsItemSelected(item)
+            return true
         }
-        return true
+        return super.onOptionsItemSelected(item)
     }
 
 }

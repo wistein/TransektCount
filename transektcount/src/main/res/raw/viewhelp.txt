@@ -42,13 +42,13 @@
 
   %1. Introduction
   !
-  ! This counting app should support you when monitoring butterflies in a transect.
-  ! It can be used to record individuals on a species-specific basis per transect section.
+  ! TransektCount is an Android app to support you when monitoring butterflies in a transect.
+  ! It allows species-specific recording of individuals in all stages per transect section.
   ! It can substitute your field book and pencil, and if applicable a camera for documentary pictures of interesting species.
   _ 
   ! The integrated database is organized according to a transect inspection. That means, there will be used a new database instance per inspection.
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
-  ! The recorded data (meta-data, counts and notes) may either be orderly read on the smartphone or transferred to a PC for better reading or your own processing.
+  ! The recorded data (meta data, counts and notes) may either be read on the results page or exported into a spreadsheet and transferred to a PC for more comfortable reading or your own processing.
   _ 
   ! The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source and has no tracking or advertising functions, but demands access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counted data into DB- or CSV-files and Wakelock to hinder the app from dimming or switching off.
 
@@ -56,23 +56,24 @@
   !
   ! Before initial use you should adapt the settings to your liking.
   _ 
-  ! You should adapt the prepared species list of the internal database with the species list editing functions (add, delete or edit) for the species to be exspected in your transect.
-  ! Delete species from the list or add species from the integrated extended list of european species by clicking the checkboxes.
+  ! You should adapt the preliminary species list of the 1. transect section with the species list editing functions (add, remove or edit) for the species to be exspected in your transect.
+  ! Add species from the integrated extended list of European species or remove species from the list using the checkboxes.
   _ 
-  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect.
-  ! Example .db-files are provided for download on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
-  ! Copy them to the app's public data directory "Documents/TransektCount" which is created during the first start of the app. Now you can import and edit them suitably.
-  ! The app data directory is created during the first app call. When TransektCount gets uninstalled, the data in this directory is not deleted.
-  _ 
-  ! To edit the section name or species names in the species list click the Pencil button in the section line of “Transect Sections” page or on the app bar of the counting page.
+  ! To edit the section name or species names in the species list click the Pencil button on the app bar of the counting page.
+  _
   ! Add entries by the (+)-button in the app bar of the counting page and select the species from the blue scroll-down list with not yet listed species with its checkbox. Add all required species one after the other and finish with the back button either in the app or bottom bar.
   _
-  ! Delete entries by the Delete button in the head line of the counting page. On the Delete page select the species to be deleted from the scroll-down list with its checkbox. Mark all obsolete species one after the other and delete them with the Delete button and finish with the back button either in the app or bottom bar.
+  ! Remove entries by the Remove button in the head line of the counting page. On the Remove page select the species to be removed from the scroll-down list with its checkbox. Mark all obsolete species one after the other and remove them with the Remove button and finish with the back button either in the app or bottom bar.
   _
   ! At the end of the species list you may find an unknown species (NN). This could be added and edited after determination by replacing its scientific name, common name and code (five-digit with leading zeros), see List of Coded Butterflies.pdf on
   ! <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>).
   _
-  ! The species list can be changed at any time. Changes concerning species always affect all existing section lists. The section name may only be changed for the selected section.
+  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect.
+  ! Example .db-files are provided for download on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+  ! Copy them to the app's public data directory "Documents/TransektCount" which is created during the first start of the app. Now you can import and edit them suitably.
+  ! The app data directory is created during the first app call. When TransektCount gets uninstalled, the data in this directory is not deleted.
+  _
+  ! The species counting list can be changed at any time. Changes concerning species always affect all existing section lists. The section name may only be changed for the current section.
   _ 
   ! Sect 01      (part of a species list)
   ! -------------------------------------
@@ -93,8 +94,7 @@
   _ 
   ! In the next step, you could enter some meta data like transect-No. or inspectors name. Click on "Edit Meta Data" and save the input by clicking the save icon.
   _ 
-  ! Once this list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Duplicate Section List" and name each accordingly 
-  ! (e.g.: Sect 02, Sect 03, ...).
+  ! Once this list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Duplicate Section List" and name each appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
   _ 
   ! When you have created the section lists for all your transect sections and entered the general meta data, the database is ready for export as a Basic Database.
   ! For that you find the function "Export as Basic DB" in the menu of the starting page.
@@ -174,11 +174,7 @@
   _
   ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
 
-  % 5. Use of GPS (removed)
-  !
-  ! The automatic section recognition in the transect via GPS of TransektCount version 4.0.3 has been removed. It was unfortunately more than disappointing. The accuracy and reliability of the location services varied greatly and often led to incorrect, delayed or no section selection.
-
-  % 6. Messages
+  % 5. Messages
   ! 
   ] Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough resources to execute the function.
   _

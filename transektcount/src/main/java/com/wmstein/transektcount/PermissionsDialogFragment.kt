@@ -20,7 +20,7 @@ import androidx.fragment.app.DialogFragment
  * necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2024-06-20
+ * last edited on 2024-09-20
  */
 class PermissionsDialogFragment : DialogFragment() {
     private var context: Context? = null
@@ -39,13 +39,14 @@ class PermissionsDialogFragment : DialogFragment() {
         requestNecessaryPermissions()
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
         if (shouldResolve) {
             if (externalGrantNeeded) {
                 showAppSettingsDialog()
             }
-            @RequiresApi(Build.VERSION_CODES.R)
+            // @RequiresApi(Build.VERSION_CODES.R)
             if (externalGrant30Needed) {
                 showAppSettingsDialog30()
             }
@@ -84,7 +85,7 @@ class PermissionsDialogFragment : DialogFragment() {
         var allAreGranted = true
         shouldResolve = true
         for (isGranted in result.values) {
-            Log.d(TAG, "87, onActivityResult: isGranted: $isGranted")
+            Log.d(TAG, "88, onActivityResult: isGranted: $isGranted")
             allAreGranted = allAreGranted && isGranted
         }
 
@@ -94,7 +95,7 @@ class PermissionsDialogFragment : DialogFragment() {
         } else {
             //All or some Permissions were denied so can't do the task that requires that permission
             externalGrantNeeded = true
-            Log.d(TAG, "97, onActivityResult: All or some permissions denied...")
+            Log.d(TAG, "98, onActivityResult: All or some permissions denied...")
             Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
         }
     }
@@ -105,7 +106,7 @@ class PermissionsDialogFragment : DialogFragment() {
     )
     { isGranted ->
         shouldResolve = true
-        Log.d(TAG, "108, onActivityResult: isGranted: $isGranted")
+        Log.d(TAG, "109, onActivityResult: isGranted: $isGranted")
 
         if (isGranted) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -119,7 +120,7 @@ class PermissionsDialogFragment : DialogFragment() {
             } else {
                 externalGrant30Needed = true
 
-                Log.d(TAG, "122, onActivityResult: Permission denied...")
+                Log.d(TAG, "123, onActivityResult: Permission denied...")
                 Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
             }
         }

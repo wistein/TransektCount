@@ -1,37 +1,29 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New since Version 4.1.0:
-- Functionality of GPS-based selection of section removed as too unreliable
-- File selection view enhanced with headline
-- Preferences view enhanced with headline
-- Preferences show their states in menu
-- Separate views for editing, deleting and adding species
-- Checkboxes for bulk deleting of species from the counting list
-- Checkboxes for bulk appending of further species to the counting list
-- Meta data enhanced with field for inspection note (replaces section notes)
-- Preferences option added for sorting results either by section or species names
-- CSV-export adapted to changes
-- Internal Butterfly list now identical with the list of TourCount
-- Other code, text and layout improvements
-- Licenses text separated
-- Deprecated function replaced
-- Docs revised
-- Bugs fixed
+New in Version 4.2.0:
+- csv output table modified
+- Filenames of exported current DB and csv table include transect No.
+- App gets completely removed from memory when finished
+- Options to preselect species by initial letters for adding, removing and editing them
+- Code improvements
+- Bug fixes
+- Docs updated
 
 Features:
 - Data collection is based on a transect inspection
 - Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species
-- The app contains a pre-prepared database with the most common species to be expected in Germany as a starting point
-- Separate counters for internal/external counting areas and separately for ♂♀, ♂, ♀, pupa, caterpillar or egg
+- The app contains an internal list with many European species and has a prepared database for a transect section with the most common species to be expected in Germany as a starting point for direct use.
+- Separate counters for internal/external counting areas and separately for ♂-♀-indeterminate, ♂, ♀, pupa, caterpillar or egg
 - Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (www.tmd-daten.de or new: web.app.ufz.de/tagfalter-monitoring/)
 - The result can be output as an SQLite DB file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC)
 - The help contains detailed user instructions
 
 Functions:
+- Duplicate and delete transect sections.
+- Editing the transect section lists (adding and deleting species and editing terms).
 - Editor for metadata in preparation for an inspection
 - Counter page per section with scroll-down list for species selection
 - Species editor for annotation, bulk counter entries and count alert
-- Editor for setting up transect sections with species selection from a comprehensive scroll-down list
 - The results page shows metadata, notes, totals and counting results per species and transect section
 
 Prerequisites:

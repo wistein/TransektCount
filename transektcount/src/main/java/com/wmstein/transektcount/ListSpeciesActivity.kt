@@ -2,11 +2,15 @@ package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ScrollView
+
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
+
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Head
@@ -27,55 +31,85 @@ import com.wmstein.transektcount.widgets.ListSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-07-27
+ * last edited on 2024-11-26
  */
 class ListSpeciesActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
 
     private var spec_area: LinearLayout? = null
-    var head: Head? = null
-    var meta: Meta? = null
 
-    // preferences
-    private var prefs = TransektCountApplication.getPrefs()
-    private var awakePref = false
-    private var outPref: String? = null
-
-    // the actual data
+    // Data
     private var countDataSource: CountDataSource? = null
     private var sectionDataSource: SectionDataSource? = null
     private var headDataSource: HeadDataSource? = null
     private var metaDataSource: MetaDataSource? = null
+    private var head: Head? = null
+    private var meta: Meta? = null
     private var lhw: ListHeadWidget? = null
     private var lmw: ListMetaWidget? = null
     private var lsw: ListSumWidget? = null
+
+    // Preferences
+    private var prefs = TransektCountApplication.getPrefs()
+    private var awakePref = false
+    private var outPref: String? = null
+    private var brightPref = false
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (MyDebug.dLOG) Log.i(TAG, "62, onCreate")
+
         transektCount = application as TransektCountApplication
         awakePref = prefs.getBoolean("pref_awake", true)
         outPref = prefs.getString("pref_csv_out", "species") // sort mode output
+        brightPref = prefs.getBoolean("pref_bright", true)
 
         setContentView(R.layout.activity_list_species)
-        headDataSource = TransektCountApplication.getHeadDS()
-        sectionDataSource = TransektCountApplication.getSectionDS()
-        metaDataSource = TransektCountApplication.getMetaDS()
-        countDataSource = TransektCountApplication.getCountDS()
 
-        val listSpec_screen = findViewById<ScrollView>(R.id.listSpecScreen)
-        listSpec_screen.background = transektCount!!.background
+        // Set full brightness of screen
+        if (brightPref) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            val params = window.attributes
+            params.screenBrightness = 1.0f
+            window.attributes = params
+        }
+
+        headDataSource = HeadDataSource(this)
+        sectionDataSource = SectionDataSource(this)
+        metaDataSource = MetaDataSource(this)
+        countDataSource = CountDataSource(this)
+
+        val resultsScreen = findViewById<ScrollView>(R.id.listSpecScreen)
+        resultsScreen.background = transektCount!!.background
+
         supportActionBar!!.title = getString(R.string.viewSpecTitle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         spec_area = findViewById(R.id.listSpecLayout)
+
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+
+        // new onBackPressed logic
+        onBackPressedDispatcher.addCallback(object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (MyDebug.dLOG) Log.i(TAG, "100, handleOnBackPressed")
+
+                NavUtils.navigateUpFromSameTask(this@ListSpeciesActivity)
+            }
+        })
     }
+    // End of onCreate()
 
     override fun onResume() {
         super.onResume()
+
+        if (MyDebug.dLOG) Log.i(TAG, "111, onResume")
+
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
@@ -89,6 +123,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         spec_area!!.removeAllViews()
         loadData()
     }
+    // End of onResume()
 
     // fill ListSpeciesWidget with relevant counts and sections data
     private fun loadData() {
@@ -167,21 +202,21 @@ class ListSpeciesActivity : AppCompatActivity() {
 
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
-            sect_id = widget.getSpec_sectionid(spec)
+            sect_id = widget.getSpecSectionid(spec)
             section = sectionDataSource!!.getSection(sect_id)
             widget.setCount(spec, section)
-            spec_countf1i = widget.getSpec_countf1i(spec)
-            spec_countf2i = widget.getSpec_countf2i(spec)
-            spec_countf3i = widget.getSpec_countf3i(spec)
-            spec_countpi = widget.getSpec_countpi(spec)
-            spec_countli = widget.getSpec_countli(spec)
-            spec_countei = widget.getSpec_countei(spec)
-            spec_countf1e = widget.getSpec_countf1e(spec)
-            spec_countf2e = widget.getSpec_countf2e(spec)
-            spec_countf3e = widget.getSpec_countf3e(spec)
-            spec_countpe = widget.getSpec_countpe(spec)
-            spec_countle = widget.getSpec_countle(spec)
-            spec_countee = widget.getSpec_countee(spec)
+            spec_countf1i = widget.getSpecCountf1i(spec)
+            spec_countf2i = widget.getSpecCountf2i(spec)
+            spec_countf3i = widget.getSpecCountf3i(spec)
+            spec_countpi = widget.getSpecCountpi(spec)
+            spec_countli = widget.getSpecCountli(spec)
+            spec_countei = widget.getSpecCountei(spec)
+            spec_countf1e = widget.getSpecCountf1e(spec)
+            spec_countf2e = widget.getSpecCountf2e(spec)
+            spec_countf3e = widget.getSpecCountf3e(spec)
+            spec_countpe = widget.getSpecCountpe(spec)
+            spec_countle = widget.getSpecCountle(spec)
+            spec_countee = widget.getSpecCountee(spec)
 
             summf += spec_countf1i
             summ += spec_countf2i
@@ -224,15 +259,18 @@ class ListSpeciesActivity : AppCompatActivity() {
         // display all counted soecies per section
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
-            sect_id = widget.getSpec_sectionid(spec)
+            sect_id = widget.getSpecSectionid(spec)
             section = sectionDataSource!!.getSection(sect_id)
             widget.setCount(spec, section)
             spec_area!!.addView(widget)
         }
     }
+    // End of loadData()
 
     override fun onPause() {
         super.onPause()
+
+        if (MyDebug.dLOG) Log.i(TAG, "273, onPause")
 
         // close the data sources
         headDataSource!!.close()
@@ -245,8 +283,8 @@ class ListSpeciesActivity : AppCompatActivity() {
         }
     }
 
-    fun saveAndExit(view: View?) {
-        super.finish()
+    companion object {
+        private const val TAG = "ListSpecAct"
     }
 
 }

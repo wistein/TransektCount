@@ -3,6 +3,7 @@
  */
 package com.wmstein.transektcount.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -57,6 +58,7 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
         countCountee = findViewById(R.id.countCountee)
     }
 
+    @SuppressLint("SetTextI18n")
     fun setCounte(newcount: Count?) {
         count = newcount
         namef1e.text = context.getString(R.string.countImagomfHint)
@@ -98,50 +100,62 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
     }
 
     // Count up/down and set value on screen
+    @SuppressLint("SetTextI18n")
     fun countUpf1e() {
         countCountf1e.text = count!!.increase_f1e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownf1e() {
         countCountf1e.text = count!!.safe_decrease_f1e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countUpf2e() {
         countCountf2e.text = count!!.increase_f2e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownf2e() {
         countCountf2e.text = count!!.safe_decrease_f2e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countUpf3e() {
         countCountf3e.text = count!!.increase_f3e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownf3e() {
         countCountf3e.text = count!!.safe_decrease_f3e().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countUppe() {
         countCountpe.text = count!!.increase_pe().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownpe() {
         countCountpe.text = count!!.safe_decrease_pe().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countUple() {
         countCountle.text = count!!.increase_le().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownle() {
         countCountle.text = count!!.safe_decrease_le().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countUpee() {
         countCountee.text = count!!.increase_ee().toString()
     }
 
+    @SuppressLint("SetTextI18n")
     fun countDownee() {
         countCountee.text = count!!.safe_decrease_ee().toString()
     }

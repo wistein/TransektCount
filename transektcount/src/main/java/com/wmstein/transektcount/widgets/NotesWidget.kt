@@ -32,10 +32,10 @@ class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context
 
     fun setFont(large: Boolean) {
         if (large) {
-            if (MyDebug.LOG) Log.d(TAG, "35, Setzt große Schrift.")
+            if (MyDebug.dLOG) Log.d(TAG, "35, Setzt große Schrift.")
             textView.textSize = 15f
         } else {
-            if (MyDebug.LOG) Log.d(TAG, "38, Setzt kleine Schrift.")
+            if (MyDebug.dLOG) Log.d(TAG, "38, Setzt kleine Schrift.")
             textView.textSize = 12f
         }
     }

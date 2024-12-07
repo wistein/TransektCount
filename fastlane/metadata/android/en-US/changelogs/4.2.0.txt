@@ -1,0 +1,8 @@
+Version 4.2.0 (2024-12-07)
+- csv output table modified
+- Filenames of exported current DB and csv table contain transect No.
+- App gets completely removed from memory when finished
+- Options to preselect species by initial letters for adding, removing and editing them
+- Code improvements
+- Bug fixes
+- Docs updated

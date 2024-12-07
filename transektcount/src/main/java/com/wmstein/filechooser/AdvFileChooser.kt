@@ -7,13 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.view.KeyEvent
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
 import java.io.File
 import java.io.FileFilter
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-06-20
+ * last edited on 2024-11-07
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
@@ -35,11 +36,12 @@ class AdvFileChooser : Activity() {
     private var fileFilter: FileFilter? = null
     private var fileExtension: String = ""
     private var fileName: String? = null
-    private var fName: String? = null
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (MyDebug.dLOG) Log.i(TAG, "44, onCreate")
 
         setContentView(R.layout.list_view)
 
@@ -61,7 +63,7 @@ class AdvFileChooser : Activity() {
             }
         }
 
-        // set FileChooser Headline
+        // Set FileChooser Headline
         var fileHd = ""
         if (fileExtension.endsWith("db")) // headline for db-file
         {
@@ -92,17 +94,7 @@ class AdvFileChooser : Activity() {
         }
         fill(currentDir!!)
     }
-    // end of onCreate()
-
-    // Disable Back-key in AdvFileChooser as return with no selected file produces
-    //   NullPointerException of FileInputStream
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            showSnackbar(getString(R.string.noBack))
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
-    }
+    // End of onCreate()
 
     // List only files in user's home directory
     private fun fill(f: File) {
@@ -126,7 +118,7 @@ class AdvFileChooser : Activity() {
                     }
                 }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // do nothing
         }
 
@@ -159,21 +151,12 @@ class AdvFileChooser : Activity() {
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
+        if (MyDebug.dLOG) Log.i(TAG, "154, Selected file: $fileSelected")
         finish()
     }
 
     public override fun onStop() {
         super.onStop()
-    }
-
-    private fun showSnackbar(str: String) // green text
-    {
-        val view = findViewById<View>(R.id.lvFiles)
-        val sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
-        sB.setTextColor(Color.GREEN)
-        val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
-        tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        sB.show()
     }
 
     private fun showSnackbarRed(str: String) // red text

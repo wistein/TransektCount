@@ -13,7 +13,7 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /*******************************************************
- * Used by EditSpeciesListActivity and widget_edit_title.xml
+ * Used by EditSectionListActivity and widget_edit_title.xml
  * Created by by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2023-05-09,

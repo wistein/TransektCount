@@ -8,8 +8,6 @@ import android.database.Cursor
 import android.database.DatabaseUtils
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import com.wmstein.transektcount.R
-import com.wmstein.transektcount.TransektCountApplication
 import java.util.Date
 import java.util.Objects
 
@@ -18,9 +16,9 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-06-20
+ * last edited on 2024-12-07
  */
-class SectionDataSource(context: Context?) {
+class SectionDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
     private val dbHandler: DbHelper
@@ -32,12 +30,12 @@ class SectionDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = context?.let { DbHelper(it) }!!
+        dbHandler = DbHelper(context)
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = TransektCountApplication.getDatabase()
+        database = dbHandler.writableDatabase
     }
 
     fun close() {
@@ -90,8 +88,7 @@ class SectionDataSource(context: Context?) {
 
     fun deleteSection(section: Section) {
         val id = section.id
-        val sname = section.name
-        println(R.string.deletedList + id)
+        //val sname = section.name
         database!!.delete(DbHelper.SECTION_TABLE, DbHelper.S_ID + " = " + id, null)
 
         /*
@@ -152,7 +149,7 @@ class SectionDataSource(context: Context?) {
         return sections
     }
 
-    // Called from NewSectionActivity and EditSpeciesListActivity
+    // Called from NewSectionActivity and EditSectionListActivity
     val allSectionNames: List<Section>
         get() {
             val sections: MutableList<Section> = ArrayList()
@@ -167,7 +164,7 @@ class SectionDataSource(context: Context?) {
                     sections.add(section)
                     cursor.moveToNext()
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 //
             }
 
@@ -184,25 +181,12 @@ class SectionDataSource(context: Context?) {
         return section
     }
 
-    // called from WelcomeActivity, NewSectionActivity, CountingActivity and EditSpeciesListActivity
+    // called from WelcomeActivity, NewSectionActivity, CountingActivity and EditSectionListActivity
     fun getSection(sectionId: Int): Section {
         val section: Section
         val cursor = database!!.query(
             DbHelper.SECTION_TABLE, allColumns,
             DbHelper.S_ID + " = ?", arrayOf(sectionId.toString()), null, null, null
-        )
-        cursor.moveToFirst()
-        section = cursorToSection(cursor)
-        cursor.close()
-        return section
-    }
-
-    // called from CountingActivity and NewSectionActivity
-    fun getSectionByName(name: String): Section {
-        val section: Section
-        val cursor = database!!.query(
-            DbHelper.SECTION_TABLE, allColumns,
-            DbHelper.S_NAME + " = ?", arrayOf(name), null, null, null
         )
         cursor.moveToFirst()
         section = cursorToSection(cursor)

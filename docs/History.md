@@ -2,6 +2,17 @@
 
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
+#### Version 4.2.0 (2024-12-07)
+- csv output table modified
+- Filenames of exported current DB and csv table contain transect No.
+- App gets completely removed from memory when finished
+- Options to preselect species by initial letters for adding, removing and editing them
+- Code improvements and Kotlin code adapted to Kotlin 2
+- Bug fixes
+- Update Gradle -> 8.9
+- Update AGP dependency -> 8.7.3
+- Docs updated
+
 #### Version 4.1.0 (2024-08-26)
 - Functionality of GPS-based selection of section removed as too unreliable
 - File selection view enhanced with headline

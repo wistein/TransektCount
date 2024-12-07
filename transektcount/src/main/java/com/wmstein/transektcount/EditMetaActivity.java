@@ -1,22 +1,20 @@
 package com.wmstein.transektcount;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+
 import com.wmstein.transektcount.database.Head;
 import com.wmstein.transektcount.database.HeadDataSource;
 import com.wmstein.transektcount.database.Meta;
@@ -31,29 +29,31 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2024-06-30
+ * last edited on 2024-12-07
  */
 public class EditMetaActivity extends AppCompatActivity
 {
+    private final static String TAG = "EditMetaAct";
 
+    // Data from DB tables
     private Head head;
     private Meta meta;
-
-    private Calendar pdate, ptime;
 
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
 
-    // preferences
+    private Calendar pdate, ptime;
+
+    // Preferences
     private final SharedPreferences prefs = TransektCountApplication.getPrefs();
-    private boolean brightPref;
-    
-    private LinearLayout head_area;
+
+    private LinearLayout metaArea;
     private TextView sDate, sTime, eTime;
 
     private EditMetaHeadWidget ehw;
@@ -63,13 +63,13 @@ public class EditMetaActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_head);
 
-        head_area = findViewById(R.id.edit_head);
+        if (MyDebug.dLOG) Log.d(TAG, "67, onCreate");
 
-        //    private static final String TAG = "EditMetaAct";  // potentially for debugging
-        TransektCountApplication transektCount = (TransektCountApplication) getApplication();
-        brightPref = prefs.getBoolean("pref_bright", true);
+        setContentView(R.layout.activity_edit_meta);
+
+        // Option for full bright screen
+        boolean brightPref = prefs.getBoolean("pref_bright", true);
 
         // Set full brightness of screen
         if (brightPref)
@@ -80,47 +80,55 @@ public class EditMetaActivity extends AppCompatActivity
             getWindow().setAttributes(params);
         }
 
-        Bitmap bMap = transektCount.decodeBitmap(R.drawable.edbackground,
-            transektCount.width, transektCount.height);
-        ScrollView editHead_screen = findViewById(R.id.editHeadScreen);
-        BitmapDrawable bg = new BitmapDrawable(editHead_screen.getResources(), bMap);
-        editHead_screen.setBackground(bg);
+        metaArea = findViewById(R.id.meta_area);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.editHeadTitle));
 
-        headDataSource = TransektCountApplication.getHeadDS();
-        metaDataSource = TransektCountApplication.getMetaDS();
+        headDataSource = new HeadDataSource(this);
+        metaDataSource = new MetaDataSource(this);
+
+        // New onBackPressed logic
+        OnBackPressedCallback callback = new OnBackPressedCallback(true)
+        {
+            @Override
+            public void handleOnBackPressed()
+            {
+                if (MyDebug.dLOG) Log.d(TAG, "96, handleOnBackPressed");
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
-    
-    @SuppressLint("SourceLockedOrientationActivity")
+    // End of onCreate()
+
     @Override
     protected void onResume()
     {
         super.onResume();
 
-        brightPref = prefs.getBoolean("pref_bright", true);
+        if (MyDebug.dLOG) Log.d(TAG, "109, onResume");
 
-        // build the Edit Meta Data screen
-        // clear existing view
-        head_area.removeAllViews();
+        // Build the Edit Meta Data screen
+        // Clear existing view
+        metaArea.removeAllViews();
 
-        //setup data sources
+        // Setup data sources
         headDataSource.open();
         metaDataSource.open();
 
-        // load head and meta data
+        // Load head and meta data
         head = headDataSource.getHead();
         meta = metaDataSource.getMeta();
 
-        // display the editable head data
+        // Display the editable head data
         ehw = new EditMetaHeadWidget(this, null);
         ehw.setWidgetNo(getString(R.string.transectnumber));
         ehw.setWidgetNo1(head.transect_no);
         ehw.setWidgetName(getString(R.string.inspector));
         ehw.setWidgetName1(head.inspector_name);
-        head_area.addView(ehw);
+        metaArea.addView(ehw);
 
-        // display the editable meta data
+        // Display the editable meta data
         emw = new EditMetaWidget(this, null);
         emw.setWidgetTemp1(getString(R.string.temperature));
         emw.setWidgetWind1(getString(R.string.wind));
@@ -141,9 +149,9 @@ public class EditMetaActivity extends AppCompatActivity
         emw.setWidgetETime2(meta.end_tm);
         emw.setWidgetNote1(getString(R.string.note));
         emw.setWidgetNote2(meta.note);
-        head_area.addView(emw);
+        metaArea.addView(emw);
 
-        // check for focus
+        // Check for focus
         String newTransectNo = head.transect_no;
         if (isNotEmpty(newTransectNo))
         {
@@ -161,13 +169,13 @@ public class EditMetaActivity extends AppCompatActivity
         sTime = this.findViewById(R.id.widgetSTime2);
         eTime = this.findViewById(R.id.widgetETime2);
 
-        // get current date by click
+        // Get current date by click
         sDate.setOnClickListener(v -> {
             Date date = new Date();
             sDate.setText(getformDate(date));
         });
 
-        // get date picker result
+        // Get date picker result
         final DatePickerDialog.OnDateSetListener dpd = (view, year, monthOfYear, dayOfMonth) -> {
             pdate.set(Calendar.YEAR, year);
             pdate.set(Calendar.MONTH, monthOfYear);
@@ -176,7 +184,7 @@ public class EditMetaActivity extends AppCompatActivity
             sDate.setText(getformDate(date));
         };
 
-        // select date by long click
+        // Select date by long click
         sDate.setOnLongClickListener(v -> {
             new DatePickerDialog(EditMetaActivity.this, dpd,
                 pdate.get(Calendar.YEAR),
@@ -185,13 +193,13 @@ public class EditMetaActivity extends AppCompatActivity
             return true;
         });
 
-        // get current start time
+        // Get current start time
         sTime.setOnClickListener(v -> {
             Date date = new Date();
             sTime.setText(getformTime(date));
         });
 
-        // get start time picker result
+        // Get start time picker result
         final TimePickerDialog.OnTimeSetListener stpd = (view, hourOfDay, minute) -> {
             ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             ptime.set(Calendar.MINUTE, minute);
@@ -199,7 +207,7 @@ public class EditMetaActivity extends AppCompatActivity
             sTime.setText(getformTime(date));
         };
 
-        // select start time
+        // Select start time
         sTime.setOnLongClickListener(v -> {
             new TimePickerDialog(EditMetaActivity.this, stpd,
                 ptime.get(Calendar.HOUR_OF_DAY),
@@ -208,13 +216,13 @@ public class EditMetaActivity extends AppCompatActivity
             return true;
         });
 
-        // get current end time
+        // Get current end time
         eTime.setOnClickListener(v -> {
             Date date = new Date();
             eTime.setText(getformTime(date));
         });
 
-        // get start time picker result
+        // Get start time picker result
         final TimePickerDialog.OnTimeSetListener etpd = (view, hourOfDay, minute) -> {
             ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             ptime.set(Calendar.MINUTE, minute);
@@ -222,7 +230,7 @@ public class EditMetaActivity extends AppCompatActivity
             eTime.setText(getformTime(date));
         };
 
-        // select end time
+        // Select end time
         eTime.setOnLongClickListener(v -> {
             new TimePickerDialog(EditMetaActivity.this, etpd,
                 ptime.get(Calendar.HOUR_OF_DAY),
@@ -231,7 +239,7 @@ public class EditMetaActivity extends AppCompatActivity
             return true;
         });
     }
-    // end of onResume()
+    // End of onResume()
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -244,14 +252,21 @@ public class EditMetaActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks here.
         int id = item.getItemId();
+        if (id == android.R.id.home) // back button in actionBar
+        {
+            if (MyDebug.dLOG) Log.d(TAG, "259, MenuItem home");
+            finish();
+            return true;
+        }
+
         if (id == R.id.menuSaveExit)
         {
+            if (MyDebug.dLOG) Log.d(TAG, "266, MenuItem saveExit");
             if (saveData())
-                super.finish();
+                finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -261,20 +276,44 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onPause();
 
-        // close the data sources
+        if (MyDebug.dLOG) Log.d(TAG, "279, onPause");
+
         headDataSource.close();
         metaDataSource.close();
+
+        sDate.setOnClickListener(null);
+        sDate.setOnLongClickListener(null);
+        sTime.setOnClickListener(null);
+        sTime.setOnLongClickListener(null);
+        eTime.setOnClickListener(null);
+        eTime.setOnLongClickListener(null);
+
+        // Trial to avoid memory leak when EditText has been used (no effect)
+        //  see also corresponding functions in EditMetaHeadWidget and EditMetaWidget
+//        ehw.clearWidgetsMetaHead();
+//        emw.clearWidgetsMeta();
+//        metaArea.removeAllViews();
     }
 
-    /***************/
-    public void saveAndExit(View view)
+    @Override
+    protected void onStop()
     {
-        if (saveData())
-            super.finish();
+        super.onStop();
+
+        if (MyDebug.dLOG) Log.d(TAG, "303, onStop");
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        if (MyDebug.dLOG) Log.i(TAG, "311, onDestroy");
     }
 
     public boolean saveData()
     {
+        if (MyDebug.dLOG) Log.i(TAG, "316, saveData");
         // Save head data
         head.transect_no = ehw.getWidgetNo1();
         head.inspector_name = ehw.getWidgetName1();
@@ -325,8 +364,8 @@ public class EditMetaActivity extends AppCompatActivity
         return true;
     }
 
-    // formatted date
-    public static String getformDate(Date date)
+    // Formatted date
+    public String getformDate(Date date)
     {
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
@@ -342,8 +381,8 @@ public class EditMetaActivity extends AppCompatActivity
         return dform.format(date);
     }
 
-    // date for start_tm and end_tm
-    public static String getformTime(Date date)
+    // Date for start_tm and end_tm
+    public String getformTime(Date date)
     {
         DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
         return dform.format(date);
@@ -383,7 +422,7 @@ public class EditMetaActivity extends AppCompatActivity
      */
     public static boolean isEmpty(final CharSequence cs)
     {
-        return cs == null || cs.length() == 0;
+        return cs == null || cs.length() == 0; // needed for older Android versions
     }
 
 }

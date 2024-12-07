@@ -6,16 +6,15 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import com.wmstein.transektcount.TransektCountApplication
 
 /**********************************
  * Created by milo on 2014-05-05
  * changed by wmstein on 2016-02-18
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-07-13
+ * last edited on 2024-11-26
  */
-class AlertDataSource(context: Context?) {
+class AlertDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
     private val dbHandler: DbHelper
@@ -27,12 +26,12 @@ class AlertDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = context?.let { DbHelper(it) }!!
+        dbHandler = DbHelper(context)
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = TransektCountApplication.getDatabase()
+        database = dbHandler.writableDatabase
     }
 
     fun close() {
@@ -64,12 +63,10 @@ class AlertDataSource(context: Context?) {
     }
 
     fun deleteAlertById(id: Int) {
-        println("Alert deleted with id: $id")
         database!!.delete(DbHelper.ALERT_TABLE, DbHelper.A_ID + " = " + id, null)
     }
 
     fun deleteAlerts() {
-        println("All alerts deleted.")
         database!!.delete(DbHelper.ALERT_TABLE, null, null)
     }
 

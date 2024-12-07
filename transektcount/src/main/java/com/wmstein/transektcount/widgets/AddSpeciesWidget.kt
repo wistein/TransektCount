@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.wmstein.transektcount.R
-import com.wmstein.transektcount.TransektCountApplication
 import java.io.Serializable
 import java.util.Objects
 
@@ -20,7 +20,8 @@ import java.util.Objects
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-05-26,
  * renamed to AddSpeciesWidget.kt on 2024-06-14
- * last edited in Kotlin on 2023-08-23
+ * imported to TransektCount on 2023-08-23
+ * last edited on 2024-11-27
  */
 class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -40,10 +41,10 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     private val specPic: ImageView
     private val markButton: CheckBox
 
-    val inflater: LayoutInflater
+    val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+            as LayoutInflater
 
     init {
-        inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_add_spec, this, true)
         specName = findViewById(R.id.specName)
         specNameG = findViewById(R.id.specNameG)
@@ -80,12 +81,13 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     // get state of add checkbox
     fun getMarkSpec(): Boolean {
-        val checked: Boolean
-        if (markButton.isChecked)
-            checked = true
-        else
-            checked = false
+        val checked: Boolean = markButton.isChecked
         return checked
+    }
+
+    // set state of add checkbox
+    fun setMarkSpec(state: Boolean) {
+        markButton.isChecked = state
     }
 
     fun setSpecId(id: String) {
@@ -94,15 +96,13 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     }
 
     // set picture resource by code
-    fun setPSpec(ucode: String) {
-        val rname = "p$ucode" // species picture resource name
-
-        // make instance of class TransektCountApplication to reference non-static method 
-        val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResId(rname)
-
+    @SuppressLint("DiscouragedApi")
+    fun setPicSpec(uCode: String) {
+        val rName = "p$uCode" // species picture resource name
+        val resId = resources.getIdentifier(rName, "drawable", context.packageName)
         if (resId != 0) {
             specPic.setImageResource(resId)
         }
     }
+
 }

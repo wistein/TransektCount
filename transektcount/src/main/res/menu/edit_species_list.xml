@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   edit_species_list.xml is used by EditSectionListActivity.kt
+   -->
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.wmstein.transektcount.EditSectionListActivity">
+
+    <item
+        android:id="@+id/editSpecL"
+        android:title="@string/labelEditSpecButton"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_save"/>
+
+</menu>

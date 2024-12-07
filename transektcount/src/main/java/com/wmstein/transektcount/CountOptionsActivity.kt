@@ -1,11 +1,10 @@
 package com.wmstein.transektcount
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -14,15 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.widgets.AddAlertWidget
-import com.wmstein.transektcount.widgets.AlertCreateWidget
+import com.wmstein.transektcount.widgets.AlertEditWidget
 import com.wmstein.transektcount.widgets.EditNotesWidget
 import com.wmstein.transektcount.widgets.OptionsWidget
 
@@ -35,43 +34,36 @@ import com.wmstein.transektcount.widgets.OptionsWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-07-27
+ * last edited on 2024-11-25
  */
 class CountOptionsActivity : AppCompatActivity() {
-    private var transektCount: TransektCountApplication? = null
-
     private var count: Count? = null
     private var countId = 0
     private var countDataSource: CountDataSource? = null
     private var alertDataSource: AlertDataSource? = null
     private var markedForDelete: View? = null
-    private var deleteAnAlert = 0
+    private var deleteAlert = 0
     private var sectionId = 0
     private var sectionName = ""
-    private var bMap: Bitmap? = null
-    private var bg: BitmapDrawable? = null
     private var staticWidgetArea: LinearLayout? = null
     private var dynamicWidgetArea: LinearLayout? = null
     private var optWidget: OptionsWidget? = null
     private var enw: EditNotesWidget? = null
     private var aaWidget: AddAlertWidget? = null
+    private var savedAlerts: ArrayList<AlertEditWidget>? = null
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
 
-    private var savedAlerts: ArrayList<AlertCreateWidget>? = null
-
-    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        transektCount = application as TransektCountApplication
-        prefs = TransektCountApplication.getPrefs()
+        if (MyDebug.dLOG) Log.i(TAG, "62, onCreate")
+
         brightPref = prefs.getBoolean("pref_bright", true)
 
         setContentView(R.layout.activity_count_options)
-        val countOptScreen = findViewById<ScrollView>(R.id.count_options)
 
         // Set full brightness of screen
         if (brightPref) {
@@ -81,16 +73,6 @@ class CountOptionsActivity : AppCompatActivity() {
             window.attributes = params
         }
 
-        bMap = transektCount!!.decodeBitmap(
-            R.drawable.edbackground,
-            transektCount!!.width,
-            transektCount!!.height
-        )
-        bg = BitmapDrawable(countOptScreen.resources, bMap)
-        countOptScreen.background = bg
-        staticWidgetArea = findViewById(R.id.static_widget_area)
-        dynamicWidgetArea = findViewById(R.id.dynamic_widget_area)
-
         val extras = intent.extras
         if (extras != null) {
             countId = extras.getInt("count_id")
@@ -98,42 +80,66 @@ class CountOptionsActivity : AppCompatActivity() {
             sectionName = extras.getString("section_name").toString()
         }
 
+        staticWidgetArea = findViewById(R.id.static_widget_area)
+        dynamicWidgetArea = findViewById(R.id.dynamic_widget_area)
+
         savedAlerts = ArrayList()
         if (savedInstanceState != null) {
-            @Suppress("DEPRECATION")
-            if (savedInstanceState.getSerializable("savedAlerts") != null) {
-                savedAlerts =
-                    savedInstanceState.getSerializable("savedAlerts") as ArrayList<AlertCreateWidget>?
+            if (Build.VERSION.SDK_INT < 33) {
+                @Suppress("DEPRECATION")
+                if (savedInstanceState.getSerializable("savedAlerts") != null) {
+                    @Suppress("UNCHECKED_CAST")
+                    savedAlerts =
+                        savedInstanceState.getSerializable("savedAlerts") as ArrayList<AlertEditWidget>?
+                }
+            } else {
+                if (savedInstanceState.getSerializable("savedAlerts", T::class.java) != null) {
+                    @Suppress("UNCHECKED_CAST")
+                    savedAlerts =
+                        savedInstanceState.getSerializable(
+                            "savedAlerts", T::class.java
+                        ) as ArrayList<AlertEditWidget>? // Removing "useless" cast produces error
+                }
             }
         }
 
-        countDataSource = TransektCountApplication.getCountDS()
-        alertDataSource = TransektCountApplication.getAlertDS()
+        countDataSource = CountDataSource(this)
+        alertDataSource = AlertDataSource(this)
+
+        // New onBackPressed logic
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                savedAlerts!!.clear()
+                val intent = NavUtils.getParentActivityIntent(this@CountOptionsActivity)!!
+                intent.putExtra("section_id", sectionId)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                this@CountOptionsActivity.navigateUpTo(intent)
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
-    // end of onCreate()
+    // End of onCreate()
 
     override fun onResume() {
         super.onResume()
 
-        // build the count options screen
-        // clear any existing views
+        if (MyDebug.dLOG) Log.i(TAG, "126, onResume")
+
+        // Clear any existing views
         staticWidgetArea!!.removeAllViews()
         dynamicWidgetArea!!.removeAllViews()
 
-        // get the data sources
+        // Get the data sources
         countDataSource!!.open()
         alertDataSource!!.open()
-
         count = countDataSource!!.getCountById(countId)
-        try {
-            supportActionBar!!.title = count!!.name
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        } catch (e: NullPointerException) {
-            if (MyDebug.LOG) Log.e(TAG, "131, Problem setting title bar: $e")
-        }
+
+        supportActionBar!!.title = count!!.name
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         val alerts = alertDataSource!!.getAllAlertsForCount(countId)
 
-        // setup the static widgets in the following order
+        // Setup the static widgets in the following order
         // 1. Current count values (internal counters)
         // 2. Current count values (external counters)
         // 3. Alert add/remove
@@ -234,47 +240,67 @@ class CountOptionsActivity : AppCompatActivity() {
         staticWidgetArea!!.addView(aaWidget)
 
         for (alert in alerts) {
-            val acw = AlertCreateWidget(this, null)
-            acw.alertName = alert.alert_text
-            acw.alertValue = alert.alert
-            acw.alertId = alert.id
-            dynamicWidgetArea!!.addView(acw)
+            val aew = AlertEditWidget(this, null)
+            aew.alertName = alert.alert_text
+            aew.alertValue = alert.alert
+            aew.alertId = alert.id
+            dynamicWidgetArea!!.addView(aew)
         }
 
-        /*
-        * Add saved alert create widgets
-        */
-        for (acw in savedAlerts!!) {
-            dynamicWidgetArea!!.addView(acw)
+        // Add saved alert create widgets
+        for (aew in savedAlerts!!) {
+            dynamicWidgetArea!!.addView(aew)
         }
-    } // end of onResume()
+    }
+    // End of onResume()
 
     override fun onSaveInstanceState(outState: Bundle) {
         // Before these widgets can be serialised they must be removed from their parent, or else
         // trying to add them to a new parent causes a crash because they've already got one.
-        for (acw in savedAlerts!!) {
-            (acw.parent as ViewGroup).removeView(acw)
+        for (aew in savedAlerts!!) {
+            (aew.parent as ViewGroup).removeView(aew)
         }
         outState.putSerializable("savedAlerts", savedAlerts)
         super.onSaveInstanceState(outState)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.count_options, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here.
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            savedAlerts!!.clear()
+
+            val intent = NavUtils.getParentActivityIntent(this)!!
+            intent.putExtra("section_id", sectionId)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            this@CountOptionsActivity.navigateUpTo(intent)
+            return true
+        } else if (id == R.id.menuSaveExit) {
+            saveData()
+            savedAlerts!!.clear()
+
+            val intent = NavUtils.getParentActivityIntent(this)!!
+            intent.putExtra("section_id", sectionId)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            this@CountOptionsActivity.navigateUpTo(intent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onPause() {
         super.onPause()
 
-        // finally, close the database
         countDataSource!!.close()
         alertDataSource!!.close()
     }
 
-    fun saveAndExit(view: View?) {
-        saveData()
-        savedAlerts!!.clear()
-
-        super.finish()
-    }
-
-    @SuppressLint("LongLogTag")
     fun saveData() {
         // Toast here, as snackbar doesn't show up
         Toast.makeText(
@@ -300,26 +326,26 @@ class CountOptionsActivity : AppCompatActivity() {
 
         /*
         * Get all the alerts from the dynamicWidgetArea and save each one.
-        * If it has an id value set to anything higher than 0 then it should be an update, if it is 0
-        * then it's a new alert and should be created instead.
+        * If it has an alertId value set to anything higher than 0 then it should be an update,
+        * if it is 0 then it's a new alert and must be created instead.
         */
         val childcount = dynamicWidgetArea!!.childCount
         for (i in 0 until childcount) {
-            val acw = dynamicWidgetArea!!.getChildAt(i) as AlertCreateWidget
-            if (isNotEmpty(acw.alertName)) {
+            val aew = dynamicWidgetArea!!.getChildAt(i) as AlertEditWidget
+            if (isNotEmpty(aew.alertName)) {
                 // save or create
-                if (acw.alertId == 0) {
-                    alertDataSource!!.createAlert(countId, acw.alertValue, acw.alertName)
+                if (aew.alertId == 0) {
+                    alertDataSource!!.createAlert(countId, aew.alertValue, aew.alertName)
                 } else {
-                    alertDataSource!!.saveAlert(acw.alertId, acw.alertValue, acw.alertName)
+                    alertDataSource!!.saveAlert(aew.alertId, aew.alertValue, aew.alertName)
                 }
             } else {
-                if (MyDebug.LOG) Log.d(TAG, "316, Failed to save alert: " + acw.alertId)
+                if (MyDebug.dLOG) Log.d(TAG, "343, Failed to save alert: " + aew.alertId)
             }
         }
     }
 
-    // Scroll to end of view, by wmstein
+    // Scroll to end of view
     private fun scrollToEndOfView(scrlV: View) {
         var scrollAmount = scrlV.bottom
         var scrollY = scrollAmount
@@ -336,43 +362,37 @@ class CountOptionsActivity : AppCompatActivity() {
 
     // Add alert to species counter
     fun addAnAlert(view: View?) {
-        val acw = AlertCreateWidget(this, null)
-        savedAlerts!!.add(acw)
+        val aew = AlertEditWidget(this, null)
+        savedAlerts!!.add(aew)
 
         // Scroll to end of view
         val scrollV = findViewById<View>(R.id.count_options)
         scrollToEndOfView(scrollV)
-        acw.requestFocus()
-        dynamicWidgetArea!!.addView(acw)
+        aew.requestFocus()
+        dynamicWidgetArea!!.addView(aew)
     }
 
     // Delete alert from species counter and its widget from the view
-    fun deleteWidget(view: View) {
-        /*
-        * These global variables keep a track of the view containing an alert to be deleted and also the id
-        * of the alert itself, to make sure that they're available inside the code for the alert dialog by
-        * which they will be deleted.
-        */
+    fun deleteAnAlert(view: View) {
         val areYouSure: AlertDialog.Builder
         markedForDelete = view
-        deleteAnAlert = view.tag as Int
-        if (deleteAnAlert == 0) {
-            // the actual AlertCreateWidget is two levels up from the button in which it is embedded
-            dynamicWidgetArea!!.removeView(view.parent.parent as AlertCreateWidget)
+        deleteAlert = view.tag as Int
+        if (deleteAlert == 0) {
+            // the actual AlertEditWidget is two levels up from the button in which it is embedded
+            dynamicWidgetArea!!.removeView(view.parent.parent as AlertEditWidget)
         } else {
-            // before removing this widget it is necessary to do the following:
-            // (1) Check the user is sure they want to delete it and, if so...
-            // (2) Delete the associated alert from the database.
+            // Confirm before removing this widget and, if
+            //   delete the associated alert from the database.
             areYouSure = AlertDialog.Builder(this)
-            areYouSure.setTitle(getString(R.string.deleteAlert))
+            areYouSure.setTitle(getString(R.string.delAlert))
             areYouSure.setMessage(getString(R.string.reallyDeleteAlert))
             areYouSure.setPositiveButton(R.string.yesDeleteIt) { _: DialogInterface?, _: Int ->
                 // go ahead for the delete
                 try {
-                    alertDataSource!!.deleteAlertById(deleteAnAlert)
-                    dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertCreateWidget)
+                    alertDataSource!!.deleteAlertById(deleteAlert)
+                    dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertEditWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.LOG) Log.e(TAG, "374, Failed to delete a widget: $e")
+                    if (MyDebug.dLOG) Log.e(TAG, "395, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }
@@ -380,31 +400,8 @@ class CountOptionsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.count_options, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        if (id == android.R.id.home) {
-            val intent = NavUtils.getParentActivityIntent(this)!!
-            intent.putExtra("section_id", sectionId)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            NavUtils.navigateUpTo(this, intent)
-        } else if (id == R.id.menuSaveExit) {
-            saveData()
-            super.finish()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     companion object {
-        private const val TAG = "transektcountCntOptAct"
+        private const val TAG = "CntOptAct"
 
         /**
          * Following functions are taken from the Apache commons-lang3-3.4 library

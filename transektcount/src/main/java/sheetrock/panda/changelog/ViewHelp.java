@@ -57,10 +57,10 @@ public class ViewHelp
         } catch (NameNotFoundException e)
         {
             thisVersion = NO_VERSION;
-            if (MyDebug.LOG)
+            if (MyDebug.dLOG)
                 Log.e(TAG, "61, Could not get version name from manifest!", e);
         }
-        if (MyDebug.LOG)
+        if (MyDebug.dLOG)
             Log.d(TAG, "64, appVersion: " + this.thisVersion);
     }
 
@@ -190,6 +190,7 @@ public class ViewHelp
             }
             this.closeList();
             br.close();
+            ins.close();
         } catch (IOException e)
         {
             e.printStackTrace();

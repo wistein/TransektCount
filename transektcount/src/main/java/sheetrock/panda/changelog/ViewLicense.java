@@ -149,10 +149,11 @@ public class ViewLicense
             }
             this.closeList();
             br.close();
+            ins.close();
         } catch (IOException e)
         {
-            if (MyDebug.LOG)
-                Log.e(TAG, "155, could not read license text.", e);
+            if (MyDebug.dLOG)
+                Log.e(TAG, "156, could not read license text.", e);
         }
 
         return sb.toString();

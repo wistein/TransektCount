@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
-import com.wmstein.transektcount.TransektCountApplication
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.Section
 import java.util.Objects
@@ -19,7 +19,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edit on 2024-07-10.
+ * Last edit on 2024-11-27
  */
 class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -41,8 +41,10 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
     private val specCountle: AutoFitText
     private val specCountee: AutoFitText
 
+    val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+            as LayoutInflater
+
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_list_species, this, true)
         txtSectName = findViewById(R.id.txtSectName)
         txtSectRem = findViewById(R.id.txtSectRem)
@@ -64,6 +66,7 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
         specCountee = findViewById(R.id.specCountee)
     }
 
+    @SuppressLint("SetTextI18n")
     fun setCount(spec: Count, section: Section) {
         txtSectName.text = section.name
         txtSpecName.text = spec.name
@@ -74,7 +77,7 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
                 txtSpecNameG.text = ""
             }
         }
-        setImage(spec) // get picSpecies
+        setPicSpec(spec) // get picSpecies
 
         if (spec.notes != null) {
             if (spec.notes!!.isNotEmpty()) {
@@ -102,65 +105,62 @@ class ListSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout
     }
 
     //Parameters spec_* for use in ListSpeciesActivity
-    fun getSpec_sectionid(spec: Count): Int {
+    fun getSpecSectionid(spec: Count): Int {
         return spec.section_id
     }
 
-    fun getSpec_countf1i(spec: Count): Int {
+    fun getSpecCountf1i(spec: Count): Int {
         return spec.count_f1i
     }
 
-    fun getSpec_countf2i(spec: Count): Int {
+    fun getSpecCountf2i(spec: Count): Int {
         return spec.count_f2i
     }
 
-    fun getSpec_countf3i(spec: Count): Int {
+    fun getSpecCountf3i(spec: Count): Int {
         return spec.count_f3i
     }
 
-    fun getSpec_countpi(spec: Count): Int {
+    fun getSpecCountpi(spec: Count): Int {
         return spec.count_pi
     }
 
-    fun getSpec_countli(spec: Count): Int {
+    fun getSpecCountli(spec: Count): Int {
         return spec.count_li
     }
 
-    fun getSpec_countei(spec: Count): Int {
+    fun getSpecCountei(spec: Count): Int {
         return spec.count_ei
     }
 
-    fun getSpec_countf1e(spec: Count): Int {
+    fun getSpecCountf1e(spec: Count): Int {
         return spec.count_f1e
     }
 
-    fun getSpec_countf2e(spec: Count): Int {
+    fun getSpecCountf2e(spec: Count): Int {
         return spec.count_f2e
     }
 
-    fun getSpec_countf3e(spec: Count): Int {
+    fun getSpecCountf3e(spec: Count): Int {
         return spec.count_f3e
     }
 
-    fun getSpec_countpe(spec: Count): Int {
+    fun getSpecCountpe(spec: Count): Int {
         return spec.count_pe
     }
 
-    fun getSpec_countle(spec: Count): Int {
+    fun getSpecCountle(spec: Count): Int {
         return spec.count_le
     }
 
-    fun getSpec_countee(spec: Count): Int {
+    fun getSpecCountee(spec: Count): Int {
         return spec.count_ee
     }
 
-    private fun setImage(newcount: Count) // static context
-    {
-        val rname = "p" + newcount.code // species picture resource name
-
-        // make instance of class TransektCountApplication to reference non-static method 
-        val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResId(rname)
+    @SuppressLint("DiscouragedApi")
+    private fun setPicSpec(spec: Count) {
+        val rName = "p" + spec.code // species picture resource name
+        val resId = resources.getIdentifier(rName, "drawable", context.packageName)
         if (resId != 0) {
             picSpecies.setImageResource(resId)
         }

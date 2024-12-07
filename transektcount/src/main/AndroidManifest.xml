@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Rotation is set to portrait mode as the incorporated Spinner functionality
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rotation is set to portrait mode as the incorporated Spinner functionality
      crashes when the device gets rotated and landscape mode is even on tablets less useful.
 
      Multiwindow crashes when rotating the screen,
@@ -79,7 +80,7 @@
         </activity>
 
         <activity
-            android:name="com.wmstein.transektcount.ListSectionActivity"
+            android:name="com.wmstein.transektcount.SelectSectionActivity"
             android:label="@string/title_activity_list_section"
             android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"
             android:screenOrientation="portrait"
@@ -144,15 +145,7 @@
         </activity>
 
         <activity
-            android:name="com.wmstein.transektcount.DummyActivity"
-            android:label="@string/title_activity_dummy"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
-
-        <activity
-            android:name="com.wmstein.transektcount.EditSpeciesListActivity"
+            android:name="com.wmstein.transektcount.EditSectionListActivity"
             android:label="@string/title_activity_edit_species_list"
             android:parentActivityName="com.wmstein.transektcount.CountingActivity"
             android:screenOrientation="portrait"
@@ -185,6 +178,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="CountingActivity" />
+        </activity>
+
+        <activity
+            android:name="com.wmstein.transektcount.DummyActivity"
+            android:label="@string/title_activity_dummy"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
+            tools:ignore="LockedOrientationActivity">
         </activity>
 
     </application>

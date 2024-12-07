@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2024-08-23 -->
+     last edited 2024-12-03 -->
 
 <resources>
 
@@ -70,7 +70,6 @@
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>
     <string name="fileSize">Size</string>
-    <string name="noBack">Please select a file first, you may cancel after that.</string>
     <string name="noFile">No file available!</string>
     <string name="fileHeadlineEXP">List of TourCount species files</string>
     <string name="fileHeadlineDB">List of selectable DB files</string>
@@ -90,40 +89,39 @@
     <string name="valClouds">Clouds out of range!</string>
     <string name="date">Date:</string>
 
-    <!-- EditSpeciesListActivity -->
-    <string name="labelNewsectSaveButton">Save and edit</string>
-    <string name="labelDelSpecButton">Delete Species</string>
-    <string name="notContiguous">Not possible, as previously a section was deleted!</string>
-    <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
-    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough free resources to execute the function.</string>
-
     <!-- CountingActivity -->
     <string name="saveCountsButton">Save &amp; Exit</string>
     <string name="saving">Saving</string>
     <string name="sectSaving">Sections have been saved.</string>
     <string name="alertTitle">Count %1$d reached!</string>
-    <string name="cloneButton">Add a further section</string>
+    <string name="cloneButton">Add a Further Section</string>
     <string name="newSectName">You must enter a name for the new list.</string>
     <string name="noPhotoPermit">The right to take photos is missing.</string>
     <string name="chooserTitle">Select photo app</string>
-    <string name="takePhoto">Take photo</string>
+    <string name="takePhoto">Take Photo</string>
     <string name="newCopyCreated">has been created!</string>
     <string name="addAlertButton">Add alert button</string>
 
     <!-- CountingActivity Menu -->
-    <string name="editDelSpecTitle">Delete species</string>
-    <string name="editAddSpecTitle">Add species</string>
+    <string name="editDelSpecTitle">Remove Species</string>
+    <string name="editAddSpecTitle">Add Species</string>
     <string name="editSectTitle">Edit species list</string>
     <string name="dpSectTitle">New section name</string>
     <string name="willAlert">%1$s will alert for %2$d butterflies.</string>
     <string name="deleteButton">Delete</string>
-    <string name="deleteSpecies">Remove species</string>
+    <string name="deleteSpecies">Remove Species</string>
     <string name="nodeleteButton">OK</string>
     <string name="action_share">Share</string>
     <string name="send_to">Share notes</string>
 
-    <!-- EditSpeciesListActivity -->
-    <string name="headEdit">Edit section name + species</string>
+    <!-- EditSectionListActivity -->
+    <string name="labelDelSpecButton">Remove Species</string>
+    <string name="labelAddSpecButton">Add Species</string>
+    <string name="labelEditSpecButton">Edit List</string>
+    <string name="notContiguous">Not possible, as previously a section was deleted!</string>
+    <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
+    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough free resources to execute the function.</string>
+    <string name="headEdit">Edit Terms</string>
     <string name="titleEdit">Name of current section</string>
     <string name="notesHint">Type notes here&#8230;</string>
     <string name="isdouble"> is double!</string>
@@ -131,17 +129,14 @@
     <string name="orcode"> or code</string>
     <string name="isempt">A name or code is empty!</string>
     <string name="isempty">Section name is missing!</string>
-    <string name="presentSpecs">Species in counting list:</string>
+    <string name="presentSpecs">Species in list:</string>
     <string name="duplicate">Each name must be unique!</string>
-
-    <!-- DelSpeciesActivity -->
-    <string name="deleteSpecs">Remove selected species</string>
-    <string name="reallyDeleteSpecs">Are you sure? The species will be removed immediately.</string>
-    <string name="deletedList">Deleted: Section list with ID: "</string>
 
     <!-- AddSpeciesActivity -->
     <string name="addTitle">Add Species</string>
-    <string name="specsToAdd">Further Species:</string>
+    <string name="specsToAdd">Further species:</string>
+    <string name="hintSearch">Starting chars.</string>
+    <string name="initCharsL">Please, 2 chars.</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info</string>
@@ -161,33 +156,33 @@
     <string name="pref_bg_title">Background</string>
     <string name="pref_bg_dialog">Choose background image</string>
 
-    <string name="pref_sort_sect_order_title">Sorting sections</string>
+    <string name="pref_sort_sect_order_title">Sorting Sections</string>
     <string name="pref_sort_sect_order_dialog">Sort order of your sections list</string>
 
-    <string name="pref_sort_sp_order_title">Sorting the species list</string>
+    <string name="pref_sort_sp_order_title">Sorting the Species List</string>
     <string name="pref_sort_sp_order_dialog">Sort order of your species list</string>
 
-    <string name="pref_note_font">Note font</string>
+    <string name="pref_note_font">Notes Font</string>
     <string name="pref_note_font_summ">Increase the notes font size on the counting screen</string>
     <string name="pref_left_hand">Left-hander</string>
     <string name="pref_left_hand_summ">Show left-hander counting view</string>
 
     <string name="prefs_csv_output_title">Output</string>
-    <string name="pref_csv_output_title">Sorting the results</string>
+    <string name="pref_csv_output_title">Sorting the Results</string>
     <string name="pref_csv_output_dialog">Sort order of the results and exported csv-table</string>
 
     <string name="prefs_sound_vib">Sound/Vibration</string>
-    <string name="pref_alert_sound">Audible alerts</string>
+    <string name="pref_alert_sound">Audible Alerts</string>
     <string name="pref_alert_sound_summ">Sound an audible alert when an alert is triggered</string>
-    <string name="pref_button_sound">Button sounds</string>
+    <string name="pref_button_sound">Button Sounds</string>
     <string name="pref_button_sound_summ">Make a sound upon pressing a count button</string>
-    <string name="pref_button_vib">Button vibration</string>
+    <string name="pref_button_vib">Button Vibration</string>
     <string name="pref_button_vib_summ">Make a vibration upon pressing a count button</string>
 
     <string name="prefs_counting">Counting</string>
-    <string name="pref_awake">Keep screen on</string>
+    <string name="pref_awake">Keep Screen On</string>
     <string name="pref_awake_summ">Prevent screen from sleeping whilst counting</string>
-    <string name="pref_bright">Screen bright</string>
+    <string name="pref_bright">Screen Bright</string>
     <string name="pref_bright_summ">Sets the TransektCount screens bright whilst counting and editing</string>
 
     <!-- CountOptionsActivity -->
@@ -211,14 +206,14 @@
     <string name="countNameG">New Species (Local name)</string>
     <string name="countCode">Code</string>
     <string name="notesSpecies">Species Notes (%1$s)</string>
-    <string name="deleteAlert">Delete Alert</string>
+    <string name="delAlert">Delete Alert</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>
     <string name="yesDeleteIt">Delete</string>
 
     <!-- ListViewSpecies -->
-    <string name="viewSpecTitle">Counting Result</string>
+    <string name="viewSpecTitle">Counting Results</string>
     <string name="wait">View gets calculated&#8230;</string>
-    <string name="txt_mf">♂, ♀</string>
+    <string name="txt_mf">♂♀</string>
     <string name="txt_m">♂</string>
     <string name="txt_f">♀</string>
     <string name="txt_p">Pupa</string>
@@ -230,12 +225,12 @@
     <string name="countNameHint">Name of Species</string>
     <string name="countNameHintG">Name of Species (English)</string>
     <string name="countCodeHint">Code</string>
-    <string name="countInternalHint">Internal of Counting Area</string>
-    <string name="countExternalHint">External of Counting Area</string>
+    <string name="countInternalHint">Internal of Counting Range</string>
+    <string name="countExternalHint">External of Counting Range</string>
     <string name="countInternalSum">Totals for Internal Species:</string>
     <string name="countExternalSum">Totals for External Species:</string>
     <string name="totalsIES">Totals internal / external / species:</string>
-    <string name="countImagomfHint">Butterfly ♂, ♀</string>
+    <string name="countImagomfHint">Butterfly ♂♀</string>
     <string name="countImagomHint">Butterfly ♂</string>
     <string name="countImagofHint">Butterfly ♀</string>
     <string name="countPupaHint">Pupa</string>

@@ -14,25 +14,28 @@ import com.wmstein.transektcount.R
  * Adopted for TransektCount by wmstein on 2016-02-18.
  * Last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-05-15.
+ * last edited on 2024-11-26
+ *
+ * ************************************************************************
+ * ATTENTION!
+ * Current DATABASE_VERSION must be set under 'companion object' at the end
+ * ************************************************************************
  */
-
-/** Attention: Adapt the version for val DATABASE_VERSION in the companion object when changing it
- *  adjust check for latest DB version in WelcomeActivity.onResume if necessary
- * */
-class DbHelper   // constructor
+class DbHelper
     (private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
 
     // called once on initial database creation
     override fun onCreate(db: SQLiteDatabase) {
-        if (MyDebug.LOG) Log.d(TAG, "29, Creating database: $DATABASE_NAME")
+        if (MyDebug.dLOG) Log.d(TAG, "30, Creating database: $DATABASE_NAME")
+
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
                 + S_CREATED_AT + " int, "
                 + S_NAME + " text, "
                 + S_NOTES + " text)")
         db.execSQL(sql)
+
         sql = ("create table " + COUNT_TABLE + " ("
                 + C_ID + " integer primary key, "
                 + C_SECTION_ID + " int, "
@@ -53,17 +56,20 @@ class DbHelper   // constructor
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
+
         sql = ("create table " + ALERT_TABLE + " ("
                 + A_ID + " integer primary key, "
                 + A_COUNT_ID + " int, "
                 + A_ALERT + " int, "
                 + A_ALERT_TEXT + " text)")
         db.execSQL(sql)
+
         sql = ("create table " + HEAD_TABLE + " ("
                 + H_ID + " integer primary key, "
                 + H_TRANSECT_NO + " text, "
                 + H_INSPECTOR_NAME + " text)")
         db.execSQL(sql)
+
         sql = ("create table " + META_TABLE + " ("
                 + M_ID + " integer primary key, "
                 + M_TEMPS + " int, "
@@ -77,6 +83,7 @@ class DbHelper   // constructor
                 + M_END_TM + " text, "
                 + M_NOTE + " text)")
         db.execSQL(sql)
+
         sql = ("create table " + TRACK_TABLE + " ("
                 + T_ID + " integer primary key, "
                 + T_SECTION + " text, "
@@ -111,7 +118,7 @@ class DbHelper   // constructor
 
         //create initial data for COUNT_TABLE
         initialCount(db)
-        if (MyDebug.LOG) Log.d(TAG, "114, onCreate, Success!")
+        if (MyDebug.dLOG) Log.d(TAG, "121, onCreate, Success!")
     }
     // end of onCreate
 
@@ -159,7 +166,7 @@ class DbHelper   // constructor
     // see https://www.nextpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
     */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (MyDebug.LOG) Log.d(TAG, "162, upGrade")
+        if (MyDebug.dLOG) Log.d(TAG, "169, upGrade")
 
         if (oldVersion == 5) {
             version6(db)
@@ -200,61 +207,61 @@ class DbHelper   // constructor
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_F2I int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             colExist = true
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_F3I int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_PI int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_LI int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_EI int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_F2E int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_F3E int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_PE int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_LE int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         try {
             sql = "alter table $COUNT_TABLE add column $C_COUNT_EE int"
             db.execSQL(sql)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             //
         }
         if (!colExist) {
@@ -391,7 +398,7 @@ class DbHelper   // constructor
         db.execSQL(sql)
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "394, SECTION_TABLE resetted")
+        if (MyDebug.dLOG) Log.d(TAG, "401, SECTION_TABLE resetted")
 
         // reset meta data
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -402,7 +409,7 @@ class DbHelper   // constructor
                 + M_START_TM + " = '', "
                 + M_END_TM + " = ''")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "405, META_TABLE resetted")
+        if (MyDebug.dLOG) Log.d(TAG, "412, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -430,28 +437,27 @@ class DbHelper   // constructor
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
-        if (MyDebug.LOG) Log.d(TAG, "433, new empty counts1 table created")
+        if (MyDebug.dLOG) Log.d(TAG, "440, new empty counts1 table created")
 
         val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
         val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
         val specsL: List<String> = getAllSpeciesDataSrtCode(db).specsL
         val specNum: Int = codes.size
 
-        if (MyDebug.LOG) Log.d(TAG, "440, Anzahl Spez.: $specNum")
+        if (MyDebug.dLOG) Log.d(TAG, "447, Anzahl Spez.: $specNum")
 
-        // fill table for all previous sections with initSpecs data
         var cnti = 1  // count index for new track table
         var speci: Int // species index in initSpecs-array
-        var secti = 1 // for new contiguous section index
         var sectIncr = 0
         val sectionList: List<Section> = getAllSects(db)
-        for (section in sectionList) {
-            // for all species of section 1
+        // fill table for all previous sections with initSpecs data
+        for (secti in 0 until sectionList.size) {
             speci = 0
+            // for all species of section 1
             while (speci < specNum) {
                 val values4 = ContentValues()
                 values4.put(C_ID, cnti) // id from count index
-                values4.put(C_SECTION_ID, secti)
+                values4.put(C_SECTION_ID, secti + 1)
                 values4.put(C_NAME, specs[speci]) // name from species index
                 values4.put(C_CODE, codes[speci])
                 values4.put(C_COUNT_F1I, 0)
@@ -469,14 +475,13 @@ class DbHelper   // constructor
                 values4.put(C_NOTES, "")
                 values4.put(C_NAME_G, specsL[speci])
                 db.insert(COUNT_TABLE1, null, values4)
-                if (MyDebug.LOG) Log.d(TAG, "473, species cnti: " + cnti + ", " + specs[speci])
+                if (MyDebug.dLOG) Log.d(TAG, "478, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
-                if (MyDebug.LOG) Log.d(TAG, "476, species cnti: $cnti, index speci: $speci")
+                if (MyDebug.dLOG) Log.d(TAG, "481, species cnti: $cnti, index speci: $speci")
             }
-            if (MyDebug.LOG) Log.d(TAG, "478, last species-index: $cnti")
+            if (MyDebug.dLOG) Log.d(TAG, "483, last species-index: $cnti")
 
-            secti++
             sectIncr++
             cnti = (sectIncr * speci) + 1
         }
@@ -486,7 +491,7 @@ class DbHelper   // constructor
         sql = "ALTER TABLE $COUNT_TABLE1 RENAME TO $COUNT_TABLE"
         db.execSQL(sql)
 
-        if (MyDebug.LOG) Log.d(TAG, "490, Upgraded database to version 5")
+        if (MyDebug.dLOG) Log.d(TAG, "494, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -530,7 +535,7 @@ class DbHelper   // constructor
         sql = "DROP TABLE meta_backup"
         db.execSQL(sql)
 
-        if (MyDebug.LOG) Log.d(TAG, "534, META_TABLE initialized")
+        if (MyDebug.dLOG) Log.d(TAG, "538, META_TABLE initialized")
     }
 
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
@@ -576,7 +581,12 @@ class DbHelper   // constructor
 
     companion object {
         private const val DATABASE_VERSION = 6
-        private const val TAG = "TransektCnt DBHelper"
+        //DATABASE_VERSION 6: Modified table META_TABLE for start and end values
+        //DATABASE_VERSION 5: New table TRACK_TABLE for GPS supported control of transect sections
+        //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names
+        //DATABASE_VERSION 3: Column temp in table META_TABLE changed to tempe as 'temp' seems to have
+        //DATABASE_VERSION 2: New count columns added to COUNT_TABLE for sexes and stadiums
+        private const val TAG = "TransCnt DBHelper"
         private const val DATABASE_NAME = "transektcount.db"
 
         // tables

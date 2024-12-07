@@ -6,15 +6,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import com.wmstein.transektcount.TransektCountApplication
 
 /***********************************
  * Created by wmstein on 2016-03-31,
  * last edited on 2022-04-26,
  * converted to Kotlin on 2023-06-26
- * last edited on 2024-05-04
+ * last edited on 2024-11-26
  */
-class MetaDataSource(context: Context?) {
+class MetaDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
     private val dbHandler: DbHelper
@@ -33,12 +32,12 @@ class MetaDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = context?.let { DbHelper(it) }!!
+        dbHandler = DbHelper(context)
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = TransektCountApplication.getDatabase()
+        database = dbHandler.writableDatabase
     }
 
     fun close() {

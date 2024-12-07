@@ -3,6 +3,14 @@
   ~ add_species.xml is used by AddSpeciesActivity.
   -->
 <menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.wmstein.transektcount.AddSpeciesActivity">
+
+    <item
+        android:id="@+id/addSpecs"
+        android:title="@string/labelAddSpecButton"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_add"/>
 
 </menu>

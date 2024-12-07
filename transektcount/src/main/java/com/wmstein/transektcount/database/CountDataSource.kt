@@ -13,11 +13,10 @@ import com.wmstein.transektcount.TransektCountApplication
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-08-21
+ * last edited on 2024-11-27
  */
-class CountDataSource(context: Context?) {
+class CountDataSource(context: Context) {
     // Database fields
-    private val transektCountApp = TransektCountApplication()
     private var database: SQLiteDatabase? = null
     private val dbHandler: DbHelper
     private val allColumns = arrayOf(
@@ -42,12 +41,12 @@ class CountDataSource(context: Context?) {
     )
 
     init {
-        dbHandler = context?.let { DbHelper(it) }!!
+        dbHandler = DbHelper(context)
     }
 
     @Throws(SQLException::class)
     fun open() {
-        database = TransektCountApplication.getDatabase()
+        database = dbHandler.writableDatabase
     }
 
     fun close() {
@@ -112,12 +111,10 @@ class CountDataSource(context: Context?) {
         return newcount
     }
 
-    // Used by EditSpeciesListActivity
+    // Used by EditSectionListActivity
     fun deleteAllCountsWithCode(code: String?) {
-        println("118, CntDataSrc, deleteAllCountsWithCode, Löschen: Count mit Code: $code")
         val allCtsWithCode: List<Count> = getAllCountsWithCode(code)
         for (count in allCtsWithCode) {
-            println("121, deleteAllCountsWithCode, cntId: $count.id")
             database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + count.id, null)
         }
 
@@ -276,7 +273,7 @@ class CountDataSource(context: Context?) {
         database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    // Used by EditSpeciesListActivity
+    // Used by EditSectionListActivity
     fun updateCountForAllSections(
         sectid: Int,
         countid: Int,
@@ -294,7 +291,7 @@ class CountDataSource(context: Context?) {
         database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    // Used by EditSpeciesListActivity and CountingActivity
+    // Used by EditSectionListActivity and CountingActivity
     fun getAllCountsForSection(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.query(
@@ -311,7 +308,7 @@ class CountDataSource(context: Context?) {
         return counts
     }
 
-    // Used by EditSpeciesListActivity
+    // Used by EditSectionListActivity
     fun getAllSpeciesForSectionSrtCode(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
@@ -330,7 +327,7 @@ class CountDataSource(context: Context?) {
         return counts
     }
 
-    // Used by EditSpeciesListActivity
+    // Used by EditSectionListActivity
     fun getAllSpeciesForSectionSrtName(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
@@ -539,88 +536,6 @@ class CountDataSource(context: Context?) {
         }
         cursor.close()
         return uArray
-    }
-
-    // Used by CountingActivity
-    fun getAllImagesForSection(sectionId: Int): Array<Int?> {
-        val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
-            DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
-        )
-        val imageArray = arrayOfNulls<Int>(cursor.count)
-        cursor.moveToFirst()
-        var i = 0
-        while (!cursor.isAfterLast) {
-            @SuppressLint("Range")
-            val ucode = cursor.getString(cursor.getColumnIndex("code"))
-            val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResId(rname)
-            val resId0 = transektCountApp.getResId("p00000")
-            if (resId != 0) {
-                imageArray[i] = resId
-            } else {
-                imageArray[i] = resId0
-            }
-            i++
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return imageArray
-    }
-
-    // Used by CountingActivity
-    fun getAllImagesForSectionSrtName(sectionId: Int): Array<Int?> {
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
-                    + DbHelper.C_NAME, null
-        )
-        val imageArray = arrayOfNulls<Int>(cursor.count)
-        cursor.moveToFirst()
-        var i = 0
-        while (!cursor.isAfterLast) {
-            @SuppressLint("Range")
-            val ucode = cursor.getString(cursor.getColumnIndex("code"))
-            val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResId(rname)
-            val resId0 = transektCountApp.getResId("p00000")
-            if (resId != 0) {
-                imageArray[i] = resId
-            } else {
-                imageArray[i] = resId0
-            }
-            i++
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return imageArray
-    }
-
-    // Used by CountingActivity
-    fun getAllImagesForSectionSrtCode(sectionId: Int): Array<Int?> {
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
-                    + DbHelper.C_CODE, null
-        )
-        val imageArray = arrayOfNulls<Int>(cursor.count)
-        cursor.moveToFirst()
-        var i = 0
-        while (!cursor.isAfterLast) {
-            @SuppressLint("Range") val ucode = cursor.getString(cursor.getColumnIndex("code"))
-            val rname = "p$ucode" // species picture resource name
-            val resId = transektCountApp.getResId(rname)
-            val resId0 = transektCountApp.getResId("p00000")
-            if (resId != 0) {
-                imageArray[i] = resId
-            } else {
-                imageArray[i] = resId0
-            }
-            i++
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return imageArray
     }
 
     // Used by CountingActivity and CountOptionsActivity

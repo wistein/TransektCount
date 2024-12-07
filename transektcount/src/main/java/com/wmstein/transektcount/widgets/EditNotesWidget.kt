@@ -10,7 +10,7 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /*******************************************************
- * Used by EditSpeciesListActivity and widget_edit_notes.xml
+ * Used by EditSectionListActivity and widget_edit_notes.xml
  * Created by wmstein on 23.10.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,

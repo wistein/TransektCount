@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -34,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,18 +62,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-/**********************************************************************************************
- * CountingActivity is used when sections are manually selected in ListSectionActivity.
+/*********************************************************************************
+ * CountingActivity is called from SelectSectionActivity for the selected section.
  *   Does the actual counting with 12 counters,
  *   checks for alerts,
- *   calls CountOptionsActivity, EditSpeciesListActivity and DummyActivity,
+ *   calls CountOptionsActivity, EditSectionListActivity and DummyActivity,
  *   clones a section,
  *   switches screen off when device is pocketed
- *   and lets you send a message.
+ *   and allows taking pictures and sending notes.
  * <p>
- * Basic counting functions inspired by milo's CountingActivity.java of BeeCount from 2014-05-05.
+ * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edit on 2024-08-14.
+ * last edited on 2024-12-07
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -90,10 +92,10 @@ public class CountingActivity
     private LinearLayout speciesNotesArea;     // species notes line
     private LinearLayout alertNotesArea;       // alert notes line
 
-    // Proximity sensor handling for screen on/off
+    // Proximity sensor handling screen on/off
     private PowerManager.WakeLock mProximityWakeLock;
 
-    // preferences
+    // Preferences
     private SharedPreferences prefs;
     private boolean awakePref;
     private boolean brightPref;
@@ -108,7 +110,7 @@ public class CountingActivity
     private boolean buttonVibPref;
     private String specCode = "";
 
-    // the actual data
+    // Data
     private Count count;     // record in SQLite counts table for a counted species
     private Section section; // record in SQLite sections table
     private List<Alert> alerts;
@@ -122,13 +124,13 @@ public class CountingActivity
     private List<CountingWidgetLhInt> countingWidgetLH_i;
     private List<CountingWidgetLhExt> countingWidgetLH_e;
 
-    // data sources
+    // Data sources
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
     private AlertDataSource alertDataSource;
     private HeadDataSource headDataSource;
 
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private Ringtone r;
     private VibratorManager vibratorManager;
@@ -139,13 +141,11 @@ public class CountingActivity
     {
         super.onCreate(savedInstanceState);
 
-        Context context = this.getApplicationContext();
+        if (MyDebug.dLOG) Log.d(TAG, "144, onCreate");
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
-        prefs.registerOnSharedPreferenceChangeListener(this);
         setPrefVariables(); // set all stored preferences into their variables
-        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         // get values from calling activity
         Bundle extras = getIntent().getExtras();
@@ -160,10 +160,10 @@ public class CountingActivity
             itemPosition = 0;
         }
 
-        sectionDataSource = TransektCountApplication.getSectionDS();
-        countDataSource = TransektCountApplication.getCountDS();
-        alertDataSource = TransektCountApplication.getAlertDS();
-        headDataSource = TransektCountApplication.getHeadDS();
+        sectionDataSource = new SectionDataSource(this);
+        countDataSource = new CountDataSource(this);
+        alertDataSource = new AlertDataSource(this);
+        headDataSource = new HeadDataSource(this);
 
         // Set full brightness of screen
         if (brightPref)
@@ -174,7 +174,7 @@ public class CountingActivity
             getWindow().setAttributes(params);
         }
 
-        // distinguish between left-/ right-handed counting page layout
+        // Distinguish between left-/ right-handed counting page layout
         if (lhandPref)
         {
             setContentView(R.layout.activity_counting_lh);
@@ -200,23 +200,26 @@ public class CountingActivity
             alertNotesArea = findViewById(R.id.alertRemarkRH);
         }
 
-        if (awakePref)
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        try
-        {
-            assert mPowerManager != null;
+        PowerManager mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
             if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
                 mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
                     "TransektCount:WAKELOCK");
-            enableProximitySensor();
-        } catch (NullPointerException e)
+            else
+                mProximityWakeLock = null;
+
+        // new onBackPressed logic
+        OnBackPressedCallback callback = new OnBackPressedCallback(true)
         {
-            // do nothing
-        }
+            @Override
+            public void handleOnBackPressed()
+            {
+                Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
-    // End of onCreate
+    // End of onCreate()
 
     // Load preferences at start, and also when a change is detected
     private void setPrefVariables()
@@ -234,37 +237,33 @@ public class CountingActivity
         buttonVibPref = prefs.getBoolean("pref_button_vib", false);
     }
 
-    @SuppressLint("LongLogTag")
+    @SuppressLint("DiscouragedApi")
     @Override
     protected void onResume()
     {
         super.onResume();
 
+        if (MyDebug.dLOG) Log.d(TAG, "246, onResume");
+
+        enableProximitySensor();
+
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         setPrefVariables(); // set prefs into their variables
 
-        enableProximitySensor();
-
-        // Set full brightness of screen
-        if (brightPref)
-        {
+        if (awakePref)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-            params.screenBrightness = 1.0f;
-            getWindow().setAttributes(params);
-        }
 
-        // build the counting screen
-        //   clear any existing views
+        // Build the counting screen
+        //   Clear any existing views
         countsFieldHeadArea1.removeAllViews(); // headline internal/external
-        countsFieldArea1.removeAllViews();    // internal counts
+        countsFieldArea1.removeAllViews();     // internal counts
         countsFieldHeadArea2.removeAllViews(); // headline for external counts
-        countsFieldArea2.removeAllViews();    // external counts
-        speciesNotesArea.removeAllViews();   // species remarks
-        alertNotesArea.removeAllViews();     // alert remarks
+        countsFieldArea2.removeAllViews();     // external counts
+        speciesNotesArea.removeAllViews();     // species remarks
+        alertNotesArea.removeAllViews();       // alert remarks
 
-        // setup the data sources
+        // Setup the data sources
         sectionDataSource.open();
         countDataSource.open();
         alertDataSource.open();
@@ -292,7 +291,6 @@ public class CountingActivity
         String[] nameArray;
         String[] nameArrayL;
         String[] codeArray;
-        Integer[] imageArray;
 
         switch (sortPref)
         {
@@ -302,7 +300,6 @@ public class CountingActivity
                 nameArray = countDataSource.getAllStringsForSectionSrtName(section.id, "name");
                 codeArray = countDataSource.getAllStringsForSectionSrtName(section.id, "code");
                 nameArrayL = countDataSource.getAllStringsForSectionSrtName(section.id, "name_g");
-                imageArray = countDataSource.getAllImagesForSectionSrtName(section.id);
             }
             case "codes" ->
             {
@@ -310,7 +307,6 @@ public class CountingActivity
                 nameArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "name");
                 codeArray = countDataSource.getAllStringsForSectionSrtCode(section.id, "code");
                 nameArrayL = countDataSource.getAllStringsForSectionSrtCode(section.id, "name_g");
-                imageArray = countDataSource.getAllImagesForSectionSrtCode(section.id);
             }
             default ->
             {
@@ -318,8 +314,26 @@ public class CountingActivity
                 nameArray = countDataSource.getAllStringsForSection(section.id, "name");
                 codeArray = countDataSource.getAllStringsForSection(section.id, "code");
                 nameArrayL = countDataSource.getAllStringsForSection(section.id, "name_g");
-                imageArray = countDataSource.getAllImagesForSection(section.id);
             }
+        }
+
+        String rName;
+        int resId, resId0;
+        int iPic = 0;
+        resId0 = getResources().getIdentifier("p00000", "drawable",
+            getPackageName());
+
+        Integer[] imageArray = new Integer[codeArray.length];
+        for (String code : codeArray)
+        {
+            rName = "p" + code;
+            resId = getResources().getIdentifier(rName, "drawable",
+                getPackageName());
+            if (resId != 0)
+                imageArray[iPic] = resId;
+            else
+                imageArray[iPic] = resId0;
+            iPic++;
         }
 
         countingWidget_i = new ArrayList<>();
@@ -332,13 +346,13 @@ public class CountingActivity
         else
             vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-        // 2. show Head2: species with selection spinner
+        // Show head2: Species with spinner to select
         if (lhandPref) // if left-handed counting page
             spinner = findViewById(R.id.countHead1SpinnerLH);
         else
             spinner = findViewById(R.id.countHead1Spinner);
 
-        //   get itemPosition of added species by specCode from sharedPreference
+        // Get itemPosition of added species by specCode from sharedPreference
         if (!Objects.equals(prefs.getString("new_spec_code", ""), ""))
         {
             specCode = prefs.getString("new_spec_code", "");
@@ -363,16 +377,14 @@ public class CountingActivity
             specCode = "";
         }
 
+        // Set part of counting screen
         CountingWidgetHead1 adapter = new CountingWidgetHead1(this,
             R.layout.widget_counting_head1, idArray, nameArray, nameArrayL, codeArray, imageArray);
         spinner.setAdapter(adapter);
         spinner.setSelection(itemPosition); // from savedInstanceState
         spinnerListener();
-
-        if (awakePref)
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-    // End of onResume
+    // End of onResume()
 
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
@@ -388,24 +400,11 @@ public class CountingActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will automatically handle clicks
-        // on the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == android.R.id.home) // back button in actionBar
         {
-            Intent intent = new Intent(CountingActivity.this, ListSectionActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        if (id == R.id.menuDelSpecies)
-        {
-            disableProximitySensor();
-
-            Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("section_id", sectionId);
+            Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
             startActivity(intent);
             return true;
         }
@@ -414,7 +413,7 @@ public class CountingActivity
         {
             disableProximitySensor();
 
-            // A Snackbar here comes incomplete
+            // Use toast as a Snackbar here comes incomplete
             Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT)
                 .show();
 
@@ -427,14 +426,35 @@ public class CountingActivity
             return true;
         }
 
+        if (id == R.id.menuDelSpecies)
+        {
+            disableProximitySensor();
+
+            // Use toast as a Snackbar here comes incomplete
+            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT)
+                .show();
+
+            Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("section_id", sectionId);
+            mHandler.postDelayed(() ->
+                startActivity(intent), 100);
+            return true;
+        }
+
         if (id == R.id.menuEditSection)
         {
             disableProximitySensor();
 
-            Intent intent = new Intent(CountingActivity.this, EditSpeciesListActivity.class);
+            // Use toast as a Snackbar here comes incomplete
+            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT)
+                .show();
+
+            Intent intent = new Intent(CountingActivity.this, EditSectionListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("section_id", sectionId);
-            startActivity(intent);
+            mHandler.postDelayed(() ->
+                startActivity(intent), 100);
             return true;
         }
         else if (id == R.id.menuTakePhoto)
@@ -476,19 +496,21 @@ public class CountingActivity
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "TransektCount " + head.transect_no);
-            sendIntent.putExtra(Intent.EXTRA_TITLE, "Message by TransektCount");
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Message of TransektCount");
             sendIntent.putExtra(Intent.EXTRA_TEXT, section.name + ": ");
             sendIntent.setType("text/plain");
             startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
-    } // end of onOptionsItemSelected
+    }
+    // End of onOptionsItemSelected()
 
     // Call CountOptionsActivity with parameters by button in widget_counting_head2.xml
     public void editOptions(View view)
     {
+        disableProximitySensor();
+
         Intent intent = new Intent(CountingActivity.this, CountOptionsActivity.class);
         intent.putExtra("count_id", iid);
         intent.putExtra("section_id", sectionId);
@@ -529,6 +551,8 @@ public class CountingActivity
     {
         super.onPause();
 
+        if (MyDebug.dLOG) Log.d(TAG, "554, onPause");
+
         disableProximitySensor();
 
         // close the data sources
@@ -542,14 +566,25 @@ public class CountingActivity
         {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
         prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
-    // end of onPause()
+    // End of onPause()
 
     @Override
     public void onStop()
     {
         super.onStop();
+
+        if (MyDebug.dLOG) Log.d(TAG, "579, onStop");
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+        if (MyDebug.dLOG) Log.d(TAG, "587, onDestroy");
 
         if (r != null)
             r.stop(); // stop media player
@@ -578,22 +613,22 @@ public class CountingActivity
 
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
-                    if (MyDebug.LOG)
-                        Log.d(TAG, "567, SpinnerListener, count id: " + count.id
+                    if (MyDebug.dLOG)
+                        Log.d(TAG, "617, SpinnerListener, count id: " + count.id
                             + ", code: " + count.code);
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
-                    if (MyDebug.LOG)
-                        Log.e(TAG, "574, SpinnerListener, catch: " + e);
+                    if (MyDebug.dLOG)
+                        Log.e(TAG, "624, SpinnerListener, catch: " + e);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
-                // stub, necessary to make Spinner work correctly when repeatedly used
+                // Stub, necessary to make Spinner work correctly when repeatedly used
             }
         });
     }
@@ -601,14 +636,15 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count)
     {
-        // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
+        if (MyDebug.dLOG) Log.d(TAG, "639, countingScreen");
 
+        // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
-        CountingWidgetHead2 head2 = new CountingWidgetHead2(this, null, true);
+        CountingWidgetHead2 head2 = new CountingWidgetHead2(this, null);
         head2.setCountHead2(count);
         countsFieldHeadArea1.addView(head2);
 
-        // 3. counts internal
+        // 3. Counts internal
         if (lhandPref) // if left-handed counting page
         {
             CountingWidgetLhInt widgeti = new CountingWidgetLhInt(this, null);
@@ -629,7 +665,7 @@ public class CountingActivity
         head3.setCountHead3();
         countsFieldHeadArea2.addView(head3);
 
-        // 5. counts external
+        // 5. Counts external
         if (lhandPref) // if left-handed counting page
         {
             CountingWidgetLhExt widgete = new CountingWidgetLhExt(this, null);
@@ -645,7 +681,7 @@ public class CountingActivity
             countsFieldArea2.addView(widgete);
         }
 
-        // 6. species note widget if there are any notes
+        // 6. Species note widget if there are any notes
         if (isNotBlank(count.notes))
         {
             NotesWidget count_notes = new NotesWidget(this, null);
@@ -654,7 +690,7 @@ public class CountingActivity
             speciesNotesArea.addView(count_notes);
         }
 
-        // 7. species alerts note widget if there are any alert notes to show
+        // 7. Species alerts note widget if there are any alert notes to show
         List<String> alertExtras = new ArrayList<>();
         alerts = new ArrayList<>();
         List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
@@ -673,12 +709,10 @@ public class CountingActivity
             alertNotesArea.addView(alertNotes);
         }
     }
-    // end of countingScreen
+    // End of countingScreen
 
-    /************************************************************
-     * The following 4 functions get a referenced counting widget
-     */
-    // countingWidget_i (internal, right-handed)
+    // Get the referenced counting widgets
+    // CountingWidget_i (internal, right-handed)
     private CountingWidgetInt getCountFromId_i(int id)
     {
         for (CountingWidgetInt widget : countingWidget_i)
@@ -690,7 +724,7 @@ public class CountingActivity
         return null;
     }
 
-    // countingWidgetLH_i (internal, left-handed)
+    // CountingWidgetLH_i (internal, left-handed)
     private CountingWidgetLhInt getCountFromIdLH_i(int id)
     {
         for (CountingWidgetLhInt widget : countingWidgetLH_i)
@@ -702,7 +736,7 @@ public class CountingActivity
         return null;
     }
 
-    // countingWidget_e (external, right-handed)
+    // CountingWidget_e (external, right-handed)
     private CountingWidgetExt getCountFromId_e(int id)
     {
         for (CountingWidgetExt widget : countingWidget_e)
@@ -714,7 +748,7 @@ public class CountingActivity
         return null;
     }
 
-    // countingWidgetLH_e (external, left-handed)
+    // CountingWidgetLH_e (external, left-handed)
     private CountingWidgetLhExt getCountFromIdLH_e(int id)
     {
         for (CountingWidgetLhExt widget : countingWidgetLH_e)
@@ -728,18 +762,15 @@ public class CountingActivity
 
     /*****************************************************************
      * The functions below are triggered by the count buttons
-     * and righthand/lefthand (LH) views
+     * on the righthand/lefthand (LH) views
      * <p>
      * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
      */
     public void countUpf1i(View view)
     {
-        // run dummy activity to fix spinner's 1. misbehaviour:
-        //  no action by 1st click when previous species selected again
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.LOG)
-            Log.d(TAG, "728, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+        if (MyDebug.dLOG)
+            Log.d(TAG, "773, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -748,7 +779,7 @@ public class CountingActivity
             // When returning from species that got no count to previous selected species: 
             //   1st count button press is ignored,
             //   so use button sound only for 2nd press when actually counted
-            // ToDo: instead of workaround complete fix by spinner replacement
+            // ToDo: instead of this workaround fix by spinner replacement
             oldCounter = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             assert widget.count != null;
@@ -762,10 +793,13 @@ public class CountingActivity
                 checkAlert(widget.count.id, widget.count.count_f1i
                     + widget.count.count_f2i + widget.count.count_f3i);
 
-                // save the data
+                // Save the data
                 countDataSource.saveCountf1i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            // Run dummy activity to reenter CountinActivity and so fix spinner's 1. misbehaviour:
+            //  no action by 1st click when previous species selected again
+            dummy();
         }
     }
 
@@ -797,10 +831,9 @@ public class CountingActivity
 
     public void countDownf1i(View view)
     {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.LOG)
-            Log.d(TAG, "789, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.dLOG)
+            Log.d(TAG, "836, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -816,6 +849,7 @@ public class CountingActivity
                 buttonVibLong();
                 countDataSource.saveCountf1i(count);
             }
+            dummy();
         }
     }
 
@@ -1305,8 +1339,8 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.LOG)
-            Log.d(TAG, "1295, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.dLOG)
+            Log.d(TAG, "1343, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1356,8 +1390,8 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.LOG)
-            Log.d(TAG, "1346, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.dLOG)
+            Log.d(TAG, "1394, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1847,19 +1881,128 @@ public class CountingActivity
             }
         }
     }
-    // end of counters
+    // End of counters
 
     /*****************/
-
     // Call DummyActivity to overcome Spinner deficiency for repeated item
-    public void dummy()
+    private void dummy()
     {
         Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
-        intent.putExtra("auto_section", false);
+        intent.putExtra("section_id", sectionId);
+        intent.putExtra("init_Chars", "");
+        intent.putExtra("is_Flag", "isCount");
         startActivity(intent);
     }
 
-    // alert checking...
+    // Clone section with check for double names
+    private void cloneSection()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.dpSectTitle));
+
+        // Set up the input
+        final EditText input = new EditText(this);
+
+        // Specify the type of input expected
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", (dialog, which) ->
+        {
+            // Enter new section title
+            String sect_name = input.getText().toString();
+
+            // Check for empty section name
+            if (sect_name.isEmpty())
+            {
+                showSnackbarRed(getString(R.string.newSectName));
+                return;
+            }
+
+            // Check if this is not a duplicate of an existing name
+            if (compSectionNames(sect_name))
+            {
+                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
+                return;
+            }
+
+            // Check if section is contiguous
+            int entries = -1, maxId = 0;
+            try
+            {
+                entries = sectionDataSource.getNumEntries();
+            } catch (Exception e)
+            {
+                if (MyDebug.dLOG) showSnackbarRed("getNumEntries failed");
+            }
+
+            try
+            {
+                maxId = sectionDataSource.getMaxId();
+            } catch (Exception e)
+            {
+                if (MyDebug.dLOG) showSnackbarRed("getMaxId failed");
+            }
+
+            if (entries != maxId)
+            {
+                showSnackbarRed(getString(R.string.notContiguous));
+                if (MyDebug.dLOG)
+                    showSnackbarRed("maxId: " + maxId + ", entries: " + entries);
+                return;
+            }
+
+            // Creating the new section
+            Section newSection = sectionDataSource.createSection(sect_name);
+            sectionDataSource.saveSection(newSection);
+            for (Count c : countDataSource.getAllCountsForSection(sectionId))
+            {
+                Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
+                if (newCount != null)
+                {
+                    countDataSource.saveCount(newCount);
+                }
+            }
+
+            // Exit this and go to the list of new sections
+            Toast.makeText(CountingActivity.this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
+            startActivity(intent);
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+    // Compare section names for duplicates and return state of duplicate found
+    private boolean compSectionNames(String newname)
+    {
+        boolean isDblName = false;
+        String sname;
+
+        List<Section> sectionList = sectionDataSource.getAllSections(prefs);
+
+        int childcount = sectionList.size() + 1;
+        // For all sections
+        for (int i = 1; i < childcount; i++)
+        {
+            section = sectionDataSource.getSection(i);
+            sname = section.name;
+            if (MyDebug.dLOG) Log.d(TAG, "1993, compSectionNames, sname = " + sname);
+
+            if (newname.equals(sname))
+            {
+                isDblName = true;
+                if (MyDebug.dLOG) Log.d(TAG, "1998, compSectionNames, Double name = " + sname);
+                break;
+            }
+        }
+        return isDblName;
+    }
+
+    // Alert checking...
     private void checkAlert(int countId, int count_value)
     {
         for (Alert a : alerts)
@@ -1894,9 +2037,10 @@ public class CountingActivity
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
+                mHandler.postDelayed(r::stop, 300); // Stop sound after 0.3 sec
             } catch (Exception e)
             {
-                // do nothing
+                // Do nothing
             }
         }
     }
@@ -1906,8 +2050,6 @@ public class CountingActivity
     {
         if (buttonSoundPref)
         {
-            if (r != null)
-                r.stop();
             try
             {
                 Uri notification;
@@ -1915,11 +2057,13 @@ public class CountingActivity
                     notification = Uri.parse(buttonSound);
                 else
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
+                mHandler.postDelayed(r::stop, 400);
             } catch (Exception e)
             {
-                // do nothing
+                // Do nothing
             }
         }
     }
@@ -1928,8 +2072,6 @@ public class CountingActivity
     {
         if (buttonSoundPref)
         {
-            if (r != null)
-                r.stop();
             try
             {
                 Uri notification;
@@ -1939,9 +2081,10 @@ public class CountingActivity
                     notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 r.play();
+                mHandler.postDelayed(r::stop, 400);
             } catch (Exception e)
             {
-                // do nothing
+                // Do nothing
             }
         }
     }
@@ -1960,14 +2103,15 @@ public class CountingActivity
                 else
                 {
                     if (Build.VERSION.SDK_INT >= 26)
-                        vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                        vibrator.vibrate(VibrationEffect.createOneShot(100,
+                            VibrationEffect.DEFAULT_AMPLITUDE));
                     else
-                        vibrator.vibrate(100);
+                        vibrator.vibrate(400);
                     vibrator.cancel();
                 }
             } catch (Exception e)
             {
-                // do nothing
+                // Do nothing
             }
         }
     }
@@ -1986,124 +2130,17 @@ public class CountingActivity
                 else
                 {
                     if (Build.VERSION.SDK_INT >= 26)
-                        vibrator.vibrate(VibrationEffect.createOneShot(450, VibrationEffect.DEFAULT_AMPLITUDE));
+                        vibrator.vibrate(VibrationEffect.createOneShot(450,
+                            VibrationEffect.DEFAULT_AMPLITUDE));
                     else
                         vibrator.vibrate(450);
                     vibrator.cancel();
                 }
             } catch (Exception e)
             {
-                // do nothing
+                // Do nothing
             }
         }
-    }
-
-    // cloneSection() with check for double names
-    private void cloneSection()
-    {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.dpSectTitle));
-
-        // Set up the input
-        final EditText input = new EditText(this);
-
-        // Specify the type of input expected
-        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", (dialog, which) ->
-        {
-            // enter new section title
-            String sect_name = input.getText().toString();
-
-            // check for empty section name
-            if (sect_name.isEmpty())
-            {
-                showSnackbarRed(getString(R.string.newSectName));
-                return;
-            }
-
-            // check if this is not a duplicate of an existing name
-            if (compSectionNames(sect_name))
-            {
-                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
-                return;
-            }
-
-            // check if section is contiguous
-            int entries = -1, maxId = 0;
-            try
-            {
-                entries = sectionDataSource.getNumEntries();
-            } catch (Exception e)
-            {
-                if (MyDebug.LOG) showSnackbarRed("getNumEntries failed");
-            }
-
-            try
-            {
-                maxId = sectionDataSource.getMaxId();
-            } catch (Exception e)
-            {
-                if (MyDebug.LOG) showSnackbarRed("getMaxId failed");
-            }
-
-            if (entries != maxId)
-            {
-                showSnackbarRed(getString(R.string.notContiguous));
-                if (MyDebug.LOG)
-                    showSnackbarRed("maxId: " + maxId + ", entries: " + entries);
-                return;
-            }
-
-            // Creating the new section
-            Section newSection = sectionDataSource.createSection(sect_name);
-            sectionDataSource.saveSection(newSection);
-            for (Count c : countDataSource.getAllCountsForSection(sectionId))
-            {
-                Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
-                if (newCount != null)
-                {
-                    countDataSource.saveCount(newCount);
-                }
-            }
-
-            // Exit this and go to the list of new sections
-            Toast.makeText(CountingActivity.this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CountingActivity.this, ListSectionActivity.class);
-            startActivity(intent);
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
-        builder.show();
-    }
-
-    // Compare section names for duplicates and return state of duplicate found
-    private boolean compSectionNames(String newname)
-    {
-        boolean isDblName = false;
-        String sname;
-
-        List<Section> sectionList = sectionDataSource.getAllSections(prefs);
-
-        int childcount = sectionList.size() + 1;
-        // for all Sections
-        for (int i = 1; i < childcount; i++)
-        {
-            section = sectionDataSource.getSection(i);
-            sname = section.name;
-            if (MyDebug.LOG) Log.d(TAG, "2084, compSectionNames, sname = " + sname);
-
-            if (newname.equals(sname))
-            {
-                isDblName = true;
-                if (MyDebug.LOG) Log.d(TAG, "2089, compSectionNames, Double name = " + sname);
-                break;
-            }
-        }
-        return isDblName;
     }
 
     private void enableProximitySensor()
@@ -2112,7 +2149,7 @@ public class CountingActivity
             return;
 
         if (!mProximityWakeLock.isHeld())
-            mProximityWakeLock.acquire(30 * 60 * 1000L /*30 minutes*/);
+            mProximityWakeLock.acquire(30 * 60 * 1000L); // 30 minutes
     }
 
     // Check for API-Level 21 or above is done previously
@@ -2162,9 +2199,10 @@ public class CountingActivity
 
     public static boolean isBlank(final CharSequence cs)
     {
-        int strLen = cs.length();
-        if (cs == null || strLen == 0)
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0)
             return true;
+
         for (int i = 0; i < strLen; i++)
         {
             if (!Character.isWhitespace(cs.charAt(i)))

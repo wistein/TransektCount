@@ -1,37 +1,29 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu seit Version 4.1.0:
-- Funktion zur Bestimmung des Abschnitts per GPS entfernt, da zu unzuverlässig.
-- Überschrift für Dateiauswahlseite hinzugefügt
-- Überschrift für Einstellungsmenü hinzugefügt
-- Einstellungsmenü zeigt nun die Zustände der Optionen an
-- Getrennte Ansichten für Editieren, Löschen und Hinzufügen von Arten
-- Checkboxen zum mehrfachen Löschen von Arten der Zählliste
-- Checkboxen zum mehrfachen Hinzufügen weiterer Arten zur Zählliste
-- Meta-Daten ergänzt mit Feld für Bemerkung zur aktuellen Begehung (ersetzt Abschnittsbemerkungen)
-- Einstellungsoption hinzugefügt für das Sortieren der Ergebnisse nach Abschnitten oder Artnamen
-- CSV-Export für Änderungen angepasst
-- Interne Falterliste jetzt identisch mit der Liste von TourCount
-- Verbesserungen bei Code, Text und Layouts
-- Lizenztext separiert
-- Veraltete (deprecated) Funktion ersetzt
-- Doku angepasst
+Neu in Version 4.2.0:
+- csv Ergebnistabelle modifiziert
+- Dateinamen der exportierten akt. DB und csv-Tabelle mit Transekt-Nr.
+- App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
+- Hinzufügen, löschen und editieren von Arten mit Option der Vorauswahl mit 2 Anfangsbuchstaben
+- Code-Verbesserungen
 - Bug-Fixes
+- Doku-Update
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
 - Datenbanken beziehen sich auf ein Transekt und können innerhalb der App individuell erstellt und angepasst werden bezüglich Meta-Daten, Transektabschnitten und zu erwartenden Arten.
-- Die App enthält eine vorbereitete Datenbank mit den häufigsten in Deutschland zu erwartenden Arten als Ausgangspunkt.
-- Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂♀, ♂, ♀, Puppe, Raupe oder Ei.
+- Die App enthält eine interne Liste mit vielen europäischen Arten und hat als Ausgangspunkt zur direkten Nutzung eine vorbereitete Datenbank für einen Transektabschnitt mit den häufigsten in Deutschland zu erwartenden Arten.
+- Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂-♀-unbestimmt, ♂, ♀, Puppe, Raupe oder Ei.
 - Ergebnisseite mit aufbereiteter Darstellung zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (www.tmd-daten.de).
 - Das Ergebnis kann als SQLite-Datei oder als CSV-Tabelle ausgegeben werden (u. a. zwecks Transfer und Weiterverwendung in einem Spreadsheet-Programm auf einem PC).
 - Die Hilfe enthält eine detaillierte Benutzeranleitung.
 
 Funktionen:
-- Editor für die Einrichtung der Transektabschnitte mit Artenauswahl aus umfassender Scroll-Down-Liste.
+- Duplizieren und Löschen von Transektabschnitten.
+- Bearbeitung der Transektabschnittslisten (Hinzufügen und Löschen von Arten sowie Editieren der Bezeichnungen).
 - Editor für Meta-Daten zur Vorbereitung einer Begehung.
-- Spezies-Editor für Bemerkung, Zählerstände und Zähl-Alarm.
 - Zählerseite pro Abschnitt mit Scroll-Down-Liste zur Artauswahl.
+- Spezies-Editor für Bemerkung, Zählerstände und Zähl-Alarm.
 - Die Ergebnisseite zeigt Meta-Daten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
 
 Voraussetzungen:

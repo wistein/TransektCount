@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2024-08-23 -->
+     last edited 2024-12-02 -->
 
 <resources>
 
@@ -33,7 +33,7 @@
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importDB">Die Datenbank wurde importiert.</string>
     <string name="noDb">Bitte kopiere \"transektcount0.db\" in das Verzeichnis \'Documents/TransektCount\'.</string>
-    <string name="corruptDb">Datenbankfehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
+    <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
@@ -61,7 +61,6 @@
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>
     <string name="fileSize">Größe</string>
-    <string name="noBack">Bitte erst Datei wählen, Abbruch ist danach möglich.</string>
     <string name="noFile">Keine Datei vorhanden!</string>
     <string name="fileHeadlineEXP">Liste der TourCount-Speziesdateien</string>
     <string name="fileHeadlineDB">Liste der DB-Dateien</string>
@@ -80,13 +79,6 @@
     <string name="valWind">Wind überprüfen!</string>
     <string name="valClouds">Wolken überprüfen!</string>
     <string name="date">Datum:</string>
-
-    <!-- EditSpeciesListActivity -->
-    <string name="labelNewsectSaveButton">Speichern und editieren</string>
-    <string name="labelDelSpecButton">Art entfernen</string>
-    <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
-    <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
-    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um die Funktion auszuführen.</string>
 
     <!-- CountingActivity -->
     <string name="saveCountsButton">Sichern</string>
@@ -113,8 +105,14 @@
     <string name="action_share">Mitteilen</string>
     <string name="send_to">Versenden</string>
 
-    <!-- EditSpeciesListActivity -->
-    <string name="headEdit">Edit. Abschnittsname + Arten</string>
+    <!-- EditSectionListActivity -->
+    <string name="labelAddSpecButton">Arten hinzufügen</string>
+    <string name="labelDelSpecButton">Arten entfernen</string>
+    <string name="labelEditSpecButton">Liste editieren</string>
+    <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
+    <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
+    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um die Funktion auszuführen.</string>
+    <string name="headEdit">Bezeichnungen editieren</string>
     <string name="titleEdit">Name des aktuellen Abschnitts</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
     <string name="isdouble"> ist doppelt!</string>
@@ -122,17 +120,14 @@
     <string name="orcode"> oder Code</string>
     <string name="isempt">Ein Name oder Code ist leer!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
-    <string name="presentSpecs">Arten in der Zählliste:</string>
+    <string name="presentSpecs">Arten in Liste:</string>
     <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
-
-    <!-- DelSpeciesActivity -->
-    <string name="deleteSpecs">Markierte Arten löschen</string>
-    <string name="reallyDeleteSpecs">Bist Du sicher? Die Arten werden sofort gelöscht.</string>
-    <string name="deletedList">Gelöscht: Abschnittsliste mit ID: "</string>
 
     <!-- AddSpeciesActivity -->
     <string name="addTitle">Arten hinzufügen</string>
     <string name="specsToAdd">Weitere Arten:</string>
+    <string name="hintSearch">Anfangsbuchst.</string>
+    <string name="initCharsL">Bitte 2 Buchst.</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App-Info</string>
@@ -202,14 +197,14 @@
     <string name="countNameG">Neue Art (deutscher Name)</string>
     <string name="countCode">Code</string>
     <string name="notesSpecies">Bemerkung zur Art (%1$s)</string>
-    <string name="deleteAlert">Lösche Alarm</string>
+    <string name="delAlert">Lösche Alarm</string>
     <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
     <string name="yesDeleteIt">Löschen</string>
 
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Liste wird berechnet&#8230;</string>
-    <string name="txt_mf">♂, ♀</string>
+    <string name="txt_mf">♂♀</string>
     <string name="txt_m">♂</string>
     <string name="txt_f">♀</string>
     <string name="txt_p">Puppe</string>
@@ -226,7 +221,7 @@
     <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
     <string name="countExternalSum">Summen außerhalb des Zählbereichs:</string>
     <string name="totalsIES">Gesamt intern / extern / Arten:</string>
-    <string name="countImagomfHint">Falter ♂, ♀</string>
+    <string name="countImagomfHint">Falter ♂♀</string>
     <string name="countImagomHint">Falter ♂</string>
     <string name="countImagofHint">Falter ♀</string>
     <string name="countPupaHint">Puppe</string>

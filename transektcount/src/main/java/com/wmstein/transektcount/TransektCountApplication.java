@@ -1,27 +1,21 @@
 package com.wmstein.transektcount;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import android.view.WindowMetrics;
 
 import androidx.preference.PreferenceManager;
-
-import com.wmstein.transektcount.database.AlertDataSource;
-import com.wmstein.transektcount.database.CountDataSource;
-import com.wmstein.transektcount.database.DbHelper;
-import com.wmstein.transektcount.database.HeadDataSource;
-import com.wmstein.transektcount.database.MetaDataSource;
-import com.wmstein.transektcount.database.SectionDataSource;
 
 import java.util.Objects;
 
@@ -30,32 +24,31 @@ import java.util.Objects;
  <p>
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted by wmstein on 18.02.2016,
- * last edit on 2024-06-20
+ * last edit on 2024-12-05
  */
 public class TransektCountApplication extends Application
 {
     private static final String TAG = "TransektCntAppl";
     private static SharedPreferences prefs;
-    @SuppressLint("StaticFieldLeak")
-    private static Context context;
     public BitmapDrawable bMapDraw;
     private Bitmap bMap;
     int width;
     int height;
-    int resID;
-    private static DbHelper dbHandler;
-    private static SQLiteDatabase database;
-    private static HeadDataSource headDataSource;
-    private static SectionDataSource sectionDataSource;
-    private static MetaDataSource metaDataSource;
-    private static CountDataSource countDataSource;
-    private static AlertDataSource alertDataSource;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        TransektCountApplication.context = getApplicationContext();
+
+        // Support to debug "A resource failed to call ..." (close, dispose or similar)
+        if (MyDebug.dLOG)
+        {
+            Log.i(TAG, "46, onCreate, StrictMode.setVmPolicy");
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
+                .detectLeakedClosableObjects()
+                .build());
+        }
+
         bMapDraw = null;
         bMap = null;
         try
@@ -63,57 +56,13 @@ public class TransektCountApplication extends Application
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
         } catch (Exception e)
         {
-            if (MyDebug.LOG) Log.e(TAG, "68, " + e);
+            if (MyDebug.dLOG) Log.e(TAG, "59, " + e);
         }
-
-        dbHandler = new DbHelper(getApplicationContext());
-        database = dbHandler.getWritableDatabase();
-
-        headDataSource = new HeadDataSource(getApplicationContext());
-        sectionDataSource = new SectionDataSource(getApplicationContext());
-        metaDataSource = new MetaDataSource(getApplicationContext());
-        countDataSource = new CountDataSource(getApplicationContext());
-        alertDataSource = new AlertDataSource(getApplicationContext());
     }
+    // End of onCreate()
 
-    public static SQLiteDatabase getDatabase()
-    {
-        return database;
-    }
-
-    public static HeadDataSource getHeadDS()
-    {
-        return headDataSource;
-    }
-
-    public static SectionDataSource getSectionDS()
-    {
-        return sectionDataSource;
-    }
-
-    public static MetaDataSource getMetaDS()
-    {
-        return metaDataSource;
-    }
-
-    public static CountDataSource getCountDS()
-    {
-        return countDataSource;
-    }
-
-    public static AlertDataSource getAlertDS()
-    {
-        return alertDataSource;
-    }
-
-    // Provide access to Application Context
-    public static Context getAppContext()
-    {
-        return TransektCountApplication.context;
-    }
-
-    // The idea here is to keep bMapDraw around as a pre-prepared bitmap, only setting it up
-    // when the user's settings change or when the application starts up.
+    // bMapDraw is a pre-prepared bitmap set when the application starts up
+    // or the settings are changed
     public BitmapDrawable getBackground()
     {
         if (bMapDraw == null)
@@ -133,12 +82,22 @@ public class TransektCountApplication extends Application
         String backgroundPref = prefs.getString("pref_backgr", "default");
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         assert wm != null;
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-        height = size.y;
-//        if (MyDebug.LOG) Log.d(TAG, "142, width = " + width + ", height = " + height);
+
+        if (Build.VERSION.SDK_INT >= 30) {
+            final WindowMetrics metrics = wm.getCurrentWindowMetrics();
+            width = metrics.getBounds().right + metrics.getBounds().left;
+            height = metrics.getBounds().top +metrics.getBounds().bottom;
+        }
+        else
+        {
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            width = size.x;
+            height = size.y;
+        }
+
+        if (MyDebug.dLOG) Log.d(TAG, "100, width = " + width + ", height = " + height);
 
         switch (Objects.requireNonNull(backgroundPref))
         {
@@ -169,6 +128,27 @@ public class TransektCountApplication extends Application
         return bMapDraw;
     }
 
+    public Bitmap decodeBitmap(int resId, int reqWidth, int reqHeight)
+    {
+        // First decode with inJustDecodeBounds = true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        try
+        {
+            return BitmapFactory.decodeResource(getResources(), resId, options);
+        } catch (OutOfMemoryError e)
+        {
+            return null;
+        }
+    }
+
     // Scale background bitmap
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
     {
@@ -185,7 +165,8 @@ public class TransektCountApplication extends Application
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             //   height1 and width1 larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth)
+            while ((halfHeight / inSampleSize) >= reqHeight
+                && (halfWidth / inSampleSize) >= reqWidth)
             {
                 inSampleSize *= 2;
             }
@@ -193,39 +174,9 @@ public class TransektCountApplication extends Application
         return inSampleSize;
     }
 
-    public Bitmap decodeBitmap(int resId, int reqWidth, int reqHeight)
-    {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(getResources(), resId, options);
-    }
-
     public static SharedPreferences getPrefs()
     {
         return prefs;
-    }
-
-    // Get resource ID from resource name
-    @SuppressLint("DiscouragedApi")
-    public int getResId(String rName) // non-static method
-    {
-        try
-        {
-            resID = getAppContext().getResources().getIdentifier(rName, "drawable",
-                getAppContext().getPackageName());
-            return resID;
-        } catch (Exception e)
-        {
-            return 0;
-        }
     }
 
 }

@@ -11,7 +11,7 @@ Smartphone with high resolution screen (Android 7.1 or higher)
 
 ## Android Studio Components
 Android SDK with
-- Android Platforms: 9, 10, 11, 12, 13, 14
+- Android Platforms: 9, 10, 11, 12, 13, 14, 15
 - SDK Tools: Android Emulator, Android SDK Platform-Tools, Android SDK Tools, Android Support Library, Google USB Driver, Intel x86 Emulator Accelerator, Android Support Repository, Google Repository
 - Plugins: .ignore, Android Support, CVS Integration, EditorConfig, Git Integration, GitHub, Gradle, Groovy, hg4idea, I18n for Java, IntelliLang, Java Bytecode Decompiler, JUnit, Properties Support, SDK Updater, Subversion Integration, Task Management, Terminal 
 
@@ -19,12 +19,12 @@ Android SDK with
 
 ### build.gradle (TransektCount)
 - buildscript:
-  kotlin_version = '1.9.22' (or higher)
-  classpath 'com.android.tools.build:gradle:8.2.2' (or higher)
+  kotlin_version = '2.0.20' (or higher)
+  classpath 'com.android.tools.build:gradle:8.7.2' (or higher)
   classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 ### build.gradle (transecktcount)
-- Compiled with SDK Ver. 34 but for targetSdkVersion 34 and minSdk 25.
+- Compiled with SDK Ver. 35 but for targetSdkVersion 34 and minSdk 25.
 - External Libraries:
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.appcompat:appcompat:x.y.z' (current version)

@@ -10,7 +10,7 @@
         app:showAsAction="always">
     </item>
     <item
-        android:id="@+id/startCounting"
+        android:id="@+id/selectSection"
         android:icon="@drawable/ic_count_white"
         android:title="@string/viewSectionButton"
         app:showAsAction="always">

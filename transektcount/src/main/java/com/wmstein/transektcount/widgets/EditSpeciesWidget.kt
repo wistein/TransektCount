@@ -1,5 +1,6 @@
 package com.wmstein.transektcount.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -7,17 +8,16 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.wmstein.transektcount.R
-import com.wmstein.transektcount.TransektCountApplication
 import com.wmstein.transektcount.database.Count
 import java.io.Serializable
 import java.util.Objects
 
-/****************************************************
- * EditSpeciesWidget is used by EditSpeciesListActivity
+/******************************************************
+ * EditSpeciesWidget is used by EditSectionListActivity
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2024-08-23
+ * Last edited on 2024-11-27
  */
 class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -36,8 +36,10 @@ class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     @JvmField
     var countId = 0
 
+    val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+            as LayoutInflater
+
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_count, this, true)
         countName = findViewById(R.id.countName)
         countNameG = findViewById(R.id.countNameG)
@@ -73,11 +75,10 @@ class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
         countId = id
     }
 
-    fun setPSpec(spec: Count) {
-        val rname = "p" + spec.code // species picture resource name
-        val transektCountApp = TransektCountApplication()
-        val resId = transektCountApp.getResId(rname)
-
+    @SuppressLint("DiscouragedApi")
+    fun setPicSpec(spec: Count) {
+        val rName = "p" + spec.code // species picture resource name
+        val resId = resources.getIdentifier(rName, "drawable", context.packageName)
         if (resId != 0) {
             pSpecies.setImageResource(resId)
         }

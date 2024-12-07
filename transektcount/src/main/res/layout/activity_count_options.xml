@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_count_options.xml is used by CountOptionsActivity.java -->
+<!-- activity_count_options.xml is used by CountOptionsActivity.java
+     Last edited on 2024-11-04
+ -->
 
 <ScrollView android:id="@+id/count_options"
             xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="#006600"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

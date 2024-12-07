@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 - 2023. Wilhelm Stein, Bonn, Germany.
+ * Copyright (c) 2016 - 2024. Wilhelm Stein, Bonn, Germany.
  */
 package com.wmstein.transektcount.widgets
 
@@ -20,10 +20,10 @@ import java.util.Objects
  * Created by wmstein 18.12.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2023-12-08
+ * last edited on 2024-10-23
  */
 @SuppressLint("ViewConstructor")
-class CountingWidgetHead2(context: Context, attrs: AttributeSet?, private val insideOfTrack: Boolean) :
+class CountingWidgetHead2(context: Context, attrs: AttributeSet?) :
     RelativeLayout(context, attrs) {
     private val countHead2: TextView
 
@@ -35,10 +35,8 @@ class CountingWidgetHead2(context: Context, attrs: AttributeSet?, private val in
 
     fun setCountHead2(count: Count) {
         // set TextView countHead2
-        if(insideOfTrack)
-            countHead2.text = context.getString(R.string.countInternalHint)
-        else
-            countHead2.text = context.getString(R.string.countExternalHint)
+        countHead2.text = context.getString(R.string.countInternalHint)
+
         // set ImageButton Edit
         val editButton = findViewById<ImageButton>(R.id.buttonEdit)
         editButton.tag = count.id
