@@ -34,6 +34,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.5"
         android:hint="@string/hintSearch"
+        android:textColorHint="@color/design_default_color_surface"
         android:importantForAutofill="no"
         android:inputType="textCapSentences"
         android:paddingStart="10dp"

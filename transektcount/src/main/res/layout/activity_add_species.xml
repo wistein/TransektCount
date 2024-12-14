@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- insert hint -->
+    <!-- insert hint line with search -->
     <LinearLayout
         android:id="@+id/showHintAddLayout"
         android:layout_width="match_parent"

@@ -39,7 +39,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     private var alertDataSource: AlertDataSource? = null
 
     // Layouts
-    private var hintArea: LinearLayout? = null
+    private var delHintArea: LinearLayout? = null
     private var deleteArea: LinearLayout? = null
 
     // 2 initial characters to limit selection
@@ -79,7 +79,7 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         listToDelete = ArrayList()
 
-        hintArea = findViewById(R.id.showHintDelLayout)
+        delHintArea = findViewById(R.id.showHintDelLayout)
         deleteArea = findViewById(R.id.deleteSpecLayout)
 
         // Setup the data sources
@@ -111,7 +111,7 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         // Clear any existing views
         deleteArea!!.removeAllViews()
-        hintArea!!.removeAllViews()
+        delHintArea!!.removeAllViews()
 
         supportActionBar!!.setTitle(R.string.deleteSpecies)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -122,7 +122,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             hdw.setSearchD(initChars)
         else
             hdw.setSearchD(getString(R.string.hintSearch))
-        hintArea!!.addView(hdw)
+        delHintArea!!.addView(hdw)
 
         constructDelList()
     }
@@ -245,10 +245,10 @@ class DelSpeciesActivity : AppCompatActivity() {
         // Rebuild the species list
         val counts = countDataSource!!.getAllSpeciesForSectionSrtCode(1)
 
-        hintArea!!.removeAllViews()
+        delHintArea!!.removeAllViews()
         val hdw = HintDelWidget(this, null)
         hdw.setSearchD(getString(R.string.hintSearch))
-        hintArea!!.addView(hdw)
+        delHintArea!!.addView(hdw)
 
         deleteArea!!.removeAllViews()
         for (count in counts) {
@@ -304,6 +304,14 @@ class DelSpeciesActivity : AppCompatActivity() {
         sectionDataSource!!.close()
         countDataSource!!.close()
         alertDataSource!!.close()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (MyDebug.dLOG) Log.d(AddSpeciesActivity.Companion.TAG, "312, onDestroy")
+
+        delHintArea!!.clearFocus()
     }
 
     companion object {

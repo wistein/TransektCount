@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_edit_species_list.xml is used by EditSectionListActivity.kt
      in conjunction with widget_edit_title.xml and widget_edit_count.xml
-     Last edited on 2024-11-04
+     Last edited on 2024-12-14
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,7 @@
         android:orientation="vertical">
     </LinearLayout>
 
-    <!-- insert hint -->
+    <!-- insert hint line with search -->
     <LinearLayout
         android:id="@+id/showHintLayout"
         android:layout_width="match_parent"

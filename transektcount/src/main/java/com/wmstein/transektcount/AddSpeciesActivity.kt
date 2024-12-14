@@ -30,11 +30,11 @@ import com.wmstein.transektcount.widgets.HintAddWidget
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2024-11-27
+ * last edited on 2024-12-14
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
-    private var hintArea: LinearLayout? = null
+    private var addHintArea: LinearLayout? = null
 
     // Data
     private var sectionDataSource: SectionDataSource? = null
@@ -94,7 +94,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         listToAdd = ArrayList()
 
-        hintArea = findViewById(R.id.showHintAddLayout)
+        addHintArea = findViewById(R.id.showHintAddLayout)
         addArea = findViewById(R.id.addSpecLayout)
 
         // Setup the data sources
@@ -131,7 +131,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Clear any existing views
         addArea!!.removeAllViews()
-        hintArea!!.removeAllViews()
+        addHintArea!!.removeAllViews()
 
         supportActionBar!!.setTitle(R.string.addTitle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -142,7 +142,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             haw.setSearchA(initChars)
         else
             haw.setSearchA(getString(R.string.hintSearch))
-        hintArea!!.addView(haw)
+        addHintArea!!.addView(haw)
 
         constructAddList()
     }
@@ -360,7 +360,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             finish()
             return true
         } else if (id == R.id.addSpecs) {
-            if (listToAdd!!.size > 0)
+            if (listToAdd!!.isNotEmpty())
                 addSpecs()
             return true
         }
@@ -374,6 +374,18 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         sectionDataSource!!.close()
         countDataSource!!.close()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (MyDebug.dLOG) Log.d(TAG, "382, onDestroy")
+
+        addArea!!.removeAllViews()
+        addHintArea!!.clearFocus()
+        addHintArea!!.removeAllViews()
+//        addHintArea!!.invalidate()
+        addHintArea = null
     }
 
     companion object {

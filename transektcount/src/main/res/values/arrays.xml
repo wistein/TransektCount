@@ -3,11 +3,13 @@
 
 <resources>
     <string-array name="pref_bg_entries">
-        <item>None</item>
+        <item>Black</item>
+        <item>Grey</item>
         <item>TransektCount (default)</item>
     </string-array>
     <string-array name="pref_bg_values">
         <item>none</item>
+        <item>grey</item>
         <item>default</item>
     </string-array>
     

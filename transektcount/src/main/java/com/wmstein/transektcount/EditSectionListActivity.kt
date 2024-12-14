@@ -55,7 +55,7 @@ class EditSectionListActivity : AppCompatActivity() {
     // Layouts
     private var editingSpeciesArea: LinearLayout? = null
     private var speciesNotesArea: LinearLayout? = null
-    private var hintArea: LinearLayout? = null
+    private var editHintArea: LinearLayout? = null
 
     // Widgets
     private var etw: EditTitleWidget? = null
@@ -99,7 +99,7 @@ class EditSectionListActivity : AppCompatActivity() {
         listToEdit = ArrayList()
 
         speciesNotesArea = findViewById(R.id.editingLineLayout)
-        hintArea = findViewById(R.id.showHintLayout)
+        editHintArea = findViewById(R.id.showHintLayout)
         editingSpeciesArea = findViewById(R.id.editingSpeciesLayout)
 
         // Restore any edit widgets the user has added previously
@@ -157,7 +157,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Build the Edit Section screen
         editingSpeciesArea!!.removeAllViews()
         speciesNotesArea!!.removeAllViews()
-        hintArea!!.removeAllViews()
+        editHintArea!!.removeAllViews()
 
         countDataSource!!.open()
         sectionDataSource!!.open()
@@ -188,7 +188,7 @@ class EditSectionListActivity : AppCompatActivity() {
             hew.setSearchE(initChars)
         else
             hew.setSearchE(getString(R.string.hintSearch))
-        hintArea!!.addView(hew)
+        editHintArea!!.addView(hew)
 
         constructEditList()
     }
@@ -272,6 +272,14 @@ class EditSectionListActivity : AppCompatActivity() {
         countDataSource!!.close()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        editHintArea = null
+        speciesNotesArea = null
+        editingSpeciesArea = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -341,7 +349,7 @@ class EditSectionListActivity : AppCompatActivity() {
             sectionDataSource!!.saveSection(section!!)
             // Toast here, as snackbar doesn't show up
             Toast.makeText(
-                this@EditSectionListActivity, getString(R.string.sectSaving),
+                applicationContext, getString(R.string.sectSaving),
                 Toast.LENGTH_SHORT
             ).show()
         }

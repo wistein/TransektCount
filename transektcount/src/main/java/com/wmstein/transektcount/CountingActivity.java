@@ -179,7 +179,7 @@ public class CountingActivity
         {
             setContentView(R.layout.activity_counting_lh);
             LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
-            counting_screen.setBackground(transektCount.getBackground());
+            counting_screen.setBackground(transektCount.setBackgr());
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1LH);
             countsFieldArea1 = findViewById(R.id.countsField1LH);
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2LH);
@@ -191,7 +191,7 @@ public class CountingActivity
         {
             setContentView(R.layout.activity_counting);
             LinearLayout counting_screen = findViewById(R.id.countingScreen);
-            counting_screen.setBackground(transektCount.getBackground());
+            counting_screen.setBackground(transektCount.setBackgr());
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1RH);
             countsFieldArea1 = findViewById(R.id.countsField1RH);
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2RH);
@@ -577,6 +577,9 @@ public class CountingActivity
         super.onStop();
 
         if (MyDebug.dLOG) Log.d(TAG, "579, onStop");
+
+        if (r != null)
+            r.stop(); // stop media player
     }
 
     @Override
@@ -585,9 +588,6 @@ public class CountingActivity
         super.onDestroy();
 
         if (MyDebug.dLOG) Log.d(TAG, "587, onDestroy");
-
-        if (r != null)
-            r.stop(); // stop media player
     }
 
     // Spinner listener
@@ -1966,7 +1966,7 @@ public class CountingActivity
             }
 
             // Exit this and go to the list of new sections
-            Toast.makeText(CountingActivity.this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
             startActivity(intent);
         });
@@ -2200,6 +2200,7 @@ public class CountingActivity
     public static boolean isBlank(final CharSequence cs)
     {
         int strLen;
+
         if (cs == null || (strLen = cs.length()) == 0)
             return true;
 

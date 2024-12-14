@@ -9,9 +9,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:layout_marginTop="2dp"
+    android:layout_marginBottom="1dp"
     android:background="@drawable/rounded_corner"
     android:orientation="horizontal"
     android:padding="2dp">
@@ -20,8 +21,9 @@
         android:id="@+id/hint_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical|start"
         android:layout_weight="0.5"
+        android:gravity="center_vertical|start"
+        android:paddingStart="5dp"
         android:text="@string/specsToAdd"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -38,6 +40,8 @@
         android:importantForAutofill="no"
         android:inputType="textCapSentences"
         android:hint="@string/hintSearch"
+        android:textColorHint="@color/design_default_color_surface"
+        android:textColor="@color/cardview_light_background"
         android:textSize="16sp"/>
 
     <ImageButton

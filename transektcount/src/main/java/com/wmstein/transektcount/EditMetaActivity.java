@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -287,12 +288,6 @@ public class EditMetaActivity extends AppCompatActivity
         sTime.setOnLongClickListener(null);
         eTime.setOnClickListener(null);
         eTime.setOnLongClickListener(null);
-
-        // Trial to avoid memory leak when EditText has been used (no effect)
-        //  see also corresponding functions in EditMetaHeadWidget and EditMetaWidget
-//        ehw.clearWidgetsMetaHead();
-//        emw.clearWidgetsMeta();
-//        metaArea.removeAllViews();
     }
 
     @Override
@@ -300,7 +295,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onStop();
 
-        if (MyDebug.dLOG) Log.d(TAG, "303, onStop");
+        if (MyDebug.dLOG) Log.d(TAG, "297, onStop");
     }
 
     @Override
@@ -308,12 +303,15 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.i(TAG, "311, onDestroy");
+        if (MyDebug.dLOG) Log.i(TAG, "305, onDestroy");
+
+        metaArea.clearFocus();
+        metaArea.removeAllViews();
     }
 
     public boolean saveData()
     {
-        if (MyDebug.dLOG) Log.i(TAG, "316, saveData");
+        if (MyDebug.dLOG) Log.i(TAG, "313, saveData");
         // Save head data
         head.transect_no = ehw.getWidgetNo1();
         head.inspector_name = ehw.getWidgetName1();
@@ -422,7 +420,10 @@ public class EditMetaActivity extends AppCompatActivity
      */
     public static boolean isEmpty(final CharSequence cs)
     {
-        return cs == null || cs.length() == 0; // needed for older Android versions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            return cs == null || cs.isEmpty();
+        else
+            return cs == null || cs.length() == 0; // needed for older Android versions
     }
 
 }

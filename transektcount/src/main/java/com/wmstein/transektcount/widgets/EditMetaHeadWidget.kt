@@ -54,9 +54,4 @@ class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
             widgetname1.setText(name)
         }
 
-    fun clearWidgetsMetaHead() {
-        widgetno1.setText(null)
-        widgetname1.setText(null)
-    }
-
 }

@@ -36,7 +36,7 @@
     <string name="exportMenu">Export Current DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV-File</string>
-    <string name="resetDBMenu">Reset Counting Data</string>
+    <string name="resetDBMenu">Reset Data</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importFail">Your database could not be imported!</string>
@@ -165,7 +165,7 @@
     <string name="pref_note_font">Notes Font</string>
     <string name="pref_note_font_summ">Increase the notes font size on the counting screen</string>
     <string name="pref_left_hand">Left-hander</string>
-    <string name="pref_left_hand_summ">Show left-hander counting view</string>
+    <string name="pref_left_hand_summ">Show left-hander counter view</string>
 
     <string name="prefs_csv_output_title">Output</string>
     <string name="pref_csv_output_title">Sorting the Results</string>
@@ -240,7 +240,7 @@
     <string name="hintDateTime">Date/time of 1. count:</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Totals:</string>
-    <string name="getHelp">Database problem! Please mail your exported \'transektcount_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
+    <string name="getHelp">Database problem! Please mail your exported \'transektcount_TR-No_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
     <string name="sect01">Sect 01</string>
     <string name="cancel">Cancel</string>
 

@@ -53,7 +53,7 @@ class SelectSectionActivity : AppCompatActivity() {
         transektCount = application as TransektCountApplication
 
         val listView = findViewById<LinearLayout>(R.id.list_view)
-        listView.background = transektCount!!.background
+        listView.background = transektCount!!.setBackgr()
         list = findViewById(android.R.id.list)
 
         sectionDataSource = SectionDataSource(this)

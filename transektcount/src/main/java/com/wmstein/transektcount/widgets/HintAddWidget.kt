@@ -14,7 +14,7 @@ import java.util.Objects
  * last edited on 2024-10-15
  */
 class HintAddWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    private var searchA: EditText
+    var searchA: EditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

@@ -21,9 +21,9 @@
         android:id="@+id/hint_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="0.5"
         android:gravity="center_vertical|start"
         android:paddingStart="5dp"
-        android:layout_weight="0.5"
         android:text="@string/presentSpecs"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -35,11 +35,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.5"
-        android:hint="@string/hintSearch"
-        android:importantForAutofill="no"
-        android:inputType="textCapSentences"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences"
+        android:hint="@string/hintSearch"
+        android:textColorHint="@color/design_default_color_surface"
+        android:textColor="@color/cardview_light_background"
         android:textSize="16sp" />
 
     <ImageButton

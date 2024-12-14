@@ -301,10 +301,17 @@ class CountOptionsActivity : AppCompatActivity() {
         alertDataSource!!.close()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        staticWidgetArea!!.clearFocus()
+        dynamicWidgetArea!!.clearFocus()
+    }
+
     fun saveData() {
         // Toast here, as snackbar doesn't show up
         Toast.makeText(
-            this@CountOptionsActivity,
+            applicationContext,
             getString(R.string.saving) + " " + count!!.name + "!",
             Toast.LENGTH_SHORT
         ).show()

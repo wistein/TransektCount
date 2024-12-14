@@ -1,6 +1,7 @@
 package com.wmstein.transektcount.widgets;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.EditText;
@@ -303,17 +304,6 @@ public class EditMetaWidget extends LinearLayout
         widget_temp1.setHint(hint);
     }
 
-    // Trial to avoid memory leak when EditText has been used
-    public void clearWidgetsMeta()
-    {
-        widget_starttemp2 = null;
-        widget_endtemp2 = null;
-        widget_startwind2 = null;
-        widget_endwind2 = null;
-        widget_startclouds2 = null;
-        widget_endclouds2 = null;
-    }
-
     /**
      * Checks if a CharSequence is empty ("") or null.
      * <p>
@@ -328,7 +318,10 @@ public class EditMetaWidget extends LinearLayout
      */
     public static boolean isEmpty(final CharSequence cs)
     {
-        return cs == null || cs.length() == 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            return cs == null || cs.isEmpty();
+        else
+            return cs == null || cs.length() == 0; // needed for older Android versions
     }
 
 }

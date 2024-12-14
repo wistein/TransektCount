@@ -131,9 +131,11 @@ public class WelcomeActivity
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        prefs = TransektCountApplication.getPrefs();
+
         setContentView(R.layout.activity_welcome);
         baseLayout = findViewById(R.id.baseLayout);
-        baseLayout.setBackground(transektCount.getBackground());
+        baseLayout.setBackground(transektCount.setBackgr());
 
         if (!isStorageGranted())
         {
@@ -145,8 +147,6 @@ public class WelcomeActivity
         selectedFile = "";
         infile = null;
         outfile = null;
-
-        prefs = TransektCountApplication.getPrefs();
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -429,8 +429,7 @@ public class WelcomeActivity
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
         baseLayout = findViewById(R.id.baseLayout);
-        baseLayout.setBackground(null);
-        baseLayout.setBackground(transektCount.setBackground());
+        baseLayout.setBackground(transektCount.setBackgr());
         outPref = prefs.getString("pref_csv_out", "species");
     }
 
@@ -458,7 +457,7 @@ public class WelcomeActivity
         if (MyDebug.dLOG) Log.d(TAG, "458, onStop");
     }
 
-    @Override
+
     public void onDestroy()
     {
         super.onDestroy();
@@ -529,7 +528,7 @@ public class WelcomeActivity
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Verify path
 
-        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.db
+        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.db
         if (Objects.equals(transNo, ""))
             outfile = new File(path, "/transektcount_" + getcurDate() + ".db");
         else
@@ -588,7 +587,7 @@ public class WelcomeActivity
      */
     public void exportDb2CSV()
     {
-        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_yyyy-MM-dd_HHmmss.csv
+        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.csv
         //
         // 1. Alternative for Android >= 10 (Q):
         //    path = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");

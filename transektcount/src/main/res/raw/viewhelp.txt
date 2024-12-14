@@ -50,7 +50,7 @@
   ! Databases can be individually created and adapted regarding transect sections and expected butterfly species.
   ! The recorded data (meta data, counts and notes) may either be read on the results page or exported into a spreadsheet and transferred to a PC for more comfortable reading or your own processing.
   _ 
-  ! The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source and has no tracking or advertising functions, but demands access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counted data into DB- or CSV-files and Wakelock to hinder the app from dimming or switching off.
+  ! The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source and has no tracking or advertising functions, but demands access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counted data to DB- or CSV-files and Wakelock to hinder the app from dimming or switching off.
 
   % 2. Setting up
   !
@@ -109,7 +109,7 @@
   % 3. Usage
   !
   ! Start with "Edit Meta Data". Fill in the relevant meta data for the specific transect inspection.
-  ! You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. Finish with the SAVE button.
+  ! You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field.
   _ 
   ! Then select "Counting". The transect sections list is displayed here.
   ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
@@ -123,56 +123,67 @@
   _ 
   ! If you enter a species related note this will be shown on the counting page in an extra line beneath the counting field and is inserted into the results table (e.g.: "Photo").
   _ 
-  ! With large amounts of data, the app's response can be somewhat delayed for e. g. import functions or when calling up the results page, as extensive calculations are running in the background. This is indicated by a short message "View gets calculated...".
-  _ 
   ! Finally, there is a page showing your results sorted either by species or sections according to the selected Output option. Here, in a scroll view you see beneath the meta data of the inspection the totals per category and all the species which got counts.
   ! You can enter this page from the Starting page with the "Show Results" button or the Eye-symbol in the app bar. It may take a second to show up.
+  _
+  ! To move back one page you can use the Back-Button or arrow in the left upper corner. To make sure to save edited content you should click the Save or Remove button if the page has one.
+  _
+  ! Before closing TransektCount after an inspection you should complete the meta data and save the current count by exporting the internal DB
+  ! (-> transektcount_TR-No_YYYY-MM-DD_hhmmss.db or .csv in Documents/TransektCount mit 'TR-No' for transect No., 'YYYY-MM-DD' Datum and 'hhmmss' for time of storage).
+  _
+  ! With large amounts of data, the app's response can be somewhat delayed for e. g. import functions or when calling up the results page, as extensive calculations are running in the background. This is indicated by a short message "View gets calculated...".
+  _ 
+  ! If the message “TransectCount not responding” appears, please reply with “Wait”.
 
   % 4. Further functions
   !
-  ! The system menu on the starting page has Settings, Reset, Import, Export, Info and Help functions. 
+  ! The app menu on the starting page has Settings, Reset, Import, Export, Info and Help functions.
   _ 
   ! In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of lists and output or left-/right-hand counting page.
   _
-  ! For preparing a new inspection you may use “Reset Counting Data” to reset the inspection-specific meta data and count data of the transect. All other transect-specific data remains untouched.
+  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data of the transect. All other transect-specific data remains untouched.
   _ 
   ! Android-specifically, TransektCount stores the data always in a single SQlite DB-file in the app's own protected storage area that is not accessible by the user.
   ! Therefore, it is necessary to be able to export the DB-data to files in a user accessible storage area. To make use of different DB-files for different transects, im- and export functions are essential.
   _ 
-  ! Exporting the internal DB as empty basic DB "transektcount0.db" is reasonable, when to take into account changes of the transect structure, new species may have been entered or GPX Track data has been imported.
+  ! Exporting the internal DB as empty Basic DB "transektcount0.db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
   _ 
-  ! "Import Basic DB" always reads die file "transektcount0.db" from Documents/TransektCount.
+  ! "Import Basic DB" always reads die file "transektcount0.db" from Documents/TransektCount e.g. if incorrect structural changes have been made to the current DB by mistake.
   _ 
-  ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_YYYY-MM-DD_hhmmss.db.
+  ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_TR-No_YYYY-MM-DD_hhmmss.db.
   _
   ! For your own purpose you can rename the exported DB-files by a file manager into e.g. transektcount1.db, transektcount2.db, etc.
   ! (Mind: The .db file name must always start with the string “transektcount”, otherwise it cannot be imported).
   _ 
   ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects with different sections and butterfly populations.
   _
-  ! IT-affine users may transfer the exported "transektcount_YYYY-MM-DD_hhmmss.db" files from "Documents/TransektCount" to a PC.
+  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "transektcount_TR-No_YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
+  ! This directory allows accessing the files by an Android spreadsheet app, like Collabora (open source, obtainable free of charge from the F-Droid app store).
+  _
+  ! IT-affine users may transfer the exported "transektcount_TR-No_YYYY-MM-DD_hhmmss.db" files from "Documents/TransektCount" to a PC.
   ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
   ! Some useful prepared SQL-scripts can be found under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
   _
-  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "transektcount_YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
-  ! This directory allows accessing the files by an Android spreadsheet app, like Collabora (open source, obtainable free of charge from the F-Droid store).
+  ! You may also copy a .csv-file from Documents/TransektCount/ to a PC and import it into a spreadsheet program for further processing.
+  ! In order to display the formats and character sets correctly, please import it as a
   _
-  ! You may import an exported .csv-file into a spreadsheet program as a
-  _ 
   ! - comma-separated text file with
   ! - file origin "Unicode UTF-8",
-  ! - quotations marks " for textfield recognition and
-  ! - all data as text
+  ! - quotations marks "" for textfield recognition and
+  ! - all columns in text format.
   _ 
-  ! for further processing.
+  ! The exported table can be adapted by a sort option (sort by species names or sections) for an easy data entry of the results into a Monitoring web page like
   _
-  ! The exported table can be adapted by a sort option (sort by species or section) for an easy data entry of the results into a Monitoring web page like <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>
+   <a href="https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do" target="_blank">https://www.tmd-daten.de/platform-tmd/tmd/tmd-top/index.do</a>
   ! or
   ! <a href="https://web.app.ufz.de/tagfalter-monitoring/" target="_blank">https://web.app.ufz.de/tagfalter-monitoring/</a>
   _
-  ! The counting view can be temporarily turned off via proximity sensor when the phone is put into a pocket or held close to the body. This saves energy, prevents unwanted inputs and brings the app back instantly when it is used normally again.
+  ! The author's e-mail address and the app development history can be found under “App info”, license information under Licenses.
   _
-  ! The menu of this page provides a "Share" function for sending notes using a standard app, like SMS or email.
+  ! The menu of the counting page provides a "Photo" function to quickly take a photo and a
+  "Share" function for sending notes using a standard app, like SMS or email.
+  _
+  ! The counter view is temporarily turned off via proximity sensor when the phone is put into a pocket or held close to the body. This saves energy, prevents unwanted inputs and brings the app back instantly when it is used normally again.
 
   % 5. Messages
   ! 

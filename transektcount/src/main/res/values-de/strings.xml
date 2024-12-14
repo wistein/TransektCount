@@ -27,7 +27,7 @@
     <string name="exportMenu">Export akt. DB</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
-    <string name="resetDBMenu">Reset Zähl-Daten</string>
+    <string name="resetDBMenu">Reset Daten</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
@@ -231,7 +231,7 @@
     <string name="hintDateTime">Dat./Zeit der 1. Zählung:</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsummen:</string>
-    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>
+    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_TR-Nr_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>
     <string name="sect01">Ab 01</string>
     <string name="cancel">Abbrechen</string>
 

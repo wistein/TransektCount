@@ -6,16 +6,16 @@ It allows a species-specific counting per transect section.
 ### Features
 
 - Data recording is organized according to a single transect inspection. 
-That means, you will use a fesh database instance per inspection by clearing the current database or importing a prepared basic Database.
+That means, you will use a fresh database instance per inspection by clearing the current database or importing a prepared basic database.
 - It contains a prepared basic database with some of the expected species as a starting point.
 - Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
 - Transect sections can be selected manually (automatically via GPS has been abandoned due to faulty performance).
-- There are editors for the transect sections to setup or adapt its species,
+- There are editors for the transect counting list to setup or adapt its species,
 -  for meta data to prepare an inspection and
 -  for species remark or bulk count entry.
-- The counting page has a scroll-list to select species
+- The counting page has a scroll-list to select a species by picture and name.
 - Counts are recorded per internal/external counting area and here each with separate counters for ♂, ♀ or undefined, pupa, larva or egg.
-- Results are prepared for easy readout to transfer them to science4you or Tagfalter-Monitoring Deutschland entry masks.
+- Results are prepared for easy readout to transfer them to the entry masks of Tagfalter-Monitoring Deutschland or similar butterfly monitoring sites.
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
 - The integrated help contains a detailed userguide.
@@ -52,7 +52,7 @@ https://github.com/wistein/TransektCount/tree/master/apk.
 Please note that both versions are compiled from the same sources but signed differently and so cannot 
 be mutually updated.
 
-### License:
+### Licenses:
 
 Copyright 2016-2024 Wilhelm Stein
 
@@ -60,7 +60,7 @@ TransektCount is licensed under the Apache License, Version 2.0 (the "License");
 you may not use any of its files except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -87,24 +87,46 @@ Integrated code from external references:
 - filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
 
 Butterfly pictures from external references:
+- Adela paludicolella, created from picture in
+  "Adelidae (Lepidoptera) - Beitrag zur Kenntnis der Biologie und Bestimmungshilfe für die europäischen Arten",
+  Author: Rudolf Bryner, free for non-commercial purposes in education and science and for private use
 - Crambus pascuella derived from https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg,
   Author: Olaf Leillinger, GNU Free Documentation License
-- Deltote bankiana derived from freenatureimages.eu,
-  Author: Andre den Ouden, licensed free for non-commercial use
+- Cucullia verbasci, derived from https://en.wikipedia.org/wiki/Mullein_moth,
+  Author: Dumi, GNU Free Documentation License, version 1.2
+- Deltote bankiana derived from http://www.freenatureimages.eu/Animals/index.html,
+  Author: Andre den Ouden, licensed by www.saxifraga.nl free for non-commercial use
 - Evergestis extimalis derived from https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG,
   Author: Adam Furlepa, CC BY-SA 3.0
+- Hipparchia neomiris, created from pictures of "Die Groß-Schmetterlinge der Erde",
+  Author: Adalbert Seitz, 1909, Public Domain
 - Hyles gallii derived from https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg (non-commercial use allowed)
-- Jordanita globulariae derived from https://commons.wikimedia.org,
-  Author: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0)
+- Hyles hippophaes derived from https://tpittaway.tripod.com/sphinx/h_hip_a2.jpg (non-commercial use allowed)
+- Hyponephele lupinus (Public Domain), derived from https://upload.wikimedia.org/wikipedia/commons/0/07/Hyponephelelupinus.jpg
+- Jordanita globulariae derived from https://commons.wikimedia.org, Author: Reza Zahiri et al,
+  Creative Commons Attribution License (CC BY 4.0)
+- Marumba quercus derived from https://tpittaway.tripod.com/sphinx/m_que_a4.jpg (non-commercial use allowed)
+- Melanargia arge, Author: Notafly, Creative Commons Attribution-Share Alike 3.0 Unported license, derived from
+  https://en.wikipedia.org/wiki/File:Melanargiaarge.JPG
 - Melitaea parthenoides derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides,
   Author: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license
 - Muschampia lavatherae derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae,
   Author: Dumi, GNU Free Documentation License, version 1.2
-- Pediasia contaminella derived from https://commons.wikimedia.org/wiki/File:Pediasia_contaminella_(33480878804).jpg,
+- Nemaphora barbatellus, created from picture in
+  "Adelidae (Lepidoptera) - Beitrag zur Kenntnis der Biologie und Bestimmungshilfe für die europäischen Arten",
+  Author: Rudolf Bryner, free for non-commercial purposes in education and science and for private use
+- Pediasia contaminella derived from
+  https://commons.wikimedia.org/wiki/File:Pediasia_contaminella_(33480878804).jpg,
   Author: Ben Sale, Creative Commons Attribution 2.0 Generic License
 - Phragmataecia castaneae derived from https://species.wikimedia.org/wiki/Phragmataecia_castaneae,
-  Author: Dumi, GNU Free Documentation License, version 1.2 
+  Author: Dumi, GNU Free Documentation License, version 1.2
+- Scopula rubiginata derived from http://www.freenatureimages.eu/Animals/index.html,
+  Author: Rob Felix, licensed by www.saxifraga.nl free for non-commercial use
+- Scopula virgulata derived from http://www.freenatureimages.eu/Animals/index.html,
+  Author: Zoran Bozovic, licensed by www.saxifraga.nl free for non-commercial use
 - Sesia apiformis derived from picture on https://en.wikipedia.org/wiki/Hornet_moth
   Author: Jyrki Lehto, free use
+- Tiliacea aurago, derived from http://www.freenatureimages.eu/Animals/index.html,
+  Author: Peter Gergely, licensed by www.saxifraga.nl free for non-commercial use
 
 - All other pictures, app icon and background (C) Wilhelm Stein. 
