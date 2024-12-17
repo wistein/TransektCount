@@ -76,7 +76,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-11-25
+ * last edited on 2024-12-17
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -438,7 +438,7 @@ public class WelcomeActivity
     {
         super.onPause();
 
-        if (MyDebug.dLOG) Log.d(TAG, "442, onPause");
+        if (MyDebug.dLOG) Log.d(TAG, "441, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -454,7 +454,7 @@ public class WelcomeActivity
     {
         super.onStop();
 
-        if (MyDebug.dLOG) Log.d(TAG, "458, onStop");
+        if (MyDebug.dLOG) Log.d(TAG, "457, onStop");
     }
 
 
@@ -462,7 +462,7 @@ public class WelcomeActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.d(TAG, "466, onDestroy");
+        if (MyDebug.dLOG) Log.d(TAG, "465, onDestroy");
     }
 
     // Start CountingActivity
@@ -1204,7 +1204,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.dLOG) Log.e(TAG, "1208, csv write external failed");
+                if (MyDebug.dLOG) Log.e(TAG, "1207, csv write external failed");
             }
             dbHandler.close();
         }

@@ -42,7 +42,7 @@ import com.wmstein.transektcount.widgets.HintEditWidget
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-11-26
+ * last edited on 2024-12-17
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -324,7 +324,7 @@ class EditSectionListActivity : AppCompatActivity() {
 
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
-        if (MyDebug.dLOG) Log.d(TAG, "319, newSectName: $newSectName")
+        if (MyDebug.dLOG) Log.d(TAG, "327, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
@@ -365,7 +365,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Read the edited species list
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
-        if (MyDebug.dLOG) Log.d(TAG, "360, childcount: $childcount")
+        if (MyDebug.dLOG) Log.d(TAG, "368, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -385,7 +385,7 @@ class EditSectionListActivity : AppCompatActivity() {
             while (si <= numSect) {
                 // for all species per section
                 for (i in 0 until childcount) {
-                    if (MyDebug.dLOG) Log.d(TAG, "380, Section: $si, Species $i")
+                    if (MyDebug.dLOG) Log.d(TAG, "388, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSpeciesWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -417,7 +417,7 @@ class EditSectionListActivity : AppCompatActivity() {
             )
             correct = false
         }
-        if (MyDebug.dLOG) Log.d(TAG, "412, getEditSpecies, ok: $correct")
+        if (MyDebug.dLOG) Log.d(TAG, "420, getEditSpecies, ok: $correct")
         return correct
     }
 

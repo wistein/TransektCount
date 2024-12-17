@@ -20,7 +20,7 @@ import java.lang.Exception
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2024-12-09
+ * last edit on 2024-12-17
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -63,13 +63,13 @@ class TransektCountApplication : Application() {
             width = metrics.bounds.right + metrics.bounds.left
             height = metrics.bounds.top + metrics.bounds.bottom
         } else {
-            val display = wm.defaultDisplay
+            val display = wm.defaultDisplay // deprecated in 30
             val size = Point()
-            display.getSize(size)
+            display.getSize(size) // deprecated in 30
             width = size.x
             height = size.y
         }
-        if (MyDebug.dLOG) Log.d(TAG, "101, width = $width, height = $height")
+        if (MyDebug.dLOG) Log.d(TAG, "72, width = $width, height = $height")
 
         var bMap: Bitmap?
         if (backgroundPref == "none") {

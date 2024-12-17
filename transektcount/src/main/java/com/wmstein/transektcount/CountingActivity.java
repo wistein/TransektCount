@@ -73,7 +73,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-12-07
+ * last edited on 2024-12-17
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -587,7 +587,7 @@ public class CountingActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.d(TAG, "587, onDestroy");
+        if (MyDebug.dLOG) Log.d(TAG, "590, onDestroy");
     }
 
     // Spinner listener

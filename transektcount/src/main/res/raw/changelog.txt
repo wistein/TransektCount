@@ -56,7 +56,7 @@ _ Subtitle
 
 $ 4.2.0
   % Version 4.2.0
-  _ 2024-12-07
+  _ 2024-12-17
   * csv output table modified
   * Filenames of exported current DB and csv table contain transect No.
   * App gets completely removed from memory when finished

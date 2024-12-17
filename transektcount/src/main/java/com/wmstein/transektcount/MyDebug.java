@@ -8,10 +8,14 @@ package com.wmstein.transektcount;
  * <p>
  * Put back MyDebug.kt to MyDebug.java as in Kotlin2 "object MyDebug" produces Errors when called
  * from java modules.
- * Last edited on 2024-10-21
+ * Last edited on 2024-12-15
  */
 public class MyDebug
 {
-    public static boolean dLOG = false; // for release version
-//    public static boolean dLOG = true; // for debug version
+    /** Un-comment one of the 2 code lines as described.
+     *    dLog = false for release version
+     *    dLog = true for debug version
+     */
+    public static boolean dLOG = false;
+//    public static boolean dLOG = true;
 }

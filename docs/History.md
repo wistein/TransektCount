@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
 
-#### Version 4.2.0 (2024-12-07)
+#### Version 4.2.0 (2024-12-17)
 - csv output table modified
 - Filenames of exported current DB and csv table contain transect No.
 - App gets completely removed from memory when finished

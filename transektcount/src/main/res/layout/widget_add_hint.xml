@@ -3,7 +3,7 @@
     widget_add_hint.xml
     used by HintAddWidget.kt
     Copyright (c) 2023 - 2024, Wilhelm Stein, Bonn, Germany.
-    Last edited on 2024-10-14
+    Last edited on 2024-12-14
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

@@ -34,7 +34,7 @@ import com.wmstein.transektcount.widgets.OptionsWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-11-25
+ * last edited on 2024-12-17
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -347,7 +347,7 @@ class CountOptionsActivity : AppCompatActivity() {
                     alertDataSource!!.saveAlert(aew.alertId, aew.alertValue, aew.alertName)
                 }
             } else {
-                if (MyDebug.dLOG) Log.d(TAG, "343, Failed to save alert: " + aew.alertId)
+                if (MyDebug.dLOG) Log.d(TAG, "350, Failed to save alert: " + aew.alertId)
             }
         }
     }
@@ -399,7 +399,7 @@ class CountOptionsActivity : AppCompatActivity() {
                     alertDataSource!!.deleteAlertById(deleteAlert)
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertEditWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.dLOG) Log.e(TAG, "395, Failed to delete a widget: $e")
+                    if (MyDebug.dLOG) Log.e(TAG, "402, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }

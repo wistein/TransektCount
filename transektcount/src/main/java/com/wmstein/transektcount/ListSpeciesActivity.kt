@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.LinearLayout
-import android.widget.ScrollView
-
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
-
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Head
@@ -31,12 +28,12 @@ import com.wmstein.transektcount.widgets.ListSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-11-26
+ * last edited on 2024-12-17
  */
 class ListSpeciesActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
 
-    private var spec_area: LinearLayout? = null
+    private var specArea: LinearLayout? = null
 
     // Data
     private var countDataSource: CountDataSource? = null
@@ -59,7 +56,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.i(TAG, "62, onCreate")
+        if (MyDebug.dLOG) Log.i(TAG, "59, onCreate")
 
         transektCount = application as TransektCountApplication
         awakePref = prefs.getBoolean("pref_awake", true)
@@ -81,13 +78,10 @@ class ListSpeciesActivity : AppCompatActivity() {
         metaDataSource = MetaDataSource(this)
         countDataSource = CountDataSource(this)
 
-        val resultsScreen = findViewById<ScrollView>(R.id.listSpecScreen)
-        resultsScreen.background = transektCount!!.setBackgr()
-
         supportActionBar!!.title = getString(R.string.viewSpecTitle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        spec_area = findViewById(R.id.listSpecLayout)
+        specArea = findViewById(R.id.listSpecLayout)
 
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -97,7 +91,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (MyDebug.dLOG) Log.i(TAG, "100, handleOnBackPressed")
+                if (MyDebug.dLOG) Log.i(TAG, "94, handleOnBackPressed")
 
                 NavUtils.navigateUpFromSameTask(this@ListSpeciesActivity)
             }
@@ -108,7 +102,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.i(TAG, "111, onResume")
+        if (MyDebug.dLOG) Log.i(TAG, "105, onResume")
 
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -120,7 +114,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         sectionDataSource!!.open()
 
         // build Show Results screen
-        spec_area!!.removeAllViews()
+        specArea!!.removeAllViews()
         loadData()
     }
     // End of onResume()
@@ -150,7 +144,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         lhw!!.setWidgetLNo1(head!!.transect_no)
         lhw!!.setWidgetLName(getString(R.string.inspector))
         lhw!!.setWidgetLName1(head!!.inspector_name)
-        spec_area!!.addView(lhw)
+        specArea!!.addView(lhw)
 
         // display the editable meta data
         lmw = ListMetaWidget(this, null)
@@ -171,7 +165,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         lmw!!.setWidgetLItem5(meta!!.end_tm)
         lmw!!.setWidgetLNote1(getString(R.string.note))
         lmw!!.setWidgetLNote2(meta!!.note)
-        spec_area!!.addView(lmw)
+        specArea!!.addView(lmw)
 
         // display all the sorted counts by adding them to listSpecies layout
         var sect_id: Int
@@ -187,49 +181,49 @@ class ListSpeciesActivity : AppCompatActivity() {
         }
 
         val sumSpec: Int = countDataSource!!.diffSpec // get number of different species
-        var spec_countf1i: Int
-        var spec_countf2i: Int
-        var spec_countf3i: Int
-        var spec_countpi: Int
-        var spec_countli: Int
-        var spec_countei: Int
-        var spec_countf1e: Int
-        var spec_countf2e: Int
-        var spec_countf3e: Int
-        var spec_countpe: Int
-        var spec_countle: Int
-        var spec_countee: Int
+        var specCntf1i: Int
+        var specCntf2i: Int
+        var specCntf3i: Int
+        var specCntpi: Int
+        var specCntli: Int
+        var specCntei: Int
+        var specCntf1e: Int
+        var specCntf2e: Int
+        var specCntf3e: Int
+        var specCntpe: Int
+        var specCntle: Int
+        var specCntee: Int
 
         for (spec in specs) {
             val widget = ListSpeciesWidget(this, null)
             sect_id = widget.getSpecSectionid(spec)
             section = sectionDataSource!!.getSection(sect_id)
             widget.setCount(spec, section)
-            spec_countf1i = widget.getSpecCountf1i(spec)
-            spec_countf2i = widget.getSpecCountf2i(spec)
-            spec_countf3i = widget.getSpecCountf3i(spec)
-            spec_countpi = widget.getSpecCountpi(spec)
-            spec_countli = widget.getSpecCountli(spec)
-            spec_countei = widget.getSpecCountei(spec)
-            spec_countf1e = widget.getSpecCountf1e(spec)
-            spec_countf2e = widget.getSpecCountf2e(spec)
-            spec_countf3e = widget.getSpecCountf3e(spec)
-            spec_countpe = widget.getSpecCountpe(spec)
-            spec_countle = widget.getSpecCountle(spec)
-            spec_countee = widget.getSpecCountee(spec)
+            specCntf1i = widget.getSpecCountf1i(spec)
+            specCntf2i = widget.getSpecCountf2i(spec)
+            specCntf3i = widget.getSpecCountf3i(spec)
+            specCntpi = widget.getSpecCountpi(spec)
+            specCntli = widget.getSpecCountli(spec)
+            specCntei = widget.getSpecCountei(spec)
+            specCntf1e = widget.getSpecCountf1e(spec)
+            specCntf2e = widget.getSpecCountf2e(spec)
+            specCntf3e = widget.getSpecCountf3e(spec)
+            specCntpe = widget.getSpecCountpe(spec)
+            specCntle = widget.getSpecCountle(spec)
+            specCntee = widget.getSpecCountee(spec)
 
-            summf += spec_countf1i
-            summ += spec_countf2i
-            sumf += spec_countf3i
-            sump += spec_countpi
-            suml += spec_countli
-            sumo += spec_countei
-            summfe += spec_countf1e
-            summe += spec_countf2e
-            sumfe += spec_countf3e
-            sumpe += spec_countpe
-            sumle += spec_countle
-            sumoe += spec_countee
+            summf += specCntf1i
+            summ += specCntf2i
+            sumf += specCntf3i
+            sump += specCntpi
+            suml += specCntli
+            sumo += specCntei
+            summfe += specCntf1e
+            summe += specCntf2e
+            sumfe += specCntf3e
+            sumpe += specCntpe
+            sumle += specCntle
+            sumoe += specCntee
         }
 
         val sumInt: Int = summf + summ + sumf + sump + suml + sumo // sum of internal counts
@@ -254,7 +248,7 @@ class ListSpeciesActivity : AppCompatActivity() {
             sumExt,
             sumSpec
         )
-        spec_area!!.addView(lsw)
+        specArea!!.addView(lsw)
 
         // display all counted soecies per section
         for (spec in specs) {
@@ -262,7 +256,7 @@ class ListSpeciesActivity : AppCompatActivity() {
             sect_id = widget.getSpecSectionid(spec)
             section = sectionDataSource!!.getSection(sect_id)
             widget.setCount(spec, section)
-            spec_area!!.addView(widget)
+            specArea!!.addView(widget)
         }
     }
     // End of loadData()
@@ -270,7 +264,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.i(TAG, "273, onPause")
+        if (MyDebug.dLOG) Log.i(TAG, "267, onPause")
 
         // close the data sources
         headDataSource!!.close()
