@@ -36,7 +36,7 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.d(TAG, "39 onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "39 onCreate")
 
         setContentView(R.layout.activity_list_section)
 
@@ -71,7 +71,7 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.d(TAG, "74 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "74 onResume")
 
         sectionDataSource!!.open()
         sections = sectionDataSource!!.getAllSections(prefs!!)
@@ -84,7 +84,7 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.d(TAG, "87 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "87 onPause")
 
         sectionDataSource!!.close()
     }

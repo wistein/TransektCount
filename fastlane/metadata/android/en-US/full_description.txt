@@ -1,12 +1,9 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 4.2.0:
-- csv output table modified
-- Filenames of exported current DB and csv table include transect No.
-- App gets completely removed from memory when finished
-- Options to preselect species by initial letters for adding, removing and editing them
-- Code improvements
-- Bug fixes
+New in Version 4.2.1:
+- Backpressed logic on starting page improved
+- Bugfix for starting the default camera if it is the only camera app
+- Permissions handling improved
 - Docs updated
 
 Features:

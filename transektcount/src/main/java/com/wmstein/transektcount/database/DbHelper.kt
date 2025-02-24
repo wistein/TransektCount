@@ -27,7 +27,7 @@ class DbHelper
 
     // called once on initial database creation
     override fun onCreate(db: SQLiteDatabase) {
-        if (MyDebug.dLOG) Log.d(TAG, "30, Creating database: $DATABASE_NAME")
+        if (MyDebug.DLOG) Log.d(TAG, "30, Creating database: $DATABASE_NAME")
 
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
@@ -118,7 +118,7 @@ class DbHelper
 
         //create initial data for COUNT_TABLE
         initialCount(db)
-        if (MyDebug.dLOG) Log.d(TAG, "121, onCreate, Success!")
+        if (MyDebug.DLOG) Log.d(TAG, "121, onCreate, Success!")
     }
     // end of onCreate
 
@@ -166,7 +166,7 @@ class DbHelper
     // see https://www.nextpit.de/forum/472061/sqliteopenhelper-mit-upgrade-beispielen-und-zentraler-instanz
     */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (MyDebug.dLOG) Log.d(TAG, "169, upGrade")
+        if (MyDebug.DLOG) Log.d(TAG, "169, upGrade")
 
         if (oldVersion == 5) {
             version6(db)
@@ -398,7 +398,7 @@ class DbHelper
         db.execSQL(sql)
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
-        if (MyDebug.dLOG) Log.d(TAG, "401, SECTION_TABLE resetted")
+        if (MyDebug.DLOG) Log.d(TAG, "401, SECTION_TABLE resetted")
 
         // reset meta data
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -409,7 +409,7 @@ class DbHelper
                 + M_START_TM + " = '', "
                 + M_END_TM + " = ''")
         db.execSQL(sql)
-        if (MyDebug.dLOG) Log.d(TAG, "412, META_TABLE resetted")
+        if (MyDebug.DLOG) Log.d(TAG, "412, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -437,14 +437,14 @@ class DbHelper
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
-        if (MyDebug.dLOG) Log.d(TAG, "440, new empty counts1 table created")
+        if (MyDebug.DLOG) Log.d(TAG, "440, new empty counts1 table created")
 
         val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
         val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
         val specsL: List<String> = getAllSpeciesDataSrtCode(db).specsL
         val specNum: Int = codes.size
 
-        if (MyDebug.dLOG) Log.d(TAG, "447, Anzahl Spez.: $specNum")
+        if (MyDebug.DLOG) Log.d(TAG, "447, Anzahl Spez.: $specNum")
 
         var cnti = 1  // count index for new track table
         var speci: Int // species index in initSpecs-array
@@ -475,12 +475,12 @@ class DbHelper
                 values4.put(C_NOTES, "")
                 values4.put(C_NAME_G, specsL[speci])
                 db.insert(COUNT_TABLE1, null, values4)
-                if (MyDebug.dLOG) Log.d(TAG, "478, species cnti: " + cnti + ", " + specs[speci])
+                if (MyDebug.DLOG) Log.d(TAG, "478, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
-                if (MyDebug.dLOG) Log.d(TAG, "481, species cnti: $cnti, index speci: $speci")
+                if (MyDebug.DLOG) Log.d(TAG, "481, species cnti: $cnti, index speci: $speci")
             }
-            if (MyDebug.dLOG) Log.d(TAG, "483, last species-index: $cnti")
+            if (MyDebug.DLOG) Log.d(TAG, "483, last species-index: $cnti")
 
             sectIncr++
             cnti = (sectIncr * speci) + 1
@@ -491,7 +491,7 @@ class DbHelper
         sql = "ALTER TABLE $COUNT_TABLE1 RENAME TO $COUNT_TABLE"
         db.execSQL(sql)
 
-        if (MyDebug.dLOG) Log.d(TAG, "494, Upgraded database to version 5")
+        if (MyDebug.DLOG) Log.d(TAG, "494, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -535,7 +535,7 @@ class DbHelper
         sql = "DROP TABLE meta_backup"
         db.execSQL(sql)
 
-        if (MyDebug.dLOG) Log.d(TAG, "538, META_TABLE initialized")
+        if (MyDebug.DLOG) Log.d(TAG, "538, META_TABLE initialized")
     }
 
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)

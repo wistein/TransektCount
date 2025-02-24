@@ -42,7 +42,7 @@ import com.wmstein.transektcount.widgets.HintEditWidget
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-12-17
+ * last edited on 2025-01-22
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -79,7 +79,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.d(TAG, "82 onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "82 onCreate")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -148,7 +148,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.d(TAG, "151 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "151 onResume")
 
         // Load preferences
         prefs = TransektCountApplication.getPrefs()
@@ -169,7 +169,7 @@ class EditSectionListActivity : AppCompatActivity() {
             supportActionBar!!.title = getString(R.string.headEdit)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         } catch (_: NullPointerException) {
-            if (MyDebug.dLOG) Log.e(TAG, "172, NullPointerException: No section name!")
+            if (MyDebug.DLOG) Log.e(TAG, "172, NullPointerException: No section name!")
         }
 
         // Edit the section name
@@ -177,7 +177,7 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.sectionName = oldName
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
-        if (MyDebug.dLOG)
+        if (MyDebug.DLOG)
             Log.d(TAG, "181, onResume, EditTitleWidget, old section name: "
                     + oldName + ", new sectionName: " + etw!!.sectionName
             )
@@ -208,7 +208,7 @@ class EditSectionListActivity : AppCompatActivity() {
         } else {
             searchEdit.error = null
 
-            if (MyDebug.dLOG) Log.d(TAG, "211, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "211, initChars: $initChars")
 
             // Call DummyActivity to reenter EditSectionListActivity for reduced add list
             countDataSource!!.close()
@@ -257,7 +257,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 esw!!.setPicSpec(count)
                 esw!!.setCountId(count.id)
                 editingSpeciesArea!!.addView(esw)
-                if (MyDebug.dLOG) Log.d(TAG, "260, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "260, name: " + count.name)
             }
         }
     }
@@ -265,7 +265,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.d(TAG, "268 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "268 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -324,7 +324,7 @@ class EditSectionListActivity : AppCompatActivity() {
 
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
-        if (MyDebug.dLOG) Log.d(TAG, "327, newSectName: $newSectName")
+        if (MyDebug.DLOG) Log.d(TAG, "327, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
@@ -365,7 +365,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Read the edited species list
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
-        if (MyDebug.dLOG) Log.d(TAG, "368, childcount: $childcount")
+        if (MyDebug.DLOG) Log.d(TAG, "368, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -385,7 +385,7 @@ class EditSectionListActivity : AppCompatActivity() {
             while (si <= numSect) {
                 // for all species per section
                 for (i in 0 until childcount) {
-                    if (MyDebug.dLOG) Log.d(TAG, "388, Section: $si, Species $i")
+                    if (MyDebug.DLOG) Log.d(TAG, "388, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSpeciesWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -417,7 +417,7 @@ class EditSectionListActivity : AppCompatActivity() {
             )
             correct = false
         }
-        if (MyDebug.dLOG) Log.d(TAG, "420, getEditSpecies, ok: $correct")
+        if (MyDebug.DLOG) Log.d(TAG, "420, getEditSpecies, ok: $correct")
         return correct
     }
 
@@ -451,12 +451,12 @@ class EditSectionListActivity : AppCompatActivity() {
         for (i in 1 until childcount) {
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
-            if (MyDebug.dLOG)
-                Log.d(TAG, "447, sname = $sname")
+            if (MyDebug.DLOG)
+                Log.d(TAG, "455, sname = $sname")
             if (newSectName == sname) {
                 isDblName = true
-                if (MyDebug.dLOG)
-                    Log.d(TAG, "451, Double name = $sname")
+                if (MyDebug.DLOG)
+                    Log.d(TAG, "459, Double name = $sname")
                 break
             }
         }
@@ -476,7 +476,7 @@ class EditSectionListActivity : AppCompatActivity() {
             name = esw!!.getCountName()
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
-                if (MyDebug.dLOG) Log.d(TAG, "471, Double name = $isDblName")
+                if (MyDebug.DLOG) Log.d(TAG, "479, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -497,7 +497,7 @@ class EditSectionListActivity : AppCompatActivity() {
             code = esw!!.getCountCode()
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
-                if (MyDebug.dLOG) Log.d(TAG, "492, Double name = $isDblCode")
+                if (MyDebug.DLOG) Log.d(TAG, "492, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)

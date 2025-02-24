@@ -41,7 +41,7 @@ class AdvFileChooser : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.i(TAG, "44, onCreate")
+        if (MyDebug.DLOG) Log.i(TAG, "44, onCreate")
 
         setContentView(R.layout.list_view)
 
@@ -151,7 +151,7 @@ class AdvFileChooser : Activity() {
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
-        if (MyDebug.dLOG) Log.i(TAG, "154, Selected file: $fileSelected")
+        if (MyDebug.DLOG) Log.i(TAG, "154, Selected file: $fileSelected")
         finish()
     }
 

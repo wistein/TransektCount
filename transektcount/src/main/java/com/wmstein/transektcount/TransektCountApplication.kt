@@ -20,7 +20,7 @@ import java.lang.Exception
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2024-12-17
+ * last edit on 2025-02-23
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -31,7 +31,7 @@ class TransektCountApplication : Application() {
         super.onCreate()
 
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
-        if (MyDebug.dLOG) {
+        if (MyDebug.DLOG) {
             Log.i(TAG, "35, onCreate, StrictMode.setVmPolicy")
             StrictMode.setVmPolicy(
                 VmPolicy.Builder(StrictMode.getVmPolicy())
@@ -41,21 +41,20 @@ class TransektCountApplication : Application() {
         }
 
         try {
-            prefs = PreferenceManager.getDefaultSharedPreferences(this)
+            prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         } catch (e: Exception) {
-            if (MyDebug.dLOG) Log.e(TAG, "46, $e")
+            if (MyDebug.DLOG) Log.e(TAG, "46, $e")
         }
     }
     // End of onCreate()
 
     // bMapDraw is a pre-prepared bitmap read by WelcomeActivity, SelectSectionActivity
     //   and CountingActivity
-    @Suppress("DEPRECATION")
     fun setBackgr(): BitmapDrawable {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!
-        if (MyDebug.dLOG) Log.i(TAG, "58, Backgr.: $backgroundPref")
+        if (MyDebug.DLOG) Log.i(TAG, "57, Backgr.: $backgroundPref")
 
         val wm = checkNotNull(this.getSystemService(WINDOW_SERVICE) as WindowManager)
         if (Build.VERSION.SDK_INT >= 30) {
@@ -63,13 +62,15 @@ class TransektCountApplication : Application() {
             width = metrics.bounds.right + metrics.bounds.left
             height = metrics.bounds.top + metrics.bounds.bottom
         } else {
+            @Suppress("DEPRECATION")
             val display = wm.defaultDisplay // deprecated in 30
             val size = Point()
+            @Suppress("DEPRECATION")
             display.getSize(size) // deprecated in 30
             width = size.x
             height = size.y
         }
-        if (MyDebug.dLOG) Log.d(TAG, "72, width = $width, height = $height")
+        if (MyDebug.DLOG) Log.d(TAG, "73, width = $width, height = $height")
 
         var bMap: Bitmap?
         if (backgroundPref == "none") {

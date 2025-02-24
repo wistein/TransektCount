@@ -65,7 +65,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.dLOG) Log.d(TAG, "68, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "68, onCreate");
 
         setContentView(R.layout.activity_edit_meta);
 
@@ -94,7 +94,7 @@ public class EditMetaActivity extends AppCompatActivity
             @Override
             public void handleOnBackPressed()
             {
-                if (MyDebug.dLOG) Log.d(TAG, "97, handleOnBackPressed");
+                if (MyDebug.DLOG) Log.d(TAG, "97, handleOnBackPressed");
                 finish();
             }
         };
@@ -107,7 +107,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onResume();
 
-        if (MyDebug.dLOG) Log.d(TAG, "110, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "110, onResume");
 
         // Build the Edit Meta Data screen
         // Clear existing view
@@ -257,14 +257,14 @@ public class EditMetaActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == android.R.id.home) // back button in actionBar
         {
-            if (MyDebug.dLOG) Log.d(TAG, "260, MenuItem home");
+            if (MyDebug.DLOG) Log.d(TAG, "260, MenuItem home");
             finish();
             return true;
         }
 
         if (id == R.id.menuSaveExit)
         {
-            if (MyDebug.dLOG) Log.d(TAG, "267, MenuItem saveExit");
+            if (MyDebug.DLOG) Log.d(TAG, "267, MenuItem saveExit");
             if (saveData())
                 finish();
             return true;
@@ -277,7 +277,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onPause();
 
-        if (MyDebug.dLOG) Log.d(TAG, "280, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "280, onPause");
 
         headDataSource.close();
         metaDataSource.close();
@@ -295,7 +295,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onStop();
 
-        if (MyDebug.dLOG) Log.d(TAG, "298, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "298, onStop");
     }
 
     @Override
@@ -303,7 +303,7 @@ public class EditMetaActivity extends AppCompatActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.i(TAG, "306, onDestroy");
+        if (MyDebug.DLOG) Log.i(TAG, "306, onDestroy");
 
         metaArea.clearFocus();
         metaArea.removeAllViews();
@@ -311,7 +311,7 @@ public class EditMetaActivity extends AppCompatActivity
 
     public boolean saveData()
     {
-        if (MyDebug.dLOG) Log.i(TAG, "314, saveData");
+        if (MyDebug.DLOG) Log.i(TAG, "314, saveData");
         // Save head data
         head.transect_no = ehw.getWidgetNo1();
         head.inspector_name = ehw.getWidgetName1();

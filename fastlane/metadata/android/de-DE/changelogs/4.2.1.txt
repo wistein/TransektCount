@@ -1,0 +1,6 @@
+Version 4.2.1 (23.02.2025)
+- Backpressed-Logik des Zurück-Buttons auf der Startseite verbessert
+- Bugfix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
+- Berechtigungs-Behandlung verbessert
+- Code-Verbesserungen
+- Doku-Update

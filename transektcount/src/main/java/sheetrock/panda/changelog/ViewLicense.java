@@ -32,7 +32,7 @@ import java.util.Locale;
  * See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
  * Adaptation for ViewLicense by wmstein on 2024-07-16,
- * last edited on 2024-07-16
+ * last edited on 2025-02-23
  */
 public class ViewLicense
 {
@@ -47,8 +47,8 @@ public class ViewLicense
         this.context = context;
     }
 
-    /*****************************************************
-     * @return an AlertDialog with the help text displayed
+    /********************************************************
+     * @return an AlertDialog with the license text displayed
      */
     public AlertDialog getFullLogDialog()
     {
@@ -63,7 +63,7 @@ public class ViewLicense
         wl.loadDataWithBaseURL(null, this.getLog(), "text/html", "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
-            new ContextThemeWrapper(this.context, android.R.style.Theme_Holo_Dialog));
+            new ContextThemeWrapper(this.context, android.R.style.Theme_Material_Dialog));
         builder.setTitle(context.getResources().getString(R.string.viewlicense_full_title))
             .setView(wl)
             .setCancelable(false)
@@ -133,7 +133,7 @@ public class ViewLicense
                     case '*' ->
                     {
                         // line contains bullet list item
-                        this.openList(Listmode.UNORDERED);
+                        this.openList();
                         sb.append("<li>");
                         sb.append(line.substring(1).trim());
                         sb.append("</li>\n");
@@ -152,31 +152,26 @@ public class ViewLicense
             ins.close();
         } catch (IOException e)
         {
-            if (MyDebug.dLOG)
+            if (MyDebug.DLOG)
                 Log.e(TAG, "156, could not read license text.", e);
         }
 
         return sb.toString();
     }
 
-    private void openList(Listmode listMode)
+    private void openList()
     {
-        if (this.listMode != listMode)
+        if (this.listMode != Listmode.UNORDERED)
         {
             closeList();
-            if (listMode == Listmode.ORDERED)
-                sb.append("<div class='list'><ol>\n");
-            else if (listMode == Listmode.UNORDERED)
-                sb.append("<div class='list'><ul>\n");
-            this.listMode = listMode;
+            sb.append("<div class='list'><ul>\n");
+            this.listMode = Listmode.UNORDERED;
         }
     }
 
     private void closeList()
     {
-        if (this.listMode == Listmode.ORDERED)
-            sb.append("</ol></div>\n");
-        else if (this.listMode == Listmode.UNORDERED)
+        if (this.listMode == Listmode.UNORDERED)
             sb.append("</ul></div>\n");
         this.listMode = Listmode.NONE;
     }
@@ -186,7 +181,7 @@ public class ViewLicense
      */
     private enum Listmode
     {
-        NONE, ORDERED, UNORDERED,
+        NONE, UNORDERED,
     }
 
 }

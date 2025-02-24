@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2024-12-03 -->
+     last edited 2025-02-16 -->
 
 <resources>
 
@@ -245,10 +245,9 @@
     <string name="cancel">Cancel</string>
 
     <!-- Permissions -->
-    <string name="perm_required">Permissions required</string>
     <string name="app_settings">App Settings</string>
-    <string name="perm_hint1">Please enable the missing permission for the app in the phone settings.</string>
-    <string name="perm_denied">At least one permission is denied. Functionality is limited.</string>
-    <string name="perm_cancel">Storage access denied. Please, accept storage permission and try again.</string>
+    <string name="dialog_storage_title">Storage permission required</string>
+    <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to export data.</string>
+    <string name="storage_perm_denied">Storage permission denied. Please grant storage permission for TransektCount to be able to export data.</string>
 
 </resources>

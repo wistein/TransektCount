@@ -6,7 +6,8 @@
      reason: Spinner in CountingActivity.
      Solution: application attribute android:resizeableActivity="false"
      prohibits multi-window-mode.
-     Last edited 2024-08-20.
+
+     Last edited 2025-01-22
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,11 +37,11 @@
     <application
         android:name=".TransektCountApplication"
         android:allowBackup="false"
-        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="false"
+        android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@drawable/ic_launcher"
         android:label="TransektCount"
-        android:requestLegacyExternalStorage="true"
         android:resizeableActivity="false"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
@@ -133,7 +134,6 @@
 
         <activity
             android:name="com.wmstein.transektcount.CountOptionsActivity"
-            android:exported="true"
             android:label="@string/title_activity_count_options"
             android:parentActivityName="com.wmstein.transektcount.CountingActivity"
             android:screenOrientation="portrait"

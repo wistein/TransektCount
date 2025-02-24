@@ -55,7 +55,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.d(TAG, "58 onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "58 onCreate")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -103,7 +103,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.d(TAG, "106 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "106 onResume")
 
         sectionDataSource!!.open()
         countDataSource!!.open()
@@ -142,7 +142,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         } else {
             searchDel.error = null
 
-            if (MyDebug.dLOG) Log.d(TAG, "145, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "145, initChars: $initChars")
 
             // Call DummyActivity to reenter DelSpeciesActivity for reduced add list
             val intent = Intent(this@DelSpeciesActivity, DummyActivity::class.java)
@@ -173,7 +173,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
                     cnt++
                     deleteArea!!.addView(dsw)
-                    if (MyDebug.dLOG) Log.d(TAG, "176, name: " + count.name)
+                    if (MyDebug.DLOG) Log.d(TAG, "176, name: " + count.name)
                 }
             }
         } else {
@@ -185,7 +185,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setPicSpec(count)
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
-                if (MyDebug.dLOG) Log.d(TAG, "188, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "188, name: " + count.name)
             }
         }
     }
@@ -193,7 +193,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for delete from the species counts list
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
-        if (MyDebug.dLOG) Log.d(TAG, "196, View.tag: $idToDel")
+        if (MyDebug.DLOG) Log.d(TAG, "196, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -201,14 +201,14 @@ class DelSpeciesActivity : AppCompatActivity() {
         // Put species on delete list
         if (checked) {
             listToDelete!!.add(dsw)
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
                 Log.d(TAG, "206, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
                 Log.d(TAG, "213, mark delete code: $codeD")
             }
@@ -221,7 +221,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         val numSect: Int = sectionDataSource!!.numEntries
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 Log.d(TAG, "225, delete code: $specCode")
             }
             try {
@@ -299,7 +299,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.d(TAG, "302 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "302 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -309,7 +309,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.dLOG) Log.d(AddSpeciesActivity.Companion.TAG, "312, onDestroy")
+        if (MyDebug.DLOG) Log.d(AddSpeciesActivity.Companion.TAG, "312, onDestroy")
 
         delHintArea!!.clearFocus()
     }

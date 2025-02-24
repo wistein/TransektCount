@@ -56,7 +56,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.i(TAG, "59, onCreate")
+        if (MyDebug.DLOG) Log.i(TAG, "59, onCreate")
 
         transektCount = application as TransektCountApplication
         awakePref = prefs.getBoolean("pref_awake", true)
@@ -91,7 +91,7 @@ class ListSpeciesActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (MyDebug.dLOG) Log.i(TAG, "94, handleOnBackPressed")
+                if (MyDebug.DLOG) Log.i(TAG, "94, handleOnBackPressed")
 
                 NavUtils.navigateUpFromSameTask(this@ListSpeciesActivity)
             }
@@ -102,7 +102,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.i(TAG, "105, onResume")
+        if (MyDebug.DLOG) Log.i(TAG, "105, onResume")
 
         if (awakePref) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -264,7 +264,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.i(TAG, "267, onPause")
+        if (MyDebug.DLOG) Log.i(TAG, "267, onPause")
 
         // close the data sources
         headDataSource!!.close()

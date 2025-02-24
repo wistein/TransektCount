@@ -26,7 +26,7 @@ class DummyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.d(TAG, "29, Dummy")
+        if (MyDebug.DLOG) Log.d(TAG, "29, Dummy")
 
         var initChars = ""
         var isFlag = ""

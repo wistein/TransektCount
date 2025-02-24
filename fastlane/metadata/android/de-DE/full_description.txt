@@ -1,12 +1,9 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.2.0:
-- csv Ergebnistabelle modifiziert
-- Dateinamen der exportierten akt. DB und csv-Tabelle mit Transekt-Nr.
-- App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
-- Hinzufügen, löschen und editieren von Arten mit Option der Vorauswahl mit 2 Anfangsbuchstaben
-- Code-Verbesserungen
-- Bug-Fixes
+Neu in Version 4.2.1:
+- Backpressed-Logik des Zurück-Buttons auf der Startseite verbessert
+- Bugfix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
+- Berechtigungs-Behandlung verbessert
 - Doku-Update
 
 Eigenschaften:

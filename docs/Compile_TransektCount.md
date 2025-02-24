@@ -4,7 +4,7 @@
 Windows 64-bit with adb driver or
 Linux 64-bit
 
-Smartphone with high resolution screen (Android 7.1 or higher)
+Android Smartphone with high resolution screen (Android 7.1 or higher)
 
 ## Dependencies
 - Android Studio (current version)
@@ -19,12 +19,18 @@ Android SDK with
 
 ### build.gradle (TransektCount)
 - buildscript:
-  kotlin_version = '2.0.20' (or higher)
-  classpath 'com.android.tools.build:gradle:8.7.2' (or higher)
-  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  ext:
+    kotlin_version = '2.0.20' (or higher)
+  repositories:
+    mavenCentral()
+    google()
+  dependencies:
+    classpath 'com.android.tools.build:gradle:8.7.3' (or higher)
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 ### build.gradle (transecktcount)
 - Compiled with SDK Ver. 35 but for targetSdkVersion 34 and minSdk 25.
+- JavaVersion.VERSION_17 (or current version)
 - External Libraries:
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'androidx.appcompat:appcompat:x.y.z' (current version)

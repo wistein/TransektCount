@@ -9,104 +9,60 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
 /**
- * PermissionsDialogFragment provides the permission handling, which is
- * necessary since Android Marshmallow (M)
+ * PermissionsDialogFragment provides the permission handling,
+ * which is necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2024-09-20
+ * last edited on 2025-02-21
  */
 class PermissionsDialogFragment : DialogFragment() {
     private var context: Context? = null
     private var shouldResolve = false
     private var externalGrantNeeded = false
     private var externalGrant30Needed = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         this.context = context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setStyle(STYLE_NO_TITLE, R.style.PermissionsDialogFragmentStyle)
         isCancelable = false
-        requestNecessaryPermissions()
+
+        // Check for given storage permission
+        requestStoragePermissions()
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    override fun onResume() {
-        super.onResume()
-        if (shouldResolve) {
-            if (externalGrantNeeded) {
-                showAppSettingsDialog()
-            }
-            // @RequiresApi(Build.VERSION_CODES.R)
-            if (externalGrant30Needed) {
-                showAppSettingsDialog30()
-            }
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        context = null
-    }
-
-    // Solution with multiple permissions launcher
-    private fun requestNecessaryPermissions() {
-
-        val permissions = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        //launcher permissions request dialog
-        permissionLauncherMultiple.launch(permissions)
-
-        //launcher permission request dialog (Android 11+)
+    // Request storage permission
+    private fun requestStoragePermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // launch permission request dialog (Android >=11)
             val permission = Manifest.permission.MANAGE_EXTERNAL_STORAGE
-            permissionLauncherSingle.launch(permission)
-        }
-    }
-
-    // Request multiple permissions
-    private val permissionLauncherMultiple = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    )
-    { result ->
-        // check if permissions were granted from permission request dialog or already granted before
-
-        var allAreGranted = true
-        shouldResolve = true
-        for (isGranted in result.values) {
-            Log.d(TAG, "88, onActivityResult: isGranted: $isGranted")
-            allAreGranted = allAreGranted && isGranted
-        }
-
-        if (allAreGranted) {
-            // ok, multiple permissions are granted
-            externalGrantNeeded = false
+            permissionLauncherStorage.launch(permission)
         } else {
-            //All or some Permissions were denied so can't do the task that requires that permission
-            externalGrantNeeded = true
-            Log.d(TAG, "98, onActivityResult: All or some permissions denied...")
-            Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
+            // Android < 11
+            val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+            permissionLauncherStorage.launch(permission)
         }
     }
 
-    // Request single permissions
-    private val permissionLauncherSingle = registerForActivityResult(
+    // Request single permissions in system settings app
+    private val permissionLauncherStorage = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     )
     { isGranted ->
         shouldResolve = true
-        Log.d(TAG, "109, onActivityResult: isGranted: $isGranted")
+        if (MyDebug.DLOG) Log.d(TAG, "65, onActivityResult: isGranted: $isGranted")
 
         if (isGranted) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -114,40 +70,58 @@ class PermissionsDialogFragment : DialogFragment() {
             } else {
                 externalGrant30Needed = false
             }
+            dismiss()
         } else {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 externalGrantNeeded = true
             } else {
                 externalGrant30Needed = true
+            }
+            if (MyDebug.DLOG) Log.d(TAG, "79, onActivityResult: Permission denied...")
+        }
+    }
 
-                Log.d(TAG, "123, onActivityResult: Permission denied...")
-                Toast.makeText(this.context, R.string.perm_denied, Toast.LENGTH_SHORT).show()
+    override fun onResume() {
+        super.onResume()
+
+        if (shouldResolve) {
+            if (externalGrantNeeded) {
+                if (MyDebug.DLOG) Log.i(TAG, "90, ask storage")
+                showAppSettingsStorageDialog()
+            }
+            if (externalGrant30Needed) {
+                // >= API 30
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (MyDebug.DLOG) Log.i(TAG, "95, ask manage storage")
+                    showAppSettingsManageStorageDialog()
+                }
             }
         }
     }
 
-    // Query missing permissions
-    private fun showAppSettingsDialog() {
+    // Query missing  external storage permissions for API <30
+    private fun showAppSettingsStorageDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.perm_required))
-            .setMessage(getString(R.string.perm_hint1))
-            .setPositiveButton(getString(R.string.app_settings)) { _: DialogInterface?, _: Int ->
-                val intent = Intent()
-                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                val uri =
-                    Uri.fromParts("package", requireContext().applicationContext.packageName, null)
+            .setTitle(getString(R.string.dialog_storage_title))
+            .setMessage(getString(R.string.dialog_storage_message))
+            .setPositiveButton(getString(R.string.app_settings))
+            { _: DialogInterface?, _: Int ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", "com.wmstein.transektcount", null)
                 intent.data = uri
                 requireContext().startActivity(intent)
                 dismiss()
             }
-            .setNegativeButton(getString(R.string.cancel)) { _: DialogInterface?, _: Int -> dismiss() }
+            .setNegativeButton(getString(R.string.cancel))
+            { _: DialogInterface?, _: Int ->
+                dismiss()
+            }
             .create().show()
     }
 
-    // Query missing permission
+    // Query missing manage storage permission for API >=30
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun showAppSettingsDialog30() {
-        //request for the permission
+    private fun showAppSettingsManageStorageDialog() {
         val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
         val uri = Uri.fromParts("package", "com.wmstein.transektcount", null)
         intent.data = uri
@@ -155,8 +129,14 @@ class PermissionsDialogFragment : DialogFragment() {
         dismiss()
     }
 
+    override fun onDetach() {
+        super.onDetach()
+
+        context = null
+    }
+
     companion object {
-        private const val TAG = "TransektCntPermDialogFragment"
+        private const val TAG = "PermStorFragm"
 
         @JvmStatic
         fun newInstance(): PermissionsDialogFragment {

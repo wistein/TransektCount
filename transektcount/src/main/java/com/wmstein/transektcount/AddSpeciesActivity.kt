@@ -70,7 +70,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.d(TAG, "73, onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "73, onCreate")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -90,7 +90,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             sectionId = extras.getInt("section_id")
             initChars = extras.getString("init_Chars").toString()
         }
-        if (MyDebug.dLOG) Log.d(TAG, "93, initChars: $initChars")
+        if (MyDebug.DLOG) Log.d(TAG, "93, initChars: $initChars")
 
         listToAdd = ArrayList()
 
@@ -104,7 +104,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // New onBackPressed logic
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (MyDebug.dLOG) Log.d(TAG, "107, handleOnBackPressed")
+                if (MyDebug.DLOG) Log.d(TAG, "107, handleOnBackPressed")
 
                 val intent = NavUtils.getParentActivityIntent(this@AddSpeciesActivity)!!
                 intent.putExtra("section_id", sectionId)
@@ -119,7 +119,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.d(TAG, "122, onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "122, onResume")
 
         countDataSource!!.open()
         sectionDataSource!!.open()
@@ -162,7 +162,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         } else {
             searchAdd.error = null
 
-            if (MyDebug.dLOG) Log.d(TAG, "165, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "165, initChars: $initChars")
 
             // Call DummyActivity to reenter AddSpeciesActivity for reduced add list
             val intent = Intent(this@AddSpeciesActivity, DummyActivity::class.java)
@@ -190,7 +190,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // 2. Build lists of all yet missing species
         val specCodesContainedListSize = specCodesContainedList.size
-        if (MyDebug.dLOG) Log.d(TAG, "193, codesCountListSize: $specCodesContainedListSize")
+        if (MyDebug.DLOG) Log.d(TAG, "193, codesCountListSize: $specCodesContainedListSize")
 
         // Reduce complete arraylists for already contained species
         for (i in 0 until specCodesContainedListSize) {
@@ -199,15 +199,15 @@ class AddSpeciesActivity : AppCompatActivity() {
                 // Prerequisites: Exactly correlated arrays of selCodes, selSpecs and selSpecs_l
                 specCode = specCodesContainedList[i]
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
-                if (MyDebug.dLOG) Log.d(TAG, "202, 1. specCode: $specCode, posSpec: $posSpec")
+                if (MyDebug.DLOG) Log.d(TAG, "202, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
                 namesGCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
             }
         }
 
-        if (MyDebug.dLOG) Log.d(TAG, "209, initChars: $initChars")
-        if (MyDebug.dLOG) Log.d(TAG, "210, namesCompleteArrayListSize: "
+        if (MyDebug.DLOG) Log.d(TAG, "209, initChars: $initChars")
+        if (MyDebug.DLOG) Log.d(TAG, "210, namesCompleteArrayListSize: "
                     + namesCompleteArrayList!!.size)
 
         // Copy ...CompleteArrayLists to ...ReducedArrayLists
@@ -228,7 +228,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                     specName = namesCompleteArrayList!![i]
                     specNameG = namesGCompleteArrayList!![i]
                     specCode = codesCompleteArrayList!![i]
-                    if (MyDebug.dLOG) Log.d(TAG, "231, 2. specName: $specName, specCode: $specCode")
+                    if (MyDebug.DLOG) Log.d(TAG, "231, 2. specName: $specName, specCode: $specCode")
 
                     // Assemble remaining ReducedArrayLists for all Species with initChars
                     namesReducedArrayList!!.add(specName!!)
@@ -240,7 +240,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Create remainingIdArrayList for all remaining species of codesCompleteArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
-        if (MyDebug.dLOG) Log.d(TAG, "243, remainingIdArrayListSize: " + remainingIdArrayList.size)
+        if (MyDebug.DLOG) Log.d(TAG, "243, remainingIdArrayListSize: " + remainingIdArrayList.size)
         var i = 0
         while (i < codesReducedArrayList!!.size) {
             remainingIdArrayList[i] = (i + 1).toString()
@@ -269,7 +269,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for the species counts list
     fun checkBoxAdd(view: View) {
         val idToAdd = view.tag as Int
-        if (MyDebug.dLOG) Log.d(TAG, "272, View.tag: $idToAdd")
+        if (MyDebug.DLOG) Log.d(TAG, "272, View.tag: $idToAdd")
         val asw = addArea!!.getChildAt(idToAdd) as AddSpeciesWidget
 
         val checked = asw.getMarkSpec() // return boolean isChecked
@@ -277,14 +277,14 @@ class AddSpeciesActivity : AppCompatActivity() {
         // Put species on add list
         if (checked) {
             listToAdd!!.add(asw)
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 val codeA = asw.getSpecCode()
                 Log.d(TAG, "282, addCount, code: $codeA")
             }
         } else {
             // Remove species previously added from add list
             listToAdd!!.remove(asw)
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 val codeA = asw.getSpecCode()
                 Log.d(TAG, "289, removeCount, code: $codeA")
             }
@@ -300,7 +300,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             specName = listToAdd!![i].getSpecName()
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
-            if (MyDebug.dLOG) {
+            if (MyDebug.DLOG) {
                 Log.d(TAG, "304, addSpecs, code: $specCode")
             }
             try {
@@ -370,7 +370,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.dLOG) Log.d(TAG, "373, onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "373, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -379,7 +379,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.dLOG) Log.d(TAG, "382, onDestroy")
+        if (MyDebug.DLOG) Log.d(TAG, "382, onDestroy")
 
         addArea!!.removeAllViews()
         addHintArea!!.clearFocus()

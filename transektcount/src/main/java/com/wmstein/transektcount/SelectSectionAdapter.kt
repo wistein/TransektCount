@@ -91,12 +91,12 @@ internal class SelectSectionAdapter(
             if (sectionId == maxId) {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_delete)
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
-                if (MyDebug.dLOG)
+                if (MyDebug.DLOG)
                     Log.d(TAG, "95, GetView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
-                if (MyDebug.dLOG)
+                if (MyDebug.DLOG)
                     Log.d(TAG, "100, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
@@ -219,7 +219,7 @@ internal class SelectSectionAdapter(
                     vibrator.cancel()
                 }
             } catch (e: java.lang.Exception) {
-                if (MyDebug.dLOG) Log.e(TAG, "222, buttonVib, could not vibrate.", e)
+                if (MyDebug.DLOG) Log.e(TAG, "222, buttonVib, could not vibrate.", e)
             }
         }
     }

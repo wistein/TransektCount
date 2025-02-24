@@ -32,8 +32,8 @@ import java.util.Locale;
  * Author: Karsten Priegnitz
  * See: <a href="https://code.google.com/p/android-change-log/">...</a>
  <p>
- * Adaptation for ViewHelp on 2016-06-19,
- * last edited by wmstein on 2024-07-10
+ * Adaptation for TransektCount by wm.stein on 2016-06-19,
+ * last edited by wmstein on 2025-02-23
  */
 public class ViewHelp
 {
@@ -49,7 +49,7 @@ public class ViewHelp
     {
         this.context = context;
 
-        // get version number
+        // get version name
         try
         {
             thisVersion = context.getPackageManager().getPackageInfo(
@@ -57,15 +57,13 @@ public class ViewHelp
         } catch (NameNotFoundException e)
         {
             thisVersion = NO_VERSION;
-            if (MyDebug.dLOG)
+            if (MyDebug.DLOG)
                 Log.e(TAG, "61, Could not get version name from manifest!", e);
         }
-        if (MyDebug.dLOG)
-            Log.d(TAG, "64, appVersion: " + this.thisVersion);
     }
 
-    /*****************************************************
-     * @return an AlertDialog with the help text displayed
+    /**
+     * Return an AlertDialog with the help text displayed
      */
     public AlertDialog getFullLogDialog()
     {
@@ -77,10 +75,11 @@ public class ViewHelp
         WebView wv = new WebView(this.context);
 
         wv.setBackgroundColor(Color.BLACK);
-        wv.loadDataWithBaseURL(null, this.getLog(), "text/html", "UTF-8", null);
+        wv.loadDataWithBaseURL(null, this.getLog(), "text/html", "UTF-8",
+            null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
-            new ContextThemeWrapper(this.context, android.R.style.Theme_Holo_Dialog));
+            new ContextThemeWrapper(this.context, android.R.style.Theme_Material_Dialog));
         builder.setTitle(context.getResources().getString(
                 R.string.viewhelp_full_title) + " " + thisVersion + ")")
             .setView(wv)
@@ -193,7 +192,8 @@ public class ViewHelp
             ins.close();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            if (MyDebug.DLOG)
+                Log.e(TAG, "156, could not read help text.", e);
         }
 
         return sb.toString();

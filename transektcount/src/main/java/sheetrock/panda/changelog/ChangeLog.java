@@ -22,20 +22,25 @@ import java.util.Locale;
 
 /**********************************************************************
  Copyright (C) 2011-2013, Karsten Priegnitz
- <p>
+
  Permission to use, copy, modify, and distribute this piece of software
  for any purpose with or without fee is hereby granted, provided that
  the above copyright notice and this permission notice appear in the
  source code of all copies.
- <p>
+
  It would be appreciated if you mention the author in your change log,
  contributors list or the like.
- <p>
+
  Author: Karsten Priegnitz
  See: <a href="https://code.google.com/p/android-change-log/">...</a>
- <p>
+
+ Newly installed: Shows the history of TransektCount.
+ Updated: Shows the last changes of TransektCount.
+
+ Therefore retrieves the version names and stores the new version name in SharedPreferences
+
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2024-07-16
+ last change by wmstein on 2025-02-23
  */
 public class ChangeLog
 {
@@ -48,6 +53,9 @@ public class ChangeLog
     // key for storing the version name in SharedPreferences
     private static final String VERSION_KEY = "PREFS_VERSION_KEY";
     private static final String NO_VERSION = "";
+    private Listmode listMode = Listmode.NONE;
+    private StringBuffer sb = null;
+    private static final String EOCL = "END_OF_CHANGE_LOG";
 
     public ChangeLog(Context context)
     {
@@ -58,10 +66,10 @@ public class ChangeLog
     {
         this.context = context;
 
-        // get version numbers
+        // get version numbers of lastVersion and thisVersion to compare
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
-        if (MyDebug.dLOG)
-            Log.d(TAG, "64, lastVersion: " + lastVersion);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "72, lastVersion: " + lastVersion);
 
         try
         {
@@ -70,16 +78,15 @@ public class ChangeLog
         } catch (NameNotFoundException e)
         {
             thisVersion = NO_VERSION;
-            if (MyDebug.dLOG)
-                Log.e(TAG, "74, Could not get version name from manifest!", e);
+            if (MyDebug.DLOG)
+                Log.e(TAG, "82, Could not get version name from manifest!", e);
         }
-        if (MyDebug.dLOG)
-            Log.d(TAG, "77, appVersion: " + this.thisVersion);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "85, appVersion: " + this.thisVersion);
     }
 
     /**
-     * @return <code>true</code> if this version of your app is started the
-     *         first time
+     * Return true if this version of your app is started the first time
      */
     public boolean firstRun()
     {
@@ -87,9 +94,8 @@ public class ChangeLog
     }
 
     /**
-     * @return <code>true</code> if your app including ChangeLog is started the
-     *         first time ever. Also <code>true</code> if your app was
-     *         deinstalled and installed again.
+     * Return true if your app including ChangeLog is started the first time ever.
+     * Return also true if your app was deinstalled and reinstalled again.
      */
     private boolean firstRunEver()
     {
@@ -97,18 +103,17 @@ public class ChangeLog
     }
 
     /**
-     * @return An AlertDialog displaying the changes since the previous
-     *         installed version of your app (what's new). But when this is the
-     *         first run of your app including ChangeLog then the full log
-     *         dialog is show.
+     * Return an AlertDialog displaying the changes since the previous installed
+     * version of your app (what's new). But when this is the first run of your app
+     * including ChangeLog then the full log dialog is show.
      */
     public AlertDialog getLogDialog()
     {
         return this.getDialog(this.firstRunEver());
     }
 
-    /*********************************************************
-     * @return an AlertDialog with a full change log displayed
+    /**
+     * Return an AlertDialog with a full change log displayed
      */
     public AlertDialog getFullLogDialog()
     {
@@ -120,11 +125,12 @@ public class ChangeLog
         WebView wv = new WebView(this.context);
 
         wv.setBackgroundColor(Color.BLACK);
-        wv.loadDataWithBaseURL(null, this.getLog(full), "text/html", "UTF-8", null);
+        wv.loadDataWithBaseURL(null, this.getLog(full), "text/html",
+            "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(
             new ContextThemeWrapper(
-                this.context, android.R.style.Theme_Holo_Dialog));
+                this.context, android.R.style.Theme_Material_Dialog));
         String fullTitle = context.getResources().getString(R.string.changelog_full_title)
             + " Ver. " + thisVersion;
         String changeTitle = "Ver. " + thisVersion + ": "
@@ -153,9 +159,14 @@ public class ChangeLog
         editor.apply();
     }
 
-    private Listmode listMode = Listmode.NONE;
-    private StringBuffer sb = null;
-    private static final String EOCL = "END_OF_CHANGE_LOG";
+    /**
+     * Return HTML displaying the changes since the previous installed version
+     *         of your app (what's new)
+     */
+    public String getLog()
+    {
+        return this.getLog(false);
+    }
 
     private String getLog(boolean full)
     {
@@ -259,7 +270,7 @@ public class ChangeLog
             ins.close();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            if (MyDebug.DLOG) Log.e(TAG, "273, could not read changelog text.", e);
         }
 
         return sb.toString();

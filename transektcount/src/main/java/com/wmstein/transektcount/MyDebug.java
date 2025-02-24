@@ -16,6 +16,6 @@ public class MyDebug
      *    dLog = false for release version
      *    dLog = true for debug version
      */
-    public static boolean dLOG = false;
-//    public static boolean dLOG = true;
+    public static boolean DLOG = false;
+//    public static boolean DLOG = true;
 }

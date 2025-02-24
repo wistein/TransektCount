@@ -39,7 +39,7 @@ _ Subtitle
   <body>
 
   % TransektCount
-  _ Copyright (C) 2016-2024, Wilhelm Stein
+  _ Copyright (C) 2016-2025, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
@@ -53,6 +53,15 @@ _ Subtitle
   _
     ! Geeignet für Android 7.1 (Nougat) oder neuer.
   _
+
+$ 4.2.1
+  % Version 4.2.1
+  _ 23.02.2025
+  * Backpressed-Logik des Zurück-Buttons auf der Startseite verbessert
+  * Bugfix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
+  * Berechtigungs-Behandlung verbessert
+  * Code-Verbesserungen
+  * Doku-Update
 
 $ 4.2.0
   % Version 4.2.0

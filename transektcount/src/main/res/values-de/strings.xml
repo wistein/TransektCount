@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2024-12-02 -->
+     last edited 2025-02-16 -->
 
 <resources>
 
@@ -236,10 +236,9 @@
     <string name="cancel">Abbrechen</string>
 
     <!-- Permissions -->
-    <string name="perm_required">Berechtigungen benötigt</string>
-    <string name="perm_hint1">Bitte erteile die fehlende Berechtigung für die App in den Smartphone-Einstellungen.</string>
     <string name="app_settings">App-Einstellungen</string>
-    <string name="perm_denied">Mindestens eine Berechtigung fehlt. Die Funktion ist entsprechend eingeschränkt.</string>
-    <string name="perm_cancel">Speicherzugriff blockiert. Bitte erteile die Berechtigung zum Speichern und versuche es erneut.</string>
+    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
+    <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Export der Ergebnisse.</string>
+    <string name="storage_perm_denied">Die Speicher-Berechtigung fehlt. Bitte erteile die benötigte Berechtigung zum Speichern von DBs und Ergebnissen und versuche es erneut.</string>
 
 </resources>

@@ -1,6 +1,15 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2024, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
+
+#### Version 4.2.1 (2025-02-23)
+- Backpressed logic on starting page improved
+- Bugfix for starting the default camera if it is the only camera app
+- Permissions handling improved
+- Code improvements
+- Update Gradle -> 8.10.2
+- Update AGP dependency -> 8.8.1
+- Docs updated
 
 #### Version 4.2.0 (2024-12-17)
 - csv output table modified

@@ -59,7 +59,7 @@ class CountOptionsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.dLOG) Log.i(TAG, "62, onCreate")
+        if (MyDebug.DLOG) Log.i(TAG, "62, onCreate")
 
         brightPref = prefs.getBoolean("pref_bright", true)
 
@@ -123,7 +123,7 @@ class CountOptionsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.dLOG) Log.i(TAG, "126, onResume")
+        if (MyDebug.DLOG) Log.i(TAG, "126, onResume")
 
         // Clear any existing views
         staticWidgetArea!!.removeAllViews()
@@ -347,7 +347,7 @@ class CountOptionsActivity : AppCompatActivity() {
                     alertDataSource!!.saveAlert(aew.alertId, aew.alertValue, aew.alertName)
                 }
             } else {
-                if (MyDebug.dLOG) Log.d(TAG, "350, Failed to save alert: " + aew.alertId)
+                if (MyDebug.DLOG) Log.d(TAG, "350, Failed to save alert: " + aew.alertId)
             }
         }
     }
@@ -399,7 +399,7 @@ class CountOptionsActivity : AppCompatActivity() {
                     alertDataSource!!.deleteAlertById(deleteAlert)
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertEditWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.dLOG) Log.e(TAG, "402, Failed to delete a widget: $e")
+                    if (MyDebug.DLOG) Log.e(TAG, "402, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }

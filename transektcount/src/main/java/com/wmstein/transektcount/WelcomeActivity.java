@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -22,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +34,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -76,7 +77,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-12-17
+ * last edited on 2025-02-21
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -86,26 +87,37 @@ public class WelcomeActivity
 
     private TransektCountApplication transektCount;
 
+    // Classic three-button navigation (Back, Home, Recent Apps)
+    public static final int NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON = 0;
+    /**
+     * Two-button navigation (Android P navigation mode: Back, combined Home and Recent Apps)
+     * public static final int NAVIGATION_BAR_INTERACTION_MODE_TWO_BUTTON = 1;
+     * <p>
+     * Full screen gesture mode (introduced with Android Q)
+     * public static final int NAVIGATION_BAR_INTERACTION_MODE_GESTURE = 2;
+     */
+
     private ChangeLog cl;
     private ViewHelp vh;
     private ViewLicense vl;
     public boolean doubleBackToExitPressedTwice = false;
 
     // Import/export stuff
-    private File infile;
-    private File outfile;
-    private String selectedFile;
+    private File infile = null;
+    private File outfile = null;
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    final String state = Environment.getExternalStorageState();
+    private final String state = Environment.getExternalStorageState();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    AlertDialog alert;
-    String transNo = "";
+    private AlertDialog alert;
+    private String transNo = "";
 
     // Preferences
     private SharedPreferences prefs;
     private String outPref;
+
+    private boolean storagePermGranted = false; // initial storage permission state
 
     // DB handling
     private SQLiteDatabase database;
@@ -125,7 +137,7 @@ public class WelcomeActivity
     {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.dLOG) Log.d(TAG, "128, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "141, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -137,16 +149,14 @@ public class WelcomeActivity
         baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.setBackgr());
 
-        if (!isStorageGranted())
+        isStorageGranted();
+        if (!storagePermGranted) // in self permission
         {
-            PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(), PermissionsDialogFragment.class.getName());
-            if (!isStorageGranted())
-                showSnackbarRed(getString(R.string.perm_cancel));
+            PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
+                PermissionsDialogFragment.class.getName());
+            showSnackbarRed(getString(R.string.storage_perm_denied));
         }
-
-        selectedFile = "";
-        infile = null;
-        outfile = null;
+        if (MyDebug.DLOG) Log.d(TAG, "160, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -197,40 +207,55 @@ public class WelcomeActivity
             exportBasisDb(); // create directory and copy internal DB-data to initial Basis DB-file
 
         // New onBackPressed logic
-        OnBackPressedCallback callback = new OnBackPressedCallback(true)
+        // Use only if 2 or 3 button Navigation bar is present.
+        if (getNavBarMode() == 0 || getNavBarMode() == 1)
+        {
+            OnBackPressedCallback callback = getOnBackPressedCallback();
+            getOnBackPressedDispatcher().addCallback(this, callback);
+        }
+    }
+    // End of onCreate()
+
+    // Check for Navigation bar
+    public int getNavBarMode()
+    {
+        Resources resources = this.getResources();
+        @SuppressLint("DiscouragedApi")
+        int resourceId = resources.getIdentifier("config_navBarInteractionMode",
+            "integer", "android");
+        int iMode = resourceId > 0 ? resources.getInteger(resourceId) : NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON;
+        if (MyDebug.DLOG)
+            Log.i(TAG, "229, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
+        return iMode;
+    }
+
+    // Use onBackPressed logic for button navigation
+    @NonNull
+    private OnBackPressedCallback getOnBackPressedCallback()
+    {
+        final Handler m1Handler = new Handler(Looper.getMainLooper());
+        final Runnable r1 = () -> doubleBackToExitPressedTwice = false;
+
+        return new OnBackPressedCallback(true)
         {
             @Override
             public void handleOnBackPressed()
             {
                 if (doubleBackToExitPressedTwice)
                 {
-                    if (MyDebug.dLOG) Log.d(TAG, "207, onBackPressed twice");
-
-                    finishAndRemoveTask();
+                    m1Handler.removeCallbacks(r1);
+                    finish();
+                    remove();
                 }
-
-                doubleBackToExitPressedTwice = true;
-
-                Toast t = new Toast(getApplicationContext());
-                LayoutInflater inflater = getLayoutInflater();
-
-                @SuppressLint("InflateParams")
-                View toastView = inflater.inflate(R.layout.toast_view, null);
-                TextView textView = toastView.findViewById(R.id.toast);
-                textView.setText(R.string.back_twice);
-
-                t.setView(toastView);
-                t.setDuration(Toast.LENGTH_SHORT);
-                t.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                t.show();
-
-                mHandler.postDelayed(() ->
-                    doubleBackToExitPressedTwice = false, 1500);
+                else
+                {
+                    doubleBackToExitPressedTwice = true;
+                    showSnackbarBlue(getString(R.string.back_twice));
+                    m1Handler.postDelayed(r1, 1500);
+                }
             }
         };
-        getOnBackPressedDispatcher().addCallback(this, callback);
     }
-    // End of onCreate()
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -238,12 +263,14 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.dLOG) Log.d(TAG, "241, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "279, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
-        // sort mode csv-export
-        outPref = prefs.getString("pref_csv_out", "species");
+        outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
+
+        isStorageGranted(); // set storagePermGranted from self permission
+        if (MyDebug.DLOG) Log.d(TAG, "286, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
@@ -264,15 +291,19 @@ public class WelcomeActivity
     }
     // End of onResume()
 
-    // Check initial external storage permission
-    private boolean isStorageGranted()
+    // Check external storage self permission
+    private void isStorageGranted()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android 11+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android >= 11
         {
-            return Environment.isExternalStorageManager(); // check permission MANAGE_EXTERNAL_STORAGE for Android 11+
+            // check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
+            storagePermGranted = Environment.isExternalStorageManager();
         }
         else
-            return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        {
+            storagePermGranted = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
     }
 
     @Override
@@ -297,7 +328,7 @@ public class WelcomeActivity
         }
         else if (id == R.id.exportMenu)
         {
-            if (isStorageGranted())
+            if (storagePermGranted)
             {
                 exportDb();
             }
@@ -305,20 +336,20 @@ public class WelcomeActivity
             {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsDialogFragment.class.getName());
-                if (isStorageGranted())
+                if (storagePermGranted)
                 {
                     exportDb();
                 }
                 else
                 {
-                    showSnackbarRed(getString(R.string.perm_cancel));
+                    showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
         }
         else if (id == R.id.exportCSVMenu)
         {
-            if (isStorageGranted())
+            if (storagePermGranted)
             {
                 exportDb2CSV();
             }
@@ -326,20 +357,20 @@ public class WelcomeActivity
             {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsDialogFragment.class.getName());
-                if (isStorageGranted())
+                if (storagePermGranted)
                 {
                     exportDb2CSV();
                 }
                 else
                 {
-                    showSnackbarRed(getString(R.string.perm_cancel));
+                    showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
         }
         else if (id == R.id.exportBasisMenu)
         {
-            if (isStorageGranted())
+            if (storagePermGranted)
             {
                 exportBasisDb();
             }
@@ -347,13 +378,13 @@ public class WelcomeActivity
             {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsDialogFragment.class.getName());
-                if (isStorageGranted())
+                if (storagePermGranted)
                 {
                     exportBasisDb();
                 }
                 else
                 {
-                    showSnackbarRed(getString(R.string.perm_cancel));
+                    showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
@@ -431,6 +462,7 @@ public class WelcomeActivity
         baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.setBackgr());
         outPref = prefs.getString("pref_csv_out", "species");
+        storagePermGranted = prefs.getBoolean("permStor_Given", false);
     }
 
     @Override
@@ -438,7 +470,7 @@ public class WelcomeActivity
     {
         super.onPause();
 
-        if (MyDebug.dLOG) Log.d(TAG, "441, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "486, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -454,7 +486,7 @@ public class WelcomeActivity
     {
         super.onStop();
 
-        if (MyDebug.dLOG) Log.d(TAG, "457, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "502, onStop");
     }
 
 
@@ -462,7 +494,7 @@ public class WelcomeActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.d(TAG, "465, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "510, onDestroy");
     }
 
     // Start CountingActivity
@@ -506,13 +538,8 @@ public class WelcomeActivity
     @SuppressLint({"SdCardPath", "LongLogTag"})
     public void exportDb()
     {
-        /* 1. File path: Solution for Android >= 10 (Build.VERSION_CODES.Q)
-         * path = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
-         *
-         * 2. File path: Solution for Android < 10 (deprecated in Q)
-         * path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-         * + "/TransektCount");
-         */
+        // New data directory:
+        //   outfile -> Public Directory Documents/TransektCount/
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -526,7 +553,7 @@ public class WelcomeActivity
         }
 
         //noinspection ResultOfMethodCallIgnored
-        path.mkdirs(); // Verify path
+        path.mkdirs(); // Just verify path, result ignored
 
         // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.db
         if (Objects.equals(transNo, ""))
@@ -1204,7 +1231,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.dLOG) Log.e(TAG, "1207, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1247, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1393,6 +1420,7 @@ public class WelcomeActivity
             @Override
             public void onActivityResult(ActivityResult result)
             {
+                String selectedFile;
                 infile = null;
                 if (result.getResultCode() == Activity.RESULT_OK)
                 {
@@ -1400,8 +1428,8 @@ public class WelcomeActivity
                     if (data != null)
                     {
                         selectedFile = data.getStringExtra("fileSelected");
-                        if (MyDebug.dLOG)
-                            Log.i(TAG, "1405, Selected file: " + selectedFile);
+                        if (MyDebug.DLOG)
+                            Log.i(TAG, "1445, Selected file: " + selectedFile);
 
                         if (selectedFile != null)
                             infile = new File(selectedFile);
@@ -1540,6 +1568,18 @@ public class WelcomeActivity
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        sB.show();
+    }
+
+    private void showSnackbarBlue(String str) // bold cyan text
+    {
+        baseLayout = findViewById(R.id.baseLayout);
+        Snackbar sB = Snackbar.make(baseLayout, str, Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+        tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        tv.setTextColor(Color.CYAN);
         sB.show();
     }
 

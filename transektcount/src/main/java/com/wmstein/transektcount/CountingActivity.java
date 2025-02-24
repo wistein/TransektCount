@@ -62,18 +62,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-/*********************************************************************************
- * CountingActivity is called from SelectSectionActivity for the selected section.
- *   Does the actual counting with 12 counters,
+/******************************************************************************
+ * CountingActivity is the central activity of TransektCount and is called from
+ *   SelectSectionActivity for the selected section.
+ *   It does the actual counting with 12 counters,
  *   checks for alerts,
- *   calls CountOptionsActivity, EditSectionListActivity and DummyActivity,
+ *   calls AddSpeciesActivity, DelSpeciesActivity, EditSectionListActivity,
+ *   CountOptionsActivity and DummyActivity,
  *   clones a section,
  *   switches screen off when device is pocketed
  *   and allows taking pictures and sending notes.
+ *   <p>
+ *   CountingActivity uses CountingWidget*.kt, NotesWidget.kt and activity_counting*.xml
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
- * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2024-12-17
+ * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
+ * last edited on 2025-01-23
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -141,7 +145,7 @@ public class CountingActivity
     {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.dLOG) Log.d(TAG, "144, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "148, onCreate");
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -243,7 +247,7 @@ public class CountingActivity
     {
         super.onResume();
 
-        if (MyDebug.dLOG) Log.d(TAG, "246, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "250, onResume");
 
         enableProximitySensor();
 
@@ -464,8 +468,9 @@ public class CountingActivity
             PackageManager packageManager = getPackageManager();
             List<ResolveInfo> activities = packageManager.queryIntentActivities(camIntent,
                 PackageManager.MATCH_DEFAULT_ONLY);
-            boolean isIntentSafe = !activities.isEmpty();
 
+            // Select from available camera apps
+            boolean isIntentSafe = !activities.isEmpty();
             if (isIntentSafe)
             {
                 String title = getResources().getString(R.string.chooserTitle);
@@ -480,6 +485,10 @@ public class CountingActivity
                         showSnackbarRed(getString(R.string.noPhotoPermit));
                     }
                 }
+            }
+            else {
+                // Only default camera available
+                startActivity(camIntent);
             }
             return true;
         }
@@ -551,7 +560,7 @@ public class CountingActivity
     {
         super.onPause();
 
-        if (MyDebug.dLOG) Log.d(TAG, "554, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "563, onPause");
 
         disableProximitySensor();
 
@@ -576,7 +585,7 @@ public class CountingActivity
     {
         super.onStop();
 
-        if (MyDebug.dLOG) Log.d(TAG, "579, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "588, onStop");
 
         if (r != null)
             r.stop(); // stop media player
@@ -587,7 +596,7 @@ public class CountingActivity
     {
         super.onDestroy();
 
-        if (MyDebug.dLOG) Log.d(TAG, "590, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "599, onDestroy");
     }
 
     // Spinner listener
@@ -613,15 +622,15 @@ public class CountingActivity
 
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
-                    if (MyDebug.dLOG)
-                        Log.d(TAG, "617, SpinnerListener, count id: " + count.id
+                    if (MyDebug.DLOG)
+                        Log.d(TAG, "626, SpinnerListener, count id: " + count.id
                             + ", code: " + count.code);
                 } catch (Exception e)
                 {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
-                    if (MyDebug.dLOG)
-                        Log.e(TAG, "624, SpinnerListener, catch: " + e);
+                    if (MyDebug.DLOG)
+                        Log.e(TAG, "633, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -636,7 +645,7 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count)
     {
-        if (MyDebug.dLOG) Log.d(TAG, "639, countingScreen");
+        if (MyDebug.DLOG) Log.d(TAG, "648, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -769,8 +778,8 @@ public class CountingActivity
     public void countUpf1i(View view)
     {
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.dLOG)
-            Log.d(TAG, "773, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "782, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -832,8 +841,8 @@ public class CountingActivity
     public void countDownf1i(View view)
     {
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.dLOG)
-            Log.d(TAG, "836, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "845, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null)
@@ -1339,8 +1348,9 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.dLOG)
-            Log.d(TAG, "1343, countUpf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "1352, countUpf1e, section Id: " + sectionId
+                + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1390,8 +1400,9 @@ public class CountingActivity
         dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.dLOG)
-            Log.d(TAG, "1394, countDownf1e, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (MyDebug.DLOG)
+            Log.d(TAG, "1404, countDownf1e, section Id: " + sectionId
+                + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
         if (widget != null)
@@ -1934,7 +1945,7 @@ public class CountingActivity
                 entries = sectionDataSource.getNumEntries();
             } catch (Exception e)
             {
-                if (MyDebug.dLOG) showSnackbarRed("getNumEntries failed");
+                if (MyDebug.DLOG) showSnackbarRed("getNumEntries failed");
             }
 
             try
@@ -1942,13 +1953,13 @@ public class CountingActivity
                 maxId = sectionDataSource.getMaxId();
             } catch (Exception e)
             {
-                if (MyDebug.dLOG) showSnackbarRed("getMaxId failed");
+                if (MyDebug.DLOG) showSnackbarRed("getMaxId failed");
             }
 
             if (entries != maxId)
             {
                 showSnackbarRed(getString(R.string.notContiguous));
-                if (MyDebug.dLOG)
+                if (MyDebug.DLOG)
                     showSnackbarRed("maxId: " + maxId + ", entries: " + entries);
                 return;
             }
@@ -1990,12 +2001,12 @@ public class CountingActivity
         {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.dLOG) Log.d(TAG, "1993, compSectionNames, sname = " + sname);
+            if (MyDebug.DLOG) Log.d(TAG, "2004, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname))
             {
                 isDblName = true;
-                if (MyDebug.dLOG) Log.d(TAG, "1998, compSectionNames, Double name = " + sname);
+                if (MyDebug.DLOG) Log.d(TAG, "2009, compSectionNames, Double name = " + sname);
                 break;
             }
         }
