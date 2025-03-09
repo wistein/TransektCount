@@ -2,6 +2,13 @@
 
 #### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
+#### Version 4.2.2 (2025-03-09)
+- Added pictures of Yponameuta melinellus, Agriphila geniculea, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eileme caniola
+- Update Gradle -> 8.11.1
+- Update AGP dependency -> 8.9.0
+- Update kotlin -> 2.1.0
+- Docs updated
+
 #### Version 4.2.1 (2025-02-23)
 - Backpressed logic on starting page improved
 - Bugfix for starting the default camera if it is the only camera app

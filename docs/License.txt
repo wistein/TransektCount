@@ -2,7 +2,7 @@
  * **************************************************************************
  *  TransektCount
  * **************************************************************************
- *  Copyright (c) 2016-2024 Wilhelm Stein
+ *  Copyright (c) 2016-2025 Wilhelm Stein
  *  Author: Wilhelm Stein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,24 +40,52 @@ Integrated code from external references:
  - filechooser based on android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
 
 Butterfly pictures: 
+ - Adela paludicolella, created from picture in
+   "Adelidae (Lepidoptera) - Beitrag zur Kenntnis der Biologie und Bestimmungshilfe für die europäischen Arten",
+   Author: Rudolf Bryner, free for non-commercial purposes in education and science and for private use
+ - Agriphila geniculea, created from picture 'Agriphila geniculea lateral Bytom.jpg' by Adrian Tync, Poland,
+   licensed under Creative Commons Attribution-Share Alike 4.0 International, derived from
+   https://commons.wikimedia.org/wiki/Category:Agriphila_geniculea
  - Crambus pascuella, Author: Olaf Leillinger, GNU Free Documentation License, derived from 
    https://en.wikipedia.org/wiki/File:Crambus.pascuella.7563.jpg
+ - Cucullia verbasci, derived from https://en.wikipedia.org/wiki/Mullein_moth, 
+   Author: Dumi, GNU Free Documentation License, version 1.2
  - Deltote bankiana, Author: Andre den Ouden, licensed by www.saxifraga.nl, free for non-commercial use,
    derived from freenatureimages.eu
  - Evergestis extimalis, Author: Adam Furlepa, CC BY-SA 3.0, derived from
    https://upload.wikimedia.org/wikipedia/commons/3/37/Evergestis_extimalis1.JPG
+ - Hipparchia neomiris, created from pictures of "Die Groß-Schmetterlinge der Erde",
+   Author: Adalbert Seitz, 1909, Public Domain
  - Hyles gallii (A.R. Pittaway, non-commercial use allowed), derived from 
    https://tpittaway.tripod.com/sphinx/h_gal_a3.jpg
- - Jordanita globulariae, Author: Reza Zahiri et al, Creative Commons Attribution License (CC BY 4.0), Wikimedia
- - Melitaea parthenoides derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides, 
+ - Hyles hippophaes (A.R. Pittaway, non-commercial use allowed), derived from
+   https://tpittaway.tripod.com/sphinx/h_hip_a2.jpg
+ - Hyponephele lupinus (Public Domain), derived from
+   https://upload.wikimedia.org/wikipedia/commons/0/07/Hyponephelelupinus.jpg
+ - Jordanita globulariae, Author: Reza Zahiri et al, Creative Commons Attribution 
+   License (CC BY 4.0), Wikimedia
+ - Marumba quercus (A.R. Pittaway, non-commercial use allowed), derived from
+   https://tpittaway.tripod.com/sphinx/m_que_a4.jpg 
+ - Melanargia arge, Author: Notafly, Creative Commons Attribution-Share Alike 3.0 Unported license, derived from 
+   https://en.wikipedia.org/wiki/File:Melanargiaarge.JPG
+ - Melitaea parthenoides derived from https://en.wikipedia.org/wiki/Melitaea_parthenoides,
    Author: Didier Descouens, Creative Commons Attribution-Share Alike 4.0 International license
- - Muschampia lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2, 
+ - Muschampia lavatherae, Author: Dumi, GNU Free Documentation License, version 1.2,
    derived from https://en.wikipedia.org/wiki/Muschampia_lavatherae
+ - Nemaphora barbatellus, created from picture in
+   "Adelidae (Lepidoptera) - Beitrag zur Kenntnis der Biologie und Bestimmungshilfe für die europäischen Arten",
+   Author: Rudolf Bryner, free for non-commercial purposes in education and science and for private use
  - Pediasia contaminella, Author: Ben Sale, Creative Commons Attribution 2.0 Generic License, derived from
    https://commons.wikimedia.org/wiki/File:Pediasia_contaminella_(33480878804).jpg
  - Phragmataecia castaneae derived from https://species.wikimedia.org/wiki/Phragmataecia_castaneae,
    Author: Dumi, GNU Free Documentation License, version 1.2 
+ - Scopula rubiginata, Author: Rob Felix, licensed by www.saxifraga.nl, free for non-commercial use,
+   derived from http://www.freenatureimages.eu/Animals/index.html
+ - Scopula virgulata, Author: Zoran Bozovic, licensed by www.saxifraga.nl, free for non-commercial use,
+   derived from http://www.freenatureimages.eu/Animals/index.html
  - Sesia apiformis derived from picture on https://en.wikipedia.org/wiki/Hornet_moth
    Author: Jyrki Lehto, free use
+ - Tiliacea aurago, Author: Peter Gergely, licensed by www.saxifraga.nl, free for non-commercial use,
+   derived from http://www.freenatureimages.eu/Animals/index.html
 
  - All other pictures, app icon and background (C) Wilhelm Stein. 

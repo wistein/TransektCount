@@ -54,6 +54,12 @@ _ Subtitle
   ! Suitable for Android 7.1 (Nougat) or newer.
   _ 
 
+$ 4.2.2
+  % Version 4.2.2
+  _ 2025-03-08
+  * Added pictures of Yponameuta melinellus, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eileme caniola
+  * Docs updated
+
 $ 4.2.1
   % Version 4.2.1
   _ 2025-02-23
