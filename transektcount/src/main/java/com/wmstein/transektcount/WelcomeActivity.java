@@ -759,8 +759,6 @@ public class WelcomeActivity
                     if (data != null)
                     {
                         selectedFile = data.getStringExtra("fileSelected");
-                        if (MyDebug.DLOG) Log.d(TAG, "762, File selected: " + selectedFile);
-
                         if (selectedFile != null)
                             inFile = new File(selectedFile);
                         else
@@ -798,26 +796,22 @@ public class WelcomeActivity
             String csvLine;
             int iList;       // index of imported list
             int iCounts = 1; // index of id in table counts
-            int iSec;         // index of section
+            int iSec;        // index of section
             int maxSec = sectionDataSource.getNumEntries(); // number of sections
-            if (MyDebug.DLOG) Log.d(TAG, "803, maxSec: " + maxSec);
 
             // For all sections
             for (iSec = 1; iSec <= maxSec; iSec++)
             {
-                if (MyDebug.DLOG) Log.d(TAG, "808, iSec: " + iSec);
                 iList = 0;
                 while ((csvLine = br.readLine()) != null) // for each csvLine
                 {
                     // comma-separated 0:id (not used), 1:code, 2:name, 3:nameL
                     String[] specLine = csvLine.split(",");
-                    codeArray.add(iList, specLine[1]);
-                    nameArray.add(iList, specLine[2]);
-                    nameGArray.add(iList, specLine[3]);
+                    codeArray.add(iList, specLine[0]);
+                    nameArray.add(iList, specLine[1]);
+                    nameGArray.add(iList, specLine[2]);
                     countDataSource.writeCountItem(String.valueOf(iCounts), String.valueOf(iSec),
                         codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
-                    if (MyDebug.DLOG) Log.d(TAG, "819, iCounts: " + iCounts + ", iSec: "
-                        + iSec + ", code: " + codeArray.get(iList));
                     iList++;
                     iCounts++;
                 }
@@ -1612,7 +1606,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.DLOG) Log.e(TAG, "1615, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1609, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1654,17 +1648,15 @@ public class WelcomeActivity
             dbHandler = new DbHelper(this);
             database = dbHandler.getWritableDatabase();
 
-            String[] idArray;
             String[] codeArray;
             String[] nameArray;
             String[] nameArrayL;
 
-            idArray = countDataSource.getContiguousIdsForSection1();
             codeArray = countDataSource.getAllStringsForSectionSrtCode(1, "code");
             nameArray = countDataSource.getAllStringsForSectionSrtCode(1, "name");
             nameArrayL = countDataSource.getAllStringsForSectionSrtCode(1, "name_g");
 
-            int specNum = idArray.length;
+            int specNum = codeArray.length;
 
             try
             {
@@ -1675,7 +1667,6 @@ public class WelcomeActivity
                 {
                     String[] specLine =
                         {
-                            idArray[i],
                             codeArray[i],
                             nameArray[i],
                             nameArrayL[i]

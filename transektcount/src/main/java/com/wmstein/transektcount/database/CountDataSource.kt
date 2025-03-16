@@ -13,7 +13,7 @@ import com.wmstein.transektcount.TransektCountApplication
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-03-15
+ * last edited on 2025-03-16
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -562,26 +562,6 @@ class CountDataSource(context: Context) {
         }
         cursor.close()
         return uArray
-    }
-
-    // Used in WelcomeActivity by exportSpeciesList()
-    fun getContiguousIdsForSection1(): Array<String?> {
-        val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
-                    + " WHERE " + DbHelper.C_SECTION_ID + " = " + 1 + " order by "
-                    + DbHelper.C_CODE, null
-        )
-        val idArray = arrayOfNulls<String>(cursor.count)
-        cursor.moveToFirst()
-        var i = 0
-        while (!cursor.isAfterLast) {
-            val uid = i + 1
-            idArray[i] = uid.toString()
-            i++
-            cursor.moveToNext()
-        }
-        cursor.close()
-        return idArray
     }
 
     // Used by CountingActivity and CountOptionsActivity
