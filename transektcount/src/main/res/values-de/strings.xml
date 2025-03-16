@@ -19,18 +19,24 @@
     <string name="viewLicenseTitle">Lizenzen</string>
     <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
+    <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
     <string name="saveBasisDB">Export der BasisDB nach Documents/TransektCount.</string>
     <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
     <string name="savecsv">Export der csv-Datei nach Documents/TransektCount.</string>
+    <string name="saveList">Export der Speziesliste nach Documents/TransektCount.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export akt. DB</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
+    <string name="exportSpeciesListMenu">Export Speziesliste</string>
     <string name="resetDBMenu">Reset Daten</string>
+    <string name="importSpeciesListMenu">Import TourCount-Spezies</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
+    <string name="importList">Die Speziesliste wurde importiert.</string>
+    <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
     <string name="importDB">Die Datenbank wurde importiert.</string>
     <string name="noDb">Bitte kopiere \"transektcount0.db\" in das Verzeichnis \'Documents/TransektCount\'.</string>
     <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
@@ -38,6 +44,7 @@
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben!</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="name_sect">Abschnitt</string>
     <string name="code_spec">Spezies Code</string>
@@ -57,13 +64,15 @@
     <string name="from">von:</string>
     <string name="to">bis:</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
+    <string name="cancelButton">Abbrechen</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>
     <string name="fileSize">Größe</string>
     <string name="noFile">Keine Datei vorhanden!</string>
-    <string name="fileHeadlineEXP">Liste der TourCount-Speziesdateien</string>
     <string name="fileHeadlineDB">Liste der DB-Dateien</string>
+    <string name="fileHeadlineCSV">TourCount-Spezieslisten</string>
+    <string name="fileHeadlineGPX">Liste der GPX-Tracks</string>
 
     <!-- EditMetaActivity -->
     <string name="editHeadTitle">Meta-Daten d. Begehung</string>

@@ -28,14 +28,14 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-11-07
+ * last edited on 2025-03-13
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
     private var adapter: FileArrayAdapter? = null
-    private var fileFilter: FileFilter? = null
     private var fileExtension: String = ""
     private var fileName: String? = null
+    private var fileFilter: FileFilter? = null
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,31 +66,33 @@ class AdvFileChooser : Activity() {
         // Set FileChooser Headline
         var fileHd = ""
         if (fileExtension.endsWith("db")) // headline for db-file
-        {
             fileHd = getString(R.string.fileHeadlineDB)
-        }
-        else if (fileExtension.endsWith("exp")) // headline for gpx-file
-        {
-            fileHd = getString(R.string.fileHeadlineEXP)
-        }
+        else if (fileExtension.endsWith("csv")) // headline for csv-file
+            fileHd = getString(R.string.fileHeadlineCSV)
+        else if (fileExtension.endsWith("gpx")) // headline for gpx-file
+            fileHd = getString(R.string.fileHeadlineGPX)
+
         val fileHead: TextView = findViewById(R.id.fileHead)
         fileHead.text = fileHd
 
-        // currentDir = /storage/emulated/0/Documents/TransektCount/
+        // currentDir = /storage/emulated/0/Documents/TransektCount/ for .gpx and .db
+        // currentDir = /storage/emulated/0/Documents/TourCount/ for .csv
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             currentDir = Environment.getExternalStorageDirectory()
-            if(fileName.equals("tourcount"))
-                currentDir = File("$currentDir/Documents/TourCount")
-            else
+
+            if (fileExtension.endsWith("db") || fileExtension.endsWith("gpx"))
                 currentDir = File("$currentDir/Documents/TransektCount")
+            else if (fileExtension.endsWith("csv"))
+                currentDir = File("$currentDir/Documents/TourCount")
         } else {
             currentDir = Environment.getExternalStoragePublicDirectory(Environment
                     .DIRECTORY_DOCUMENTS)
-            if(fileName.equals("tourcount"))
-                currentDir = File("$currentDir/TourCount")
-            else
+
+            if (fileExtension.endsWith("db") || fileExtension.endsWith("gpx"))
                 currentDir = File("$currentDir/TransektCount")
+            else if (fileExtension.endsWith("csv"))
+                currentDir = File("$currentDir/TourCount")
         }
         fill(currentDir!!)
     }
@@ -129,9 +131,9 @@ class AdvFileChooser : Activity() {
             listView.adapter = adapter
             listView.onItemClickListener =
                 OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                    val o = adapter!!.getItem(position)
-                    if (!o.isBack) doSelect(o) else {
-                        currentDir = File(o.path)
+                    val opt = adapter!!.getItem(position)
+                    if (!opt.isBack) doSelect(opt) else {
+                        currentDir = File(opt.path)
                         fill(currentDir!!)
                     }
                 }
@@ -145,9 +147,9 @@ class AdvFileChooser : Activity() {
         }
     }
 
-    private fun doSelect(o: Option?) {
-        // onFileClick(o);
-        val fileSelected = File(o!!.path)
+    private fun doSelect(opt: Option?) {
+        // onFileClick(opt);
+        val fileSelected = File(opt!!.path)
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
@@ -163,8 +165,8 @@ class AdvFileChooser : Activity() {
     {
         val view = findViewById<View>(R.id.lvFiles)
         val sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
-        sB.setTextColor(Color.RED)
         val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
+        tv.setTextColor(Color.RED);
         tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
         sB.show()
     }

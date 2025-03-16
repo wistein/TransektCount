@@ -13,7 +13,7 @@ import com.wmstein.transektcount.TransektCountApplication
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-11-27
+ * last edited on 2025-03-15
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -291,6 +291,32 @@ class CountDataSource(context: Context) {
         database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
+    // Used by WelcomeActivity
+    fun writeCountItem(id: String?, secId: String?, code: String?, name: String?, nameG: String?) {
+        if (database!!.isOpen) {
+            val values = ContentValues()
+            values.put(DbHelper.C_ID, id)
+            values.put(DbHelper.C_SECTION_ID, secId)
+            values.put(DbHelper.C_NAME, name)
+            values.put(DbHelper.C_CODE, code)
+            values.put(DbHelper.C_COUNT_F1I, 0)
+            values.put(DbHelper.C_COUNT_F2I, 0)
+            values.put(DbHelper.C_COUNT_F3I, 0)
+            values.put(DbHelper.C_COUNT_PI, 0)
+            values.put(DbHelper.C_COUNT_LI, 0)
+            values.put(DbHelper.C_COUNT_EI, 0)
+            values.put(DbHelper.C_COUNT_F1E, 0)
+            values.put(DbHelper.C_COUNT_F2E, 0)
+            values.put(DbHelper.C_COUNT_F3E, 0)
+            values.put(DbHelper.C_COUNT_PE, 0)
+            values.put(DbHelper.C_COUNT_LE, 0)
+            values.put(DbHelper.C_COUNT_EE, 0)
+            values.put(DbHelper.C_NOTES, "")
+            values.put(DbHelper.C_NAME_G, nameG)
+            database!!.insert(DbHelper.COUNT_TABLE, null, values)
+        }
+    }
+
     // Used by EditSectionListActivity and CountingActivity
     fun getAllCountsForSection(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
@@ -536,6 +562,26 @@ class CountDataSource(context: Context) {
         }
         cursor.close()
         return uArray
+    }
+
+    // Used in WelcomeActivity by exportSpeciesList()
+    fun getContiguousIdsForSection1(): Array<String?> {
+        val cursor = database!!.rawQuery(
+            "select * from " + DbHelper.COUNT_TABLE
+                    + " WHERE " + DbHelper.C_SECTION_ID + " = " + 1 + " order by "
+                    + DbHelper.C_CODE, null
+        )
+        val idArray = arrayOfNulls<String>(cursor.count)
+        cursor.moveToFirst()
+        var i = 0
+        while (!cursor.isAfterLast) {
+            val uid = i + 1
+            idArray[i] = uid.toString()
+            i++
+            cursor.moveToNext()
+        }
+        cursor.close()
+        return idArray
     }
 
     // Used by CountingActivity and CountOptionsActivity

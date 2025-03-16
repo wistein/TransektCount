@@ -17,7 +17,7 @@ import java.util.Locale
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2024-06-10
+ * last edited on 2025-03-12
  */
 internal class FileArrayAdapter(
     private val faaContext: Context,
@@ -34,7 +34,7 @@ internal class FileArrayAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var fileListRow = convertView
 
-        // if there is still no row for the file list
+        // If there is still no row for the file list
         if (fileListRow == null) {
             val vi = (faaContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -48,11 +48,10 @@ internal class FileArrayAdapter(
         val t2 = fileListRow.findViewById<TextView>(R.id.TextView02)
 
         if (name != null) {
-            if (name.endsWith(".db")) {
-                im.setImageResource(R.drawable.db)
-            } else if (name.endsWith(".exp")) {
-                im.setImageResource(R.drawable.ic_description_black_48dp)
-            }
+            if (name.endsWith(".db")) im.setImageResource(R.drawable.db)
+            else if (name.endsWith(".gpx")) im.setImageResource(R.drawable.moving_24px)
+            else if (name.endsWith(".csv")) im.setImageResource(R.drawable.outline_format_align_left_24)
+            else im.setImageResource(R.drawable.baseline_insert_drive_file_24)
         }
 
         if (t1 != null) t1.text = fileItem.name

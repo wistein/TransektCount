@@ -1,7 +1,5 @@
 package com.wmstein.transektcount;
 
-import static android.graphics.Color.RED;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,6 +35,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.filechooser.AdvFileChooser;
@@ -50,15 +49,19 @@ import com.wmstein.transektcount.database.MetaDataSource;
 import com.wmstein.transektcount.database.Section;
 import com.wmstein.transektcount.database.SectionDataSource;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -77,7 +80,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-02-21
+ * last edited on 2025-03-16
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -103,8 +106,8 @@ public class WelcomeActivity
     public boolean doubleBackToExitPressedTwice = false;
 
     // Import/export stuff
-    private File infile = null;
-    private File outfile = null;
+    private File inFile = null;
+    private File outFile = null;
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
     private final String state = Environment.getExternalStorageState();
@@ -137,7 +140,7 @@ public class WelcomeActivity
     {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "141, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "143, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -156,7 +159,7 @@ public class WelcomeActivity
                 PermissionsDialogFragment.class.getName());
             showSnackbarRed(getString(R.string.storage_perm_denied));
         }
-        if (MyDebug.DLOG) Log.d(TAG, "160, onCreate, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "162, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -202,8 +205,8 @@ public class WelcomeActivity
         }
 
         // Create preliminary transektcount0.db if it does not exist
-        infile = new File(path, "/transektcount0.db");
-        if (!infile.exists())
+        inFile = new File(path, "/transektcount0.db");
+        if (!inFile.exists())
             exportBasisDb(); // create directory and copy internal DB-data to initial Basis DB-file
 
         // New onBackPressed logic
@@ -225,7 +228,7 @@ public class WelcomeActivity
             "integer", "android");
         int iMode = resourceId > 0 ? resources.getInteger(resourceId) : NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON;
         if (MyDebug.DLOG)
-            Log.i(TAG, "229, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
+            Log.i(TAG, "231, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
         return iMode;
     }
 
@@ -263,14 +266,14 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "279, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "269, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
         isStorageGranted(); // set storagePermGranted from self permission
-        if (MyDebug.DLOG) Log.d(TAG, "286, onResume, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "276, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
@@ -311,6 +314,38 @@ public class WelcomeActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.welcome, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true); // Show dividers in menu
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        // Grey out menu item 'Import Species List' if there is no
+        //   directory /storage/emulated/0/Documents/TourCount
+        File path;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        {
+            path = Environment.getExternalStorageDirectory();
+            path = new File(path + "/Documents/TourCount");
+        }
+        else
+        {
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            path = new File(path + "/TourCount");
+        }
+
+        MenuItem item = menu.findItem(R.id.importSpeciesListMenu);
+        if (path.exists() && path.isDirectory())
+        {
+            item.setEnabled(true);
+            Objects.requireNonNull(item.getIcon()).setAlpha(255);
+        }
+        else
+        {
+            item.setEnabled(false);
+            Objects.requireNonNull(item.getIcon()).setAlpha(130);
+        }
         return true;
     }
 
@@ -389,6 +424,11 @@ public class WelcomeActivity
             }
             return true;
         }
+        else if (id == R.id.exportSpeciesListMenu)
+        {
+            exportSpeciesList();
+            return true;
+        }
         else if (id == R.id.importBasisMenu)
         {
             importBasisDb();
@@ -396,7 +436,7 @@ public class WelcomeActivity
         }
         else if (id == R.id.importFileMenu)
         {
-            infile = null;
+            inFile = null;
             importDBFile();
             return true;
         }
@@ -405,13 +445,11 @@ public class WelcomeActivity
             resetToBasisDb();
             return true;
         }
-/*
-        else if (id == R.id.importListMenu)
+        else if (id == R.id.importSpeciesListMenu)
         {
-            importTourCountList();
+            importSpeciesList();
             return true;
         }
- */
         else if (id == R.id.viewHelp)
         {
             vh.getFullLogDialog().show();
@@ -470,7 +508,7 @@ public class WelcomeActivity
     {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "486, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "511, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -486,7 +524,7 @@ public class WelcomeActivity
     {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "502, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "527, onStop");
     }
 
 
@@ -494,7 +532,7 @@ public class WelcomeActivity
     {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "510, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "535, onDestroy");
     }
 
     // Start CountingActivity
@@ -523,7 +561,7 @@ public class WelcomeActivity
     }
 
     // Date for filename of Export-DB
-    public static String getcurDate()
+    private static String getcurDate()
     {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat")
@@ -532,14 +570,356 @@ public class WelcomeActivity
     }
 
     /*********************************************************************************
-     * The seven functions below are for exporting and importing of (database) files.
+     * The next three functions below are for importing data files.
      * They've been put here because no database should be left open at this point.
      */
+    // Import the basic DB
+    private void importBasisDb()
+    {
+        // inFile <- /storage/emulated/0/Documents/TransektCount/transektcount0.db
+        File path;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        {
+            path = Environment.getExternalStorageDirectory();
+            path = new File(path + "/Documents/TransektCount");
+        }
+        else
+        {
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            path = new File(path + "/TransektCount");
+        }
+        inFile = new File(path, "/transektcount0.db");
+
+        // outFile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
+        String destPath = getApplicationContext().getFilesDir().getPath();
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
+        outFile = new File(destPath);
+        if (!(inFile.exists()))
+        {
+            showSnackbar(getString(R.string.noDb));
+            return;
+        }
+
+        // Confirm dialogue before importing
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setMessage(R.string.confirmBasisImport);
+        builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
+        {
+            try
+            {
+                copy(inFile, outFile);
+                showSnackbar(getString(R.string.importDB));
+
+                // Set transect number as title
+                try
+                {
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
+                } catch (NullPointerException e)
+                {
+                    // nothing
+                }
+            } catch (IOException e)
+            {
+                showSnackbarRed(getString(R.string.importFail));
+            }
+        }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+        alert = builder.create();
+        alert.show();
+    }
+
+    /**********************************************************************************************/
+    // Copy file block-wise
+    private static void copy(File src, File dst) throws IOException
+    {
+        FileInputStream in = new FileInputStream(src);
+        FileOutputStream out = new FileOutputStream(dst);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0)
+        {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+    }
+    // End of importBasisDb()
+
+    /**********************************************************************************************/
+    // Choose a transektcount db-file to load and set it to transektcount.db
+    private void importDBFile()
+    {
+        String fileExtension = ".db";
+        String fileName = "transektcount";
+
+        Intent intent;
+        intent = new Intent(this, AdvFileChooser.class);
+        intent.putExtra("filterFileExtension", fileExtension);
+        intent.putExtra("filterFileName", fileName);
+        myActivityResultLauncher.launch(intent);
+    }
+
+    // ActivityResultLauncher is part of importDBFile()
+    // and processes the result of AdvFileChooser
+    final ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<>()
+        {
+            @Override
+            public void onActivityResult(ActivityResult result)
+            {
+                String selectedFile;
+                inFile = null;
+                if (result.getResultCode() == Activity.RESULT_OK)
+                {
+                    Intent data = result.getData();
+                    if (data != null)
+                    {
+                        selectedFile = data.getStringExtra("fileSelected");
+                        if (MyDebug.DLOG)
+                            Log.i(TAG, "682, Selected file: " + selectedFile);
+
+                        if (selectedFile != null)
+                            inFile = new File(selectedFile);
+                        else
+                            inFile = null;
+                    }
+                }
+
+                // outFile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
+                String destPath = getApplicationContext().getFilesDir().getPath();
+                destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
+                outFile = new File(destPath);
+
+                if (inFile != null)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder.setMessage(R.string.confirmDBImport);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+                    {
+                        try
+                        {
+                            copy(inFile, outFile);
+                            showSnackbar(getString(R.string.importDB));
+
+                            // Set transect number as title
+                            try
+                            {
+                                Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
+                            } catch (NullPointerException e)
+                            {
+                                // nothing
+                            }
+                        } catch (IOException e)
+                        {
+                            showSnackbarRed(getString(R.string.importFail));
+                        }
+                    });
+                    builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+                    alert = builder.create();
+                    alert.show();
+                }
+            }
+        });
+    // End of importDBFile()
+
+    /**********************************************************************************************/
+    // Import species list from TourCount file species_YYYY-MM-DD_hhmmss.csv
+    private void importSpeciesList()
+    {
+        // Select exported TourCount species list file
+        String fileExtension = ".csv";
+        String fileName = "species";
+
+        Intent intent;
+        intent = new Intent(this, AdvFileChooser.class);
+        intent.putExtra("filterFileExtension", fileExtension);
+        intent.putExtra("filterFileName", fileName);
+        listActivityResultLauncher.launch(intent);
+    }
+
+    // ActivityResultLauncher processes the result of AdvFileChooser
+    final ActivityResultLauncher<Intent> listActivityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<>()
+        {
+            @SuppressLint("ApplySharedPref")
+            @Override
+            public void onActivityResult(ActivityResult result)
+            {
+                String selectedFile;
+                inFile = null;
+                if (result.getResultCode() == Activity.RESULT_OK)
+                {
+                    Intent data = result.getData();
+                    if (data != null)
+                    {
+                        selectedFile = data.getStringExtra("fileSelected");
+                        if (MyDebug.DLOG) Log.d(TAG, "762, File selected: " + selectedFile);
+
+                        if (selectedFile != null)
+                            inFile = new File(selectedFile);
+                        else
+                            inFile = null;
+                    }
+                }
+                if (inFile != null)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder.setMessage(R.string.confirmListImport);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+                    {
+                            // Load .csv species list
+                            clearDBforImport();
+                            readCSV(inFile);
+                    });
+                    builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
+                    alert = builder.create();
+                    alert.show();
+                }
+            }
+        });
+
+    private void readCSV(File inFile)
+    {
+        try
+        {
+            // Read exported TourCount species list and write items to table counts
+            List<String> codeArray = new ArrayList<>();
+            List<String> nameArray = new ArrayList<>();
+            List<String> nameGArray = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(inFile));
+            String csvLine;
+            int iList;       // index of imported list
+            int iCounts = 1; // index of id in table counts
+            int iSec;         // index of section
+            int maxSec = sectionDataSource.getNumEntries(); // number of sections
+            if (MyDebug.DLOG) Log.d(TAG, "803, maxSec: " + maxSec);
+
+            // For all sections
+            for (iSec = 1; iSec <= maxSec; iSec++)
+            {
+                if (MyDebug.DLOG) Log.d(TAG, "808, iSec: " + iSec);
+                iList = 0;
+                while ((csvLine = br.readLine()) != null) // for each csvLine
+                {
+                    // comma-separated 0:id (not used), 1:code, 2:name, 3:nameL
+                    String[] specLine = csvLine.split(",");
+                    codeArray.add(iList, specLine[1]);
+                    nameArray.add(iList, specLine[2]);
+                    nameGArray.add(iList, specLine[3]);
+                    countDataSource.writeCountItem(String.valueOf(iCounts), String.valueOf(iSec),
+                        codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
+                    if (MyDebug.DLOG) Log.d(TAG, "819, iCounts: " + iCounts + ", iSec: "
+                        + iSec + ", code: " + codeArray.get(iList));
+                    iList++;
+                    iCounts++;
+                }
+                br.close();
+                br = new BufferedReader(new FileReader(inFile));
+            }
+            br.close();
+            showSnackbar(getString(R.string.importList));
+        } catch (Exception e)
+        {
+            showSnackbarRed(getString(R.string.importListFail));
+        }
+    }
+    // End of importSpeciesList()
+
+    /**********************************************************************************************/
+    // Exports Basis DB to Documents/TransektCount/transektcount0.db
+    private void exportBasisDb()
+    {
+        // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
+        String inPath = getApplicationContext().getFilesDir().getPath();
+        inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
+        inFile = new File(inPath);
+
+        // tmpfile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
+        String tmpPath = getApplicationContext().getFilesDir().getPath();
+        tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
+        File tmpfile = new File(tmpPath);
+
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
+        File path;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        {
+            path = Environment.getExternalStorageDirectory();
+            path = new File(path + "/Documents/TransektCount");
+        }
+        else
+        {
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            path = new File(path + "/TransektCount");
+        }
+
+        //noinspection ResultOfMethodCallIgnored
+        path.mkdirs(); // just verify path, result ignored
+        outFile = new File(path, "/transektcount0.db");
+
+        if (Environment.MEDIA_MOUNTED.equals(state))
+        {
+            // We can read and write the media
+            mExternalStorageAvailable = mExternalStorageWriteable = true;
+        }
+        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+        {
+            // We can only read the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = false;
+        }
+        else
+        {
+            // Something else is wrong. It may be one of many other states, but all we need
+            //  to know is we can neither read nor write
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
+
+        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        {
+            showSnackbarRed(getString(R.string.noCard));
+        }
+        else
+        {
+            // Export the basic db
+            try
+            {
+                // Save current db as backup db tmpfile
+                copy(inFile, tmpfile);
+
+                // Clear DB values for basic DB
+                clearDBValues();
+
+                // Write Basis DB
+                copy(inFile, outFile);
+
+                // Restore actual db from tmpfile
+                copy(tmpfile, inFile);
+
+                // Delete backup db
+                boolean d0 = tmpfile.delete();
+                if (d0)
+                    showSnackbar(getString(R.string.saveBasisDB));
+            } catch (IOException e)
+            {
+                showSnackbarRed(getString(R.string.saveFail));
+            }
+        }
+    }
+    // End of exportBasisDb()
+
     @SuppressLint({"SdCardPath", "LongLogTag"})
-    public void exportDb()
+    private void exportDb()
     {
         // New data directory:
-        //   outfile -> Public Directory Documents/TransektCount/
+        //   outFile -> Public Directory Documents/TransektCount/
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -555,17 +935,17 @@ public class WelcomeActivity
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
-        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.db
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.db
         if (Objects.equals(transNo, ""))
-            outfile = new File(path, "/transektcount_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + getcurDate() + ".db");
         else
-            outfile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".db");
 
-        // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
+        // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
         inPath = inPath.substring(0, inPath.lastIndexOf("/"))
             + "/databases/transektcount.db";
-        infile = new File(inPath);
+        inFile = new File(inPath);
 
         if (Environment.MEDIA_MOUNTED.equals(state))
         {
@@ -594,7 +974,7 @@ public class WelcomeActivity
             // Export the db
             try
             {
-                copy(infile, outfile);
+                copy(inFile, outFile);
                 showSnackbar(getString(R.string.saveDB));
             } catch (IOException e)
             {
@@ -612,9 +992,9 @@ public class WelcomeActivity
      //   - comma delimiter and
      //   - "" for text recognition.
      */
-    public void exportDb2CSV()
+    private void exportDb2CSV()
     {
-        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.csv
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.csv
         //
         // 1. Alternative for Android >= 10 (Q):
         //    path = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
@@ -622,6 +1002,7 @@ public class WelcomeActivity
         // 2. Alternative for Android < 10 (deprecated in Q):
         //    path = new File(Environment.getExternalStoragePublicDirectory
         //    (Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
+        //
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -638,9 +1019,9 @@ public class WelcomeActivity
         path.mkdirs(); // Just verify path, result ignored
 
         if (Objects.equals(transNo, ""))
-            outfile = new File(path, "/transektcount_" + getcurDate() + ".csv");
+            outFile = new File(path, "/transektcount_" + getcurDate() + ".csv");
         else
-            outfile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".csv");
+            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".csv");
 
         Section section;
         String sectName;  // name shown in list
@@ -698,7 +1079,7 @@ public class WelcomeActivity
             // Start creating csv table output
             try
             {
-                CSVWriter csvWrite = new CSVWriter(new FileWriter(outfile));
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(outFile));
 
                 // Set header according to table representation in spreadsheet
                 String[] arrCol =
@@ -1231,7 +1612,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.DLOG) Log.e(TAG, "1247, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1615, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1239,20 +1620,10 @@ public class WelcomeActivity
     // End of exportDb2CSV()
 
     /**********************************************************************************************/
-    // Exports Basis DB to Documents/TransektCount/transektcount0.db
-    public void exportBasisDb()
+    // Export current species list to species_YYYY-MM-DD_hhmmss.csv
+    private void exportSpeciesList()
     {
-        // infile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
-        String inPath = getApplicationContext().getFilesDir().getPath();
-        inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
-        infile = new File(inPath);
-
-        // tmpfile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
-        String tmpPath = getApplicationContext().getFilesDir().getPath();
-        tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
-        File tmpfile = new File(tmpPath);
-
-        // outfile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
+        // outFile -> /storage/emulated/0/Documents/TransektCount/species_yyyy-MM-dd_HHmmss.csv
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -1266,63 +1637,66 @@ public class WelcomeActivity
         }
 
         //noinspection ResultOfMethodCallIgnored
-        path.mkdirs(); // just verify path, result ignored
-        outfile = new File(path, "/transektcount0.db");
+        path.mkdirs(); // Just verify path, result ignored
 
-        if (Environment.MEDIA_MOUNTED.equals(state))
-        {
-            // We can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        }
-        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-        {
-            // We can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        }
-        else
-        {
-            // Something else is wrong. It may be one of many other states, but all we need
-            //  to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
+        outFile = new File(path, "/species_" + getcurDate() + ".csv");
 
-        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        // Check if we can write the media
+        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(state);
+
+        if (!mExternalStorageWriteable)
         {
             showSnackbarRed(getString(R.string.noCard));
         }
         else
         {
-            // Export the basic db
+            // Export species list into species_yyyy-MM-dd_HHmmss.csv
+            dbHandler = new DbHelper(this);
+            database = dbHandler.getWritableDatabase();
+
+            String[] idArray;
+            String[] codeArray;
+            String[] nameArray;
+            String[] nameArrayL;
+
+            idArray = countDataSource.getContiguousIdsForSection1();
+            codeArray = countDataSource.getAllStringsForSectionSrtCode(1, "code");
+            nameArray = countDataSource.getAllStringsForSectionSrtCode(1, "name");
+            nameArrayL = countDataSource.getAllStringsForSectionSrtCode(1, "name_g");
+
+            int specNum = idArray.length;
+
             try
             {
-                // Save current db as backup db tmpfile
-                copy(infile, tmpfile);
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(outFile));
 
-                // Clear DB values for basic DB
-                clearDBValues();
-
-                // Write Basis DB
-                copy(infile, outfile);
-
-                // Restore actual db from tmpfile
-                copy(tmpfile, infile);
-
-                // Delete backup db
-                boolean d0 = tmpfile.delete();
-                if (d0)
-                    showSnackbar(getString(R.string.saveBasisDB));
-            } catch (IOException e)
+                int i = 0;
+                while (i < specNum)
+                {
+                    String[] specLine =
+                        {
+                            idArray[i],
+                            codeArray[i],
+                            nameArray[i],
+                            nameArrayL[i]
+                        };
+                    i++;
+                    csvWrite.writeNext(specLine);
+                }
+                csvWrite.close();
+                showSnackbar(getString(R.string.saveList));
+            } catch (Exception e)
             {
-                showSnackbarRed(getString(R.string.saveFail));
+                showSnackbarRed(getString(R.string.saveFailList));
             }
+            dbHandler.close();
         }
     }
-    // End of exportBasisDb()
+    // End of exportSpeciesList()
 
     /**********************************************************************************************/
     // Clear all relevant DB values, reset to basic DB
-    public void resetToBasisDb()
+    private void resetToBasisDb()
     {
         // Confirm dialogue before anything else takes place
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -1342,7 +1716,7 @@ public class WelcomeActivity
 
     // Clear DB values for basic DB
     @SuppressLint({"LongLogTag"})
-    public boolean clearDBValues()
+    private boolean clearDBValues()
     {
         // Clear values in DB
         dbHandler = new DbHelper(this);
@@ -1397,189 +1771,50 @@ public class WelcomeActivity
         return r_ok;
     }
 
-    /**********************************************************************************************/
-    // Choose a transektcount db-file to load and set it to transektcount.db
-    public void importDBFile()
+    // Clear DB for import of external species list
+    private void clearDBforImport()
     {
-        String fileExtension = ".db";
-        String fileName = "transektcount";
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
 
-        Intent intent;
-        intent = new Intent(this, AdvFileChooser.class);
-        intent.putExtra("filterFileExtension", fileExtension);
-        intent.putExtra("filterFileName", fileName);
-        myActivityResultLauncher.launch(intent);
+        String sql = "DELETE FROM " + DbHelper.COUNT_TABLE;
+        database.execSQL(sql);
+
+        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
+        database.execSQL(sql);
+
+        dbHandler.close();
     }
 
-    // ActivityResultLauncher is part of importDBFile()
-    // and processes the result of AdvFileChooser
-    final ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<>()
-        {
-            @Override
-            public void onActivityResult(ActivityResult result)
-            {
-                String selectedFile;
-                infile = null;
-                if (result.getResultCode() == Activity.RESULT_OK)
-                {
-                    Intent data = result.getData();
-                    if (data != null)
-                    {
-                        selectedFile = data.getStringExtra("fileSelected");
-                        if (MyDebug.DLOG)
-                            Log.i(TAG, "1445, Selected file: " + selectedFile);
-
-                        if (selectedFile != null)
-                            infile = new File(selectedFile);
-                        else
-                            infile = null;
-                    }
-                }
-
-                // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
-                String destPath = getApplicationContext().getFilesDir().getPath();
-                destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
-                outfile = new File(destPath);
-
-                if (infile != null)
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
-                    builder.setIcon(android.R.drawable.ic_dialog_alert);
-                    builder.setMessage(R.string.confirmDBImport);
-                    builder.setCancelable(false);
-                    builder.setPositiveButton(R.string.importButton, (dialog, id) ->
-                    {
-                        try
-                        {
-                            copy(infile, outfile);
-                            showSnackbar(getString(R.string.importDB));
-
-                            // Set transect number as title
-                            try
-                            {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
-                            } catch (NullPointerException e)
-                            {
-                                // nothing
-                            }
-                        } catch (IOException e)
-                        {
-                            showSnackbarRed(getString(R.string.importFail));
-                        }
-                    });
-                    builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-                    alert = builder.create();
-                    alert.show();
-                }
-            }
-        });
-
-    /**********************************************************************************************/
-    // Import the basic DB
-    public void importBasisDb()
-    {
-        // infile <- /storage/emulated/0/Documents/TransektCount/transektcount0.db
-        File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
-        }
-        infile = new File(path, "/transektcount0.db");
-
-        // outfile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
-        String destPath = getApplicationContext().getFilesDir().getPath();
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
-        outfile = new File(destPath);
-        if (!(infile.exists()))
-        {
-            showSnackbar(getString(R.string.noDb));
-            return;
-        }
-
-        // Confirm dialogue before importing
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.confirmBasisImport);
-        builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
-        {
-            try
-            {
-                copy(infile, outfile);
-                showSnackbar(getString(R.string.importDB));
-
-                // Set transect number as title
-                try
-                {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
-                } catch (NullPointerException e)
-                {
-                    // nothing
-                }
-            } catch (IOException e)
-            {
-                showSnackbarRed(getString(R.string.importFail));
-            }
-        }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-        alert = builder.create();
-        alert.show();
-    }
-
-    /**********************************************************************************************/
-    // Copy file block-wise
-    public static void copy(File src, File dst) throws IOException
-    {
-        FileInputStream in = new FileInputStream(src);
-        FileOutputStream out = new FileOutputStream(dst);
-
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0)
-        {
-            out.write(buf, 0, len);
-        }
-        in.close();
-        out.close();
-    }
-
-    private void showSnackbar(String str) // green text
+    private void showSnackbar(String str) // green info text
     {
         baseLayout = findViewById(R.id.baseLayout);
         Snackbar sB = Snackbar.make(baseLayout, str, Snackbar.LENGTH_LONG);
-        sB.setTextColor(Color.GREEN);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setTextColor(Color.GREEN);
+        tv.setGravity(Gravity.CENTER);
         sB.show();
     }
 
-    private void showSnackbarRed(String str) // bold red text
+    private void showSnackbarRed(String str) // bold red warning message
     {
         baseLayout = findViewById(R.id.baseLayout);
         Snackbar sB = Snackbar.make(baseLayout, str, Snackbar.LENGTH_LONG);
-        sB.setTextColor(RED);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        tv.setTextColor(Color.RED);
+        tv.setGravity(Gravity.CENTER);
         sB.show();
     }
 
-    private void showSnackbarBlue(String str) // bold cyan text
+    private void showSnackbarBlue(String str) // bold cyan action text
     {
         baseLayout = findViewById(R.id.baseLayout);
         Snackbar sB = Snackbar.make(baseLayout, str, Snackbar.LENGTH_LONG);
         TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-        tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        tv.setGravity(Gravity.CENTER_HORIZONTAL);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         tv.setTextColor(Color.CYAN);
+        tv.setGravity(Gravity.CENTER);
         sB.show();
     }
 

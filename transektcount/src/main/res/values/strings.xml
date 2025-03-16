@@ -28,18 +28,24 @@
     <string name="viewLicenseTitle">Licenses</string>
     <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
     <string name="saveFail">Your database could not be exported!</string>
+    <string name="saveFailList">The species list could not be exported!</string>
     <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
     <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
     <string name="savecsv">Export csv-file to Documents/TransektCount.</string>
+    <string name="saveList">Export species list to Documents/TransektCount.</string>
     <string name="reset2basic">Your database has been resetted.</string>
     <string name="resetFail">Your database could not be resetted!</string>
     <string name="exportMenu">Export Current DB</string>
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Data -> CSV-File</string>
+    <string name="exportSpeciesListMenu">Export Species List</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
+    <string name="importSpeciesListMenu">Import TourCount Species</string>
     <string name="importFail">Your database could not be imported!</string>
+    <string name="importList">The species list has been imported.</string>
+    <string name="importListFail">The species list could not be imported!</string>
     <string name="importDB">Your database has been imported.</string>
     <string name="noDb">Please provide \'transektcount0.db\' in the directory \'Documents/TransektCount\'.</string>
     <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
@@ -47,6 +53,7 @@
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import the Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
+    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten!</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
@@ -66,13 +73,15 @@
     <string name="from">from:</string>
     <string name="to">to:</string>
     <string name="back_twice">Press again to exit</string>
+    <string name="cancelButton">Cancel</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>
     <string name="fileSize">Size</string>
     <string name="noFile">No file available!</string>
-    <string name="fileHeadlineEXP">List of TourCount species files</string>
-    <string name="fileHeadlineDB">List of selectable DB files</string>
+    <string name="fileHeadlineDB">List of DB files</string>
+    <string name="fileHeadlineCSV">TourCount species lists</string>
+    <string name="fileHeadlineGPX">List of GPX tracks</string>
 
     <!-- EditMetaActivity -->
     <string name="editHeadTitle">Meta Data of Inspection</string>
