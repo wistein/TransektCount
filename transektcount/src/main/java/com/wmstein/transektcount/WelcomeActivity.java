@@ -80,7 +80,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-03-16
+ * last edited on 2025-03-17
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -789,6 +789,7 @@ public class WelcomeActivity
         try
         {
             // Read exported TourCount species list and write items to table counts
+            Toast.makeText(getApplicationContext(), getString(R.string.waitImport), Toast.LENGTH_SHORT).show();
             List<String> codeArray = new ArrayList<>();
             List<String> nameArray = new ArrayList<>();
             List<String> nameGArray = new ArrayList<>();
@@ -1606,7 +1607,7 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.DLOG) Log.e(TAG, "1609, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1610, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1775,6 +1776,11 @@ public class WelcomeActivity
         database.execSQL(sql);
 
         dbHandler.close();
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("item_Position", 0);
+        editor.putInt("section_id", 1);
+        editor.apply();
     }
 
     private void showSnackbar(String str) // green info text

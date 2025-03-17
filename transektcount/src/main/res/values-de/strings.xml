@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-02-16 -->
+     last edited 2025-03-17 -->
 
 <resources>
 
@@ -44,7 +44,7 @@
     <string name="importCancelButton">Abbrechen</string>
     <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben!</string>
+    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="name_sect">Abschnitt</string>
     <string name="code_spec">Spezies Code</string>
@@ -65,6 +65,7 @@
     <string name="to">bis:</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
     <string name="cancelButton">Abbrechen</string>
+    <string name="waitImport">Bitte warten, der Import läuft!</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Aktuelles Verz.</string>

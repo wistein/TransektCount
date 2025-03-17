@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-02-16 -->
+     last edited 2025-03-17 -->
 
 <resources>
 
@@ -53,7 +53,7 @@
     <string name="importCancelButton">Cancel</string>
     <string name="confirmBasisImport">Are you sure you want to import the Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
-    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten!</string>
+    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten! May last long for a long list.</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
@@ -74,6 +74,7 @@
     <string name="to">to:</string>
     <string name="back_twice">Press again to exit</string>
     <string name="cancelButton">Cancel</string>
+    <string name="waitImport">Please wait, import may take a while!</string>
 
     <!-- FileChooser -->
     <string name="currentDir">Current Dir</string>

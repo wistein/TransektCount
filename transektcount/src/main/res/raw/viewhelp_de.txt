@@ -156,6 +156,8 @@
   _ 
   ! Der Import einer zuvor vorbereiteten, exportierten und entsprechend benannten TransektCount-DB ist sinnvoll, wenn mehrere Transekte mit unterschiedlichen Abschnitten und Schmetterlingsvorkommen begangen werden sollen.
   _
+  ! Falls die App TourCount installiert ist, kann eine daraus exportierte Speziesliste importiert werden.
+  _ 
   ! Die Funktion "Export Daten -> CSV-Datei" scheibt die Zählergebnisse als aufbereitete Spreadsheet-kompatible Tabelle "transektcount_TR-Nr_JJJJ-MM-TT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App wie Collabora (Open Source, kostenlos erhältlich im F-Droid-App-Store) erfolgen.
   _
   ! IT-affine Anwender können die mittels Exportfunktion erzeugte Datei "transektcount_TR-Nr_JJJJ-MM-TT_hhmmss.db" von "Documents/TransektCount" auf einen PC übertragen.
