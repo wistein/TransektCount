@@ -20,10 +20,11 @@
     <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
+    <string name="saveFailListTour">Export nach Documents/TourCount schlug fehl!</string>
     <string name="saveBasisDB">Export der BasisDB nach Documents/TransektCount.</string>
     <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
     <string name="savecsv">Export der csv-Datei nach Documents/TransektCount.</string>
-    <string name="saveList">Export der Speziesliste nach Documents/TransektCount.</string>
+    <string name="saveList">Export der Speziesliste.</string>
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="exportMenu">Export akt. DB</string>

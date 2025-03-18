@@ -80,7 +80,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-03-17
+ * last edited on 2025-03-18
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -108,9 +108,8 @@ public class WelcomeActivity
     // Import/export stuff
     private File inFile = null;
     private File outFile = null;
-    boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
-    private final String state = Environment.getExternalStorageState();
+    private final String sState = Environment.getExternalStorageState();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private AlertDialog alert;
@@ -140,7 +139,7 @@ public class WelcomeActivity
     {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "143, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "142, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -159,7 +158,7 @@ public class WelcomeActivity
                 PermissionsDialogFragment.class.getName());
             showSnackbarRed(getString(R.string.storage_perm_denied));
         }
-        if (MyDebug.DLOG) Log.d(TAG, "162, onCreate, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "161, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -228,7 +227,7 @@ public class WelcomeActivity
             "integer", "android");
         int iMode = resourceId > 0 ? resources.getInteger(resourceId) : NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON;
         if (MyDebug.DLOG)
-            Log.i(TAG, "231, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
+            Log.i(TAG, "230, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
         return iMode;
     }
 
@@ -266,14 +265,14 @@ public class WelcomeActivity
     {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "269, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "268, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
         isStorageGranted(); // set storagePermGranted from self permission
-        if (MyDebug.DLOG) Log.d(TAG, "276, onResume, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "275, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
@@ -315,37 +314,6 @@ public class WelcomeActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.welcome, menu);
         MenuCompat.setGroupDividerEnabled(menu, true); // Show dividers in menu
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        // Grey out menu item 'Import Species List' if there is no
-        //   directory /storage/emulated/0/Documents/TourCount
-        File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TourCount");
-        }
-        else
-        {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TourCount");
-        }
-
-        MenuItem item = menu.findItem(R.id.importSpeciesListMenu);
-        if (path.exists() && path.isDirectory())
-        {
-            item.setEnabled(true);
-            Objects.requireNonNull(item.getIcon()).setAlpha(255);
-        }
-        else
-        {
-            item.setEnabled(false);
-            Objects.requireNonNull(item.getIcon()).setAlpha(130);
-        }
         return true;
     }
 
@@ -508,7 +476,7 @@ public class WelcomeActivity
     {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "511, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "479, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -524,7 +492,7 @@ public class WelcomeActivity
     {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "527, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "495, onStop");
     }
 
 
@@ -532,7 +500,7 @@ public class WelcomeActivity
     {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "535, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "503, onDestroy");
     }
 
     // Start CountingActivity
@@ -679,7 +647,7 @@ public class WelcomeActivity
                     {
                         selectedFile = data.getStringExtra("fileSelected");
                         if (MyDebug.DLOG)
-                            Log.i(TAG, "682, Selected file: " + selectedFile);
+                            Log.i(TAG, "650, Selected file: " + selectedFile);
 
                         if (selectedFile != null)
                             inFile = new File(selectedFile);
@@ -859,25 +827,10 @@ public class WelcomeActivity
         path.mkdirs(); // just verify path, result ignored
         outFile = new File(path, "/transektcount0.db");
 
-        if (Environment.MEDIA_MOUNTED.equals(state))
-        {
-            // We can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        }
-        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-        {
-            // We can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        }
-        else
-        {
-            // Something else is wrong. It may be one of many other states, but all we need
-            //  to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
+        // Check if we can write the media
+        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        if (!mExternalStorageWriteable)
         {
             showSnackbarRed(getString(R.string.noCard));
         }
@@ -942,25 +895,10 @@ public class WelcomeActivity
             + "/databases/transektcount.db";
         inFile = new File(inPath);
 
-        if (Environment.MEDIA_MOUNTED.equals(state))
-        {
-            // We can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        }
-        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-        {
-            // We can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        }
-        else
-        {
-            // Something else is wrong. It may be one of many other states, but all we need
-            //  to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
+        // Check if we can write the media
+        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        if (!mExternalStorageWriteable)
         {
             showSnackbarRed(getString(R.string.noCard));
         }
@@ -1039,25 +977,10 @@ public class WelcomeActivity
         int totali, totale;
         int total, sumSpec;
 
-        if (Environment.MEDIA_MOUNTED.equals(state))
-        {
-            // We can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        }
-        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-        {
-            // We can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        }
-        else
-        {
-            // Something else is wrong. It may be one of many other states, but all we need
-            //  to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
+        // Check if we can write the media
+        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if ((!mExternalStorageAvailable) || (!mExternalStorageWriteable))
+        if (!mExternalStorageWriteable)
         {
             showSnackbarRed(getString(R.string.noCard));
         }
@@ -1607,37 +1530,39 @@ public class WelcomeActivity
             } catch (Exception e)
             {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.DLOG) Log.e(TAG, "1610, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1533, csv write external failed");
             }
             dbHandler.close();
         }
     }
     // End of exportDb2CSV()
 
-    /**********************************************************************************************/
-    // Export current species list to species_YYYY-MM-DD_hhmmss.csv
+    /**
+     * @noinspection ResultOfMethodCallIgnored
+     * ********************************************************************************************/
+    // Export current species list to both data directories
+    //  /Documents/TourCount/species_YYYY-MM-DD_hhmmss.csv and
+    //  /Documents/TransektCount/species_YYYY-MM-DD_hhmmss.csv
     private void exportSpeciesList()
     {
-        // outFile -> /storage/emulated/0/Documents/TransektCount/species_yyyy-MM-dd_HHmmss.csv
-        File path;
+        // outFileTour -> /storage/emulated/0/Documents/TourCount/species_yyyy-MM-dd_HHmmss.csv
+        // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_yyyy-MM-dd_HHmmss.csv
+        File pathTour, outFileTour, pathTransect, outFileTransect;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
+            pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
+            pathTransect = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
         }
         else
         {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
+            pathTour = new File(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TourCount");
+            pathTransect = new File(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
         }
 
-        //noinspection ResultOfMethodCallIgnored
-        path.mkdirs(); // Just verify path, result ignored
-
-        outFile = new File(path, "/species_" + getcurDate() + ".csv");
-
         // Check if we can write the media
-        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(state);
+        mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
         if (!mExternalStorageWriteable)
         {
@@ -1659,9 +1584,40 @@ public class WelcomeActivity
 
             int specNum = codeArray.length;
 
+            // If TourCount is installed export to /Documents/TourCount
+            if (pathTour.exists() && pathTour.isDirectory())
+            {
+                try
+                {
+                    pathTour.mkdirs(); // Just verify pathTour, result ignored
+                    outFileTour = new File(pathTour, "/species_" + getcurDate() + ".csv");
+                    CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTour));
+
+                    int i = 0;
+                    while (i < specNum)
+                    {
+                        String[] specLine =
+                            {
+                                codeArray[i],
+                                nameArray[i],
+                                nameArrayL[i]
+                            };
+                        i++;
+                        csvWrite.writeNext(specLine);
+                    }
+                    csvWrite.close();
+                } catch (Exception e)
+                {
+                    showSnackbarRed(getString(R.string.saveFailListTour));
+                }
+            }
+
+            // Export to /Documents/TransektCount
             try
             {
-                CSVWriter csvWrite = new CSVWriter(new FileWriter(outFile));
+                pathTransect.mkdirs(); // Just verify pathTransekt, result ignored
+                outFileTransect = new File(pathTransect, "/species_" + getcurDate() + ".csv");
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTransect));
 
                 int i = 0;
                 while (i < specNum)

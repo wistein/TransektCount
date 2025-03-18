@@ -11,8 +11,8 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdk 25
         targetSdk 34
-        versionCode 422
-        versionName "4.2.2"
+        versionCode 423
+        versionName "4.2.3"
     }
 
     buildTypes {

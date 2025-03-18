@@ -54,6 +54,12 @@ _ Subtitle
     ! Geeignet für Android 7.1 (Nougat) oder neuer.
   _
 
+$ 4.2.3
+  % Version 4.2.3
+  _ 18.03.2025
+  * Export der Speziesliste für Import durch TransektCount und TourCount ergänzt
+  * Doku angepasst
+
 $ 4.2.2
   % Version 4.2.2
   _ 17.03.2025

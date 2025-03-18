@@ -29,10 +29,11 @@
     <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
     <string name="saveFail">Your database could not be exported!</string>
     <string name="saveFailList">The species list could not be exported!</string>
+    <string name="saveFailListTour">Export to Documents/TourCount failed!</string>
     <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
     <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
     <string name="savecsv">Export csv-file to Documents/TransektCount.</string>
-    <string name="saveList">Export species list to Documents/TransektCount.</string>
+    <string name="saveList">Species list exported.</string>
     <string name="reset2basic">Your database has been resetted.</string>
     <string name="resetFail">Your database could not be resetted!</string>
     <string name="exportMenu">Export Current DB</string>

@@ -1,0 +1,3 @@
+Version 4.2.3 (18.03.2025)
+- Export der Speziesliste für Import durch TourCount and TransektCount angepasst
+- Doku angepasst
