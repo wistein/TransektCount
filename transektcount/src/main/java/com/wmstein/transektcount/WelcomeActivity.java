@@ -80,7 +80,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-03-18
+ * last edited on 2025-03-20
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -528,12 +528,12 @@ public class WelcomeActivity
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
     }
 
-    // Date for filename of Export-DB
+    // Date for filename of exported data
     private static String getcurDate()
     {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat")
-        DateFormat dform = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+        DateFormat dform = new SimpleDateFormat("yyyyMMdd_HHmmss");
         return dform.format(date);
     }
 
@@ -951,10 +951,21 @@ public class WelcomeActivity
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
-        if (Objects.equals(transNo, ""))
-            outFile = new File(path, "/transektcount_" + getcurDate() + ".csv");
+        String language = Locale.getDefault().toString().substring(0, 2);
+        if (language.equals("en"))
+        {
+            if (Objects.equals(transNo, ""))
+                outFile = new File(path, "/Transect_" + getcurDate() + ".csv");
+            else
+                outFile = new File(path, "/Transect_" + transNo + "_" + getcurDate() + ".csv");
+        }
         else
-            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".csv");
+        {
+            if (Objects.equals(transNo, ""))
+                outFile = new File(path, "/Transekt_" + getcurDate() + ".csv");
+            else
+                outFile = new File(path, "/Transekt_" + transNo + "_" + getcurDate() + ".csv");
+        }
 
         Section section;
         String sectName;  // name shown in list
@@ -1040,23 +1051,7 @@ public class WelcomeActivity
                 assert date != null;
                 if (!date.isEmpty())
                 {
-                    String language = Locale.getDefault().toString().substring(0, 2);
-                    if (language.equals("de"))
-                    {
-                        try
-                        {
-                            yyyy = Integer.parseInt(date.substring(6, 10));
-                            mm = Integer.parseInt(date.substring(3, 5));
-                            dd = Integer.parseInt(date.substring(0, 2));
-                        } catch (Exception e)
-                        {
-                            // Wrong date format (English DB in German), use
-                            yyyy = Integer.parseInt(date.substring(0, 4));
-                            mm = Integer.parseInt(date.substring(5, 7));
-                            dd = Integer.parseInt(date.substring(8, 10));
-                        }
-                    }
-                    else
+                    if (language.equals("en"))
                     {
                         try
                         {
@@ -1071,8 +1066,23 @@ public class WelcomeActivity
                             dd = Integer.parseInt(date.substring(0, 2));
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            yyyy = Integer.parseInt(date.substring(6, 10));
+                            mm = Integer.parseInt(date.substring(3, 5));
+                            dd = Integer.parseInt(date.substring(0, 2));
+                        } catch (Exception e)
+                        {
+                            // Wrong date format (English DB in German), use
+                            yyyy = Integer.parseInt(date.substring(0, 4));
+                            mm = Integer.parseInt(date.substring(5, 7));
+                            dd = Integer.parseInt(date.substring(8, 10));
+                        }
+                    }
 
-                    // cal.set(2017, 3, 9); // 09.04.2017
+                    // Example: cal.set(2017, 3, 9) -> 09.04.2017
                     cal.set(yyyy, mm - 1, dd);
                     Kw = cal.get(Calendar.WEEK_OF_YEAR);
                 }
@@ -1590,7 +1600,21 @@ public class WelcomeActivity
                 try
                 {
                     pathTour.mkdirs(); // Just verify pathTour, result ignored
-                    outFileTour = new File(pathTour, "/species_" + getcurDate() + ".csv");
+                    String language = Locale.getDefault().toString().substring(0, 2);
+                    if (language.equals("en"))
+                    {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_Transect_" + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_Transect_" + transNo + "_" + getcurDate() + ".csv");
+                    }
+                    else
+                    {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_Transekt_" + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
+                    }
                     CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTour));
 
                     int i = 0;
@@ -1616,7 +1640,10 @@ public class WelcomeActivity
             try
             {
                 pathTransect.mkdirs(); // Just verify pathTransekt, result ignored
-                outFileTransect = new File(pathTransect, "/species_" + getcurDate() + ".csv");
+                if (Objects.equals(transNo, ""))
+                    outFileTransect = new File(pathTransect, "/species_Transekt_" + getcurDate() + ".csv");
+                else
+                    outFileTransect = new File(pathTransect, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTransect));
 
                 int i = 0;

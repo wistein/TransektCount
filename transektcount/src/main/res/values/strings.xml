@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-03-17 -->
+     last edited 2025-03-20 -->
 
 <resources>
 
@@ -43,7 +43,7 @@
     <string name="resetDBMenu">Reset Data</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basic DB</string>
-    <string name="importSpeciesListMenu">Import TourCount Species</string>
+    <string name="importSpeciesListMenu">Import Species List</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importList">The species list has been imported.</string>
     <string name="importListFail">The species list could not be imported!</string>
@@ -82,7 +82,7 @@
     <string name="fileSize">Size</string>
     <string name="noFile">No file available!</string>
     <string name="fileHeadlineDB">List of DB files</string>
-    <string name="fileHeadlineCSV">TourCount species lists</string>
+    <string name="fileHeadlineCSV">Species lists</string>
     <string name="fileHeadlineGPX">List of GPX tracks</string>
 
     <!-- EditMetaActivity -->

@@ -56,8 +56,9 @@ _ Subtitle
 
 $ 4.2.3
   % Version 4.2.3
-  _ 2025-03-18
-  * Changed export of the current species list for import by TourCount and TransektCount
+  _ 2025-03-21
+  * Export of the current species list for import by TourCount and TransektCount
+  * Some text updates and corrections
   * Docs updated
 
 $ 4.2.2

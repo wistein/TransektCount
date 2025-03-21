@@ -14,11 +14,13 @@ That means, you will use a fresh database instance per inspection by clearing th
 -  for meta data to prepare an inspection and
 -  for species remark or bulk count entry.
 - The counting page has a scroll-list to select a species by picture and name.
-- Counts are recorded per internal/external counting area and here each with separate counters for ♂, ♀ or undefined, pupa, larva or egg.
+- Counts are recorded per internal/external counting area and here each with separate counters for ♂♀, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to the entry masks of Tagfalter-Monitoring Deutschland or similar butterfly monitoring sites.
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
+- The current butterfly list can be exported for later re-import or imported by the complementary app TourCount.
 - The integrated help contains a detailed userguide.
+- TransektCount uses the codes of the European coding scheme for butterflies from Karsholt/Razowski.
 
 ### Prerequisites
 The app demands for 
@@ -46,11 +48,17 @@ Source file structure is for compilation by Android Studio.
 The app is available on F-Droid under  
 https://f-droid.org/packages/com.wmstein.transektcount/.
 
-The apk-file 'transektcount-release.apk' is also provided in the GitHub repository under  
+All versions of the apk-file 'transektcount-release_nnn.apk' are provided in the GitHub repository under 
+https://github.com/wistein/TransektCount.
 https://github.com/wistein/TransektCount/tree/master/apk.
 
-Please note that both versions are compiled from the same sources but signed differently and so cannot 
-be mutually updated.
+Please note that both versions are compiled from the same sources but signed differently and so cannot be mutually updated.
+
+On GitHub you will find the published stable version when clicking the "master"-button and select 
+the Tag with the highest Branch number n.n.n. Then get the file transektcount-release_nnn.apk under apk. 
+
+The latest beta development version of 'transektcount-release_nnn.apk' is also provided in the GitHub 
+repository under the master branch https://github.com/wistein/TransektCount/tree/master/apk.
 
 ### Licenses:
 

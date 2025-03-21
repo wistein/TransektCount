@@ -11,7 +11,7 @@
           text-align:center }
       div.smalltext {
           margin-top:0.5em;
-          margin-bottom:0.5em;
+          margin-bottom:0.8em;
           color:#F0F0F0;
           font-size:0.8em }
       div.boldtext {
@@ -80,10 +80,8 @@
   ! ...
   ! Pieris rapae .............. 06998
   ) Small white
-  )
   ! Pieris napi ................ 07000
   ) Green-veined white
-  )
   ! Pieris na./ra.-compl..07000*
   ) Small whites complex
   ! ...
@@ -150,23 +148,24 @@
   _ 
   ! "Import Basic DB" always reads die file "transektcount0.db" from Documents/TransektCount e.g. if incorrect structural changes have been made to the current DB by mistake.
   _ 
-  ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_TR-No_YYYY-MM-DD_hhmmss.db.
+  ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_[TR-No_]YYYY-MM-DD_hhmmss.db.
   _
   ! For your own purpose you can rename the exported DB-files by a file manager into e.g. transektcount1.db, transektcount2.db, etc.
   ! (Mind: The .db file name must always start with the string “transektcount”, otherwise it cannot be imported).
   _ 
   ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects with different sections and butterfly populations.
   _
-  ! If the TourCount app is installed, a species list exported from it can be imported.
-  _ 
-  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "transektcount_TR-No_YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
-  ! This directory allows accessing the files by an Android spreadsheet app, like Collabora (open source, obtainable free of charge from the F-Droid app store).
+  ! The current species list (without transect metadata) can be exported as a .csv file “species_Transect_[TR-No_]YYYYMMDD_hhmmss.csv”. This can also be renamed for a later re-import using a file manager. If the TourCount app is installed, the exported species lists can be imported mutually.
+  ! (Mind: The file name of a species list must always begin with “species”, otherwise the list cannot be imported.)
   _
-  ! IT-affine users may transfer the exported "transektcount_TR-No_YYYY-MM-DD_hhmmss.db" files from "Documents/TransektCount" to a PC.
+  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "Transect_[TR-No_]YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
+  ! This directory allows accessing the files by an Android spreadsheet app, like Collabora (open source, obtainable free of charge e.g. from the F-Droid app store).
+  _
+  ! IT-affine users may transfer the exported ".db" and ".csv" files from "Documents/TransektCount" to a PC.
   ! With a free tool like "SQliteBrowser" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
   ! Some useful prepared SQL-scripts can be found under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
   _
-  ! You may also copy a .csv-file from Documents/TransektCount/ to a PC and import it into a spreadsheet program for further processing.
+  ! You may import the .csv files into a spreadsheet program for further processing.
   ! In order to display the formats and character sets correctly, please import it as a
   _
   ! - comma-separated text file with

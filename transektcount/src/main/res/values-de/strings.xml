@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-03-17 -->
+     last edited 2025-03-20 -->
 
 <resources>
 
@@ -32,7 +32,7 @@
     <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
     <string name="exportSpeciesListMenu">Export Speziesliste</string>
     <string name="resetDBMenu">Reset Daten</string>
-    <string name="importSpeciesListMenu">Import TourCount-Spezies</string>
+    <string name="importSpeciesListMenu">Import Speziesliste</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
@@ -73,7 +73,7 @@
     <string name="fileSize">Größe</string>
     <string name="noFile">Keine Datei vorhanden!</string>
     <string name="fileHeadlineDB">Liste der DB-Dateien</string>
-    <string name="fileHeadlineCSV">TourCount-Spezieslisten</string>
+    <string name="fileHeadlineCSV">Spezieslisten</string>
     <string name="fileHeadlineGPX">Liste der GPX-Tracks</string>
 
     <!-- EditMetaActivity -->

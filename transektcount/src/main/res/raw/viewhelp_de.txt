@@ -11,7 +11,7 @@
           text-align:center }
       div.smalltext    { 
           margin-top:0.5em;
-          margin-bottom:0.5em;
+          margin-bottom:0.8em;
           color:#F0F0F0;
           font-size:0.8em }
       div.boldtext {
@@ -72,10 +72,8 @@
   !...
   ! Pieris rapae .............. 06998
   ) Kleiner Kohlweißling
-  )
   ! Pieris napi ................ 07000
   ) Grünaderweißling
-  )
   ! Pieris na./ra.-Kompl..07000*
   ) Weißlinge-Komplex
   !...
@@ -149,22 +147,23 @@
   _ 
   ! Die Funktion "Import Basis-DB" liest immer die Datei "transektcount0.db" von "Documents/TransektCount" ein, z. B. falls irrtümlich falsche Struktur-Änderungen vorgenommen wurden.
   _ 
-  ! "Export akt. DB" schreibt eine Kopie der aktuellen DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_TR-Nr_JJJJ-MM-TT_hhmmss.db.
+  ! "Export akt. DB" schreibt eine Kopie der aktuellen DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_[TR-Nr_]JJJJ-MM-TT_hhmmss.db.
   _ 
   ! Für die eigene Verwendung kann eine exportierte DB-Datei mittels File Manager umbenannt werden, z.B. in transektcount1.db, transektcount2.db usw.
   ! (Merke: Der Dateiname muss dabei immer mit der exakten Zeichenfolge "transektcount" beginnen, ansonsten kann die Datei nicht importiert werden).
   _ 
   ! Der Import einer zuvor vorbereiteten, exportierten und entsprechend benannten TransektCount-DB ist sinnvoll, wenn mehrere Transekte mit unterschiedlichen Abschnitten und Schmetterlingsvorkommen begangen werden sollen.
   _
-  ! Falls die App TourCount installiert ist, kann eine daraus exportierte Speziesliste importiert werden.
-  _ 
-  ! Die Funktion "Export Daten -> CSV-Datei" scheibt die Zählergebnisse als aufbereitete Spreadsheet-kompatible Tabelle "transektcount_TR-Nr_JJJJ-MM-TT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App wie Collabora (Open Source, kostenlos erhältlich im F-Droid-App-Store) erfolgen.
+  ! Die aktuelle Speziesliste (ohne Transekt-Metadaten) kann als csv-Datei „species_Transekt_[TR-Nr_]JJJJMMTT_hhmmss.csv“ exportiert werden. Mittels Datei-Manager lässt auch diese sich für den späteren Re-Import sinnvoll umbennenen. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden.
+  ! Merke: Der Dateiname einer Speziesliste muss immer mit „species“ beginnen, sonst kann die Datei nicht importiert werden.
   _
-  ! IT-affine Anwender können die mittels Exportfunktion erzeugte Datei "transektcount_TR-Nr_JJJJ-MM-TT_hhmmss.db" von "Documents/TransektCount" auf einen PC übertragen.
+  ! Die Funktion "Export Daten -> CSV-Datei" scheibt die Zählergebnisse als aufbereitete, Spreadsheet-kompatible Tabelle "Transekt[_TR-Nr]_JJJJ-MM-TT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App wie Collabora (Open Source, kostenlos erhältlich z.B. im F-Droid-App-Store) erfolgen.
+  _
+  ! IT-affine Anwender können die mittels Exportfunktion erzeugten ".db"- und ".csv"-Dateien von "Documents/TransektCount" auf einen PC übertragen.
   ! Mit Hilfe eines kostenlosen Tools wie "SqliteBrowser" (<a href="https://sqlitebrowser.org/" target="_blank">https://sqlitebrowser.org</a>) können die .db-Dateien manuell oder per SQL-Script bearbeitet werden.
   ! Einige nützliche vorbereitete SQL-Scripte finden sich im docs-Verzeichnis der GitHub-Webseite  <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
   _
-  ! Auch die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) können für die weitere Bearbeitung auf einen PC übertragen und in einer Tabellenkalkulation importiert werden.
+  ! Die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) können für die weitere Bearbeitung auf einem PC in einer Tabellenkalkulation importiert werden.
   ! Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze darauf zu achten, dass
   _ 
   ! - Dateiursprung im Format "Unicode UTF-8",
