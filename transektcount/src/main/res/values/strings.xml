@@ -150,16 +150,13 @@
     <string name="initCharsL">Please, 2 chars.</string>
 
     <!-- ChangeLog -->
-    <string name="changelog_full_title">App Info</string>
-    <string name="changelog_title">What\'s New?</string>
+    <string name="changelog_full_title">App Info </string>
+    <string name="changelog_title">What\'s New</string>
     <string name="ok_button">OK</string>
     <string name="changelog_show_full">more&#8230;</string>
 
     <!-- ViewHelp -->
     <string name="viewhelp_full_title">Help (TransektCount Ver. </string>
-
-    <!-- ViewLicense -->
-    <string name="viewlicense_full_title">Licenses</string>
 
     <!-- Preferences -->
     <string name="prefs_appearance">Appearance</string>

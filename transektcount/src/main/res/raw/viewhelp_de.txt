@@ -1,19 +1,34 @@
 <html>
+<!--
+Formattierungsbefehle:
+----------------------
+% title
+_ subtitle
+! freetext
+& bold
+] italic
+) smalltext (small text with top and bottom space)
+} smalltext1 (small text with top space)
+? textspace (small text with bottom space)
+-->
   <head>
     <style type='text/css'>
       a { color:#a0a0e0 }
-      div.title    { 
+      div.title {
           color:#C0F0C0; 
           font-size:1.2em; 
           font-weight:bold; 
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
-      div.smalltext    { 
-          margin-top:0.5em;
-          margin-bottom:0.8em;
-          color:#F0F0F0;
-          font-size:0.8em }
+      div.subtitle {
+          color:#C0F0C0;
+          font-size:1.0em;
+          font-weight:bold;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext {
+          color:#F0F0F0 }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.0em;
@@ -28,14 +43,21 @@
           margin-top:1em;
           margin-bottom:0.5em;
           text-align:start }
-      div.subtitle {
-          color:#C0F0C0; 
-          font-size:1.0em;
-          font-weight:bold;
-          margin-bottom:1em;
-          text-align:center }
-      div.freetext { color:#F0F0F0 }
-      div.list { color:#C0C0F0 }
+      div.smalltext {
+          margin-top:0.5em;
+          margin-bottom:0.8em;
+          color:#F0F0F0;
+          font-size:0.8em }
+      div.smalltext1 {
+          margin-top:0.5em;
+          color:#F0F0F0;
+          font-size:0.8em }
+      div.textspace {
+          font-size:0.5em;
+          margin-bottom:0.8em;
+          color:#F0F0F0 }
+      div.list {
+          color:#C0C0F0 }
     </style>
   </head>
   <body>
@@ -70,12 +92,13 @@
   !Ab 01      (Ausschnitt der Artenliste)
   !--------------------------------------
   !...
+  ?
   ! Pieris rapae .............. 06998
   ) Kleiner Kohlweißling
   ! Pieris napi ................ 07000
   ) Grünaderweißling
   ! Pieris na./ra.-Kompl..07000*
-  ) Weißlinge-Komplex
+  } Weißlinge-Komplex
   !...
   _ 
   ! Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeige zugehöriger Schmetterlings-Icons. Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski und werden ebenfalls in der Kartiereranleitung und im Lepiforum <a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a> verwendet.
@@ -193,7 +216,7 @@
   _ 
   ! Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr vielen Transektabschnitten vorkommen. Andere Funktionen der App sind von dieser Einschränkung nicht betroffen.
   _ 
-  ! Mögliche Abhilfe nicht bekannt. Weitere Info dazu siehe Dokument "TransektCount_Anleitung_4.2.pdf" unter <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+  ! Mögliche Abhilfe nicht bekannt. Weitere Info dazu siehe Dokument "TransektCount_Anleitung_nnn.pdf" unter <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
 
   % 6. Quellen
   ! Source-Code: <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>

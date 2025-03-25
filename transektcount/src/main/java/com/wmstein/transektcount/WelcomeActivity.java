@@ -399,11 +399,23 @@ public class WelcomeActivity
         }
         else if (id == R.id.importBasisMenu)
         {
+            headDataSource.close();
+            sectionDataSource.close();
+            metaDataSource.close();
+            countDataSource.close();
+            alertDataSource.close();
+
             importBasisDb();
             return true;
         }
         else if (id == R.id.importFileMenu)
         {
+            headDataSource.close();
+            sectionDataSource.close();
+            metaDataSource.close();
+            countDataSource.close();
+            alertDataSource.close();
+
             inFile = null;
             importDBFile();
             return true;
@@ -672,9 +684,12 @@ public class WelcomeActivity
                         try
                         {
                             copy(inFile, outFile);
-                            showSnackbar(getString(R.string.importDB));
 
-                            // Set transect number as title
+                            // List transNo as title
+                            headDataSource.open();
+                            head = headDataSource.getHead();
+                            transNo = head.transect_no;
+                            sectionDataSource.close();
                             try
                             {
                                 Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
@@ -682,6 +697,9 @@ public class WelcomeActivity
                             {
                                 // nothing
                             }
+
+                            showSnackbar(getString(R.string.importDB));
+
                         } catch (IOException e)
                         {
                             showSnackbarRed(getString(R.string.importFail));

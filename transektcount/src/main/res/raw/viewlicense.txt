@@ -1,4 +1,13 @@
 <html>
+<!--
+Formatting commands:
+--------------------
+% Title
+_ Subtitle
+& bold
+! free text
+* bullet list item
+-->
   <head>
     <style type='text/css'>
       a { color:#a0a0e0 }
@@ -14,6 +23,8 @@
           font-size:0.8em;
           margin-bottom:1em;
           text-align:center }
+      div.freetext {
+     	  color:#F0F0F0 }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.2em; 
@@ -21,9 +32,7 @@
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:start }
-      div.freetext {
-       		color:#F0F0F0 }
-      div.list { 
+      div.list {
           color:#C0C0F0 }
     </style>
   </head>

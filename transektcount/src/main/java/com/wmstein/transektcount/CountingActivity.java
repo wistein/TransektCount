@@ -2133,17 +2133,17 @@ public class CountingActivity
         {
             try
             {
-                if (Build.VERSION.SDK_INT >= 31)
+                if (Build.VERSION.SDK_INT >= 31) // S Android 12
                 {
                     vibratorManager.getDefaultVibrator();
                     vibratorManager.cancel();
                 }
                 else
                 {
-                    if (Build.VERSION.SDK_INT >= 26)
+                    if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                         vibrator.vibrate(VibrationEffect.createOneShot(450,
                             VibrationEffect.DEFAULT_AMPLITUDE));
-                    else
+                    else // <= 25 Nougat Android 7.1
                         vibrator.vibrate(450);
                     vibrator.cancel();
                 }

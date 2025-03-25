@@ -141,16 +141,13 @@
     <string name="initCharsL">Bitte 2 Buchst.</string>
 
     <!-- ChangeLog -->
-    <string name="changelog_full_title">App-Info</string>
-    <string name="changelog_title">Was ist neu?</string>
+    <string name="changelog_full_title">App-Info </string>
+    <string name="changelog_title">Was ist neu</string>
     <string name="ok_button">OK</string>
     <string name="changelog_show_full">mehr&#8230;</string>
 
     <!-- ViewHelp -->
     <string name="viewhelp_full_title">Hilfe (TransektCount Ver. </string>
-
-    <!-- ViewLicense -->
-    <string name="viewlicense_full_title">Lizenzen</string>
 
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>

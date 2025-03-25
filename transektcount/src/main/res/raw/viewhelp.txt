@@ -1,4 +1,16 @@
 <html>
+<!--
+Formatting commands:
+--------------------
+% title
+_ subtitle
+! freetext
+& bold
+] italic
+) smalltext (small text with top and bottom space)
+} smalltext1 (small text with top space)
+? textspace (small text with bottom space)
+-->
   <head>
     <style type='text/css'>
       a { color:#a0a0e0 }
@@ -9,11 +21,14 @@
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
-      div.smalltext {
-          margin-top:0.5em;
-          margin-bottom:0.8em;
-          color:#F0F0F0;
-          font-size:0.8em }
+      div.subtitle {
+          color:#C0F0C0;
+          font-size:1.0em;
+          font-weight:bold;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext {
+          color:#F0F0F0 }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.0em;
@@ -28,14 +43,21 @@
           margin-top:1em;
           margin-bottom:0.5em;
           text-align:start }
-      div.subtitle {
-          color:#C0F0C0; 
-          font-size:1.0em;
-          font-weight:bold;
-          margin-bottom:1em;
-          text-align:center }
-      div.freetext { color:#F0F0F0 }
-      div.list { color:#C0C0F0 }
+      div.smalltext {
+          margin-top:0.5em;
+          margin-bottom:0.8em;
+          color:#F0F0F0;
+          font-size:0.8em }
+      div.smalltext1 {
+          margin-top:0.5em;
+          color:#F0F0F0;
+          font-size:0.8em }
+      div.textspace {
+          font-size:0.5em;
+          margin-bottom:0.8em;
+          color:#F0F0F0 }
+      div.list {
+          color:#C0C0F0 }
     </style>
   </head>
   <body>
@@ -78,12 +100,13 @@
   ! Sect 01      (part of a species list)
   ! -------------------------------------
   ! ...
+  ?
   ! Pieris rapae .............. 06998
   ) Small white
   ! Pieris napi ................ 07000
   ) Green-veined white
   ! Pieris na./ra.-compl..07000*
-  ) Small whites complex
+  } Small whites complex
   ! ...
   _ 
   ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering scheme of european butterflies by Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a>).
@@ -192,7 +215,13 @@
   _
   ! With current models, however, this restriction should only occur with very many transect sections. Other functions of the app are not affected by this restriction.
   _
-  ! No possible solution known. See the document "TransektCount_Userguide_4.1.pdf" for further info under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+  ! No possible solution known. See the document "TransektCount_Userguide_nnn.pdf" for further info under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+
+  % 6. Sources
+  ! Source-Code: <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+  ! Docs: <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>
+  ! License: <a href="https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt" target="_blank">https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt</a>
+  ! App: <a href="https://f-droid.org/en/packages/com.wmstein.transektcount/" target="_blank">https://f-droid.org/en/packages/com.wmstein.transektcount/</a>
   _
 
   </body>

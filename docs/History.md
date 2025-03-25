@@ -2,9 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
-#### Version 4.2.3 (2025-03-21)
+#### Version 4.2.3 (2025-03-25)
 - Export of the current species list for import by TourCount and TransektCount
 - Some text updates and corrections
+- Bugfix to show correct transect No. after DB import
 - Docs updated
 
 #### Version 4.2.2 (2025-03-17)

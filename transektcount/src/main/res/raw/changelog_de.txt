@@ -1,6 +1,7 @@
 <html>
 <!--
 Formattierungsbefehle:
+----------------------
 % Title
 & bold
 _ Subtitle
@@ -18,6 +19,13 @@ _ Subtitle
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:center }
+      div.subtitle {
+          color:#C0F0C0;
+          font-size:0.8em;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext {
+          color:#F0F0F0 }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.2em; 
@@ -25,14 +33,7 @@ _ Subtitle
           margin-top:1em; 
           margin-bottom:0.5em; 
           text-align:start }
-      div.subtitle { 
-          color:#C0F0C0; 
-          font-size:0.8em; 
-          margin-bottom:1em; 
-          text-align:center }
-      div.freetext {
-          color:#F0F0F0 }
-      div.list { 
+      div.list {
           color:#C0C0F0 }
     </style>
   </head>
@@ -56,9 +57,10 @@ _ Subtitle
 
 $ 4.2.3
   % Version 4.2.3
-  _ 21.03.2025
+  _ 25.03.2025
   * Export der Speziesliste für Import durch TransektCount und TourCount
   * Einige Textanpassunge und -korrekturen
+  * Bugfix zur Anzeige der korrekten Transekt-Nr. nach DB-Import
   * Doku angepasst
 
 $ 4.2.2
@@ -128,12 +130,14 @@ $ 4.0.2
 $ 4.0.1
   % Version 4.0.1
   _ 15.12.2023
-  # Funktionale Erweiterung:
+  & 1. Funktionale Erweiterung:
+  _
   * Option für die automatische Transekt-Abschnittserkennung per GPS. Benötigt eine vorbereitete Track-Datei im GPX-Dateiformat
   * Automatische Unterscheidung bei GPS-Nutzung zwischen innerhalb und außerhalb von Transektabschnitten mit entsprechender Zähler-Darstellung
   * Importfunktion für eine GPX-Datei mit separaten Tracks der Transektabschnitte
 
-  # Änderungen:
+  & 2. Änderungen:
+  _
   * Import von DB- und GPX-Dateien aus dem Verzeichnis "Documents/TransektCount/"
   * Export von DB-, CSV- und GPX-Dateien ins Verzeichnis "Documents/TransektCount/"
   * Restrukturiete interne DB für die neuen Funktionen

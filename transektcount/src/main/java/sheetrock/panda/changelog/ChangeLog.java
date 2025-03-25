@@ -40,7 +40,7 @@ import java.util.Locale;
  Therefore retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2025-02-23
+ last change by wmstein on 2025-03-22
  */
 public class ChangeLog
 {
@@ -128,15 +128,16 @@ public class ChangeLog
         wv.loadDataWithBaseURL(null, this.getLog(full), "text/html",
             "UTF-8", null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-            new ContextThemeWrapper(
-                this.context, android.R.style.Theme_Material_Dialog));
         String fullTitle = context.getResources().getString(R.string.changelog_full_title)
             + " Ver. " + thisVersion;
         String changeTitle = "Ver. " + thisVersion + ": "
             + context.getResources().getString(R.string.changelog_title);
-        builder.setTitle(full ? fullTitle : changeTitle)
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+            new ContextThemeWrapper(this.context, android.R.style.Theme_Material_Dialog));
+        builder
             .setView(wv)
+            .setTitle(full ? fullTitle : changeTitle)
             .setCancelable(false)
             // OK button
             .setPositiveButton(context.getResources().getString(
@@ -215,14 +216,6 @@ public class ChangeLog
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
-                        // line contains bold red text
-                        case '&' ->
-                        {
-                            this.closeList();
-                            sb.append("<div class='boldtext'>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</div>\n");
-                        }
                         // line contains version subtitle
                         case '_' ->
                         {
@@ -236,6 +229,14 @@ public class ChangeLog
                         {
                             this.closeList();
                             sb.append("<div class='freetext'>");
+                            sb.append(line.substring(1).trim());
+                            sb.append("</div>\n");
+                        }
+                        // line contains bold red text
+                        case '&' ->
+                        {
+                            this.closeList();
+                            sb.append("<div class='boldtext'>");
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
