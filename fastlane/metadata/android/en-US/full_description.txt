@@ -8,7 +8,7 @@ New in Version 4.2.1:
 
 Features:
 - Data collection is based on a transect inspection
-- Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species
+- Databases refer to a transect and can be individually created and customised within the app with regard to meta data, transect sections and expected species
 - The app contains an internal list with many European species and has a prepared database for a transect section with the most common species to be expected in Germany as a starting point for direct use.
 - Separate counters for internal/external counting areas and separately for ♂-♀-indeterminate, ♂, ♀, pupa, caterpillar or egg
 - Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (www.tmd-daten.de or new: web.app.ufz.de/tagfalter-monitoring/)
@@ -18,10 +18,10 @@ Features:
 Functions:
 - Duplicate and delete transect sections.
 - Editing the transect section lists (adding and deleting species and editing terms).
-- Editor for metadata in preparation for an inspection
+- Editor for meta data in preparation for an inspection
 - Counter page per section with scroll-down list for species selection
 - Species editor for annotation, bulk counter entries and count alert
-- The results page shows metadata, notes, totals and counting results per species and transect section
+- The results page shows meta data, notes, totals and counting results per species and transect section
 
 Prerequisites:
 The app requires

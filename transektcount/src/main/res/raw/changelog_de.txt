@@ -55,6 +55,12 @@ _ Subtitle
     ! Geeignet für Android 7.1 (Nougat) oder neuer.
   _
 
+$ 4.2.4
+  % Version 4.2.4
+  _ 02.04.2025
+  * Einige Textanpassunge und -korrekturen
+  * Doku angepasst
+
 $ 4.2.3
   % Version 4.2.3
   _ 25.03.2025
