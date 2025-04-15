@@ -80,7 +80,7 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-03-20
+ * last edited on 2025-04-11
  */
 public class WelcomeActivity
     extends AppCompatActivity
@@ -556,74 +556,18 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb()
     {
-        // inFile <- /storage/emulated/0/Documents/TransektCount/transektcount0.db
-        File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
-        }
-        inFile = new File(path, "/transektcount0.db");
+        if (MyDebug.DLOG) Log.d(TAG, "559, importBasicDBFile");
 
-        // outFile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
-        String destPath = getApplicationContext().getFilesDir().getPath();
-        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
-        outFile = new File(destPath);
-        if (!(inFile.exists()))
-        {
-            showSnackbar(getString(R.string.noDb));
-            return;
-        }
+        String fileExtension = ".db";
+        String fileNameStart = "transektcount0";
+        String fileHd = getString(R.string.fileHeadlineBasicDB);
 
-        // Confirm dialogue before importing
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.confirmBasisImport);
-        builder.setCancelable(false).setPositiveButton(R.string.importButton, (dialog, id) ->
-        {
-            try
-            {
-                copy(inFile, outFile);
-                showSnackbar(getString(R.string.importDB));
-
-                // Set transect number as title
-                try
-                {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
-                } catch (NullPointerException e)
-                {
-                    // nothing
-                }
-            } catch (IOException e)
-            {
-                showSnackbarRed(getString(R.string.importFail));
-            }
-        }).setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-        alert = builder.create();
-        alert.show();
-    }
-
-    /**********************************************************************************************/
-    // Copy file block-wise
-    private static void copy(File src, File dst) throws IOException
-    {
-        FileInputStream in = new FileInputStream(src);
-        FileOutputStream out = new FileOutputStream(dst);
-
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0)
-        {
-            out.write(buf, 0, len);
-        }
-        in.close();
-        out.close();
+        Intent intent;
+        intent = new Intent(this, AdvFileChooser.class);
+        intent.putExtra("filterFileExtension", fileExtension);
+        intent.putExtra("filterFileNameStart", fileNameStart);
+        intent.putExtra("fileHd", fileHd);
+        myActivityResultLauncher.launch(intent);
     }
     // End of importBasisDb()
 
@@ -632,12 +576,14 @@ public class WelcomeActivity
     private void importDBFile()
     {
         String fileExtension = ".db";
-        String fileName = "transektcount";
+        String fileNameStart = "transektcount_";
+        String fileHd = getString(R.string.fileHeadlineDB);
 
         Intent intent;
         intent = new Intent(this, AdvFileChooser.class);
         intent.putExtra("filterFileExtension", fileExtension);
-        intent.putExtra("filterFileName", fileName);
+        intent.putExtra("filterFileNameStart", fileNameStart);
+        intent.putExtra("fileHd", fileHd);
         myActivityResultLauncher.launch(intent);
     }
 
@@ -719,12 +665,14 @@ public class WelcomeActivity
     {
         // Select exported TourCount species list file
         String fileExtension = ".csv";
-        String fileName = "species";
+        String fileNameStart = "species";
+        String fileHd = getString(R.string.fileHeadlineCSV);
 
         Intent intent;
         intent = new Intent(this, AdvFileChooser.class);
         intent.putExtra("filterFileExtension", fileExtension);
-        intent.putExtra("filterFileName", fileName);
+        intent.putExtra("filterFileNameStart", fileNameStart);
+        intent.putExtra("fileHd", fileHd);
         listActivityResultLauncher.launch(intent);
     }
 
@@ -814,7 +762,9 @@ public class WelcomeActivity
     }
     // End of importSpeciesList()
 
-    /**********************************************************************************************/
+    /*********************************************************************************
+     * The next four functions below are for exporting data files.
+     */
     // Exports Basis DB to Documents/TransektCount/transektcount0.db
     private void exportBasisDb()
     {
@@ -843,7 +793,10 @@ public class WelcomeActivity
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // just verify path, result ignored
-        outFile = new File(path, "/transektcount0.db");
+        if (Objects.equals(transNo, ""))
+            outFile = new File(path, "/transektcount0.db");
+        else
+            outFile = new File(path, "/transektcount0_" + transNo + ".db");
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
@@ -986,7 +939,6 @@ public class WelcomeActivity
         }
 
         Section section;
-        String sectName;  // name shown in list
         int sect_id;
 
         Meta meta; // Meta database instance
@@ -1041,7 +993,7 @@ public class WelcomeActivity
                         getString(R.string.clouds),
                         "",
                         getString(R.string.kal_w),
-                        "", "", "", "", "", "",
+                        "", "", "", "", "", "", "",
                         getString(R.string.note),
                     };
                 csvWrite.writeNext(arrCol); // write line to csv-file
@@ -1121,7 +1073,7 @@ public class WelcomeActivity
                         String.valueOf(clouds),
                         "",
                         kw,
-                        "", "", "", "", "", "",
+                        "", "", "", "", "", "", "",
                         inspection_note,
                     };
                 csvWrite.writeNext(arrMeta);
@@ -1144,7 +1096,7 @@ public class WelcomeActivity
                 csvWrite.writeNext(arrEmpt);
 
                 // Intern, extern
-                String[] arrIE = {"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                String[] arrIE = {"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 csvWrite.writeNext(arrIE);
 
                 // Headline of species table with
@@ -1153,6 +1105,7 @@ public class WelcomeActivity
                     // Section, Species Name, Local Name, Code, Internal Counts, External Counts, Spec.-Notes
                     String[] arrCol1 =
                         {
+                            getString(R.string.time_sect),
                             getString(R.string.name_sect),
                             getString(R.string.name_spec),
                             getString(R.string.name_spec_g),
@@ -1248,12 +1201,34 @@ public class WelcomeActivity
 
                 String strtotali, strtotale, strtotal;
 
+                String sectName;  // name shown in list
+                String sectName1 = "";
+                String sectName2 = "";
+                String sectTime;
+                String timePattern = "HH:mm:ss";
+                SimpleDateFormat sdf = new SimpleDateFormat(timePattern, Locale.getDefault());
+                long sectTimeValue;
+
                 curCSV.moveToFirst();
                 while (!curCSV.isAfterLast())
                 {
                     sect_id = curCSV.getInt(1);
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
+                    if (!Objects.equals(sectName1, sectName))
+                    {
+                        sectName1 = sectName;
+                        sectName2 = sectName;
+                        sectTimeValue = section.DatNum(); // get Long created_at value
+                        Date result = new Date(sectTimeValue);
+                        sectTime = sdf.format(result);
+                    }
+                    else
+                    {
+                        sectTime = "";
+                        sectName2 = "";
+                    }
+
                     code = curCSV.getString(3); //species code
                     name_s = curCSV.getString(2);
                     name_l = curCSV.getString(17);
@@ -1336,7 +1311,8 @@ public class WelcomeActivity
                         // Build line in species table for species in section
                         String[] arrStr =
                             {
-                                sectName,    // section name
+                                sectTime,    // time of 1. count in section
+                                sectName2,   // section name
                                 name_s,      // species name
                                 name_l,      // species local name
                                 code,        // species code
@@ -1412,7 +1388,7 @@ public class WelcomeActivity
                 // Internal counts, External counts, Totals
                 String[] arrCol2 =
                     {
-                        "", "", "", "",
+                        "", "", "", "", "",
                         getString(R.string.countImagomfHint),
                         getString(R.string.countImagomHint),
                         getString(R.string.countImagofHint),
@@ -1468,7 +1444,7 @@ public class WelcomeActivity
                 // Write internal total sums
                 String[] arrSumi =
                     {
-                        "",
+                        "", "",
                         getString(R.string.sumSpec),
                         Integer.toString(sumSpec),
                         getString(R.string.sum),
@@ -1522,7 +1498,7 @@ public class WelcomeActivity
                 // Write external total sums
                 String[] arrSume =
                     {
-                        "", "", "",
+                        "", "", "", "",
                         getString(R.string.sume),
                         "", "", "", "", "", "",
                         strsummfe,
@@ -1544,7 +1520,7 @@ public class WelcomeActivity
                 // Write overall total sum
                 String[] arrTotal =
                     {
-                        "", "", "",
+                        "", "", "", "",
                         getString(R.string.sum_total),
                         "", "", "", "", "", "",
                         "", "", "", "", "", "",
@@ -1686,6 +1662,24 @@ public class WelcomeActivity
         }
     }
     // End of exportSpeciesList()
+
+    /**********************************************************************************************/
+    // Copy file block-wise
+    private static void copy(File src, File dst) throws IOException
+    {
+        FileInputStream in = new FileInputStream(src);
+        FileOutputStream out = new FileOutputStream(dst);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0)
+        {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+    }
 
     /**********************************************************************************************/
     // Clear all relevant DB values, reset to basic DB

@@ -57,7 +57,11 @@ _ Subtitle
 
 $ 4.2.4
   % Version 4.2.4
-  _ 02.04.2025
+  _ 15.04.2025
+  * Layout der Zählseite besser an Bildschirmgröße angepasst
+  * Exportieren der Basis-DB schreibt nun die Transekt-Nr. in den Dateinamen
+  * Import einer Basis-DB mit Dateiauswahl
+  * Export der Ergebnisse für sortierte Transektabschnitte zeigt Zeit der 1. Zählung im Abschnitt
   * Einige Textanpassunge und -korrekturen
   * Doku angepasst
 

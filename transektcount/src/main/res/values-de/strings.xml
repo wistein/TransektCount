@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-03-20 -->
+     last edited 2025-04-15 -->
 
 <resources>
 
     <!-- generic -->
     <string name="action_settings">Einstellungen</string>
-    <string name="title_activity_meta">Meta-Daten</string>
-    <string name="title_activity_list_section">Transektabschnitte</string>
 
     <!-- WelcomeActivity -->
     <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
@@ -47,6 +45,7 @@
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
+    <string name="time_sect">1. Zählung</string>
     <string name="name_sect">Abschnitt</string>
     <string name="code_spec">Spezies Code</string>
     <string name="internal">Intern</string>
@@ -72,9 +71,10 @@
     <string name="currentDir">Aktuelles Verz.</string>
     <string name="fileSize">Größe</string>
     <string name="noFile">Keine Datei vorhanden!</string>
-    <string name="fileHeadlineDB">Liste der DB-Dateien</string>
-    <string name="fileHeadlineCSV">Spezieslisten</string>
-    <string name="fileHeadlineGPX">Liste der GPX-Tracks</string>
+    <string name="fileHeadlineDB">TransektCount DB-Dateien</string>
+    <string name="fileHeadlineBasicDB">TransektCount Basis-DB-Dateien</string>
+    <string name="fileHeadlineCSV">TransektCount Spezieslisten</string>
+    <string name="fileHeadlineGPX">TransektCount GPX-Tracks</string>
 
     <!-- EditMetaActivity -->
     <string name="editHeadTitle">Meta-Daten d. Begehung</string>

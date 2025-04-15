@@ -64,14 +64,15 @@ _ subtitle
 
   %1. Introduction
   !
-  ! TransektCount should support you when monitoring butterflies in a transect.
+  ! TransektCount should support you when monitoring butterflies in a European transect.
   ! It allows species-specific recording of individuals in all development stages per transect section.
   ! It can substitute your field book and pencil, and if applicable a camera for documentary pictures of interesting species.
   _ 
   ! Databases can be created individually for transect sections and expected butterfly species. The integrated database is survey-related, i.e. a new database instance is used for each survey.
-  ! The recorded data (meta data, counts and annotations) can either be read from the results page for input into the butterfly monitoring system or transferred to a PC for your own processing, where they can be better read or edited.
-  _ 
-  ! The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source and has no tracking or advertising functions, but demands access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counted data to DB- or CSV-files and Wakelock to hinder the app from dimming or switching off.
+  _
+  ! The recorded data (meta-data, counts and annotations) may either be read from the app's results page for transfer into a butterfly registration system (e.g. web.app.ufz.de/tagfalter-monitoring) or exported and transferred to a PC for your own processing.
+  _
+  ! The app is open source and published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It has neither tracking nor advertising functions, but requires access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counting results to DB or CSV files and wakelock to prevent the app from dimming or switching off.
 
   % 2. Setting up
   !
@@ -122,7 +123,7 @@ _ subtitle
   _
   ! Exporting as Basic DB ignores all counts, notes and inspection-related meta data. The Basic DB serves as a template for future inspections. To prepare a future monitoring inspection you will only need to enter the inspection-specific meta data (date, start time, temperature, wind and clouds).
   _
-  ! The Basic DB can also be exported again later, e.g. after changes of lists.
+  ! The Basic DB can also be exported again later, e.g. after changes of lists. It is named transect-specifically with the transect number. The name of the Basic DB always begins with "transektcount0".
   _ 
   ! Alternatively you can import and adapt a self-created Basic DB for your transect. Examples for downloading, some from other European countries, are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app’s data directory Documents/TransektCount and import and edit them in TransektCount suitably.
   _
@@ -168,9 +169,9 @@ _ subtitle
   ! Android-specifically, TransektCount stores the data always in a single SQlite DB-file in the app's own protected storage area that is not accessible by the user.
   ! Therefore, it is necessary to be able to export the DB-data to files in a user accessible storage area. To make use of different DB-files for different transects, im- and export functions are essential.
   _ 
-  ! Exporting the internal DB as empty Basic DB "transektcount0.db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
+  ! Exporting the internal DB as empty Basic DB "transektcount0_[Tr-No].db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
   _ 
-  ! "Import Basic DB" always reads die file "transektcount0.db" from Documents/TransektCount e.g. if incorrect structural changes have been made to the current DB by mistake.
+  ! "Import Basic DB" reads only files with names beginning with "transektcount0" from Documents/TransektCount.
   _ 
   ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_[TR-No_]YYYY-MM-DD_hhmmss.db.
   _

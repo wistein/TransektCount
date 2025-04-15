@@ -28,14 +28,15 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-03-13
+ * last edited on 2025-04-11
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
     private var adapter: FileArrayAdapter? = null
     private var fileExtension: String = ""
-    private var fileName: String? = null
+    private var fileNameStart: String? = null
     private var fileFilter: FileFilter? = null
+    private var fileHd: String? = null
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +50,12 @@ class AdvFileChooser : Activity() {
         if (extras != null) {
             if (extras.getString("filterFileExtension") != null) {
                 fileExtension = extras.getString("filterFileExtension")!!
-                fileName = extras.getString("filterFileName")
+                fileNameStart = extras.getString("filterFileNameStart")
+                fileHd = extras.getString("fileHd")
 
                 fileFilter = FileFilter { pathname: File ->
                     pathname.name.contains(".") &&
-                            pathname.name.contains(fileName!!) &&
+                            pathname.name.contains(fileNameStart!!) &&
                             fileExtension.contains(
                                 pathname.name.substring(
                                     pathname.name.lastIndexOf(".")
@@ -64,14 +66,6 @@ class AdvFileChooser : Activity() {
         }
 
         // Set FileChooser Headline
-        var fileHd = ""
-        if (fileExtension.endsWith("db")) // headline for db-file
-            fileHd = getString(R.string.fileHeadlineDB)
-        else if (fileExtension.endsWith("csv")) // headline for csv-file
-            fileHd = getString(R.string.fileHeadlineCSV)
-        else if (fileExtension.endsWith("gpx")) // headline for gpx-file
-            fileHd = getString(R.string.fileHeadlineGPX)
-
         val fileHead: TextView = findViewById(R.id.fileHead)
         fileHead.text = fileHd
 
@@ -86,8 +80,10 @@ class AdvFileChooser : Activity() {
             else if (fileExtension.endsWith("csv"))
                 currentDir = File("$currentDir/Documents/TourCount")
         } else {
-            currentDir = Environment.getExternalStoragePublicDirectory(Environment
-                    .DIRECTORY_DOCUMENTS)
+            currentDir = Environment.getExternalStoragePublicDirectory(
+                Environment
+                    .DIRECTORY_DOCUMENTS
+            )
 
             if (fileExtension.endsWith("db") || fileExtension.endsWith("gpx"))
                 currentDir = File("$currentDir/TransektCount")
@@ -137,8 +133,7 @@ class AdvFileChooser : Activity() {
                         fill(currentDir!!)
                     }
                 }
-        }
-        else {
+        } else {
             showSnackbarRed(getString(R.string.noFile))
             val intent = Intent()
             intent.putExtra("fileSelected", "")

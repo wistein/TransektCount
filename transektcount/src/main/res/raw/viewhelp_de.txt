@@ -65,11 +65,12 @@ _ subtitle
   %1. Einführung
   !
   ! TransektCount soll bei der Erfassung der Schmetterlinge in Transekten gemäß Tagfalter-Monitoring Programmen in Europa unterstützen.
-  ! Mit der App können Individuen artspezifisch und in allen Stadien pro Transektabschnitt erfasst werden.
+  ! Mit der App können Individuen artspezifisch und in allen Entwicklungsstadien pro Transektabschnitt erfasst werden.
   ! Es ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos von interessanten Arten.
   _ 
   ! Datenbanken können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden. Die integrierte Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
-  ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe ins Tagfaltermonitoring-System entweder von der Ergebnisseite geordnet abgelesen oder in eine Tabelle exportiert und für eigene Bearbeitung auf einen PC übertragen und dort komfortabler gelesen oder weiterverarbeitet werden.
+  _ 
+  ! Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe in ein Tagfaltermonitoring-System (z.B. web.app.ufz.de/tagfalter-monitoring) entweder von der Ergebnisseite geordnet abgelesen oder in eine Tabelle exportiert und für eigene Bearbeitung auf einen PC übertragen und dort editiert und komfortabler gelesen werden.
   _ 
   ! Die App ist Open Source und veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie enthält weder Tracking- noch Werbefunktionen, verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien und Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet.
 
@@ -112,11 +113,11 @@ _ subtitle
   _ 
   ! Sind für alle Transektabschnitte die Listen eingerichtet und die generellen Meta-Daten eingegeben, ist die Datenbank fertig vorbereitet und sollte nun als "Basis-Datenbank" exportiert werden.
   ! Das geht mit Hilfe der Funktion "Export als Basis-DB" im Menü der Startseite.
-  ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0.db) im Daten-Verzeichnis der App "Documents/TransektCount" abgelegt. Dieses Verzeichnis wird beim ersten App-Aufruf angelegt. Es wird bei Deinstallation von TransektCount nicht gelöscht, die dort gespeicherten Daten bleiben erhalten.
+  ! Hierdurch wird eine Kopie der vorbereiteten Datenbank als "Basis-Datenbank" (transektcount0_[Tr-Nr].db) mit der Transekt-Nr. als [Tr-Nr] im Daten-Verzeichnis der App "Documents/TransektCount" abgelegt. Dieses Verzeichnis wird beim ersten App-Aufruf angelegt. Es wird bei Deinstallation von TransektCount nicht gelöscht, die dort gespeicherten Daten bleiben erhalten.
   _ 
-  ! Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Meta-Daten. Sie dient als Vorlage für zukünftige Begehungen. Nach einem Import der Basis-DB sind zur Vorbereitung einer Begehung nur noch die Begehungs-spezifischen Meta-Daten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben.
+  ! Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Meta-Daten. Sie dient als Vorlage für zukünftige Begehungen. Nach dem Import einer Basis-DB sind zur Vorbereitung einer Begehung nur noch die Begehungs-spezifischen Meta-Daten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben.
   _ 
-  ! Die Basis-DB kann auch später, z.B. nach Änderungen an Listen jederzeit erneut exportiert werden..
+  ! Die Basis-DB kann auch später, z.B. nach Änderungen an Listen jederzeit erneut exportiert werden. Sie wird Transekt-spezifisch mit der Transekt-Nr. benannt. Der Name der Basis-DBs beginnt immer mit "transektcount0".
   _ 
   ! Alternativ kann auch eine erstellte Basis-Datenbank importiert und angepasst werden. Beispiele können aus <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a> heruntergeladen, in das öffentliche App-Datenverzeichnis "Documents/TransektCount" kopiert und von dort importiert und dann angepasst werden.
   _ 
@@ -162,9 +163,9 @@ _ subtitle
   ! TransektCount speichert die Daten Android-spezifisch in einer SQLite-DB im App-eigenen, für den Anwender gesperrten Speicherbereich.
   ! Dadurch sind Anwenderdaten nur per Import für die App nutzbar und DB-Daten bzw. Ergebnisse nur per Export zur weiteren Verwendung durch den Anwender erreichbar. 
   _ 
-  ! Mit "Export Basis-DB" kann die interne DB als Basis-DB "transektcount0.db", d. h. ohne begehungsspezifische Daten nach Documents/TransektCount exportiert werden, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten gelöscht oder hinzugefügt wurden.
+  ! Mit "Export Basis-DB" kann die interne DB als Basis-DB "transektcount0_[Tr-Nr].db", d. h. ohne begehungsspezifische Daten nach Documents/TransektCount exportiert werden, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten gelöscht oder hinzugefügt wurden.
   _ 
-  ! Die Funktion "Import Basis-DB" liest immer die Datei "transektcount0.db" von "Documents/TransektCount" ein, z. B. falls irrtümlich falsche Struktur-Änderungen vorgenommen wurden.
+  ! Die Funktion "Import Basis-DB" liest Dateien, deren Name mit "transektcount0" beginnt von "Documents/TransektCount".
   _ 
   ! "Export akt. DB" schreibt eine Kopie der aktuellen DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_[TR-Nr_]JJJJ-MM-TT_hhmmss.db.
   _ 

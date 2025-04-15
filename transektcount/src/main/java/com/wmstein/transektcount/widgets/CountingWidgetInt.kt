@@ -1,15 +1,23 @@
 /*
- * Copyright (c) 2016 - 2023. Wilhelm Stein, Bonn, Germany.
+ * Copyright (c) 2016 - 2025. Wilhelm Stein, Bonn, Germany.
  */
 package com.wmstein.transektcount.widgets
 
 import android.content.Context
+import android.content.Context.WINDOW_SERVICE
+import android.graphics.Point
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.wmstein.transektcount.AutoFitText
+import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
 import java.util.Objects
@@ -19,15 +27,25 @@ import java.util.Objects
  * Created by wmstein 18.12.2016
  * last edited in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2023-10-06
+ * last edited on 2025-04-15
  */
 class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+    var sHeight: Int = 0
+    var ht: Int = 0
+
     private val namef1i: TextView
     private val namef2i: TextView
     private val namef3i: TextView
     private val namepi: TextView
     private val nameli: TextView
     private val nameei: TextView
+
+    private var idf1i: LinearLayout
+    private var idf2i: LinearLayout
+    private var idf3i: LinearLayout
+    private var idpi: LinearLayout
+    private var idli: LinearLayout
+    private var idei: LinearLayout
 
     // section internal counters
     private val countCountf1i: AutoFitText
@@ -36,18 +54,27 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
     private val countCountpi: AutoFitText
     private val countCountli: AutoFitText
     private val countCountei: AutoFitText
+
     @JvmField
     var count: Count? = null
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_i, this, true)
+        idf1i = findViewById(R.id.idf1i)
+        idf2i = findViewById(R.id.idf2i)
+        idf3i = findViewById(R.id.idf3i)
+        idpi = findViewById(R.id.idpi)
+        idli = findViewById(R.id.idli)
+        idei = findViewById(R.id.idei)
+
         namef1i = findViewById(R.id.f1iName)
         namef2i = findViewById(R.id.f2iName)
         namef3i = findViewById(R.id.f3iName)
         namepi = findViewById(R.id.piName)
         nameli = findViewById(R.id.liName)
         nameei = findViewById(R.id.eiName)
+
         countCountf1i = findViewById(R.id.countCountf1i)
         countCountf2i = findViewById(R.id.countCountf2i)
         countCountf3i = findViewById(R.id.countCountf3i)
@@ -56,7 +83,55 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
         countCountei = findViewById(R.id.countCountei)
     }
 
+    @Suppress("RemoveRedundantQualifierName")
     fun setCounti(newcount: Count?) {
+        // Get screen size to adapt the counting view
+        val wm = checkNotNull(context.getSystemService(WINDOW_SERVICE) as WindowManager)
+        if (Build.VERSION.SDK_INT >= 30) {
+            val metrics = wm.currentWindowMetrics
+            sHeight = metrics.bounds.top + metrics.bounds.bottom
+        } else {
+            @Suppress("DEPRECATION")
+            val display = wm.defaultDisplay // deprecated in 30
+            val size = Point()
+            @Suppress("DEPRECATION")
+            display.getSize(size) // deprecated in 30
+            sHeight = size.y
+        }
+
+        if (MyDebug.DLOG)
+            Toast.makeText(context, "Height: $sHeight", Toast.LENGTH_SHORT).show();
+
+        // 4 different screen sizes
+        if (sHeight >= 2850)
+            ht = 140 // 125 -> 5 mm, 500 -> 24 mm, 50 -> 2 mm (in xml 38dp -> 4,5 mm)
+        else if (sHeight >= 2400)
+            ht = 125
+        else if (sHeight >= 2000)
+            ht = 110
+        else // < 2000
+            ht = 94
+
+        val lparamsf1i: ViewGroup.LayoutParams = idf1i.layoutParams
+        lparamsf1i.height = ht
+        val lparamsf2i: ViewGroup.LayoutParams = idf2i.layoutParams
+        lparamsf2i.height = ht
+        val lparamsf3i: ViewGroup.LayoutParams = idf3i.layoutParams
+        lparamsf3i.height = ht
+        val lparamspi: ViewGroup.LayoutParams = idpi.layoutParams
+        lparamspi.height = ht
+        val lparamsli: ViewGroup.LayoutParams = idli.layoutParams
+        lparamsli.height = ht
+        val lparamsei: ViewGroup.LayoutParams = idei.layoutParams
+        lparamsei.height = ht
+
+        idf1i.layoutParams = lparamsf1i
+        idf2i.layoutParams = lparamsf2i
+        idf3i.layoutParams = lparamsf3i
+        idpi.layoutParams = lparamspi
+        idli.layoutParams = lparamsli
+        idei.layoutParams = lparamsei
+
         count = newcount
         namef1i.text = context.getString(R.string.countImagomfHint)
         namef2i.text = context.getString(R.string.countImagomHint)
@@ -65,11 +140,13 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
         nameli.text = context.getString(R.string.countLarvaHint)
         nameei.text = context.getString(R.string.countOvoHint)
         countCountf1i.text = count!!.count_f1i.toString()
+
         countCountf2i.text = count!!.count_f2i.toString()
         countCountf3i.text = count!!.count_f3i.toString()
         countCountpi.text = count!!.count_pi.toString()
         countCountli.text = count!!.count_li.toString()
         countCountei.text = count!!.count_ei.toString()
+
         val countUpf1iButton = findViewById<ImageButton>(R.id.buttonUpf1i)
         countUpf1iButton.tag = count!!.id
         val countUpf2iButton = findViewById<ImageButton>(R.id.buttonUpf2i)

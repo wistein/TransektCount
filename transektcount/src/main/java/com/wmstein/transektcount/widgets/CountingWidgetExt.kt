@@ -1,13 +1,18 @@
 /*
- * Copyright (c) 2016 -2023. Wilhelm Stein, Bonn, Germany.
+ * Copyright (c) 2016 -2025. Wilhelm Stein, Bonn, Germany.
  */
 package com.wmstein.transektcount.widgets
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.WINDOW_SERVICE
+import android.graphics.Point
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.wmstein.transektcount.AutoFitText
@@ -20,15 +25,25 @@ import java.util.Objects
  * Created by wmstein on 18.12.2016
  * last edited in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2023-10-06
+ * last edited on 2025-04-15
  */
 class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+    var sHeight: Int = 0
+    var ht: Int = 0
+
     private val namef1e: TextView
     private val namef2e: TextView
     private val namef3e: TextView
     private val namepe: TextView
     private val namele: TextView
     private val nameee: TextView
+
+    private var idf1e: LinearLayout
+    private var idf2e: LinearLayout
+    private var idf3e: LinearLayout
+    private var idpe: LinearLayout
+    private var idle: LinearLayout
+    private var idee: LinearLayout
 
     // external counters
     private val countCountf1e: AutoFitText
@@ -44,12 +59,20 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_e, this, true)
+        idf1e = findViewById(R.id.idf1e)
+        idf2e = findViewById(R.id.idf2e)
+        idf3e = findViewById(R.id.idf3e)
+        idpe = findViewById(R.id.idpe)
+        idle = findViewById(R.id.idle)
+        idee = findViewById(R.id.idee)
+
         namef1e = findViewById(R.id.f1eName)
         namef2e = findViewById(R.id.f2eName)
         namef3e = findViewById(R.id.f3eName)
         namepe = findViewById(R.id.peName)
         namele = findViewById(R.id.leName)
         nameee = findViewById(R.id.eeName)
+
         countCountf1e = findViewById(R.id.countCountf1e)
         countCountf2e = findViewById(R.id.countCountf2e)
         countCountf3e = findViewById(R.id.countCountf3e)
@@ -58,8 +81,52 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
         countCountee = findViewById(R.id.countCountee)
     }
 
-    @SuppressLint("SetTextI18n")
+    @Suppress("RemoveRedundantQualifierName")
     fun setCounte(newcount: Count?) {
+        // Get screen size to adapt the counting view
+        val wm = checkNotNull(context.getSystemService(WINDOW_SERVICE) as WindowManager)
+        if (Build.VERSION.SDK_INT >= 30) {
+            val metrics = wm.currentWindowMetrics
+            sHeight = metrics.bounds.top + metrics.bounds.bottom
+        } else {
+            @Suppress("DEPRECATION")
+            val display = wm.defaultDisplay // deprecated in 30
+            val size = Point()
+            @Suppress("DEPRECATION")
+            display.getSize(size) // deprecated in 30
+            sHeight = size.y
+        }
+
+        // 4 different screen sizes
+        if (sHeight >= 2850)
+            ht = 140 // 125 -> 5 mm, 500 -> 24 mm, 50 -> 2 mm (in xml 38dp -> 4,5 mm)
+        else if (sHeight >= 2400)
+            ht = 125
+        else if (sHeight >= 2000)
+            ht = 110
+        else
+            ht = 94
+
+        val lparamsf1e: ViewGroup.LayoutParams = idf1e.layoutParams
+        lparamsf1e.height = ht
+        val lparamsf2e: ViewGroup.LayoutParams = idf2e.layoutParams
+        lparamsf2e.height = ht
+        val lparamsf3e: ViewGroup.LayoutParams = idf3e.layoutParams
+        lparamsf3e.height = ht
+        val lparamspe: ViewGroup.LayoutParams = idpe.layoutParams
+        lparamspe.height = ht
+        val lparamsle: ViewGroup.LayoutParams = idle.layoutParams
+        lparamsle.height = ht
+        val lparamsee: ViewGroup.LayoutParams = idee.layoutParams
+        lparamsee.height = ht
+
+        idf1e.layoutParams = lparamsf1e
+        idf2e.layoutParams = lparamsf2e
+        idf3e.layoutParams = lparamsf3e
+        idpe.layoutParams = lparamspe
+        idle.layoutParams = lparamsle
+        idee.layoutParams = lparamsee
+
         count = newcount
         namef1e.text = context.getString(R.string.countImagomfHint)
         namef2e.text = context.getString(R.string.countImagomHint)
@@ -67,12 +134,14 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
         namepe.text = context.getString(R.string.countPupaHint)
         namele.text = context.getString(R.string.countLarvaHint)
         nameee.text = context.getString(R.string.countOvoHint)
+
         countCountf1e.text = count!!.count_f1e.toString()
         countCountf2e.text = count!!.count_f2e.toString()
         countCountf3e.text = count!!.count_f3e.toString()
         countCountpe.text = count!!.count_pe.toString()
         countCountle.text = count!!.count_le.toString()
         countCountee.text = count!!.count_ee.toString()
+
         val countUpf1eButton = findViewById<ImageButton>(R.id.buttonUpf1e)
         countUpf1eButton.tag = count!!.id
         val countUpf2eButton = findViewById<ImageButton>(R.id.buttonUpf2e)
@@ -100,62 +169,50 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
     }
 
     // Count up/down and set value on screen
-    @SuppressLint("SetTextI18n")
     fun countUpf1e() {
         countCountf1e.text = count!!.increase_f1e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownf1e() {
         countCountf1e.text = count!!.safe_decrease_f1e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countUpf2e() {
         countCountf2e.text = count!!.increase_f2e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownf2e() {
         countCountf2e.text = count!!.safe_decrease_f2e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countUpf3e() {
         countCountf3e.text = count!!.increase_f3e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownf3e() {
         countCountf3e.text = count!!.safe_decrease_f3e().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countUppe() {
         countCountpe.text = count!!.increase_pe().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownpe() {
         countCountpe.text = count!!.safe_decrease_pe().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countUple() {
         countCountle.text = count!!.increase_le().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownle() {
         countCountle.text = count!!.safe_decrease_le().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countUpee() {
         countCountee.text = count!!.increase_ee().toString()
     }
 
-    @SuppressLint("SetTextI18n")
     fun countDownee() {
         countCountee.text = count!!.safe_decrease_ee().toString()
     }

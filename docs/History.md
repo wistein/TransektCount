@@ -2,7 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
-#### Version 4.2.4 (2025-04-02)
+#### Version 4.2.4 (2025-04-15)
+- Counting page layout better adapted to screen size
+- Export to a Basic DB now writes the transect No. into the filename
+- Import of a Basic DB with file selection
+- Exported results for sorted sections show time of 1. count per section
 - Some text updates and corrections
 - Docs updated
 

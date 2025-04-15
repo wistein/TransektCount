@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   - widget_counting_lhi.xml (left-handed) is used by CountingWidget.java
-  - Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+  - Copyright (c) 2016-2025, Wilhelm Stein, Bonn, Germany.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="2dp"
     android:layout_marginRight="10dp"
     android:background="@drawable/rounded_corner"
     android:baselineAligned="false"
-    android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
+        android:id="@+id/idLHf1i"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -54,7 +56,6 @@
             android:id="@+id/f1iNameLH"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
             android:layout_weight="3.5"
             android:hint="@string/countImagomfHint"
@@ -83,9 +84,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/idLHf2i"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -121,7 +124,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="3.5"
             android:hint="@string/countImagomHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -149,9 +151,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/idLHf3i"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -187,7 +191,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="3.5"
             android:hint="@string/countImagofHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -215,9 +218,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/idLHpi"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -253,7 +258,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="3.5"
             android:hint="@string/countPupaHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -281,9 +285,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/idLHli"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -319,7 +325,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="3.5"
             android:hint="@string/countLarvaHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -347,9 +352,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/idLHei"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="5dp"
         android:paddingTop="0dp"
         android:paddingEnd="5dp">
@@ -385,7 +392,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="3.5"
             android:hint="@string/countOvoHint"
             android:textAppearance="?android:attr/textAppearanceLarge"

@@ -14,13 +14,15 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.preference.PreferenceManager
 import java.lang.Exception
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
 
 /********************************************************************
  * Handle background image and prefs
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2025-02-23
+ * last edit on 2025-04-15
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -75,10 +77,10 @@ class TransektCountApplication : Application() {
         var bMap: Bitmap?
         if (backgroundPref == "none") {
             // black screen
-            bMap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
             bMap.eraseColor(Color.BLACK)
         } else if (backgroundPref == "grey") {
-            bMap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
             bMap.eraseColor(-0xddddde) // dark grey
         } else {
             if (height.toDouble() / width < 1.8) {
@@ -90,7 +92,7 @@ class TransektCountApplication : Application() {
             }
         }
 
-        bMapDraw = BitmapDrawable(this.resources, bMap)
+        bMapDraw = bMap?.toDrawable(this.resources)
         return bMapDraw!!
     }
 
@@ -120,7 +122,7 @@ class TransektCountApplication : Application() {
         fun calculateInSampleSize(
             options: BitmapFactory.Options,
             reqWidth: Int,
-            reqHeight: Int
+            reqHeight: Int,
         ): Int {
             // Raw height and width of image
             val height1 = options.outHeight

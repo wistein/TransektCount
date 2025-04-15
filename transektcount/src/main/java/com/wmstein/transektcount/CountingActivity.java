@@ -77,7 +77,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-01-23
+ * last edited on 2025-04-09
  */
 public class CountingActivity
     extends AppCompatActivity
@@ -96,7 +96,7 @@ public class CountingActivity
     private LinearLayout speciesNotesArea;     // species notes line
     private LinearLayout alertNotesArea;       // alert notes line
 
-    // Proximity sensor handling screen on/off
+    // Proximity sensor handling for screen on/off
     private PowerManager.WakeLock mProximityWakeLock;
 
     // Preferences
@@ -204,12 +204,13 @@ public class CountingActivity
             alertNotesArea = findViewById(R.id.alertRemarkRH);
         }
 
+        // Proximity sensor handling screen on/off
         PowerManager mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-            if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
-                mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
+        if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
+            mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
                     "TransektCount:WAKELOCK");
-            else
-                mProximityWakeLock = null;
+        else
+            mProximityWakeLock = null;
 
         // new onBackPressed logic
         OnBackPressedCallback callback = new OnBackPressedCallback(true)
@@ -2172,6 +2173,7 @@ public class CountingActivity
         {
             int flags = PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY;
             mProximityWakeLock.release(flags);
+            mProximityWakeLock = null;
         }
     }
 

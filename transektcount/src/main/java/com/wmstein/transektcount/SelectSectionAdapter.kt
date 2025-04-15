@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import com.wmstein.transektcount.database.Section
+import androidx.core.net.toUri
 
 /***********************************************************
  * SelectSectionAdapter is called from SelectSectionActivity and
@@ -31,7 +32,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-11-27
+ * last edited on 2025-04-11
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -179,7 +180,7 @@ internal class SelectSectionAdapter(
         if (buttonSoundPref) {
             try {
                 val notification: Uri = if (isNotBlank(buttonSound) && buttonSound != null) {
-                    Uri.parse(buttonSound)
+                    buttonSound!!.toUri()
                 } else
                     RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
                 val r = RingtoneManager.getRingtone(context, notification)
