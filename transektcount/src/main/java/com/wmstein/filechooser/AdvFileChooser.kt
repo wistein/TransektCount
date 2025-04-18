@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-04-11
+ * last edited on 2025-04-18
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
@@ -69,26 +69,15 @@ class AdvFileChooser : Activity() {
         val fileHead: TextView = findViewById(R.id.fileHead)
         fileHead.text = fileHd
 
-        // currentDir = /storage/emulated/0/Documents/TransektCount/ for .gpx and .db
-        // currentDir = /storage/emulated/0/Documents/TourCount/ for .csv
+        // currentDir = /storage/emulated/0/Documents/TransektCount/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             currentDir = Environment.getExternalStorageDirectory()
-
-            if (fileExtension.endsWith("db") || fileExtension.endsWith("gpx"))
-                currentDir = File("$currentDir/Documents/TransektCount")
-            else if (fileExtension.endsWith("csv"))
-                currentDir = File("$currentDir/Documents/TourCount")
+            currentDir = File("$currentDir/Documents/TransektCount")
         } else {
             currentDir = Environment.getExternalStoragePublicDirectory(
-                Environment
-                    .DIRECTORY_DOCUMENTS
-            )
-
-            if (fileExtension.endsWith("db") || fileExtension.endsWith("gpx"))
-                currentDir = File("$currentDir/TransektCount")
-            else if (fileExtension.endsWith("csv"))
-                currentDir = File("$currentDir/TourCount")
+                Environment.DIRECTORY_DOCUMENTS)
+            currentDir = File("$currentDir/TransektCount")
         }
         fill(currentDir!!)
     }

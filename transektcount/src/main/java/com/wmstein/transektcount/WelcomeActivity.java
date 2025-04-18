@@ -107,6 +107,7 @@ public class WelcomeActivity
 
     // Import/export stuff
     private File inFile = null;
+    private File inFile1 = null;
     private File outFile = null;
     boolean mExternalStorageWriteable = false;
     private final String sState = Environment.getExternalStorageState();
@@ -204,8 +205,9 @@ public class WelcomeActivity
         }
 
         // Create preliminary transektcount0.db if it does not exist
-        inFile = new File(path, "/transektcount0.db");
-        if (!inFile.exists())
+        inFile = new File(path, "/transektcount0.db"); // Initial basic DB
+        inFile1 = new File(path, "/transektcount0_" + transNo + ".db"); // Standard basic DB
+        if (!inFile.exists() && !inFile1.exists())
             exportBasisDb(); // create directory and copy internal DB-data to initial Basis DB-file
 
         // New onBackPressed logic
@@ -665,7 +667,7 @@ public class WelcomeActivity
     {
         // Select exported TourCount species list file
         String fileExtension = ".csv";
-        String fileNameStart = "species";
+        String fileNameStart = "species_";
         String fileHd = getString(R.string.fileHeadlineCSV);
 
         Intent intent;

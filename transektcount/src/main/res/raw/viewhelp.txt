@@ -1,5 +1,7 @@
 <html>
 <!--
+Last edited on 2025-04-18
+
 Formatting commands:
 --------------------
 % title
@@ -11,218 +13,219 @@ _ subtitle
 } smalltext1 (small text with top space)
 ? textspace (small text with bottom space)
 -->
-  <head>
-    <style type='text/css'>
-      a { color:#a0a0e0 }
-      div.title {
-          color:#C0F0C0; 
-          font-size:1.2em; 
-          font-weight:bold; 
-          margin-top:1em; 
-          margin-bottom:0.5em; 
-          text-align:center }
-      div.subtitle {
-          color:#C0F0C0;
-          font-size:1.0em;
-          font-weight:bold;
-          margin-bottom:1em;
-          text-align:center }
-      div.freetext {
-          color:#F0F0F0 }
-      div.boldtext {
-          color:#F0F0F0;
-          font-size:1.0em;
-          font-weight:bold;
-          margin-top:1em;
-          margin-bottom:0.5em;
-          text-align:start }
-      div.italictext {
-          color:#BFFFFF;
-          font-size:1.0em;
-          font-style:italic;
-          margin-top:1em;
-          margin-bottom:0.5em;
-          text-align:start }
-      div.smalltext {
-          margin-top:0.5em;
-          margin-bottom:0.8em;
-          color:#F0F0F0;
-          font-size:0.8em }
-      div.smalltext1 {
-          margin-top:0.5em;
-          color:#F0F0F0;
-          font-size:0.8em }
-      div.textspace {
-          font-size:0.5em;
-          margin-bottom:0.8em;
-          color:#F0F0F0 }
-      div.list {
-          color:#C0C0F0 }
-    </style>
-  </head>
-  <body>
 
-  %1. Introduction
-  !
-  ! TransektCount should support you when monitoring butterflies in a European transect.
-  ! It allows species-specific recording of individuals in all development stages per transect section.
-  ! It can substitute your field book and pencil, and if applicable a camera for documentary pictures of interesting species.
-  _ 
-  ! Databases can be created individually for transect sections and expected butterfly species. The integrated database is survey-related, i.e. a new database instance is used for each survey.
-  _
-  ! The recorded data (meta-data, counts and annotations) may either be read from the app's results page for transfer into a butterfly registration system (e.g. web.app.ufz.de/tagfalter-monitoring) or exported and transferred to a PC for your own processing.
-  _
-  ! The app is open source and published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It has neither tracking nor advertising functions, but requires access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counting results to DB or CSV files and wakelock to prevent the app from dimming or switching off.
+<head>
+  <style type='text/css'>
+    a { color:#a0a0e0 }
+    div.title {
+        color:#C0F0C0; 
+        font-size:1.2em; 
+        font-weight:bold; 
+        margin-top:1em; 
+        margin-bottom:0.5em; 
+        text-align:center }
+    div.subtitle {
+        color:#C0F0C0;
+        font-size:1.0em;
+        font-weight:bold;
+        margin-bottom:1em;
+        text-align:center }
+    div.freetext {
+        color:#F0F0F0 }
+    div.boldtext {
+        color:#F0F0F0;
+        font-size:1.0em;
+        font-weight:bold;
+        margin-top:1em;
+        margin-bottom:0.5em;
+        text-align:start }
+    div.italictext {
+        color:#BFFFFF;
+        font-size:1.0em;
+        font-style:italic;
+        margin-top:1em;
+        margin-bottom:0.5em;
+        text-align:start }
+    div.smalltext {
+        margin-top:0.5em;
+        margin-bottom:0.8em;
+        color:#F0F0F0;
+        font-size:0.8em }
+    div.smalltext1 {
+        margin-top:0.5em;
+        color:#F0F0F0;
+        font-size:0.8em }
+    div.textspace {
+        font-size:0.5em;
+        margin-bottom:0.8em;
+        color:#F0F0F0 }
+    div.list {
+        color:#C0C0F0 }
+  </style>
+</head>
+<body>
 
-  % 2. Setting up
-  !
-  ! Before initial use you should adapt the settings to your liking.
-  _ 
-  ! You should adapt the preliminary species list of the 1. transect section with the species list editing functions (add, remove or edit) for the species to be exspected in your transect.
-  ! Add species from the integrated extended list of European species or remove species from the list using the checkboxes.
-  _ 
-  ! To edit the section name or species names in the species list click the Pencil button on the app bar of the counting page.
-  _
-  ! Add entries by the (+)-button in the app bar of the counting page and select the species from the blue scroll-down list with not yet listed species with its checkbox. Add all required species one after the other and finish with the back button either in the app or bottom bar.
-  _
-  ! Remove entries by the Remove button in the head line of the counting page. On the Remove page select the species to be removed from the scroll-down list with its checkbox. Mark all obsolete species one after the other and remove them with the Remove button and finish with the back button either in the app or bottom bar.
-  _
-  ! At the end of the species list you may find an unknown species (NN). This could be added and edited after determination by replacing its scientific name, common name and code (five-digit with leading zeros), see List of Coded Butterflies.pdf on
-  ! <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>).
-  _
-  ! Alternatively you can import and adapt a more comprehensive Basic DB for your transect.
-  ! Example .db-files are provided for download on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
-  ! Copy them to the app's public data directory "Documents/TransektCount" which is created during the first start of the app. Now you can import and edit them suitably.
-  ! The app data directory is created during the first app call. When TransektCount gets uninstalled, the data in this directory is not deleted.
-  _
-  ! The species counting list can be changed at any time. Changes concerning species always affect all existing section lists. The section name may only be changed for the current section.
-  _ 
-  ! Sect 01      (part of a species list)
-  ! -------------------------------------
-  ! ...
-  ?
-  ! Pieris rapae .............. 06998
-  ) Small white
-  ! Pieris napi ................ 07000
-  ) Green-veined white
-  ! Pieris na./ra.-compl..07000*
-  } Small whites complex
-  ! ...
-  _ 
-  ! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering scheme of european butterflies by Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a>).
-  _ 
-  ! The * sign attached to code 07000 indicates a complex of species that are difficult to distinguish. For sorting purposes, the larger code within the group should be used for such groups..
-  _ 
-  ! In the next step, you could enter some meta data like transect-No. or inspectors name. Click on "Edit Meta Data" and save the input by clicking the save icon.
-  _ 
-  ! Once this list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Duplicate Section List" and name each appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
-  _ 
-  ! When you have created the section lists for all your transect sections and entered the general meta data, the database is ready for export as a "Basic Database".
-  ! To do this, use the function "Export as Basic DB" in the menu of the starting page.
-  ! By that you have a copy of the prepared empty database saved as "Basic Database" (transektcount0.db) in the app's data directory "Documents/TransektCount". This directory is created the first time the app is called up. When uninstalling TransektCount you will not loose your data as this directory remains untouched.
-  _
-  ! Exporting as Basic DB ignores all counts, notes and inspection-related meta data. The Basic DB serves as a template for future inspections. To prepare a future monitoring inspection you will only need to enter the inspection-specific meta data (date, start time, temperature, wind and clouds).
-  _
-  ! The Basic DB can also be exported again later, e.g. after changes of lists. It is named transect-specifically with the transect number. The name of the Basic DB always begins with "transektcount0".
-  _ 
-  ! Alternatively you can import and adapt a self-created Basic DB for your transect. Examples for downloading, some from other European countries, are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app’s data directory Documents/TransektCount and import and edit them in TransektCount suitably.
-  _
+%1. Introduction
+!
+! TransektCount should support you when monitoring butterflies in a European transect.
+! It allows a species-specific recording of individuals in all development stages per transect section.
+! It can substitute your field book and pencil, and if applicable a camera for documentary pictures and offers prepared data outputs.
+_ 
+! Databases can be created individually for transect sections and expected butterfly species. The internal database is survey-related, i.e. a new database instance is used for each survey.
+_
+! The recorded data (meta-data, counts and annotations) may either be read from the app's results page for transfer into a butterfly registration system (e.g. web.app.ufz.de/tagfalter-monitoring) or exported and transferred to a PC for your own processing.
+_
+! The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source, has neither tracking nor advertising functions and does not make use of Google Play Services, but requires access rights for its serviceable functions: Storage access which is needed for importing DB files, exporting the counting results to DB or CSV files and wakelock to prevent the app from dimming or switching off.
 
-  % 3. Usage
-  !
-  ! Start with "Edit Meta Data". Fill in the relevant meta data for the specific transect inspection.
-  ! You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. Finish with the store button.
-  _ 
-  ! Then select "Counting". The transect sections list is displayed here.
-  ! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
-  ! As counting of butterflies ought to be distinguished between those within the imaginary count area (a cubus of 5 m length of edges in front of you) and butterflies outside this area, you have 2 separate sets of counters (Internal and External of Counting Area).
-  _
-  ! To count just select the species in the scroll list, and tip on the appropriate (+)-button of the category (♂♀, ♂, ♀, Pupa, Larva, Ovo) of the species. The (-)-Buttons allows for corrections.
-  ! Each count is stored immediately. While storing the first count in a section, the current date and time will be stored either in the section list. The date will then be shown in the list of sections and indicates a successful inspection of that section. The time can be helpful later when assigning document photos.
-  _ 
-  ! The Pencil button underneath the species name row of the counting page opens the the section specific species editing page that lets you a note for the species in that section and set its counters to any value (e.g. for estimated mass occurrences).
-  _
-  ! If you enter a species related note this will be shown on the counting page in an extra line beneath the counting field and is inserted into the results table (e.g.: "Photo").
-  _
-  ! Here you may also set pop-up alerts which show up while reaching a set number of butterflies on the corresponding internal counters (sum of all imagines) e.g. to realize already on site if a certain species is more abundant than on a previous inspection.
-  _ 
-  ! Finally, there is a page showing your results sorted either by species or sections according to the selected Output option. Here, in a scroll view you see beneath the meta data of the inspection the totals per category and all the species which got counts.
-  ! You can enter this page from the Starting page with the "Show Results" button or the Eye-symbol in the app bar. It may take a second to show up.
-  _
-  ! To move back one page you can use the Back-Button or arrow in the left upper corner. To make sure to save edited content you should click the Save or Remove button if the page has one.
-  _
-  ! Before closing TransektCount after an inspection you should complete the meta data and save the current count by exporting the internal DB
-  ! (-> transektcount_TR-No_YYYY-MM-DD_hhmmss.db or .csv in Documents/TransektCount mit 'TR-No' for transect No., 'YYYY-MM-DD' Datum and 'hhmmss' for time of storage).
-  _
-  ! With large amounts of data, the app's response can be somewhat delayed for e. g. import functions or when calling up the results page, as extensive calculations are running in the background. This is indicated by a short message "View gets calculated...".
-  _ 
-  ! If the message “TransectCount not responding” appears, please reply with “Wait”.
+% 2. Setting up
+!
+! Before initial use you should adapt the app settings to your liking. (→ 4. Further Functions).
+_ 
+! Then adapt the preliminary species list of the 1. transect section to the exspected species in your transect with the species list editing functions (Add, Remove or Edit).
+_ 
+! To do this, click "Counting" on the Starting page and then "AB 01". Use the editing icons (Add species, Remove species and Edit Terms) in the header on the counting page.
+_ 
+! All 3 editing pages offer a preselection to ease the selection of a distinguished species. Enter 2 initial letters of the genus name and then click the Search-button to limit the shown list. 
+_ 
+! On the "Add Species" page select species from the blue scroll-down list of not yet selected species. Changes take effect by the (+)-button in the head line (notice that the selected species disappear from the scroll-down list). 
+_
+! At the end of the scroll-down list, a placeholder for an indeterminate species (NN) can be adopted and edited later, if necessary after determination.
+_ 
+! On the "Remove Species" page select species to remove on the red scroll-down list and tip on the Delete-button.
+_ 
+! On the "Edit Terms" page you may edit the current section name and the terms of each species. (Scientific and local species names, codes generally five digits with leading zeros, as you can see in the following species list table excerpt). 
+_
+! Sect 01      (part of a species list)
+! -------------------------------------
+! ...
+?
+! Pieris rapae .............. 06998
+) Small white
+! Pieris napi ................ 07000
+) Green-veined white
+! Pieris na./ra.-compl..07000*
+} Small whites complex
+! ...
+_ 
+! The codes will be used as an option to sort the list and as a reference to show corresponding butterfly icons. The codes derive from the numbering scheme of european butterflies by Karsholt/Razowski, as used e.g. in the German Lepiforum (<a href="https://lepiforum.org/" target="_blank">https://lepiforum.org/</a>).
+_
+! The *-sign attached to code 07000 in the table above indicates a complex of species that are difficult to distinguish. For sorting purposes, the larger code within the group should be used for such groups.
+] Caution:
+! A wrong code shows "N/A" or a wrong picture. If necessary, see the "List of Coded Butterflies.pdf" on
+! <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>).
+_
+! In the next step, you could enter some meta data like transect-No. or inspectors name. Click on "Edit Meta Data" and save the input by clicking the save icon.
+_ 
+! Once this section list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Add a further section" and name each appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
+_ 
+! When you have created the section lists for all your transect sections and entered the general meta data, the database is ready for export as a "Basic Database".
+! To do this, use the function "Export as Basic DB" in the main menu of the starting page.
+_ 
+! By that you have a copy of the prepared empty database saved as "Basic Database" (transektcount0_Tr-No.db) with ‘Tr-No’ as Transect No. in the app's data directory "Documents/TransektCount". 
+! The file names of the Basic DBs always start with the string "transektcount0".
+! The data directory is created the first time the app is called up. When uninstalling TransektCount you will not loose your data as this directory remains untouched.
+_
+! Exporting as Basic DB ignores all counts, notes and inspection-related meta data. The Basic DB serves as a template for future inspections. To prepare a future monitoring inspection you will only need to enter the inspection-specific meta data (date, start time, temperature, wind and clouds).
+_
+! The Basic DB can be changed, supplemented and exported anytime. Changes of species always affect all sections to maintain consistency. However, the section name is only changed for the current section. 
+_ 
+! Alternatively you can import and adapt a self-created Basic DB for your transect. Examples for downloading, partly from other European countries than Germany, are provided on <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>. Copy them to the app’s data directory Documents/TransektCount and import and edit them in TransektCount suitably. Changes to the species always affect all existing section lists.
+_
 
-  % 4. Further functions
-  !
-  ! The app menu on the starting page has Settings, Reset, Import, Export, Info and Help functions.
-  _ 
-  ! In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sounds, alerts, sorting order of lists and output or left-/right-hand counting page.
-  _
-  ! For preparing a new inspection you may use “Reset Data” to reset the inspection-specific meta data and count data of the transect. All other transect-specific data remains untouched.
-  _ 
-  ! Android-specifically, TransektCount stores the data always in a single SQlite DB-file in the app's own protected storage area that is not accessible by the user.
-  ! Therefore, it is necessary to be able to export the DB-data to files in a user accessible storage area. To make use of different DB-files for different transects, im- and export functions are essential.
-  _ 
-  ! Exporting the internal DB as empty Basic DB "transektcount0_[Tr-No].db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
-  _ 
-  ! "Import Basic DB" reads only files with names beginning with "transektcount0" from Documents/TransektCount.
-  _ 
-  ! Exporting the database (Export Current DB) writes a copy of the complete DB to Documents/TransektCount/transektcount_[TR-No_]YYYY-MM-DD_hhmmss.db.
-  _
-  ! For your own purpose you can rename the exported DB-files by a file manager into e.g. transektcount1.db, transektcount2.db, etc.
-  ! (Mind: The .db file name must always start with the string “transektcount”, otherwise it cannot be imported).
-  _ 
-  ! You may import any previously exported TransektCount-DB. This supports monitoring of different transects with different sections and butterfly populations.
-  _
-  ! The current species list (without transect meta data) can be exported as a .csv file “species_Transect_[TR-No_]YYYYMMDD_hhmmss.csv”. This can also be renamed for a later re-import using a file manager. If the TourCount app is installed, the exported species lists can be imported mutually.
-  ! (Mind: The file name of a species list must always begin with “species”, otherwise the list cannot be imported.)
-  _
-  ! The function “Export Data -> CSV File” writes the meta data and the counting results into a pre-formatted spreadsheet-readable .csv-file "Transect_[TR-No_]YYYY-MM-DD_hhmmss.csv" to "Documents/TransektCount".
-  ! This directory allows accessing the files by an Android spreadsheet app, like Collabora (open source, obtainable free of charge e.g. from the F-Droid app store).
-  _
-  ! IT-affine users may transfer the exported ".db" and ".csv" files from "Documents/TransektCount" to a PC.
-  ! With a free tool like "DB Browser for SQLite" (<a href="http://sqlitebrowser.org/" target="_blank">http://sqlitebrowser.org</a>) you may examine the .db-files.
-  ! Some useful prepared SQL-scripts can be found under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
-  _
-  ! You may import the .csv files into a spreadsheet program for further processing.
-  ! In order to display the formats and character sets correctly, please import it as a
-  _
-  ! - comma-separated text file with
-  ! - file origin "Unicode UTF-8",
-  ! - quotations marks "" for textfield recognition and
-  ! - all columns in text format.
-  _ 
-  ! The table can be adapted by a sort option (sort by species names or sections) for an easy data entry of the results into a Monitoring web page like
-  _
-  ! <a href="https://web.app.ufz.de/tagfalter-monitoring/" target="_blank">https://web.app.ufz.de/tagfalter-monitoring/</a>
-  _
-  ! The author's e-mail address and the app development history can be found under “App info”, license information under Licenses.
-  _
-  ! The menu of the counting page provides a "Photo" function to quickly take a photo and a
-  "Share" function for sending notes using a standard app, like SMS or email.
-  _
-  ! The counter view is temporarily turned off via proximity sensor when the phone is put into a pocket or held close to the body. This saves energy, prevents unwanted inputs and brings the app back instantly when it is used normally again.
+% 3. Usage
+!
+! Start with "Edit Meta Data". Fill in the relevant meta data for the specific transect inspection.
+! You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. Finish with the store button.
+_ 
+! Then select "Counting". The transect sections list is displayed here.
+! Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted section list appears.
+! As counting of butterflies ought to be distinguished between those within the imaginary count area (a cubus of 5 m length of edges in front of you) and butterflies outside this area, you have 2 separate sets of counters (Internal and External of Counting Area).
+_
+! To count just select the species in the scroll list, and tip on the appropriate (+)-button of the category (♂♀, ♂, ♀, Pupa, Larva, Ovo) of the species. The (-)-Buttons allows for corrections.
+! Each count is stored immediately. While storing the first count in a section, the current date and time will be stored either in the section list. The date will then be shown in the list of sections and indicates a successful inspection of that section. The time can be helpful later when assigning document photos.
+_ 
+! The Pencil Button underneath the species name row of the counting page opens the section specific species editing page that lets you edit a note for the species in that section and set its counters to any value (e.g. for estimated mass occurrences).
+_
+! If you enter a species related note this will be shown on the counting page in an extra line beneath the counting field and is inserted into the results table (e.g.: "Photo").
+_
+! Here you may also set pop-up alerts which show up while reaching a set number of butterflies on the corresponding internal counters (sum of all imagines) e.g. to realize already on site if a certain species is more abundant than on a previous inspection.
+_
+! Before closing TransektCount after an inspection you should complete the meta data and save the current count by exporting the internal DB
+! (→ transektcount_Tr-No_YYYYMMDD_hhmmss.db or .csv in Documents/TransektCount mit 'Tr-No' for transect No., 'YYYYMMDD' Datum and 'hhmmss' for time of storage).
+_
+! Finally, there is a page showing your results sorted either by species or sections according to the selected Output sort option. Here, in a scroll view you see beneath the meta data of the inspection the totals per category and all the species which got counts.
+! You can enter this page from the Starting page with the "Show Results" button or the Eye-symbol in the app bar. It may take a second to show up.
+_
+! To move back one page you can use the Back-Button or arrow in the left upper corner. To make sure to save edited content you should click the Add, Remove or Save button if the page has one.
+_
+! With large amounts of data, the app's response can be somewhat delayed for e. g. import functions or when calling up the results page, as extensive calculations are running in the background. This is indicated by a short message "View gets calculated...".
+_ 
+! If the message "TransectCount not responding" appears, please reply with "Wait".
 
-  % 5. Messages
-  ! 
-  ] Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough resources to execute the function.
-  _
-  ! With current models, however, this restriction should only occur with very many transect sections. Other functions of the app are not affected by this restriction.
-  _
-  ! No possible solution known. See the document "TransektCount_Userguide_nnn.pdf" for further info under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+% 4. Further functions
+!
+! The system menu on the starting page has Settings, Reset, Import, Export, Info and Help functions.
+_ 
+! In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sorting order of lists and data export, left-/right-hand counting page or sounds.
+_
+! To prepare for a new inspection you may use "Reset Data" to reset the inspection-specific meta data and count data of the transect. All other transect-specific data remains untouched.
+_ 
+! Android-specifically, TransektCount stores the data always in an internal SQlite DB within a storage area that is not accessible by the user. Therefore, it is necessary to export/import data to/from files in a user accessible storage area.
+_
+! The "Import Basic DB" function lets you select and import a DB file that was exported as a template for a certain transect. Its name begins with "transektcount0".
+_
+! Exporting the internal DB as empty Basic DB "transektcount0_Tr-No.db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
+_ 
+! "Export Current DB" writes a copy of the complete DB with all currently contained data to Documents/TransekCount/transektcount_Tr-No_YYYYMMDD_hhmmss.db with 'Tr-No' being the transect No., 'YYYYMMDD' the date and 'hhmmss' the time of storage.
+_ 
+! With "Import DB" a appropriately named TransektCount DB containing counting data can be read into TransektCount. 
+] Mind: 
+! The file name of a TransektCount-DB with counting data must always begin with "transektcount_" (e.g. "transektcount_ForestPath.db"), otherwise the list cannot be imported.
+_
+! With "Export Species List" the current species list (without any other data) can be exported as a CSV file (CSV = Comma Separated Values text file)  "species_Transect_Tr-No_YYYYMMDD_hhmmss.csv". With a file manager you may rename the file as required.
+_ 
+! The function “Import Species List” lets you select and import an available species list. If the TourCount app is installed, the exported species lists can be imported mutually. 
+] Mind: 
+! The file name of a species list must always begin with "species", otherwise the list cannot be imported.
+_
+! The function "Export Data → CSV File" writes the meta data and the counting results into a pre-formatted spreadsheet-readable CSV file "Transect_Tr-No_YYYYMMDD_hhmmss.csv" to "Documents/TransektCount". This file could be imported or edited by a spreadsheet app like Collabora (Open Source, obtainable free of charge from e.g. the Collabora Office F-Droid Repo).
+_ 
+! IT-affine users may transfer the exported ".db" or ".csv" files from "Documents/TransektCount" to a PC.
+_ 
+! With a free tool like "DB Browser for SQLite" (<a href="https://sqlitebrowser.org/" target="_blank">https://sqlitebrowser.org</a>) you may examine and edit a .db-file manually or per SQL script.
+! Some useful example SQL scripts are published in the docs directory of the GitHub TransektCount project site <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
+_
+! The exported .csv files (comma delimited text files) may be imported into a spreadsheet program on a PC for further processing ensuring that 
+_
+! - file origin is "Unicode UTF-8",
+! - delimiter is comma
+! - quotations marks ("") for text field recognition and
+! - all columns get imported as text.
+_ 
+! The export of the table can be adapted by a sort option (sort by species or section) for a more easy data entry of the results into a Monitoring web page like <a href="https://web.app.ufz.de/tagfalter-monitoring/" target="_blank">https://web.app.ufz.de/tagfalter-monitoring/</a>
+_ 
+! Under "App Info" you may find general app info, the email address of the author and the history.
+_ 
+! Under "Licenses" you find the license notes for code and figures.
+_ 
+! The option menu of the counting page provides a "Photo" function to quickly take a photo and a "Share" function for sending notes using a standard app, like SMS or email.
+_
+! The counter view is temporarily turned off by means of the proximity sensor when the phone is pocketed or closely held to the body. This saves energy, prevents unwanted inputs and recalls the app into its current state immediately. 
 
-  % 6. Sources
-  ! Source-Code: <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
-  ! Docs: <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>
-  ! License: <a href="https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt" target="_blank">https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt</a>
-  ! App: <a href="https://f-droid.org/en/packages/com.wmstein.transektcount/" target="_blank">https://f-droid.org/en/packages/com.wmstein.transektcount/</a>
-  _
+% 5. Messages
+! 
+] Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough resources to execute the function.
+_
+! With current models, however, this restriction should only occur with very many transect sections. Other functions of the app are not affected by this restriction.
+_
+! No possible solution known. See the document "TransektCount_Userguide_nnn.pdf" for further info under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
 
-  </body>
+% 6. Sources
+! Source-Code: <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+! Docs: <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>
+! License: <a href="https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt" target="_blank">https://github.com/wistein/TransektCount/blob/master/docs/Apache%20License-2.0.txt</a>
+! App: <a href="https://f-droid.org/en/packages/com.wmstein.transektcount/" target="_blank">https://f-droid.org/en/packages/com.wmstein.transektcount/</a>
+_
+
+</body>
 </html>

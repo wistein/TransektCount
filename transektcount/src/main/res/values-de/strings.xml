@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-04-15 -->
+     last edited 2025-04-18 -->
 
 <resources>
 
     <!-- generic -->
     <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_list_section">Transektabschnitte</string>
 
     <!-- WelcomeActivity -->
     <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>

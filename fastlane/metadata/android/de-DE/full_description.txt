@@ -1,15 +1,18 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.2.1:
-- Backpressed-Logik des Zurück-Buttons auf der Startseite verbessert
-- Bugfix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
-- Berechtigungs-Behandlung verbessert
-- Doku-Update
+Neu in Version 4.2.4:
+- Layout der Zählseite besser an Bildschirmgröße angepasst
+- Exportieren der Basis-DB schreibt nun die Transekt-Nr. in den Dateinamen
+- Import einer Basis-DB mit Dateiauswahl
+- Export der Ergebnisse für sortierte Transektabschnitte zeigt Zeit der 1. Zählung im Abschnitt
+- Einige Textanpassunge und -korrekturen
+- Doku angepasst
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
 - Datenbanken beziehen sich auf ein Transekt und können innerhalb der App individuell erstellt und angepasst werden bezüglich Meta-Daten, Transektabschnitten und zu erwartenden Arten.
 - Die App enthält eine interne Liste mit vielen europäischen Arten und hat als Ausgangspunkt zur direkten Nutzung eine vorbereitete Datenbank für einen Transektabschnitt mit den häufigsten in Deutschland zu erwartenden Arten.
+- Export der aktuellen Speziesliste für Import durch TourCount and TransektCount.
 - Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂-♀-unbestimmt, ♂, ♀, Puppe, Raupe oder Ei.
 - Ergebnisseite mit aufbereiteter Darstellung zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (www.tmd-daten.de).
 - Das Ergebnis kann als SQLite-Datei oder als CSV-Tabelle ausgegeben werden (u. a. zwecks Transfer und Weiterverwendung in einem Spreadsheet-Programm auf einem PC).

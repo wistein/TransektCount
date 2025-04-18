@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-04-15 -->
+     last edited 2025-04-18 -->
 
 <resources>
 
     <!-- generic -->
     <string name="app_name" translatable="false">TransektCount</string>
-    <string name="title_activity_list_section" translatable="false">Transect Sections</string>
     <string name="title_activity_counting" translatable="false">CountingActivity</string>
     <string name="title_activity_dummy" translatable="false">DummyActivity</string>
     <string name="title_activity_list_species" translatable="false">ListSpeciesActivity</string>
@@ -16,6 +15,7 @@
     <string name="title_activity_add_species" translatable="false">AddSpeciesActivity</string>
     <string name="title_activity_filechooser" translatable="false">AdvFileChooser</string>
     <string name="title_activity_meta" translatable="false">Meta Data</string>
+    <string name="title_activity_list_section">Transect Sections</string>
     <string name="action_settings">Settings</string>
 
     <!-- WelcomeActivity -->
