@@ -1,111 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?><!-- used by SettingsActivity.java
-     last edited 2024-06-10 -->
+     last edited 2025-04-26 -->
 
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
-  <PreferenceCategory android:title="@string/prefs_appearance">
-    android:key="key_prefs_appearance">
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ListPreference
-      android:defaultValue="default"
-      android:dialogTitle="@string/pref_bg_dialog"
-      android:entries="@array/pref_bg_entries"
-      android:entryValues="@array/pref_bg_values"
-      android:icon="@drawable/baseline_wallpaper_48"
-      android:key="pref_backgr"
-      app:useSimpleSummaryProvider="true"
-      android:title="@string/pref_bg_title" />
+    <PreferenceCategory android:title="@string/prefs_appearance">
+        android:key="key_prefs_appearance">
 
-    <ListPreference
-      android:defaultValue="name_asc"
-      android:dialogTitle="@string/pref_sort_sect_order_dialog"
-      android:entries="@array/pref_sort_sect_entries"
-      android:entryValues="@array/pref_sort_sect_values"
-      android:icon="@drawable/outline_format_list_numbered_48"
-      android:key="pref_sort_sect"
-      app:useSimpleSummaryProvider="true"
-      android:title="@string/pref_sort_sect_order_title" />
+        <ListPreference
+            android:key="pref_backgr"
+            android:defaultValue="default"
+            android:dialogTitle="@string/pref_bg_dialog"
+            android:entries="@array/pref_bg_entries"
+            android:entryValues="@array/pref_bg_values"
+            android:icon="@drawable/baseline_wallpaper_48"
+            android:title="@string/pref_bg_title"
+            app:useSimpleSummaryProvider="true" />
 
-    <ListPreference
-      android:defaultValue="codes"
-      android:dialogTitle="@string/pref_sort_sp_order_dialog"
-      android:entries="@array/pref_sort_sp_entries"
-      android:entryValues="@array/pref_sort_sp_values"
-      android:icon="@drawable/baseline_sort_48"
-      android:key="pref_sort_sp"
-      android:title="@string/pref_sort_sp_order_title"
-      app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:key="pref_sort_sect"
+            android:defaultValue="name_asc"
+            android:dialogTitle="@string/pref_sort_sect_order_dialog"
+            android:entries="@array/pref_sort_sect_entries"
+            android:entryValues="@array/pref_sort_sect_values"
+            android:icon="@drawable/outline_format_list_numbered_48"
+            android:title="@string/pref_sort_sect_order_title"
+            app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreferenceCompat
-      android:defaultValue="false"
-      android:icon="@drawable/baseline_format_size_48"
-      android:key="pref_note_font"
-      android:summary="@string/pref_note_font_summ"
-      android:title="@string/pref_note_font" />
+        <ListPreference
+            android:key="pref_sort_sp"
+            android:defaultValue="codes"
+            android:dialogTitle="@string/pref_sort_sp_order_dialog"
+            android:entries="@array/pref_sort_sp_entries"
+            android:entryValues="@array/pref_sort_sp_values"
+            android:icon="@drawable/baseline_sort_48"
+            android:title="@string/pref_sort_sp_order_title"
+            app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreferenceCompat
-      android:defaultValue="false"
-      android:icon="@drawable/outline_back_hand_48"
-      android:key="pref_left_hand"
-      android:summary="@string/pref_left_hand_summ"
-      android:title="@string/pref_left_hand" />
-  </PreferenceCategory>
+        <SwitchPreferenceCompat
+            android:key="pref_note_font"
+            android:defaultValue="false"
+            android:icon="@drawable/baseline_format_size_48"
+            android:summary="@string/pref_note_font_summ"
+            android:title="@string/pref_note_font" />
 
-  <PreferenceCategory android:title="@string/prefs_csv_output_title">
-  android:key="key_prefs_csv_output_title">
+        <SwitchPreferenceCompat
+            android:key="pref_left_hand"
+            android:defaultValue="false"
+            android:icon="@drawable/outline_back_hand_48"
+            android:summary="@string/pref_left_hand_summ"
+            android:title="@string/pref_left_hand" />
+    </PreferenceCategory>
 
-    <ListPreference
-        android:defaultValue="species"
-        android:dialogTitle="@string/pref_csv_output_dialog"
-        android:entries="@array/pref_sort_output_entries"
-        android:entryValues="@array/pref_sort_output_values"
-        android:icon="@drawable/baseline_sort_48"
-        android:key="pref_csv_out"
-        android:title="@string/pref_csv_output_title"
-        app:useSimpleSummaryProvider="true" />
-  </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefs_csv_output_title">
+        android:key="key_prefs_csv_output_title">
 
-  <PreferenceCategory android:title="@string/prefs_sound_vib">
-    android:key="key_prefs_sound_vib">
+        <ListPreference
+            android:key="pref_csv_out"
+            android:defaultValue="species"
+            android:dialogTitle="@string/pref_csv_output_dialog"
+            android:entries="@array/pref_sort_output_entries"
+            android:entryValues="@array/pref_sort_output_values"
+            android:icon="@drawable/baseline_sort_48"
+            android:title="@string/pref_csv_output_title"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
-    <SwitchPreferenceCompat
-      android:defaultValue="false"
-      android:icon="@drawable/outline_notifications_48"
-      android:key="pref_alert_sound"
-      android:summary="@string/pref_alert_sound_summ"
-      android:title="@string/pref_alert_sound" />
+    <PreferenceCategory android:title="@string/prefs_sound_vib">
+        android:key="key_prefs_sound_vib">
 
-    <SwitchPreferenceCompat
-      android:defaultValue="false"
-      android:icon="@drawable/outline_music_video_48"
-      android:key="pref_button_sound"
-      android:summary="@string/pref_button_sound_summ"
-      android:title="@string/pref_button_sound" />
+        <SwitchPreferenceCompat
+            android:key="pref_alert_sound"
+            android:defaultValue="false"
+            android:icon="@drawable/outline_notifications_48"
+            android:summary="@string/pref_alert_sound_summ"
+            android:title="@string/pref_alert_sound" />
 
-    <SwitchPreferenceCompat
-      android:defaultValue="false"
-      android:icon="@drawable/outline_vibration_48"
-      android:key="pref_button_vib"
-      android:summary="@string/pref_button_vib_summ"
-      android:title="@string/pref_button_vib" />
-  </PreferenceCategory>
+        <SwitchPreferenceCompat
+            android:key="pref_button_sound"
+            android:defaultValue="false"
+            android:icon="@drawable/outline_music_video_48"
+            android:summary="@string/pref_button_sound_summ"
+            android:title="@string/pref_button_sound" />
 
-  <PreferenceCategory android:title="@string/prefs_counting">
-    android:key="key_prefs_counting">
+        <SwitchPreferenceCompat
+            android:key="pref_button_vib"
+            android:defaultValue="false"
+            android:icon="@drawable/outline_vibration_48"
+            android:summary="@string/pref_button_vib_summ"
+            android:title="@string/pref_button_vib" />
+    </PreferenceCategory>
 
-    <SwitchPreferenceCompat
-      android:defaultValue="true"
-      android:icon="@drawable/ic_stay_current_portrait_grey_48dp"
-      android:key="pref_awake"
-      android:summary="@string/pref_awake_summ"
-      android:title="@string/pref_awake" />
+    <PreferenceCategory android:title="@string/prefs_counting">
+        android:key="key_prefs_counting">
 
-    <SwitchPreferenceCompat
-      android:defaultValue="true"
-      android:icon="@drawable/ic_stay_current_portrait_black_48dp"
-      android:key="pref_bright"
-      android:summary="@string/pref_bright_summ"
-      android:title="@string/pref_bright" />
+        <SwitchPreferenceCompat
+            android:key="pref_awake"
+            android:defaultValue="true"
+            android:icon="@drawable/ic_stay_current_portrait_grey_48dp"
+            android:summary="@string/pref_awake_summ"
+            android:title="@string/pref_awake" />
 
-  </PreferenceCategory>
+        <SwitchPreferenceCompat
+            android:key="pref_bright"
+            android:defaultValue="true"
+            android:icon="@drawable/ic_stay_current_portrait_black_48dp"
+            android:summary="@string/pref_bright_summ"
+            android:title="@string/pref_bright" />
+
+        <ListPreference
+            android:key="pref_prox"
+            android:defaultValue="Off"
+            android:dialogTitle="@string/pref_proximity_dialog"
+            android:entries="@array/pref_prox_entries"
+            android:entryValues="@array/pref_prox_values"
+            android:icon="@drawable/ic_speaker_phone_black_48dp"
+            android:title="@string/pref_proximity_title"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

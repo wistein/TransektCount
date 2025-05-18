@@ -55,6 +55,16 @@ _ Subtitle
   ! Suitable for Android 7.1 (Nougat) or newer.
   _ 
 
+$ 4.2.5
+  % Version 4.2.5
+  _ 2025-05-18
+  * Option to set the proximity Wakelock sensitivity (if supported by device)
+  * Corrected message when there is no suitable file for import
+  * Optional button vibration fixed for Android Version > 11
+  * Code, data and layout improvements
+  * Some minor bug fixes
+  * Docs updated
+
 $ 4.2.4
   % Version 4.2.4
   _ 2025-04-18

@@ -1,12 +1,12 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.2.4:
-- Layout der Zählseite besser an Bildschirmgröße angepasst
-- Exportieren der Basis-DB schreibt nun die Transekt-Nr. in den Dateinamen
-- Import einer Basis-DB mit Dateiauswahl
-- Export der Ergebnisse für sortierte Transektabschnitte zeigt Zeit der 1. Zählung im Abschnitt
-- Einige Textanpassunge und -korrekturen
-- Doku angepasst
+Neu in Version 4.2.5:
+- Option zur Wahl der Empfindlichkeit des Näherungssensors (falls vom Gerät unterstützt)
+- Korrekte Meldung beim Import wenn keine passende Datei vorhanden ist
+- Optionale Button-Vibration gefixt für Android Version > 11
+- Code-, Daten- und Layout-Verbesserungen
+- Weitere Bugfixe
+- Doku überarbeitet
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

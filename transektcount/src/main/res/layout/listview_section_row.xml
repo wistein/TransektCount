@@ -17,7 +17,7 @@
     <Button
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:id="@+id/txtTitle"
         android:singleLine="true"
         android:gravity="center"
@@ -30,10 +30,10 @@
         android:id="@+id/txtRemark"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3.5"
         android:layout_marginEnd="5dp"
         android:textColor="#bfffff"
-        android:gravity="center_vertical|end"
+        android:gravity="center_vertical|center_horizontal"
         android:textSize="13sp"
         android:maxLines="2"
         android:padding="4dp"/>
@@ -43,10 +43,11 @@
         android:id="@+id/txtDate"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="4"
-        android:layout_marginStart="5dp"
+        android:layout_weight="3"
+        android:layout_marginStart="2dp"
         android:textColor="#FFFFFF"
-        android:gravity="center_vertical|start"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="13sp"
         android:padding="4dp"
         android:maxLines="2"/>
 
@@ -54,7 +55,7 @@
     <ImageButton
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="3.5"
+        android:layout_weight="2"
         android:id="@+id/deleteSection"
         android:gravity="center"
         android:layout_gravity="bottom|end|top"

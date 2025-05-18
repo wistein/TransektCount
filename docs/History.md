@@ -2,6 +2,14 @@
 
 #### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
+#### Version 4.2.5 (2025-05-18)
+- Option to set the proximity Wakelock sensitivity (if supported by device)
+- Corrected message when there is no suitable file for import
+- Optional button vibration fixed for Android Version > 11  
+- Code, data and layout improvements
+- Some minor bug fixes
+- Docs updated
+
 #### Version 4.2.4 (2025-04-18)
 - Counting page layout better adapted to screen size
 - Export to a Basic DB now writes the transect No. into the filename

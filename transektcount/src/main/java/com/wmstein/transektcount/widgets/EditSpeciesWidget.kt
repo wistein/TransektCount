@@ -17,7 +17,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2024-11-27
+ * Last edited on 2025-05-02
  */
 class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -36,10 +36,8 @@ class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     @JvmField
     var countId = 0
 
-    val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-            as LayoutInflater
-
     init {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_count, this, true)
         countName = findViewById(R.id.countName)
         countNameG = findViewById(R.id.countNameG)

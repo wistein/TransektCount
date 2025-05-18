@@ -9,20 +9,19 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.os.VibratorManager
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-import com.wmstein.transektcount.database.Section
 import androidx.core.net.toUri
+import com.wmstein.transektcount.database.Section
 
 /***********************************************************
  * SelectSectionAdapter is called from SelectSectionActivity and
@@ -32,7 +31,7 @@ import androidx.core.net.toUri
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-04-11
+ * last edited on 2025-05-05
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -62,6 +61,8 @@ internal class SelectSectionAdapter(
         var txtDate: TextView? = null
         var deleteSection: ImageButton? = null
     }
+
+    private val vibrator = mContext.getSystemService(Vibrator::class.java)
 
     // Constructor of entries for the sections list per position
     //   may need garbage collection in SelectSectionActivity as RAM may run short
@@ -93,12 +94,12 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_delete)
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "95, GetView, Id = $sectionId, maxId = $maxId")
+                    Log.d(TAG, "97, GetView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "100, getView, Id = $sectionId, not maxId = $maxId")
+                    Log.d(TAG, "102, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
         } else {
@@ -131,6 +132,7 @@ internal class SelectSectionAdapter(
     private val mOnTitleClickListener = View.OnClickListener { v ->
         setPrefs()
         soundButtonSound()
+
         buttonVib()
         sct = v.tag as Section
         val intent = Intent(getContext(), CountingActivity::class.java)
@@ -195,38 +197,29 @@ internal class SelectSectionAdapter(
     }
 
     private fun buttonVib() {
-        if (buttonVibPref) {
-            try {
-                if (Build.VERSION.SDK_INT >= 31) {
-                    val vibratorManager: VibratorManager =
-                        mContext.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-                    vibratorManager.defaultVibrator
-                    vibratorManager.cancel()
+        if (buttonVibPref && vibrator.hasVibrator()) {
+            if (SDK_INT >= 31) { // S, Android 12
+                if (MyDebug.DLOG) Log.d(TAG, "202, Vibrator >= SDK 31")
+
+                vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+            } else {
+                if (SDK_INT >= 26) {
+                    if (MyDebug.DLOG) Log.d(TAG, "207, Vibrator >= SDK 26")
+
+                    vibrator.vibrate(VibrationEffect.createOneShot(200,
+                            VibrationEffect.DEFAULT_AMPLITUDE))
                 } else {
+                    if (MyDebug.DLOG) Log.d(TAG, "212 Vibrator < SDK 26")
                     @Suppress("DEPRECATION")
-                    val vibrator: Vibrator =
-                        mContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        vibrator.vibrate(
-                            VibrationEffect.createOneShot(
-                                100,
-                                VibrationEffect.DEFAULT_AMPLITUDE
-                            )
-                        )
-                    } else {
-                        @Suppress("DEPRECATION")
-                        vibrator.vibrate(100)
-                    }
-                    vibrator.cancel()
+                    vibrator.vibrate(200)
                 }
-            } catch (e: java.lang.Exception) {
-                if (MyDebug.DLOG) Log.e(TAG, "222, buttonVib, could not vibrate.", e)
+                vibrator.cancel()
             }
         }
     }
 
     companion object {
-        private const val TAG = "ListSectAdapt"
+        private const val TAG = "SelectSectAdapt"
 
         /**
          * Checks if a CharSequence is not empty (""), not null and not whitespace only.
@@ -258,3 +251,4 @@ internal class SelectSectionAdapter(
     }
 
 }
+

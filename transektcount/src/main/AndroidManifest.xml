@@ -106,7 +106,7 @@
         </activity>
 
         <activity
-            android:name="com.wmstein.transektcount.ListSpeciesActivity"
+            android:name="com.wmstein.transektcount.ResultsActivity"
             android:label="@string/title_activity_list_species"
             android:launchMode="singleTop"
             android:parentActivityName="com.wmstein.transektcount.WelcomeActivity"

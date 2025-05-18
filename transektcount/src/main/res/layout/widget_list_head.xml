@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  - widget_list_head.xml used by ListSpeciesActivity.java  
+  - widget_list_head.xml used by ResultsActivity.java
   ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
   -->
 
@@ -17,13 +17,11 @@
               android:background="@drawable/corner">
 
     <LinearLayout
-        android:baselineAligned="false"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:paddingTop="0dp">
+        android:paddingEnd="5dp">
 
         <LinearLayout
             android:orientation="vertical"

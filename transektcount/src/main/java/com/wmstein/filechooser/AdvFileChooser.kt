@@ -3,7 +3,6 @@ package com.wmstein.filechooser
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -13,7 +12,6 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
 import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
 import java.io.File
@@ -28,7 +26,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-04-18
+ * last edited on 2025-04-29
  */
 class AdvFileChooser : Activity() {
     private var currentDir: File? = null
@@ -42,7 +40,7 @@ class AdvFileChooser : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.i(TAG, "44, onCreate")
+        if (MyDebug.DLOG) Log.i(TAG, "43, onCreate")
 
         setContentView(R.layout.list_view)
 
@@ -74,7 +72,8 @@ class AdvFileChooser : Activity() {
         {
             currentDir = Environment.getExternalStorageDirectory()
             currentDir = File("$currentDir/Documents/TransektCount")
-        } else {
+        } else
+        {
             currentDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS)
             currentDir = File("$currentDir/TransektCount")
@@ -83,23 +82,21 @@ class AdvFileChooser : Activity() {
     }
     // End of onCreate()
 
-    // List only files in user's home directory
+    // List only files in TransektCount's data directory
     private fun fill(f: File) {
-        val dirs: Array<File>? = if (fileFilter != null) f.listFiles(fileFilter) else f.listFiles()
+        val dirs: Array<File>? = f.listFiles(fileFilter)
         this.title = getString(R.string.currentDir) + ": " + f.name
-        val fls: MutableList<Option> = ArrayList() // list of files to choose from
-        @SuppressLint("SimpleDateFormat") val dform: DateFormat =
-            SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val fls: MutableList<Option> = ArrayList() // list of suitable files to choose from
+
+        @SuppressLint("SimpleDateFormat")
+        val dform: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         try {
-            assert(dirs != null)
             if (dirs != null) {
                 for (ff in dirs) {
                     if (!ff.isHidden) {
                         fls.add(
-                            Option(
-                                ff.name, getString(R.string.fileSize) + ": "
-                                        + ff.length() + " B,  " + getString(R.string.date) + ": "
-                                        + dform.format(ff.lastModified()), ff.absolutePath, false
+                            Option(ff.name, getString(R.string.fileSize) + ": " + ff.length() + " B,  " + getString(R.string.date) + ": "
+                                    + dform.format(ff.lastModified()), ff.absolutePath, false
                             )
                         )
                     }
@@ -123,10 +120,9 @@ class AdvFileChooser : Activity() {
                     }
                 }
         } else {
-            showSnackbarRed(getString(R.string.noFile))
             val intent = Intent()
             intent.putExtra("fileSelected", "")
-            setResult(RESULT_OK, intent)
+            setResult(RESULT_FIRST_USER, intent)
             finish()
         }
     }
@@ -137,22 +133,12 @@ class AdvFileChooser : Activity() {
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
-        if (MyDebug.DLOG) Log.i(TAG, "154, Selected file: $fileSelected")
+        if (MyDebug.DLOG) Log.i(TAG, "137, Selected file: $fileSelected")
         finish()
     }
 
     public override fun onStop() {
         super.onStop()
-    }
-
-    private fun showSnackbarRed(str: String) // red text
-    {
-        val view = findViewById<View>(R.id.lvFiles)
-        val sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
-        val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
-        tv.setTextColor(Color.RED);
-        tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        sB.show()
     }
 
     companion object {

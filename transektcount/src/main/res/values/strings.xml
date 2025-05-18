@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-04-18 -->
+     last edited 2025-04-26 -->
 
 <resources>
 
@@ -195,14 +195,17 @@
     <string name="pref_bright">Screen Bright</string>
     <string name="pref_bright_summ">Sets the TransektCount screens bright whilst counting and editing</string>
 
+    <string name="pref_proximity_dialog">Set the sensitivity for switching off the screen.</string>
+    <string name="pref_proximity_title">Proximity Sensor</string>
+
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂♀</string>
+    <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂|♀</string>
     <string name="editCountValuef2i">Change internal count value [ %1$d ] of butterfly ♂</string>
     <string name="editCountValuef3i">Change internal count value [ %1$d ] of butterfly ♀</string>
     <string name="editCountValuepi">Change internal count value [ %1$d ] of pupa</string>
     <string name="editCountValueli">Change internal count value [ %1$d ] of larva</string>
     <string name="editCountValueei">Change internal count value [ %1$d ] of egg</string>
-    <string name="editCountValuef1e">Change external count value [ %1$d ] of butterfly ♂♀</string>
+    <string name="editCountValuef1e">Change external count value [ %1$d ] of butterfly ♂|♀</string>
     <string name="editCountValuef2e">Change external count value [ %1$d ] of butterfly ♂</string>
     <string name="editCountValuef3e">Change external count value [ %1$d ] of butterfly ♀</string>
     <string name="editCountValuepe">Change external count value [ %1$d ] of pupa</string>
@@ -223,7 +226,7 @@
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Counting Results</string>
     <string name="wait">View gets calculated&#8230;</string>
-    <string name="txt_mf">♂♀</string>
+    <string name="txt_mf">♂|♀</string>
     <string name="txt_m">♂</string>
     <string name="txt_f">♀</string>
     <string name="txt_p">Pupa</string>
@@ -240,14 +243,14 @@
     <string name="countInternalSum">Totals for Internal Species:</string>
     <string name="countExternalSum">Totals for External Species:</string>
     <string name="totalsIES">Totals internal / external / species:</string>
-    <string name="countImagomfHint">Butterfly ♂♀</string>
+    <string name="countImagomfHint">Butterfly ♂|♀</string>
     <string name="countImagomHint">Butterfly ♂</string>
     <string name="countImagofHint">Butterfly ♀</string>
     <string name="countPupaHint">Pupa</string>
     <string name="countLarvaHint">Larva</string>
     <string name="countOvoHint">Egg</string>
     <string name="hintTitle">Title</string>
-    <string name="hintDateTime">Date/time of 1. count:</string>
+    <string name="hintDateTime">Date and time\nof 1. count:</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Totals:</string>
     <string name="getHelp">Database problem! Please mail your exported \'transektcount_TR-No_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>

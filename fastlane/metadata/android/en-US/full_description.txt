@@ -1,11 +1,11 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 4.2.4:
-- Counting page layout better adapted to screen size
-- Export to a Basic DB now writes the transect No. into the filename
-- Import of a Basic DB with file selection
-- Exported results for sorted sections show time of 1. count per section
-- Some text updates and corrections
+New in Version 4.2.5:
+- Option to set the proximity Wakelock sensitivity (if supported by device)
+- Corrected message when there is no suitable file for import
+- Optional button vibration fixed for Android Version > 11
+- Code, data and layout improvements
+- Some minor bug fixes
 - Docs updated
 
 Features:

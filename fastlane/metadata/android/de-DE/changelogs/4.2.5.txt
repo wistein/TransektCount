@@ -1,0 +1,7 @@
+Version 4.2.5 (18.05.2025)
+- Option zur Wahl der Empfindlichkeit des Näherungssensors (falls vom Gerät unterstützt)
+- Korrekte Meldung beim Import wenn keine passende Datei vorhanden ist
+- Optionale Button-Vibration gefixt für Android Version > 11
+- Code-, Daten- und Layout-Verbesserungen
+- Weitere Bugfixe
+- Doku angepasst

@@ -18,6 +18,7 @@ import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.widgets.AddSpeciesWidget
 import com.wmstein.transektcount.widgets.HintAddWidget
+import androidx.core.content.edit
 
 /*******************************************************************************
  * AddSpeciesActivity lets you insert new species into the counting species list
@@ -30,7 +31,7 @@ import com.wmstein.transektcount.widgets.HintAddWidget
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2024-12-14
+ * last edited on 2025-05-15
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -47,8 +48,8 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Complete ArrayLists of species
     private var namesCompleteArrayList: ArrayList<String>? = null
     private var namesReducedArrayList: ArrayList<String>? = null
-    private var namesGCompleteArrayList: ArrayList<String>? = null
-    private var namesGReducedArrayList: ArrayList<String>? = null
+    private var namesLCompleteArrayList: ArrayList<String>? = null
+    private var namesLReducedArrayList: ArrayList<String>? = null
     private var codesCompleteArrayList: ArrayList<String?>? = null
     private var codesReducedArrayList: ArrayList<String?>? = null
 
@@ -126,7 +127,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Load complete species ArrayList from arrays.xml (lists are sorted by code)
         namesCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selSpecs)))
-        namesGCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selSpecs_l)))
+        namesLCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selSpecs_l)))
         codesCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selCodes)))
 
         // Clear any existing views
@@ -201,7 +202,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
                 if (MyDebug.DLOG) Log.d(TAG, "202, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
-                namesGCompleteArrayList!!.removeAt(posSpec)
+                namesLCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
             }
         }
@@ -212,27 +213,27 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Copy ...CompleteArrayLists to ...ReducedArrayLists
         namesReducedArrayList = namesCompleteArrayList
-        namesGReducedArrayList = namesGCompleteArrayList
+        namesLReducedArrayList = namesLCompleteArrayList
         codesReducedArrayList = codesCompleteArrayList
 
         // 3. Further, optionally reduce the complete Arraylists for all but initChar species
         if (initChars.length == 2) {
             // Empty ...ReducedArrayLists
             namesReducedArrayList = arrayListOf()
-            namesGReducedArrayList = arrayListOf()
+            namesLReducedArrayList = arrayListOf()
             codesReducedArrayList = arrayListOf()
 
             // Check NamesCompleteArrayList for InitChars
             for (i in 0 until namesCompleteArrayList!!.size) {
                 if (namesCompleteArrayList!![i].substring(0, 2) == initChars) {
                     specName = namesCompleteArrayList!![i]
-                    specNameG = namesGCompleteArrayList!![i]
+                    specNameG = namesLCompleteArrayList!![i]
                     specCode = codesCompleteArrayList!![i]
                     if (MyDebug.DLOG) Log.d(TAG, "231, 2. specName: $specName, specCode: $specCode")
 
                     // Assemble remaining ReducedArrayLists for all Species with initChars
                     namesReducedArrayList!!.add(specName!!)
-                    namesGReducedArrayList!!.add(specNameG!!)
+                    namesLReducedArrayList!!.add(specNameG!!)
                     codesReducedArrayList!!.add(specCode!!)
                 }
             }
@@ -252,7 +253,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         while (i < codesReducedArrayList!!.size) {
             val asw = AddSpeciesWidget(this, null)
             asw.setSpecName(namesReducedArrayList!![i])
-            asw.setSpecNameG(namesGReducedArrayList!![i])
+            asw.setSpecNameG(namesLReducedArrayList!![i])
             asw.setSpecCode(codesReducedArrayList!![i])
             asw.setPicSpec(codesReducedArrayList!![i]!!)
             asw.setSpecId(remainingIdArrayList[i]!!)
@@ -261,9 +262,9 @@ class AddSpeciesActivity : AppCompatActivity() {
             i++
         }
 
-        val editor = prefs.edit()
-        editor.putString("is_Add", "")
-        editor.commit()
+        prefs.edit(commit = true) {
+            putString("is_Add", "")
+        }
     }
 
     // Mark the selected species and consider it for the species counts list
@@ -321,9 +322,9 @@ class AddSpeciesActivity : AppCompatActivity() {
         // Store code of last selected species in sharedPreferences
         //  for Spinner in CountingActivity
         if (i > 0) {
-            val editor = prefs.edit()
-            editor.putString("new_spec_code", specCode)
-            editor.commit()
+            prefs.edit(commit = true) {
+                putString("new_spec_code", specCode)
+            }
         }
 
         // Call DummyActivity to reenter AddSpeciesActivity to rebuild the species list

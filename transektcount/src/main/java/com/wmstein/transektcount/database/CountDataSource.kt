@@ -6,14 +6,13 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import com.wmstein.transektcount.TransektCountApplication
 
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-03-16
+ * last edited on 2025-05-18
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -372,7 +371,7 @@ class CountDataSource(context: Context) {
         return counts
     }
 
-    // Used by ListSpeciesActivity
+    // Used by ResultsActivity
     val allCountsForSrtSectionName: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
@@ -397,7 +396,7 @@ class CountDataSource(context: Context) {
             return counts
         }
 
-    // Used by ListSpeciesActivity
+    // Used by ResultsActivity
     val allCountsForSrtNameSection: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
@@ -422,7 +421,7 @@ class CountDataSource(context: Context) {
             return counts
         }
 
-    // Used by ListSpeciesActivity (results page)
+    // Used by ResultsActivity (results page)
     val diffSpec: Int
         get() {
             var cntSpec = 0

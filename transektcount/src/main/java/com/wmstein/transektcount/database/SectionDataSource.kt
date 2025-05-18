@@ -16,7 +16,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-12-07
+ * last edited on 2025-05-14
  */
 class SectionDataSource(context: Context) {
     // Database fields
@@ -122,6 +122,19 @@ class SectionDataSource(context: Context) {
             values.put(DbHelper.S_CREATED_AT, timeMsec)
             val where = DbHelper.S_ID + " = ?"
             val whereArgs = arrayOf(section.id.toString())
+            database!!.update(DbHelper.SECTION_TABLE, values, where, whereArgs)
+        }
+    }
+
+    // save initial date and time to section
+    fun saveDateSectionOfId(sectionId: Int) {
+        if (getSection(sectionId).created_at == 0L) {
+            val date = Date()
+            val timeMsec = date.time
+            val values = ContentValues()
+            values.put(DbHelper.S_CREATED_AT, timeMsec)
+            val where = DbHelper.S_ID + " = ?"
+            val whereArgs = arrayOf(sectionId.toString())
             database!!.update(DbHelper.SECTION_TABLE, values, where, whereArgs)
         }
     }

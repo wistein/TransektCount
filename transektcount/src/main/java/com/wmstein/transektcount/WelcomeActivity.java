@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -14,6 +15,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -72,7 +75,7 @@ import sheetrock.panda.changelog.ViewLicense;
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
  * import/export/help/info methods and lets you call
- * EditMetaActivity, SelectSectionActivity and ListSpeciesActivity.
+ * EditMetaActivity, SelectSectionActivity and ResultsActivity.
  * It uses further the PermissionDialogFragment.
  * <p>
  * Database handling is mainly done in WelcomeActivity as upgrade to current
@@ -80,25 +83,14 @@ import sheetrock.panda.changelog.ViewLicense;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-04-11
+ * last edited on 2025-05-15
  */
 public class WelcomeActivity
-    extends AppCompatActivity
-    implements SharedPreferences.OnSharedPreferenceChangeListener
-{
+        extends AppCompatActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "WelcomeAct";
 
     private TransektCountApplication transektCount;
-
-    // Classic three-button navigation (Back, Home, Recent Apps)
-    public static final int NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON = 0;
-    /**
-     * Two-button navigation (Android P navigation mode: Back, combined Home and Recent Apps)
-     * public static final int NAVIGATION_BAR_INTERACTION_MODE_TWO_BUTTON = 1;
-     * <p>
-     * Full screen gesture mode (introduced with Android Q)
-     * public static final int NAVIGATION_BAR_INTERACTION_MODE_GESTURE = 2;
-     */
 
     private ChangeLog cl;
     private ViewHelp vh;
@@ -107,7 +99,6 @@ public class WelcomeActivity
 
     // Import/export stuff
     private File inFile = null;
-    private File inFile1 = null;
     private File outFile = null;
     boolean mExternalStorageWriteable = false;
     private final String sState = Environment.getExternalStorageState();
@@ -120,6 +111,7 @@ public class WelcomeActivity
     private SharedPreferences prefs;
     private String outPref;
 
+    // Permissions
     private boolean storagePermGranted = false; // initial storage permission state
 
     // DB handling
@@ -136,17 +128,29 @@ public class WelcomeActivity
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "142, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "136, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        // Get preferences
         prefs = TransektCountApplication.getPrefs();
+
+        // Proximity sensor handling in preferences menu
+        SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        // Grey out preferences menu item pref_prox when max. proximity sensitivity = null
+        boolean prefProx = mProximity != null;
+
+        // Set pref_prox enabler, used in SettingsFragment
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("enable_prox", prefProx);
+        editor.apply();
 
         setContentView(R.layout.activity_welcome);
         baseLayout = findViewById(R.id.baseLayout);
@@ -156,10 +160,10 @@ public class WelcomeActivity
         if (!storagePermGranted) // in self permission
         {
             PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
-                PermissionsDialogFragment.class.getName());
+                    PermissionsDialogFragment.class.getName());
             showSnackbarRed(getString(R.string.storage_perm_denied));
         }
-        if (MyDebug.DLOG) Log.d(TAG, "161, onCreate, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "168, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -169,14 +173,12 @@ public class WelcomeActivity
         alertDataSource = new AlertDataSource(this);
 
         // Get transect No. and check for DB integrity
-        try
-        {
+        try {
             headDataSource.open();
             head = headDataSource.getHead();
             transNo = head.transect_no; // read and test for DB integrity
             headDataSource.close();
-        } catch (SQLiteException e)
-        {
+        } catch (SQLiteException e) {
             headDataSource.close();
             showSnackbarRed(getString(R.string.corruptDb));
 
@@ -197,62 +199,56 @@ public class WelcomeActivity
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
+        } else {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
         }
 
         // Create preliminary transektcount0.db if it does not exist
         inFile = new File(path, "/transektcount0.db"); // Initial basic DB
-        inFile1 = new File(path, "/transektcount0_" + transNo + ".db"); // Standard basic DB
+        File inFile1 = new File(path, "/transektcount0_" + transNo + ".db"); // Standard basic DB
         if (!inFile.exists() && !inFile1.exists())
             exportBasisDb(); // create directory and copy internal DB-data to initial Basis DB-file
 
         // New onBackPressed logic
-        // Use only if 2 or 3 button Navigation bar is present.
-        if (getNavBarMode() == 0 || getNavBarMode() == 1)
-        {
+        // Different Navigation Bar modes and layouts:
+        // - Classic three-button navigation: NavBarMode = 0
+        // - Two-button navigation (Android P): NavBarMode = 1
+        // - Full screen gesture mode (Android Q): NavBarMode = 2
+        // Use onBackPressed logic only if NavBarMode = 0 or 1
+        if (getNavBarMode() == 0 || getNavBarMode() == 1) {
             OnBackPressedCallback callback = getOnBackPressedCallback();
             getOnBackPressedDispatcher().addCallback(this, callback);
         }
     }
     // End of onCreate()
 
-    // Check for Navigation bar
-    public int getNavBarMode()
-    {
+    // Check for Navigation bar 1-, 2- or 3-button mode
+    public int getNavBarMode() {
         Resources resources = this.getResources();
         @SuppressLint("DiscouragedApi")
         int resourceId = resources.getIdentifier("config_navBarInteractionMode",
-            "integer", "android");
-        int iMode = resourceId > 0 ? resources.getInteger(resourceId) : NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON;
+                "integer", "android");
+        int iMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (MyDebug.DLOG)
-            Log.i(TAG, "230, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
+            Log.i(TAG, "242, NavBarMode = " + iMode); // 0: 3-button, 1: 2-button, 2: gesture
         return iMode;
     }
 
     // Use onBackPressed logic for button navigation
     @NonNull
-    private OnBackPressedCallback getOnBackPressedCallback()
-    {
+    private OnBackPressedCallback getOnBackPressedCallback() {
         final Handler m1Handler = new Handler(Looper.getMainLooper());
         final Runnable r1 = () -> doubleBackToExitPressedTwice = false;
 
-        return new OnBackPressedCallback(true)
-        {
+        return new OnBackPressedCallback(true) {
             @Override
-            public void handleOnBackPressed()
-            {
-                if (doubleBackToExitPressedTwice)
-                {
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedTwice) {
                     m1Handler.removeCallbacks(r1);
                     finish();
                     remove();
-                }
-                else
-                {
+                } else {
                     doubleBackToExitPressedTwice = true;
                     showSnackbarBlue(getString(R.string.back_twice));
                     m1Handler.postDelayed(r1, 1500);
@@ -263,18 +259,17 @@ public class WelcomeActivity
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "268, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "280, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
         isStorageGranted(); // set storagePermGranted from self permission
-        if (MyDebug.DLOG) Log.d(TAG, "275, onResume, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "287, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
@@ -285,34 +280,28 @@ public class WelcomeActivity
         // Set transect name as title
         head = headDataSource.getHead();
         transNo = head.transect_no; // read and test for DB integrity
-        try
-        {
+        try {
             Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
-        } catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             // nothing
         }
     }
     // End of onResume()
 
     // Check external storage self permission
-    private void isStorageGranted()
-    {
+    private void isStorageGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android >= 11
         {
             // check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
             storagePermGranted = Environment.isExternalStorageManager();
-        }
-        else
-        {
+        } else {
             storagePermGranted = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.welcome, menu);
         MenuCompat.setGroupDividerEnabled(menu, true); // Show dividers in menu
@@ -322,85 +311,55 @@ public class WelcomeActivity
     // Handle action bar item clicks here. The action bar will automatically handle clicks on
     // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
+        if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
-        }
-        else if (id == R.id.exportMenu)
-        {
-            if (storagePermGranted)
-            {
+        } else if (id == R.id.exportMenu) {
+            if (storagePermGranted) {
                 exportDb();
-            }
-            else
-            {
+            } else {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
-                    PermissionsDialogFragment.class.getName());
-                if (storagePermGranted)
-                {
+                        PermissionsDialogFragment.class.getName());
+                if (storagePermGranted) {
                     exportDb();
-                }
-                else
-                {
+                } else {
                     showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
-        }
-        else if (id == R.id.exportCSVMenu)
-        {
-            if (storagePermGranted)
-            {
+        } else if (id == R.id.exportCSVMenu) {
+            if (storagePermGranted) {
                 exportDb2CSV();
-            }
-            else
-            {
+            } else {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
-                    PermissionsDialogFragment.class.getName());
-                if (storagePermGranted)
-                {
+                        PermissionsDialogFragment.class.getName());
+                if (storagePermGranted) {
                     exportDb2CSV();
-                }
-                else
-                {
+                } else {
                     showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
-        }
-        else if (id == R.id.exportBasisMenu)
-        {
-            if (storagePermGranted)
-            {
+        } else if (id == R.id.exportBasisMenu) {
+            if (storagePermGranted) {
                 exportBasisDb();
-            }
-            else
-            {
+            } else {
                 PermissionsDialogFragment.newInstance().show(getSupportFragmentManager(),
-                    PermissionsDialogFragment.class.getName());
-                if (storagePermGranted)
-                {
+                        PermissionsDialogFragment.class.getName());
+                if (storagePermGranted) {
                     exportBasisDb();
-                }
-                else
-                {
+                } else {
                     showSnackbarRed(getString(R.string.storage_perm_denied));
                 }
             }
             return true;
-        }
-        else if (id == R.id.exportSpeciesListMenu)
-        {
+        } else if (id == R.id.exportSpeciesListMenu) {
             exportSpeciesList();
             return true;
-        }
-        else if (id == R.id.importBasisMenu)
-        {
+        } else if (id == R.id.importBasisMenu) {
             headDataSource.close();
             sectionDataSource.close();
             metaDataSource.close();
@@ -409,9 +368,7 @@ public class WelcomeActivity
 
             importBasisDb();
             return true;
-        }
-        else if (id == R.id.importFileMenu)
-        {
+        } else if (id == R.id.importFileMenu) {
             headDataSource.close();
             sectionDataSource.close();
             metaDataSource.close();
@@ -421,55 +378,39 @@ public class WelcomeActivity
             inFile = null;
             importDBFile();
             return true;
-        }
-        else if (id == R.id.resetDBMenu)
-        {
+        } else if (id == R.id.resetDBMenu) {
             resetToBasisDb();
             return true;
-        }
-        else if (id == R.id.importSpeciesListMenu)
-        {
+        } else if (id == R.id.importSpeciesListMenu) {
             importSpeciesList();
             return true;
-        }
-        else if (id == R.id.viewHelp)
-        {
+        } else if (id == R.id.viewHelp) {
             vh.getFullLogDialog().show();
             return true;
-        }
-        else if (id == R.id.changeLog)
-        {
+        } else if (id == R.id.changeLog) {
             cl.getFullLogDialog().show();
             return true;
-        }
-        else if (id == R.id.viewLicense)
-        {
+        } else if (id == R.id.viewLicense) {
             vl.getFullLogDialog().show();
             return true;
-        }
-        else if (id == R.id.selectSection)
-        {
+        } else if (id == R.id.selectSection) {
             // Call SelectSectionActivity to select section for counting
             startActivity(new Intent(this, SelectSectionActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
-        }
-        else if (id == R.id.editMeta)
-        {
+        } else if (id == R.id.editMeta) {
             // Call EditMetaActivity
             startActivity(new Intent(this, EditMetaActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             return true;
-        }
-        else if (id == R.id.viewSpecies)
-        {
+        } else if (id == R.id.viewSpecies) {
             Toast.makeText(getApplicationContext(), getString(R.string.wait),
-                Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
+                    Toast.LENGTH_SHORT).show(); // a Snackbar here comes incomplete
 
-            // Call ListSpeciesActivity with trick: Pause for 100 msec to show toast
+            // Call ResultsActivity with trick: Pause for 100 msec to show toast
             mHandler.postDelayed(() ->
-                startActivity(new Intent(getApplicationContext(), ListSpeciesActivity
-                    .class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                    startActivity(new Intent(getApplicationContext(), ResultsActivity
+                            .class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -477,8 +418,7 @@ public class WelcomeActivity
     // End of onOptionsItemSelected
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-    {
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         baseLayout = findViewById(R.id.baseLayout);
         baseLayout.setBackground(transektCount.setBackgr());
         outPref = prefs.getString("pref_csv_out", "species");
@@ -486,11 +426,10 @@ public class WelcomeActivity
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "479, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "503, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -502,49 +441,44 @@ public class WelcomeActivity
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "495, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "519, onStop");
+        baseLayout.invalidate();
     }
 
 
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "503, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "528, onDestroy");
     }
 
     // Start CountingActivity
-    public void selectSection(View view)
-    {
+    public void selectSection(View view) {
         // Start SelectSectionActivity to select section to be used for counting
         Intent intent;
         intent = new Intent(WelcomeActivity.this, SelectSectionActivity.class);
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
-    public void editMeta(View view)
-    {
+    public void editMeta(View view) {
         startActivity(new Intent(this, EditMetaActivity.class)
-            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
-    public void viewSpecies(View view)
-    {
+    public void viewSpecies(View view) {
         Toast.makeText(getApplicationContext(), getString(R.string.wait), Toast.LENGTH_SHORT).show();
 
         // Trick: Pause for 100 msec to show toast
         mHandler.postDelayed(() ->
-            startActivity(new Intent(getApplicationContext(), ListSpeciesActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
+                startActivity(new Intent(getApplicationContext(), ResultsActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), 100);
     }
 
     // Date for filename of exported data
-    private static String getcurDate()
-    {
+    private static String getcurDate() {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat")
         DateFormat dform = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -556,9 +490,8 @@ public class WelcomeActivity
      * They've been put here because no database should be left open at this point.
      */
     // Import the basic DB
-    private void importBasisDb()
-    {
-        if (MyDebug.DLOG) Log.d(TAG, "559, importBasicDBFile");
+    private void importBasisDb() {
+        if (MyDebug.DLOG) Log.d(TAG, "572, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -575,8 +508,7 @@ public class WelcomeActivity
 
     /**********************************************************************************************/
     // Choose a transektcount db-file to load and set it to transektcount.db
-    private void importDBFile()
-    {
+    private void importDBFile() {
         String fileExtension = ".db";
         String fileNameStart = "transektcount_";
         String fileHd = getString(R.string.fileHeadlineDB);
@@ -592,79 +524,70 @@ public class WelcomeActivity
     // ActivityResultLauncher is part of importDBFile()
     // and processes the result of AdvFileChooser
     final ActivityResultLauncher<Intent> myActivityResultLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<>()
-        {
-            @Override
-            public void onActivityResult(ActivityResult result)
-            {
-                String selectedFile;
-                inFile = null;
-                if (result.getResultCode() == Activity.RESULT_OK)
-                {
-                    Intent data = result.getData();
-                    if (data != null)
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    String selectedFile;
+                    inFile = null;
+                    if (result.getResultCode() == Activity.RESULT_OK) // has a file
                     {
-                        selectedFile = data.getStringExtra("fileSelected");
-                        if (MyDebug.DLOG)
-                            Log.i(TAG, "650, Selected file: " + selectedFile);
+                        Intent data = result.getData();
+                        if (data != null) {
+                            selectedFile = data.getStringExtra("fileSelected");
+                            if (MyDebug.DLOG)
+                                Log.i(TAG, "621, Selected file: " + selectedFile);
 
-                        if (selectedFile != null)
-                            inFile = new File(selectedFile);
-                        else
-                            inFile = null;
+                            if (selectedFile != null)
+                                inFile = new File(selectedFile);
+                            else
+                                inFile = null;
+                        }
+                    } else if ((result.getResultCode() == Activity.RESULT_FIRST_USER))
+                        showSnackbarRed(getString(R.string.noFile));
+
+                    if (inFile != null) {
+                        // outFile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
+                        String destPath = getApplicationContext().getFilesDir().getPath();
+                        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
+                        outFile = new File(destPath);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                        builder.setIcon(android.R.drawable.ic_dialog_alert);
+                        builder.setMessage(R.string.confirmDBImport);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+                        {
+                            try {
+                                copy(inFile, outFile);
+
+                                // List transNo as title
+                                headDataSource.open();
+                                head = headDataSource.getHead();
+                                transNo = head.transect_no;
+                                sectionDataSource.close();
+                                try {
+                                    Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
+                                } catch (NullPointerException e) {
+                                    // nothing
+                                }
+                                showSnackbar(getString(R.string.importDB));
+
+                            } catch (IOException e) {
+                                showSnackbarRed(getString(R.string.importFail));
+                            }
+                        });
+                        builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
+                        alert = builder.create();
+                        alert.show();
                     }
                 }
-
-                // outFile -> /data/data/com.wmstein.transektcount/databases/transektcount.db
-                String destPath = getApplicationContext().getFilesDir().getPath();
-                destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases/transektcount.db";
-                outFile = new File(destPath);
-
-                if (inFile != null)
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
-                    builder.setIcon(android.R.drawable.ic_dialog_alert);
-                    builder.setMessage(R.string.confirmDBImport);
-                    builder.setCancelable(false);
-                    builder.setPositiveButton(R.string.importButton, (dialog, id) ->
-                    {
-                        try
-                        {
-                            copy(inFile, outFile);
-
-                            // List transNo as title
-                            headDataSource.open();
-                            head = headDataSource.getHead();
-                            transNo = head.transect_no;
-                            sectionDataSource.close();
-                            try
-                            {
-                                Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
-                            } catch (NullPointerException e)
-                            {
-                                // nothing
-                            }
-
-                            showSnackbar(getString(R.string.importDB));
-
-                        } catch (IOException e)
-                        {
-                            showSnackbarRed(getString(R.string.importFail));
-                        }
-                    });
-                    builder.setNegativeButton(R.string.importCancelButton, (dialog, id) -> dialog.cancel());
-                    alert = builder.create();
-                    alert.show();
-                }
-            }
-        });
+            });
     // End of importDBFile()
 
     /**********************************************************************************************/
     // Import species list from TourCount file species_YYYY-MM-DD_hhmmss.csv
-    private void importSpeciesList()
-    {
+    private void importSpeciesList() {
         // Select exported TourCount species list file
         String fileExtension = ".csv";
         String fileNameStart = "species_";
@@ -680,51 +603,72 @@ public class WelcomeActivity
 
     // ActivityResultLauncher processes the result of AdvFileChooser
     final ActivityResultLauncher<Intent> listActivityResultLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<>()
-        {
-            @SuppressLint("ApplySharedPref")
-            @Override
-            public void onActivityResult(ActivityResult result)
-            {
-                String selectedFile;
-                inFile = null;
-                if (result.getResultCode() == Activity.RESULT_OK)
-                {
-                    Intent data = result.getData();
-                    if (data != null)
-                    {
-                        selectedFile = data.getStringExtra("fileSelected");
-                        if (selectedFile != null)
-                            inFile = new File(selectedFile);
-                        else
-                            inFile = null;
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<>() {
+                @SuppressLint("ApplySharedPref")
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    String selectedFile;
+                    inFile = null;
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            selectedFile = data.getStringExtra("fileSelected");
+                            if (selectedFile != null)
+                                inFile = new File(selectedFile);
+                            else
+                                inFile = null;
+                        }
                     }
-                }
-                if (inFile != null)
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
-                    builder.setIcon(android.R.drawable.ic_dialog_alert);
-                    builder.setMessage(R.string.confirmListImport);
-                    builder.setCancelable(false);
-                    builder.setPositiveButton(R.string.importButton, (dialog, id) ->
-                    {
+                    // RESULT_FIRST_USER is set in AdvFileChooser for no file
+                    else if ((result.getResultCode() == Activity.RESULT_FIRST_USER))
+                        showSnackbarRed(getString(R.string.noFile));
+
+                    if (inFile != null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                        builder.setIcon(android.R.drawable.ic_dialog_alert);
+                        builder.setMessage(R.string.confirmListImport);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+                        {
                             // Load .csv species list
                             clearDBforImport();
                             readCSV(inFile);
-                    });
-                    builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
-                    alert = builder.create();
-                    alert.show();
+                        });
+                        builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
+                        alert = builder.create();
+                        alert.show();
+                    }
                 }
-            }
-        });
+            });
 
-    private void readCSV(File inFile)
-    {
-        try
-        {
-            // Read exported TourCount species list and write items to table counts
+    // Clear DB for import of external species list
+    private void clearDBforImport() {
+        dbHandler = new DbHelper(this);
+        database = dbHandler.getWritableDatabase();
+
+        String sql = "DELETE FROM " + DbHelper.COUNT_TABLE;
+        database.execSQL(sql);
+
+        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
+        database.execSQL(sql);
+
+        sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
+                + DbHelper.S_CREATED_AT + " = '', "
+                + DbHelper.S_NOTES + " = '';";
+        database.execSQL(sql);
+
+        dbHandler.close();
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("item_Position", 0);
+        editor.putInt("section_id", 1);
+        editor.apply();
+    }
+
+    private void readCSV(File inFile) {
+        try {
+            // Read exported species list and write items to table counts
             Toast.makeText(getApplicationContext(), getString(R.string.waitImport), Toast.LENGTH_SHORT).show();
             List<String> codeArray = new ArrayList<>();
             List<String> nameArray = new ArrayList<>();
@@ -737,8 +681,7 @@ public class WelcomeActivity
             int maxSec = sectionDataSource.getNumEntries(); // number of sections
 
             // For all sections
-            for (iSec = 1; iSec <= maxSec; iSec++)
-            {
+            for (iSec = 1; iSec <= maxSec; iSec++) {
                 iList = 0;
                 while ((csvLine = br.readLine()) != null) // for each csvLine
                 {
@@ -748,7 +691,7 @@ public class WelcomeActivity
                     nameArray.add(iList, specLine[1]);
                     nameGArray.add(iList, specLine[2]);
                     countDataSource.writeCountItem(String.valueOf(iCounts), String.valueOf(iSec),
-                        codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
+                            codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
                     iList++;
                     iCounts++;
                 }
@@ -757,8 +700,7 @@ public class WelcomeActivity
             }
             br.close();
             showSnackbar(getString(R.string.importList));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             showSnackbarRed(getString(R.string.importListFail));
         }
     }
@@ -768,8 +710,7 @@ public class WelcomeActivity
      * The next four functions below are for exporting data files.
      */
     // Exports Basis DB to Documents/TransektCount/transektcount0.db
-    private void exportBasisDb()
-    {
+    private void exportBasisDb() {
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
         inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
@@ -786,9 +727,7 @@ public class WelcomeActivity
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
+        } else {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
         }
@@ -803,15 +742,11 @@ public class WelcomeActivity
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if (!mExternalStorageWriteable)
-        {
+        if (!mExternalStorageWriteable) {
             showSnackbarRed(getString(R.string.noCard));
-        }
-        else
-        {
+        } else {
             // Export the basic db
-            try
-            {
+            try {
                 // Save current db as backup db tmpfile
                 copy(inFile, tmpfile);
 
@@ -828,8 +763,7 @@ public class WelcomeActivity
                 boolean d0 = tmpfile.delete();
                 if (d0)
                     showSnackbar(getString(R.string.saveBasisDB));
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 showSnackbarRed(getString(R.string.saveFail));
             }
         }
@@ -837,8 +771,7 @@ public class WelcomeActivity
     // End of exportBasisDb()
 
     @SuppressLint({"SdCardPath", "LongLogTag"})
-    private void exportDb()
-    {
+    private void exportDb() {
         // New data directory:
         //   outFile -> Public Directory Documents/TransektCount/
         File path;
@@ -846,9 +779,7 @@ public class WelcomeActivity
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
+        } else {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
         }
@@ -865,25 +796,20 @@ public class WelcomeActivity
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
         inPath = inPath.substring(0, inPath.lastIndexOf("/"))
-            + "/databases/transektcount.db";
+                + "/databases/transektcount.db";
         inFile = new File(inPath);
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if (!mExternalStorageWriteable)
-        {
+        if (!mExternalStorageWriteable) {
             showSnackbarRed(getString(R.string.noCard));
-        }
-        else
-        {
+        } else {
             // Export the db
-            try
-            {
+            try {
                 copy(inFile, outFile);
                 showSnackbar(getString(R.string.saveDB));
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 showSnackbarRed(getString(R.string.saveFail));
             }
         }
@@ -898,8 +824,7 @@ public class WelcomeActivity
      //   - comma delimiter and
      //   - "" for text recognition.
      */
-    private void exportDb2CSV()
-    {
+    private void exportDb2CSV() {
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_TR-No_yyyy-MM-dd_HHmmss.csv
         //
         // 1. Alternative for Android >= 10 (Q):
@@ -914,9 +839,7 @@ public class WelcomeActivity
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
-        }
-        else
-        {
+        } else {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             path = new File(path + "/TransektCount");
         }
@@ -925,19 +848,16 @@ public class WelcomeActivity
         path.mkdirs(); // Just verify path, result ignored
 
         String language = Locale.getDefault().toString().substring(0, 2);
-        if (language.equals("en"))
-        {
-            if (Objects.equals(transNo, ""))
-                outFile = new File(path, "/Transect_" + getcurDate() + ".csv");
-            else
-                outFile = new File(path, "/Transect_" + transNo + "_" + getcurDate() + ".csv");
-        }
-        else
-        {
+        if (language.equals("de")) {
             if (Objects.equals(transNo, ""))
                 outFile = new File(path, "/Transekt_" + getcurDate() + ".csv");
             else
                 outFile = new File(path, "/Transekt_" + transNo + "_" + getcurDate() + ".csv");
+        } else {
+            if (Objects.equals(transNo, ""))
+                outFile = new File(path, "/Transect_" + getcurDate() + ".csv");
+            else
+                outFile = new File(path, "/Transect_" + transNo + "_" + getcurDate() + ".csv");
         }
 
         Section section;
@@ -953,7 +873,7 @@ public class WelcomeActivity
         int yyyy, mm, dd;
         int Kw = 0; // calendar week (Int)
 
-        //  ♂,♀        ♂         ♀         pupa      larva     ovo
+        //  ♂|♀        ♂         ♀         pupa      larva     ovo
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
         int summfe = 0, summe = 0, sumfe = 0, sumpe = 0, sumle = 0, sumoe = 0;
 
@@ -963,12 +883,9 @@ public class WelcomeActivity
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if (!mExternalStorageWriteable)
-        {
+        if (!mExternalStorageWriteable) {
             showSnackbarRed(getString(R.string.noCard));
-        }
-        else
-        {
+        } else {
             // Export purged db as csv
             dbHandler = new DbHelper(this);
             database = dbHandler.getWritableDatabase();
@@ -978,26 +895,25 @@ public class WelcomeActivity
 
             //********************************
             // Start creating csv table output
-            try
-            {
+            try {
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outFile));
 
                 // Set header according to table representation in spreadsheet
                 String[] arrCol =
-                    {
-                        getString(R.string.transectnumber),
-                        getString(R.string.inspector),
-                        getString(R.string.date),
-                        "",
-                        getString(R.string.timehead),
-                        getString(R.string.temperature),
-                        getString(R.string.wind),
-                        getString(R.string.clouds),
-                        "",
-                        getString(R.string.kal_w),
-                        "", "", "", "", "", "", "",
-                        getString(R.string.note),
-                    };
+                        {
+                                getString(R.string.transectnumber),
+                                getString(R.string.inspector),
+                                getString(R.string.date),
+                                "",
+                                getString(R.string.timehead),
+                                getString(R.string.temperature),
+                                getString(R.string.wind),
+                                getString(R.string.clouds),
+                                "",
+                                getString(R.string.kal_w),
+                                "", "", "", "", "", "", "",
+                                getString(R.string.note),
+                        };
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
                 // Open Head table for head info
@@ -1021,36 +937,28 @@ public class WelcomeActivity
                 Calendar cal = Calendar.getInstance();
 
                 assert date != null;
-                if (!date.isEmpty())
-                {
-                    if (language.equals("en"))
-                    {
-                        try
-                        {
-                            yyyy = Integer.parseInt(date.substring(0, 4));
-                            mm = Integer.parseInt(date.substring(5, 7));
-                            dd = Integer.parseInt(date.substring(8, 10));
-                        } catch (Exception e)
-                        {
-                            // Wrong date format (German DB in English), use
+                if (!date.isEmpty()) {
+                    if (language.equals("de")) {
+                        try {
                             yyyy = Integer.parseInt(date.substring(6, 10));
                             mm = Integer.parseInt(date.substring(3, 5));
                             dd = Integer.parseInt(date.substring(0, 2));
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            yyyy = Integer.parseInt(date.substring(6, 10));
-                            mm = Integer.parseInt(date.substring(3, 5));
-                            dd = Integer.parseInt(date.substring(0, 2));
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             // Wrong date format (English DB in German), use
                             yyyy = Integer.parseInt(date.substring(0, 4));
                             mm = Integer.parseInt(date.substring(5, 7));
                             dd = Integer.parseInt(date.substring(8, 10));
+                        }
+                    } else {
+                        try {
+                            yyyy = Integer.parseInt(date.substring(0, 4));
+                            mm = Integer.parseInt(date.substring(5, 7));
+                            dd = Integer.parseInt(date.substring(8, 10));
+                        } catch (Exception e) {
+                            // Wrong date format (German DB in English), use
+                            yyyy = Integer.parseInt(date.substring(6, 10));
+                            mm = Integer.parseInt(date.substring(3, 5));
+                            dd = Integer.parseInt(date.substring(0, 2));
                         }
                     }
 
@@ -1064,33 +972,33 @@ public class WelcomeActivity
                 //    clouds, calendar week
                 kw = String.valueOf(Kw);
                 String[] arrMeta =
-                    {
-                        transNo,
-                        inspecName,
-                        date,
-                        getString(R.string.from),
-                        start_tm,
-                        String.valueOf(temps),
-                        String.valueOf(winds),
-                        String.valueOf(clouds),
-                        "",
-                        kw,
-                        "", "", "", "", "", "", "",
-                        inspection_note,
-                    };
+                        {
+                                transNo,
+                                inspecName,
+                                date,
+                                getString(R.string.from),
+                                start_tm,
+                                String.valueOf(temps),
+                                String.valueOf(winds),
+                                String.valueOf(clouds),
+                                "",
+                                kw,
+                                "", "", "", "", "", "", "",
+                                inspection_note,
+                        };
                 csvWrite.writeNext(arrMeta);
 
                 // 2. headline info with
                 //    end-time, end-temperature, end-clouds
                 String[] arrMeta1 =
-                    {
-                        "", "", "",
-                        getString(R.string.to),
-                        end_tm,
-                        String.valueOf(tempe),
-                        String.valueOf(winde),
-                        String.valueOf(cloude),
-                    };
+                        {
+                                "", "", "",
+                                getString(R.string.to),
+                                end_tm,
+                                String.valueOf(tempe),
+                                String.valueOf(winde),
+                                String.valueOf(cloude),
+                        };
                 csvWrite.writeNext(arrMeta1);
 
                 // Empty row
@@ -1102,86 +1010,80 @@ public class WelcomeActivity
                 csvWrite.writeNext(arrIE);
 
                 // Headline of species table with
-                if (outPref.equals("sections"))
-                {
+                if (outPref.equals("sections")) {
                     // Section, Species Name, Local Name, Code, Internal Counts, External Counts, Spec.-Notes
                     String[] arrCol1 =
-                        {
-                            getString(R.string.time_sect),
-                            getString(R.string.name_sect),
-                            getString(R.string.name_spec),
-                            getString(R.string.name_spec_g),
-                            getString(R.string.code_spec),
-                            getString(R.string.countImagomfHint),
-                            getString(R.string.countImagomHint),
-                            getString(R.string.countImagofHint),
-                            getString(R.string.countPupaHint),
-                            getString(R.string.countLarvaHint),
-                            getString(R.string.countOvoHint),
-                            getString(R.string.countImagomfHint),
-                            getString(R.string.countImagomHint),
-                            getString(R.string.countImagofHint),
-                            getString(R.string.countPupaHint),
-                            getString(R.string.countLarvaHint),
-                            getString(R.string.countOvoHint),
-                            getString(R.string.rem_spec)
-                        };
+                            {
+                                    getString(R.string.time_sect),
+                                    getString(R.string.name_sect),
+                                    getString(R.string.name_spec),
+                                    getString(R.string.name_spec_g),
+                                    getString(R.string.code_spec),
+                                    getString(R.string.countImagomfHint),
+                                    getString(R.string.countImagomHint),
+                                    getString(R.string.countImagofHint),
+                                    getString(R.string.countPupaHint),
+                                    getString(R.string.countLarvaHint),
+                                    getString(R.string.countOvoHint),
+                                    getString(R.string.countImagomfHint),
+                                    getString(R.string.countImagomHint),
+                                    getString(R.string.countImagofHint),
+                                    getString(R.string.countPupaHint),
+                                    getString(R.string.countLarvaHint),
+                                    getString(R.string.countOvoHint),
+                                    getString(R.string.rem_spec)
+                            };
                     csvWrite.writeNext(arrCol1);
-                }
-                else
-                {
+                } else {
                     // Species Name, Local Name, Code, Section, Internal Counts, External Counts, Spec.-Note
                     String[] arrCol1 =
-                        {
-                            getString(R.string.name_spec),
-                            getString(R.string.name_spec_g),
-                            getString(R.string.code_spec),
-                            getString(R.string.name_sect),
-                            getString(R.string.countImagomfHint),
-                            getString(R.string.countImagomHint),
-                            getString(R.string.countImagofHint),
-                            getString(R.string.countPupaHint),
-                            getString(R.string.countLarvaHint),
-                            getString(R.string.countOvoHint),
-                            getString(R.string.countImagomfHint),
-                            getString(R.string.countImagomHint),
-                            getString(R.string.countImagofHint),
-                            getString(R.string.countPupaHint),
-                            getString(R.string.countLarvaHint),
-                            getString(R.string.countOvoHint),
-                            getString(R.string.rem_spec)
-                        };
+                            {
+                                    getString(R.string.name_spec),
+                                    getString(R.string.name_spec_g),
+                                    getString(R.string.code_spec),
+                                    getString(R.string.name_sect),
+                                    getString(R.string.countImagomfHint),
+                                    getString(R.string.countImagomHint),
+                                    getString(R.string.countImagofHint),
+                                    getString(R.string.countPupaHint),
+                                    getString(R.string.countLarvaHint),
+                                    getString(R.string.countOvoHint),
+                                    getString(R.string.countImagomfHint),
+                                    getString(R.string.countImagomHint),
+                                    getString(R.string.countImagofHint),
+                                    getString(R.string.countPupaHint),
+                                    getString(R.string.countLarvaHint),
+                                    getString(R.string.countOvoHint),
+                                    getString(R.string.rem_spec)
+                            };
                     csvWrite.writeNext(arrCol1);
                 }
 
                 //*****************************************************************************
                 // Build the internal species array according to the sorted species or sections
                 Cursor curCSV;
-                if (outPref.equals("sections"))
-                {
+                if (outPref.equals("sections")) {
                     // Cursor contains list sorted by section and name with all internal count entries > 0
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
-                }
-                else
-                {
+                            + " WHERE ("
+                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                            + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
+                } else {
                     // Cursor contains list sorted by name and section with all internal count entries > 0
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                        + " WHERE ("
-                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                        + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
+                            + " WHERE ("
+                            + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                            + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                            + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                            + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                            + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                            + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                            + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
                 }
 
                 String code;       // current species code
@@ -1205,28 +1107,24 @@ public class WelcomeActivity
 
                 String sectName;  // name shown in list
                 String sectName1 = "";
-                String sectName2 = "";
+                String sectName2;
                 String sectTime;
                 String timePattern = "HH:mm:ss";
                 SimpleDateFormat sdf = new SimpleDateFormat(timePattern, Locale.getDefault());
                 long sectTimeValue;
 
                 curCSV.moveToFirst();
-                while (!curCSV.isAfterLast())
-                {
+                while (!curCSV.isAfterLast()) {
                     sect_id = curCSV.getInt(1);
                     section = sectionDataSource.getSection(sect_id);
                     sectName = section.name;
-                    if (!Objects.equals(sectName1, sectName))
-                    {
+                    if (!Objects.equals(sectName1, sectName)) {
                         sectName1 = sectName;
                         sectName2 = sectName;
                         sectTimeValue = section.DatNum(); // get Long created_at value
                         Date result = new Date(sectTimeValue);
                         sectTime = sdf.format(result);
-                    }
-                    else
-                    {
+                    } else {
                         sectTime = "";
                         sectName2 = "";
                     }
@@ -1308,55 +1206,52 @@ public class WelcomeActivity
                     else
                         strcountee = "";
 
-                    if (outPref.equals("sections"))
-                    {
+                    if (outPref.equals("sections")) {
                         // Build line in species table for species in section
                         String[] arrStr =
-                            {
-                                sectTime,    // time of 1. count in section
-                                sectName2,   // section name
-                                name_s,      // species name
-                                name_l,      // species local name
-                                code,        // species code
-                                strcountmf,  // count mf
-                                strcountm,   // count m
-                                strcountf,   // count f
-                                strcountp,   // count p
-                                strcountl,   // count l
-                                strcounte,   // count e
-                                strcountmfe, // count mfe
-                                strcountme,  // count me
-                                strcountfe,  // count fe
-                                strcountpe,  // count pe
-                                strcountle,  // count le
-                                strcountee,  // count ee
-                                sp_notes     // spec. notes
-                            };
+                                {
+                                        sectTime,    // time of 1. count in section
+                                        sectName2,   // section name
+                                        name_s,      // species name
+                                        name_l,      // species local name
+                                        code,        // species code
+                                        strcountmf,  // count mf
+                                        strcountm,   // count m
+                                        strcountf,   // count f
+                                        strcountp,   // count p
+                                        strcountl,   // count l
+                                        strcounte,   // count e
+                                        strcountmfe, // count mfe
+                                        strcountme,  // count me
+                                        strcountfe,  // count fe
+                                        strcountpe,  // count pe
+                                        strcountle,  // count le
+                                        strcountee,  // count ee
+                                        sp_notes     // spec. notes
+                                };
                         csvWrite.writeNext(arrStr);
-                    }
-                    else
-                    {
+                    } else {
                         // Build line in species table for species in section
                         String[] arrStr =
-                            {
-                                name_s,      // species name
-                                name_l,      // species local name
-                                code,        // species code
-                                sectName,    // section name
-                                strcountmf,  // count mf
-                                strcountm,   // count m
-                                strcountf,   // count f
-                                strcountp,   // count p
-                                strcountl,   // count l
-                                strcounte,   // count e
-                                strcountmfe, // count mfe
-                                strcountme,  // count me
-                                strcountfe,  // count fe
-                                strcountpe,  // count pe
-                                strcountle,  // count le
-                                strcountee,  // count ee
-                                sp_notes     // spec. notes
-                            };
+                                {
+                                        name_s,      // species name
+                                        name_l,      // species local name
+                                        code,        // species code
+                                        sectName,    // section name
+                                        strcountmf,  // count mf
+                                        strcountm,   // count m
+                                        strcountf,   // count f
+                                        strcountp,   // count p
+                                        strcountl,   // count l
+                                        strcounte,   // count e
+                                        strcountmfe, // count mfe
+                                        strcountme,  // count me
+                                        strcountfe,  // count fe
+                                        strcountpe,  // count pe
+                                        strcountle,  // count le
+                                        strcountee,  // count ee
+                                        sp_notes     // spec. notes
+                                };
                         csvWrite.writeNext(arrStr);
                     }
 
@@ -1389,22 +1284,22 @@ public class WelcomeActivity
 
                 // Internal counts, External counts, Totals
                 String[] arrCol2 =
-                    {
-                        "", "", "", "", "",
-                        getString(R.string.countImagomfHint),
-                        getString(R.string.countImagomHint),
-                        getString(R.string.countImagofHint),
-                        getString(R.string.countPupaHint),
-                        getString(R.string.countLarvaHint),
-                        getString(R.string.countOvoHint),
-                        getString(R.string.countImagomfHint),
-                        getString(R.string.countImagomHint),
-                        getString(R.string.countImagofHint),
-                        getString(R.string.countPupaHint),
-                        getString(R.string.countLarvaHint),
-                        getString(R.string.countOvoHint),
-                        getString(R.string.hintTotal)
-                    };
+                        {
+                                "", "", "", "", "",
+                                getString(R.string.countImagomfHint),
+                                getString(R.string.countImagomHint),
+                                getString(R.string.countImagofHint),
+                                getString(R.string.countPupaHint),
+                                getString(R.string.countLarvaHint),
+                                getString(R.string.countOvoHint),
+                                getString(R.string.countImagomfHint),
+                                getString(R.string.countImagomHint),
+                                getString(R.string.countImagofHint),
+                                getString(R.string.countPupaHint),
+                                getString(R.string.countLarvaHint),
+                                getString(R.string.countOvoHint),
+                                getString(R.string.hintTotal)
+                        };
                 csvWrite.writeNext(arrCol2);
 
                 // Internal sums
@@ -1445,20 +1340,20 @@ public class WelcomeActivity
 
                 // Write internal total sums
                 String[] arrSumi =
-                    {
-                        "", "",
-                        getString(R.string.sumSpec),
-                        Integer.toString(sumSpec),
-                        getString(R.string.sum),
-                        strsummf,
-                        strsumm,
-                        strsumf,
-                        strsump,
-                        strsuml,
-                        strsumo,
-                        "", "", "", "", "", "",
-                        strtotali
-                    };
+                        {
+                                "", "",
+                                getString(R.string.sumSpec),
+                                Integer.toString(sumSpec),
+                                getString(R.string.sum),
+                                strsummf,
+                                strsumm,
+                                strsumf,
+                                strsump,
+                                strsuml,
+                                strsumo,
+                                "", "", "", "", "", "",
+                                strtotali
+                        };
                 csvWrite.writeNext(arrSumi);
 
                 // External sums
@@ -1499,18 +1394,18 @@ public class WelcomeActivity
 
                 // Write external total sums
                 String[] arrSume =
-                    {
-                        "", "", "", "",
-                        getString(R.string.sume),
-                        "", "", "", "", "", "",
-                        strsummfe,
-                        strsumme,
-                        strsumfe,
-                        strsumpe,
-                        strsumle,
-                        strsumoe,
-                        strtotale,
-                    };
+                        {
+                                "", "", "", "",
+                                getString(R.string.sume),
+                                "", "", "", "", "", "",
+                                strsummfe,
+                                strsumme,
+                                strsumfe,
+                                strsumpe,
+                                strsumle,
+                                strsumoe,
+                                strtotale,
+                        };
                 csvWrite.writeNext(arrSume);
 
                 // Overall totals
@@ -1521,22 +1416,21 @@ public class WelcomeActivity
 
                 // Write overall total sum
                 String[] arrTotal =
-                    {
-                        "", "", "", "",
-                        getString(R.string.sum_total),
-                        "", "", "", "", "", "",
-                        "", "", "", "", "", "",
-                        strtotal
-                    };
+                        {
+                                "", "", "", "",
+                                getString(R.string.sum_total),
+                                "", "", "", "", "", "",
+                                "", "", "", "", "", "",
+                                strtotal
+                        };
                 csvWrite.writeNext(arrTotal);
 
                 csvWrite.close();
                 showSnackbar(getString(R.string.savecsv));
 
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 showSnackbarRed(getString(R.string.saveFail));
-                if (MyDebug.DLOG) Log.e(TAG, "1533, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1580, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1544,38 +1438,31 @@ public class WelcomeActivity
     // End of exportDb2CSV()
 
     /**
-     * @noinspection ResultOfMethodCallIgnored
-     * ********************************************************************************************/
+     ********************************************************************************************/
     // Export current species list to both data directories
-    //  /Documents/TourCount/species_YYYY-MM-DD_hhmmss.csv and
-    //  /Documents/TransektCount/species_YYYY-MM-DD_hhmmss.csv
-    private void exportSpeciesList()
-    {
-        // outFileTour -> /storage/emulated/0/Documents/TourCount/species_yyyy-MM-dd_HHmmss.csv
-        // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_yyyy-MM-dd_HHmmss.csv
-        File pathTour, outFileTour, pathTransect, outFileTransect;
+    //  /Documents/TourCount/species_YYYYMMDD_hhmmss.csv and
+    //  /Documents/TransektCount/species_YYYYMMDD_hhmmss.csv
+    private void exportSpeciesList() {
+        // outFileTour -> /storage/emulated/0/Documents/TourCount/species_yyyyMMdd_HHmmss.csv
+        // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_yyyyMMdd_HHmmss.csv
+        File pathTour, outFileTour, pathTransect, outFileTransect = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
             pathTransect = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
-        }
-        else
-        {
+        } else {
             pathTour = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TourCount");
+                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TourCount");
             pathTransect = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
+                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
         }
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
 
-        if (!mExternalStorageWriteable)
-        {
+        if (!mExternalStorageWriteable) {
             showSnackbarRed(getString(R.string.noCard));
-        }
-        else
-        {
+        } else {
             // Export species list into species_yyyy-MM-dd_HHmmss.csv
             dbHandler = new DbHelper(this);
             database = dbHandler.getWritableDatabase();
@@ -1591,73 +1478,73 @@ public class WelcomeActivity
             int specNum = codeArray.length;
 
             // If TourCount is installed export to /Documents/TourCount
-            if (pathTour.exists() && pathTour.isDirectory())
-            {
-                try
-                {
-                    pathTour.mkdirs(); // Just verify pathTour, result ignored
-                    String language = Locale.getDefault().toString().substring(0, 2);
-                    if (language.equals("en"))
-                    {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_Transect_" + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_Transect_" + transNo + "_" + getcurDate() + ".csv");
-                    }
+            if (pathTour.exists() && pathTour.isDirectory()) {
+                String language = Locale.getDefault().toString().substring(0, 2);
+                if (language.equals("de")) {
+                    if (Objects.equals(transNo, ""))
+                        outFileTour = new File(pathTour, "/species_Transekt_" + getcurDate() + ".csv");
                     else
-                    {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_Transekt_" + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
-                    }
+                        outFileTour = new File(pathTour, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
+                } else {
+                    if (Objects.equals(transNo, ""))
+                        outFileTour = new File(pathTour, "/species_Transect_" + getcurDate() + ".csv");
+                    else
+                        outFileTour = new File(pathTour, "/species_Transect_" + transNo + "_" + getcurDate() + ".csv");
+                }
+
+                try {
                     CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTour));
 
                     int i = 0;
-                    while (i < specNum)
-                    {
+                    while (i < specNum) {
                         String[] specLine =
-                            {
-                                codeArray[i],
-                                nameArray[i],
-                                nameArrayL[i]
-                            };
+                                {
+                                        codeArray[i],
+                                        nameArray[i],
+                                        nameArrayL[i]
+                                };
                         i++;
                         csvWrite.writeNext(specLine);
                     }
                     csvWrite.close();
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     showSnackbarRed(getString(R.string.saveFailListTour));
                 }
             }
 
             // Export to /Documents/TransektCount
-            try
-            {
-                pathTransect.mkdirs(); // Just verify pathTransekt, result ignored
-                if (Objects.equals(transNo, ""))
-                    outFileTransect = new File(pathTransect, "/species_Transekt_" + getcurDate() + ".csv");
-                else
-                    outFileTransect = new File(pathTransect, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
+            if (pathTransect.exists() && pathTransect.isDirectory()) {
+                String language = Locale.getDefault().toString().substring(0, 2);
+                if (language.equals("de")) {
+                    if (Objects.equals(transNo, ""))
+                        outFileTransect = new File(pathTransect, "/species_Transekt_" + getcurDate() + ".csv");
+                    else
+                        outFileTransect = new File(pathTransect, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
+                } else {
+                    if (Objects.equals(transNo, ""))
+                        outFileTransect = new File(pathTransect, "/species_Transect_" + getcurDate() + ".csv");
+                    else
+                        outFileTransect = new File(pathTransect, "/species_Transect_" + transNo + "_" + getcurDate() + ".csv");
+                }
+            }
+
+            try {
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTransect));
 
                 int i = 0;
-                while (i < specNum)
-                {
+                while (i < specNum) {
                     String[] specLine =
-                        {
-                            codeArray[i],
-                            nameArray[i],
-                            nameArrayL[i]
-                        };
+                            {
+                                    codeArray[i],
+                                    nameArray[i],
+                                    nameArrayL[i]
+                            };
                     i++;
                     csvWrite.writeNext(specLine);
                 }
                 csvWrite.close();
                 showSnackbar(getString(R.string.saveList));
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 showSnackbarRed(getString(R.string.saveFailList));
             }
             dbHandler.close();
@@ -1667,16 +1554,14 @@ public class WelcomeActivity
 
     /**********************************************************************************************/
     // Copy file block-wise
-    private static void copy(File src, File dst) throws IOException
-    {
+    private static void copy(File src, File dst) throws IOException {
         FileInputStream in = new FileInputStream(src);
         FileOutputStream out = new FileOutputStream(dst);
 
         // Transfer bytes from in to out
         byte[] buf = new byte[1024];
         int len;
-        while ((len = in.read(buf)) > 0)
-        {
+        while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);
         }
         in.close();
@@ -1685,8 +1570,7 @@ public class WelcomeActivity
 
     /**********************************************************************************************/
     // Clear all relevant DB values, reset to basic DB
-    private void resetToBasisDb()
-    {
+    private void resetToBasisDb() {
         // Confirm dialogue before anything else takes place
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -1705,79 +1589,57 @@ public class WelcomeActivity
 
     // Clear DB values for basic DB
     @SuppressLint({"LongLogTag"})
-    private boolean clearDBValues()
-    {
+    private boolean clearDBValues() {
         // Clear values in DB
         dbHandler = new DbHelper(this);
         database = dbHandler.getWritableDatabase();
 
         boolean r_ok = true; // Gets false when reset fails
 
-        try
-        {
+        try {
             String sql = "UPDATE " + DbHelper.COUNT_TABLE + " SET "
-                + DbHelper.C_COUNT_F1I + " = 0, "
-                + DbHelper.C_COUNT_F2I + " = 0, "
-                + DbHelper.C_COUNT_F3I + " = 0, "
-                + DbHelper.C_COUNT_PI + " = 0, "
-                + DbHelper.C_COUNT_LI + " = 0, "
-                + DbHelper.C_COUNT_EI + " = 0, "
-                + DbHelper.C_COUNT_F1E + " = 0, "
-                + DbHelper.C_COUNT_F2E + " = 0, "
-                + DbHelper.C_COUNT_F3E + " = 0, "
-                + DbHelper.C_COUNT_PE + " = 0, "
-                + DbHelper.C_COUNT_LE + " = 0, "
-                + DbHelper.C_COUNT_EE + " = 0, "
-                + DbHelper.C_NOTES + " = '';";
+                    + DbHelper.C_COUNT_F1I + " = 0, "
+                    + DbHelper.C_COUNT_F2I + " = 0, "
+                    + DbHelper.C_COUNT_F3I + " = 0, "
+                    + DbHelper.C_COUNT_PI + " = 0, "
+                    + DbHelper.C_COUNT_LI + " = 0, "
+                    + DbHelper.C_COUNT_EI + " = 0, "
+                    + DbHelper.C_COUNT_F1E + " = 0, "
+                    + DbHelper.C_COUNT_F2E + " = 0, "
+                    + DbHelper.C_COUNT_F3E + " = 0, "
+                    + DbHelper.C_COUNT_PE + " = 0, "
+                    + DbHelper.C_COUNT_LE + " = 0, "
+                    + DbHelper.C_COUNT_EE + " = 0, "
+                    + DbHelper.C_NOTES + " = '';";
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
-                + DbHelper.S_CREATED_AT + " = '', "
-                + DbHelper.S_NOTES + " = '';";
+                    + DbHelper.S_CREATED_AT + " = '', "
+                    + DbHelper.S_NOTES + " = '';";
             database.execSQL(sql);
 
             sql = "UPDATE " + DbHelper.META_TABLE + " SET "
-                + DbHelper.M_TEMPS + " = 0, "
-                + DbHelper.M_TEMPE + " = 0, "
-                + DbHelper.M_WINDS + " = 0, "
-                + DbHelper.M_WINDE + " = 0, "
-                + DbHelper.M_CLOUDS + " = 0, "
-                + DbHelper.M_CLOUDE + " = 0, "
-                + DbHelper.M_DATE + " = '', "
-                + DbHelper.M_START_TM + " = '', "
-                + DbHelper.M_END_TM + " = '';";
+                    + DbHelper.M_TEMPS + " = 0, "
+                    + DbHelper.M_TEMPE + " = 0, "
+                    + DbHelper.M_WINDS + " = 0, "
+                    + DbHelper.M_WINDE + " = 0, "
+                    + DbHelper.M_CLOUDS + " = 0, "
+                    + DbHelper.M_CLOUDE + " = 0, "
+                    + DbHelper.M_DATE + " = '', "
+                    + DbHelper.M_START_TM + " = '', "
+                    + DbHelper.M_END_TM + " = '', "
+                    + DbHelper.M_NOTE + " = '';";
             database.execSQL(sql);
 
             sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
             database.execSQL(sql);
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             showSnackbarRed(getString(R.string.resetFail));
             r_ok = false;
         }
         dbHandler.close();
         return r_ok;
-    }
-
-    // Clear DB for import of external species list
-    private void clearDBforImport()
-    {
-        dbHandler = new DbHelper(this);
-        database = dbHandler.getWritableDatabase();
-
-        String sql = "DELETE FROM " + DbHelper.COUNT_TABLE;
-        database.execSQL(sql);
-
-        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
-        database.execSQL(sql);
-
-        dbHandler.close();
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("item_Position", 0);
-        editor.putInt("section_id", 1);
-        editor.apply();
     }
 
     private void showSnackbar(String str) // green info text

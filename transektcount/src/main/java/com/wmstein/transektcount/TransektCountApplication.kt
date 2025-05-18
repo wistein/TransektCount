@@ -22,7 +22,7 @@ import androidx.core.graphics.drawable.toDrawable
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2025-04-15
+ * last edit on 2025-05-02
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -119,7 +119,7 @@ class TransektCountApplication : Application() {
         private var prefs: SharedPreferences? = null
 
         // Scale background bitmap
-        fun calculateInSampleSize(
+        private fun calculateInSampleSize(
             options: BitmapFactory.Options,
             reqWidth: Int,
             reqHeight: Int,

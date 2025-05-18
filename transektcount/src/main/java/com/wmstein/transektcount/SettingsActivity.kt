@@ -1,12 +1,11 @@
 package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 
 /**********************************************************
  * Set the Settings parameters for TransektCount
@@ -14,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Adapted for TransektCount by wmstein on 18.02.2016
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-07-27
+ * last edited on 2025-05-18
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
@@ -43,17 +42,17 @@ class SettingsActivity : AppCompatActivity() {
         var ringtone: String
 
         val alertSoundUri =
-            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.alert)
+            ("android.resource://com.wmstein.transektcount/" + R.raw.alert).toUri()
         ringtone = alertSoundUri.toString()
         editor!!.putString("alert_sound", ringtone)
 
         val buttonSoundUri =
-            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button)
+            ("android.resource://com.wmstein.transektcount/" + R.raw.button).toUri()
         ringtone = buttonSoundUri.toString()
         editor!!.putString("button_sound", ringtone)
 
         val buttonSoundUriM =
-            Uri.parse("android.resource://com.wmstein.transektcount/" + R.raw.button_minus)
+            ("android.resource://com.wmstein.transektcount/" + R.raw.button_minus).toUri()
         ringtone = buttonSoundUriM.toString()
         editor!!.putString("button_sound_minus", ringtone)
         editor!!.commit()
@@ -61,10 +60,8 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            startActivity(
-                Intent(this, WelcomeActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            )
+            finish()
+//            startActivity(Intent(this, WelcomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             return true
         }
         return super.onOptionsItemSelected(item)

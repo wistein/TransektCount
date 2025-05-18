@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-04-18 -->
+     last edited 2025-04-26 -->
 
 <resources>
 
@@ -60,7 +60,7 @@
     <string name="sum_total">Summen (total):</string>
     <string name="sumSpec">Arten:</string>
     <string name="kal_w">KW:</string>
-    <string name="note">Transekt Bem.:</string>
+    <string name="note">Transekt-Bem.:</string>
     <string name="timehead">Zeit:</string>
     <string name="from">von:</string>
     <string name="to">bis:</string>
@@ -185,14 +185,17 @@
     <string name="pref_bright">Bildschirm hell</string>
     <string name="pref_bright_summ">Die TransektCount-Seiten zum Zählen und Editieren hell setzen</string>
 
+    <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>
+    <string name="pref_proximity_title">Näherungsensor</string>
+
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂♀ ändern</string>
+    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
     <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
     <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
     <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
     <string name="editCountValueli">Intern-Zählerstand [ %1$d ] von Raupe ändern</string>
     <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
-    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂♀ ändern</string>
+    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
     <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
     <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
     <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
@@ -213,7 +216,7 @@
     <!-- ListViewSpecies -->
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Liste wird berechnet&#8230;</string>
-    <string name="txt_mf">♂♀</string>
+    <string name="txt_mf">♂|♀</string>
     <string name="txt_m">♂</string>
     <string name="txt_f">♀</string>
     <string name="txt_p">Puppe</string>
@@ -230,14 +233,14 @@
     <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
     <string name="countExternalSum">Summen außerhalb des Zählbereichs:</string>
     <string name="totalsIES">Gesamt intern / extern / Arten:</string>
-    <string name="countImagomfHint">Falter ♂♀</string>
+    <string name="countImagomfHint">Falter ♂|♀</string>
     <string name="countImagomHint">Falter ♂</string>
     <string name="countImagofHint">Falter ♀</string>
     <string name="countPupaHint">Puppe</string>
     <string name="countLarvaHint">Raupe</string>
     <string name="countOvoHint">Ei</string>
     <string name="hintTitle">Titel</string>
-    <string name="hintDateTime">Dat./Zeit der 1. Zählung:</string>
+    <string name="hintDateTime">Datum und Zeit\nder 1. Zählung:</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsummen:</string>
     <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_TR-Nr_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>

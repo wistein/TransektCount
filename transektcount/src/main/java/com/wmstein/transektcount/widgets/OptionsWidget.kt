@@ -124,7 +124,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         instructionsee.text = i
     }
 
-    // this is set to return 0 if it can't parse a value from the box
+    // This is set to return 0 if it can't parse a value from the box
     //   in order that transektcount doesn't crash.
     // For transect internal counters
     var parameterValuef1i: Int
@@ -135,7 +135,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -152,7 +152,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -169,7 +169,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -186,7 +186,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -203,7 +203,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -220,7 +220,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -238,7 +238,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -255,7 +255,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -272,7 +272,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -289,7 +289,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -306,7 +306,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }
@@ -323,7 +323,7 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             } else {
                 try {
                     text.replace("\\D".toRegex(), "").toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             }

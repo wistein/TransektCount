@@ -20,6 +20,7 @@ import androidx.core.app.NavUtils
 import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
+import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.widgets.AddAlertWidget
 import com.wmstein.transektcount.widgets.AlertEditWidget
 import com.wmstein.transektcount.widgets.EditNotesWidget
@@ -34,12 +35,13 @@ import com.wmstein.transektcount.widgets.OptionsWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2024-12-17
+ * last edited on 2025-05-14
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
     private var countId = 0
     private var countDataSource: CountDataSource? = null
+    private var sectionDataSource: SectionDataSource? = null
     private var alertDataSource: AlertDataSource? = null
     private var markedForDelete: View? = null
     private var deleteAlert = 0
@@ -51,6 +53,21 @@ class CountOptionsActivity : AppCompatActivity() {
     private var enw: EditNotesWidget? = null
     private var aaWidget: AddAlertWidget? = null
     private var savedAlerts: ArrayList<AlertEditWidget>? = null
+
+    private var sf1i = 0
+    private var sf2i = 0
+    private var sf3i = 0
+    private var spi = 0
+    private var sli = 0
+    private var sei = 0
+    private var sf1e = 0
+    private var sf2e = 0
+    private var sf3e = 0
+    private var spe = 0
+    private var sle = 0
+    private var see = 0
+    private var sums = false
+    private var sume = false
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
@@ -104,6 +121,7 @@ class CountOptionsActivity : AppCompatActivity() {
         }
 
         countDataSource = CountDataSource(this)
+        sectionDataSource = SectionDataSource(this)
         alertDataSource = AlertDataSource(this)
 
         // New onBackPressed logic
@@ -131,6 +149,7 @@ class CountOptionsActivity : AppCompatActivity() {
 
         // Get the data sources
         countDataSource!!.open()
+        sectionDataSource!!.open()
         alertDataSource!!.open()
         count = countDataSource!!.getCountById(countId)
 
@@ -144,6 +163,23 @@ class CountOptionsActivity : AppCompatActivity() {
         // 2. Current count values (external counters)
         // 3. Alert add/remove
         optWidget = OptionsWidget(this, null)
+
+        // Initial counter values
+        sf1i = optWidget!!.parameterValuef1i
+        sf2i = optWidget!!.parameterValuef2i
+        sf3i = optWidget!!.parameterValuef3i
+        spi = optWidget!!.parameterValuepi
+        sli = optWidget!!.parameterValueli
+        sei = optWidget!!.parameterValueei
+        sf1e = optWidget!!.parameterValuef1e
+        sf2e = optWidget!!.parameterValuef2e
+        sf3e = optWidget!!.parameterValuef3e
+        spe = optWidget!!.parameterValuepe
+        sle = optWidget!!.parameterValuele
+        see = optWidget!!.parameterValueee
+        if (sf1i + sf2i + sf3i + spi + sli + sei + sf1e + sf2e + sf3e + spe + sle + see == 0)
+            sums = true // no count so far
+
         optWidget!!.setInstructionsf1i(
             String.format(
                 getString(R.string.editCountValuef1i),
@@ -298,6 +334,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onPause()
 
         countDataSource!!.close()
+        sectionDataSource!!.close()
         alertDataSource!!.close()
     }
 
@@ -316,20 +353,38 @@ class CountOptionsActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
 
-        count!!.count_f1i = optWidget!!.parameterValuef1i
-        count!!.count_f2i = optWidget!!.parameterValuef2i
-        count!!.count_f3i = optWidget!!.parameterValuef3i
-        count!!.count_pi = optWidget!!.parameterValuepi
-        count!!.count_li = optWidget!!.parameterValueli
-        count!!.count_ei = optWidget!!.parameterValueei
-        count!!.count_f1e = optWidget!!.parameterValuef1e
-        count!!.count_f2e = optWidget!!.parameterValuef2e
-        count!!.count_f3e = optWidget!!.parameterValuef3e
-        count!!.count_pe = optWidget!!.parameterValuepe
-        count!!.count_le = optWidget!!.parameterValuele
-        count!!.count_ee = optWidget!!.parameterValueee
+        sf1i = optWidget!!.parameterValuef1i
+        count!!.count_f1i = sf1i
+        sf2i = optWidget!!.parameterValuef2i
+        count!!.count_f2i = sf2i
+        sf3i = optWidget!!.parameterValuef3i
+        count!!.count_f3i = sf3i
+        spi = optWidget!!.parameterValuepi
+        count!!.count_pi = spi
+        sli = optWidget!!.parameterValueli
+        count!!.count_li = sli
+        sei = optWidget!!.parameterValueei
+        count!!.count_ei = sei
+        sf1e = optWidget!!.parameterValuef1e
+        count!!.count_f1e = sf1e
+        sf2e = optWidget!!.parameterValuef2e
+        count!!.count_f2e = sf2e
+        sf3e = optWidget!!.parameterValuef3e
+        count!!.count_f3e = sf3e
+        spe = optWidget!!.parameterValuepe
+        count!!.count_pe = spe
+        sle = optWidget!!.parameterValuele
+        count!!.count_le = sle
+        see = optWidget!!.parameterValueee
+        count!!.count_ee = see
         count!!.notes = enw!!.sNotes
         countDataSource!!.saveCount(count!!)
+
+        if (sf1i + sf2i + sf3i + spi + sli + sei + sf1e + sf2e + sf3e + spe + sle + see > 0)
+            sume = true // got count
+
+        if (sums && sume) // if a first count entered
+            sectionDataSource!!.saveDateSectionOfId(sectionId)
 
         /*
         * Get all the alerts from the dynamicWidgetArea and save each one.
