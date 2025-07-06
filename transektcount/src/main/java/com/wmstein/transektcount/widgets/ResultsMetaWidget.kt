@@ -9,7 +9,7 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /****************************************************
- * ResultsMetaWidget.java used by ResultsActivity.java
+ * ResultsMetaWidget.java used by ShowResultsActivity.java
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,

@@ -20,6 +20,12 @@
 		<item name="android:textSize">17sp</item>
 	</style>
 
+	<style name="ListBoldText">
+		<item name="android:textColor">#EEEEEE</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textSize">17sp</item>
+	</style>
+
 	<style name="SimpleText">
 		<item name="android:textColor">#FFFFFF</item>
 		<item name="android:textSize">17sp</item>
@@ -29,5 +35,4 @@
 		<item name="android:textColor">#FFFFFF</item>
 		<item name="android:textSize">15sp</item>
 	</style>
-
 </resources>

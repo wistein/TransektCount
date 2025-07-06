@@ -46,12 +46,13 @@ _ Subtitle
   _ 
   ! Sofern nicht gemäß geltendem Recht vorgeschrieben oder schriftlich vereinbart, wird die Software unter der Lizenz so wie sie ist ("AS IS") OHNE JEGLICHE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GEWÄHRLEISTUNGSANSPRÜCHE übertragen. Siehe in Bezug auf die einzelnen Rechte und Einschränkungen die Bestimmungen des Lizenztexts.
   _ 
-  & Code von externen Quellen:
+  & Integrierter Code von externen Quellen:
+  * AutoFitEditText.kt, modifiziert, original Java-Code: Viktor Arsovski, 2015-10-29, MIT License, https://github.com/viksaaskool/autofitedittext
+  * AutoFitText.kt, modifiziert, original Java-Code: pheuschk, 18.04.2013, Open Source, https://pastebin.com/raw/e6WyrwSN
+  * ChangeLog.java, modifiziert, original Java-Code: (C) 2011-2013, Karsten Priegnitz, Other Open Source, https://github.com/koem/android-change-log/
+  * CSVWriter.kt, modifiziert, Original Java-Code: (C) 2015 Bytecode Pty Ltd., Apache License, Version 2.0
+  * Filechooser basiert auf Java-Code von android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   * Grundlegende Zählerfunktionen basieren auf BeeCount, (C) 2016 Milo Thurston (knirirr ), Apache License, Version 2.0, https://github.com/knirirr/BeeCount
-  * AutoFitText.java, modifiziert, original code from author: pheuschk, 18.04.2013, Open Source, https://pastebin.com/raw/e6WyrwSN
-  * ChangeLog.java, modifiziert, Original-Code (C) 2011-2013, Karsten Priegnitz, Other Open Source, https://github.com/koem/android-change-log/
-  * CSVWriter.java, modifiziert, Original-Code (C) 2015 Bytecode Pty Ltd., Apache License, Version 2.0
-  * Filechooser basiert auf android-file-chooser, 2011, Google Code Archiv, GNU GPL v3.
   * Einige Icons stammen von Google und sind unter der Creative Commons Attribution 4.0 License lizensiert.
   _
   & Schmetterlings-Abbildungen:

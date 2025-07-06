@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_list_species.xml 
-    used by ResultsSpeciesWidget.java and ResultsActivity.java.
+    used by ResultsSpeciesWidget.java and ShowResultsActivity.java.
     Shows purged list of species counts
     Copyright (c) 2016 - 2024, Wilhelm Stein, Bonn, Germany.
 -->
@@ -12,7 +12,7 @@
               android:background="@drawable/corner"
               android:baselineAligned="false"
               android:padding="3dp"
-              tools:context=".ResultsActivity">
+              tools:context=".ShowResultsActivity">
 
     <LinearLayout
         android:layout_width="0dp"

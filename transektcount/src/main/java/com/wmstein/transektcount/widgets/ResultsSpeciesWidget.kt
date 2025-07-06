@@ -104,7 +104,7 @@ class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLay
         if (spec.count_ee > 0) specCountee.text = spec.count_ee.toString()
     }
 
-    //Parameters spec_* for use in ResultsActivity
+    //Parameters spec_* for use in ShowResultsActivity
     fun getSpecSectionid(spec: Count): Int {
         return spec.section_id
     }

@@ -2,6 +2,18 @@
 
 #### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
+#### Version 4.2.6 (2025-07-06)
+- Vibrator will only be used if Android Version is >= 8
+- Code adapted for Android Version 15 for now forced edge-to-edge layout
+- Some page layouts adapted for edge-to-edge layout
+- Counting page layout better adapted for different screen heights
+- Species editing page now uses left-handers mode
+- All Snackbars (pop-up notifications) changed to colored Toasts
+- Use dark navigation bar for TransektCount when System setting "Dark theme" is off
+- Filename of exported species list with language indicator ('de' or 'en')
+- Some code cleaning
+- Docs updated
+
 #### Version 4.2.5 (2025-05-18)
 - Option to set the proximity Wakelock sensitivity (if supported by device)
 - Corrected message when there is no suitable file for import

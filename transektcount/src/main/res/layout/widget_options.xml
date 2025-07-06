@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- widget_options.xml used by OptionWidget.java -->
+<!-- widget_options.xml used by OptionWidget.java
+ ~   last edited on 2025-07-05
+ -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:baselineAligned="false"
               android:orientation="vertical"
@@ -262,6 +264,15 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"/>
     </LinearLayout>
+
+    <!-- separating white line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/white"
+        android:paddingTop="1dp" />
 
     <LinearLayout
         android:orientation="horizontal"

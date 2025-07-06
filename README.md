@@ -19,7 +19,7 @@ That means, you will use a fresh database instance per inspection by clearing th
 - Results are shown with meta data, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
 - The current butterfly list can be exported for later re-import or imported by the complementary app TourCount.
-- The integrated help contains a detailed userguide.
+- The integrated help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies from Karsholt/Razowski.
 
 ### Prerequisites
@@ -35,10 +35,10 @@ The app is usable with Android version 7.1 (Nougat) or newer.
 Documentation and example DBs are provided under  
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-Please read the userguide (provided in German and English) or consult its contents in the app's help 
+Please read the user guide (provided in German and English) or consult its contents in the app's help 
 before using the app.  
 There are further documents e.g. for setting up and using the app as well as sample basic databases 
-(transektcount0_xxxx.db in German and English versions) provided under .../docs.
+(transektcount0_xxxx.db or species lists in German and English versions) provided under .../docs.
 
 The development history is listed in History.md in .../docs.
 
@@ -77,7 +77,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Pictures of this work by Wilhelm Stein may be used for scientific or other non-commercial purposes without prior permission.
-But it is not permitted to upload pictures to social media platforms, as most of here mentioned licenses do not comply with and I do not agree with the licensing terms of these platforms.
+But it is not permitted to upload pictures to social media platforms, as most of their mentioned licenses do not comply with and I do not agree with the licensing terms of these platforms.
 
 Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their permission.
 

@@ -220,7 +220,7 @@ _
 
 %5. Meldungen
 !
-] Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um die Funktion auszuführen.
+] Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. (Falls auch der zuletzt erzeugte Abschnitt nicht löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um diese Löschfunktion auszuführen.)
 _ 
 ! Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr vielen Transektabschnitten vorkommen. Andere Funktionen der App sind von dieser Einschränkung nicht betroffen.
 _ 

@@ -11,7 +11,7 @@ import java.util.Objects
 
 /**********************************************************
  * ResultsSumWidget shows count totals area in the result page
- * created by ResultsActivity
+ * created by ShowResultsActivity
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,

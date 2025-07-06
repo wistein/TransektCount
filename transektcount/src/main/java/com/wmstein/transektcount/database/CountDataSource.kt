@@ -371,7 +371,7 @@ class CountDataSource(context: Context) {
         return counts
     }
 
-    // Used by ResultsActivity
+    // Used by ShowResultsActivity
     val allCountsForSrtSectionName: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
@@ -396,7 +396,7 @@ class CountDataSource(context: Context) {
             return counts
         }
 
-    // Used by ResultsActivity
+    // Used by ShowResultsActivity
     val allCountsForSrtNameSection: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
@@ -421,7 +421,7 @@ class CountDataSource(context: Context) {
             return counts
         }
 
-    // Used by ResultsActivity (results page)
+    // Used by ShowResultsActivity (results page)
     val diffSpec: Int
         get() {
             var cntSpec = 0

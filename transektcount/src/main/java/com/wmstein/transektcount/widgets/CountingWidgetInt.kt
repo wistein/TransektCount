@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
@@ -27,7 +28,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016
  * last edited in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2025-04-15
+ * last edited on 2025-06-28
  */
 class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
@@ -99,18 +100,19 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
             sHeight = size.y
         }
 
-        if (MyDebug.DLOG)
-            Toast.makeText(context, "Height: $sHeight", Toast.LENGTH_SHORT).show();
+        if (MyDebug.DLOG) {
+            val mesg = "Height: $sHeight"
+            Toast.makeText(
+                context,
+                HtmlCompat.fromHtml(
+                    "<font color='blue'>" + mesg + "</font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_SHORT
+            ).show()
+        }
 
-        // 4 different screen sizes
-        if (sHeight >= 2850)
-            ht = 140 // 125 -> 5 mm, 500 -> 24 mm, 50 -> 2 mm (in xml 38dp -> 4,5 mm)
-        else if (sHeight >= 2400)
-            ht = 125
-        else if (sHeight >= 2000)
-            ht = 110
-        else // < 2000
-            ht = 94
+        // Height for counter line on counting page
+        ht = sHeight / 21
 
         val lparamsf1i: ViewGroup.LayoutParams = idf1i.layoutParams
         lparamsf1i.height = ht

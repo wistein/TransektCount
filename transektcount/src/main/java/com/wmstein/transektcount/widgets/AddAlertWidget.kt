@@ -18,4 +18,5 @@ class AddAlertWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater).inflate(R.layout.widget_add_alert, this, true)
     }
+
 }

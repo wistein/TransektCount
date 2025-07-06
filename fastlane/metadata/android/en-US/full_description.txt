@@ -1,11 +1,14 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 4.2.5:
-- Option to set the proximity Wakelock sensitivity (if supported by device)
-- Corrected message when there is no suitable file for import
-- Optional button vibration fixed for Android Version > 11
-- Code, data and layout improvements
-- Some minor bug fixes
+New in Version 4.2.6:
+- Vibrator will only be used if Android Version is >= 8
+- Code adapted for Android Version 15 for now forced edge-to-edge layout
+- Some page layouts adapted for edge-to-edge layout
+- Counting page layout better adapted for different screen heights
+- Species editing page now uses left-handers mode
+- All Snackbars (pop-up notifications) changed to colored Toasts
+- Filename of exported species list with language indicator ('de' or 'en')
+- Some code cleaning
 - Docs updated
 
 Features:
@@ -32,7 +35,7 @@ The app requires
 - the permit to set the screen brightness, 
 - the permit to prevent the sleep mode.
 
-The smartphone screen should have a minimum resolution of 1920 x 1024 pixels. 
+The smartphone screen should have a minimum resolution of 1024 x 1920 pixels.
 The app can be used with Android version 7.1 (Nougat) or newer.
 
 Documentation is provided under:

@@ -11,8 +11,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,6 +18,7 @@ import android.hardware.SensorManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +31,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -40,11 +40,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.text.HtmlCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
@@ -82,7 +86,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-05-01
+ * last edited on 2025-06-28
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -146,12 +150,13 @@ public class CountingActivity
 
     private Ringtone r;
     private Vibrator vibrator;
+    private String mesg = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "154, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "158, onCreate");
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -180,6 +185,9 @@ public class CountingActivity
             getWindow().setAttributes(params);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
+            EdgeToEdge.enable(this);
+
         // Distinguish between left-/ right-handed counting page layout
         if (lhandPref) {
             setContentView(R.layout.activity_counting_lh);
@@ -191,6 +199,17 @@ public class CountingActivity
             countsFieldArea2 = findViewById(R.id.countsField2LH);
             speciesNotesArea = findViewById(R.id.speciesNotesLH);
             alertNotesArea = findViewById(R.id.alertRemarkLH);
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.countingScreenLH),
+                    (v, windowInsets) -> {
+                        Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                        mlp.topMargin = insets.top;
+                        mlp.bottomMargin = insets.bottom;
+                        mlp.leftMargin = insets.left;
+                        mlp.rightMargin = insets.right;
+                        v.setLayoutParams(mlp);
+                        return WindowInsetsCompat.CONSUMED;
+                    });
         } else {
             setContentView(R.layout.activity_counting);
             LinearLayout counting_screen = findViewById(R.id.countingScreen);
@@ -201,6 +220,17 @@ public class CountingActivity
             countsFieldArea2 = findViewById(R.id.countsField2RH);
             speciesNotesArea = findViewById(R.id.speciesNotesRH);
             alertNotesArea = findViewById(R.id.alertRemarkRH);
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.countingScreen),
+                    (v, windowInsets) -> {
+                        Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                        mlp.topMargin = insets.top;
+                        mlp.bottomMargin = insets.bottom;
+                        mlp.leftMargin = insets.left;
+                        mlp.rightMargin = insets.right;
+                        v.setLayoutParams(mlp);
+                        return WindowInsetsCompat.CONSUMED;
+                    });
         }
 
         // Proximity sensor handling screen on/off
@@ -284,7 +314,7 @@ public class CountingActivity
     protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "287, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "316, onResume");
 
         mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -315,7 +345,10 @@ public class CountingActivity
         try {
             section = sectionDataSource.getSection(sectionId);
         } catch (CursorIndexOutOfBoundsException e) {
-            showSnackbarRed(getString(R.string.getHelp));
+            mesg = getString(R.string.getHelp);
+            Toast.makeText(this,
+                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
+                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -417,7 +450,7 @@ public class CountingActivity
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
             if (MyDebug.DLOG)
-                showSnackbarRed("Value0: " + event.values[0] + ", " + "Sensitivity: "
+                Log.d(TAG, "449 Value0: " + event.values[0] + ", " + "Sensitivity: "
                         + (sensorSensitivity));
 
             // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -478,9 +511,10 @@ public class CountingActivity
         else if (id == R.id.menuAddSpecies) {
             disableProximitySensor();
 
-            // Use toast as a Snackbar here comes incomplete
-            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT)
-                    .show();
+            mesg = getString(R.string.wait);
+            Toast.makeText(this,
+                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
+                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
 
             // Trick: Pause for 100 msec to show toast
             Intent intent = new Intent(CountingActivity.this, AddSpeciesActivity.class);
@@ -494,8 +528,10 @@ public class CountingActivity
         else if (id == R.id.menuDelSpecies) {
             disableProximitySensor();
 
-            // Use toast as a Snackbar here comes incomplete
-            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT).show();
+            mesg = getString(R.string.wait);
+            Toast.makeText(this,
+                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
+                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -508,8 +544,10 @@ public class CountingActivity
         else if (id == R.id.menuEditSection) {
             disableProximitySensor();
 
-            // Use toast as a Snackbar here comes incomplete
-            Toast.makeText(this, getString(R.string.wait), Toast.LENGTH_SHORT).show();
+            mesg = getString(R.string.wait);
+            Toast.makeText(this,
+                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
+                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, EditSectionListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -535,7 +573,10 @@ public class CountingActivity
                     try {
                         startActivity(chooser);
                     } catch (Exception e) {
-                        showSnackbarRed(getString(R.string.noPhotoPermit));
+                        mesg = getString(R.string.noPhotoPermit);
+                        Toast.makeText(this,
+                                HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
+                                        HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
@@ -607,7 +648,7 @@ public class CountingActivity
     protected void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "610, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "636, onPause");
 
         disableProximitySensor();
 
@@ -631,7 +672,7 @@ public class CountingActivity
     public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "634, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "660, onStop");
 
         if (r != null)
             r.stop(); // stop media player
@@ -641,7 +682,7 @@ public class CountingActivity
     public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "644, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "670, onDestroy");
     }
 
     // Spinner listener
@@ -664,13 +705,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.DLOG)
-                        Log.d(TAG, "667, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "693, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.DLOG)
-                        Log.e(TAG, "673, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "699, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -683,7 +724,7 @@ public class CountingActivity
 
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
-        if (MyDebug.DLOG) Log.d(TAG, "686, countingScreen");
+        if (MyDebug.DLOG) Log.d(TAG, "712, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -801,7 +842,7 @@ public class CountingActivity
     public void countUpf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "804, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "830, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -860,7 +901,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "863, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "889, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1311,7 +1352,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1314, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1340, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1359,7 +1400,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1362 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1388 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1809,31 +1850,36 @@ public class CountingActivity
 
     // Clone section with check for double names
     private void cloneSection() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.dpSectTitle));
+        final AlertDialog.Builder aDialog = new AlertDialog.Builder(this);
 
-        // Set up the input
+        aDialog.setTitle(getString(R.string.dpSectTitle));
+
+        // Set up the input an specify the type of input expected
         final EditText input = new EditText(this);
-
-        // Specify the type of input expected
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", (dialog, which) ->
+        aDialog.setView(input);
+        aDialog.setPositiveButton("OK", (dialog, which) ->
         {
-            // Enter new section title
+            // Enter a new section name
             String sect_name = input.getText().toString();
 
             // Check for empty section name
             if (sect_name.isEmpty()) {
-                showSnackbarRed(getString(R.string.newSectName));
+                mesg = getString(R.string.attention) + " " + getString(R.string.newSectName);
+                Toast.makeText(this,
+                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
+                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                 return;
             }
 
             // Check if this is not a duplicate of an existing name
             if (compSectionNames(sect_name)) {
-                showSnackbarRed(sect_name + " " + getString(R.string.isdouble));
+                mesg = getString(R.string.attention) + " " + sect_name + " " + getString(R.string.isdouble);
+                Toast.makeText(this,
+                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
+                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -1842,19 +1888,22 @@ public class CountingActivity
             try {
                 entries = sectionDataSource.getNumEntries();
             } catch (Exception e) {
-                if (MyDebug.DLOG) showSnackbarRed("getNumEntries failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1873 getNumEntries failed");
             }
 
             try {
                 maxId = sectionDataSource.getMaxId();
             } catch (Exception e) {
-                if (MyDebug.DLOG) showSnackbarRed("getMaxId failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1879 getMaxId failed");
             }
 
             if (entries != maxId) {
-                showSnackbarRed(getString(R.string.notContiguous));
+                mesg = getString(R.string.notContiguous);
+                Toast.makeText(this,
+                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
+                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                 if (MyDebug.DLOG)
-                    showSnackbarRed("maxId: " + maxId + ", entries: " + entries);
+                    Log.d(TAG, "1885 maxId: " + maxId + ", entries: " + entries);
                 return;
             }
 
@@ -1869,14 +1918,16 @@ public class CountingActivity
             }
 
             // Exit this and go to the list of new sections
-            Toast.makeText(this, sect_name + " " + getString(R.string.newCopyCreated), Toast.LENGTH_SHORT).show();
+            mesg = sect_name + " " + getString(R.string.newCopyCreated);
+            Toast.makeText(this,
+                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
+                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
             startActivity(intent);
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
-        builder.show();
+        aDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        aDialog.show();
     }
 
     // Compare section names for duplicates and return state of duplicate found
@@ -1891,11 +1942,11 @@ public class CountingActivity
         for (int i = 1; i < childcount; i++) {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.DLOG) Log.d(TAG, "1894, compSectionNames, sname = " + sname);
+            if (MyDebug.DLOG) Log.d(TAG, "1921, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname)) {
                 isDblName = true;
-                if (MyDebug.DLOG) Log.d(TAG, "1898, compSectionNames, Double name = " + sname);
+                if (MyDebug.DLOG) Log.d(TAG, "1925, compSectionNames, Double name = " + sname);
                 break;
             }
         }
@@ -1975,41 +2026,22 @@ public class CountingActivity
         }
     }
 
-    @SuppressWarnings("Deprecated")
     private void buttonVib(long dur) {
         if (buttonVibPref && vibrator.hasVibrator()) {
             if (SDK_INT >= 31) { // S, Android 12
-                if (MyDebug.DLOG) Log.d(TAG, "1982, Vibrator >= SDK 31");
+                if (MyDebug.DLOG) Log.d(TAG, "2008, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (SDK_INT >= 26) // Oreo Android 8
                 {
-                    if (MyDebug.DLOG) Log.d(TAG, "1988 Vibrator >= SDK 26");
-
+                    if (MyDebug.DLOG) Log.d(TAG, "2014 Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    if (MyDebug.DLOG) Log.d(TAG, "1993, Vibrator < SDK 26");
-                    vibrator.vibrate(dur);
+                    vibrator.cancel();
                 }
-                vibrator.cancel();
             }
         }
-    }
-
-private void showSnackbarRed(String str) {
-        View view;
-        if (lhandPref) // if left-handed counting page
-            view = findViewById(R.id.countingScreenLH);
-        else
-            view = findViewById(R.id.countingScreen);
-        Snackbar sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG);
-        sB.setTextColor(Color.RED);
-        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
-        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
-        sB.show();
     }
 
     /*******************************************************************************

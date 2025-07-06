@@ -219,9 +219,9 @@ _
 
 % 5. Messages
 ! 
-] Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough resources to execute the function.
+] Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. (If the last created section cannot be deleted then your device has unfortunately not enough resources to execute this delete function.)
 _
-! With current models, however, this restriction should only occur with very many transect sections. Other functions of the app are not affected by this restriction.
+! With current models, however, this restriction could only occur with very many transect sections. Other functions of the app are not affected by this restriction.
 _
 ! No possible solution known. See the document "TransektCount_Userguide_nnn.pdf" for further info under <a href="https://github.com/wistein/TransektCount/tree/master/docs" target="_blank">https://github.com/wistein/TransektCount/tree/master/docs</a>.
 _

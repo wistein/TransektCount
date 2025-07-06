@@ -97,15 +97,8 @@ class CountingWidgetLhExt(context: Context, attrs: AttributeSet?) : RelativeLayo
             sHeight = size.y
         }
 
-        // 4 different screen sizes
-        if (sHeight >= 2850)
-            ht = 140 // 125 -> 5 mm, 500 -> 24 mm, 50 -> 2 mm (in xml 38dp -> 4,5 mm)
-        else if (sHeight >= 2400)
-            ht = 125
-        else if (sHeight >= 2000)
-            ht = 110
-        else
-            ht = 94
+        // Height for counter line on counting page
+        ht = sHeight / 21
 
         val lparamsf1e: ViewGroup.LayoutParams = idLHf1e.layoutParams
         lparamsf1e.height = ht

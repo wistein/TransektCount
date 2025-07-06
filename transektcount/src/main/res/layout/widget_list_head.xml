@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  - widget_list_head.xml used by ResultsActivity.java
+  - widget_list_head.xml used by ShowResultsActivity.java
   ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
   -->
 
@@ -42,7 +42,7 @@
 
             <TextView
                 android:id="@+id/widgetLNo1"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/widgetLName1"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"

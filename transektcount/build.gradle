@@ -4,15 +4,18 @@ plugins {
 }
 
 android {
-    namespace 'com.wmstein.transektcount'
-    compileSdk 35
+    namespace = 'com.wmstein.transektcount'
+    compileSdk = 36
 
+    // targetSdk 35 forces edge-to-edge layout and though could only be used
+    //   after redesign of some layouts and
+    //   replacement of functions (e.g. Snackbar hides behind the Navigation bar)
     defaultConfig {
         applicationId "com.wmstein.transektcount"
-        minSdk 25
-        targetSdk 34
-        versionCode 425
-        versionName "4.2.5"
+        minSdk = 25
+        targetSdk = 36
+        versionCode = 426
+        versionName = "4.2.6"
     }
 
     buildTypes {
@@ -35,8 +38,8 @@ android {
     }
 
     lint {
-        abortOnError false
-        checkReleaseBuilds true
+        abortOnError = false
+        checkReleaseBuilds = true
     }
 
     applicationVariants.configureEach { variant ->
@@ -48,13 +51,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.activity:activity-ktx:1.10.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.20"
+    implementation "androidx.activity:activity-ktx:1.10.1"
     implementation 'androidx.annotation:annotation-jvm:1.9.1'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.3.0'
     implementation 'androidx.core:core-ktx:1.16.0'
-    implementation 'androidx.fragment:fragment-ktx:1.8.6'
+    implementation 'androidx.fragment:fragment-ktx:1.8.8'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'com.google.android.material:material:1.12.0'

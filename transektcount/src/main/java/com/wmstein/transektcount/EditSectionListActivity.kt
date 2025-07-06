@@ -2,8 +2,6 @@ package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
 import android.os.Bundle
@@ -12,18 +10,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
-
-import com.google.android.material.snackbar.Snackbar
-
+import androidx.core.text.HtmlCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
@@ -42,7 +41,7 @@ import com.wmstein.transektcount.widgets.HintEditWidget
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-01-22
+ * last edited on 2025-06-30
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -75,6 +74,7 @@ class EditSectionListActivity : AppCompatActivity() {
     private var brightPref = false
     private var sortPref: String? = null
     private var oldName: String? = null
+    private var mesg: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +85,30 @@ class EditSectionListActivity : AppCompatActivity() {
         brightPref = prefs.getBoolean("pref_bright", true)
         sortPref = prefs.getString("pref_sort_sp", "none")
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
+        {
+            enableEdgeToEdge()
+        }
         setContentView(R.layout.activity_edit_section_list)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editSectionList))
+        { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply the insets as a margin to the view. This solution sets
+            // only the bottom, left, and right dimensions, but you can apply whichever
+            // insets are appropriate to your layout. You can also update the view padding
+            // if that's more appropriate.
+            v.updateLayoutParams<MarginLayoutParams> {
+                topMargin = insets.top
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+
+            // Return CONSUMED if you don't want the window insets to keep passing
+            // down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
 
         // Set full brightness of screen
         if (brightPref) {
@@ -116,7 +139,7 @@ class EditSectionListActivity : AppCompatActivity() {
                     @Suppress("UNCHECKED_CAST")
                     savedCounts = savedInstanceState.getSerializable(
                         "savedCounts", T::class.java
-                    ) as ArrayList<EditSpeciesWidget>?
+                    ) as ArrayList<EditSpeciesWidget>? // error without cast, warning with cast
                 }
             }
         }
@@ -148,13 +171,20 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "151 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "173 onResume")
 
         // Load preferences
-        prefs = TransektCountApplication.getPrefs()
         brightPref = prefs.getBoolean("pref_bright", true)
 
-        // Build the Edit Section screen
+        // Set full brightness of screen
+        if (brightPref) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            val params = window.attributes
+            params.screenBrightness = 1.0f
+            window.attributes = params
+        }
+
+        // Build the EditSectionList screen
         editingSpeciesArea!!.removeAllViews()
         speciesNotesArea!!.removeAllViews()
         editHintArea!!.removeAllViews()
@@ -169,7 +199,7 @@ class EditSectionListActivity : AppCompatActivity() {
             supportActionBar!!.title = getString(R.string.headEdit)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         } catch (_: NullPointerException) {
-            if (MyDebug.DLOG) Log.e(TAG, "172, NullPointerException: No section name!")
+            if (MyDebug.DLOG) Log.e(TAG, "194, NullPointerException: No section name!")
         }
 
         // Edit the section name
@@ -178,7 +208,7 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
         if (MyDebug.DLOG)
-            Log.d(TAG, "181, onResume, EditTitleWidget, old section name: "
+            Log.d(TAG, "203, onResume, EditTitleWidget, old section name: "
                     + oldName + ", new sectionName: " + etw!!.sectionName
             )
 
@@ -206,9 +236,10 @@ class EditSectionListActivity : AppCompatActivity() {
             // Reminder: "Please, 2 characters"
             searchEdit.error = getString(R.string.initCharsL)
         } else {
+            initChars = initChars.substring(0,2)
             searchEdit.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "211, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "233, initChars: $initChars")
 
             // Call DummyActivity to reenter EditSectionListActivity for reduced add list
             countDataSource!!.close()
@@ -257,7 +288,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 esw!!.setPicSpec(count)
                 esw!!.setCountId(count.id)
                 editingSpeciesArea!!.addView(esw)
-                if (MyDebug.DLOG) Log.d(TAG, "260, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "282, name: " + count.name)
             }
         }
     }
@@ -265,7 +296,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "268 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "290 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -324,13 +355,20 @@ class EditSectionListActivity : AppCompatActivity() {
 
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
-        if (MyDebug.DLOG) Log.d(TAG, "327, newSectName: $newSectName")
+        if (MyDebug.DLOG) Log.d(TAG, "349, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
             sectionBackup = section
             if (compSectionNames(newSectName)) {
-                showSnackbarRed(newSectName + " " + getString(R.string.isdouble))
+                mesg = newSectName + " " + getString(R.string.isdouble)
+                Toast.makeText(
+                    applicationContext,
+                    HtmlCompat.fromHtml(
+                        "<font color='red'><b>" + mesg + "</b></font>",
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    ), Toast.LENGTH_LONG
+                ).show()
                 saveState = false
             } else {
                 sectionBackup!!.name = newSectName
@@ -340,17 +378,27 @@ class EditSectionListActivity : AppCompatActivity() {
             section = sectionBackup
 
         } else {
-            showSnackbarRed(getString(R.string.isempty))
+            mesg = getString(R.string.isempty)
+            Toast.makeText(
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='red'><b>" + mesg + "</b></font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_LONG
+            ).show()
             saveState = false
         }
 
         if (saveState) {
             // Save changed section name
             sectionDataSource!!.saveSection(section!!)
-            // Toast here, as snackbar doesn't show up
+            mesg = getString(R.string.sectSaving)
             Toast.makeText(
-                applicationContext, getString(R.string.sectSaving),
-                Toast.LENGTH_SHORT
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='#008000'>" + mesg + "</font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_SHORT
             ).show()
         }
 
@@ -365,7 +413,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Read the edited species list
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
-        if (MyDebug.DLOG) Log.d(TAG, "368, childcount: $childcount")
+        if (MyDebug.DLOG) Log.d(TAG, "392, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -385,7 +433,7 @@ class EditSectionListActivity : AppCompatActivity() {
             while (si <= numSect) {
                 // for all species per section
                 for (i in 0 until childcount) {
-                    if (MyDebug.DLOG) Log.d(TAG, "388, Section: $si, Species $i")
+                    if (MyDebug.DLOG) Log.d(TAG, "412, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSpeciesWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -401,7 +449,14 @@ class EditSectionListActivity : AppCompatActivity() {
                         ci++
                         correct = true
                     } else {
-                        showSnackbarRed(getString(R.string.isempt))
+                        mesg = getString(R.string.isempty)
+                        Toast.makeText(
+                            applicationContext,
+                            HtmlCompat.fromHtml(
+                                "<font color='red'><b>" + mesg + "</b></font>",
+                                HtmlCompat.FROM_HTML_MODE_LEGACY
+                            ), Toast.LENGTH_LONG
+                        ).show()
                         correct = false
                         break
                     }
@@ -410,14 +465,19 @@ class EditSectionListActivity : AppCompatActivity() {
                 si++
             }
         } else {
-            showSnackbarRed(
-                getString(R.string.spname) + " " + isDblName + " " + getString(R.string.orcode) + " " + isDblCode + " " + getString(
-                    R.string.isdouble
-                )
-            )
+            mesg = (getString(R.string.spname) + " " + isDblName + " "
+            + getString(R.string.orcode) + " " + isDblCode + " " + getString(
+                    R.string.isdouble))
+            Toast.makeText(
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='red'><b>" + mesg + "</b></font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_LONG
+            ).show()
             correct = false
         }
-        if (MyDebug.DLOG) Log.d(TAG, "420, getEditSpecies, ok: $correct")
+        if (MyDebug.DLOG) Log.d(TAG, "444, getEditSpecies, ok: $correct")
         return correct
     }
 
@@ -429,9 +489,14 @@ class EditSectionListActivity : AppCompatActivity() {
         // Check for unique species names
         isDbl = compCountNames()
         if (isDbl != "") {
-            showSnackbarRed(
-                isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
-            )
+            mesg = isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
+            Toast.makeText(
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='red'><b>" + mesg + "</b></font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_LONG
+            ).show()
             retValue = false
         }
         return retValue
@@ -452,11 +517,11 @@ class EditSectionListActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
             if (MyDebug.DLOG)
-                Log.d(TAG, "455, sname = $sname")
+                Log.d(TAG, "478, sname = $sname")
             if (newSectName == sname) {
                 isDblName = true
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "459, Double name = $sname")
+                    Log.d(TAG, "482, Double name = $sname")
                 break
             }
         }
@@ -476,7 +541,7 @@ class EditSectionListActivity : AppCompatActivity() {
             name = esw!!.getCountName()
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
-                if (MyDebug.DLOG) Log.d(TAG, "479, Double name = $isDblName")
+                if (MyDebug.DLOG) Log.d(TAG, "502, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -497,23 +562,12 @@ class EditSectionListActivity : AppCompatActivity() {
             code = esw!!.getCountCode()
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
-                if (MyDebug.DLOG) Log.d(TAG, "492, Double name = $isDblCode")
+                if (MyDebug.DLOG) Log.d(TAG, "523, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)
         }
         return isDblCode
-    }
-
-    private fun showSnackbarRed(str: String) // bold red text
-    {
-        val view = findViewById<View>(R.id.editingScreen)
-        val sB = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
-        sB.setTextColor(Color.RED)
-        val tv = sB.view.findViewById<TextView>(R.id.snackbar_text)
-        tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        tv.setTypeface(tv.typeface, Typeface.BOLD)
-        sB.show()
     }
 
     companion object {
@@ -553,3 +607,4 @@ class EditSectionListActivity : AppCompatActivity() {
     }
 
 }
+

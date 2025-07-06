@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-04-26 -->
+     last edited 2025-07-04 -->
 
 <resources>
 
@@ -37,8 +37,10 @@
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importList">Die Speziesliste wurde importiert.</string>
     <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
+    <string name="importTrackFail">GPS Tracks sind vorhanden. Bitte vor Import die vorhandenen Tracks löschen!</string>
+    <string name="deleteTrackFail">Löschen nicht erforderlich, keine Tracks in der DB vorhanden!</string>
     <string name="importDB">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte kopiere \"transektcount0.db\" in das Verzeichnis \'Documents/TransektCount\'.</string>
+    <string name="noDb">Bitte kopiere \"transektcount0(…).db\" in das Verzeichnis \'Documents/TransektCount\'.</string>
     <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Abbrechen</string>
@@ -69,7 +71,7 @@
     <string name="waitImport">Bitte warten, der Import läuft!</string>
 
     <!-- FileChooser -->
-    <string name="currentDir">Aktuelles Verz.</string>
+    <string name="importHead">Datenimport</string>
     <string name="fileSize">Größe</string>
     <string name="noFile">Keine Datei vorhanden!</string>
     <string name="fileHeadlineDB">TransektCount DB-Dateien</string>
@@ -98,12 +100,13 @@
     <string name="sectSaving">Abschnitte wurden gespeichert.</string>
     <string name="alertTitle">Anzahl %1$d erreicht!</string>
     <string name="cloneButton">Weiteren Abschnitt hinzufügen</string>
-    <string name="newSectName">Bitte einen Namen für die neue Liste eingeben.</string>
+    <string name="newSectName">Kein Abschnittsname eingegeben.</string>
     <string name="noPhotoPermit">Kamera-Berechtigung ist erforderlich.</string>
     <string name="chooserTitle">Wähle eine Foto-App</string>
     <string name="takePhoto">Foto aufnehmen</string>
     <string name="newCopyCreated">wurde erstellt!</string>
     <string name="addAlertButton">Alarm hinzufügen</string>
+    <string name="attention">Achtung! </string>
 
     <!-- CountingActivity Menu -->
     <string name="editDelSpecTitle">Arten löschen</string>
@@ -123,7 +126,7 @@
     <string name="labelEditSpecButton">Liste editieren</string>
     <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
     <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
-    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. Falls kein Abschnitt löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um die Funktion auszuführen.</string>
+    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. (Falls der zuletzt erzeugte Abschnitt nicht löschbar ist, hat Ihr Gerät leider nicht genug freie Ressourcen um die Funktion auszuführen.</string>
     <string name="headEdit">Bezeichnungen editieren</string>
     <string name="titleEdit">Name des aktuellen Abschnitts</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
@@ -142,13 +145,13 @@
     <string name="initCharsL">Bitte 2 Buchst.</string>
 
     <!-- ChangeLog -->
-    <string name="changelog_full_title">App-Info </string>
+    <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
     <string name="changelog_title">Was ist neu</string>
     <string name="ok_button">OK</string>
     <string name="changelog_show_full">mehr&#8230;</string>
 
-    <!-- ViewHelp -->
-    <string name="viewhelp_full_title">Hilfe (TransektCount Ver. </string>
+    <string name="viewhelp_full_title">Hilfe (TransektCount Ver.</string>
+    <string name="viewlicense_full_title">Lizenzen (TransektCount Ver.</string>
 
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>
@@ -243,14 +246,16 @@
     <string name="hintDateTime">Datum und Zeit\nder 1. Zählung:</string>
     <string name="hintInstructions">Anleitung.</string>
     <string name="hintTotal">Gesamtsummen:</string>
-    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die exportierte \"transektcount_TR-Nr_yyyy-mm-dd_hhmmss.db\" per E-Mail.</string>
+    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die problematische DB per E-Mail.</string>
     <string name="sect01">Ab 01</string>
     <string name="cancel">Abbrechen</string>
 
     <!-- Permissions -->
+    <string name="perm_required">Berechtigungen benötigt</string>
     <string name="app_settings">App-Einstellungen</string>
     <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
     <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Export der Ergebnisse.</string>
-    <string name="storage_perm_denied">Die Speicher-Berechtigung fehlt. Bitte erteile die benötigte Berechtigung zum Speichern von DBs und Ergebnissen und versuche es erneut.</string>
+    <string name="storage_perm_denied">Die für TransektCount notwendige Speicher-Berechtigung fehlt.</string>
+    <string name="dialog_background_loc_title">Permission wanted</string>
 
 </resources>

@@ -1,13 +1,19 @@
 package com.wmstein.transektcount
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 
@@ -19,7 +25,7 @@ import com.wmstein.transektcount.database.SectionDataSource
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2024-11-26
+ * last edited on 2025-06-20
  */
 class SelectSectionActivity : AppCompatActivity() {
     private var transektCount: TransektCountApplication? = null
@@ -36,9 +42,28 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.d(TAG, "39 onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "45 onCreate")
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
+        {
+            enableEdgeToEdge()
+        }
         setContentView(R.layout.activity_list_section)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.list_view)) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply the insets as a margin to the view.
+            v.updateLayoutParams<MarginLayoutParams> {
+                topMargin = insets.top
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+
+            // Return CONSUMED if you don't want the window insets to keep passing
+            // down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
 
         brightPref = prefs.getBoolean("pref_bright", true)
 
@@ -74,7 +99,7 @@ class SelectSectionActivity : AppCompatActivity() {
         if (MyDebug.DLOG) Log.d(TAG, "74 onResume")
 
         sectionDataSource!!.open()
-        sections = sectionDataSource!!.getAllSections(prefs!!)
+        sections = sectionDataSource!!.getAllSections(prefs)
         maxId = sectionDataSource!!.maxId
 
         showData()
@@ -92,7 +117,7 @@ class SelectSectionActivity : AppCompatActivity() {
     // delete section as well as respective alerts
     fun deleteSection(sct: Section?) {
         sectionDataSource!!.deleteSection(sct!!)
-        sections = sectionDataSource!!.getAllSections(prefs!!)
+        sections = sectionDataSource!!.getAllSections(prefs)
         maxId = sectionDataSource!!.maxId
 
         showData()

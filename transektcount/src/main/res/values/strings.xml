@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-04-26 -->
+     last edited 2025-07-04 -->
 
 <resources>
 
@@ -47,8 +47,10 @@
     <string name="importFail">Your database could not be imported!</string>
     <string name="importList">The species list has been imported.</string>
     <string name="importListFail">The species list could not be imported!</string>
+    <string name="importTrackFail">Section tracks already exist. Please remove all tracks before importing a new set of tracks!</string>
+    <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
     <string name="importDB">Your database has been imported.</string>
-    <string name="noDb">Please provide \'transektcount0.db\' in the directory \'Documents/TransektCount\'.</string>
+    <string name="noDb">Please provide \'transektcount0(…).db\' in the directory \'Documents/TransektCount\'.</string>
     <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
     <string name="importButton">Import</string>
     <string name="importCancelButton">Cancel</string>
@@ -79,13 +81,13 @@
     <string name="waitImport">Please wait, import may take a while!</string>
 
     <!-- FileChooser -->
-    <string name="currentDir">Current Dir</string>
+    <string name="importHead">Data Import</string>
     <string name="fileSize">Size</string>
     <string name="noFile">No file available!</string>
-    <string name="fileHeadlineDB">TransektCount DB files</string>
-    <string name="fileHeadlineBasicDB">TransektCount Basic DB files</string>
-    <string name="fileHeadlineCSV">TransektCount Species lists</string>
-    <string name="fileHeadlineGPX">TransektCount GPX tracks</string>
+    <string name="fileHeadlineDB">TransektCount DB Files</string>
+    <string name="fileHeadlineBasicDB">TransektCount Basic DB Files</string>
+    <string name="fileHeadlineCSV">TransektCount Species Lists</string>
+    <string name="fileHeadlineGPX">TransektCount GPX Tracks</string>
 
     <!-- EditMetaActivity -->
     <string name="editHeadTitle">Meta Data of Inspection</string>
@@ -108,12 +110,13 @@
     <string name="sectSaving">Sections have been saved.</string>
     <string name="alertTitle">Count %1$d reached!</string>
     <string name="cloneButton">Add a Further Section</string>
-    <string name="newSectName">You must enter a name for the new list.</string>
+    <string name="newSectName">Section name is missing.</string>
     <string name="noPhotoPermit">The right to take photos is missing.</string>
     <string name="chooserTitle">Select photo app</string>
     <string name="takePhoto">Take Photo</string>
     <string name="newCopyCreated">has been created!</string>
     <string name="addAlertButton">Add alert button</string>
+    <string name="attention">Attention! </string>
 
     <!-- CountingActivity Menu -->
     <string name="editDelSpecTitle">Remove Species</string>
@@ -133,7 +136,7 @@
     <string name="labelEditSpecButton">Edit List</string>
     <string name="notContiguous">Not possible, as previously a section was deleted!</string>
     <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
-    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. If there is no section which can be deleted then your device has unfortunately not enough free resources to execute the function.</string>
+    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. (If the last created section cannot be deleted then your device has unfortunately not enough free resources to execute the function.</string>
     <string name="headEdit">Edit Terms</string>
     <string name="titleEdit">Name of current section</string>
     <string name="notesHint">Type notes here&#8230;</string>
@@ -152,13 +155,13 @@
     <string name="initCharsL">Please, 2 chars.</string>
 
     <!-- ChangeLog -->
-    <string name="changelog_full_title">App Info </string>
+    <string name="changelog_full_title">App Info (TransektCount Ver.</string>
     <string name="changelog_title">What\'s New</string>
     <string name="ok_button">OK</string>
     <string name="changelog_show_full">more&#8230;</string>
 
-    <!-- ViewHelp -->
-    <string name="viewhelp_full_title">Help (TransektCount Ver. </string>
+    <string name="viewhelp_full_title">Help (TransektCount Ver.</string>
+    <string name="viewlicense_full_title">Licenses (TransektCount Ver.</string>
 
     <!-- Preferences -->
     <string name="prefs_appearance">Appearance</string>
@@ -253,14 +256,16 @@
     <string name="hintDateTime">Date and time\nof 1. count:</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTotal">Totals:</string>
-    <string name="getHelp">Database problem! Please mail your exported \'transektcount_TR-No_yyyy-mm-dd_hhmmss.db\' if you need assistance.</string>
+    <string name="getHelp">Database problem! Please mail your problematic DB if you need assistance.</string>
     <string name="sect01">Sect 01</string>
     <string name="cancel">Cancel</string>
 
     <!-- Permissions -->
+    <string name="perm_required">Permissions required</string>
     <string name="app_settings">App Settings</string>
     <string name="dialog_storage_title">Storage permission required</string>
     <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to export data.</string>
-    <string name="storage_perm_denied">Storage permission denied. Please grant storage permission for TransektCount to be able to export data.</string>
+    <string name="storage_perm_denied">Required storage permission for TransektCount is missing.</string>
+    <string name="dialog_background_loc_title">Berechtigung erwünscht</string>
 
 </resources>

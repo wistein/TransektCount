@@ -2,17 +2,23 @@ package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Section
@@ -27,7 +33,7 @@ import com.wmstein.transektcount.widgets.HintDelWidget
  * activity_del_species.xml, widget_edit_title.xml.
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2024-11-25
+ * last edited on 2025-06-30
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -55,12 +61,34 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.d(TAG, "58 onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "64 onCreate")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
+        {
+            enableEdgeToEdge()
+        }
         setContentView(R.layout.activity_del_species)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.delSpec)) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply the insets as a margin to the view. This solution sets
+            // only the bottom, left, and right dimensions, but you can apply whichever
+            // insets are appropriate to your layout. You can also update the view padding
+            // if that's more appropriate.
+            v.updateLayoutParams<MarginLayoutParams> {
+                topMargin = insets.top
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+
+            // Return CONSUMED if you don't want the window insets to keep passing
+            // down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
 
         // Set full brightness of screen
         if (brightPref) {
@@ -103,7 +131,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "106 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "134 onResume")
 
         sectionDataSource!!.open()
         countDataSource!!.open()
@@ -140,9 +168,10 @@ class DelSpeciesActivity : AppCompatActivity() {
             // Reminder: "Please, 2 characters"
             searchDel.error = getString(R.string.initCharsL)
         } else {
+            initChars = initChars.substring(0,2)
             searchDel.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "145, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "173, initChars: $initChars")
 
             // Call DummyActivity to reenter DelSpeciesActivity for reduced add list
             val intent = Intent(this@DelSpeciesActivity, DummyActivity::class.java)
@@ -173,7 +202,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
                     cnt++
                     deleteArea!!.addView(dsw)
-                    if (MyDebug.DLOG) Log.d(TAG, "176, name: " + count.name)
+                    if (MyDebug.DLOG) Log.d(TAG, "204, name: " + count.name)
                 }
             }
         } else {
@@ -185,7 +214,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setPicSpec(count)
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
-                if (MyDebug.DLOG) Log.d(TAG, "188, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "216, name: " + count.name)
             }
         }
     }
@@ -193,7 +222,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for delete from the species counts list
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
-        if (MyDebug.DLOG) Log.d(TAG, "196, View.tag: $idToDel")
+        if (MyDebug.DLOG) Log.d(TAG, "224, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -203,14 +232,14 @@ class DelSpeciesActivity : AppCompatActivity() {
             listToDelete!!.add(dsw)
             if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "206, mark delete code: $codeD")
+                Log.d(TAG, "234, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
             if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "213, mark delete code: $codeD")
+                Log.d(TAG, "241, mark delete code: $codeD")
             }
         }
     }
@@ -222,7 +251,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             if (MyDebug.DLOG) {
-                Log.d(TAG, "225, delete code: $specCode")
+                Log.d(TAG, "253, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -299,7 +328,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "302 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "330 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -309,7 +338,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.DLOG) Log.d(AddSpeciesActivity.Companion.TAG, "312, onDestroy")
+        if (MyDebug.DLOG) Log.d(TAG, "340, onDestroy")
 
         delHintArea!!.clearFocus()
     }

@@ -12,17 +12,16 @@ import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.view.WindowManager
-import androidx.preference.PreferenceManager
-import java.lang.Exception
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
+import androidx.preference.PreferenceManager
 
 /********************************************************************
  * Handle background image and prefs
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2025-05-02
+ * last edit on 2025-06-27
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -34,7 +33,7 @@ class TransektCountApplication : Application() {
 
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
         if (MyDebug.DLOG) {
-            Log.i(TAG, "35, onCreate, StrictMode.setVmPolicy")
+            Log.i(TAG, "42, onCreate, StrictMode.setVmPolicy")
             StrictMode.setVmPolicy(
                 VmPolicy.Builder(StrictMode.getVmPolicy())
                     .detectLeakedClosableObjects()
@@ -45,7 +44,7 @@ class TransektCountApplication : Application() {
         try {
             prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         } catch (e: Exception) {
-            if (MyDebug.DLOG) Log.e(TAG, "46, $e")
+            if (MyDebug.DLOG) Log.e(TAG, "53, $e")
         }
     }
     // End of onCreate()
@@ -56,7 +55,7 @@ class TransektCountApplication : Application() {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!
-        if (MyDebug.DLOG) Log.i(TAG, "57, Backgr.: $backgroundPref")
+        if (MyDebug.DLOG) Log.i(TAG, "64, Backgr.: $backgroundPref")
 
         val wm = checkNotNull(this.getSystemService(WINDOW_SERVICE) as WindowManager)
         if (Build.VERSION.SDK_INT >= 30) {
@@ -72,7 +71,7 @@ class TransektCountApplication : Application() {
             width = size.x
             height = size.y
         }
-        if (MyDebug.DLOG) Log.d(TAG, "73, width = $width, height = $height")
+        if (MyDebug.DLOG) Log.d(TAG, "80, width = $width, height = $height")
 
         var bMap: Bitmap?
         if (backgroundPref == "none") {

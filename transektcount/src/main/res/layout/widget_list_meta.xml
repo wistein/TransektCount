@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  - widget_list_meta.xml used by ResultsActivity.java
+  - widget_list_meta.xml used by ShowResultsActivity.java
   ~ Copyright (c) 2016-2024, Wilhelm Stein, Bonn, Germany,
   ~ last edited on 2025-05-11.
   -->
@@ -80,7 +80,7 @@
 
             <TextView
                 android:id="@+id/widgetLItem4"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -115,7 +115,7 @@
 
             <TextView
                 android:id="@+id/widgetLItem5"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -193,7 +193,7 @@
 
             <TextView
                 android:id="@+id/widgetLTemps"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
@@ -206,7 +206,7 @@
 
             <TextView
                 android:id="@+id/widgetLWinds"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
@@ -219,7 +219,7 @@
 
             <TextView
                 android:id="@+id/widgetLClouds"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
@@ -242,7 +242,7 @@
 
             <TextView
                 android:id="@+id/widgetLTempe"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
@@ -255,7 +255,7 @@
 
             <TextView
                 android:id="@+id/widgetLWinde"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
@@ -268,7 +268,7 @@
 
             <TextView
                 android:id="@+id/widgetLCloude"
-                style="@style/BoldText"
+                style="@style/ListBoldText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"

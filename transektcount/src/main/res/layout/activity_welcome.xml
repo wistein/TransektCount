@@ -1,155 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_welcome.xml is used by WelcomeActivity.java.
   ~ Shows starting page
-  ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
-  ~ Last edited on 2023-12-14.
+  ~ Copyright (c) 2016-2025, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2025-06-23.
   -->
 
 <LinearLayout
-    android:id="@+id/baseLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/baseLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical"
+    tools:context=".WelcomeActivity">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_weight="4"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="4"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="50sp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_launcher"
-                tools:ignore="ContentDescription"/>
-
-            <TextView
-                android:id="@+id/welcomeTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10sp"
-                android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"/>
-        </LinearLayout>
+            android:src="@drawable/ic_launcher"
+            tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/welcomeWaffle"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="@string/hello"
+            android:id="@+id/welcomeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10sp"
+            android:text="@string/app_name"
             android:textColor="@android:color/white"
-            android:textSize="16sp"/>
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/welcomeWaffle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/hello"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
     <Space
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="15"
-        />
+        android:layout_weight="14" />
 
     <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/editMetaButton"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="3"
-            android:layout_marginBottom="9dp"
-            android:orientation="horizontal">
+            android:onClick="editMeta"
+            android:src="@android:drawable/ic_menu_edit"
+            tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-            <ImageButton
-                android:id="@+id/editMetaButton"
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="editMeta"
-                android:src="@android:drawable/ic_menu_edit"
-                tools:ignore="ContentDescription,UsingOnClickInXml"/>
+        <TextView
+            android:id="@+id/editMetaButtonText"
+            android:layout_width="200sp"
+            android:layout_height="30sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#333333"
+            android:onClick="editMeta"
+            android:text="@string/editMetaButton"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:ignore="UsingOnClickInXml" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/editMetaButtonText"
-                android:layout_width="200sp"
-                android:layout_height="30sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
-                android:backgroundTint="#333333"
-                android:onClick="editMeta"
-                android:text="@string/editMetaButton"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                tools:ignore="UsingOnClickInXml" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+        <ImageButton
+            android:id="@+id/viewSectionButton"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="3"
-            android:layout_marginBottom="9dp"
-            android:orientation="horizontal">
+            android:onClick="selectSection"
+            android:src="@drawable/ic_count_white"
+            tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-            <ImageButton
-                android:id="@+id/viewSectionButton"
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="selectSection"
-                android:src="@drawable/ic_count_white"
-                tools:ignore="ContentDescription,UsingOnClickInXml"/>
+        <TextView
+            android:id="@+id/viewSectionButtonText"
+            android:layout_width="200sp"
+            android:layout_height="30sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#333333"
+            android:onClick="selectSection"
+            android:text="@string/viewSectionButton"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:ignore="UsingOnClickInXml" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/viewSectionButtonText"
-                android:layout_width="200sp"
-                android:layout_height="30sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
-                android:textStyle="bold"
-                android:backgroundTint="#333333"
-                android:onClick="selectSection"
-                android:text="@string/viewSectionButton"
-                android:textSize="18sp"
-                tools:ignore="UsingOnClickInXml" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/viewSpec"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="9sp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginBottom="30sp"
-            android:layout_weight="3"
+        <ImageButton
+            android:id="@+id/viewSpeciesButton"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:onClick="viewSpecies"
+            android:src="@android:drawable/ic_menu_view"
+            tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-            <ImageButton
-                android:id="@+id/viewSpeciesButton"
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="viewSpecies"
-                android:src="@android:drawable/ic_menu_view"
-                tools:ignore="ContentDescription,UsingOnClickInXml"/>
+        <TextView
+            android:id="@+id/viewSpeciesButtonText"
+            android:layout_width="200sp"
+            android:layout_height="30sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#333333"
+            android:onClick="viewSpecies"
+            android:text="@string/viewSpeciesButton"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:ignore="UsingOnClickInXml" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/viewSpeciesButtonText"
-                android:layout_width="200sp"
-                android:layout_height="30sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="15dp"
-                android:textStyle="bold"
-                android:backgroundTint="#333333"
-                android:onClick="viewSpecies"
-                android:text="@string/viewSpeciesButton"
-                android:textSize="18sp"
-                tools:ignore="UsingOnClickInXml" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10sp"
+        android:layout_weight="1">
+    </LinearLayout>
 
 </LinearLayout>

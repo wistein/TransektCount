@@ -34,12 +34,7 @@
                     android:id="@+id/action_settings"
                     android:icon="@drawable/baseline_settings_24"
                     android:title="@string/action_settings"
-                    app:showAsAction="never"/>
-                <item
-                    android:id="@+id/resetDBMenu"
-                    android:icon="@drawable/clear"
-                    android:title="@string/resetDBMenu"
-                    app:showAsAction="never"/>
+                    app:showAsAction="never" />
             </group>
 
             <group android:id="@+id/nav_g2">
@@ -80,6 +75,14 @@
                     android:id="@+id/exportSpeciesListMenu"
                     android:icon="@drawable/exportr"
                     android:title="@string/exportSpeciesListMenu"
+                    app:showAsAction="never" />
+            </group>
+
+            <group android:id="@+id/nav_g4">
+                <item
+                    android:id="@+id/resetDBMenu"
+                    android:icon="@drawable/clear"
+                    android:title="@string/resetDBMenu"
                     app:showAsAction="never" />
             </group>
 

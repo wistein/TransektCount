@@ -1,11 +1,14 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.2.5:
-- Option zur Wahl der Empfindlichkeit des Näherungssensors (falls vom Gerät unterstützt)
-- Korrekte Meldung beim Import wenn keine passende Datei vorhanden ist
-- Optionale Button-Vibration gefixt für Android Version > 11
-- Code-, Daten- und Layout-Verbesserungen
-- Weitere Bugfixe
+Neu in Version 4.2.6:
+- Vibrator-Funktion nur bei Android-Versionen >= 8
+- Code angepasst an Erfordernisse von Android 15 (Kante-bis-Kante-Layout)
+- Einige Seiten-Layouts angepasst für "Kante-bis-Kante-Layout"
+- Layout der Zählerseite besser angepasst für unterschiedlich hohe Bildschirme
+- Die Art-Editier-Seite nutzt nun auch den Linkshänder-Modus
+- Alle Snackbars (Pop-up-Meldungen) zu farbigen Toasts geändert
+- Dateinamen der exportierten Spezieslisten mit Sprach-Indikator (de oder en)
+- Einige Code-Verbesserungen
 - Doku überarbeitet
 
 Eigenschaften:
@@ -32,7 +35,7 @@ Die App benötigt
 - Einstellungsrecht zwecks Helligkeitssteuerung des Bildschirms, 
 - Recht zur Verhinderung des Ruhezustands.
 
-Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1920 x 1024 Pixel haben. 
+Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1024 x 1920 Pixel haben.
 Die App kann ab Android-Version 7.1 (Nougat) oder neuer verwendet werden.
 
 Dokumentation ist verfügbar unter:
