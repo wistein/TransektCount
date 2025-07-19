@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_sum_species.xmls used by ResultsSpeciesWidget.java and ShowResultsActivity.java.
    - Shows totals of species counts
-   - Copyright (c) 2017-2024, Wilhelm Stein, Bonn, Germany,
+   - Copyright © 2017-2024, Wilhelm Stein, Bonn, Germany,
    - last edited on 2024-07-24
    -->
 
@@ -29,7 +29,7 @@
             android:layout_height="2dp"
             android:paddingTop="2dp"
             android:layout_marginBottom="5dp"
-            android:background="@android:color/white"/>
+            android:background="@color/BrightGray"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -510,6 +510,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             android:paddingBottom="5dp">
 
             <!-- sumint -->
@@ -572,6 +573,14 @@
                 android:textStyle="bold"
                 android:maxLines="1"/>
         </LinearLayout>
+
+        <!-- Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:paddingTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/BrightGray"/>
 
     </LinearLayout>
 

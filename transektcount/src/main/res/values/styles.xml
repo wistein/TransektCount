@@ -4,7 +4,11 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="PermissionsDialogFragmentStyle" parent="Base.Theme.AppCompat.Dialog">
+	<style name="AppTheme.Dark" parent="Theme.AppCompat">
+		<!-- Customize dark theme attributes here -->
+	</style>
+
+	<style name="PermissionsDialogFragmentStyle" parent="Base.Theme.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 	

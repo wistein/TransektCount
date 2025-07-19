@@ -438,7 +438,7 @@ public class CountingActivity
 
         // Set part of counting screen
         CountingWidgetHead1 adapter = new CountingWidgetHead1(this,
-                R.layout.widget_counting_head1, idArray, nameArray, nameArrayL, codeArray, imageArray);
+               idArray, nameArray, nameArrayL, codeArray, imageArray);
         spinner.setAdapter(adapter);
         spinner.setSelection(itemPosition); // from savedInstanceState
         spinnerListener();

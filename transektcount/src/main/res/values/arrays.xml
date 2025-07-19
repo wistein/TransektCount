@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- last edited 2025-06-22 -->
+<!-- last edited 2025-07-19 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="pref_bg_entries">
         <item>Black</item>
         <item>Grey</item>
@@ -559,7 +559,7 @@
 		<item comment="07157">Polyommatus dorylas</item>
 		<item comment="07160">Polyommatus amandus</item>
 		<item comment="07162">Polyommatus thersites</item>
-		<item comment="07162*">Pol. aman./ther. compl.</item>
+		<item comment="07162*" tools:ignore="Typos">Pol. aman./ther. compl.</item>
 		<item comment="07163">Polyommatus icarus</item>
 		<item comment="07163a">Polyommatus celina</item>
 		<item comment="07167">Polyommatus eros</item>
@@ -718,6 +718,7 @@
 		<item comment="07561">Isturgia limbaria</item>
 		<item comment="07613">Opisthograptis luteolata</item>
 		<item comment="07620">Pseudopanthera macularia</item>
+        <item comment="07633">Ennomos quercinaria</item>
 		<item comment="07641">Selenia dentaria</item>
 		<item comment="07659">Ourapteryx sambucaria</item>
 		<item comment="07665">Angerona prunaria</item>
@@ -1089,7 +1090,7 @@
 		<item comment="07157">Turquoise blue</item>
 		<item comment="07160">Amanda\'s blue</item>
 		<item comment="07162">Chapman\'s blue</item>
-		<item comment="07162*">Pol. aman./ther. compl.</item>
+		<item comment="07162*" tools:ignore="Typos">Pol. aman./ther. compl.</item>
 		<item comment="07163">Common blue</item>
 		<item comment="07163a">Southern blue page</item>
 		<item comment="07167">Eros blue</item>
@@ -1248,6 +1249,7 @@
 		<item comment="07561">Frosted yellow</item>
 		<item comment="07613">Brimstone moth</item>
 		<item comment="07620">Speckled yellow</item>
+        <item comment="07633">August thorn</item>
 		<item comment="07641">Early thorn</item>
 		<item comment="07659">Swallow-tailed moth</item>
 		<item comment="07665">Orange moth</item>
@@ -1778,6 +1780,7 @@
 		<item>07561</item>
 		<item>07613</item>
 		<item>07620</item>
+        <item>07633</item>
 		<item>07641</item>
 		<item>07659</item>
 		<item>07665</item>

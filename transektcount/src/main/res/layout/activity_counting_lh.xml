@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2016-2024. Wilhelm Stein, Bonn, Germany.
+  ~ Copyright © 2016-2024, Wilhelm Stein, Bonn, Germany.
     activity_counting_lh.xml is used by CountingActivity.java
 -->
 
@@ -13,7 +13,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@android:color/white"
+        android:background="@color/BrightGray"
         android:paddingTop="2dp" />
 
     <!-- insert spinner widget_counting_head1LH here -->
@@ -26,7 +26,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@android:color/white"
+        android:background="@color/BrightGray"
         android:paddingTop="2dp" />
 
     <!-- insert head2 in here -->
@@ -41,7 +41,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@android:color/white"
+        android:background="@color/BrightGray"
         android:paddingTop="2dp" />
 
     <ScrollView
@@ -65,7 +65,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@android:color/white"
+                android:background="@color/BrightGray"
                 android:paddingTop="2dp" />
 
             <LinearLayout
@@ -79,7 +79,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@android:color/white"
+                android:background="@color/BrightGray"
                 android:paddingTop="2dp" />
 
             <!-- insert the external counts in here -->
@@ -94,7 +94,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@android:color/white"
+                android:background="@color/BrightGray"
                 android:paddingTop="2dp" />
 
             <!-- insert the species notes in here -->

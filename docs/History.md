@@ -1,6 +1,16 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
+#### TransektCount Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
+
+#### Version 4.2.7 (2025-07-19)
+- Compiled for Android 16 (SDK 36)
+- Help and License info with new design
+- App info with background adjusted to new design
+- Adaptive app icon added for Android 16 (prevents white ring)
+- Some layout improvements
+- Picture of Ennomos quercinaria added
+- Docs updated
+- Bug fixes
 
 #### Version 4.2.6 (2025-07-06)
 - Vibrator will only be used if Android Version is >= 8

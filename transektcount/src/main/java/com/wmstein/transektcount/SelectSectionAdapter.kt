@@ -94,7 +94,7 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_delete)
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "97, GetView, Id = $sectionId, maxId = $maxId")
+                    Log.d(TAG, "97, getView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)

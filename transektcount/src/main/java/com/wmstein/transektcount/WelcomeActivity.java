@@ -45,8 +45,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.wmstein.changelog.ChangeLog;
-import com.wmstein.changelog.ViewHelp;
-import com.wmstein.changelog.ViewLicense;
 import com.wmstein.filechooser.AdvFileChooser;
 import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -85,7 +83,7 @@ import java.util.Objects;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-07-02
+ * last edited on 2025-07-12
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -95,8 +93,6 @@ public class WelcomeActivity
     private TransektCountApplication transektCount;
 
     private ChangeLog cl;
-    private ViewHelp vh;
-    private ViewLicense vl;
     public boolean doubleBackToExitPressedTwice = false;
 
     // Import/export stuff
@@ -134,7 +130,7 @@ public class WelcomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "135, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "133, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -142,6 +138,7 @@ public class WelcomeActivity
 
         // Get preferences
         prefs = TransektCountApplication.getPrefs();
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Proximity sensor handling in preferences menu
         SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -173,8 +170,8 @@ public class WelcomeActivity
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.baseLayout),
                 (v, windowInsets) -> {
-                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                	Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                	ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
                     mlp.topMargin = insets.top;
                     mlp.bottomMargin = insets.bottom;
                     mlp.leftMargin = insets.left;
@@ -182,9 +179,6 @@ public class WelcomeActivity
                     v.setLayoutParams(mlp);
                     return WindowInsetsCompat.CONSUMED;
                 });
-
-        baseLayout = findViewById(R.id.baseLayout);
-        baseLayout.setBackground(transektCount.setBackgr());
 
         // Check initial storage permission state and provide dialog
         isStoragePermGranted();
@@ -198,7 +192,7 @@ public class WelcomeActivity
                     HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                             HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
         }
-        if (MyDebug.DLOG) Log.d(TAG, "205, onCreate, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "195, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -223,8 +217,6 @@ public class WelcomeActivity
         }
 
         cl = new ChangeLog(this, prefs);
-        vh = new ViewHelp(this);
-        vl = new ViewLicense(this);
 
         // Show changelog for new version
         if (cl.firstRun())
@@ -270,7 +262,7 @@ public class WelcomeActivity
 
         // iMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int iMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
-        if (MyDebug.DLOG) Log.i(TAG, "277, NavBarMode = " + iMode);
+        if (MyDebug.DLOG) Log.i(TAG, "265, NavBarMode = " + iMode);
         return iMode;
     }
 
@@ -311,13 +303,16 @@ public class WelcomeActivity
         outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
         isStoragePermGranted(); // set storagePermGranted from self permission
-        if (MyDebug.DLOG) Log.d(TAG, "317, onResume, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "306, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
         metaDataSource.open();
         countDataSource.open();
         alertDataSource.open();
+
+        baseLayout = findViewById(R.id.baseLayout);
+        baseLayout.setBackground(transektCount.setBackgr());
 
         // Set transect name as title
         head = headDataSource.getHead();
@@ -354,6 +349,7 @@ public class WelcomeActivity
     // the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class)
@@ -449,13 +445,17 @@ public class WelcomeActivity
             importSpeciesList();
             return true;
         } else if (id == R.id.viewHelp) {
-            vh.getDialog().show();
+            intent = new Intent(WelcomeActivity.this, ShowTextDialog.class);
+            intent.putExtra("dialog", "help");
+            startActivity(intent);
             return true;
         } else if (id == R.id.changeLog) {
             cl.getFullLogDialog().show();
             return true;
         } else if (id == R.id.viewLicense) {
-            vl.getDialog().show();
+            intent = new Intent(WelcomeActivity.this, ShowTextDialog.class);
+            intent.putExtra("dialog", "license");
+            startActivity(intent);
             return true;
         } else if (id == R.id.selectSection) {
             // Call SelectSectionActivity to select section for counting
@@ -495,7 +495,7 @@ public class WelcomeActivity
     public void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "490, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "498, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -510,7 +510,7 @@ public class WelcomeActivity
     public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "505, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "513, onStop");
         baseLayout.invalidate();
     }
 
@@ -518,7 +518,7 @@ public class WelcomeActivity
     public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "513, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "521, onDestroy");
     }
 
     // Start CountingActivity
@@ -560,7 +560,7 @@ public class WelcomeActivity
      */
     // Import the basic DB
     private void importBasisDb() {
-        if (MyDebug.DLOG) Log.d(TAG, "555, importBasicDBFile");
+        if (MyDebug.DLOG) Log.d(TAG, "563, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -605,7 +605,7 @@ public class WelcomeActivity
                         if (data != null) {
                             selectedFile = data.getStringExtra("fileSelected");
                             if (MyDebug.DLOG)
-                                Log.i(TAG, "600, Selected file: " + selectedFile);
+                                Log.i(TAG, "608, Selected file: " + selectedFile);
 
                             if (selectedFile != null)
                                 inFile = new File(selectedFile);
@@ -1543,7 +1543,7 @@ public class WelcomeActivity
                 Toast.makeText(this,
                         HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                                 HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
-                if (MyDebug.DLOG) Log.e(TAG, "1538, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1546, csv write external failed");
             }
             dbHandler.close();
         }

@@ -50,7 +50,6 @@ https://f-droid.org/packages/com.wmstein.transektcount/.
 
 All versions of the apk-file 'transektcount-release_nnn.apk' are provided in the GitHub repository under 
 https://github.com/wistein/TransektCount.
-https://github.com/wistein/TransektCount/tree/master/apk.
 
 Please note that both versions are compiled from the same sources but signed differently and so cannot 
 be mutually updated.
@@ -58,7 +57,7 @@ be mutually updated.
 On GitHub you will find the published stable version when clicking the "master"-button and select 
 the Tag with the highest Branch number n.n.n. Then get the file transektcount-release_nnn.apk under apk. 
 
-The latest beta development version of 'transektcount-release_nnn.apk' is also provided in the GitHub 
+The latest development version of 'transektcount-release_nnn.apk' is also provided in the GitHub 
 repository under the master branch https://github.com/wistein/TransektCount/tree/master/apk.
 
 ### Licenses:
@@ -76,9 +75,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Pictures of this work by Wilhelm Stein may be used for scientific or other non-commercial purposes without prior permission.
-But it is not permitted to upload pictures to social media platforms, as most of their mentioned licenses do not comply with and I do not agree with the licensing terms of these platforms.
+Pictures of this work by Wilhelm Stein may only be used for scientific or non-commercial purposes.
 
-Please note that illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their permission.
+Code and illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their license.
 
-For detailed Copyrights on external code and pictures see the separate document "License.txt" in TransektCount/docs.
+For detailed copyrights on external code and pictures see the separate document "License.txt" in TransektCount/docs.

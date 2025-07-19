@@ -2,7 +2,7 @@
 <!-- widget_list_species.xml 
     used by ResultsSpeciesWidget.java and ShowResultsActivity.java.
     Shows purged list of species counts
-    Copyright (c) 2016 - 2024, Wilhelm Stein, Bonn, Germany.
+    Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,14 +22,6 @@
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
         android:paddingTop="0dp">
-
-        <!-- Line -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginBottom="5dp"
-            android:background="@android:color/white"
-            android:paddingTop="2dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -608,6 +600,15 @@
                 android:textColor="#BFFFFF"
                 android:textStyle="bold"/>
         </LinearLayout>
+
+        <!-- Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/BrightGray"
+            android:paddingTop="2dp"/>
 
     </LinearLayout>
 

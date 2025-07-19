@@ -153,6 +153,9 @@
     <string name="viewhelp_full_title">Hilfe (TransektCount Ver.</string>
     <string name="viewlicense_full_title">Lizenzen (TransektCount Ver.</string>
 
+    <string name="title_help_dialog">Hilfe</string>
+    <string name="title_license_dialog">Lizenzen</string>
+
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>
 

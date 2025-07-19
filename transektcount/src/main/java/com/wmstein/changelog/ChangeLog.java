@@ -1,10 +1,11 @@
 package com.wmstein.changelog;
 
+import static androidx.core.content.ContextCompat.getColor;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
@@ -21,7 +22,7 @@ import java.io.InputStreamReader;
 import java.util.Locale;
 
 /**********************************************************************
- Based on ChangeLog.java, copyright (C) 2011-2013, Karsten Priegnitz
+ Based on ChangeLog.java, copyright © 2011-2013, Karsten Priegnitz
 
  Permission to use, copy, modify, and distribute this piece of software
  for any purpose with or without fee is hereby granted, provided that
@@ -40,7 +41,7 @@ import java.util.Locale;
  Therefore retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2025-07-01
+ last change by wmstein on 2025-07-19
  */
 public class ChangeLog
 {
@@ -118,7 +119,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
     {
         WebView wv = new WebView(this.context);
 
-        wv.setBackgroundColor(Color.BLACK);
+        wv.setBackgroundColor(getColor(context, R.color.DarkGray));
         wv.loadDataWithBaseURL(null, this.getLog(full), "text/html",
             "UTF-8", null);
 

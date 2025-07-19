@@ -1,0 +1,6 @@
+Version 4.2.7 (2025-07-15)
+- Compiled for Android 16 (SDK 36)
+- Help and License info with new design
+- Adaptive icons added as Android 16 showed downsized app icon inside a white ring
+- Some layout improvements
+- Bugfix

@@ -7,9 +7,8 @@
      Solution: application attribute android:resizeableActivity="false"
      prohibits multi-window-mode.
 
-     Last edited 2025-07-04
+     Last edited 2025-07-19
 -->
-
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -41,7 +40,8 @@
         android:fullBackupContent="false"
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="TransektCount"
         android:resizeableActivity="false"
         android:supportsRtl="false"
@@ -188,6 +188,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat"
             tools:ignore="LockedOrientationActivity">
+        </activity>
+
+        <activity
+            android:name="com.wmstein.transektcount.ShowTextDialog">
         </activity>
 
     </application>

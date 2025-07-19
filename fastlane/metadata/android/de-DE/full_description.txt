@@ -1,15 +1,14 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 4.2.6:
-- Vibrator-Funktion nur bei Android-Versionen >= 8
-- Code angepasst an Erfordernisse von Android 15 (Kante-bis-Kante-Layout)
-- Einige Seiten-Layouts angepasst für "Kante-bis-Kante-Layout"
-- Layout der Zählerseite besser angepasst für unterschiedlich hohe Bildschirme
-- Die Art-Editier-Seite nutzt nun auch den Linkshänder-Modus
-- Alle Snackbars (Pop-up-Meldungen) zu farbigen Toasts geändert
-- Dateinamen der exportierten Spezieslisten mit Sprach-Indikator (de oder en)
-- Einige Code-Verbesserungen
+Neu in Version 4.2.7:
+- Compiliert für Android 16 (SDK 36)
+- Hilfe und Lizenz-Info mit neuem Design
+- App-Info Hintergrund an neues Design angepasst
+- Adaptive App-Icons hinzugefügt, da Android 16 die vorhandenen verkleinert und mit weißem Rand darstellt
+- Einige Code- Layout-Verbesserungen
+- Bild von Ennomos quercinaria hinzugefügt
 - Doku überarbeitet
+- Bugfix
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

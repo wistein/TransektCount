@@ -40,7 +40,7 @@ _ Subtitle
   <body>
 
   % TransektCount
-  _ Copyright (C) 2016-2025, Wilhelm Stein
+  _ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
   _
   _ email: stein.wm@web.de
   _
@@ -54,6 +54,18 @@ _ Subtitle
   _
     ! Geeignet für Android 7.1 (Nougat) oder neuer.
   _
+
+$ 4.2.7
+  % Version 4.2.7
+  _ 19.07.2025
+  * Compiliert für Android 16 (SDK 36)
+  * Hilfe und Lizenz-Info mit neuem Design
+  * App-Info Hintergrund an neues Design angepasst
+  * Adaptive App-Icons hinzugefügt, da Android 16 die vorhandenen verkleinert und mit weißem Rand darstellt
+  * Einige Code- Layout-Verbesserungen
+  * Bild von Ennomos quercinaria hinzugefügt
+  * Doku überarbeitet
+  * Bugfix
 
 $ 4.2.6
   % Version 4.2.6
