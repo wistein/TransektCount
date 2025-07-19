@@ -205,18 +205,18 @@
     <string name="pref_proximity_title">Proximity Sensor</string>
 
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Change internal count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef2i">Change internal count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef3i">Change internal count value [ %1$d ] of butterfly ♀</string>
-    <string name="editCountValuepi">Change internal count value [ %1$d ] of pupa</string>
-    <string name="editCountValueli">Change internal count value [ %1$d ] of larva</string>
-    <string name="editCountValueei">Change internal count value [ %1$d ] of egg</string>
-    <string name="editCountValuef1e">Change external count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef2e">Change external count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef3e">Change external count value [ %1$d ] of butterfly ♀</string>
-    <string name="editCountValuepe">Change external count value [ %1$d ] of pupa</string>
-    <string name="editCountValuele">Change external count value [ %1$d ] of larva</string>
-    <string name="editCountValueee">Change external count value [ %1$d ] of egg</string>
+    <string name="editCountValuef1i">Change int. count value [ %1$d ] of butterfly ♂|♀</string>
+    <string name="editCountValuef2i">Change int. count value [ %1$d ] of butterfly ♂</string>
+    <string name="editCountValuef3i">Change int. count value [ %1$d ] of butterfly ♀</string>
+    <string name="editCountValuepi">Change int. count value [ %1$d ] of pupa</string>
+    <string name="editCountValueli">Change int. count value [ %1$d ] of larva</string>
+    <string name="editCountValueei">Change int. count value [ %1$d ] of egg</string>
+    <string name="editCountValuef1e">Change ext. count value [ %1$d ] of butterfly ♂|♀</string>
+    <string name="editCountValuef2e">Change ext. count value [ %1$d ] of butterfly ♂</string>
+    <string name="editCountValuef3e">Change ext. count value [ %1$d ] of butterfly ♀</string>
+    <string name="editCountValuepe">Change ext. count value [ %1$d ] of pupa</string>
+    <string name="editCountValuele">Change ext. count value [ %1$d ] of larva</string>
+    <string name="editCountValueee">Change ext. count value [ %1$d ] of egg</string>
     <string name="addSomeAlerts">Each species may have alerts which will be triggered when the given number of butterfly counts reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
     <string name="alertName">New Alert</string>
     <string name="spec_Name">Name</string>
