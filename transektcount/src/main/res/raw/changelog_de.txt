@@ -57,15 +57,15 @@ _ Subtitle
 
 $ 4.2.7
   % Version 4.2.7
-  _ 19.07.2025
+  _ 20.07.2025
   * Compiliert für Android 16 (SDK 36)
   * Hilfe und Lizenz-Info mit neuem Design
   * App-Info Hintergrund an neues Design angepasst
-  * Adaptive App-Icons hinzugefügt, da Android 16 die vorhandenen verkleinert und mit weißem Rand darstellt
-  * Einige Code- Layout-Verbesserungen
-  * Bild von Ennomos quercinaria hinzugefügt
+  * Adaptive App-Icons hinzugefügt für Android 16 (verhindert weiße Umrandung)
+  * Einige Code- und Layout-Verbesserungen
+  * Bilder von Ennomos quercinaria und Eilema lurideola hinzugefügt
   * Doku überarbeitet
-  * Bugfix
+  * Bug-Fixe
 
 $ 4.2.6
   % Version 4.2.6
@@ -88,7 +88,7 @@ $ 4.2.5
   * Korrekte Meldung beim Import wenn keine passende Datei vorhanden ist
   * Optionale Button-Vibration gefixt für Android Version > 11
   * Code-, Daten- und Layout-Verbesserungen
-  * Weitere Bugfixe
+  * Weitere Bug-Fixe
   * Doku überarbeitet
 
 $ 4.2.4
@@ -106,7 +106,7 @@ $ 4.2.3
   _ 25.03.2025
   * Export der Speziesliste für Import durch TransektCount und TourCount
   * Einige Textanpassunge und -korrekturen
-  * Bugfix zur Anzeige der korrekten Transekt-Nr. nach DB-Import
+  * Bug-Fix zur Anzeige der korrekten Transekt-Nr. nach DB-Import
   * Doku angepasst
 
 $ 4.2.2
@@ -121,7 +121,7 @@ $ 4.2.1
   % Version 4.2.1
   _ 23.02.2025
   * Backpressed-Logik des Zurück-Buttons auf der Startseite verbessert
-  * Bugfix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
+  * Bug-Fix zum Start der Standard-Kamera, falls es die einzige Kamera-App ist
   * Berechtigungs-Behandlung verbessert
   * Code-Verbesserungen
   * Doku-Update
@@ -134,7 +134,7 @@ $ 4.2.0
   * App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
   * Option der Vorauswahl mit 2 Anfangsbuchstaben bei Hinzufügen, Löschen und Editieren von Arten
   * Code-Verbesserungen
-  * Bug-Fixes
+  * Bug-Fixe
   * Doku-Update
 
 $ 4.1.0
@@ -154,7 +154,7 @@ $ 4.1.0
   * Verbesserungen bei Code, Text und Layouts
   * Lizenzentext separat
   * Doku angepasst
-  * Bug-Fixes
+  * Bug-Fixe
 
 $ 4.0.3
   % Version 4.0.3
@@ -169,7 +169,7 @@ $ 4.0.2
   % Version 4.0.2
   _ 22.02.2024
   * Einge Arten mit Abbildungen hinzugefügt
-  * Bug-Fixes
+  * Bug-Fixe
   * Docs überarbeitet
   * Beispiel-DBs überarbeitet
 
@@ -192,7 +192,7 @@ $ 4.0.1
   * Fehlende Abbildungen ergänzt
   * Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
   * Code Verbesserungen
-  * Bug-Fixes
+  * Bug-Fixe
   * Code-Anpassungen für Android 14
 
 $ 3.4.3

@@ -57,13 +57,13 @@ _ Subtitle
 
 $ 4.2.7
   % Version 4.2.7
-  _ 2025-07-19
+  _ 2025-07-20
   * Compiled for Android 16 (SDK 36)
   * Help and License info with new design
   * App info with background adjusted to new design
   * Adaptive app icon added for Android 16 (prevents white ring)
   * Some code and layout improvements
-  * Picture of Ennomos quercinaria added
+  * Pictures of Ennomos quercinaria and Eilema lurideola added
   * Docs updated
   * Bug fixes
 

@@ -5,10 +5,10 @@ New in Version 4.2.7:
 - Help and License info with new design
 - App info with background adjusted to new design
 - Adaptive app icon added for Android 16 (prevents white ring)
-- Some layout improvements
-- Picture of Ennomos quercinaria added
+- Some code and layout improvements
+- Pictures of Ennomos quercinaria and Eilema lurideola added
 - Docs updated
-- Bug fixes
+- Bugfixes
 
 Features:
 - Data collection is based on a transect inspection

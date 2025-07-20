@@ -2,15 +2,15 @@
 
 #### TransektCount Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
 
-#### Version 4.2.7 (2025-07-19)
+#### Version 4.2.7 (2025-07-20)
 - Compiled for Android 16 (SDK 36)
 - Help and License info with new design
 - App info with background adjusted to new design
 - Adaptive app icon added for Android 16 (prevents white ring)
-- Some layout improvements
-- Picture of Ennomos quercinaria added
+- Some code and layout improvements
+- Pictures of Ennomos quercinaria and Eilema lurideola added
 - Docs updated
-- Bug fixes
+- Bugfixes
 
 #### Version 4.2.6 (2025-07-06)
 - Vibrator will only be used if Android Version is >= 8
@@ -29,7 +29,7 @@
 - Corrected message when there is no suitable file for import
 - Optional button vibration fixed for Android Version > 11  
 - Code, data and layout improvements
-- Some minor bug fixes
+- Some minor bugfixes
 - Docs updated
 
 #### Version 4.2.4 (2025-04-18)
@@ -70,7 +70,7 @@
 - App gets completely removed from memory when finished
 - Options to preselect species by initial letters for adding, removing and editing them
 - Code improvements and Kotlin code adapted to Kotlin 2
-- Bug fixes
+- Bugfixes
 - Update Gradle -> 8.9
 - Update AGP dependency -> 8.7.3
 - Docs updated
@@ -121,7 +121,7 @@
 - Missing pictures supplemented
 - Docs updated with explanation how to create and handle an appropriate GPX file
 - Code refinements
-- Bug fixes
+- Bugfixes
 - Code adaptation for Android 14
 
 #### Version 3.4.3 (2023-08-09)
@@ -188,7 +188,7 @@
 - .CSV-Export: In Totals line suppression of zeros
 - Strings cleared up
 - Docs updated
-- Bug fix in csv-export
+- Bugfix in csv-export
 
 #### Version 3.2.1 (2020-04-16)
 - Code adapted for restricted Storage Access of Android 10
@@ -234,7 +234,7 @@
 - Fix for crash when species selector is rapidly repeatedly pressed
 - Fix for crash in permission handling of Android >= Marshmallow
 - Fix for crash in "Edit Species List" functionality
-- Bug fixes
+- Bugfixes
 
 #### Version 3.0.1 (2018-04-01)
 - Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
@@ -246,7 +246,7 @@
 - Added a camera button in counting menu
 - Documentation adapted
 - Docs: German Introductory presentation added
-- Bug fixes
+- Bugfixes
 
 #### Version 2.1.0 (2017-09-27)
 - Code adapted and compiled for Android 7.1
@@ -270,7 +270,7 @@
 - Minor code improvements
 - Added Calendar Week in csv-export
 - Fix crash when loading database of old structure prior version 2.0.0
-- Bug fixes
+- Bugfixes
 
 #### Version 2.0.0 (2017-01-06)
 - Completely revised counting page with species drop down selection and more complete count options
@@ -291,7 +291,7 @@
 - Exportable csv-table improved
 - Switch screen off on counting page when in pocket
 - Code improvement
-- Bug fix
+- Bugfix
 
 #### Version 1.3.0 (2016-06-22)
 - Option "Screen bright" in Preferences
