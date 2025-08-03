@@ -27,7 +27,9 @@
             android:id="@+id/countHead3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center_horizontal|bottom"
             android:hint="@string/countExternalHint"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="15sp" />

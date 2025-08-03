@@ -171,7 +171,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "173 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "174 onResume")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -199,7 +199,7 @@ class EditSectionListActivity : AppCompatActivity() {
             supportActionBar!!.title = getString(R.string.headEdit)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         } catch (_: NullPointerException) {
-            if (MyDebug.DLOG) Log.e(TAG, "194, NullPointerException: No section name!")
+            if (MyDebug.DLOG) Log.e(TAG, "202, NullPointerException: No section name!")
         }
 
         // Edit the section name
@@ -208,7 +208,7 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
         if (MyDebug.DLOG)
-            Log.d(TAG, "203, onResume, EditTitleWidget, old section name: "
+            Log.d(TAG, "211, onResume, EditTitleWidget, old section name: "
                     + oldName + ", new sectionName: " + etw!!.sectionName
             )
 
@@ -239,7 +239,7 @@ class EditSectionListActivity : AppCompatActivity() {
             initChars = initChars.substring(0,2)
             searchEdit.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "233, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "242, initChars: $initChars")
 
             // Call DummyActivity to reenter EditSectionListActivity for reduced add list
             countDataSource!!.close()
@@ -288,7 +288,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 esw!!.setPicSpec(count)
                 esw!!.setCountId(count.id)
                 editingSpeciesArea!!.addView(esw)
-                if (MyDebug.DLOG) Log.d(TAG, "282, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "291, name: " + count.name)
             }
         }
     }
@@ -296,7 +296,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "290 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "299 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -355,7 +355,7 @@ class EditSectionListActivity : AppCompatActivity() {
 
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
-        if (MyDebug.DLOG) Log.d(TAG, "349, newSectName: $newSectName")
+        if (MyDebug.DLOG) Log.d(TAG, "358, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
@@ -365,7 +365,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 Toast.makeText(
                     applicationContext,
                     HtmlCompat.fromHtml(
-                        "<font color='red'><b>" + mesg + "</b></font>",
+                        "<font color='red'><b>$mesg</b></font>",
                         HtmlCompat.FROM_HTML_MODE_LEGACY
                     ), Toast.LENGTH_LONG
                 ).show()
@@ -382,7 +382,7 @@ class EditSectionListActivity : AppCompatActivity() {
             Toast.makeText(
                 applicationContext,
                 HtmlCompat.fromHtml(
-                    "<font color='red'><b>" + mesg + "</b></font>",
+                    "<font color='red'><b>$mesg</b></font>",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ), Toast.LENGTH_LONG
             ).show()
@@ -396,7 +396,7 @@ class EditSectionListActivity : AppCompatActivity() {
             Toast.makeText(
                 applicationContext,
                 HtmlCompat.fromHtml(
-                    "<font color='#008000'>" + mesg + "</font>",
+                    "<font color='#008000'>$mesg</font>",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ), Toast.LENGTH_SHORT
             ).show()
@@ -413,7 +413,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Read the edited species list
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
-        if (MyDebug.DLOG) Log.d(TAG, "392, childcount: $childcount")
+        if (MyDebug.DLOG) Log.d(TAG, "416, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -433,7 +433,7 @@ class EditSectionListActivity : AppCompatActivity() {
             while (si <= numSect) {
                 // for all species per section
                 for (i in 0 until childcount) {
-                    if (MyDebug.DLOG) Log.d(TAG, "412, Section: $si, Species $i")
+                    if (MyDebug.DLOG) Log.d(TAG, "436, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSpeciesWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -453,7 +453,7 @@ class EditSectionListActivity : AppCompatActivity() {
                         Toast.makeText(
                             applicationContext,
                             HtmlCompat.fromHtml(
-                                "<font color='red'><b>" + mesg + "</b></font>",
+                                "<font color='red'><b>$mesg</b></font>",
                                 HtmlCompat.FROM_HTML_MODE_LEGACY
                             ), Toast.LENGTH_LONG
                         ).show()
@@ -471,7 +471,7 @@ class EditSectionListActivity : AppCompatActivity() {
             Toast.makeText(
                 applicationContext,
                 HtmlCompat.fromHtml(
-                    "<font color='red'><b>" + mesg + "</b></font>",
+                    "<font color='red'><b>$mesg</b></font>",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ), Toast.LENGTH_LONG
             ).show()
@@ -493,7 +493,7 @@ class EditSectionListActivity : AppCompatActivity() {
             Toast.makeText(
                 applicationContext,
                 HtmlCompat.fromHtml(
-                    "<font color='red'><b>" + mesg + "</b></font>",
+                    "<font color='red'><b>$mesg</b></font>",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ), Toast.LENGTH_LONG
             ).show()

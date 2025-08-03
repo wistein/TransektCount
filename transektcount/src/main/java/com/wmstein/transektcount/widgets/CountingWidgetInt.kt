@@ -101,18 +101,18 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
         }
 
         if (MyDebug.DLOG) {
-            val mesg = "Height: $sHeight"
+            val mesg = "Screen height: $sHeight"
             Toast.makeText(
                 context,
                 HtmlCompat.fromHtml(
-                    "<font color='blue'>" + mesg + "</font>",
+                    "<font color='blue'>$mesg</font>",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ), Toast.LENGTH_SHORT
             ).show()
         }
 
         // Height for counter line on counting page
-        ht = sHeight / 21
+        ht = sHeight / 22
 
         val lparamsf1i: ViewGroup.LayoutParams = idf1i.layoutParams
         lparamsf1i.height = ht

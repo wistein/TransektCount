@@ -98,7 +98,7 @@ class CountingWidgetLhExt(context: Context, attrs: AttributeSet?) : RelativeLayo
         }
 
         // Height for counter line on counting page
-        ht = sHeight / 21
+        ht = sHeight / 22
 
         val lparamsf1e: ViewGroup.LayoutParams = idLHf1e.layoutParams
         lparamsf1e.height = ht

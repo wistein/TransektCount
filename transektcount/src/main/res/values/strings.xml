@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-07-04 -->
+     last edited 2025-08-03 -->
 
 <resources>
 
@@ -19,7 +19,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- WelcomeActivity -->
-    <string name="hello">Species-specific counting of\n\nbutterflies in transect sections</string>
+    <string name="title">Species-specific counting of\n\nbutterflies in transect sections</string>
     <string name="viewSectionButton">Counting</string>
     <string name="viewSpeciesButton">Show Results</string>
     <string name="editMetaButton">Edit Meta Data</string>

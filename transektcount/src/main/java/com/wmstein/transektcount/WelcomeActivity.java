@@ -1,5 +1,7 @@
 package com.wmstein.transektcount;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -83,7 +85,7 @@ import java.util.Objects;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-07-12
+ * last edited on 2025-07-24
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -130,7 +132,7 @@ public class WelcomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "133, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "135, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -161,7 +163,7 @@ public class WelcomeActivity
         }
 
         // Use EdgeToEdge mode for Android 15+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // Android 15+, SDK 35+
+        if (SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // Android 15+, SDK 35+
         {
             EdgeToEdge.enable(this);
         }
@@ -192,7 +194,7 @@ public class WelcomeActivity
                     HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                             HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
         }
-        if (MyDebug.DLOG) Log.d(TAG, "195, onCreate, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "197, onCreate, storagePermGranted: " + storagePermGranted);
 
         // setup the data sources
         headDataSource = new HeadDataSource(this);
@@ -224,7 +226,7 @@ public class WelcomeActivity
 
         // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
@@ -262,7 +264,7 @@ public class WelcomeActivity
 
         // iMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int iMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
-        if (MyDebug.DLOG) Log.i(TAG, "265, NavBarMode = " + iMode);
+        if (MyDebug.DLOG) Log.i(TAG, "267, NavBarMode = " + iMode);
         return iMode;
     }
 
@@ -296,14 +298,14 @@ public class WelcomeActivity
     protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "299, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "301, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         outPref = prefs.getString("pref_csv_out", "species"); // sort mode csv-export
 
         isStoragePermGranted(); // set storagePermGranted from self permission
-        if (MyDebug.DLOG) Log.d(TAG, "306, onResume, storagePermGranted: " + storagePermGranted);
+        if (MyDebug.DLOG) Log.d(TAG, "308, onResume, storagePermGranted: " + storagePermGranted);
 
         headDataSource.open();
         sectionDataSource.open();
@@ -327,7 +329,7 @@ public class WelcomeActivity
 
     // Check external storage self permission
     private void isStoragePermGranted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android >= 11
+        if (SDK_INT >= Build.VERSION_CODES.R) // Android >= 11
         {
             // check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
             storagePermGranted = Environment.isExternalStorageManager();
@@ -495,7 +497,7 @@ public class WelcomeActivity
     public void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "498, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "500, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -510,7 +512,7 @@ public class WelcomeActivity
     public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "513, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "515, onStop");
         baseLayout.invalidate();
     }
 
@@ -518,7 +520,7 @@ public class WelcomeActivity
     public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "521, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "523, onDestroy");
     }
 
     // Start CountingActivity
@@ -560,7 +562,7 @@ public class WelcomeActivity
      */
     // Import the basic DB
     private void importBasisDb() {
-        if (MyDebug.DLOG) Log.d(TAG, "563, importBasicDBFile");
+        if (MyDebug.DLOG) Log.d(TAG, "565, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -605,7 +607,7 @@ public class WelcomeActivity
                         if (data != null) {
                             selectedFile = data.getStringExtra("fileSelected");
                             if (MyDebug.DLOG)
-                                Log.i(TAG, "608, Selected file: " + selectedFile);
+                                Log.i(TAG, "610, Selected file: " + selectedFile);
 
                             if (selectedFile != null)
                                 inFile = new File(selectedFile);
@@ -809,7 +811,7 @@ public class WelcomeActivity
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
@@ -853,7 +855,7 @@ public class WelcomeActivity
                 if (d0) {
                     mesg = getString(R.string.saveBasisDB);
                     Toast.makeText(this,
-                            HtmlCompat.fromHtml("<font color='green'>" + mesg + "</font>",
+                            HtmlCompat.fromHtml("<font color='#006400'>" + mesg + "</font>",
                                     HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
@@ -871,7 +873,7 @@ public class WelcomeActivity
         // New data directory:
         //   outFile -> Public Directory Documents/TransektCount/
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
@@ -940,7 +942,7 @@ public class WelcomeActivity
         //    (Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
         //
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
@@ -1543,7 +1545,7 @@ public class WelcomeActivity
                 Toast.makeText(this,
                         HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                                 HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
-                if (MyDebug.DLOG) Log.e(TAG, "1546, csv write external failed");
+                if (MyDebug.DLOG) Log.e(TAG, "1548, csv write external failed");
             }
             dbHandler.close();
         }
@@ -1559,7 +1561,7 @@ public class WelcomeActivity
         // outFileTour -> /storage/emulated/0/Documents/TourCount/species_yyyyMMdd_HHmmss.csv
         // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_yyyyMMdd_HHmmss.csv
         File pathTour, outFileTour, pathTransect, outFileTransect = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
             pathTransect = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");

@@ -33,7 +33,7 @@ class TransektCountApplication : Application() {
 
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
         if (MyDebug.DLOG) {
-            Log.i(TAG, "42, onCreate, StrictMode.setVmPolicy")
+            Log.i(TAG, "36, onCreate, StrictMode.setVmPolicy")
             StrictMode.setVmPolicy(
                 VmPolicy.Builder(StrictMode.getVmPolicy())
                     .detectLeakedClosableObjects()
@@ -44,7 +44,7 @@ class TransektCountApplication : Application() {
         try {
             prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         } catch (e: Exception) {
-            if (MyDebug.DLOG) Log.e(TAG, "53, $e")
+            if (MyDebug.DLOG) Log.e(TAG, "47, $e")
         }
     }
     // End of onCreate()
@@ -55,7 +55,7 @@ class TransektCountApplication : Application() {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!
-        if (MyDebug.DLOG) Log.i(TAG, "64, Backgr.: $backgroundPref")
+        if (MyDebug.DLOG) Log.i(TAG, "58, Backgr.: $backgroundPref")
 
         val wm = checkNotNull(this.getSystemService(WINDOW_SERVICE) as WindowManager)
         if (Build.VERSION.SDK_INT >= 30) {
@@ -71,7 +71,7 @@ class TransektCountApplication : Application() {
             width = size.x
             height = size.y
         }
-        if (MyDebug.DLOG) Log.d(TAG, "80, width = $width, height = $height")
+        if (MyDebug.DLOG) Log.d(TAG, "74, width = $width, height = $height")
 
         var bMap: Bitmap?
         if (backgroundPref == "none") {

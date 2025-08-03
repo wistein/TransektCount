@@ -19,8 +19,8 @@
     <!-- insert spinner widget_counting_head1 here -->
     <Spinner
         android:id="@+id/countHead1Spinner"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

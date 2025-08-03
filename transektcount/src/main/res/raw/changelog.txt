@@ -55,6 +55,12 @@ _ Subtitle
   ! Suitable for Android 7.1 (Nougat) or newer.
   _ 
 
+$ 4.2.8
+  % Version 4.2.8
+  _ 2025-08-03
+  * Some code and text improvements
+  * Bugfixes
+
 $ 4.2.7
   % Version 4.2.7
   _ 2025-07-20
@@ -65,7 +71,7 @@ $ 4.2.7
   * Some code and layout improvements
   * Pictures of Ennomos quercinaria and Eilema lurideola added
   * Docs updated
-  * Bug fixes
+  * Bugfixes
 
 $ 4.2.6
   % Version 4.2.6

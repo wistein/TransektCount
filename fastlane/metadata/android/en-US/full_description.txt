@@ -1,13 +1,7 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 4.2.7:
-- Compiled for Android 16 (SDK 36)
-- Help and License info with new design
-- App info with background adjusted to new design
-- Adaptive app icon added for Android 16 (prevents white ring)
-- Some code and layout improvements
-- Pictures of Ennomos quercinaria and Eilema lurideola added
-- Docs updated
+New in Version 4.2.8:
+- Some code and text improvements
 - Bugfixes
 
 Features:

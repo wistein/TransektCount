@@ -86,7 +86,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-06-28
+ * last edited on 2025-07-22
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -156,7 +156,7 @@ public class CountingActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "158, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "159, onCreate");
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -314,7 +314,7 @@ public class CountingActivity
     protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "316, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "317, onResume");
 
         mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -450,7 +450,7 @@ public class CountingActivity
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
             if (MyDebug.DLOG)
-                Log.d(TAG, "449 Value0: " + event.values[0] + ", " + "Sensitivity: "
+                Log.d(TAG, "453 Value0: " + event.values[0] + ", " + "Sensitivity: "
                         + (sensorSensitivity));
 
             // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -511,17 +511,10 @@ public class CountingActivity
         else if (id == R.id.menuAddSpecies) {
             disableProximitySensor();
 
-            mesg = getString(R.string.wait);
-            Toast.makeText(this,
-                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
-
-            // Trick: Pause for 100 msec to show toast
             Intent intent = new Intent(CountingActivity.this, AddSpeciesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("section_id", sectionId);
-            mHandler.postDelayed(() ->
-                    startActivity(intent), 100);
+            startActivity(intent);
             return true;
         }
 
@@ -648,7 +641,7 @@ public class CountingActivity
     protected void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "636, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "644, onPause");
 
         disableProximitySensor();
 
@@ -672,7 +665,7 @@ public class CountingActivity
     public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "660, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "668, onStop");
 
         if (r != null)
             r.stop(); // stop media player
@@ -682,7 +675,7 @@ public class CountingActivity
     public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "670, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "678, onDestroy");
     }
 
     // Spinner listener
@@ -705,13 +698,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.DLOG)
-                        Log.d(TAG, "693, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "708, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.DLOG)
-                        Log.e(TAG, "699, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "714, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -724,7 +717,7 @@ public class CountingActivity
 
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
-        if (MyDebug.DLOG) Log.d(TAG, "712, countingScreen");
+        if (MyDebug.DLOG) Log.d(TAG, "727, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -842,7 +835,7 @@ public class CountingActivity
     public void countUpf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "830, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "845, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -901,7 +894,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "889, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "904, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1352,7 +1345,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1340, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1355, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1400,7 +1393,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1388 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1403 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1888,13 +1881,13 @@ public class CountingActivity
             try {
                 entries = sectionDataSource.getNumEntries();
             } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1873 getNumEntries failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1891 getNumEntries failed");
             }
 
             try {
                 maxId = sectionDataSource.getMaxId();
             } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1879 getMaxId failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1897 getMaxId failed");
             }
 
             if (entries != maxId) {
@@ -1903,7 +1896,7 @@ public class CountingActivity
                         HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                                 HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "1885 maxId: " + maxId + ", entries: " + entries);
+                    Log.d(TAG, "1906 maxId: " + maxId + ", entries: " + entries);
                 return;
             }
 
@@ -1942,11 +1935,11 @@ public class CountingActivity
         for (int i = 1; i < childcount; i++) {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.DLOG) Log.d(TAG, "1921, compSectionNames, sname = " + sname);
+            if (MyDebug.DLOG) Log.d(TAG, "1945, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname)) {
                 isDblName = true;
-                if (MyDebug.DLOG) Log.d(TAG, "1925, compSectionNames, Double name = " + sname);
+                if (MyDebug.DLOG) Log.d(TAG, "1949, compSectionNames, Double name = " + sname);
                 break;
             }
         }
@@ -2029,13 +2022,13 @@ public class CountingActivity
     private void buttonVib(long dur) {
         if (buttonVibPref && vibrator.hasVibrator()) {
             if (SDK_INT >= 31) { // S, Android 12
-                if (MyDebug.DLOG) Log.d(TAG, "2008, Vibrator >= SDK 31");
+                if (MyDebug.DLOG) Log.d(TAG, "2032, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (SDK_INT >= 26) // Oreo Android 8
                 {
-                    if (MyDebug.DLOG) Log.d(TAG, "2014 Vibrator >= SDK 26");
+                    if (MyDebug.DLOG) Log.d(TAG, "2038 Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();

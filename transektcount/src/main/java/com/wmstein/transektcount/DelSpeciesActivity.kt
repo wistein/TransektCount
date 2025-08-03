@@ -72,7 +72,8 @@ class DelSpeciesActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_del_species)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.delSpec)) { v, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.delSpec))
+        { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view. This solution sets
             // only the bottom, left, and right dimensions, but you can apply whichever
@@ -131,7 +132,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "134 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "135 onResume")
 
         sectionDataSource!!.open()
         countDataSource!!.open()
@@ -171,7 +172,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             initChars = initChars.substring(0,2)
             searchDel.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "173, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "175, initChars: $initChars")
 
             // Call DummyActivity to reenter DelSpeciesActivity for reduced add list
             val intent = Intent(this@DelSpeciesActivity, DummyActivity::class.java)
@@ -202,7 +203,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
                     cnt++
                     deleteArea!!.addView(dsw)
-                    if (MyDebug.DLOG) Log.d(TAG, "204, name: " + count.name)
+                    if (MyDebug.DLOG) Log.d(TAG, "206, name: " + count.name)
                 }
             }
         } else {
@@ -214,7 +215,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setPicSpec(count)
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
-                if (MyDebug.DLOG) Log.d(TAG, "216, name: " + count.name)
+                if (MyDebug.DLOG) Log.d(TAG, "218, name: " + count.name)
             }
         }
     }
@@ -222,7 +223,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for delete from the species counts list
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
-        if (MyDebug.DLOG) Log.d(TAG, "224, View.tag: $idToDel")
+        if (MyDebug.DLOG) Log.d(TAG, "226, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -232,14 +233,14 @@ class DelSpeciesActivity : AppCompatActivity() {
             listToDelete!!.add(dsw)
             if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "234, mark delete code: $codeD")
+                Log.d(TAG, "236, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
             if (MyDebug.DLOG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "241, mark delete code: $codeD")
+                Log.d(TAG, "243, mark delete code: $codeD")
             }
         }
     }
@@ -251,7 +252,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             if (MyDebug.DLOG) {
-                Log.d(TAG, "253, delete code: $specCode")
+                Log.d(TAG, "255, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -328,7 +329,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "330 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "332 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -338,7 +339,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.DLOG) Log.d(TAG, "340, onDestroy")
+        if (MyDebug.DLOG) Log.d(TAG, "342, onDestroy")
 
         delHintArea!!.clearFocus()
     }

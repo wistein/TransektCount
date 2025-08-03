@@ -3,7 +3,10 @@ package com.wmstein.transektcount
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -12,11 +15,13 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.core.content.edit
+import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -37,7 +42,7 @@ import com.wmstein.transektcount.widgets.HintAddWidget
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2025-06-30
+ * last edited on 2025-07-24
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -77,7 +82,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.d(TAG, "82, onCreate")
+        if (MyDebug.DLOG) Log.d(TAG, "85, onCreate")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -118,7 +123,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             sectionId = extras.getInt("section_id")
             initChars = extras.getString("init_Chars").toString()
         }
-        if (MyDebug.DLOG) Log.d(TAG, "122, initChars: $initChars")
+        if (MyDebug.DLOG) Log.d(TAG, "126, initChars: $initChars")
 
         listToAdd = ArrayList()
 
@@ -132,7 +137,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // New onBackPressed logic
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (MyDebug.DLOG) Log.d(TAG, "136, handleOnBackPressed")
+                if (MyDebug.DLOG) Log.d(TAG, "140, handleOnBackPressed")
 
                 val intent = NavUtils.getParentActivityIntent(this@AddSpeciesActivity)!!
                 intent.putExtra("section_id", sectionId)
@@ -147,7 +152,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "151, onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "155, onResume")
 
         countDataSource!!.open()
         sectionDataSource!!.open()
@@ -172,7 +177,31 @@ class AddSpeciesActivity : AppCompatActivity() {
             haw.setSearchA(getString(R.string.hintSearch))
         addHintArea!!.addView(haw)
 
-        constructAddList()
+        // Toast hint for duration of list calculation
+        val mesg = getString(R.string.wait)
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Toast.makeText(
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='#008800'>$mesg</font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_SHORT
+            ).show()
+        } else
+        {
+            Toast.makeText(
+                applicationContext,
+                HtmlCompat.fromHtml(
+                    "<font color='#008800'>$mesg</font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_LONG
+            ).show()
+        }
+
+        // Delay necessary for Toast to show and not break activity
+        Handler(Looper.getMainLooper()).postDelayed({
+            constructAddList()
+        }, 100)
     }
     // End of onResume()
 
@@ -188,12 +217,12 @@ class AddSpeciesActivity : AppCompatActivity() {
             // Reminder: "Please, 2 characters"
             searchAdd.error = getString(R.string.initCharsL)
         } else {
-            initChars = initChars.substring(0,2)
+            initChars = initChars.substring(0, 2)
             searchAdd.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "194, initChars: $initChars")
+            if (MyDebug.DLOG) Log.d(TAG, "223, initChars: $initChars")
 
-            // Call DummyActivity to reenter AddSpeciesActivity for reduced add list
+            // Call DummyActivity to re-enter AddSpeciesActivity for reduced add list
             val intent = Intent(this@AddSpeciesActivity, DummyActivity::class.java)
             intent.putExtra("section_id", sectionId)
             intent.putExtra("init_Chars", initChars)
@@ -204,7 +233,6 @@ class AddSpeciesActivity : AppCompatActivity() {
 
     // Construct add-species-list of not already contained species in the counting list
     //   and optionally reduce it further by initChar selection
-    @SuppressLint("ApplySharedPref")
     private fun constructAddList() {
         // 1. Build list of codes of contained species in counting list
         val specCodesContainedList = ArrayList<String?>()
@@ -219,7 +247,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // 2. Build lists of all yet missing species
         val specCodesContainedListSize = specCodesContainedList.size
-        if (MyDebug.DLOG) Log.d(TAG, "222, codesCountListSize: $specCodesContainedListSize")
+        if (MyDebug.DLOG) Log.d(TAG, "250, codesCountListSize: $specCodesContainedListSize")
 
         // Reduce complete arraylists for already contained species
         for (i in 0 until specCodesContainedListSize) {
@@ -228,15 +256,15 @@ class AddSpeciesActivity : AppCompatActivity() {
                 // Prerequisites: Exactly correlated arrays of selCodes, selSpecs and selSpecs_l
                 specCode = specCodesContainedList[i]
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
-                if (MyDebug.DLOG) Log.d(TAG, "231, 1. specCode: $specCode, posSpec: $posSpec")
+                if (MyDebug.DLOG) Log.d(TAG, "259, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
                 namesLCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
             }
         }
 
-        if (MyDebug.DLOG) Log.d(TAG, "238, initChars: $initChars")
-        if (MyDebug.DLOG) Log.d(TAG, "239, namesCompleteArrayListSize: "
+        if (MyDebug.DLOG) Log.d(TAG, "266, initChars: $initChars")
+        if (MyDebug.DLOG) Log.d(TAG, "267, namesCompleteArrayListSize: "
                     + namesCompleteArrayList!!.size)
 
         // Copy ...CompleteArrayLists to ...ReducedArrayLists
@@ -257,7 +285,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                     specName = namesCompleteArrayList!![i]
                     specNameG = namesLCompleteArrayList!![i]
                     specCode = codesCompleteArrayList!![i]
-                    if (MyDebug.DLOG) Log.d(TAG, "260, 2. specName: $specName, specCode: $specCode")
+                    if (MyDebug.DLOG) Log.d(TAG, "288, 2. specName: $specName, specCode: $specCode")
 
                     // Assemble remaining ReducedArrayLists for all Species with initChars
                     namesReducedArrayList!!.add(specName!!)
@@ -269,7 +297,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Create remainingIdArrayList for all remaining species of codesCompleteArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
-        if (MyDebug.DLOG) Log.d(TAG, "272, remainingIdArrayListSize: " + remainingIdArrayList.size)
+        if (MyDebug.DLOG) Log.d(TAG, "300, remainingIdArrayListSize: " + remainingIdArrayList.size)
         var i = 0
         while (i < codesReducedArrayList!!.size) {
             remainingIdArrayList[i] = (i + 1).toString()
@@ -298,7 +326,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for the species counts list
     fun checkBoxAdd(view: View) {
         val idToAdd = view.tag as Int
-        if (MyDebug.DLOG) Log.d(TAG, "272, View.tag: $idToAdd")
+        if (MyDebug.DLOG) Log.d(TAG, "329, View.tag: $idToAdd")
         val asw = addArea!!.getChildAt(idToAdd) as AddSpeciesWidget
 
         val checked = asw.getMarkSpec() // return boolean isChecked
@@ -308,14 +336,14 @@ class AddSpeciesActivity : AppCompatActivity() {
             listToAdd!!.add(asw)
             if (MyDebug.DLOG) {
                 val codeA = asw.getSpecCode()
-                Log.d(TAG, "282, addCount, code: $codeA")
+                Log.d(TAG, "339, addCount, code: $codeA")
             }
         } else {
             // Remove species previously added from add list
             listToAdd!!.remove(asw)
             if (MyDebug.DLOG) {
                 val codeA = asw.getSpecCode()
-                Log.d(TAG, "289, removeCount, code: $codeA")
+                Log.d(TAG, "346, removeCount, code: $codeA")
             }
         }
     }
@@ -330,7 +358,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
             if (MyDebug.DLOG) {
-                Log.d(TAG, "304, addSpecs, code: $specCode")
+                Log.d(TAG, "361, addSpecs, code: $specCode")
             }
             try {
                 var sectid = 1
@@ -357,6 +385,7 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Call DummyActivity to reenter AddSpeciesActivity to rebuild the species list
         val intent = Intent(this@AddSpeciesActivity, DummyActivity::class.java)
+        intent.putExtra("section_id", 1)
         intent.putExtra("init_Chars", "")
         intent.putExtra("is_Flag", "isAdd")
         startActivity(intent)
@@ -399,7 +428,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "373, onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "431, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -408,7 +437,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.DLOG) Log.d(TAG, "382, onDestroy")
+        if (MyDebug.DLOG) Log.d(TAG, "440, onDestroy")
 
         addArea!!.removeAllViews()
         addHintArea!!.clearFocus()

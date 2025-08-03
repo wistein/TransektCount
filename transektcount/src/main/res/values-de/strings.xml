@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-07-04 -->
+     last edited 2025-08-03 -->
 
 <resources>
 
@@ -9,7 +9,7 @@
     <string name="title_activity_list_section">Transektabschnitte</string>
 
     <!-- WelcomeActivity -->
-    <string name="hello">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
+    <string name="title">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
     <string name="viewSectionButton">Zählen</string>
     <string name="viewSpeciesButton">Ergebnis anzeigen</string>
     <string name="editMetaButton">Meta-Daten editieren</string>

@@ -64,7 +64,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
         // Get version numbers of last Version and this Version to compare
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (MyDebug.DLOG)
-            Log.d(TAG, "66, lastVersion: " + lastVersion);
+            Log.d(TAG, "67, lastVersion: " + lastVersion);
 
         try
         {
@@ -74,10 +74,10 @@ public ChangeLog(Context context, SharedPreferences prefs)
         {
             thisVersion = NO_VERSION;
             if (MyDebug.DLOG)
-                Log.e(TAG, "76, Could not get version name from manifest!", e);
+                Log.e(TAG, "77, Could not get version name from manifest!", e);
         }
         if (MyDebug.DLOG)
-            Log.d(TAG, "79, appVersion: " + this.thisVersion);
+            Log.d(TAG, "80, appVersion: " + this.thisVersion);
     }
 
     /**
@@ -267,7 +267,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
             ins.close();
         } catch (IOException e)
         {
-            if (MyDebug.DLOG) Log.e(TAG, "269, could not read changelog text.", e);
+            if (MyDebug.DLOG) Log.e(TAG, "270, could not read changelog text.", e);
         }
 
         return sb.toString();

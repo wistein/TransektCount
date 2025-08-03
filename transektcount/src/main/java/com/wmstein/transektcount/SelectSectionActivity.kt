@@ -96,7 +96,7 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "74 onResume")
+        if (MyDebug.DLOG) Log.d(TAG, "99 onResume")
 
         sectionDataSource!!.open()
         sections = sectionDataSource!!.getAllSections(prefs)
@@ -109,7 +109,7 @@ class SelectSectionActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "87 onPause")
+        if (MyDebug.DLOG) Log.d(TAG, "112 onPause")
 
         sectionDataSource!!.close()
     }
