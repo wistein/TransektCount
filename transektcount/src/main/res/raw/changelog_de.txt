@@ -57,7 +57,7 @@ _ Subtitle
 
 $ 4.2.8
   % Version 4.2.8
-  _ 03.08.2025
+  _ 09.08.2025
   * Einige Code- und Text-Verbesserungen
   * Bug-Fixe
 

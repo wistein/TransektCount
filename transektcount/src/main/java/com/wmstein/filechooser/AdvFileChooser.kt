@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-06-30
+ * last edited on 2025-08-05
  */
 class AdvFileChooser : AppCompatActivity() {
     private var currentDir: File? = null
@@ -46,14 +46,13 @@ class AdvFileChooser : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         if (MyDebug.DLOG) Log.i(TAG, "51, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
             enableEdgeToEdge()
         }
+        super.onCreate(savedInstanceState)
 
         setContentView(R.layout.list_view)
 

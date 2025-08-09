@@ -29,9 +29,8 @@
         android:layout_weight="1"
         android:gravity="center_vertical|end"
         android:src="@android:drawable/ic_menu_add"
-        android:layout_gravity="bottom|end|top"
+        android:layout_gravity="end|top"
         android:layout_margin="5dp"
         android:contentDescription="@string/addAlertButton"/>
-
 
 </LinearLayout>

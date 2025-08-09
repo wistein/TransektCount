@@ -85,7 +85,7 @@ import java.util.Objects;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-07-24
+ * last edited on 2025-08-05
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -172,8 +172,8 @@ public class WelcomeActivity
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.baseLayout),
                 (v, windowInsets) -> {
-                	Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-                	ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                    Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
                     mlp.topMargin = insets.top;
                     mlp.bottomMargin = insets.bottom;
                     mlp.leftMargin = insets.left;

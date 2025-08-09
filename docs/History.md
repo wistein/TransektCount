@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
 
-#### Version 4.2.8 (2025-08-03)
+#### Version 4.2.8 (2025-08-09)
 - Some code and text improvements
 - Bugfixes
 

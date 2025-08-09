@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- listview_section_row.xml is used by SelectSectionAdapter.kt.
    ~ Shows Line of List of transect sections including a delete button
-   ~ Copyright © 2016-2024, Wilhelm Stein, Bonn, Germany.
+   ~ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
