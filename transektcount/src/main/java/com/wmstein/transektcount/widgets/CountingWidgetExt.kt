@@ -20,12 +20,12 @@ import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
 import java.util.Objects
 
-/****************************************************
- * Interface for widget_counting_e.xml
- * Created by wmstein on 18.12.2016
- * last edited in Java on 2021-01-26
- * converted to Kotlin on 2023-06-26
- * last edited on 2025-04-15
+/*****************************************************************
+ * CountingWidgetExt.kt is the interface for widget_counting_e.xml
+ * Created by wmstein on 18.12.2016.
+ * Last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2025-11-21
  */
 class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
@@ -128,12 +128,18 @@ class CountingWidgetExt(context: Context, attrs: AttributeSet?) : RelativeLayout
         namele.text = context.getString(R.string.countLarvaHint)
         nameee.text = context.getString(R.string.countOvoHint)
 
-        countCountf1e.text = count!!.count_f1e.toString()
-        countCountf2e.text = count!!.count_f2e.toString()
-        countCountf3e.text = count!!.count_f3e.toString()
-        countCountpe.text = count!!.count_pe.toString()
-        countCountle.text = count!!.count_le.toString()
-        countCountee.text = count!!.count_ee.toString()
+        if (count!!.count_f1e > 0)
+            countCountf1e.text = count!!.count_f1e.toString()
+        if (count!!.count_f2e > 0)
+            countCountf2e.text = count!!.count_f2e.toString()
+        if (count!!.count_f3e > 0)
+            countCountf3e.text = count!!.count_f3e.toString()
+        if (count!!.count_pe > 0)
+            countCountpe.text = count!!.count_pe.toString()
+        if (count!!.count_le > 0)
+            countCountle.text = count!!.count_le.toString()
+        if (count!!.count_ee > 0)
+            countCountee.text = count!!.count_ee.toString()
 
         val countUpf1eButton = findViewById<ImageButton>(R.id.buttonUpf1e)
         countUpf1eButton.tag = count!!.id

@@ -1,0 +1,17 @@
+Version 5.0.0 (29.12.2025)
+- Diese Version wurde in vielen Punkten überarbeitet und kommt mit optionaler GPS-Unterstützung zwecks Meldung eines Transektabschnitts-Wechsels. Die Verwendung von GPS benötigt dazu die Bereitstellung von Transekt-Trackdaten, beschrieben in der Hilfe und in TransektCount_Anleitung_5.0.0.pdf
+- Wird GPS aktiviert, ändert sich auf der Startseite der App-Name von TransektCount zu TransektCountGPS
+- Ist GPS aktiviert, erscheint auf der Startseite eine kurze Meldung über die Entfernung zum Transekt
+- Ein mittels GPS erkannter neuer Transektabschnitt wird per Ton und kurz eingeblendeter Meldung angezeigt
+- Danach ist dessen Name auf der Seite "Transektabschnitte" blau hervorgehoben
+- Optional kann der GPS-Ortungsdienst in den Systemeinstellungen auf "Immer zulassen" gesetzt werden, um zuverlässig für längere Inspektionen zu arbeiten
+- Der Programm-Code wurde angepasst an eine synchrone Behandlung von Abschnitten und GPS-Tracks, z. B. bei Umbenennen, Löschen oder Klonen von Abschnitten
+- Die Funktion "Abschnitt hinzufügen" wurde von der Zählerseite zur Seite "Transektabschnitte" verlegt
+- Die Option zur Schriftgrößenänderung für Bemerkungen wurde entfernt
+- Lesbarkeit relevanter Seiten mit ausgegrauten "0"-Werten verbessert
+- Abbildung und Daten von Nomophila noctuella (Wanderzünsler) ergänzt.
+- Einige Meldungen verständlicher formuliert.
+- Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio.
+- Einige Code- und Bild-Verbesserungen.
+- Doku überarbeitet.
+- Bug-Fixe.

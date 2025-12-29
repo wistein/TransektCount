@@ -39,10 +39,9 @@ import androidx.core.view.WindowInsetsCompat;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2025-06-27
+ * last edited on 2025-12-29
  */
-public class EditMetaActivity extends AppCompatActivity
-{
+public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
 
     // Data from DB tables
@@ -56,6 +55,7 @@ public class EditMetaActivity extends AppCompatActivity
 
     // Preferences
     private final SharedPreferences prefs = TransektCountApplication.getPrefs();
+    private boolean awakePref;
 
     private LinearLayout metaArea;
     private TextView sDate, sTime, eTime;
@@ -64,11 +64,11 @@ public class EditMetaActivity extends AppCompatActivity
     private EditMetaWidget emw;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "71, onCreate");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "71, onCreate");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -90,15 +90,17 @@ public class EditMetaActivity extends AppCompatActivity
 
         // Option for full bright screen
         boolean brightPref = prefs.getBoolean("pref_bright", true);
+        awakePref = prefs.getBoolean("pref_awake", true);
 
         // Set full brightness of screen
-        if (brightPref)
-        {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (brightPref) {
             WindowManager.LayoutParams params = getWindow().getAttributes();
             params.screenBrightness = 1.0f;
             getWindow().setAttributes(params);
         }
+
+        if (awakePref)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         metaArea = findViewById(R.id.meta_area);
 
@@ -108,12 +110,11 @@ public class EditMetaActivity extends AppCompatActivity
         metaDataSource = new MetaDataSource(this);
 
         // New onBackPressed logic
-        OnBackPressedCallback callback = new OnBackPressedCallback(true)
-        {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void handleOnBackPressed()
-            {
-                if (MyDebug.DLOG) Log.d(TAG, "116, handleOnBackPressed");
+            public void handleOnBackPressed() {
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "117, handleOnBackPressed");
                 finish();
             }
         };
@@ -122,11 +123,11 @@ public class EditMetaActivity extends AppCompatActivity
     // End of onCreate()
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "129, onResume");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "130, onResume");
 
         // Build the Edit Meta Data screen
         // Clear existing view
@@ -173,12 +174,9 @@ public class EditMetaActivity extends AppCompatActivity
 
         // Check for focus
         String newTransectNo = head.transect_no;
-        if (isNotEmpty(newTransectNo))
-        {
+        if (isNotEmpty(newTransectNo)) {
             emw.requestFocus();
-        }
-        else
-        {
+        } else {
             ehw.requestFocus();
         }
 
@@ -207,9 +205,9 @@ public class EditMetaActivity extends AppCompatActivity
         // Select date by long click
         sDate.setOnLongClickListener(v -> {
             new DatePickerDialog(EditMetaActivity.this, dpd,
-                pdate.get(Calendar.YEAR),
-                pdate.get(Calendar.MONTH),
-                pdate.get(Calendar.DAY_OF_MONTH)).show();
+                    pdate.get(Calendar.YEAR),
+                    pdate.get(Calendar.MONTH),
+                    pdate.get(Calendar.DAY_OF_MONTH)).show();
             return true;
         });
 
@@ -230,9 +228,9 @@ public class EditMetaActivity extends AppCompatActivity
         // Select start time
         sTime.setOnLongClickListener(v -> {
             new TimePickerDialog(EditMetaActivity.this, stpd,
-                ptime.get(Calendar.HOUR_OF_DAY),
-                ptime.get(Calendar.MINUTE),
-                true).show();
+                    ptime.get(Calendar.HOUR_OF_DAY),
+                    ptime.get(Calendar.MINUTE),
+                    true).show();
             return true;
         });
 
@@ -253,37 +251,36 @@ public class EditMetaActivity extends AppCompatActivity
         // Select end time
         eTime.setOnLongClickListener(v -> {
             new TimePickerDialog(EditMetaActivity.this, etpd,
-                ptime.get(Calendar.HOUR_OF_DAY),
-                ptime.get(Calendar.MINUTE),
-                true).show();
+                    ptime.get(Calendar.HOUR_OF_DAY),
+                    ptime.get(Calendar.MINUTE),
+                    true).show();
             return true;
         });
     }
     // End of onResume()
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.edit_meta, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         int id = item.getItemId();
         if (id == android.R.id.home) // back button in actionBar
         {
-            if (MyDebug.DLOG) Log.d(TAG, "279, MenuItem home");
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.d(TAG, "276, MenuItem home");
             finish();
             return true;
         }
 
-        if (id == R.id.menuSaveExit)
-        {
-            if (MyDebug.DLOG) Log.d(TAG, "286, MenuItem saveExit");
+        if (id == R.id.menuSaveExit) {
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.d(TAG, "283, MenuItem saveExit");
             if (saveData())
                 finish();
             return true;
@@ -292,11 +289,11 @@ public class EditMetaActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "299, onPause");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "296, onPause");
 
         headDataSource.close();
         metaDataSource.close();
@@ -307,30 +304,36 @@ public class EditMetaActivity extends AppCompatActivity
         sTime.setOnLongClickListener(null);
         eTime.setOnClickListener(null);
         eTime.setOnLongClickListener(null);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-
-        if (MyDebug.DLOG) Log.d(TAG, "317, onStop");
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-
-        if (MyDebug.DLOG) Log.i(TAG, "325, onDestroy");
 
         metaArea.clearFocus();
         metaArea.removeAllViews();
     }
 
-    public boolean saveData()
-    {
-        if (MyDebug.DLOG) Log.i(TAG, "333, saveData");
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "317, onStop");
+
+        if (awakePref) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+        metaArea = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "331, onDestroy");
+    }
+
+    public boolean saveData() {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "336, saveData");
         // Save head data
         head.transect_no = ehw.getWidgetNo1();
         head.inspector_name = ehw.getWidgetName1();
@@ -342,8 +345,7 @@ public class EditMetaActivity extends AppCompatActivity
         // Save meta data with plausi
         meta.temps = emw.getWidgetTemps();
         meta.tempe = emw.getWidgetTempe();
-        if (meta.temps > 50 || meta.temps < 0 || meta.tempe > 50 || meta.tempe < 0)
-        {
+        if (meta.temps > 50 || meta.temps < 0 || meta.tempe > 50 || meta.tempe < 0) {
             mesg = getString(R.string.valTemp);
             Toast.makeText(this,
                     HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
@@ -353,8 +355,7 @@ public class EditMetaActivity extends AppCompatActivity
 
         meta.winds = emw.getWidgetWinds();
         meta.winde = emw.getWidgetWinde();
-        if (meta.winds > 4 || meta.winds < 0 || meta.winde > 4 || meta.winde < 0)
-        {
+        if (meta.winds > 4 || meta.winds < 0 || meta.winde > 4 || meta.winde < 0) {
             mesg = getString(R.string.valWind);
             Toast.makeText(this,
                     HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
@@ -364,8 +365,7 @@ public class EditMetaActivity extends AppCompatActivity
 
         meta.clouds = emw.getWidgetClouds();
         meta.cloude = emw.getWidgetCloude();
-        if (meta.clouds > 100 || meta.clouds < 0 || meta.cloude > 100 || meta.cloude < 0)
-        {
+        if (meta.clouds > 100 || meta.clouds < 0 || meta.cloude > 100 || meta.cloude < 0) {
             mesg = getString(R.string.valClouds);
             Toast.makeText(this,
                     HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
@@ -383,35 +383,30 @@ public class EditMetaActivity extends AppCompatActivity
     }
 
     // Formatted date
-    public String getformDate(Date date)
-    {
+    public String getformDate(Date date) {
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
 
-        if (lng.equals("de"))
-        {
+        if (lng.equals("de")) {
             dform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
-        }
-        else
-        {
+        } else {
             dform = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         }
         return dform.format(date);
     }
 
     // Date for start_tm and end_tm
-    public String getformTime(Date date)
-    {
+    public String getformTime(Date date) {
         DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
         return dform.format(date);
     }
 
     /**
-     * Following functions are taken from the Apache commons-lang3-3.4 library
+     * Following functions are derived from the Apache commons-lang3-3.4 library
      * licensed under Apache License Version 2.0, January 2004
-     <p>
+     * <p>
      * Checks if a CharSequence is not empty ("") and not null.
-     <p>
+     * <p>
      * isNotEmpty(null)      = false
      * isNotEmpty("")        = false
      * isNotEmpty(" ")       = true
@@ -421,14 +416,13 @@ public class EditMetaActivity extends AppCompatActivity
      * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      */
-    public static boolean isNotEmpty(final CharSequence cs)
-    {
+    public static boolean isNotEmpty(final CharSequence cs) {
         return !isEmpty(cs);
     }
 
     /**
      * Checks if a CharSequence is empty ("") or null.
-     <p>
+     * <p>
      * isEmpty(null)      = true
      * isEmpty("")        = true
      * isEmpty(" ")       = false
@@ -438,9 +432,8 @@ public class EditMetaActivity extends AppCompatActivity
      * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is empty or null
      */
-    public static boolean isEmpty(final CharSequence cs)
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    public static boolean isEmpty(final CharSequence cs) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // API level 35
             return cs == null || cs.isEmpty();
         else
             return cs == null || cs.length() == 0; // needed for older Android versions

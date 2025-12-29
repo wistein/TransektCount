@@ -10,13 +10,13 @@ import com.wmstein.transektcount.R
 import java.io.Serializable
 import java.util.Objects
 
-/**************************************************************************
- * This is the widget for creating an alert in the CountOptionsActivity.
+/******************************************************************
+ * AlertEditWidget.kt creates an alert in the CountOptionsActivity.
  * Created by milo on 02/06/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
- * last edited in Java on 2023-05-09
- * converted to Kotlin on 2023-06-26
- * Last edit on 2023-09-23.
+ * Adopted for TransektCount by wmstein on 18.02.2016,
+ * last edited in Java on 2023-05-09,
+ * converted to Kotlin on 2023-06-26,
+ * Last edit on 2023-11-15
  */
 class AlertEditWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -71,9 +71,7 @@ class AlertEditWidget(context: Context, attrs: AttributeSet?) : LinearLayout(con
          * Following function is taken from the Apache commons-lang3-3.4 library
          * licensed under Apache License Version 2.0, January 2004
          *
-         *
          * Checks if a CharSequence is empty ("") or null.
-         *
          *
          * isEmpty(null)      = true
          * isEmpty("")        = true

@@ -8,12 +8,12 @@ import android.widget.TextView
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/****************************************************
- * ResultsMetaWidget.java used by ShowResultsActivity.java
+/********************************************************
+ * ResultsMetaWidget.kt is used by ShowResultsActivity.kt
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2025-05-11.
+ * Last edited on 2025-11-15
  */
 class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     // temperature
@@ -47,18 +47,24 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
         widgetLTemp = findViewById(R.id.widgetLTemp)
         widgetLTemps = findViewById(R.id.widgetLTemps)
         widgetLTempe = findViewById(R.id.widgetLTempe)
+
         widgetLWind = findViewById(R.id.widgetLWind)
         widgetLWinds = findViewById(R.id.widgetLWinds)
         widgetLWinde = findViewById(R.id.widgetLWinde)
+
         widgetLCloud = findViewById(R.id.widgetLCloud)
         widgetLClouds = findViewById(R.id.widgetLClouds)
         widgetLCloude = findViewById(R.id.widgetLCloude)
+
         widgetLdate1 = findViewById(R.id.widgetLDate1)
         widgetLdate2 = findViewById(R.id.widgetLDate2)
+
         widgetLtime1 = findViewById(R.id.widgetLTime1)
         widgetLitem4 = findViewById(R.id.widgetLItem4)
+
         widgetLtime2 = findViewById(R.id.widgetLTime2)
         widgetLitem5 = findViewById(R.id.widgetLItem5)
+
         widgetLNote1 = findViewById(R.id.widgetLNote1)
         widgetLNote2 = findViewById(R.id.widgetLNote2)
     }
@@ -70,11 +76,11 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     fun setWidgetLTemps(name: Int) {
-        widgetLTemps.text = name.toString()
+        if (name > 0) widgetLTemps.text = name.toString()
     }
 
     fun setWidgetLTempe(name: Int) {
-        widgetLTempe.text = name.toString()
+        if (name > 0) widgetLTempe.text = name.toString()
     }
 
     // wind
@@ -83,11 +89,11 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     fun setWidgetLWinds(name: Int) {
-        widgetLWinds.text = name.toString()
+        if (name > 0) widgetLWinds.text = name.toString()
     }
 
     fun setWidgetLWinde(name: Int) {
-        widgetLWinde.text = name.toString()
+        if (name > 0) widgetLWinde.text = name.toString()
     }
 
     // clouds
@@ -96,11 +102,11 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     fun setWidgetLClouds(name: Int) {
-        widgetLClouds.text = name.toString()
+        if (name > 0) widgetLClouds.text = name.toString()
     }
 
     fun setWidgetLCloude(name: Int) {
-        widgetLCloude.text = name.toString()
+        if (name > 0) widgetLCloude.text = name.toString()
     }
 
     // date

@@ -1,6 +1,7 @@
 package com.wmstein.transektcount.database
 
-/********************************************
+/***********************************************************
+ * Table Count interface with records of transect count data
  * Based on Count.java by milo on 05/05/2014.
  * adopted and modified by wmstein since 2016-02-18
  * last edited in Java on 2019-03-22

@@ -1,30 +1,39 @@
-<!-- TransektCount User instructions --
-  Last edited on 2025-07-15
+<html>
+
+<!-- TransektCount User Guide --
+  Last edited on 2025-12-25
  -->
 
 <h3><font color=#D9FDD9>1. Introduction</font></h3>
 TransektCount should support you when monitoring butterflies in European transects.<br>
-It allows to register individuals species-specific, separated by sexus and metamorphic stages per transect section according to the European Butterfly Monitoring Scheme.<br>
+It allows to register individuals species-specific, separated by gender and metamorphic stages per transect section according to the European Butterfly Monitoring Scheme.<br>
+Transect sections must be selected manually but can optionally be indicated automatically via GPS. <br>
 It offers prepared result outputs and facilitates the registration comfortably without field book, pencil, and if applicable with a camera for documentary pictures.
 <br><br>
 Databases can be created individually for transect sections and expected butterfly species. The internal database is survey-related, i.e. a new database instance is used for each survey.
 <br><br>
 The recorded data (meta-data, counts and annotations) may either be read from the app's results page for transfer into a butterfly registration system (e.g. web.app.ufz.de/tagfalter-monitoring) or exported and transferred to a PC for your own processing, where they can be better read or edited.
 <br><br>
-The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source, has neither tracking nor advertising functions and does not make use of Google Play Services, but requires permits for its serviceable functions: Storage access which is needed for importing species data and DB files, exporting data and the counting results to DB or CSV files and wakelock to prevent the app from dimming or switching off.
-<br><br><br>
+The app is published with source code and documentation on <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>. It is open source, has neither tracking nor advertising functions and does not make use of Google Play Services, but requires permits for its serviceable functions:<br>
+- Storage access which is needed for importing species data and DB files, exporting data and the counting results to DB or CSV files and <br>
+- wakelock to prevent the app from dimming or switching off.
+<br><br>
+<br>
+
 <h3><font color=#D9FDD9>2. Setting up</font></h3>
 Before initial use you should adapt the app settings to your liking. (→ 4. Further Functions).
 <br><br>
+Initially ignore item “Remind transect sections by GPS”, as certain preconditions have to be met before (→ 5. GPS Usage).
+<br><br>
 Then adapt the preliminary species list of the 1. transect section to the expected species in your transect with the species list editing functions (Add, Remove or Edit).
 <br><br>
-To do this, click "Counting" on the Starting page and then "AB 01". Use the editing icons (Add species, Remove species and Edit Terms) in the header on the counting page.
+To do this, click "Counting" on the Starting page and then "Sect 01". On the counting page of section 1 use the editing icons (Add species, Remove species and Edit Terms) in the header on the counting page.
 <br><br>
 All 3 editing pages offer a preselection to ease the selection of a distinguished species. Enter 2 initial letters of the genus name and then click the Search-button to limit the shown list.
 <br><br>
 On the "Add Species" page select species from the blue scroll-down list of not yet selected species. Changes take effect by the (+)-button in the head line (notice that the selected species disappear from the scroll-down list).
 <br><br>
-At the end of the scroll-down list, a placeholder for an indeterminate species (NN) can be adopted and edited later, if necessary after determination.
+At the end of the scroll-down list, a placeholder for an indeterminate species (NN) can be adopted and edited later after determination, if necessary.
 <br><br>
 On the "Remove Species" page select species to remove on the red scroll-down list and tip on the Delete-button.
 <br><br>
@@ -50,7 +59,7 @@ https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
 In the next step, you could enter some meta data like transect-No. or inspectors name. Click on "Edit Meta Data" and save the input by clicking the save icon.
 <br><br>
-Once this section list is complete, you can copy it for all remaining transect sections by the counting page menu function: "Add a further section" and name each appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
+Once this section list is complete, you can add copies for all remaining transect sections by the add button on top of the section list, and name each section appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
 <br><br>
 When you have created the section lists for all your transect sections and entered the general meta data, the database is ready for export as a "Basic Database".<br>
 To do this, use the function "Export as Basic DB" in the main menu of the starting page.
@@ -69,6 +78,7 @@ https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
 Copy them to the app’s data directory "Documents/TransektCount" and import and edit them in TransektCount suitably. Changes to the species always affect all existing section lists.
 <br><br><br>
+
 <h3><font color=#D9FDD9>3. Usage</font></h3>
 Start with "Edit Meta Data". Fill in the relevant meta data for the specific transect inspection.<br>
 Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden.<br>
@@ -99,59 +109,108 @@ With large amounts of data, the app's response can be somewhat delayed for e. g.
 <br><br>
 If the message "TransectCount not responding" appears, please reply with "Wait".
 <br><br><br>
+
 <h3><font color=#D9FDD9>4. Further functions</font></h3>
 The system menu on the starting page has Settings, Reset, Import, Export, Info and Help functions.
 <br><br>
-In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sorting order of lists and data export, left-/right-hand counting page or sounds and haptic button feedback.
+In "Settings" you may adapt the look an feel in some aspects to your wishes, e.g. sorting order of lists and data export, left-/right-hand counting page or sounds and haptic button feedback. Here you can also optionally activate the GPS function for automatic indication of the current transect section, provided a prepared GPX track file with tracks of all transect sections has been imported. For detailed information see “5. GPS Usage”.
 <br><br>
 To prepare for a new inspection you may use "Reset Data" to reset the inspection-specific meta data and count data of the transect. All other transect-specific data remains untouched.
 <br><br>
 Android-specifically, TransektCount stores the data in an internal SQlite DB in the app's own protected storage area that is not accessible by the user. Therefore, it is necessary to import/export data from/to files in a user accessible storage area.
 <br><br>
-Exporting the internal DB as empty Basic DB "transektcount0_Tr-No.db" (without inspection-related data) is reasonable, when to take into account changes of the transect structure or new species may have been added or removed.
-<br><br>
 The "Import Basic DB" function lets you select and import a DB file that was exported as a template for a certain transect. Its name begins with "transektcount0".
 <br><br>
-"Export Current DB" writes a copy of the DB with all currently contained data to Documents/TransekCount/transektcount_Tr-No_YYYYMMDD_hhmmss.db with 'Tr-No' being the transect No., 'YYYYMMDD' the date and 'hhmmss' the time of storage.
+By “Export Basic DB” you may export the current internal DB without any inspection-specific data into a Basic DB file transektcount0_Tr-No.db with Tr-No being the transect No. to Documents/TransektCount. This is reasonable if permanent changes have been made to the transect structure or if new species have been removed or added.
 <br><br>
 With "Import DB" any appropriately named TransektCount DB can be read into TransektCount.
 <br><br>
 <b><font color=#D9FDD9>Mind:</font></b> The file name of a TransektCount-DB with counting data must always begin with "transektcount_" (e.g. "transektcount_NW-5309-03.db"), otherwise the DB cannot be imported.
 <br><br>
-With "Export Species List" the current species list can be exported as a CSV file (CSV = Comma Separated Values text file) "species_Transect_Tr-No_YYYYMMDD_hhmmss.csv". With a file manager you may rename the file as required.
+"Export Current DB" writes a copy of the DB with all currently contained data to Documents/TransekCount/transektcount_Tr-No_YYYYMMDD_hhmmss.db with 'Tr-No' being the transect No., 'YYYYMMDD' the date and 'hhmmss' the time of storage.
 <br><br>
 The function “Import Species List” lets you select and import an available species list. If the TourCount app is installed, the exported species lists can be imported mutually. The file manager can be used to rename these as required.
 <br><br>
 <b><font color=#D9FDD9>Mind:</font></b> The file name of a species list must always begin with "species_", otherwise the list cannot be imported.
 <br><br>
-The function "Export Data → CSV File" writes the meta data and the counting results into a pre-formatted spreadsheet-readable CSV file "Transect_Tr-No_YYYYMMDD_hhmmss.csv" to "Documents/TransektCount". This file could be imported or edited by a spreadsheet app like Collabora (Open Source, based on LibreOffice and obtainable free of charge from e.g. the Collabora Office F-Droid Repo.
+With "Export Species List" the current species list can be exported as a CSV file (CSV = Comma Separated Values text file) "species_Transect_Tr-No_YYYYMMDD_hhmmss.csv". With a file manager you may rename the file as required.
 <br><br>
-IT-affine users may transfer the exported ".db" or ".csv" files from "Documents/TransektCount" to a PC.
+"Import GPS Track" reads a prepared gpx Track file (e. g. transektcount_t1.gpx) from directory  "Documents/TransektCount". In "5. GPS Usage" is shown how to create and handle a GPX file.
 <br><br>
-With a free tool like "DB Browser for SQLite"
-<br>https://sqlitebrowser.org<br>
-you may examine and edit a .db-file manually or per SQL script. Some useful example SQL scripts are published in the docs directory of the GitHub TransektCount project site<br>
-https://github.com/wistein/TransektCount/tree/master/docs.
+The function "Export Results (csv)" writes the current meta data and counting results as a pre-formatted spreadsheet-readable CSV file "Transect_Tr-No_YYYYMMDD_hhmmss.csv" to "Documents/TransektCount". This comma separated text file could be imported or edited by a spreadsheet app like Collabora (Open Source, based on LibreOffice and obtainable free of charge from the Collabora Office F-Droid Repo, from the Play Store or direct from its home page https://www.collaboraoffice.com/downloads/). 
 <br><br>
-The exported .csv files (comma delimited text files) may be imported into a spreadsheet program on a PC for further processing ensuring that
+To simplify data entry into a central monitoring website, such as https://web.app.ufz.de/tagfalter-monitoring/ the table can be sorted beforehand (depending on your requirements by species name or section) using the results sorting option in TransektCount. 
+<br><br>
+When loading the .csv data, to ensure that the formats and character sets are displayed correctly, please ensure that
 <br><br>
 - file origin is "Unicode UTF-8",<br>
-- delimiter is comma,<br>
-- quotations marks ("") for text field recognition and<br>
-- all columns get imported as text.<br><br>
+- delimiter is comma and<br>
+- quotations marks ("") are set for text field recognition.
 <br><br>
-The export of the table can be adapted by a sort option (sort by species or section) for a more easy data entry of the results into a monitoring web page like <br>
-https://web.app.ufz.de/tagfalter-monitoring.
+If the leading zeros of the species codes are to be displayed, the column with the codes must be extra formatted as text within the import dialog. 
+<br><br>
+The exported .csv result files can also be transferred to a PC for further processing. They may be imported into a spreadsheet program (which was tested with MS Excel, LibreOffice Calc, and Softmaker PlanMaker). 
+<br><br>
+IT-affine users may transfer the exported ".db" files from "Documents/TransektCount" to a PC.
+<br><br>
+There you may examine and edit a .db-file manually or per SQL script with a free tool like "DB Browser for SQLite" (https://sqlitebrowser.org). Some useful example SQL scripts are published in the docs directory of the GitHub TransektCount project site https://github.com/wistein/TransektCount/tree/master/docs. 
 <br><br>
 Under "App Info" you may find general app info, the email address of the author and the history.
 <br><br>
 Under "Licenses" you find the license notes for code and figures.
 <br><br>
-The option menu of the counting page provides a "Photo" function to quickly take a photo and a "Share" function for sending notes using a standard app, like SMS or email.
+The option menu of the counting page provides a "Photo" function to quickly take a photo and a "Share" function for sending TransektCount related notes using a standard app, like SMS or email.
 <br><br>
 Optionally, the counter view is temporarily turned off by means of the proximity sensor when the phone is pocketed or closely held to the body. This saves energy, prevents unwanted inputs and recalls the app into its current state immediately when used again.
 <br><br><br>
-<h3><font color=#D9FDD9>5. Messages</h3>
+
+<h3><font color=#D9FDD9>5. GPS Usage</h3>
+Automatic section recognition in the transect is performed by comparing the current position with the track coordinates of the transect sections in a transektcount_xxx.gpx file. If the current position is no further than e.g. 5 m (default setting) away from a section track point, the section is indicated for registration. 
+<br><br>
+GPS inaccuracies must unfortunately be accepted. Contact between two transect sections should be avoided and gaps of approx. 5 m between sections are recommended.
+<br><br>
+The preset distance radius (Max. distance of track deviation) can be set between 3 and 10 m to match the GPS accuracy of the device.
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.1 Creating the track file for TransektCount</h4>
+Recording a transect track can be done by a free smartphone app like CoMaps or any mapping app able to export a track in GPX format. Repeat the recording several times, as there will be variations each time. These recordings are intended to serve as a guide for manually created tracks, and their average line may also reveal errors in the underlying map.
+<br><br>
+<b>Under Windows:</b>
+<br>
+You may use the free BaseCamp program from Garmin. Load a suitable free map based on OpenStreetMap. Import the recorded GPX tracks. Then draw the tracks of all sections individually and, if possible, with a distance of 2 m or less between the individual track points over the imaginary, averaged line of the recorded tracks. Leave a gap of approx. 5 m between the different transect sections.
+<br><br>
+Name the section tracks in the same order as the sections themselves to achieve a correct assignment. Then delete the imported GPX tracks.
+<br><br>
+The drawn and named transect tracks can then be exported as a result to the file “transektcount_xxx.gpx”, with xxx as a placeholder for a transect name.
+<br><br>
+<b>Under Linux:</b>
+<br>
+You may use the Viking program for this. Its user interface is different from BaseCamp, but it does the job as well. The procedure is the same as described in “Under Windows”. In Viking, the result must be exported as a “Single GPX File”.
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.2 Import of the track file in TransektCount</h4>
+Copy the created transektcount_xxx.gpx track file to "Documents/TransektCount" on the smartphone. There it is expected by the app for import.
+<br><br>
+If the track file has been created correctly, the “Import GPS Track” command will acknowledge this with the message “The GPX file has been imported.”
+<br><br>
+Finally, activate the item "Indicate transect section by GPS" under Settings and, if necessary, adjust the sensitivity under "Maximum GPS deviation allowed".
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.3 Notes</h4>
+It is advisable to record the transect track a couple of times with your smartphone on site as a control supplement in preparation for manually creating the GPX file. The recorded tracks should correspond as closely as possible to the route on the map. Larger deviations, which are similar for several recordings, indicate inaccuracies in the map.
+<br><br>
+Manual drawing of track sections in BaseCamp should be done at a zoom level of 20 m, as this ensures optimal spacing of approx. 2 m between individual track points and sufficient accuracy for coordinate matching to determine sections within the app.
+<br><br>
+The transect sections should be drawn in the same number and sequence as they are listed in TransectCount. During import, they are assigned to the existing transect sections in this order.
+<br><br>
+As the number of transect sections must be equal to the number of tracks, adding a new transect section is only possible as long as no tracks have been imported. Therefore, before adding a new transect section existing tracks must be deleted from the database using the "Delete GPS Track Data" function.
+<br><br>
+After adding a new section, the track file assigned to the transect must also be supplemented with the track of the new section in BaseCamp, Viking or a similar application and re-imported into TransektCount.
+<br><br>
+When a transect section is deleted, the corresponding section track is also deleted from the database.
+<br><br><br>
+
+<h3><font color=#D9FDD9>6. Messages</h3>
 Section nn: To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. (If the last created section cannot be deleted then your device has unfortunately not enough resources to execute this delete function.)</font>
 <br><br>
 BWith current models, however, this restriction could only occur with very many transect sections. Other functions of the app are not affected by this restriction.
@@ -159,10 +218,15 @@ BWith current models, however, this restriction could only occur with very many 
 No possible solution known. See the document "TransektCount_Userguide_nnn.pdf" for further info under<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br><br>
-<h3><font color=#D9FDD9>6. Sources</font></h3>
-Source-Code: https://github.com/wistein/TransektCount
-<br><br>
+
+<h3><font color=#D9FDD9>7. Sources</font></h3>
 Docs: https://github.com/wistein/TransektCount/tree/master/docs
+<br><br>
+Licenses: https://github.com/wistein/TransektCount/tree/master/docs/License.txt
 <br><br>
 App: https://f-droid.org/en/packages/com.wmstein.transektcount
 <br><br>
+Source-Code: https://github.com/wistein/TransektCount
+<br><br>
+
+</html>

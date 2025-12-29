@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/******************************************
- * HintAddWidget used by AddSpeciesActivity
- * shows single Hint line with search field
- * last edited on 2024-10-15
+/**********************************************
+ * HintAddWidget is used by AddSpeciesActivity,
+ * shows single Hint line with search field,
+ * last edited on 2025-11-15
  */
 class HintAddWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     var searchA: EditText

@@ -1,0 +1,4 @@
+Version 4.2.9 (2025-12-29)
+- Sound adapted for Android 16 demands
+- Some code improvements
+- Docs: Some example files edited

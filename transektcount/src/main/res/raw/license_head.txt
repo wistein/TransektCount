@@ -1,2 +1,2 @@
-<h2><font color=#D9FDD9>TransektCount</font></h2>
+<h2><font color=#D9FDD9>TransektCountGPS</font></h2>
 <b>License Information</b><br>

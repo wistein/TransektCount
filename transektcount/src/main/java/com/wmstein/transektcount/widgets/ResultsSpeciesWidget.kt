@@ -14,12 +14,12 @@ import com.wmstein.transektcount.database.Section
 import java.util.Objects
 
 /*******************************************************
- * ResultsSpeciesWidget shows count info area for a species
- * on the results page.
+ * ResultsSpeciesWidget.kt shows the count info area for
+ * a species on the results page.
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edit on 2025-05-11
+ * Last edited on 2025-11-15
  */
 class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -157,6 +157,7 @@ class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLay
         return spec.count_ee
     }
 
+    // Set picture by species code
     @SuppressLint("DiscouragedApi")
     private fun setPicSpec(spec: Count) {
         val rName = "p" + spec.code // species picture resource name

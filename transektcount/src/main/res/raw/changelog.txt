@@ -1,19 +1,21 @@
 <html>
+
 <!--
 Formatting commands:
 --------------------
-% Title
-& bold
-_ Subtitle
+% title
+& bold text
+_ subtitle
 ! free text
 # numbered list item
 * bullet list item
+. empty line
 -->
   <head>
     <style type='text/css'>
       a { color:#a0a0e0 }
       div.title {
-          color:#C0F0C0; 
+          color:#D9FDD9;
           font-size:1.2em; 
           font-weight:bold; 
           margin-top:1em; 
@@ -30,8 +32,7 @@ _ Subtitle
           color:#F0F0F0;
           font-size:1.2em; 
           font-weight:bold; 
-          margin-top:1em; 
-          margin-bottom:0.5em; 
+          margin-bottom:0.5em;
           text-align:start }
       div.list {
           color:#C0C0F0 }
@@ -39,11 +40,20 @@ _ Subtitle
   </head>
   <body>
 
-  % TransektCount
-  _ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
+  % TransektCount(GPS)
+  _ Copyright (C) 2016-2025, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
+<!--
+  ! ----------
+  & Attention:
+  ! Google has announced that starting in 2026/2027, all apps on certified Android devices will only work if developers submit their personal identity data directly to Google. As the private developer of this privacy conform open-source app, I do not agree with this requirement. So probably, this app might no longer work on certified Android devices after that date.
+  _
+  ! On Android devices with custom ROMS like GrapheneOS, LineageOS, /e/OS, etc., the app will continue to work as usual.
+  ! ----------
+  _
+-->
   ! TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
   _ 
   ! TransektCount is one of two Apps for European butterfly monitoring.
@@ -53,11 +63,40 @@ _ Subtitle
   ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
   ! Suitable for Android 7.1 (Nougat) or newer.
-  _ 
+  _
+  .
+  _
+
+$ 5.0.0
+  % Version 5.0.0
+  _ 2025-12-29
+  * This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
+  * When activating GPS the app's name on the starting screen changes from TransektCount to TransektCountGPS
+  * With GPS activated the starting page shows a short hint message with the distance to the transect
+  * A toast message and a beep inform about entering a section different than the currently selected one
+  * Then, when visiting the page "Transect Sections" the name of the newly identified section is colored blue
+  * Optionally you may set the system permission for the TransektCount location service to "Always on" to get it reliably work for long inspections
+  * Program code has been adapted regarding aligned section and track handling for renaming, deleting and cloning a section
+  * The function "Add a Further Section" was moved from the Counting page to the page "Transect Sections"
+  * The option to change the font size for comments was removed
+  * On relevant pages the number fields show dimmed "0"-values for better readability
+  * Picture and data of Nomophila noctuella (Rush veneer) added
+  * Some messages worded more clearly
+  * For debugging in Android Studio's emulator, permanent app specific support was added
+  * Some code and picture improvements
+  * Docs updated
+  * Bugfixes
+
+$ 4.2.9
+  % Version 4.2.9
+  _ 2025-12-29
+  * Sound adapted for Android 16 demands
+  * Some code improvements
+  * Docs: Some example files edited
 
 $ 4.2.8
   % Version 4.2.8
-  _ 2025-08-09
+  _ 2025-08-03
   * Some code and text improvements
   * Bugfixes
 

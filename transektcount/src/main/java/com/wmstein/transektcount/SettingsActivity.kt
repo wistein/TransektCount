@@ -22,14 +22,14 @@ import androidx.core.view.updateLayoutParams
  * Adapted for TransektCount by wmstein on 18.02.2016
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-06-30
+ * last edited on 2025-12-29
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
     private var editor: SharedPreferences.Editor? = null
 
     @SuppressLint("CommitPrefEdits", "SourceLockedOrientationActivity")
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
@@ -71,6 +71,7 @@ class SettingsActivity : AppCompatActivity() {
             .commit()
         editor = prefs.edit() // will be committed on pause
     }
+	// End of onCreate()
 
     @RequiresApi(Build.VERSION_CODES.R)
     fun setStatusBarColor(window: Window, color: Int) {

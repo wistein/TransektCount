@@ -26,32 +26,30 @@ import androidx.appcompat.widget.AppCompatTextView
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2024-05-15
+ * last edit on 2025-12-29
  */
-class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: AttributeSet?) :
+@SuppressLint("NewApi")
+class AutoFitText(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
 
     // A dummy [TextView] to test the text size without actually showing anything to the user
-    private val mTestView: TextView
+    private val mTestView: TextView = TextView(context)
 
     // A dummy [Paint] to test the text size without actually showing anything to the user
-    private val mTestPaint: Paint
+    private val mTestPaint: Paint = Paint()
 
-    /**
+    /*
      * Scaling factor for fonts. It's a method of calculating independently (!) from the actual
      * density of the screen that is used so users have the same experience on different devices. We
      * will use DisplayMetrics in the Constructor to get the value of the factor and then calculate
      * SP from pixel values
      */
-    private val mScaledDensityFactor: Float
+    private val mScaledDensityFactor: Float = context.resources.displayMetrics.density
 
     // Constructor for call without attributes --> invoke constructor with AttributeSet null
     constructor(context: Context) : this(context, null)
 
     init {
-        mScaledDensityFactor = context.resources.displayMetrics.density
-        mTestView = TextView(context)
-        mTestPaint = Paint()
         mTestPaint.set(this.paint)
         this.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -101,7 +99,7 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
 
         // Converging only a single line
         var testSize: Float
-        while (upperTextSize - lowerTextSize > mThreshold) {
+        while (upperTextSize - lowerTextSize > MTHRESHOLD) {
 
             // Go to the mean value...
             testSize = (upperTextSize + lowerTextSize) / 2
@@ -153,7 +151,7 @@ class AutoFitText @SuppressLint("NewApi") constructor(context: Context, attrs: A
          * Defines how close we want to be to the factual size of the Text-field. Lower values mean
          * higher precision but also exponentially higher computing cost (more loop runs)
          */
-        const val mThreshold = 0.5f // original was 0.5f
+        const val MTHRESHOLD = 0.5f // original was 0.5f
     }
 
 }

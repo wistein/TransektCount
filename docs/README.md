@@ -6,9 +6,9 @@ It allows a species-specific counting per transect section.
 ### Features
 - Data recording is organized according to a single transect inspection. 
 That means, you will use a fresh database instance per inspection by clearing the current database or importing a prepared basic database.
-- It contains a prepared basic database with some of the expected species as a starting point.
+- The app contains a prepared basic database with some of the expected species as a starting point.
 - Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
-- Transect sections can be selected manually (automatically via GPS has been abandoned due to faulty performance).
+- Transect sections can be selected manually or with support by GPS (needs a prepared transect gpx-track).
 - There are editors 
   - for the transect counting list to setup or adapt its species,
   - for meta data to prepare an inspection and
@@ -21,11 +21,13 @@ That means, you will use a fresh database instance per inspection by clearing th
 - The current butterfly list can be exported for later re-import or imported by the complementary app TourCount.
 - The integrated help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies from Karsholt/Razowski.
+- TransektCount supports counting in German or English language
 
 ### Prerequisites
 The app demands for 
-- storage access permit which is needed for im-/exporting the counting data and 
-- the permit to keep the device awake.
+- storage access permit which is needed for im-/exporting the counting data, 
+- the permit to keep the device awake and
+- optionally, the permit to get the exact location.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 7.1 (Nougat) or newer.
@@ -79,4 +81,5 @@ Pictures of this work by Wilhelm Stein may only be used for scientific or non-co
 
 Code and illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their license.
 
-For detailed copyrights on external code and pictures see the separate document "License.txt" in TransektCount/docs.
+For detailed copyrights on external code and pictures see the separate document "License.txt" in 
+https://github.com/wistein/TransektCount/tree/master/docs.

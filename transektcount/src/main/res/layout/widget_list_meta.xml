@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   - widget_list_meta.xml used by ShowResultsActivity.java
   ~ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany,
-  ~ last edited on 2025-05-11.
+  ~ last edited on 2025-08-05.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -199,6 +199,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
                 android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
@@ -212,6 +214,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
                 android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
@@ -225,6 +229,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
                 android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
@@ -248,6 +254,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
                 android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
@@ -261,6 +269,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
                 android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
@@ -273,11 +283,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_background"
+                android:gravity="center_horizontal"
+                android:textColorHint="@color/DarkerGray"
+                android:hint="@string/charZero"
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="5dp"
-                android:gravity="center_horizontal"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>

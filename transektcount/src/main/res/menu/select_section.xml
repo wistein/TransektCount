@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ select_section.xml is used by SelectSectionActivity.
+  -->
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.wmstein.transektcount.SelectSectionActivity">
+
+    <item
+        android:id="@+id/menuCloneSection"
+        android:title="@string/cloneButton"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_add"/>
+
+</menu>

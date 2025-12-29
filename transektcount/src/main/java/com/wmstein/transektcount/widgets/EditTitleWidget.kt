@@ -12,13 +12,13 @@ import android.widget.TextView
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/*******************************************************
- * Used by EditSectionListActivity and widget_edit_title.xml
+/**************************************************************
+ * Used by EditSectionListActivity.kt and widget_edit_title.xml
  * Created by by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2023-10-06.
+ * Last edit on 2025-11-15.
  */
 class EditTitleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgettitle: TextView

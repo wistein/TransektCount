@@ -7,12 +7,13 @@ import android.widget.LinearLayout
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/****************************************************
+/********************************************************
  * Created by milo on 01/06/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016
+ * AddAlertWidgetLh.kt is used by CountOptionsActivity.kt.
+ * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2019-02-12,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-07-05
+ * last edited on 2025-11-15
  */
 class AddAlertWidgetLh(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     init {

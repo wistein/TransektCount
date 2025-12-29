@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import java.util.Objects
 import kotlin.math.roundToInt
 
-/******************************************
+/********************************************************************************
  * AutoFitEditText is used in CountOptionsActivity to fit in larger count numbers
  *
  * Created by varsovski on 29-Oct-15, published on
@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
  * Modified for TransektCount by wm.stein on 2023-09-18,
  * last edited in Java on 2023-09-18
  * converted to Kotlin on 2023-09-19
- * last edited on 2023-09-19.
+ * last edited on 2025-12-29.
  */
 class AutoFitEditText @JvmOverloads constructor(
     context: Context?, attrs: AttributeSet? = null,
@@ -49,13 +49,12 @@ class AutoFitEditText @JvmOverloads constructor(
 
     private interface SizeTester {
         /**
-         * AutoFitEditText
-         *
          * @param suggestedSize  Size of text to be tested
          * @param availableSpace available space in which text must fit
-         * @return an integer < 0 if after applying `suggestedSize` to
-         * text, it takes less space than `availableSpace`, > 0
-         * otherwise
+         *
+         * @return an integer < 0 if after applying `suggestedSize` to text,
+         *   it takes less space than `availableSpace`,
+         * @return an integer > 0 otherwise
          */
         fun onTestSize(suggestedSize: Int, availableSpace: RectF): Int
     }
@@ -78,7 +77,10 @@ class AutoFitEditText @JvmOverloads constructor(
                     textRect.bottom = paint!!.fontSpacing
                     textRect.right = paint!!.measureText(text)
                 } else {
-                    val sb = StaticLayout.Builder.obtain(text, 0, text.length, paint!!, widthLimit)
+                    val sb = StaticLayout.Builder.obtain(
+                        text, 0, text.length,
+                        paint!!, widthLimit
+                    )
                         .setAlignment(Layout.Alignment.ALIGN_NORMAL)
                         .setLineSpacing(spacingAdd, spacingMult)
                         .setIncludePad(true)
@@ -88,13 +90,14 @@ class AutoFitEditText @JvmOverloads constructor(
                     ) return 1
                     textRect.bottom = layout.height.toFloat()
                     var maxWidth = -1
-                    for (i in 0 until layout.lineCount) if (maxWidth < layout.getLineWidth(i)) maxWidth =
-                        layout.getLineWidth(i).toInt()
+                    for (i in 0 until layout.lineCount)
+                        if (maxWidth < layout.getLineWidth(i)) maxWidth =
+                            layout.getLineWidth(i).toInt()
                     textRect.right = maxWidth.toFloat()
                 }
                 textRect.offsetTo(0f, 0f)
-                return if (availableSpace.contains(textRect)) -1 else 1
-                // else, too big
+                return if (availableSpace.contains(textRect)) -1
+                else 1 // else, too big
             }
         }
         initiallized = true

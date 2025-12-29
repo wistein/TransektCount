@@ -43,7 +43,7 @@ import com.wmstein.transektcount.widgets.OptionsWidgetLh
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-07-22
+ * last edited on 2025-12-29
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -83,22 +83,13 @@ class CountOptionsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
     private var lhandPref = false
+    private var awakePref = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.i(TAG, "90, onCreate")
-
-        brightPref = prefs.getBoolean("pref_bright", true)
-        lhandPref = prefs.getBoolean("pref_left_hand", false)
-
-        // Set full brightness of screen
-        if (brightPref) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            val params = window.attributes
-            params.screenBrightness = 1.0f
-            window.attributes = params
-        }
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "92, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -176,7 +167,22 @@ class CountOptionsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.i(TAG, "179, onResume")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "171, onResume")
+
+        brightPref = prefs.getBoolean("pref_bright", true)
+        awakePref = prefs.getBoolean("pref_awake", true)
+        lhandPref = prefs.getBoolean("pref_left_hand", false)
+
+        // Set full brightness of screen
+        if (brightPref) {
+            val params = window.attributes
+            params.screenBrightness = 1.0f
+            window.attributes = params
+        }
+
+        if (awakePref)
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // Clear any existing views
         staticWidgetArea!!.removeAllViews()
@@ -476,23 +482,48 @@ class CountOptionsActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "486, onPause")
+
         countDataSource!!.close()
         sectionDataSource!!.close()
         alertDataSource!!.close()
+
+        if (awakePref) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+
+        staticWidgetArea!!.clearFocus()
+        staticWidgetArea!!.removeAllViews()
+        dynamicWidgetArea!!.clearFocus()
+        dynamicWidgetArea!!.removeAllViews()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "506, onStop")
+
+        staticWidgetArea = null
+        dynamicWidgetArea = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        staticWidgetArea!!.clearFocus()
-        dynamicWidgetArea!!.clearFocus()
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "516, onDestroy")
     }
 
     fun saveData() {
         val mesg = getString(R.string.saving) + " " + count!!.name + "!"
-        Toast.makeText(this,HtmlCompat.fromHtml(
-            "<font color='#008000'>$mesg</font>",
-                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, HtmlCompat.fromHtml(
+                "<font color='#008000'>$mesg</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            ), Toast.LENGTH_SHORT
+        ).show()
 
         sf1i = optWidget!!.parameterValuef1i
         count!!.count_f1i = sf1i
@@ -527,6 +558,9 @@ class CountOptionsActivity : AppCompatActivity() {
         if (sums && sume) // if a first count entered
             sectionDataSource!!.saveDateSectionOfId(sectionId)
 
+        if (!sume) // if no count
+            sectionDataSource!!.clearDateSectionOfId(sectionId)
+
         /*
         * Get all the alerts from the dynamicWidgetArea and save each one.
         * If it has an alertId value set to anything higher than 0 then it should be an update,
@@ -543,7 +577,8 @@ class CountOptionsActivity : AppCompatActivity() {
                     alertDataSource!!.saveAlert(aew.alertId, aew.alertValue, aew.alertName)
                 }
             } else {
-                if (MyDebug.DLOG) Log.d(TAG, "546, Failed to save alert: " + aew.alertId)
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "581, Failed to save alert: " + aew.alertId)
             }
         }
     }
@@ -589,16 +624,17 @@ class CountOptionsActivity : AppCompatActivity() {
             areYouSure = AlertDialog.Builder(this)
             areYouSure.setTitle(getString(R.string.delAlert))
             areYouSure.setMessage(getString(R.string.reallyDeleteAlert))
-            areYouSure.setPositiveButton(R.string.yesDeleteIt) { _: DialogInterface?, _: Int ->
+            areYouSure.setPositiveButton(R.string.deleteButton) { _: DialogInterface?, _: Int ->
                 // go ahead for the delete
                 try {
                     alertDataSource!!.deleteAlertById(deleteAlert)
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertEditWidget)
                 } catch (e: Exception) {
-                    if (MyDebug.DLOG) Log.e(TAG, "598, Failed to delete a widget: $e")
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.e(TAG, "634, Failed to delete a widget: $e")
                 }
             }
-            areYouSure.setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int -> }
+            areYouSure.setNegativeButton(R.string.cancelButton) { _: DialogInterface?, _: Int -> }
             areYouSure.show()
         }
     }
@@ -610,9 +646,7 @@ class CountOptionsActivity : AppCompatActivity() {
          * Following functions are taken from the Apache commons-lang3-3.4 library
          * licensed under Apache License Version 2.0, January 2004
          *
-         *
          * Checks if a CharSequence is not empty ("") and not null.
-         *
          *
          * isNotEmpty(null)      = false
          * isNotEmpty("")        = false
@@ -629,7 +663,6 @@ class CountOptionsActivity : AppCompatActivity() {
 
         /**
          * Checks if a CharSequence is empty ("") or null.
-         *
          *
          * isEmpty(null)      = true
          * isEmpty("")        = true

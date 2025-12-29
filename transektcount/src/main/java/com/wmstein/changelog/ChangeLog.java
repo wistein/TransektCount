@@ -12,7 +12,8 @@ import android.webkit.WebView;
 
 import androidx.preference.PreferenceManager;
 
-import com.wmstein.transektcount.MyDebug;
+import com.wmstein.transektcount.BuildConfig;
+import com.wmstein.transektcount.IsRunningOnEmulator;
 import com.wmstein.transektcount.R;
 
 import java.io.BufferedReader;
@@ -41,7 +42,7 @@ import java.util.Locale;
  Therefore retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2025-07-19
+ last change by wmstein on 2025-11-16
  */
 public class ChangeLog
 {
@@ -63,8 +64,8 @@ public ChangeLog(Context context, SharedPreferences prefs)
 
         // Get version numbers of last Version and this Version to compare
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
-        if (MyDebug.DLOG)
-            Log.d(TAG, "67, lastVersion: " + lastVersion);
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "68, lastVersion: " + lastVersion);
 
         try
         {
@@ -73,11 +74,11 @@ public ChangeLog(Context context, SharedPreferences prefs)
         } catch (NameNotFoundException e)
         {
             thisVersion = NO_VERSION;
-            if (MyDebug.DLOG)
-                Log.e(TAG, "77, Could not get version name from manifest!", e);
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.e(TAG, "78, Could not get version name from manifest!", e);
         }
-        if (MyDebug.DLOG)
-            Log.d(TAG, "80, appVersion: " + this.thisVersion);
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "81, appVersion: " + this.thisVersion);
     }
 
     /**
@@ -160,11 +161,12 @@ public ChangeLog(Context context, SharedPreferences prefs)
      * Return HTML displaying the changes since the previous installed version
      *   of TransektCount (what's new)
      */
+    /*
     public String getLog()
     {
         return this.getLog(false);
     }
-
+*/
     private String getLog(boolean full)
     {
         // read changelog.txt file
@@ -228,7 +230,12 @@ public ChangeLog(Context context, SharedPreferences prefs)
                             sb.append(line.substring(1).trim());
                             sb.append("</div>\n");
                         }
-                        // line contains bold red text
+                        // empty line
+                        case '.' -> {
+                            this.closeList();
+                            sb.append("<div class='freetext'>").append(line.substring(1)).append("<br></div>\n");
+                        }
+                        // line contains bold text
                         case '&' ->
                         {
                             this.closeList();
@@ -267,7 +274,8 @@ public ChangeLog(Context context, SharedPreferences prefs)
             ins.close();
         } catch (IOException e)
         {
-            if (MyDebug.DLOG) Log.e(TAG, "270, could not read changelog text.", e);
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.e(TAG, "277, could not read changelog text.", e);
         }
 
         return sb.toString();

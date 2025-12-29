@@ -1,10 +1,13 @@
+<html>
+
 <!-- TransektCount Benutzeranleitung --
-  Last edited on 2025-07-15
+  Last edited on 2025-12-25
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
 TransektCount soll bei der Erfassung der Schmetterlinge in europäischen Transekten unterstützen.<br>
 Mit der App können Individuen pro Transektabschnitt artspezifisch, getrennt nach Geschlecht und Entwicklungsstadien gemäß der European Butterfly Monitoring Scheme-Methode erfasst werden.<br>
+Transektabschnitte müssen manuell gewählt werden, können aber optional automatisch per GPS bestimmt werden. <br>
 Sie bietet aufbereitete Ergebnisausgaben und ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos.
 <br><br>
 Datenbankdateien können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden. Die interne Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
@@ -13,6 +16,7 @@ Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Ein
 <br><br>
 Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien und Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet.
 <br><br><br>
+
 <h3><font color=#D9FDD9>2. Einrichtung</font></h3>
 Vor der erstmaligen Verwendung sollten die App-Einstellungen den eigenen Wünschen angepasst werden (→ 4. Weitere Funktionen).
 <br><br>
@@ -50,7 +54,7 @@ https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
 Im nächsten Schritt sollten die fixen Meta-Daten (Stammdaten) wie Transekt-Nr. und Kartierername eingegeben werden. Dazu "Meta-Daten editieren" klicken und die Eingaben mit Klick aufs Speichersymbol sichern.
 <br><br>
-Ist die Abschnitts-Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Menü der Zählerseite: "Weiteren Abschnitt hinzufügen" aufrufen und dabei jeweils sinnvoll benennen,  möglichst in der Reihenfolge wie die Abschnitte begangen werden (z.B.: Ab 02, Ab 03, ...).
+Ist die Abschnitts-Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Kopf der Abschnittsliste per plus-Button die fehlenden Abschnitte erzeugen und jeweils sinnvoll benennen, möglichst in der Reihenfolge wie die Abschnitte begangen werden (z.B.: Ab 02, Ab 03, ...).
 <br><br>
 Sind für alle Transektabschnitte die Listen eingerichtet und die generellen Meta-Daten eingegeben, ist die Datenbank fertig vorbereitet und sollte nun als "Basis-Datenbank" exportiert werden.<br>
 Das geht mit Hilfe der Funktion "Export als Basis-DB" im Hauptmenü der Startseite.
@@ -68,6 +72,7 @@ Alternativ kann auch eine selbst erstellte Basis-DB importiert und angepasst wer
 https://github.com/wistein/TransektCount/tree/master/docs<br>
 heruntergeladen, in das App-Datenverzeichnis "Documents/TransektCount" kopiert und von dort importiert und dann angepasst werden. Änderungen hinsichtlich der Arten wirken sich immer auf alle vorhandenen Abschnittslisten aus.
 <br><br><br>
+
 <h3><font color=#D9FDD9>3. Benutzung</font></h3>
 Beginne mit "Meta-Daten editieren". Gib die relevanten Meta-Daten der Transektbegehung ein. Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden.<br>
 Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden. Mit dem Spechern-Button beenden.
@@ -96,51 +101,55 @@ Bei großen Datenmengen kann sich die Reaktion der App z. B. bei Import-Funktion
 <br><br>
 Auf eine ggf. auftauchende Meldung "TransektCount reagiert nicht" bitte mit "Warten" antworten.
 <br><br><br>
+
 <h3><font color=#D9FDD9>4. Weitere Funktionen</font></h3>
 Das System-Menü auf der Eingangsseite bietet Einstellungs-, Reset-, Import-, Export-, Info- und Hilfefunktionen.
 <br><br>
-Unter "Einstellungen" können das Aussehen und Verhalten der App dem eigenen Geschmack angepasst werden, z. B. Sortierreihenfolge für Listen und Datenexport, Rechts-/ Linkshänder-Darstellung der Zählerseite oder Sounds und haptisches Button-Feedback.
+Unter "Einstellungen" können das Aussehen und Verhalten der App dem eigenen Geschmack angepasst werden, z. B. Sortierreihenfolge für Listen und Datenexport, Rechts-/ Linkshänder-Darstellung der Zählerseite oder Sounds und haptisches Button-Feedback. Hier kann auch optional die GPS-gesteuerte Funktion für den automatischen Hinweis zum Abschnittswechsel aktiviert werden, vorausgesetzt eine passend vorbereitete GPX-Track-Datei wurde importiert. Siehe dazu „5. GPS-Nutzung“.
 <br><br>
 Zwecks Vorbereitung einer neuen Begehung können mittels "Reset Daten" die begehungsspezifischen Meta-Daten und alle Zähldaten gelöscht werden. Alle anderen Transekt-spezifischen Daten bleiben dabei erhalten.
 <br><br>
 TransektCount speichert die Daten Android-spezifisch in einer internen SQLite-DB im App-eigenen, für den Anwender gesperrten Speicherbereich. Dadurch sind externe Anwenderdaten nur per Import für die App nutzbar und DB-Daten bzw. Ergebnisse nur per Export zur weiteren Verwendung durch den Anwender erreichbar.
 <br><br>
-Mit "Export Basis-DB" kann die interne DB als Basis-DB "transektcount0_Tr-Nr.db", d. h. ohne begehungsspezifische Daten nach Documents/TransektCount exportiert werden, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten gelöscht oder hinzugefügt wurden.
-<br><br>
 Mit "Import Basis-DB" kann eine vorhandene Basis-DB-Datei ausgewählt und eingelesen werden, die als Vorlage für ein Transekt exportiert wurde und mit "transektcount0" beginnt.
 <br><br>
-"Export akt. DB" schreibt eine Kopie der DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_Tr-Nr_JJJJMMTT_hhmmss.db mit ‘Tr-Nr’ für Transekt Nr., 'JJJJMMTT' Datum und 'hhmmss' Zeitpunkt des Speicherns.
+Mit "Export Basis-DB" kann die interne DB als Basis-DB "transektcount0_Tr-Nr.db", d. h. ohne begehungsspezifische Daten nach Documents/TransektCount exportiert werden, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder neue Arten gelöscht oder hinzugefügt wurden.
 <br><br>
 Mit "Import DB" kann jede entsprechend benannte TransektCount-DB in die App geladen werden.
 <br><br>
 <b><font color=#D9FDD9>Merke:</font></b> Der DB-Dateiname muss dazu immer mit der exakten Zeichenfolge "transektcount_" beginnen (z. B.: "transektcount_NW-5309-03.db"), ansonsten kann die Datei nicht importiert werden.
 <br><br>
-Mit "Export Speziesliste" kann die aktuelle Speziesliste als CSV-Datei (CSV = Comma Separated Values Textdatei) "species_Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" exportiert werden. Mittels Datei-Manager lässt sich diese bei Bedarf umbennenen.
+"Export akt. DB" schreibt eine Kopie der DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_Tr-Nr_JJJJMMTT_hhmmss.db mit ‘Tr-Nr’ für Transekt Nr., 'JJJJMMTT' Datum und 'hhmmss' Zeitpunkt des Speicherns.
 <br><br>
 Mit "Import Speziesliste" kann eine vorhandene Speziesliste ausgewählt und importiert werden. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden. Mittels Datei-Manager lässt sich diese bei Bedarf sinnvoll umbennenen.
 <br><br>
 <b><font color=#D9FDD9>Merke:</font></b> Der Dateiname einer Speziesliste muss immer mit "species_" beginnen, sonst kann die Datei nicht importiert werden.
 <br><br>
-Die Funktion "Export Daten → CSV-Datei" scheibt Meta-Daten und Zählergebnisse als aufbereitete, Spreadsheet-kompatible Tabelle "Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier kann die Ansicht oder Bearbeitung mit einer Android-Tabellenkalkulations-App erfolgen, wie Collabora (Open Source, kostenlos und basiert auf LibreOffice). Sie ist erhältlich z.B. im F-Droid-App-Store.
+Mit "Export Speziesliste" kann die aktuelle Speziesliste als CSV-Datei (CSV = Comma Separated Values Textdatei) "species_Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" exportiert werden. Mittels Datei-Manager lässt sich diese bei Bedarf umbennenen.
 <br><br>
-IT-affine Anwender können die mittels Exportfunktion erzeugten ".db"- und ".csv"-Dateien von "Documents/TransektCount" auf einen PC übertragen.
+„Import GPS-Track“ lädt eine vorbereitete gpx-Track-Datei (z. B. transektcount_t1.gpx) aus dem Verzeichnis Documents/TransektCount. Unter „5. GPS-Nutzung“ wird beschrieben, wie eine gpx-Datei erzeugt und verwendet werden kann.
 <br><br>
-Mit Hilfe eines kostenlosen Tools wie "DB Browser for SQLite"
-<br>https://sqlitebrowser.org<br>
-können die .db-Dateien manuell oder per SQL-Script bearbeitet werden. Einige nützliche vorbereitete SQL-Scripte finden sich im Doku-Verzeichnis der GitHub-Webseite<br>
-https://github.com/wistein/TransektCount/tree/master/docs.
+Die Funktion "Export d. Ergebnisse (csv)" scheibt die aktuellen Meta-Daten und Zählergebnisse als aufbereitete, Spreadsheet-kompatible Tabelle "Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier können die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) in einer Tabellenkalkulations-App, wie Collabora (Open Source, kostenlos, basiert auf LibreOffice) angesehen und eingeschränkt auch bearbeitet werden. Sie ist erhältlich im Collabora Office Store (eine zusätzliche Paketquelle im F-Droid App-Store), im Play Store oder direkt unter https://www.collaboraoffice.com/downloads/).
 <br><br>
-Die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) können für die weitere Bearbeitung auf einem PC in einer Tabellenkalkulation importiert werden.<br>
-Hierbei ist zur korrekten Darstellung der Formate und Zeichensätze darauf zu achten, dass
+Je nach Bedarf hinsichtlich einer einfacheren Dateneingabe in eine zentrale Monitoring Web-Seite, wie https://web.app.ufz.de/tagfalter-monitoring/ kann die Tabelle vorab in TransektCount per Ergebnis-Sortier-Option entweder nach Speziesnamen oder Abschnitten geordnet aufbereitet werden. 
+<br><br>
+Beim Laden der Daten ist zur korrekten Darstellung der Formate und Zeichensätze darauf zu achten, dass
 <br><br>
 - Dateiursprung im Format "Unicode UTF-8",<br>
-- nur Komma als Trennzeichen,<br>
-- Anführungszeichen ("") zur Texterkennung und<br>
-- alle Spalten in Textformat<br><br>
+- nur Komma als Trennzeichen und<br>
+- Anführungszeichen ("") zur Texterkennung
+<br><br>
 gesetzt sind.
 <br><br>
-Die Tabelle kann per Sortier-Option (nach Speziesnamen oder Abschnitten) geordnet aufbereitet werden, je nach Gusto auch hinsichtlich einer einfacheren Dateneingabe in eine zentrale Monitoring Web-Seite, wie <br>
-https://web.app.ufz.de/tagfalter-monitoring.
+Sollen die führenden Nullen der Spezies-Codes angezeigt werden, so muss beim Import-Dialog die Spalte mit den Codes noch extra als Text formatiert werden. 
+<br><br>
+Die exportierten .csv-Ergebnisdateien können für die weitere Bearbeitung auch auf einen PC übertragen werden und in einer Tabellenkalkulation (getestet mit MS Excel, LibreOffice Calc und Softmaker PlanMaker) importiert werden.
+<br><br>
+
+IT-affine Anwender können die mittels Exportfunktion erzeugten Datenbankdateien (.db-Dateien) auf einen PC übertragen mit Hilfe eines kostenlosen Tools wie "DB Browser for SQLite"
+<br>https://sqlitebrowser.org<br>
+manuell oder per SQL-Script bearbeiten. Einige vorbereitete, ggf. nützliche Beispiel-SQL-Scripte finden sich im Doku-Verzeichnis der GitHub-Webseite<br>
+https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
 Unter "App-Info" sind allgemeine Infos zur App, die E-Mail-Adresse des Autors und die Historie zur App-Entwicklung abrufbar.
 <br><br>
@@ -150,7 +159,54 @@ Das Optionsmenü der Zählerseite hat eine Fotofunktion um die Kamera möglichst
 <br><br>
 In der Zähler-Ansicht wird die Anzeige optional temporär per Näherungssensors abgeschaltet, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn es wieder normal genutzt wird.
 <br><br><br>
-<h3><font color=#D9FDD9>5. Meldungen</h3>
+
+<h3><font color=#D9FDD9>5. GPS-Nutzung</h3>
+Die automatische Abschnittserkennung im Transekt geschieht durch Vergleich des aktuellen Standpunkts mit den Track-Koordinaten der Transektabschnitte in einer transektcount_xxx.gpx-Datei. Ist der momentane Standpunkt nicht weiter als z.B. 5 m (Voreinstellung) von einem Abschnitts-Trackpunkt entfernt, wird der Abschnitt für die Registrierung gesetzt.
+<br><br>
+GPS-Ungenauigkeiten müssen dabei leider in Kauf genommen werden. Berührungen zweier Abschnitte sollten vermieden werden, und ein Abstand zwischen Abschnitten von ca. 5 m wird empfohlen.
+<br><br>
+Der Abstandsradius (Max. Distanz der Track-Abweichung) der Voreinstellung kann zur Anpassung an die GPS-Genauigkeit des Geräts zwischen 3 und 10 m eingestellt werden. 
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.1 Erzeugung der Track-Datei für TransektCount</h4>
+Die Aufzeichnung einer Transekt-Strecke kann mit einer kostenlosen Smartphone-App wie CoMaps oder einer anderen Wanderkarten-App erfolgen, die die aufgezeichnete Strecke im GPX-Format exportieren kann. Wiederholen Sie die Aufzeichnung einige Male, da sie jeweils Abweichungen aufweisen. Diese Aufzeichnungen sollen zur Orientierung für manuell zu erstellende Tracks dienen und deren gemittelte Linie lässt ggf. auch Fehler in der zugrunde gelegten Karte erkennen.
+<br><br>
+<b>Unter Windows:</b>
+<br>
+Sie können das kostenlose Programm BaseCamp von Garmin verwenden. Laden Sie eine geeignete kostenlose Karte auf Basis von OpenStreetMap. Importieren Sie die aufgezeichneten GPX-Strecken. Zeichnen Sie dann die Tracks aller Abschnitte einzeln und möglichst mit einem Abstand der einzelnen Track-Punkte von 2 m oder weniger über die gedachte, gemittelte Linie der aufgezeichneten Tracks. Lassen Sie zwischen den verschiedenen Transekt-Abschnitten eine Lücke von ca. 5 m.
+<br><br>
+Die Track-Abschnitte sollten in der gleichen Reihenfolge benannt und sortiert werden, wie die Transektabschnitte, um sie exakt zuzuordnen. Löschen sie die importierten GPX-Strecken.
+<br><br>
+Die gezeichneten und benannten Transekt-Tracks können dann als Ergebnis in die Datei „transektcount_xxx.gpx" exportiert werden mit xxx als Platzhalter für eine Transekt-Bezeichnung.
+<br><br>
+<b>Unter Linux:</b>
+<br>
+Sie können das Programm Viking dafür benutzen. Dessen Benutzeroberfläche unterscheidet sich zwar deutlich von BaseCamp, das Ergebnis ist aber genauso gut. Die Vorgehensweise entspricht der wie in „Unter Windows“ beschriebenen. In Viking muss das Ergebnis als „Single GPX File“ exportiert werden.
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.2 Import der Track-Datei in TransektCount</h4>
+Die neu erzeugte GPX-Track-Datei ins Smartphone nach „Documents/TransektCount" kopieren. Dort wird sie von der App zwecks Import erwartet.
+<br><br>
+Ist die Track-Datei korrekt erzeugt, wird sie vom Befehl „Import GPS-Track“ mit der Meldung „Die GPX-Datei wurde importiert.“ quittiert.
+<br><br>
+Als letztes unter Einstellungen den Punkt „Transektabschnitt per GPS erkennen“ aktivieren und ggf. die Empfindlichkeit bei „Maximal erlaubte GPS-Abweichung“ anpassen.
+<br><br><br>
+
+<h4><font color=#D9FDD9>5.3 Hinweise</h4>
+Es ist ratsam, die Transektstrecke mehrfach per Smartphone vor Ort aufzuzeichnen. Die Tracks sollten sich mit der Wegführung in der Karte decken. Hierzu ggf. die Trackzeichnung bei Ausreißern korrigieren. Abweichungen, die bei mehreren Aufzeichnungen der Transektstrecke ähnlich sind, lassen auf Ungenauigkeiten der Karte schließen. 
+<br><br>
+Das manuelle Zeichnen der Trackabschnitte in BaseCamp sollte bei Zoom 20 m vorgenommen werden, da dann optimale Abstände von ca. 2 m zwischen den einzelnen Trackpunkten erzielt werden und eine hinreichende Genauigkeit für den Koordinatenabgleich zur Abschnittsbestimmung innerhalb der App erzielt wird.
+<br><br>
+Die Transektabschnitte sollten in gleicher Anzahl und Reihenfolge gezeichnet werden, wie sie in TransektCount gelistet sind. Beim Import werden sie in dieser Reihenfolge den vorhandenen Transektabschnitten zugeordnet. 
+<br><br>
+Da die Anzahl der Transektabschnitte gleich der Anzahl der Tracks sein muss, ist das Hinzufügen eines neuen Transektabschnitts nur solange möglich, wie noch keine Tracks importiert sind. Daher müssen vor dem Hinzufügen eines neuen Transektabschnitts die Tracks aus der Datenbank mit der Funktion „Lösche GPS-Track-Daten“ gelöscht werden. 
+<br><br>
+Nach Hinzufügen eines neuen Abschnitts muss auch die dem Transekt-zugeordnete Track-Datei mit dem Track des neuen Abschnitts in BaseCamp, Viking oder ähnlicher Anwendung ergänzt und in TransektCount neu importiert werden. 
+<br><br>
+Bei der Löschung eines Transektabschnitts wird auch der zugehörige Abschnitts-Track in der Datenbank gelöscht.
+<br><br><br>
+
+<h3><font color=#D9FDD9>6. Meldungen</h3>
 Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. (Falls auch der zuletzt erzeugte Abschnitt nicht löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um diese Löschfunktion auszuführen.)</font>
 <br><br>
 Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr vielen Transektabschnitten vorkommen. Andere Funktionen der App sind von dieser Einschränkung nicht betroffen.
@@ -158,10 +214,15 @@ Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr viel
 Mögliche Abhilfe nicht bekannt. Weitere Info dazu siehe Dokument "TransektCount_Anleitung_nnn.pdf" unter <br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br><br>
-<h3><font color=#D9FDD9>6. Quellen</font></h3>
-Source-Code: https://github.com/wistein/TransektCount
-<br><br>
+
+<h3><font color=#D9FDD9>7. Quellen</font></h3>
 Doku.: https://github.com/wistein/TransektCount/tree/master/docs
+<br><br>
+Lizenzen: https://github.com/wistein/TransektCount/tree/master/docs/License.txt
 <br><br>
 App: https://f-droid.org/en/packages/com.wmstein.transektcount
 <br><br>
+Quell-Code: https://github.com/wistein/TransektCount
+<br><br>
+
+</html>

@@ -18,7 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center_vertical|start"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_gravity="bottom|start|end|top"/>
     
 </LinearLayout>

@@ -59,7 +59,6 @@
         android:id="@+id/deleteSection"
         android:gravity="center"
         android:layout_gravity="bottom|end|top"
-        android:layout_margin="1dp"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>

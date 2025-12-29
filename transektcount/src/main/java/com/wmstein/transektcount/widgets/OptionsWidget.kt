@@ -9,13 +9,13 @@ import com.wmstein.transektcount.AutoFitEditText
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/***********************************************************************
- * Edit options for species
- * used by CountOptionsActivity in conjunction with widget_options.xml
+/************************************************************************
+ * Edit options for species,
+ * used by CountOptionsActivity.kt in conjunction with widget_options.xml
  * Created by wmstein on 2016-02-16,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-05-15
+ * last edited on 2025-12-28
  */
 class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView
@@ -141,7 +141,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf1i.setText(i.toString())
+            if (i > 0)
+                numberf1i.setText(i.toString())
         }
 
     var parameterValuef2i: Int
@@ -158,7 +159,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf2i.setText(i.toString())
+            if (i > 0)
+                numberf2i.setText(i.toString())
         }
 
     var parameterValuef3i: Int
@@ -175,7 +177,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf3i.setText(i.toString())
+            if (i > 0)
+                numberf3i.setText(i.toString())
         }
 
     var parameterValuepi: Int
@@ -192,7 +195,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberpi.setText(i.toString())
+            if (i > 0)
+                numberpi.setText(i.toString())
         }
 
     var parameterValueli: Int
@@ -209,7 +213,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberli.setText(i.toString())
+            if (i > 0)
+                numberli.setText(i.toString())
         }
 
     var parameterValueei: Int
@@ -226,7 +231,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberei.setText(i.toString())
+            if (i > 0)
+                numberei.setText(i.toString())
         }
 
     // For transect external counters
@@ -244,7 +250,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf1e.setText(i.toString())
+            if (i > 0)
+                numberf1e.setText(i.toString())
         }
 
     var parameterValuef2e: Int
@@ -261,7 +268,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf2e.setText(i.toString())
+            if (i > 0)
+                numberf2e.setText(i.toString())
         }
 
     var parameterValuef3e: Int
@@ -278,7 +286,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberf3e.setText(i.toString())
+            if (i > 0)
+                numberf3e.setText(i.toString())
         }
 
     var parameterValuepe: Int
@@ -295,7 +304,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberpe.setText(i.toString())
+            if (i > 0)
+                numberpe.setText(i.toString())
         }
 
     var parameterValuele: Int
@@ -312,7 +322,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberle.setText(i.toString())
+            if (i > 0)
+                numberle.setText(i.toString())
         }
 
     var parameterValueee: Int
@@ -329,7 +340,8 @@ class OptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
             }
         }
         set(i) {
-            numberee.setText(i.toString())
+            if (i > 0)
+                numberee.setText(i.toString())
         }
 
     companion object {

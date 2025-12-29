@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_welcome.xml is used by WelcomeActivity.java.
   ~ Shows starting page
-  ~ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany.
-  ~ Last edited on 2025-07-14.
+  ~ Copyright (c) 2016-2025, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2025-08-11.
   -->
 
 <LinearLayout
@@ -38,7 +38,6 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_margin="10sp"
-            android:text="@string/app_name"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
     </LinearLayout>
@@ -132,23 +131,23 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/viewSpeciesButton"
+            android:id="@+id/showResultsButton"
             android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:onClick="viewSpecies"
+            android:onClick="showResults"
             android:src="@android:drawable/ic_menu_view"
             tools:ignore="ContentDescription,UsingOnClickInXml" />
 
         <TextView
-            android:id="@+id/viewSpeciesButtonText"
+            android:id="@+id/showResultsButtonText"
             android:layout_width="200sp"
             android:layout_height="30sp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
             android:backgroundTint="#333333"
-            android:onClick="viewSpecies"
-            android:text="@string/viewSpeciesButton"
+            android:onClick="showResults"
+            android:text="@string/showResultsButton"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:ignore="UsingOnClickInXml" />

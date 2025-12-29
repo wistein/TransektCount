@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_counting.xml is used by CountingActivity.java.
+  ~ Shows counting page
   ~ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany.
-    activity_counting.xml is used by CountingActivity.java 
+  ~ Last Edited an 2025-10-29.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

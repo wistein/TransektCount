@@ -27,9 +27,9 @@ import java.util.Locale
  * Custom class for displaying the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2025-07-08
+ * last edited on 2025-12-29
  */
-class ShowTextDialog : AppCompatActivity () {
+class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     public override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
@@ -65,14 +65,19 @@ class ShowTextDialog : AppCompatActivity () {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
-            setStatusBarColor(window, ContextCompat.getColor(applicationContext,
-                R.color.DarkerGray))
+            setStatusBarColor(
+                window, ContextCompat.getColor(
+                    applicationContext,
+                    R.color.DarkerGray
+                )
+            )
         }
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val tvHead = findViewById<TextView>(R.id.help_head)
         val tvText = findViewById<TextView>(R.id.help_text)
+
         // Help dialog
         if (dialog == "help") {
             supportActionBar!!.setTitle(R.string.title_help_dialog)
@@ -84,6 +89,7 @@ class ShowTextDialog : AppCompatActivity () {
                 tvText.text = fromHtml(readRawTextFile(R.raw.help, this))
             }
         }
+
         // License dialog
         else if (dialog == "license") {
             supportActionBar!!.setTitle(R.string.title_license_dialog)

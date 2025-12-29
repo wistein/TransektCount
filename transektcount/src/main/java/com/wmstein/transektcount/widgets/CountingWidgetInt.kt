@@ -15,20 +15,17 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.text.HtmlCompat
 import com.wmstein.transektcount.AutoFitText
-import com.wmstein.transektcount.MyDebug
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
 import java.util.Objects
 
-/****************************************************
- * Interface for widget_counting_i.xml
+/*****************************************************************
+ * CountingWidgetInt.kt is the interface for widget_counting_i.xml
  * Created by wmstein 18.12.2016
  * last edited in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2025-06-28
+ * last edited on 2025-11-22
  */
 class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
@@ -100,17 +97,6 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
             sHeight = size.y
         }
 
-        if (MyDebug.DLOG) {
-            val mesg = "Screen height: $sHeight"
-            Toast.makeText(
-                context,
-                HtmlCompat.fromHtml(
-                    "<font color='blue'>$mesg</font>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ), Toast.LENGTH_SHORT
-            ).show()
-        }
-
         // Height for counter line on counting page
         ht = sHeight / 22
 
@@ -141,13 +127,19 @@ class CountingWidgetInt(context: Context, attrs: AttributeSet?) : RelativeLayout
         namepi.text = context.getString(R.string.countPupaHint)
         nameli.text = context.getString(R.string.countLarvaHint)
         nameei.text = context.getString(R.string.countOvoHint)
-        countCountf1i.text = count!!.count_f1i.toString()
 
-        countCountf2i.text = count!!.count_f2i.toString()
-        countCountf3i.text = count!!.count_f3i.toString()
-        countCountpi.text = count!!.count_pi.toString()
-        countCountli.text = count!!.count_li.toString()
-        countCountei.text = count!!.count_ei.toString()
+        if (count!!.count_f1i > 0)
+            countCountf1i.text = count!!.count_f1i.toString()
+        if (count!!.count_f2i > 0)
+            countCountf2i.text = count!!.count_f2i.toString()
+        if (count!!.count_f3i > 0)
+            countCountf3i.text = count!!.count_f3i.toString()
+        if (count!!.count_pi > 0)
+            countCountpi.text = count!!.count_pi.toString()
+        if (count!!.count_li > 0)
+            countCountli.text = count!!.count_li.toString()
+        if (count!!.count_ei > 0)
+            countCountei.text = count!!.count_ei.toString()
 
         val countUpf1iButton = findViewById<ImageButton>(R.id.buttonUpf1i)
         countUpf1iButton.tag = count!!.id

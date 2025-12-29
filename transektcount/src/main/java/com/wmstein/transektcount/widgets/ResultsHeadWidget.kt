@@ -8,12 +8,12 @@ import android.widget.TextView
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/****************************************************
- * EditMetaHeadWidget.java used by EditMetaActivity.java
+/*******************************************************
+ * ResultsHeadWidget.kt is used by EditMetaActivity.java
  * Created by wmstein for TransektCount on 03.04.2016
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2025-05-11.
+ * Last edited on 2025-11-15
  */
 class ResultsHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetLno // used for transect_no title

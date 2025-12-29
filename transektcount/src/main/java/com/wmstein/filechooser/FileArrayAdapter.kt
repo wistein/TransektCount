@@ -17,7 +17,7 @@ import java.util.Locale
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2025-03-19
+ * last edited on 2025-12-29
  */
 internal class FileArrayAdapter(
     private val faaContext: Context,
@@ -48,10 +48,14 @@ internal class FileArrayAdapter(
         val t2 = fileListRow.findViewById<TextView>(R.id.TextView02)
 
         if (name != null) {
-            if (name.endsWith(".db")) im.setImageResource(R.drawable.db)
-            else if (name.endsWith(".gpx")) im.setImageResource(R.drawable.moving)
-            else if (name.endsWith(".csv")) im.setImageResource(R.drawable.outline_align_left)
-            else im.setImageResource(R.drawable.insert_drive_file)
+            if (name.endsWith(".db"))
+                im.setImageResource(R.drawable.db)
+            else if (name.endsWith(".gpx"))
+                im.setImageResource(R.drawable.moving)
+            else if (name.endsWith(".csv"))
+                im.setImageResource(R.drawable.outline_align_left)
+            else
+                im.setImageResource(R.drawable.insert_drive_file)
         }
 
         if (t1 != null) t1.text = fileItem.name

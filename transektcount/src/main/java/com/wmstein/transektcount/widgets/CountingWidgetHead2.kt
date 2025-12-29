@@ -14,13 +14,13 @@ import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
 import java.util.Objects
 
-/***********************************************************
- * Interface for widget_counting_head2.xml
+/***********************************************************************
+ * CountingWidgetHead2.kt is the interface for widget_counting_head2.xml
  * fills headline of Internal counting area with edit button
- * Created by wmstein 18.12.2016,
- * last edited in Java on 2023-05-09,
+ * Created by wmstein 18.12.2016.
+ * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-10-23
+ * last edited on 2025-11-15
  */
 @SuppressLint("ViewConstructor")
 class CountingWidgetHead2(context: Context, attrs: AttributeSet?) :

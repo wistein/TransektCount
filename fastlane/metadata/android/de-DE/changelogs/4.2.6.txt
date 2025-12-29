@@ -1,11 +1,9 @@
-Version 4.2.6 (06.07.2025)
+Version 4.2.6 (02.07.2025)
 - Vibrator-Funktion nur bei Android-Versionen >= 8
 - Code angepasst an Erfordernisse von Android 15 (Kante-bis-Kante-Layout)
 - Einige Seiten-Layouts angepasst für "Kante-bis-Kante-Layout"
-- Layout der Zählerseite besser angepasst für unterschiedlich hohe Bildschirme
-- Die Art-Editier-Seite nutzt nun auch den Linkshänder-Modus
 - Alle Snackbars (Pop-up-Meldungen) zu farbigen Toasts geändert
 - Dunkler Navigations-Balken trotz deaktiviertes "Dunkles Design" in den System-Einstellungen
 - Dateinamen der exportierten Spezieslisten mit Sprach-Indikator (de oder en)
 - Einige Code-Verbesserungen
-- Doku überarbeitet
+- Bugfixes

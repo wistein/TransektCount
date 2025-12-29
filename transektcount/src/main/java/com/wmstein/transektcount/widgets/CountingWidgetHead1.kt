@@ -12,13 +12,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.wmstein.transektcount.R
 
-/*************************************************************
- * Interface for widget_counting_head1.xml
- * fills the species row with names, code, spinner and picture.
- * Created by wmstein 18.12.2016,
- * last edited in Java on 2023-05-09,
+/*********************************************************************
+ * CountingWidgetHead1 is the interface for widget_counting_head1.xml.
+ * Fills the species row with names, code, spinner and picture.
+ * Created by wmstein 18.12.2016.
+ * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-07-16
+ * last edited on 2025-08-05
  */
 class CountingWidgetHead1(
     context: Context,

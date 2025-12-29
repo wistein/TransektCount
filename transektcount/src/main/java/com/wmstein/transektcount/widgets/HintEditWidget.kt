@@ -8,13 +8,13 @@ import android.widget.LinearLayout
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/************************************************
- * HintEditWidget used by EditSectionListActivity
+/*********************************************************
+ * HintEditWidget.kt is used by EditSectionListActivity.kt
  * shows single Hint line
  * Created by wmstein on 2023-05-16,
  * last edited in java on 2023-05-16,
  * converted to Kotlin on 2023-07-05,
- * last edited on 2024-10-16
+ * last edited on 2025-11-15
  */
 class HintEditWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var searchE: EditText

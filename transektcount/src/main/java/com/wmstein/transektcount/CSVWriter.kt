@@ -24,83 +24,57 @@ import java.io.Writer
  * Based on "A very simple CSV writer" by
  * @author Glen Smith
  *
- * Reduced to needed functions with modifications for TransektCount by wmstein,
- * last edited in Java on 2023-06-17,
- * converted to Kotlin on 2023-06-26
+ * Reduced to needed functions with modifications for TransektCount by wmstein.
+ * Last edited in Java on 2023-06-17,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2025-12-29
  */
-class CSVWriter @JvmOverloads constructor(
+internal class CSVWriter private constructor(
+    // rawWriter is the writer to an underlying CSV source
     private val rawWriter: Writer,
-    separator: Char = DEFAULT_SEPARATOR,
-    quotechar: Char = DEFAULT_QUOTE_CHARACTER,
-    escapechar: Char = DEFAULT_ESCAPE_CHARACTER,
-    lineEnd: String = DEFAULT_LINE_END,
+    private val separator: Char = DEFAULT_SEPARATOR, // ,
+    private val quoteChar: Char = DEFAULT_QUOTE_CHARACTER, // "
+    private val escapeChar: Char = DEFAULT_ESCAPE_CHARACTER, // "
+    private val lineEnd: String = DEFAULT_LINE_END, // \n
 ) : Closeable, Flushable {
     private val pw: PrintWriter = PrintWriter(rawWriter)
-    private val separator: Char
-    private val quotechar: Char
-    private val escapechar: Char
-    private val lineEnd: String
-    /**
-     * Constructs CSVWriter with supplied separator, quote char, escape char and line ending.
-     *
-     * @param rawWriter     the writer to an underlying CSV source.
-     * @param separator  the delimiter to use for separating entries
-     * @param quotechar  the character to use for quoted elements
-     * @param escapechar the character to use for escaping quotechars or escapechars
-     * @param lineEnd    the line feed terminator to use
-     */
-    /**
-     * Constructs CSVWriter with supplied separator and quote char.
-     *
-     * @param rawWriter     the writer to an underlying CSV source.
-     * @param separator  the delimiter to use for separating entries
-     * @param quotechar  the character to use for quoted elements
-     * @param escapechar the character to use for escaping quotechars or escapechars
-     */
-    /**
-     * Constructs CSVWriter with supplied separator and quote char.
-     *
-     * @param rawWriter    the writer to an underlying CSV source.
-     * @param separator the delimiter to use for separating entries
-     * @param quotechar the character to use for quoted elements
-     */
+
     /**
      * Constructs CSVWriter using a comma for the separator.
+     *
+     * @param separator  the delimiter to use for separating entries
+     * @param quoteChar  the character to use for quoted elements
+     * @param escapeChar the character to use for escaping quotechars or escapechars
      */
-    init {
-        this.separator = separator
-        this.quotechar = quotechar
-        this.escapechar = escapechar
-        this.lineEnd = lineEnd
-    }
+    constructor(writer: Writer) : this(writer, DEFAULT_SEPARATOR)
 
     /**
      * Writes the next line to the file.
-     * @param nextLine         a string array with each comma-separated element as a separate
-     * entry.
+     * @param nextLine - string array with each comma-separated element as a separate entry.
      */
     fun writeNext(nextLine: Array<String?>?) {
         if (nextLine == null) {
             return
         }
         val sb =
-            StringBuilder(nextLine.size * 2) // This is for the worse case where all elements have to be escaped.
+            StringBuilder(nextLine.size * 2) // The worse case where all elements have to be escaped.
         for (i in nextLine.indices) {
             if (i != 0) {
                 sb.append(separator)
             }
             val nextElement = nextLine[i] ?: continue
             val stringContainsSpecialCharacters = stringContainsSpecialCharacters(nextElement)
-            if (stringContainsSpecialCharacters && quotechar != NO_QUOTE_CHARACTER) {
-                sb.append(quotechar)
+
+            if (stringContainsSpecialCharacters && quoteChar != NO_QUOTE_CHARACTER) {
+                sb.append(quoteChar)
             }
             if (stringContainsSpecialCharacters) {
                 sb.append(processLine(nextElement))
             } else {
                 sb.append(nextElement)
             }
-            if (stringContainsSpecialCharacters && quotechar != NO_QUOTE_CHARACTER) {
-                sb.append(quotechar)
+            if (stringContainsSpecialCharacters && quoteChar != NO_QUOTE_CHARACTER) {
+                sb.append(quoteChar)
             }
         }
         sb.append(lineEnd)
@@ -108,28 +82,25 @@ class CSVWriter @JvmOverloads constructor(
     }
 
     /**
-     * checks to see if the line contains special characters.
-     *
-     * @param line - element of data to check for special characters.
-     * @return true if the line contains the quote, escape, separator, newline or return.
+     * Checks to see if the line contains special characters.
+     * @param line - returns true if the line contains the quote, escape, separator, newline or return.
      */
     private fun stringContainsSpecialCharacters(line: String): Boolean {
-        return line.indexOf(quotechar) != -1 || line.indexOf(escapechar) != -1 || line.indexOf(
-            separator
-        ) != -1 || line.contains(
-            DEFAULT_LINE_END
-        ) || line.contains("\r")
+        return line.indexOf(quoteChar) != -1                // "
+                || line.indexOf(escapeChar) != -1           // "
+                || line.indexOf(separator) != -1     // ,
+                || line.contains(DEFAULT_LINE_END)  // \n
+                || line.contains("\r")              // \r
     }
 
     /**
      * Processes all the characters in a line.
-     *
      * @param nextElement - element to process.
-     * @return a StringBuilder with the elements data.
+     * Returns a StringBuilder with the elements data.
      */
     private fun processLine(nextElement: String): StringBuilder {
-        val sb =
-            StringBuilder(nextElement.length * 2) // this is for the worse case where all elements have to be escaped.
+        // This is for the worse case where all elements have to be escaped.
+        val sb = StringBuilder(nextElement.length * 2)
         for (element in nextElement) {
             processCharacter(sb, element)
         }
@@ -138,20 +109,21 @@ class CSVWriter @JvmOverloads constructor(
 
     /**
      * Appends the character to the StringBuilder adding the escape character if needed.
-     *
      * @param sb       - StringBuffer holding the processed character.
      * @param nextChar - character to process
      */
     private fun processCharacter(sb: StringBuilder, nextChar: Char) {
-        if (escapechar != NO_ESCAPE_CHARACTER && checkCharactersToEscape(nextChar)) {
-            sb.append(escapechar).append(nextChar)
+        if (escapeChar != NO_ESCAPE_CHARACTER && checkCharactersToEscape(nextChar)) {
+            sb.append(escapeChar).append(nextChar)
         } else {
             sb.append(nextChar)
         }
     }
 
     private fun checkCharactersToEscape(nextChar: Char): Boolean {
-        return if (quotechar == NO_QUOTE_CHARACTER) nextChar == quotechar || nextChar == escapechar || nextChar == separator else nextChar == quotechar || nextChar == escapechar
+        return if (quoteChar == NO_QUOTE_CHARACTER)
+            nextChar == quoteChar || nextChar == escapeChar || nextChar == separator
+        else nextChar == quoteChar || nextChar == escapeChar
     }
 
     /**
@@ -163,7 +135,6 @@ class CSVWriter @JvmOverloads constructor(
 
     /**
      * Close the underlying stream writer flushing any buffered content.
-     *
      * @throws IOException if bad things happen
      */
     @Throws(IOException::class)
@@ -174,14 +145,14 @@ class CSVWriter @JvmOverloads constructor(
     }
 
     companion object {
+        //The default quote character to use if none is supplied to the constructor.
+        private const val DEFAULT_QUOTE_CHARACTER = '"'
+
         //The character used for escaping quotes.
         private const val DEFAULT_ESCAPE_CHARACTER = '"'
 
         //The default separator to use if none is supplied to the constructor.
         private const val DEFAULT_SEPARATOR = ','
-
-        //The default quote character to use if none is supplied to the constructor.
-        private const val DEFAULT_QUOTE_CHARACTER = '"'
 
         //The quote constant to use when you wish to suppress all quoting.
         private const val NO_QUOTE_CHARACTER = '\u0000'

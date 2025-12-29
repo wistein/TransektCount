@@ -12,12 +12,12 @@ import android.database.sqlite.SQLiteDatabase
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-05-18
+ * last edited on 2025-11-01
  */
 class CountDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
-    private val dbHandler: DbHelper
+    private val dbHelper: DbHelper = DbHelper(context)
     private val allColumns = arrayOf(
         DbHelper.C_ID,
         DbHelper.C_SECTION_ID,
@@ -39,17 +39,13 @@ class CountDataSource(context: Context) {
         DbHelper.C_NAME_G
     )
 
-    init {
-        dbHandler = DbHelper(context)
-    }
-
     @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = dbHelper.writableDatabase
     }
 
     fun close() {
-        dbHandler.close()
+        dbHelper.close()
     }
 
     // Used by AddSpeciesActivity and CountingActivity
@@ -114,12 +110,14 @@ class CountDataSource(context: Context) {
     fun deleteAllCountsWithCode(code: String?) {
         val allCtsWithCode: List<Count> = getAllCountsWithCode(code)
         for (count in allCtsWithCode) {
-            database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_ID + " = " + count.id, null)
+            database!!.delete(DbHelper.COUNT_TABLE,
+                DbHelper.C_ID + " = " + count.id, null)
         }
 
         // delete associated alerts
         for (count in allCtsWithCode) {
-            database!!.delete(DbHelper.ALERT_TABLE, DbHelper.A_COUNT_ID + " = " + count.id, null)
+            database!!.delete(DbHelper.ALERT_TABLE,
+                DbHelper.A_COUNT_ID + " = " + count.id, null)
         }
     }
 

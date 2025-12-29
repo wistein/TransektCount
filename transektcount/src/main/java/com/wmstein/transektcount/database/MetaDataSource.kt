@@ -4,19 +4,18 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 
 /***********************************
  * Created by wmstein on 2016-03-31,
  * last edited on 2022-04-26,
  * converted to Kotlin on 2023-06-26
- * last edited on 2024-11-26
+ * last edited on 2025-11-21
  */
 class MetaDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
-    private val dbHandler: DbHelper
+    private val dbHelper: DbHelper = DbHelper(context)
     private val allColumns = arrayOf(
         DbHelper.M_ID,
         DbHelper.M_TEMPS,
@@ -31,17 +30,12 @@ class MetaDataSource(context: Context) {
         DbHelper.M_NOTE
     )
 
-    init {
-        dbHandler = DbHelper(context)
-    }
-
-    @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = dbHelper.writableDatabase
     }
 
     fun close() {
-        dbHandler.close()
+        dbHelper.close()
     }
 
     fun saveMeta(meta: Meta) {

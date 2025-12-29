@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Date
 
-/****************************************************
+/***************************************************************
+ * Table Section interface with record of transect sections data
  * Based on Project.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016
  * last edited in Java on 2019-08-22,
@@ -30,7 +31,7 @@ class Section {
             return df.format(date)
         }
 
-    fun DatNum(): Long {
+    fun datNum(): Long {
         return created_at
     }
 

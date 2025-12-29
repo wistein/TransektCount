@@ -1,8 +1,31 @@
 # History
 
-#### TransektCount Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
+#### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
 
-#### Version 4.2.8 (2025-08-09)
+#### Version 5.0.0 (2025-12-29)
+- This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
+- When activating GPS the app's name on the starting screen changes from TransektCount to TransektCountGPS
+- With GPS activated the starting page shows a short hint message with the distance to the transect 
+- A toast message and a beep inform about entering a section different than the currently selected one 
+- Then, when visiting the page "Transect Sections" the name of the newly identified section is colored blue
+- Optionally you may set the system permission for the TransektCount location service to "Always on" to get it reliably work for long inspections
+- Program code has been adapted regarding aligned section and track handling for renaming, deleting and cloning a section
+- The function "Add a Further Section" was moved from the Counting page to the page "Transect Sections"
+- The option to change the font size for comments was removed
+- On relevant pages the number fields show dimmed "0"-values for better readability
+- Picture and data of Nomophila noctuella (Rush veneer) added
+- Some messages worded more clearly
+- For debugging in Android Studio's emulator, permanent app specific support was added
+- Some code and picture improvements
+- Docs updated
+- Bugfixes
+
+#### Version 4.2.9 (2025-12-29)
+- Sound adapted for Android 16 demands
+- Some code improvements
+- Docs: Some example files edited
+
+#### Version 4.2.8 (2025-08-03)
 - Some code and text improvements
 - Bugfixes
 
@@ -27,6 +50,7 @@
 - Filename of exported species list with language indicator ('de' or 'en')
 - Some code cleaning
 - Docs updated
+- Bugfixes
 
 #### Version 4.2.5 (2025-05-18)
 - Option to set the proximity Wakelock sensitivity (if supported by device)
@@ -356,3 +380,4 @@ Main features comprise:
 - Modified ChangeLog.java original code from author: Karsten Priegnitz (open source code from code.google.com)
 - Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd. (Apache License 2.0)
 - Modified File Chooser dialog based on android-file-chooser, 2011, Google Code Archive, GNU GPL v3
+

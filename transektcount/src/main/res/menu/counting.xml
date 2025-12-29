@@ -5,7 +5,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.wmstein.transektcount.CountingActivity">
+      tools:context="com.wmstein.transektcount.CountingActivity"
+      tools:ignore="AlwaysShowAction">
 
     <item
         android:id="@+id/menuAddSpecies"
@@ -40,12 +41,6 @@
                 android:id="@+id/menuTakePhoto"
                 android:icon="@android:drawable/ic_menu_camera"
                 android:title="@string/takePhoto"
-                app:showAsAction="never">
-            </item>
-            <item
-                android:id="@+id/menuClone"
-                android:icon="@drawable/outline_content_copy_24"
-                android:title="@string/cloneButton"
                 app:showAsAction="never">
             </item>
 

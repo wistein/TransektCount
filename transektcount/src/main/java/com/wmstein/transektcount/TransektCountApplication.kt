@@ -21,21 +21,20 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2025-06-27
+ * last edit on 2025-12-29
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
     var width: Int = 0
     var height: Int = 0
 
-    // onCreate() here is started before any activity starts, so it is the place
+    // onCreate() here is started before any activity starts, so it is the place to
     //   start any ActivityLifecycle function
     override fun onCreate() {
         super.onCreate()
-
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
-        if (MyDebug.DLOG) {
-            Log.i(TAG, "36, onCreate, StrictMode.setVmPolicy")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
+            Log.i(TAG, "37, onCreate, StrictMode.setVmPolicy")
             StrictMode.setVmPolicy(
                 VmPolicy.Builder(StrictMode.getVmPolicy())
                     .detectLeakedClosableObjects()
@@ -46,8 +45,12 @@ class TransektCountApplication : Application() {
         try {
             prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         } catch (e: Exception) {
-            if (MyDebug.DLOG) Log.e(TAG, "47, $e")
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.e(TAG, "49, prefs: $e")
         }
+
+        // Initiate ActivityLifecycle for stopping periodic location requests
+        registerActivityLifecycleCallbacks(TCLifecycleHandler())
     }
     // End of onCreate()
 
@@ -57,7 +60,8 @@ class TransektCountApplication : Application() {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!
-        if (MyDebug.DLOG) Log.i(TAG, "58, Backgr.: $backgroundPref")
+//        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+//            Log.d(TAG, "64, Backgr.: $backgroundPref")
 
         val wm = checkNotNull(this.getSystemService(WINDOW_SERVICE) as WindowManager)
         if (Build.VERSION.SDK_INT >= 30) {
@@ -73,23 +77,30 @@ class TransektCountApplication : Application() {
             width = size.x
             height = size.y
         }
-        if (MyDebug.DLOG) Log.d(TAG, "74, width = $width, height = $height")
+//        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+//            Log.d(TAG, "81 width = $width, height = $height")
 
         var bMap: Bitmap?
-        if (backgroundPref == "none") {
-            // black screen
-            bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
-            bMap.eraseColor(Color.BLACK)
-        } else if (backgroundPref == "grey") {
-            bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
-            bMap.eraseColor(-0xddddde) // dark grey
-        } else {
-            if (height.toDouble() / width < 1.8) {
-                // normal screen
-                bMap = decodeBitmap(R.drawable.transektcount_picture_pn, width, height)
-            } else {
-                // long screen
-                bMap = decodeBitmap(R.drawable.transektcount_picture_pl, width, height)
+        when (backgroundPref) {
+            "none" -> {
+                // black screen
+                bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
+                bMap.eraseColor(Color.BLACK)
+            }
+
+            "grey" -> {
+                bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
+                bMap.eraseColor(-0xddddde) // dark grey
+            }
+
+            else -> {
+                bMap = if (height.toDouble() / width < 1.8) {
+                    // normal screen
+                    decodeBitmap(R.drawable.transektcount_picture_pn, width, height)
+                } else {
+                    // long screen
+                    decodeBitmap(R.drawable.transektcount_picture_pl, width, height)
+                }
             }
         }
 
@@ -108,10 +119,10 @@ class TransektCountApplication : Application() {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false
-        try {
-            return BitmapFactory.decodeResource(resources, resId, options)
+        return try {
+            BitmapFactory.decodeResource(resources, resId, options)
         } catch (_: OutOfMemoryError) {
-            return null
+            null
         }
     }
 
@@ -149,6 +160,28 @@ class TransektCountApplication : Application() {
         fun getPrefs(): SharedPreferences {
             return prefs!!
         }
+
+        // Application-wide variables
+        @JvmField
+        var lat: Double = 0.0 // WelcomeActivity, LocationService
+
+        @JvmField
+        var lon: Double = 0.0 // WelcomeActivity, LocationService
+
+        @JvmField
+        var distMin: Double = 0.0 // WelcomeActivity, LocationService
+
+        @JvmField
+        var sectionIdGPS: Int = 0 // SelectSectionAdapter, WelcomeActivity, LocationService
+
+        @JvmField
+        var sectionNameCurrent: String = "" // SelectSectionAdapter, LocationService
+
+        @JvmField
+        var locServiceOn: Boolean = false // WelcomeActivity, LocationService
+
+        @JvmField
+        var isFirstLoc: Boolean = true // true for showing a hint message once
     }
 
 }

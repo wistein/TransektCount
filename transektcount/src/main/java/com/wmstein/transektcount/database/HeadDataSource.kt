@@ -4,36 +4,30 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 
 /***********************************
  * Created by wmstein on 31.03.2016.
  * Last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2024-11-26
+ * last edited on 2025-12-28
  */
 class HeadDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
-    private val dbHandler: DbHelper
+    private val dbHelper: DbHelper = DbHelper(context)
     private val allColumns = arrayOf(
         DbHelper.H_ID,
         DbHelper.H_TRANSECT_NO,
         DbHelper.H_INSPECTOR_NAME
     )
 
-    init {
-        dbHandler = DbHelper(context)
-    }
-
-    @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = dbHelper.writableDatabase
     }
 
     fun close() {
-        dbHandler.close()
+        dbHelper.close()
     }
 
     fun saveHead(head: Head) {

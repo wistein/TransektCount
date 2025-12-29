@@ -1,0 +1,4 @@
+Version 4.2.9 (29.12.2025)
+- Sound-Funktion an Android 16 Anforderungen angepasst
+- Einige Code-Verbesserungen
+- Docs: Einige Beispieldaten überarbeitet

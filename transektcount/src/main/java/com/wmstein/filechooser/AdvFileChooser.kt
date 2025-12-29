@@ -20,7 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import com.wmstein.transektcount.MyDebug
+import com.wmstein.transektcount.BuildConfig
+import com.wmstein.transektcount.IsRunningOnEmulator
 import com.wmstein.transektcount.R
 import java.io.File
 import java.io.FileFilter
@@ -34,7 +35,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-08-05
+ * last edited on 2025-12-29
  */
 class AdvFileChooser : AppCompatActivity() {
     private var currentDir: File? = null
@@ -46,7 +47,8 @@ class AdvFileChooser : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (MyDebug.DLOG) Log.i(TAG, "51, onCreate")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "51, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -57,7 +59,7 @@ class AdvFileChooser : AppCompatActivity() {
         setContentView(R.layout.list_view)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.baseFilesLayout))
-            { v, windowInsets ->
+        { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view. You can also update the view padding
             // if that's more appropriate.
@@ -75,8 +77,12 @@ class AdvFileChooser : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
-            setStatusBarColor(window, ContextCompat.getColor(applicationContext,
-                R.color.DarkerGray))
+            setStatusBarColor(
+                window, ContextCompat.getColor(
+                    applicationContext,
+                    R.color.DarkerGray
+                )
+            )
         }
 
         val extras = intent.extras
@@ -103,17 +109,22 @@ class AdvFileChooser : AppCompatActivity() {
         fileHead.text = fileHd
 
         // currentDir = /storage/emulated/0/Documents/TransektCount/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android Q (10+) changed -> R (11) todo?
         {
             currentDir = Environment.getExternalStorageDirectory()
             currentDir = File("$currentDir/Documents/TransektCount")
-        }
-        else
-        {
+        } else {
             currentDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS)
+                Environment.DIRECTORY_DOCUMENTS
+            )
             currentDir = File("$currentDir/TransektCount")
         }
+        fill(currentDir!!)
+
+        currentDir = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOCUMENTS
+        )
+        currentDir = File("$currentDir/TransektCount")
         fill(currentDir!!)
     }
     // End of onCreate()
@@ -140,8 +151,13 @@ class AdvFileChooser : AppCompatActivity() {
                     if (!ff.isHidden) {
                         fls.add(
                             Option(
-                                ff.name, getString(R.string.fileSize) + ": " + ff.length() + " B,  " + getString(R.string.date) + ": "
-                                    + dform.format(ff.lastModified()), ff.absolutePath, false
+                                ff.name,
+                                getString(R.string.fileSize) + ": " + ff.length() + " B,  " + getString(
+                                    R.string.date
+                                ) + ": "
+                                        + dform.format(ff.lastModified()),
+                                ff.absolutePath,
+                                false
                             )
                         )
                     }
@@ -164,8 +180,7 @@ class AdvFileChooser : AppCompatActivity() {
                         fill(currentDir!!)
                     }
                 }
-        }
-        else {
+        } else {
             val intent = Intent()
             intent.putExtra("fileSelected", "")
             setResult(RESULT_FIRST_USER, intent)
@@ -179,7 +194,8 @@ class AdvFileChooser : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
-        if (MyDebug.DLOG) Log.i(TAG, "183, Selected file: $fileSelected")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "199, Selected file: $fileSelected")
         finish()
     }
 

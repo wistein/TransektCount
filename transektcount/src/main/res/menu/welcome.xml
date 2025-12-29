@@ -17,9 +17,9 @@
         android:title="@string/viewSectionButton"
         app:showAsAction="always" />
     <item
-        android:id="@+id/viewSpecies"
+        android:id="@+id/showResults"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="@string/viewSpeciesButton"
+        android:title="@string/showResultsButton"
         app:showAsAction="always" />
 
     <item
@@ -53,6 +53,11 @@
                     android:icon="@drawable/importr"
                     android:title="@string/importSpeciesListMenu"
                     app:showAsAction="never" />
+                <item
+                    android:id="@+id/importGPSMenu"
+                    android:icon="@drawable/importr"
+                    android:title="@string/importGPSMenu"
+                    app:showAsAction="never" />
             </group>
 
             <group android:id="@+id/nav_g3">
@@ -83,6 +88,11 @@
                     android:id="@+id/resetDBMenu"
                     android:icon="@drawable/clear"
                     android:title="@string/resetDBMenu"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/deleteGPXMenu"
+                    android:icon="@drawable/clear"
+                    android:title="@string/resetGPSMenu"
                     app:showAsAction="never" />
             </group>
 

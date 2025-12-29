@@ -1,7 +1,5 @@
 package com.wmstein.transektcount;
 
-import static android.os.Build.VERSION.SDK_INT;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,7 +24,6 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,6 +44,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
@@ -74,15 +72,15 @@ import java.util.Objects;
 /******************************************************************************
  * CountingActivity is the central activity of TransektCount and is called from
  *   SelectSectionActivity for the selected section.
- *   It does the actual counting with 12 counters,
+ * It does the actual counting with 12 counters,
  *   checks for alerts,
  *   calls AddSpeciesActivity, DelSpeciesActivity, EditSectionListActivity,
- *   CountOptionsActivity and DummyActivity,
+ *   and CountOptionsActivity,
  *   clones a section,
  *   switches screen off when device is pocketed
  *   and allows taking pictures and sending notes.
- *   <p>
- *   CountingActivity uses CountingWidget*.kt, NotesWidget.kt and activity_counting*.xml
+ * <p>
+ * CountingActivity uses CountingWidget*.kt, NotesWidget.kt and activity_counting*.xml
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
@@ -116,7 +114,6 @@ public class CountingActivity
     private boolean awakePref;
     private boolean brightPref;
     private String sortPref;
-    private boolean fontPref;
     private boolean lhandPref; // true for lefthand mode of counting screen
     private String alertSound;
     private boolean alertSoundPref;
@@ -160,7 +157,8 @@ public class CountingActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "163, onCreate");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "161, onCreate");
 
         audioAttributionContext = (Build.VERSION.SDK_INT >= 30) ?
                 createAttributionContext("ringSound") : this;
@@ -169,7 +167,7 @@ public class CountingActivity
         prefs = TransektCountApplication.getPrefs();
         setPrefVariables(); // set all stored preferences into their variables
 
-        // get values from calling activity
+        // Get values from calling activity
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             sectionId = extras.getInt("section_id");
@@ -183,14 +181,6 @@ public class CountingActivity
         countDataSource = new CountDataSource(this);
         alertDataSource = new AlertDataSource(this);
         headDataSource = new HeadDataSource(this);
-
-        // Set full brightness of screen
-        if (brightPref) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-            params.screenBrightness = 1.0f;
-            getWindow().setAttributes(params);
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
             EdgeToEdge.enable(this);
@@ -281,8 +271,8 @@ public class CountingActivity
                 @Override
                 public void handleOnBackPressed() {
                     disableProximitySensor();
-
-                    Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
+                    Intent intent;
+                    intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
                     startActivity(intent);
                 }
             };
@@ -294,9 +284,11 @@ public class CountingActivity
     // Check for Navigation bar 1-, 2- or 3-button mode
     public int getNavBarMode() {
         Resources resources = this.getResources();
+
         @SuppressLint("DiscouragedApi")
         int resourceId = resources.getIdentifier("config_navBarInteractionMode",
                 "integer", "android");
+
         return resourceId > 0 ? resources.getInteger(resourceId) : 0;
     }
 
@@ -305,7 +297,6 @@ public class CountingActivity
         awakePref = prefs.getBoolean("pref_awake", true);
         brightPref = prefs.getBoolean("pref_bright", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list on counting page
-        fontPref = prefs.getBoolean("pref_note_font", false);
         lhandPref = prefs.getBoolean("pref_left_hand", false); // left-handed counting page
         alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
         alertSound = prefs.getString("alert_sound", null);
@@ -321,7 +312,8 @@ public class CountingActivity
     protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "324, onResume");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "316, onResume");
 
         mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -331,6 +323,13 @@ public class CountingActivity
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         setPrefVariables(); // set prefs into their variables
+
+        // Set full brightness of screen
+        if (brightPref) {
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = 1.0f;
+            getWindow().setAttributes(params);
+        }
 
         if (awakePref)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -385,6 +384,7 @@ public class CountingActivity
             Toast.makeText(this,
                     HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
                             HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
+            disableProximitySensor();
             finish();
         }
 
@@ -474,7 +474,7 @@ public class CountingActivity
 
         // Set part of counting screen
         CountingWidgetHead1 adapter = new CountingWidgetHead1(this,
-               idArray, nameArray, nameArrayL, codeArray, imageArray);
+                idArray, nameArray, nameArrayL, codeArray, imageArray);
         spinner.setAdapter(adapter);
         spinner.setSelection(itemPosition); // from savedInstanceState
         spinnerListener();
@@ -485,7 +485,7 @@ public class CountingActivity
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-            if (MyDebug.DLOG)
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                 Log.d(TAG, "489 Value0: " + event.values[0] + ", " + "Sensitivity: "
                         + (sensorSensitivity));
 
@@ -540,21 +540,18 @@ public class CountingActivity
             disableProximitySensor();
 
             Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             return true;
-        }
-
-        else if (id == R.id.menuAddSpecies) {
+        } else if (id == R.id.menuAddSpecies) {
             disableProximitySensor();
 
             Intent intent = new Intent(CountingActivity.this, AddSpeciesActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("section_id", sectionId);
             startActivity(intent);
             return true;
-        }
-
-        else if (id == R.id.menuDelSpecies) {
+        } else if (id == R.id.menuDelSpecies) {
             disableProximitySensor();
 
             mesg = getString(R.string.wait);
@@ -568,9 +565,7 @@ public class CountingActivity
             mHandler.postDelayed(() ->
                     startActivity(intent), 100);
             return true;
-        }
-
-        else if (id == R.id.menuEditSection) {
+        } else if (id == R.id.menuEditSection) {
             disableProximitySensor();
 
             mesg = getString(R.string.wait);
@@ -584,9 +579,7 @@ public class CountingActivity
             mHandler.postDelayed(() ->
                     startActivity(intent), 100);
             return true;
-        }
-
-        else if (id == R.id.menuTakePhoto) {
+        } else if (id == R.id.menuTakePhoto) {
             Intent camIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
             PackageManager packageManager = getPackageManager();
@@ -613,14 +606,7 @@ public class CountingActivity
                 startActivity(camIntent);
             }
             return true;
-        }
-
-        else if (id == R.id.menuClone) {
-            cloneSection();
-            return true;
-        }
-
-        else if (id == R.id.action_share) {
+        } else if (id == R.id.action_share) {
             headDataSource.open();
             Head head = headDataSource.getHead();
             headDataSource.close();
@@ -677,11 +663,12 @@ public class CountingActivity
     protected void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "680, onPause");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "667, onPause");
 
         disableProximitySensor();
 
-        // close the data sources
+        // Close the data sources
         sectionDataSource.close();
         countDataSource.close();
         alertDataSource.close();
@@ -698,10 +685,11 @@ public class CountingActivity
     // End of onPause()
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "704, onStop");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "692, onStop");
 
         counting_screen.invalidate();
 
@@ -735,10 +723,11 @@ public class CountingActivity
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "741, onDestroy");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "730, onDestroy");
     }
 
     // Spinner listener
@@ -760,14 +749,14 @@ public class CountingActivity
 
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
-                    if (MyDebug.DLOG)
-                        Log.d(TAG, "764, SpinnerListener, count id: " + count.id
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.d(TAG, "753, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
-                    if (MyDebug.DLOG)
-                        Log.e(TAG, "770, SpinnerListener, catch: " + e);
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.e(TAG, "759, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -780,7 +769,8 @@ public class CountingActivity
 
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
-        if (MyDebug.DLOG) Log.d(TAG, "783, countingScreen");
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "773, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -824,8 +814,9 @@ public class CountingActivity
         // 6. Species note widget if there are any notes
         if (isNotBlank(count.notes)) {
             NotesWidget count_notes = new NotesWidget(this, null);
-            count_notes.setNotes(count.notes);
-            count_notes.setFont(fontPref);
+
+            // Set notes with light blue introducer
+            count_notes.setNotesC(getString(R.string.species_notes), count.notes);
             speciesNotesArea.addView(count_notes);
         }
 
@@ -842,7 +833,6 @@ public class CountingActivity
         if (!alertExtras.isEmpty()) {
             NotesWidget alertNotes = new NotesWidget(this, null);
             alertNotes.setNotes(join(alertExtras, "\n"));
-            alertNotes.setFont(fontPref);
             alertNotesArea.addView(alertNotes);
         }
     }
@@ -894,11 +884,14 @@ public class CountingActivity
      * on the righthand/lefthand (LH) views
      * <p>
      * countUpf1i is triggered by buttonUpf1i in widget_counting_i.xml
+     * and widget_counting_lhi.xml
      */
     public void countUpf1i(View view) {
+        // Run reenterActivity to re-enter CountingActivity and so fix spinner's 1. misbehaviour:
+        //  no action by 1st click when previous species selected again
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.DLOG)
-            Log.d(TAG, "901, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "894, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -906,7 +899,6 @@ public class CountingActivity
             // When returning from species that got no count to previous selected species: 
             //   1st count button press is ignored,
             //   so use button sound only for 2nd press when actually counted
-            // ToDo: instead of this workaround fix by spinner replacement
             oldCounter = count.count_f1i;
             widget.countUpf1i(); // count up and set value on screen
             assert widget.count != null;
@@ -914,24 +906,21 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f1i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
                 checkAlert(widget.count.id, widget.count.count_f1i
                         + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
 
                 // Save the data
                 countDataSource.saveCountf1i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            // Run dummy activity to reenter CountinActivity and so fix spinner's 1. misbehaviour:
-            //  no action by 1st click when previous species selected again
-            dummy();
+            reenterActivity();
         }
     }
 
     public void countUpLHf1i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -943,21 +932,23 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f1i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                checkAlert(widget.count.id, widget.count.count_f1i
+                        + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
 
                 countDataSource.saveCountf1i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
-        if (MyDebug.DLOG)
-            Log.d(TAG, "960, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "951, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -971,12 +962,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1i(count);
             }
-            dummy();
+            reenterActivity();
         }
     }
 
     public void countDownLHf1i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -991,11 +981,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1i(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpf2i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1007,18 +997,19 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f2i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                checkAlert(widget.count.id, widget.count.count_f1i
+                        + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHf2i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1030,18 +1021,19 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f2i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                checkAlert(widget.count.id, widget.count.count_f1i
+                        + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf2i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1056,11 +1048,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2i(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHf2i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1075,11 +1067,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2i(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpf3i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1091,18 +1083,19 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f3i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                checkAlert(widget.count.id, widget.count.count_f1i
+                        + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHf3i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1114,18 +1107,19 @@ public class CountingActivity
             if (newCounter > oldCounter) // has actually counted up
             {
                 count.count_f3i = newCounter;
-                soundButtonSound();
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i + widget.count.count_f2i + widget.count.count_f3i);
+                checkAlert(widget.count.id, widget.count.count_f1i
+                        + widget.count.count_f2i + widget.count.count_f3i);
+                soundButtonSound();
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf3i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1140,11 +1134,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3i(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHf3i(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1159,11 +1153,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3i(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUppi(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1180,11 +1174,11 @@ public class CountingActivity
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHpi(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1201,11 +1195,11 @@ public class CountingActivity
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownpi(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1220,11 +1214,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpi(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHpi(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1239,11 +1233,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpi(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpli(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1260,11 +1254,11 @@ public class CountingActivity
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHli(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1281,11 +1275,11 @@ public class CountingActivity
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownli(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1300,11 +1294,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountli(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHli(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1319,11 +1313,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountli(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpei(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1340,11 +1334,11 @@ public class CountingActivity
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHei(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1361,11 +1355,11 @@ public class CountingActivity
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownei(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
@@ -1380,11 +1374,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountei(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHei(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhInt widget = getCountFromIdLH_i(tempCountId);
@@ -1399,16 +1393,16 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountei(count);
             }
+            reenterActivity();
         }
     }
 
     // count functions for external counters
     public void countUpf1e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.DLOG)
-            Log.d(TAG, "1411, countUpf1e, section Id: " + sectionId
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "1405, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1427,11 +1421,11 @@ public class CountingActivity
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHf1e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1448,15 +1442,15 @@ public class CountingActivity
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf1e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
-        if (MyDebug.DLOG)
-            Log.d(TAG, "1459 countDownf1e, section Id: " + sectionId
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "1453 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1471,11 +1465,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHf1e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1490,11 +1484,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpf2e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1511,11 +1505,11 @@ public class CountingActivity
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHf2e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1532,11 +1526,11 @@ public class CountingActivity
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf2e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1551,11 +1545,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHf2e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1570,11 +1564,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpf3e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1591,11 +1585,11 @@ public class CountingActivity
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHf3e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1612,11 +1606,11 @@ public class CountingActivity
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownf3e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1631,11 +1625,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHf3e(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1650,11 +1644,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3e(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUppe(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1671,11 +1665,11 @@ public class CountingActivity
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHpe(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1692,11 +1686,11 @@ public class CountingActivity
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownpe(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1711,11 +1705,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpe(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHpe(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1730,11 +1724,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpe(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUple(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1751,11 +1745,11 @@ public class CountingActivity
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHle(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1772,11 +1766,11 @@ public class CountingActivity
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownle(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1791,11 +1785,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountle(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHle(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1810,11 +1804,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountle(count);
             }
+            reenterActivity();
         }
     }
 
     public void countUpee(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1831,11 +1825,11 @@ public class CountingActivity
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countUpLHee(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1852,11 +1846,11 @@ public class CountingActivity
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
+            reenterActivity();
         }
     }
 
     public void countDownee(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1871,11 +1865,11 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountee(count);
             }
+            reenterActivity();
         }
     }
 
     public void countDownLHee(View view) {
-        dummy();
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         CountingWidgetLhExt widget = getCountFromIdLH_e(tempCountId);
@@ -1890,123 +1884,19 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountee(count);
             }
+            reenterActivity();
         }
     }
     // End of counters
 
     /*****************/
-    // Call DummyActivity to overcome Spinner deficiency for repeated item
-    private void dummy() {
-        Intent intent = new Intent(CountingActivity.this, DummyActivity.class);
+
+    // Re-enter CountingActivity to overcome Spinner deficiency for repeated item
+    private void reenterActivity() {
+        Intent intent = new Intent(CountingActivity.this, CountingActivity.class);
         intent.putExtra("section_id", sectionId);
-        intent.putExtra("init_Chars", "");
-        intent.putExtra("is_Flag", "isCount");
+        intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    // Clone section with check for double names
-    private void cloneSection() {
-        final AlertDialog.Builder aDialog = new AlertDialog.Builder(this);
-
-        aDialog.setTitle(getString(R.string.dpSectTitle));
-
-        // Set up the input an specify the type of input expected
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
-        // Set up the buttons
-        aDialog.setView(input);
-        aDialog.setPositiveButton("OK", (dialog, which) ->
-        {
-            // Enter a new section name
-            String sect_name = input.getText().toString();
-
-            // Check for empty section name
-            if (sect_name.isEmpty()) {
-                mesg = getString(R.string.attention) + " " + getString(R.string.newSectName);
-                Toast.makeText(this,
-                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
-                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            // Check if this is not a duplicate of an existing name
-            if (compSectionNames(sect_name)) {
-                mesg = getString(R.string.attention) + " " + sect_name + " " + getString(R.string.isdouble);
-                Toast.makeText(this,
-                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
-                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            // Check if section is contiguous
-            int entries = -1, maxId = 0;
-            try {
-                entries = sectionDataSource.getNumEntries();
-            } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1947 getNumEntries failed");
-            }
-
-            try {
-                maxId = sectionDataSource.getMaxId();
-            } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1963 getMaxId failed");
-            }
-
-            if (entries != maxId) {
-                mesg = getString(R.string.notContiguous);
-                Toast.makeText(this,
-                        HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
-                                HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
-                if (MyDebug.DLOG)
-                    Log.d(TAG, "1962 maxId: " + maxId + ", entries: " + entries);
-                return;
-            }
-
-            // Creating the new section
-            Section newSection = sectionDataSource.createSection(sect_name);
-            sectionDataSource.saveSection(newSection);
-            for (Count c : countDataSource.getAllCountsForSection(sectionId)) {
-                Count newCount = countDataSource.createCount(newSection.id, c.name, c.code, c.name_g);
-                if (newCount != null) {
-                    countDataSource.saveCount(newCount);
-                }
-            }
-
-            // Exit this and go to the list of new sections
-            mesg = sect_name + " " + getString(R.string.newCopyCreated);
-            Toast.makeText(this,
-                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CountingActivity.this, SelectSectionActivity.class);
-            startActivity(intent);
-        });
-
-        aDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        aDialog.show();
-    }
-
-    // Compare section names for duplicates and return state of duplicate found
-    private boolean compSectionNames(String newname) {
-        boolean isDblName = false;
-        String sname;
-
-        List<Section> sectionList = sectionDataSource.getAllSections(prefs);
-
-        int childcount = sectionList.size() + 1;
-        // For all sections
-        for (int i = 1; i < childcount; i++) {
-            section = sectionDataSource.getSection(i);
-            sname = section.name;
-            if (MyDebug.DLOG) Log.d(TAG, "2001, compSectionNames, sname = " + sname);
-
-            if (newname.equals(sname)) {
-                isDblName = true;
-                if (MyDebug.DLOG) Log.d(TAG, "2005, compSectionNames, Double name = " + sname);
-                break;
-            }
-        }
-        return isDblName;
     }
 
     // Alert checking...
@@ -2020,8 +1910,9 @@ public class CountingActivity
                 {
                     // Cancelled.
                 });
-                row_alert.show();
+                setNoButtonSound = true; // don't soundButtonSound() when soundAlert()
                 soundAlert();
+                row_alert.show();
                 break;
             }
         }
@@ -2066,14 +1957,16 @@ public class CountingActivity
 
     private void buttonVib(long dur) {
         if (buttonVibPref && vibrator.hasVibrator()) {
-            if (SDK_INT >= 31) { // S, Android 12
-                if (MyDebug.DLOG) Log.d(TAG, "2070, Vibrator >= SDK 31");
+            if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "1962, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
-                if (SDK_INT >= 26) // Oreo Android 8
+                if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                 {
-                    if (MyDebug.DLOG) Log.d(TAG, "2076 Vibrator >= SDK 26");
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.d(TAG, "1969, Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();
@@ -2082,7 +1975,10 @@ public class CountingActivity
         }
     }
 
-    /*******************************************************************************
+    /**************************************************************************************
+     * Following functions are derived from StringUtils of the Apache commons-lang3 library
+     * licensed under Apache License Version 2.0, January 2004
+     <p>
      * Checks if a CharSequence is not empty (""), not null and not whitespace only.
      * <p>
      * isNotBlank(null)      = false
@@ -2092,17 +1988,15 @@ public class CountingActivity
      * isNotBlank("  bob  ") = true
      *
      * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is
-     * not empty and not null and not whitespace
+     * @return true if the CharSequence is not empty and not null and not whitespace
      */
     public static boolean isNotBlank(final CharSequence cs) {
         return !isBlank(cs);
     }
 
     public static boolean isBlank(final CharSequence cs) {
-        int strLen;
-
-        if (cs == null || (strLen = cs.length()) == 0)
+        final int strLen = cs.length();
+        if (strLen == 0)
             return true;
 
         for (int i = 0; i < strLen; i++) {
@@ -2112,7 +2006,23 @@ public class CountingActivity
         return true;
     }
 
-    public static String join(Iterator<?> iterator, String separator) {
+    public static String toString(Object obj) {
+        return obj == null ? "" : obj.toString();
+    }
+
+    /**
+     * Joins the elements of the provided Iterator into a single String containing the provided elements.
+     * <p>
+     * No delimiter is added before or after the list. A null separator is the same as an empty String ("").
+     * <p>
+     *
+     * @param iterator  the Iterator of values to join together, may be null.
+     * @param separator the separator character to use, null treated as "".
+     * @return the joined String, null if null iterator input.
+     * <p>
+     * Derived from package org.apache.commons.lang3/StringUtils
+     */
+    public static String join(final Iterator<?> iterator, final String separator) {
         if (iterator == null)
             return null;
         else if (!iterator.hasNext())
@@ -2140,12 +2050,20 @@ public class CountingActivity
         }
     }
 
-    public static String join(Iterable<?> iterable, String separator) {
+    /**
+     * Joins the elements of the provided Iterable into a single String containing the provided elements.
+     * <p>
+     * No delimiter is added before or after the list. A null separator is the same as an empty String ("").
+     * <p>
+     *
+     * @param iterable  Iterable providing the values to join together, may be null.
+     * @param separator the separator character to use, null treated as "".
+     * @return the joined String, null if null iterator input.
+     * <p>
+     * Derived from package org.apache.commons.lang3/StringUtils
+     */
+    public static String join(final Iterable<?> iterable, final String separator) {
         return iterable == null ? null : join(iterable.iterator(), separator);
-    }
-
-    public static String toString(Object obj) {
-        return obj == null ? "" : obj.toString();
     }
 
 }

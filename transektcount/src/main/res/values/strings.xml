@@ -1,167 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2025-08-03 -->
+     last edited 2025-12-22 -->
 
 <resources>
 
-    <!-- generic -->
+    <!-- generic non-translatable -->
     <string name="app_name" translatable="false">TransektCount</string>
-    <string name="title_activity_counting" translatable="false">CountingActivity</string>
-    <string name="title_activity_dummy" translatable="false">DummyActivity</string>
-    <string name="title_activity_list_species" translatable="false">ListSpeciesActivity</string>
-    <string name="title_activity_count_options" translatable="false">CountOptionsActivity</string>
-    <string name="title_activity_edit_species_list" translatable="false">EditSpeciesListActivity</string>
-    <string name="title_activity_del_species" translatable="false">DelSpeciesActivity</string>
+    <string name="app_name1" translatable="false">TransektCountGPS</string>
+    <string name="location_attr_label" translatable="false">LocationCheck</string>
+    <string name="ringSound_attr_label" translatable="false">RingSound</string>
     <string name="title_activity_add_species" translatable="false">AddSpeciesActivity</string>
+    <string name="title_activity_count_options" translatable="false">CountOptionsActivity</string>
+    <string name="title_activity_counting" translatable="false">CountingActivity</string>
+    <string name="title_activity_del_species" translatable="false">DelSpeciesActivity</string>
+    <string name="title_activity_edit_species_list" translatable="false">EditSpeciesListActivity</string>
     <string name="title_activity_filechooser" translatable="false">AdvFileChooser</string>
+    <string name="title_activity_list_species" translatable="false">ShowResultsActivity</string>
     <string name="title_activity_meta" translatable="false">Meta Data</string>
-    <string name="title_activity_list_section">Transect Sections</string>
+
+    <!-- generic -->
     <string name="action_settings">Settings</string>
+    <string name="title_activity_list_section">Transect Sections</string>
 
     <!-- WelcomeActivity -->
-    <string name="title">Species-specific counting of\n\nbutterflies in transect sections</string>
-    <string name="viewSectionButton">Counting</string>
-    <string name="viewSpeciesButton">Show Results</string>
-    <string name="editMetaButton">Edit Meta Data</string>
+    <string name="back_twice">Press again to exit</string>
+    <string name="cancelButton">Cancel</string>
     <string name="changeLogTitle">App Info</string>
-    <string name="viewHelpTitle">Help</string>
-    <string name="viewLicenseTitle">Licenses</string>
-    <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
-    <string name="saveFail">Your database could not be exported!</string>
-    <string name="saveFailList">The species list could not be exported!</string>
-    <string name="saveFailListTour">Export to Documents/TourCount failed!</string>
-    <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
-    <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
-    <string name="savecsv">Export csv-file to Documents/TransektCount.</string>
-    <string name="saveList">Species list exported.</string>
-    <string name="reset2basic">Your database has been resetted.</string>
-    <string name="resetFail">Your database could not be resetted!</string>
-    <string name="exportMenu">Export Current DB</string>
+    <string name="code_spec">Species Code</string>
+    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
+    <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
+    <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
+    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten! May last long for a long list.</string>
+    <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current counting data will be deleted!</string>
+    <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
+    <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
+    <string name="distanceToTrack">Distance to transect:</string>
+    <string name="editMetaButton">Edit Meta Data</string>
     <string name="exportBasisMenu">Export Basic DB</string>
-    <string name="exportCSVMenu">Export Data -> CSV-File</string>
+    <string name="exportCSVMenu">Export Results (csv)</string>
+    <string name="exportMenu">Export Current DB</string>
     <string name="exportSpeciesListMenu">Export Species List</string>
-    <string name="resetDBMenu">Reset Data</string>
-    <string name="importFileMenu">Import DB</string>
+    <string name="external">External</string>
+    <string name="from">from:</string>
     <string name="importBasisMenu">Import Basic DB</string>
-    <string name="importSpeciesListMenu">Import Species List</string>
+    <string name="importButton">Import</string>
+    <string name="importDB">Your database has been imported.</string>
     <string name="importFail">Your database could not be imported!</string>
+    <string name="importFileMenu">Import DB</string>
+    <string name="importGPS">The GPX file has been imported.</string>
+    <string name="importGPSMenu">Import GPS Track</string>
     <string name="importList">The species list has been imported.</string>
     <string name="importListFail">The species list could not be imported!</string>
-    <string name="importTrackFail">Section tracks already exist. Please remove all tracks before importing a new set of tracks!</string>
-    <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
-    <string name="importDB">Your database has been imported.</string>
-    <string name="noDb">Please provide \'transektcount0(…).db\' in the directory \'Documents/TransektCount\'.</string>
-    <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
-    <string name="importButton">Import</string>
-    <string name="importCancelButton">Cancel</string>
-    <string name="confirmBasisImport">Are you sure you want to import the Basic DB \'transektcount0.db\'? Your current data will be overwritten!</string>
-    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
-    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten! May last long for a long list.</string>
-    <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current data will be deleted!</string>
-    <string name="time_sect">1. Count</string>
+    <string name="importSpeciesListMenu">Import Species List</string>
+    <string name="importTrackFail">GPS tracks are loaded. Please remove these before!</string>
+    <string name="internal">Internal</string>
+    <string name="kal_w">CW:</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
     <string name="name_spec_g">Local Name</string>
-    <string name="code_spec">Species Code</string>
-    <string name="internal">Internal</string>
-    <string name="external">External</string>
-    <string name="rem_spec">Species Notes</string>
-    <string name="rem_sp">Spec. Note:</string>
-    <string name="sum">Totals (internal):</string>
-    <string name="sume">Totals (external):</string>
-    <string name="sum_total">Totals (all):</string>
-    <string name="sumSpec">Diff. Species:</string>
-    <string name="kal_w">CW:</string>
+    <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
+    <string name="no_GPSfile">There is no GPX file in Documents/TransektCount!</string>
     <string name="note">Transect Note:</string>
+    <string name="rem_sp">Spec. Note:</string>
+    <string name="rem_spec">Species Notes</string>
+    <string name="reset2basic">Your database has been resetted.</string>
+    <string name="resetDBMenu">Reset Data</string>
+    <string name="resetFail">Your database could not be resetted!</string>
+    <string name="resetGPSMenu">Remove GPS Track Data</string>
+    <string name="resetTracks">Your track data has been deleted.</string>
+    <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
+    <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
+    <string name="saveFail">Your database could not be exported!</string>
+    <string name="saveFailList">The species list could not be exported!</string>
+    <string name="saveList">Species list exported.</string>
+    <string name="savecsv">Export csv-file to Documents/TransektCount.</string>
+    <string name="showResultsButton">Show Results</string>
+    <string name="sum">Totals (internal):</string>
+    <string name="sumSpec">Diff. Species:</string>
+    <string name="sum_total">Totals (all):</string>
+    <string name="sume">Totals (external):</string>
+    <string name="time_sect">1. Count</string>
     <string name="timehead">Time:</string>
-    <string name="from">from:</string>
+    <string name="title">Species-specific counting of\n\nbutterflies in transect sections</string>
     <string name="to">to:</string>
-    <string name="back_twice">Press again to exit</string>
-    <string name="cancelButton">Cancel</string>
+    <string name="track_err">There is a discrepancy between your sections and tracks! GPS function will be switched off.</string>
+    <string name="tracks">tracks</string>
+    <string name="viewHelpTitle">Help</string>
+    <string name="viewLicenseTitle">Licenses</string>
+    <string name="viewSectionButton">Counting</string>
     <string name="waitImport">Please wait, import may take a while!</string>
+    <string name="with">with</string>
 
     <!-- FileChooser -->
-    <string name="importHead">Data Import</string>
-    <string name="fileSize">Size</string>
-    <string name="noFile">No file available!</string>
-    <string name="fileHeadlineDB">TransektCount DB Files</string>
     <string name="fileHeadlineBasicDB">TransektCount Basic DB Files</string>
     <string name="fileHeadlineCSV">TransektCount Species Lists</string>
-    <string name="fileHeadlineGPX">TransektCount GPX Tracks</string>
+    <string name="fileHeadlineDB">TransektCount DB Files</string>
+    <string name="fileHeadlineGPS">TransektCount GPS Tracks</string>
+    <string name="fileSize">Size</string>
+    <string name="importHead">Data Import</string>
+    <string name="noFile">No file available!</string>
 
     <!-- EditMetaActivity -->
-    <string name="editHeadTitle">Meta Data of Inspection</string>
-    <string name="transectnumber">Transect No.:</string>
-    <string name="inspector">Inspector Name:</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="wind">Wind (0–4):</string>
     <string name="clouds">Clouds (%):</string>
-    <string name="starttm">Time from:</string>
-    <string name="hinttm">Click here</string>
+    <string name="date">Date:</string>
+    <string name="editHeadTitle">Meta Data of Inspection</string>
     <string name="endtm">until:</string>
+    <string name="hinttm">Click here</string>
+    <string name="inspector">Inspector Name:</string>
+    <string name="starttm">Time from:</string>
+    <string name="temperature">Temp. (°C):</string>
+    <string name="transectnumber">Transect No.:</string>
+    <string name="valClouds">Clouds out of range!</string>
     <string name="valTemp">Unrealistic temperature!</string>
     <string name="valWind">Wind out of range!</string>
-    <string name="valClouds">Clouds out of range!</string>
-    <string name="date">Date:</string>
+    <string name="wind">Wind (0–4):</string>
 
     <!-- CountingActivity -->
+    <string name="addAlertButton">Add alert button</string>
+    <string name="alertTitle">Counts %1$d reached!</string>
+    <string name="attention">Attention! </string>
+    <string name="chooserTitle">Select photo app</string>
+    <string name="cloneButton">Add a Further Section</string>
+    <string name="hasTrack">New section cannot be created as GPS tracks exist. Please delete GPS track data before. The numbers of sections and tracks must match!</string>
+    <string name="newCopyCreated">has been created!</string>
+    <string name="newSectName">Section name is missing.</string>
+    <string name="noPhotoPermit">The right to take photos is missing.</string>
     <string name="saveCountsButton">Save &amp; Exit</string>
     <string name="saving">Saving</string>
     <string name="sectSaving">Sections have been saved.</string>
-    <string name="alertTitle">Count %1$d reached!</string>
-    <string name="cloneButton">Add a Further Section</string>
-    <string name="newSectName">Section name is missing.</string>
-    <string name="noPhotoPermit">The right to take photos is missing.</string>
-    <string name="chooserTitle">Select photo app</string>
+    <string name="species_notes">Species notes:</string>
     <string name="takePhoto">Take Photo</string>
-    <string name="newCopyCreated">has been created!</string>
-    <string name="addAlertButton">Add alert button</string>
-    <string name="attention">Attention! </string>
 
     <!-- CountingActivity Menu -->
-    <string name="editDelSpecTitle">Remove Species</string>
-    <string name="editAddSpecTitle">Add Species</string>
-    <string name="editSectTitle">Edit species list</string>
-    <string name="dpSectTitle">New section name</string>
-    <string name="willAlert">%1$s will alert for %2$d butterflies.</string>
-    <string name="deleteButton">Delete</string>
-    <string name="deleteSpecies">Remove Species</string>
-    <string name="nodeleteButton">OK</string>
     <string name="action_share">Share</string>
+    <string name="delSpeciesTitle">Remove Species</string>
+    <string name="deleteButton">Delete</string>
+    <string name="dpSectTitle">New section name</string>
+    <string name="editAddSpecTitle">Add Species</string>
+    <string name="editDelSpecTitle">Delete Species</string>
+    <string name="editSectTitle">Edit species list</string>
     <string name="send_to">Share notes</string>
+    <string name="willAlert">%1$s will alert for %2$d internal butterflies.</string>
 
     <!-- EditSectionListActivity -->
-    <string name="labelDelSpecButton">Remove Species</string>
+    <string name="confirmDelete">Are you sure you want to delete the last section?\nInserting new sections would be possible later.</string>
+    <string name="duplicate">Each name must be unique!</string>
+    <string name="editSpeciesTitle">Edit Terms</string>
+    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section.\n\nOnly the last created section, if not the only one, can be deleted.\n(If this is not possible then your device has unfortunately not enough free resources to execute the function.)</string>
+    <string name="isdouble"> is double!</string>
+    <string name="isempty">Section name is missing!</string>
     <string name="labelAddSpecButton">Add Species</string>
+    <string name="labelDelSpecButton">Remove Species</string>
     <string name="labelEditSpecButton">Edit List</string>
     <string name="notContiguous">Not possible, as previously a section was deleted!</string>
-    <string name="confirmDelete">Are you sure you want to delete the last list? Inserting new sections would be possible later.</string>
-    <string name="informNodelete">To prevent DB corruption it is not possible to delete this section. Only the last created section may be deleted. (If the last created section cannot be deleted then your device has unfortunately not enough free resources to execute the function.</string>
-    <string name="headEdit">Edit Terms</string>
-    <string name="titleEdit">Name of current section</string>
     <string name="notesHint">Type notes here&#8230;</string>
-    <string name="isdouble"> is double!</string>
-    <string name="spname">Name</string>
     <string name="orcode"> or code</string>
-    <string name="isempt">A name or code is empty!</string>
-    <string name="isempty">Section name is missing!</string>
     <string name="presentSpecs">Species in list:</string>
-    <string name="duplicate">Each name must be unique!</string>
+    <string name="spname">Name</string>
+    <string name="titleEdit">Name of current section</string>
 
     <!-- AddSpeciesActivity -->
-    <string name="addTitle">Add Species</string>
-    <string name="specsToAdd">Further species:</string>
+    <string name="addSpeciesTitle">Add Species</string>
     <string name="hintSearch">Starting chars.</string>
-    <string name="initCharsL">Please, 2 chars.</string>
+    <string name="initCharsL">Please 2 chars.</string>
+    <string name="specsToAdd">Further species:</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App Info (TransektCount Ver.</string>
+    <string name="changelog_show_full">more&#8230;</string>
     <string name="changelog_title">What\'s New</string>
     <string name="ok_button">OK</string>
-    <string name="changelog_show_full">more&#8230;</string>
-
-    <string name="viewhelp_full_title">Help (TransektCount Ver.</string>
-    <string name="viewlicense_full_title">Licenses (TransektCount Ver.</string>
 
     <string name="title_help_dialog">Help</string>
     <string name="title_license_dialog">License</string>
@@ -169,106 +177,116 @@
     <!-- Preferences -->
     <string name="prefs_appearance">Appearance</string>
 
-    <string name="pref_bg_title">Background</string>
     <string name="pref_bg_dialog">Choose background image</string>
+    <string name="pref_bg_title">Background</string>
 
-    <string name="pref_sort_sect_order_title">Sorting Sections</string>
     <string name="pref_sort_sect_order_dialog">Sort order of your sections list</string>
+    <string name="pref_sort_sect_order_title">Sorting Sections</string>
 
-    <string name="pref_sort_sp_order_title">Sorting the Species List</string>
     <string name="pref_sort_sp_order_dialog">Sort order of your species list</string>
+    <string name="pref_sort_sp_order_title">Sorting the Species List</string>
 
-    <string name="pref_note_font">Notes Font</string>
-    <string name="pref_note_font_summ">Increase the notes font size on the counting screen</string>
     <string name="pref_left_hand">Left-hander</string>
     <string name="pref_left_hand_summ">Show left-hander counter view</string>
 
-    <string name="prefs_csv_output_title">Output</string>
-    <string name="pref_csv_output_title">Sorting the Results</string>
-    <string name="pref_csv_output_dialog">Sort order of the results and exported csv-table</string>
+    <string name="pref_distance_title">Min. distance for GPS update</string>
+    <string name="pref_interval_title">GPS polling interval</string>
 
-    <string name="prefs_sound_vib">Sound/Vibration</string>
-    <string name="pref_alert_sound">Audible Alerts</string>
-    <string name="pref_alert_sound_summ">Sound an audible alert when an alert is triggered</string>
+    <string name="pref_deviation_title">Max. distance of track deviation</string>
+
+    <string name="pref_csv_output_dialog">Sort order of the results and exported csv-table</string>
+    <string name="pref_csv_output_title">Sorting the Results</string>
+    <string name="prefs_csv_output_title">Output</string>
+
+    <string name="pref_alert_sound">Audible Event Alert</string>
+    <string name="pref_alert_sound_summ">Sound an audible alert when an event is triggered</string>
     <string name="pref_button_sound">Button Sounds</string>
     <string name="pref_button_sound_summ">Make a sound upon pressing a count button</string>
     <string name="pref_button_vib">Button Vibration</string>
     <string name="pref_button_vib_summ">Make a vibration upon pressing a count button</string>
+    <string name="prefs_sound_vib">Sound/Vibration</string>
 
-    <string name="prefs_counting">Counting</string>
     <string name="pref_awake">Keep Screen On</string>
     <string name="pref_awake_summ">Prevent screen from sleeping whilst counting</string>
     <string name="pref_bright">Screen Bright</string>
     <string name="pref_bright_summ">Sets the TransektCount screens bright whilst counting and editing</string>
+    <string name="prefs_GPS">GPS (needs GPX track)</string>
+    <string name="prefs_counting">Counting</string>
 
+    <string name="pref_auto_section">Indicate transect section by GPS</string>
+    <string name="pref_auto_section_summ">Marks automatically the current section by GPS (provided that a suitable GPX list of transect coordinates is given)</string>
     <string name="pref_proximity_dialog">Set the sensitivity for switching off the screen.</string>
     <string name="pref_proximity_title">Proximity Sensor</string>
 
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Change int. count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef2i">Change int. count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef3i">Change int. count value [ %1$d ] of butterfly ♀</string>
-    <string name="editCountValuepi">Change int. count value [ %1$d ] of pupa</string>
-    <string name="editCountValueli">Change int. count value [ %1$d ] of larva</string>
-    <string name="editCountValueei">Change int. count value [ %1$d ] of egg</string>
-    <string name="editCountValuef1e">Change ext. count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef2e">Change ext. count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef3e">Change ext. count value [ %1$d ] of butterfly ♀</string>
-    <string name="editCountValuepe">Change ext. count value [ %1$d ] of pupa</string>
-    <string name="editCountValuele">Change ext. count value [ %1$d ] of larva</string>
-    <string name="editCountValueee">Change ext. count value [ %1$d ] of egg</string>
-    <string name="addSomeAlerts">Each species may have alerts which will be triggered when the given number of butterfly counts reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
+    <string name="addSomeAlerts">Each species may have alerts which will be triggered when the given number of internal butterfly counts reaches that level. Use the Add Button to the right to add an alert and the Delete Button on each alert to remove it.</string>
     <string name="alertName">New Alert</string>
-    <string name="spec_Name">Name</string>
-    <string name="spec_NameG">Local Name</string>
+    <string name="countCode">Code</string>
     <string name="countName">New Species</string>
     <string name="countNameG">New Species (Local name)</string>
-    <string name="countCode">Code</string>
-    <string name="notesSpecies">Species Notes (%1$s)</string>
     <string name="delAlert">Delete Alert</string>
+    <string name="editCountValueee">Change ext. count value [ %1$d ] of egg</string>
+    <string name="editCountValueei">Change int. count value [ %1$d ] of egg</string>
+    <string name="editCountValuef1e">Change ext. count value [ %1$d ] of butterfly ♂|♀</string>
+    <string name="editCountValuef1i">Change int. count value [ %1$d ] of butterfly ♂|♀</string>
+    <string name="editCountValuef2e">Change ext. count value [ %1$d ] of butterfly ♂</string>
+    <string name="editCountValuef2i">Change int. count value [ %1$d ] of butterfly ♂</string>
+    <string name="editCountValuef3e">Change ext. count value [ %1$d ] of butterfly ♀</string>
+    <string name="editCountValuef3i">Change int. count value [ %1$d ] of butterfly ♀</string>
+    <string name="editCountValuele">Change ext. count value [ %1$d ] of larva</string>
+    <string name="editCountValueli">Change int. count value [ %1$d ] of larva</string>
+    <string name="editCountValuepe">Change ext. count value [ %1$d ] of pupa</string>
+    <string name="editCountValuepi">Change int. count value [ %1$d ] of pupa</string>
+    <string name="notesSpecies">Species Notes (%1$s)</string>
     <string name="reallyDeleteAlert">Are you sure? The alert will be deleted immediately.</string>
-    <string name="yesDeleteIt">Delete</string>
+    <string name="spec_Name">Name</string>
+    <string name="spec_NameG">Local Name</string>
 
     <!-- ListViewSpecies -->
+    <string name="txt_e">Egg</string>
+    <string name="txt_f">♀</string>
+    <string name="txt_l">Larva</string>
+    <string name="txt_m">♂</string>
+    <string name="txt_mf">♂|♀</string>
+    <string name="txt_p">Pupa</string>
     <string name="viewSpecTitle">Counting Results</string>
     <string name="wait">View gets calculated&#8230;</string>
-    <string name="txt_mf">♂|♀</string>
-    <string name="txt_m">♂</string>
-    <string name="txt_f">♀</string>
-    <string name="txt_p">Pupa</string>
-    <string name="txt_l">Larva</string>
-    <string name="txt_e">Egg</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
+    <string name="countCodeHint">Code</string>
+    <string name="countExternalHint">External of Counting Range</string>
+    <string name="countExternalSum">Totals for External Species:</string>
+    <string name="countImagofHint">Butterfly ♀</string>
+    <string name="countImagomHint">Butterfly ♂</string>
+    <string name="countImagomfHint">Butterfly ♂|♀</string>
+    <string name="countInternalHint">Internal of Counting Range</string>
+    <string name="countInternalSum">Totals for Internal Species:</string>
+    <string name="countLarvaHint">Larva</string>
     <string name="countNameHint">Name of Species</string>
     <string name="countNameHintG">Name of Species (English)</string>
-    <string name="countCodeHint">Code</string>
-    <string name="countInternalHint">Internal of Counting Range</string>
-    <string name="countExternalHint">External of Counting Range</string>
-    <string name="countInternalSum">Totals for Internal Species:</string>
-    <string name="countExternalSum">Totals for External Species:</string>
-    <string name="totalsIES">Totals internal / external / species:</string>
-    <string name="countImagomfHint">Butterfly ♂|♀</string>
-    <string name="countImagomHint">Butterfly ♂</string>
-    <string name="countImagofHint">Butterfly ♀</string>
-    <string name="countPupaHint">Pupa</string>
-    <string name="countLarvaHint">Larva</string>
     <string name="countOvoHint">Egg</string>
-    <string name="hintTitle">Title</string>
+    <string name="countPupaHint">Pupa</string>
+    <string name="getHelp">Database problem! Please mail your problematic DB if you need assistance.</string>
     <string name="hintDateTime">Date and time\nof 1. count:</string>
     <string name="hintInstructions">Instructions.</string>
+    <string name="hintTitle">Title</string>
     <string name="hintTotal">Totals:</string>
-    <string name="getHelp">Database problem! Please mail your problematic DB if you need assistance.</string>
+    <string name="newSect">New section:</string>
+    <string name="no_provider">No GPS service available!</string>
     <string name="sect01">Sect 01</string>
-    <string name="cancel">Cancel</string>
+    <string name="totalsIES">Totals internal / external / species:</string>
 
     <!-- Permissions -->
-    <string name="perm_required">Permissions required</string>
     <string name="app_settings">App Settings</string>
-    <string name="dialog_storage_title">Storage permission required</string>
     <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to export data.</string>
-    <string name="storage_perm_denied">Required storage permission for TransektCount is missing.</string>
-    <string name="dialog_background_loc_title">Berechtigung erwünscht</string>
+    <string name="dialog_storage_title">Storage permission required</string>
+    <string name="storage_not_possible">Required storage permission is missing, storage is not possible.</string>
+
+    <string name="dialog_background_loc_message">If the app should run for longer inspections, location data would be more reliable with the optional permission \'Allow all the time\'.</string>
+    <string name="dialog_background_loc_title">Optional permission wanted</string>
+    <string name="dialog_fine_location_message">Identifying transect sections needs maximum precision.</string>
+    <string name="dialog_fine_location_title">Allow to use precise location.</string>
+    <string name="grant_perm_later">You may grant the optional permission \'Allow all the time\' in system settings later.</string>
 
 </resources>

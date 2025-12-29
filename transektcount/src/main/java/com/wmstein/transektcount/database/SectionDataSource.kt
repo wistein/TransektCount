@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.Cursor
 import android.database.DatabaseUtils
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import java.util.Date
 import java.util.Objects
@@ -16,12 +15,12 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-05-14
+ * last edited on 2025-11-03
  */
 class SectionDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
-    private val dbHandler: DbHelper
+    private val dbHelper: DbHelper = DbHelper(context)
     private val allColumns = arrayOf(
         DbHelper.S_ID,
         DbHelper.S_CREATED_AT,
@@ -29,17 +28,12 @@ class SectionDataSource(context: Context) {
         DbHelper.S_NOTES
     )
 
-    init {
-        dbHandler = DbHelper(context)
-    }
-
-    @Throws(SQLException::class)
     fun open() {
-        database = dbHandler.writableDatabase
+        database = dbHelper.writableDatabase
     }
 
     fun close() {
-        dbHandler.close()
+        dbHelper.close()
     }
 
     @SuppressLint("Range")
@@ -113,7 +107,7 @@ class SectionDataSource(context: Context) {
         }
     }
 
-    // save initial date and time to section
+    // Save initial date and time to section (in CountingActivity)
     fun saveDateSection(section: Section) {
         if (section.created_at == 0L) {
             val date = Date()
@@ -126,13 +120,24 @@ class SectionDataSource(context: Context) {
         }
     }
 
-    // save initial date and time to section
+    // Save initial date and time to section (if a count was added in CountOptionsActivity)
     fun saveDateSectionOfId(sectionId: Int) {
         if (getSection(sectionId).created_at == 0L) {
             val date = Date()
             val timeMsec = date.time
             val values = ContentValues()
             values.put(DbHelper.S_CREATED_AT, timeMsec)
+            val where = DbHelper.S_ID + " = ?"
+            val whereArgs = arrayOf(sectionId.toString())
+            database!!.update(DbHelper.SECTION_TABLE, values, where, whereArgs)
+        }
+    }
+
+    // Delete initial date and time for section (if counts got deleted in CountOptionsActivity)
+    fun clearDateSectionOfId(sectionId: Int) {
+        if (getSection(sectionId).created_at == 0L) {
+            val values = ContentValues()
+            values.put(DbHelper.S_CREATED_AT, "")
             val where = DbHelper.S_ID + " = ?"
             val whereArgs = arrayOf(sectionId.toString())
             database!!.update(DbHelper.SECTION_TABLE, values, where, whereArgs)
@@ -200,6 +205,19 @@ class SectionDataSource(context: Context) {
         val cursor = database!!.query(
             DbHelper.SECTION_TABLE, allColumns,
             DbHelper.S_ID + " = ?", arrayOf(sectionId.toString()), null, null, null
+        )
+        cursor.moveToFirst()
+        section = cursorToSection(cursor)
+        cursor.close()
+        return section
+    }
+
+    // called from WelcomeActivity, CountingActivity and NewSectionActivity
+    fun getSectionByName(name: String): Section {
+        val section: Section
+        val cursor = database!!.query(
+            DbHelper.SECTION_TABLE, allColumns,
+            DbHelper.S_NAME + " = ?", arrayOf(name), null, null, null
         )
         cursor.moveToFirst()
         section = cursorToSection(cursor)

@@ -13,12 +13,12 @@ import com.wmstein.transektcount.database.Count
 import java.io.Serializable
 import java.util.Objects
 
-/************************************************
- * Used by DelSpeciesActivity
- * shows list of selectable species with name, code, picture and add checkbox
+/**********************************************************************
+ * DeleteSpeciesWidget.kt is used by DelSpeciesActivity.kt and shows a
+ * list of selectable species with name, code, picture and add checkbox
  *
  * Created for TransektCount by wmstein on 2024-07-27,
- * last edited on 2024-11-27
+ * last edited on 2025-11-15
  */
 class DeleteSpeciesWidget(context: Context, attrs: AttributeSet?)
     : LinearLayout(context, attrs), Serializable {

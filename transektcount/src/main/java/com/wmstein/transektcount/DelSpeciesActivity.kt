@@ -2,6 +2,7 @@ package com.wmstein.transektcount
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +22,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.CountDataSource
-import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.widgets.DeleteSpeciesWidget
 import com.wmstein.transektcount.widgets.HintDelWidget
@@ -33,11 +33,10 @@ import com.wmstein.transektcount.widgets.HintDelWidget
  * activity_del_species.xml, widget_edit_title.xml.
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-06-30
+ * last edited on 2025-12-29
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
-    var section: Section? = null
     private var sectionId = 1
     private var specCode: String? = null
     private var sectionDataSource: SectionDataSource? = null
@@ -57,14 +56,13 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
+    private var awakePref = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.d(TAG, "64 onCreate")
-
-        // Load preference
-        brightPref = prefs.getBoolean("pref_bright", true)
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "65 onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -91,14 +89,6 @@ class DelSpeciesActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        // Set full brightness of screen
-        if (brightPref) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            val params = window.attributes
-            params.screenBrightness = 1.0f
-            window.attributes = params
-        }
-
         //  Note variables to restore them
         val extras = intent.extras
         if (extras != null) {
@@ -108,8 +98,8 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         listToDelete = ArrayList()
 
-        delHintArea = findViewById(R.id.showHintDelLayout)
         deleteArea = findViewById(R.id.deleteSpecLayout)
+        delHintArea = findViewById(R.id.showHintDelLayout)
 
         // Setup the data sources
         sectionDataSource = SectionDataSource(this)
@@ -121,7 +111,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 val intent = NavUtils.getParentActivityIntent(this@DelSpeciesActivity)!!
                 intent.putExtra("section_id", sectionId)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                intent.flags = FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 this@DelSpeciesActivity.navigateUpTo(intent)
             }
         }
@@ -132,7 +122,22 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.d(TAG, "135 onResume")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "126 onResume")
+
+        // Load preference
+        brightPref = prefs.getBoolean("pref_bright", true)
+        awakePref = prefs.getBoolean("pref_awake", true)
+
+        // Set full brightness of screen
+        if (brightPref) {
+            val params = window.attributes
+            params.screenBrightness = 1.0f
+            window.attributes = params
+        }
+
+        if (awakePref)
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         sectionDataSource!!.open()
         countDataSource!!.open()
@@ -142,7 +147,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         deleteArea!!.removeAllViews()
         delHintArea!!.removeAllViews()
 
-        supportActionBar!!.setTitle(R.string.deleteSpecies)
+        supportActionBar!!.setTitle(R.string.delSpeciesTitle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         // Display hint: Species in counting list
@@ -169,17 +174,21 @@ class DelSpeciesActivity : AppCompatActivity() {
             // Reminder: "Please, 2 characters"
             searchDel.error = getString(R.string.initCharsL)
         } else {
-            initChars = initChars.substring(0,2)
+            initChars = initChars.substring(0, 2)
             searchDel.error = null
 
-            if (MyDebug.DLOG) Log.d(TAG, "175, initChars: $initChars")
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.d(TAG, "181, initChars: $initChars")
+            searchDel.clearFocus()
+            searchDel.invalidate()
 
-            // Call DummyActivity to reenter DelSpeciesActivity for reduced add list
-            val intent = Intent(this@DelSpeciesActivity, DummyActivity::class.java)
+            // Re-enter DelSpeciesActivity for reduced add list
+            val intent = Intent(this@DelSpeciesActivity, DelSpeciesActivity::class.java)
             intent.putExtra("section_id", sectionId)
             intent.putExtra("init_Chars", initChars)
-            intent.putExtra("is_Flag", "isDel")
+            intent.flags = FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
+            finish()
         }
     }
 
@@ -203,7 +212,8 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
                     cnt++
                     deleteArea!!.addView(dsw)
-                    if (MyDebug.DLOG) Log.d(TAG, "206, name: " + count.name)
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.d(TAG, "216, name: " + count.name)
                 }
             }
         } else {
@@ -215,7 +225,8 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setPicSpec(count)
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
-                if (MyDebug.DLOG) Log.d(TAG, "218, name: " + count.name)
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "229, name: " + count.name)
             }
         }
     }
@@ -223,7 +234,8 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for delete from the species counts list
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
-        if (MyDebug.DLOG) Log.d(TAG, "226, View.tag: $idToDel")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "238, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -231,16 +243,16 @@ class DelSpeciesActivity : AppCompatActivity() {
         // Put species on delete list
         if (checked) {
             listToDelete!!.add(dsw)
-            if (MyDebug.DLOG) {
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "236, mark delete code: $codeD")
+                Log.d(TAG, "248, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
-            if (MyDebug.DLOG) {
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "243, mark delete code: $codeD")
+                Log.d(TAG, "255, mark delete code: $codeD")
             }
         }
     }
@@ -251,8 +263,8 @@ class DelSpeciesActivity : AppCompatActivity() {
         val numSect: Int = sectionDataSource!!.numEntries
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
-            if (MyDebug.DLOG) {
-                Log.d(TAG, "255, delete code: $specCode")
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
+                Log.d(TAG, "267, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -315,11 +327,11 @@ class DelSpeciesActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == android.R.id.home) {
             val intent = NavUtils.getParentActivityIntent(this)!!
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            intent.flags = FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             this@DelSpeciesActivity.navigateUpTo(intent)
             return true
         } else if (id == R.id.deleteSpec) {
-            if (listToDelete!!.size > 0)
+            if (listToDelete!!.isNotEmpty())
                 delSpecs()
             return true
         }
@@ -329,19 +341,38 @@ class DelSpeciesActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.d(TAG, "332 onPause")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "345 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
         alertDataSource!!.close()
+
+        if (awakePref) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+
+        deleteArea!!.clearFocus()
+        deleteArea!!.removeAllViews()
+        delHintArea!!.clearFocus()
+        delHintArea!!.removeAllViews()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "365, onStop")
+
+        deleteArea = null
+        delHintArea = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        if (MyDebug.DLOG) Log.d(TAG, "342, onDestroy")
-
-        delHintArea!!.clearFocus()
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "375, onDestroy")
     }
 
     companion object {

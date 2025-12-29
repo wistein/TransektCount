@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/******************************************
- * HintDelWidget used by DelSpeciesActivity
- * shows single Hint line with search field
- * last edited on 2024-10-15
+/**********************************************
+ * HintDelWidget is used by DelSpeciesActivity,
+ * shows single Hint line with search field,
+ * last edited on 2025-11-15
  */
 class HintDelWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var searchD: EditText

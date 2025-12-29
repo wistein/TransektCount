@@ -11,12 +11,13 @@ import android.widget.TextView
 import com.wmstein.transektcount.R
 import java.util.Objects
 
-/****************************************************
- * Interface for widget_counting_head3.xml
- * shows headline for external counts
- * Created by wmstein 18.12.2016
- * Last edited in Java on 2021-01-26
- * converted to Kotlin on 2023-10-06
+/***********************************************************************
+ * CountingWidgetHead3.kt is the interface for widget_counting_head3.xml
+ * shows the headline for external counts
+ * Created by wmstein 18.12.2016.
+ * Last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-10-06,
+ * last edited on 2025-11-15
  */
 class CountingWidgetHead3(
     context: Context,

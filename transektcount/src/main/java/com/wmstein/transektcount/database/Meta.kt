@@ -1,6 +1,7 @@
 package com.wmstein.transektcount.database
 
-/***********************************
+/********************************************************
+ * Table Meta interface with record of transect meta data
  * Created by wmstein on 31.03.2016.
  * Converted to Kotlin on 2024-03-09
  */

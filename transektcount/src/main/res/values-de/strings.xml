@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-08-03 -->
+     last edited 2025-12-22 -->
 
 <resources>
 
@@ -9,149 +9,153 @@
     <string name="title_activity_list_section">Transektabschnitte</string>
 
     <!-- WelcomeActivity -->
-    <string name="title">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
-    <string name="viewSectionButton">Zählen</string>
-    <string name="viewSpeciesButton">Ergebnis anzeigen</string>
-    <string name="editMetaButton">Meta-Daten editieren</string>
-    <string name="changeLogTitle">App-Info</string>
-    <string name="viewHelpTitle">Hilfe</string>
-    <string name="viewLicenseTitle">Lizenzen</string>
-    <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
-    <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
-    <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
-    <string name="saveFailListTour">Export nach Documents/TourCount schlug fehl!</string>
-    <string name="saveBasisDB">Export der BasisDB nach Documents/TransektCount.</string>
-    <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
-    <string name="savecsv">Export der csv-Datei nach Documents/TransektCount.</string>
-    <string name="saveList">Export der Speziesliste.</string>
-    <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
-    <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
-    <string name="exportMenu">Export akt. DB</string>
-    <string name="exportBasisMenu">Export Basis-DB</string>
-    <string name="exportCSVMenu">Export Daten -> CSV-Datei</string>
-    <string name="exportSpeciesListMenu">Export Speziesliste</string>
-    <string name="resetDBMenu">Reset Daten</string>
-    <string name="importSpeciesListMenu">Import Speziesliste</string>
-    <string name="importFileMenu">Import DB</string>
-    <string name="importBasisMenu">Import Basis-DB</string>
-    <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
-    <string name="importList">Die Speziesliste wurde importiert.</string>
-    <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
-    <string name="importTrackFail">GPS Tracks sind vorhanden. Bitte vor Import die vorhandenen Tracks löschen!</string>
-    <string name="deleteTrackFail">Löschen nicht erforderlich, keine Tracks in der DB vorhanden!</string>
-    <string name="importDB">Die Datenbank wurde importiert.</string>
-    <string name="noDb">Bitte kopiere \"transektcount0(…).db\" in das Verzeichnis \'Documents/TransektCount\'.</string>
-    <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
-    <string name="importButton">Import</string>
-    <string name="importCancelButton">Abbrechen</string>
-    <string name="confirmBasisImport">Willst Du wirklich die leere Basis-Datenbank \"transektcount0.db\" importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
-    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
-    <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
-    <string name="time_sect">1. Zählung</string>
-    <string name="name_sect">Abschnitt</string>
-    <string name="code_spec">Spezies Code</string>
-    <string name="internal">Intern</string>
-    <string name="external">Extern</string>
-    <string name="rem_spec">Spez.-Bemerkungen</string>
-    <string name="rem_sp">Spez.-Bem.:</string>
-    <string name="name_spec">Spezies-Name</string>
-    <string name="name_spec_g">Deutscher Name</string>
-    <string name="sum">Summen (intern):</string>
-    <string name="sume">Summen (extern):</string>
-    <string name="sum_total">Summen (total):</string>
-    <string name="sumSpec">Arten:</string>
-    <string name="kal_w">KW:</string>
-    <string name="note">Transekt-Bem.:</string>
-    <string name="timehead">Zeit:</string>
-    <string name="from">von:</string>
-    <string name="to">bis:</string>
     <string name="back_twice">Zum Beenden erneut drücken</string>
     <string name="cancelButton">Abbrechen</string>
+    <string name="changeLogTitle">App-Info</string>
+    <string name="code_spec">Spezies Code</string>
+    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmGPSDelete">Willst Du wirklich die Track-Daten löschen?</string>
+    <string name="confirmGPSImport">Soll versucht werden, die GPS-Datei zu importieren?</string>
+    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
+    <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
+    <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
+    <string name="deleteTrackFail">Löschen nicht erforderlich, keine Tracks in der DB vorhanden!</string>
+    <string name="distanceToTrack">Distanz zum Transekt:</string>
+    <string name="editMetaButton">Meta-Daten editieren</string>
+    <string name="exportBasisMenu">Export Basis-DB</string>
+    <string name="exportCSVMenu">Export d. Ergebnisse (csv)</string>
+    <string name="exportMenu">Export akt. DB</string>
+    <string name="exportSpeciesListMenu">Export Speziesliste</string>
+    <string name="external">Extern</string>
+    <string name="from">von:</string>
+    <string name="importBasisMenu">Import Basis-DB</string>
+    <string name="importButton">Import</string>
+    <string name="importDB">Die Datenbank wurde importiert.</string>
+    <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
+    <string name="importFileMenu">Import DB</string>
+    <string name="importGPS">Die GPX-Datei wurde importiert.</string>
+    <string name="importGPSMenu">Import GPS-Track</string>
+    <string name="importList">Die Speziesliste wurde importiert.</string>
+    <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
+    <string name="importSpeciesListMenu">Import Speziesliste</string>
+    <string name="importTrackFail">GPS Tracks sind geladen. Bitte diese vorher löschen!</string>
+    <string name="internal">Intern</string>
+    <string name="kal_w">KW:</string>
+    <string name="name_sect">Abschnitt</string>
+    <string name="name_spec">Spezies-Name</string>
+    <string name="name_spec_g">Deutscher Name</string>
+    <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
+    <string name="no_GPSfile">Keine GPX-Datei in Documents/TransektCount vorhanden!</string>
+    <string name="note">Transekt-Bem.:</string>
+    <string name="rem_sp">Spez.-Bem.:</string>
+    <string name="rem_spec">Spez.-Bemerkungen</string>
+    <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
+    <string name="resetDBMenu">Reset Daten</string>
+    <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
+    <string name="resetGPSMenu">Lösche GPS-Track-Daten</string>
+    <string name="resetTracks">Die Track-Daten wurden gelöscht.</string>
+    <string name="saveBasisDB">Export der BasisDB nach Documents/TransektCount.</string>
+    <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
+    <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
+    <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
+    <string name="saveList">Export der Speziesliste.</string>
+    <string name="savecsv">Export der csv-Datei nach Documents/TransektCount.</string>
+    <string name="showResultsButton">Ergebnis anzeigen</string>
+    <string name="sum">Summen (intern):</string>
+    <string name="sumSpec">Arten:</string>
+    <string name="sum_total">Summen (total):</string>
+    <string name="sume">Summen (extern):</string>
+    <string name="time_sect">1. Zählung</string>
+    <string name="timehead">Zeit:</string>
+    <string name="title">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
+    <string name="to">bis:</string>
+    <string name="track_err">GPS-Tracks entsprechen nicht den Transekt-Abschnitten! GPS-Funktion wird abgeschaltet.</string>
+    <string name="tracks">Tracks</string>
+    <string name="viewHelpTitle">Hilfe</string>
+    <string name="viewLicenseTitle">Lizenzen</string>
+    <string name="viewSectionButton">Zählen</string>
     <string name="waitImport">Bitte warten, der Import läuft!</string>
+    <string name="with">mit</string>
 
     <!-- FileChooser -->
-    <string name="importHead">Datenimport</string>
-    <string name="fileSize">Größe</string>
-    <string name="noFile">Keine Datei vorhanden!</string>
-    <string name="fileHeadlineDB">TransektCount DB-Dateien</string>
     <string name="fileHeadlineBasicDB">TransektCount Basis-DB-Dateien</string>
     <string name="fileHeadlineCSV">TransektCount Spezieslisten</string>
-    <string name="fileHeadlineGPX">TransektCount GPX-Tracks</string>
+    <string name="fileHeadlineDB">TransektCount DB-Dateien</string>
+    <string name="fileHeadlineGPS">TransektCount GPS-Tracks</string>
+    <string name="fileSize">Größe</string>
+    <string name="importHead">Datenimport</string>
+    <string name="noFile">Keine Datei vorhanden!</string>
 
     <!-- EditMetaActivity -->
-    <string name="editHeadTitle">Meta-Daten d. Begehung</string>
-    <string name="transectnumber">Transekt-Nr.:</string>
-    <string name="inspector">Kartierer(in):</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="wind">Wind (0–4):</string>
     <string name="clouds">Wolken (%):</string>
-    <string name="starttm">Zeit von:</string>
-    <string name="hinttm">Tippe hier</string>
+    <string name="date">Datum:</string>
+    <string name="editHeadTitle">Meta-Daten d. Begehung</string>
     <string name="endtm">bis:</string>
+    <string name="hinttm">Tippe hier</string>
+    <string name="inspector">Kartierer(in):</string>
+    <string name="starttm">Zeit von:</string>
+    <string name="temperature">Temp. (°C):</string>
+    <string name="transectnumber">Transekt-Nr.:</string>
+    <string name="valClouds">Wolken überprüfen!</string>
     <string name="valTemp">Unrealistische Temperatur!</string>
     <string name="valWind">Wind überprüfen!</string>
-    <string name="valClouds">Wolken überprüfen!</string>
-    <string name="date">Datum:</string>
+    <string name="wind">Wind (0–4):</string>
 
     <!-- CountingActivity -->
+    <string name="addAlertButton">Alarm hinzufügen</string>
+    <string name="alertTitle">Anzahl %1$d erreicht!</string>
+    <string name="attention">Achtung! </string>
+    <string name="chooserTitle">Wähle eine Foto-App</string>
+    <string name="cloneButton">Weiteren Abschnitt hinzufügen</string>
+    <string name="hasTrack">Neuer Abschnitt kann nicht angelegt werden, da GPS-Abschnitte-Tracks existieren. Bitte zuvor GPS-Track-Daten löschen. Anzahl Abschnitte und Tracks müssen übereinstimmen!</string>
+    <string name="newCopyCreated">wurde erstellt!</string>
+    <string name="newSectName">Kein Abschnittsname eingegeben.</string>
+    <string name="noPhotoPermit">Kamera-Berechtigung ist erforderlich.</string>
     <string name="saveCountsButton">Sichern</string>
     <string name="saving">Speichern</string>
     <string name="sectSaving">Abschnitte wurden gespeichert.</string>
-    <string name="alertTitle">Anzahl %1$d erreicht!</string>
-    <string name="cloneButton">Weiteren Abschnitt hinzufügen</string>
-    <string name="newSectName">Kein Abschnittsname eingegeben.</string>
-    <string name="noPhotoPermit">Kamera-Berechtigung ist erforderlich.</string>
-    <string name="chooserTitle">Wähle eine Foto-App</string>
+    <string name="species_notes">Art-Bem.:</string>
     <string name="takePhoto">Foto aufnehmen</string>
-    <string name="newCopyCreated">wurde erstellt!</string>
-    <string name="addAlertButton">Alarm hinzufügen</string>
-    <string name="attention">Achtung! </string>
 
     <!-- CountingActivity Menu -->
-    <string name="editDelSpecTitle">Arten löschen</string>
-    <string name="editAddSpecTitle">Arten hinzufügen</string>
-    <string name="editSectTitle">Artenliste bearbeiten</string>
-    <string name="dpSectTitle">Neuer Abschnittsname</string>
-    <string name="willAlert">%1$s wird bei %2$d Faltern Signal geben.</string>
-    <string name="deleteButton">Löschen</string>
-    <string name="deleteSpecies">Arten entfernen</string>
-    <string name="nodeleteButton">OK</string>
     <string name="action_share">Mitteilen</string>
+    <string name="delSpeciesTitle">Arten entfernen</string>
+    <string name="deleteButton">Löschen</string>
+    <string name="dpSectTitle">Neuer Abschnittsname</string>
+    <string name="editAddSpecTitle">Arten hinzufügen</string>
+    <string name="editDelSpecTitle">Arten löschen</string>
+    <string name="editSectTitle">Artenliste bearbeiten</string>
     <string name="send_to">Versenden</string>
+    <string name="willAlert">%1$s wird bei %2$d internen Faltern Signal geben.</string>
 
     <!-- EditSectionListActivity -->
+    <string name="confirmDelete">Soll der letzte Abschnitt wirklich gelöscht werden?\nNeue Abschnitte können später hinzugefügt werden.</string>
+    <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
+    <string name="editSpeciesTitle">Bezeichnungen editieren</string>
+    <string name="informNodelete">Löschen des Abschnitts ist nicht möglich, da die interne DB korrumpiert würde.\n\nNur der zuletzt erzeugte und nicht einzige Abschnitt, kann gelöscht werden.\n(Wenn das nicht möglich ist, hat Ihr Gerät leider nicht genug freie Ressourcen um die Funktion auszuführen.)</string>
+    <string name="isdouble"> ist doppelt!</string>
+    <string name="isempty">Abschnittsname fehlt!</string>
     <string name="labelAddSpecButton">Arten hinzufügen</string>
     <string name="labelDelSpecButton">Arten entfernen</string>
     <string name="labelEditSpecButton">Liste editieren</string>
     <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
-    <string name="confirmDelete">Soll die letzte Liste wirklich gelöscht werden? Das Hinzufügen neuer Abschnitte wäre später möglich.</string>
-    <string name="informNodelete">Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. (Falls der zuletzt erzeugte Abschnitt nicht löschbar ist, hat Ihr Gerät leider nicht genug freie Ressourcen um die Funktion auszuführen.</string>
-    <string name="headEdit">Bezeichnungen editieren</string>
-    <string name="titleEdit">Name des aktuellen Abschnitts</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
-    <string name="isdouble"> ist doppelt!</string>
-    <string name="spname">Name</string>
     <string name="orcode"> oder Code</string>
-    <string name="isempt">Ein Name oder Code ist leer!</string>
-    <string name="isempty">Abschnittsname fehlt!</string>
     <string name="presentSpecs">Arten in Liste:</string>
-    <string name="duplicate">Alle Einträge müssen verschieden sein!</string>
+    <string name="spname">Name</string>
+    <string name="titleEdit">Name des aktuellen Abschnitts</string>
 
     <!-- AddSpeciesActivity -->
-    <string name="addTitle">Arten hinzufügen</string>
-    <string name="specsToAdd">Weitere Arten:</string>
+    <string name="addSpeciesTitle">Arten hinzufügen</string>
     <string name="hintSearch">Anfangsbuchst.</string>
     <string name="initCharsL">Bitte 2 Buchst.</string>
+    <string name="specsToAdd">Weitere Arten:</string>
 
     <!-- ChangeLog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
+    <string name="changelog_show_full">mehr&#8230;</string>
     <string name="changelog_title">Was ist neu</string>
     <string name="ok_button">OK</string>
-    <string name="changelog_show_full">mehr&#8230;</string>
-
-    <string name="viewhelp_full_title">Hilfe (TransektCount Ver.</string>
-    <string name="viewlicense_full_title">Lizenzen (TransektCount Ver.</string>
 
     <string name="title_help_dialog">Hilfe</string>
     <string name="title_license_dialog">Lizenzen</string>
@@ -159,106 +163,116 @@
     <!-- Preferences -->
     <string name="prefs_appearance">Aussehen</string>
 
-    <string name="pref_bg_title">Hintergrund</string>
     <string name="pref_bg_dialog">Wähle Standard- oder kein Hintergrundbild</string>
+    <string name="pref_bg_title">Hintergrund</string>
 
-    <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>
     <string name="pref_sort_sect_order_dialog">Sortierung der Liste der Abschnitte</string>
+    <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>
 
-    <string name="pref_sort_sp_order_title">Sortierung der Artenliste</string>
     <string name="pref_sort_sp_order_dialog">Sortierung der Artenliste</string>
+    <string name="pref_sort_sp_order_title">Sortierung der Artenliste</string>
 
-    <string name="pref_note_font">Anmerkungs-Font</string>
-    <string name="pref_note_font_summ">Vergrößere die Schrift der Bemerkungen auf der Zählerseite</string>
     <string name="pref_left_hand">Linkshänder</string>
     <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
 
-    <string name="prefs_csv_output_title">Ausgabe</string>
-    <string name="pref_csv_output_title">Sortierung der Ergebnisse</string>
-    <string name="pref_csv_output_dialog">Sortierung der Ergebnisse und der exportierten csv-Tabelle</string>
+    <string name="pref_distance_title">Min. Distanz für GPS-Update</string>
+    <string name="pref_interval_title">GPS-Abfrageinterval</string>
 
-    <string name="prefs_sound_vib">Sound/Vibration</string>
-    <string name="pref_alert_sound">Alarm-Sound</string>
-    <string name="pref_alert_sound_summ">Erzeuge einen Sound wenn ein Zählalarm ausgelöst wird</string>
+    <string name="pref_deviation_title">Max. Distanz der Track-Abweichung</string>
+
+    <string name="pref_csv_output_dialog">Sortierung der Ergebnisse und der exportierten csv-Tabelle</string>
+    <string name="pref_csv_output_title">Sortierung der Ergebnisse</string>
+    <string name="prefs_csv_output_title">Ausgabe</string>
+
+    <string name="pref_alert_sound">Ereignis-Sound</string>
+    <string name="pref_alert_sound_summ">Erzeuge einen Sound wenn ein Ereignis ausgelöst wird</string>
     <string name="pref_button_sound">Button-Sound</string>
     <string name="pref_button_sound_summ">Erzeuge einen Sound wenn ein Zähl-Button getippt wird</string>
     <string name="pref_button_vib">Button-Vibration</string>
     <string name="pref_button_vib_summ">Erzeuge eine Vibration wenn ein Zähl-Button getippt wird</string>
+    <string name="prefs_sound_vib">Sound/Vibration</string>
 
-    <string name="prefs_counting">Zählen</string>
     <string name="pref_awake">Lass Bildschirm an</string>
     <string name="pref_awake_summ">Verhindere den Ruhezustand beim Zählen</string>
     <string name="pref_bright">Bildschirm hell</string>
     <string name="pref_bright_summ">Die TransektCount-Seiten zum Zählen und Editieren hell setzen</string>
+    <string name="prefs_GPS">GPS (benötigt GPX-Track)</string>
+    <string name="prefs_counting">Zählen</string>
 
+    <string name="pref_auto_section">Transektabschnitt per GPS erkennen</string>
+    <string name="pref_auto_section_summ">Markiert automatisch den aktuellen Transektabschnitt per GPS (setzt passende GPX-Koordinaten-Liste voraus).</string>
     <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>
     <string name="pref_proximity_title">Näherungsensor</string>
 
     <!-- CountOptionsActivity -->
-    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
-    <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
-    <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
-    <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
-    <string name="editCountValueli">Intern-Zählerstand [ %1$d ] von Raupe ändern</string>
-    <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
-    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
-    <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
-    <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
-    <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
-    <string name="editCountValuele">Extern-Zählerstand [ %1$d ] von Raupe ändern</string>
-    <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="addSomeAlerts">Jeder Art können Alarme zugewiesen werden, die ausgelöst werden, wenn die jeweils vorgegebene Anzahl an intern gezählten Faltern erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
     <string name="alertName">Neuer Alarm</string>
-    <string name="spec_Name">Name</string>
-    <string name="spec_NameG">Deutscher Name</string>
+    <string name="countCode">Code</string>
     <string name="countName">Neue Art</string>
     <string name="countNameG">Neue Art (deutscher Name)</string>
-    <string name="countCode">Code</string>
-    <string name="notesSpecies">Bemerkung zur Art (%1$s)</string>
     <string name="delAlert">Lösche Alarm</string>
+    <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
+    <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
+    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
+    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
+    <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
+    <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
+    <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
+    <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
+    <string name="editCountValuele">Extern-Zählerstand [ %1$d ] von Raupe ändern</string>
+    <string name="editCountValueli">Intern-Zählerstand [ %1$d ] von Raupe ändern</string>
+    <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
+    <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
+    <string name="notesSpecies">Bemerkung zur Art (%1$s)</string>
     <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
-    <string name="yesDeleteIt">Löschen</string>
+    <string name="spec_Name">Name</string>
+    <string name="spec_NameG">Deutscher Name</string>
 
     <!-- ListViewSpecies -->
+    <string name="txt_e">Ei</string>
+    <string name="txt_f">♀</string>
+    <string name="txt_l">Raupe</string>
+    <string name="txt_m">♂</string>
+    <string name="txt_mf">♂|♀</string>
+    <string name="txt_p">Puppe</string>
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Liste wird berechnet&#8230;</string>
-    <string name="txt_mf">♂|♀</string>
-    <string name="txt_m">♂</string>
-    <string name="txt_f">♀</string>
-    <string name="txt_p">Puppe</string>
-    <string name="txt_l">Raupe</string>
-    <string name="txt_e">Ei</string>
 
     <!-- other stuff -->
     <string name="charZero">0</string>
+    <string name="countCodeHint">Code</string>
+    <string name="countExternalHint">Außerhalb des Zählbereichs</string>
+    <string name="countExternalSum">Summen außerhalb des Zählbereichs:</string>
+    <string name="countImagofHint">Falter ♀</string>
+    <string name="countImagomHint">Falter ♂</string>
+    <string name="countImagomfHint">Falter ♂|♀</string>
+    <string name="countInternalHint">Innerhalb des Zählbereichs</string>
+    <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
+    <string name="countLarvaHint">Raupe</string>
     <string name="countNameHint">Art-Name</string>
     <string name="countNameHintG">Art-Name (deutsch)</string>
-    <string name="countCodeHint">Code</string>
-    <string name="countInternalHint">Innerhalb des Zählbereichs</string>
-    <string name="countExternalHint">Außerhalb des Zählbereichs</string>
-    <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
-    <string name="countExternalSum">Summen außerhalb des Zählbereichs:</string>
-    <string name="totalsIES">Gesamt intern / extern / Arten:</string>
-    <string name="countImagomfHint">Falter ♂|♀</string>
-    <string name="countImagomHint">Falter ♂</string>
-    <string name="countImagofHint">Falter ♀</string>
-    <string name="countPupaHint">Puppe</string>
-    <string name="countLarvaHint">Raupe</string>
     <string name="countOvoHint">Ei</string>
-    <string name="hintTitle">Titel</string>
+    <string name="countPupaHint">Puppe</string>
+    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die problematische DB per E-Mail.</string>
     <string name="hintDateTime">Datum und Zeit\nder 1. Zählung:</string>
     <string name="hintInstructions">Anleitung.</string>
+    <string name="hintTitle">Titel</string>
     <string name="hintTotal">Gesamtsummen:</string>
-    <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die problematische DB per E-Mail.</string>
+    <string name="newSect">Neuer Abschnitt:</string>
+    <string name="no_provider">Kein GPS-Dienst verfügbar!</string>
     <string name="sect01">Ab 01</string>
-    <string name="cancel">Abbrechen</string>
+    <string name="totalsIES">Gesamt intern / extern / Arten:</string>
 
     <!-- Permissions -->
-    <string name="perm_required">Berechtigungen benötigt</string>
     <string name="app_settings">App-Einstellungen</string>
-    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
     <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Export der Ergebnisse.</string>
-    <string name="storage_perm_denied">Die für TransektCount notwendige Speicher-Berechtigung fehlt.</string>
-    <string name="dialog_background_loc_title">Permission wanted</string>
+    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
+    <string name="storage_not_possible">Die notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
+
+    <string name="dialog_background_loc_message">Wenn die App bei längeren Transektbegehungen genutzt werden soll, ist die Ortsbestimmung zuverlässiger mit der optionalen Berechtigung \'Immer zulassen\'.</string>
+    <string name="dialog_background_loc_title">Optionale Berechtigung erwünscht</string>
+    <string name="dialog_fine_location_message">Die Transektabschnitte-Erkennung benötigt höchstmögliche Genauigkeit.</string>
+    <string name="dialog_fine_location_title">Erlaube den genauen Standort zu erfassen.</string>
+    <string name="grant_perm_later">Die optionale Berechtigung \'Immer zulassen\' kann ggf. später in den Systemeinstellungen erteilt werden.</string>
 
 </resources>

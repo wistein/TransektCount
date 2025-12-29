@@ -1,6 +1,7 @@
 package com.wmstein.transektcount.database
 
-/**********************************
+/**********************************************************
+ * Table Alert interface with records of species alert data
  * Created by milo on 05/05/2014.
  * Adopted by wmstein on 2016-02-18
  * Converted to Kotlin on 2023-06-26

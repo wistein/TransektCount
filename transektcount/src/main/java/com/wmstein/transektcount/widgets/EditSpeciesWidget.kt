@@ -12,12 +12,12 @@ import com.wmstein.transektcount.database.Count
 import java.io.Serializable
 import java.util.Objects
 
-/******************************************************
- * EditSpeciesWidget is used by EditSectionListActivity
+/*********************************************************
+ * EditSpeciesWidget is used by EditSectionListActivity.kt
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2025-05-02
+ * Last edited on 2025-11-15
  */
 class EditSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {

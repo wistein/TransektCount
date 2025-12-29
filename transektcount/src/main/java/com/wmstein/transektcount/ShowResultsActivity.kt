@@ -26,18 +26,16 @@ import com.wmstein.transektcount.widgets.ResultsMetaWidget
 import com.wmstein.transektcount.widgets.ResultsSpeciesWidget
 import com.wmstein.transektcount.widgets.ResultsSumWidget
 
-/************************************************************
- * ShowResultsActivity shows results list of counted Species,
+/******************************************************************
+ * ShowResultsActivity.kt shows results list of counted species,
  * uses ResultsSpeciesWidget, ResultsHeadWidget, ResultsMetaWidget,
  * ResultsSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-06-28
+ * last edited on 2025-12-29
  */
 class ShowResultsActivity : AppCompatActivity() {
-    private var transektCount: TransektCountApplication? = null
-
     private var specArea: LinearLayout? = null
 
     // Data
@@ -53,17 +51,17 @@ class ShowResultsActivity : AppCompatActivity() {
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
+    private var brightPref = false
     private var awakePref = false
     private var outPref: String? = null
-    private var brightPref = false
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (MyDebug.DLOG) Log.i(TAG, "64, onCreate")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "63, onCreate")
 
-        transektCount = application as TransektCountApplication
         awakePref = prefs.getBoolean("pref_awake", true)
         outPref = prefs.getString("pref_csv_out", "species") // sort mode output
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -94,10 +92,13 @@ class ShowResultsActivity : AppCompatActivity() {
 
         // Set full brightness of screen
         if (brightPref) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             val params = window.attributes
             params.screenBrightness = 1.0f
             window.attributes = params
+        }
+
+        if (awakePref) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
         headDataSource = HeadDataSource(this)
@@ -105,19 +106,16 @@ class ShowResultsActivity : AppCompatActivity() {
         metaDataSource = MetaDataSource(this)
         countDataSource = CountDataSource(this)
 
-        supportActionBar!!.title = getString(R.string.viewSpecTitle)
+        supportActionBar!!.setTitle(R.string.viewSpecTitle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         specArea = findViewById(R.id.listSpecLayout)
 
-        if (awakePref) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
-
         // new onBackPressed logic
-        val callback = object :  OnBackPressedCallback(true) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (MyDebug.DLOG) Log.i(TAG, "120, handleOnBackPressed")
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "118, handleOnBackPressed")
                 finish()
                 remove()
             }
@@ -129,11 +127,8 @@ class ShowResultsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (MyDebug.DLOG) Log.i(TAG, "132, onResume")
-
-        if (awakePref) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "131, onResume")
 
         headDataSource!!.open()
         metaDataSource!!.open()
@@ -195,17 +190,16 @@ class ShowResultsActivity : AppCompatActivity() {
         specArea!!.addView(lmw)
 
         // display all the sorted counts by adding them to listSpecies layout
-        var sect_id: Int
+        var sectId: Int
         var section: Section
-        val specs: List<Count> // List of sorted species
 
-        if (outPref.equals("sections")) {
+        val specs: List<Count> = if (outPref.equals("sections")) {
             // sort criteria are section and name
-            specs = countDataSource!!.allCountsForSrtSectionName
+            countDataSource!!.allCountsForSrtSectionName
         } else {
             // sort criteria are name and section
-            specs = countDataSource!!.allCountsForSrtNameSection
-        }
+            countDataSource!!.allCountsForSrtNameSection
+        } // List of sorted species
 
         val sumSpec: Int = countDataSource!!.diffSpec // get number of different species
         var specCntf1i: Int
@@ -223,8 +217,8 @@ class ShowResultsActivity : AppCompatActivity() {
 
         for (spec in specs) {
             val widget = ResultsSpeciesWidget(this, null)
-            sect_id = widget.getSpecSectionid(spec)
-            section = sectionDataSource!!.getSection(sect_id)
+            sectId = widget.getSpecSectionid(spec)
+            section = sectionDataSource!!.getSection(sectId)
             widget.setCount(spec, section)
             specCntf1i = widget.getSpecCountf1i(spec)
             specCntf2i = widget.getSpecCountf2i(spec)
@@ -280,8 +274,8 @@ class ShowResultsActivity : AppCompatActivity() {
         // display all counted soecies per section
         for (spec in specs) {
             val widget = ResultsSpeciesWidget(this, null)
-            sect_id = widget.getSpecSectionid(spec)
-            section = sectionDataSource!!.getSection(sect_id)
+            sectId = widget.getSpecSectionid(spec)
+            section = sectionDataSource!!.getSection(sectId)
             widget.setCount(spec, section)
             specArea!!.addView(widget)
         }
@@ -291,7 +285,8 @@ class ShowResultsActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (MyDebug.DLOG) Log.i(TAG, "294, onPause")
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "289, onPause")
 
         // close the data sources
         headDataSource!!.close()
@@ -299,19 +294,32 @@ class ShowResultsActivity : AppCompatActivity() {
         countDataSource!!.close()
         sectionDataSource!!.close()
 
+        specArea!!.clearFocus()
+        specArea!!.removeAllViews()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "305, onStop")
+
         if (awakePref) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+
+        specArea = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        specArea = null
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "318, onDestroy")
     }
 
     companion object {
-        private const val TAG = "ListSpecAct"
+        private const val TAG = "ShowResultsAct"
     }
 
 }

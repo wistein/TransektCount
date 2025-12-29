@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ widget_counting_head1.xml used by CountingWidgetHead1.java
-  ~ Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany.
-  ~ Last edited on 2025-07-06.
+  ~ Copyright (c) 2016-2023, Wilhelm Stein, Bonn, Germany.
+  ~ Last edited on 2025-07-07.
   -->
 
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"

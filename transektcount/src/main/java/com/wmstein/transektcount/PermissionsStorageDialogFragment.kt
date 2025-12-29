@@ -9,23 +9,21 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
 
-/*************************************************************
+/*******************************************************************
  * PermissionsStorageDialogFragment provides the permission handling,
  * which is necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2025-06-28
+ * last edited on 2025-12-28
  */
 class PermissionsStorageDialogFragment : DialogFragment() {
-    private var context: Context? = null
-    private var shouldResolve = false
-    private var externalGrantNeeded = false
-    private var externalGrant30Needed = false
+    private var context: Context? = null // activity
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,22 +34,30 @@ class PermissionsStorageDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "38, onCreate, PermStorage")
+
         setStyle(STYLE_NO_TITLE, R.style.PermissionsDialogFragmentStyle)
         isCancelable = false
 
-        // Check for given storage permission
-        requestStoragePermissions()
-    }
-
-    // Request storage permission
-    private fun requestStoragePermissions() {
+        // Request storage permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // launch permission request dialog (Android >=11)
             val permission = Manifest.permission.MANAGE_EXTERNAL_STORAGE
+
+            // launch permission request dialog (Android >=11)
             permissionLauncherStorage.launch(permission)
         } else {
-            // Android < 11
             val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+            // Android < 11
+            permissionLauncherStorage.launch(permission)
+        }
+
+        // Request storage permission
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+            // Android < 11
             permissionLauncherStorage.launch(permission)
         }
     }
@@ -61,46 +67,29 @@ class PermissionsStorageDialogFragment : DialogFragment() {
         ActivityResultContracts.RequestPermission()
     )
     { isGranted ->
-        shouldResolve = true
-        if (MyDebug.DLOG) Log.d(TAG, "65, onActivityResult: isGranted: $isGranted")
-
         if (isGranted) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                externalGrantNeeded = false
-            } else {
-                externalGrant30Needed = false
-            }
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.d(TAG, "72, permLauncherStorage granted: true")
             dismiss()
         } else {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                externalGrantNeeded = true
-            } else {
-                externalGrant30Needed = true
-            }
-            if (MyDebug.DLOG) Log.d(TAG, "80, onActivityResult: Permission denied...")
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (shouldResolve) {
-            if (externalGrantNeeded) {
-                if (MyDebug.DLOG) Log.i(TAG, "89, ask storage")
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "77, ask external storage")
                 showAppSettingsStorageDialog()
-            }
-            if (externalGrant30Needed) {
+            } else {
                 // >= API 30
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (MyDebug.DLOG) Log.i(TAG, "95, ask manage storage")
-                    showAppSettingsManageStorageDialog()
-                }
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "82, ask manage storage")
+                showAppSettingsManageStorageDialog()
             }
         }
     }
 
-    // Query missing  external storage permissions for API <30
+    // Query missing external storage permissions for API <30
     private fun showAppSettingsStorageDialog() {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "91, AppSettingsStorDlg")
+
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.dialog_storage_title))
             .setMessage(getString(R.string.dialog_storage_message))
@@ -112,7 +101,7 @@ class PermissionsStorageDialogFragment : DialogFragment() {
                 requireContext().startActivity(intent)
                 dismiss()
             }
-            .setNegativeButton(getString(R.string.cancel))
+            .setNegativeButton(getString(R.string.cancelButton))
             { _: DialogInterface?, _: Int ->
                 dismiss()
             }
@@ -120,17 +109,34 @@ class PermissionsStorageDialogFragment : DialogFragment() {
     }
 
     // Query missing manage storage permission for API >=30
-    @RequiresApi(Build.VERSION_CODES.R)
     private fun showAppSettingsManageStorageDialog() {
-        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-        val uri = Uri.fromParts("package", "com.wmstein.transektcount", null)
-        intent.data = uri
-        startActivity(intent)
-        dismiss()
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "114, AppSettingsManageStorDlg")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) { // API 30
+            val mesg = getString(R.string.dialog_storage_message)
+            Toast.makeText(
+                this.context,
+                HtmlCompat.fromHtml(
+                    "<font color='red'><b>$mesg</b></font>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ), Toast.LENGTH_LONG
+            ).show()
+
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            val uri = Uri.fromParts("package", "com.wmstein.transektcount", null)
+            intent.data = uri
+            startActivity(intent)
+
+            dismiss()
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "139, onDetach")
 
         context = null
     }
