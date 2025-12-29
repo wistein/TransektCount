@@ -87,7 +87,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
             enableEdgeToEdge()
         }

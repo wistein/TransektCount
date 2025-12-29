@@ -28,6 +28,8 @@ class TransektCountApplication : Application() {
     var width: Int = 0
     var height: Int = 0
 
+    // onCreate() here is started before any activity starts, so it is the place
+    //   start any ActivityLifecycle function
     override fun onCreate() {
         super.onCreate()
 

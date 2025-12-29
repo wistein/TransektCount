@@ -15,7 +15,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.Ringtone;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -86,7 +86,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-08-05
+ * last edited on 2025-12-29
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -95,6 +95,8 @@ public class CountingActivity
     private int sectionId;  // section ID
     private int iid = 1;    // count ID
     private int itemPosition = 0; // 0 = 1. position of selected species in array for Spinner
+
+    private View counting_screen;
 
     private LinearLayout countsFieldHeadArea1; // headline internal/external
     private LinearLayout countsFieldArea1;     // internal counts field
@@ -148,7 +150,9 @@ public class CountingActivity
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    private Ringtone r;
+    private Context audioAttributionContext;
+    private MediaPlayer rToneP, rToneM, rToneA;
+    private boolean setNoButtonSound = false;
     private Vibrator vibrator;
     private String mesg = "";
 
@@ -156,7 +160,10 @@ public class CountingActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (MyDebug.DLOG) Log.d(TAG, "159, onCreate");
+        if (MyDebug.DLOG) Log.d(TAG, "163, onCreate");
+
+        audioAttributionContext = (Build.VERSION.SDK_INT >= 30) ?
+                createAttributionContext("ringSound") : this;
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -191,7 +198,7 @@ public class CountingActivity
         // Distinguish between left-/ right-handed counting page layout
         if (lhandPref) {
             setContentView(R.layout.activity_counting_lh);
-            LinearLayout counting_screen = findViewById(R.id.countingScreenLH);
+            counting_screen = findViewById(R.id.countingScreenLH);
             counting_screen.setBackground(transektCount.setBackgr());
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1LH);
             countsFieldArea1 = findViewById(R.id.countsField1LH);
@@ -212,7 +219,7 @@ public class CountingActivity
                     });
         } else {
             setContentView(R.layout.activity_counting);
-            LinearLayout counting_screen = findViewById(R.id.countingScreen);
+            counting_screen = findViewById(R.id.countingScreen);
             counting_screen.setBackground(transektCount.setBackgr());
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1RH);
             countsFieldArea1 = findViewById(R.id.countsField1RH);
@@ -314,7 +321,7 @@ public class CountingActivity
     protected void onResume() {
         super.onResume();
 
-        if (MyDebug.DLOG) Log.d(TAG, "317, onResume");
+        if (MyDebug.DLOG) Log.d(TAG, "324, onResume");
 
         mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -327,6 +334,35 @@ public class CountingActivity
 
         if (awakePref)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        // Prepare button sounds
+        if (alertSoundPref) {
+            Uri uriA;
+            if (isNotBlank(alertSound) && alertSound != null)
+                uriA = Uri.parse(alertSound);
+            else
+                uriA = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            if (rToneA == null)
+                rToneA = MediaPlayer.create(audioAttributionContext, uriA);
+        }
+
+        if (buttonSoundPref) {
+            Uri uriP;
+            if (isNotBlank(buttonSound) && buttonSound != null) {
+                uriP = Uri.parse(buttonSound);
+            } else
+                uriP = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            if (rToneP == null)
+                rToneP = MediaPlayer.create(audioAttributionContext, uriP);
+
+            Uri uriM;
+            if (isNotBlank(buttonSoundMinus) && buttonSoundMinus != null)
+                uriM = Uri.parse(buttonSoundMinus);
+            else
+                uriM = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            if (rToneM == null)
+                rToneM = MediaPlayer.create(audioAttributionContext, uriM);
+        }
 
         // Build the counting screen
         //   Clear any existing views
@@ -450,7 +486,7 @@ public class CountingActivity
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
             if (MyDebug.DLOG)
-                Log.d(TAG, "453 Value0: " + event.values[0] + ", " + "Sensitivity: "
+                Log.d(TAG, "489 Value0: " + event.values[0] + ", " + "Sensitivity: "
                         + (sensorSensitivity));
 
             // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -641,7 +677,7 @@ public class CountingActivity
     protected void onPause() {
         super.onPause();
 
-        if (MyDebug.DLOG) Log.d(TAG, "644, onPause");
+        if (MyDebug.DLOG) Log.d(TAG, "680, onPause");
 
         disableProximitySensor();
 
@@ -665,17 +701,44 @@ public class CountingActivity
     public void onStop() {
         super.onStop();
 
-        if (MyDebug.DLOG) Log.d(TAG, "668, onStop");
+        if (MyDebug.DLOG) Log.d(TAG, "704, onStop");
 
-        if (r != null)
-            r.stop(); // stop media player
+        counting_screen.invalidate();
+
+        // Stop media player
+        if (buttonSoundPref) {
+            if (rToneP != null) {
+                if (rToneP.isPlaying()) {
+                    rToneP.stop();
+                }
+                rToneP.release();
+                rToneP = null;
+            }
+            if (rToneM != null) {
+                if (rToneM.isPlaying()) {
+                    rToneM.stop();
+                }
+                rToneM.release();
+                rToneM = null;
+            }
+        }
+
+        if (alertSoundPref) {
+            if (rToneA != null) {
+                if (rToneA.isPlaying()) {
+                    rToneA.stop();
+                }
+                rToneA.release();
+                rToneA = null;
+            }
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (MyDebug.DLOG) Log.d(TAG, "678, onDestroy");
+        if (MyDebug.DLOG) Log.d(TAG, "741, onDestroy");
     }
 
     // Spinner listener
@@ -698,13 +761,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (MyDebug.DLOG)
-                        Log.d(TAG, "701, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "764, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (MyDebug.DLOG)
-                        Log.e(TAG, "707, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "770, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -717,7 +780,7 @@ public class CountingActivity
 
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
-        if (MyDebug.DLOG) Log.d(TAG, "720, countingScreen");
+        if (MyDebug.DLOG) Log.d(TAG, "783, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -835,7 +898,7 @@ public class CountingActivity
     public void countUpf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "838, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "901, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -894,7 +957,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (MyDebug.DLOG)
-            Log.d(TAG, "897, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "960, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1345,7 +1408,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1348, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1411, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1393,7 +1456,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (MyDebug.DLOG)
-            Log.d(TAG, "1396 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1459 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1881,13 +1944,13 @@ public class CountingActivity
             try {
                 entries = sectionDataSource.getNumEntries();
             } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1884 getNumEntries failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1947 getNumEntries failed");
             }
 
             try {
                 maxId = sectionDataSource.getMaxId();
             } catch (Exception e) {
-                if (MyDebug.DLOG) Log.d(TAG, "1890 getMaxId failed");
+                if (MyDebug.DLOG) Log.d(TAG, "1963 getMaxId failed");
             }
 
             if (entries != maxId) {
@@ -1896,7 +1959,7 @@ public class CountingActivity
                         HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
                                 HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "1899 maxId: " + maxId + ", entries: " + entries);
+                    Log.d(TAG, "1962 maxId: " + maxId + ", entries: " + entries);
                 return;
             }
 
@@ -1935,11 +1998,11 @@ public class CountingActivity
         for (int i = 1; i < childcount; i++) {
             section = sectionDataSource.getSection(i);
             sname = section.name;
-            if (MyDebug.DLOG) Log.d(TAG, "1938, compSectionNames, sname = " + sname);
+            if (MyDebug.DLOG) Log.d(TAG, "2001, compSectionNames, sname = " + sname);
 
             if (newname.equals(sname)) {
                 isDblName = true;
-                if (MyDebug.DLOG) Log.d(TAG, "1942, compSectionNames, Double name = " + sname);
+                if (MyDebug.DLOG) Log.d(TAG, "2005, compSectionNames, Double name = " + sname);
                 break;
             }
         }
@@ -1967,68 +2030,50 @@ public class CountingActivity
     // If the user has set the preference for an audible alert, then sound it here.
     private void soundAlert() {
         if (alertSoundPref) {
-            try {
-                Uri notification;
-                if (isNotBlank(alertSound) && alertSound != null)
-                    notification = Uri.parse(alertSound);
-                else
-                    notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                r.play();
-                mHandler.postDelayed(r::stop, 300); // Stop sound after 0.3 sec
-            } catch (Exception e) {
-                // Do nothing
+            if (rToneA.isPlaying()) {
+                rToneA.stop();
+                rToneA.release();
             }
+            rToneA.start();
         }
     }
 
     // If the user has set the preference for button sound, then sound it here.
     private void soundButtonSound() {
         if (buttonSoundPref) {
-            try {
-                Uri notification;
-                if (isNotBlank(buttonSound) && buttonSound != null)
-                    notification = Uri.parse(buttonSound);
-                else
-                    notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-                r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                r.play();
-                mHandler.postDelayed(r::stop, 400);
-            } catch (Exception e) {
-                // Do nothing
+            // don't soundButtonSound() when soundAlert()
+            if (setNoButtonSound) {
+                setNoButtonSound = false;
+            } else {
+                if (rToneP.isPlaying()) {
+                    rToneP.stop();
+                    rToneP.release();
+                }
+                rToneP.start();
             }
         }
     }
 
     private void soundButtonSoundMinus() {
         if (buttonSoundPref) {
-            try {
-                Uri notification;
-                if (isNotBlank(buttonSoundMinus) && buttonSoundMinus != null)
-                    notification = Uri.parse(buttonSoundMinus);
-                else
-                    notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-                r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                r.play();
-                mHandler.postDelayed(r::stop, 400);
-            } catch (Exception e) {
-                // Do nothing
+            if (rToneM.isPlaying()) {
+                rToneM.stop();
+                rToneM.release();
             }
+            rToneM.start();
         }
     }
 
     private void buttonVib(long dur) {
         if (buttonVibPref && vibrator.hasVibrator()) {
             if (SDK_INT >= 31) { // S, Android 12
-                if (MyDebug.DLOG) Log.d(TAG, "2025, Vibrator >= SDK 31");
+                if (MyDebug.DLOG) Log.d(TAG, "2070, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (SDK_INT >= 26) // Oreo Android 8
                 {
-                    if (MyDebug.DLOG) Log.d(TAG, "2031 Vibrator >= SDK 26");
+                    if (MyDebug.DLOG) Log.d(TAG, "2076 Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();

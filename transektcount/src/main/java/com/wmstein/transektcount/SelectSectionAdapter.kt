@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Handler
 import android.os.Looper
@@ -47,11 +47,13 @@ internal class SelectSectionAdapter(
     private var prefs: SharedPreferences? = null
     private var buttonSoundPref = false
     private var buttonVibPref = false
-    private var buttonSound: String? = null
+    private var buttonSound: String = ""
+    private var rToneP: MediaPlayer? = null
+    private var audioAttributionContext: Context? = null
 
     private fun setPrefs() {
         buttonSoundPref = prefs!!.getBoolean("pref_button_sound", false)
-        buttonSound = prefs!!.getString("button_sound", null)
+        buttonSound = prefs!!.getString("button_sound", "")!!
         buttonVibPref = prefs!!.getBoolean("pref_button_vib", false)
     }
 
@@ -68,10 +70,25 @@ internal class SelectSectionAdapter(
     //   may need garbage collection in SelectSectionActivity as RAM may run short
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        audioAttributionContext =
+            if (SDK_INT >= 30)
+                mContext.createAttributionContext("ringSound")
+            else mContext
         var sectionsListRow = convertView
         val holder: SectionHolder
         prefs = TransektCountApplication.getPrefs()
         setPrefs()
+
+        // Prepare button sounds
+        if (buttonSoundPref) {
+            val uriP = if (isNotBlank(buttonSound))
+                buttonSound.toUri()
+            else
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (rToneP == null) {
+                rToneP = MediaPlayer.create(audioAttributionContext, uriP)
+            }
+        }
 
         val section = sections[position]
         val sectionId = section.id
@@ -94,12 +111,12 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_delete)
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "97, getView, Id = $sectionId, maxId = $maxId")
+                    Log.d(TAG, "114, getView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
                 if (MyDebug.DLOG)
-                    Log.d(TAG, "102, getView, Id = $sectionId, not maxId = $maxId")
+                    Log.d(TAG, "119, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
         } else {
@@ -180,36 +197,35 @@ internal class SelectSectionAdapter(
     // button sound
     private fun soundButtonSound() {
         if (buttonSoundPref) {
-            try {
-                val notification: Uri = if (isNotBlank(buttonSound) && buttonSound != null) {
-                    buttonSound!!.toUri()
-                } else
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                val r = RingtoneManager.getRingtone(context, notification)
-                r.play()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    r.stop()
-                }, 400)
-            } catch (e: Exception) {
-                e.printStackTrace()
+            if (rToneP!!.isPlaying) {
+                rToneP!!.stop()
+                rToneP!!.release()
             }
+            rToneP!!.start()
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (rToneP!!.isPlaying) {
+                    rToneP!!.stop()
+                }
+                rToneP!!.release()
+                rToneP = null
+            }, 500)
         }
     }
 
     private fun buttonVib() {
         if (buttonVibPref && vibrator.hasVibrator()) {
             if (SDK_INT >= 31) { // S, Android 12
-                if (MyDebug.DLOG) Log.d(TAG, "202, Vibrator >= SDK 31")
+                if (MyDebug.DLOG) Log.d(TAG, "218, Vibrator >= SDK 31")
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
             } else {
                 if (SDK_INT >= 26) {
-                    if (MyDebug.DLOG) Log.d(TAG, "207, Vibrator >= SDK 26")
+                    if (MyDebug.DLOG) Log.d(TAG, "223, Vibrator >= SDK 26")
 
                     vibrator.vibrate(VibrationEffect.createOneShot(200,
                             VibrationEffect.DEFAULT_AMPLITUDE))
                 } else {
-                    if (MyDebug.DLOG) Log.d(TAG, "212 Vibrator < SDK 26")
+                    if (MyDebug.DLOG) Log.d(TAG, "228 Vibrator < SDK 26")
                     @Suppress("DEPRECATION")
                     vibrator.vibrate(200)
                 }
