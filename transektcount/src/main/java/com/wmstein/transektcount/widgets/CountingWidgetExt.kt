@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2025. Wilhelm Stein, Bonn, Germany.
+ * Copyright © 2016-2026. Wilhelm Stein, Bonn, Germany.
  */
 package com.wmstein.transektcount.widgets
 

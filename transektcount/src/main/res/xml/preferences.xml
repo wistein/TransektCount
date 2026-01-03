@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- used by SettingsActivity.java
-     last edited 2025-12-25 -->
+     last edited 2026-01-03 -->
 
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -81,7 +81,6 @@
         <SwitchPreferenceCompat
             android:key="pref_button_vib"
             android:defaultValue="false"
-            android:icon="@drawable/outline_vibration_48"
             android:summary="@string/pref_button_vib_summ"
             android:title="@string/pref_button_vib" />
     </PreferenceCategory>
@@ -109,7 +108,6 @@
             android:dialogTitle="@string/pref_proximity_dialog"
             android:entries="@array/pref_prox_entries"
             android:entryValues="@array/pref_prox_values"
-            android:icon="@drawable/ic_speaker_phone_black_48dp"
             android:title="@string/pref_proximity_title"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
@@ -120,7 +118,6 @@
         <SwitchPreferenceCompat
             android:key="pref_auto_section"
             android:defaultValue="false"
-            android:icon="@drawable/baseline_room_48"
             android:summary="@string/pref_auto_section_summ"
             android:title="@string/pref_auto_section" />
 

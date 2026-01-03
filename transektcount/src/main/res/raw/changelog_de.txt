@@ -41,7 +41,7 @@ _ subtitle
   <body>
 
   % TransektCount(GPS)
-  _ Copyright (C) 2016-2025, Wilhelm Stein
+  _ Copyright (C) 2016-2026, Wilhelm Stein
   _
   _ email: stein.wm@web.de
   _
@@ -69,7 +69,7 @@ _ subtitle
 
 $ 5.0.0
   % Version 5.0.0
-  _ 29.12.2025
+  _ 03.01.2026
   * Diese Version wurde in vielen Punkten überarbeitet und kommt mit optionaler GPS-Unterstützung zwecks Meldung eines Transektabschnitts-Wechsels. Die Verwendung von GPS benötigt dazu die Bereitstellung von Transekt-Trackdaten, beschrieben in der Hilfe und in TransektCount_Anleitung_5.0.0.pdf
   * Wird GPS aktiviert, ändert sich auf der Startseite der App-Name von TransektCount zu TransektCountGPS
   * Ist GPS aktiviert, erscheint auf der Startseite eine kurze Meldung über die Entfernung zum Transekt
@@ -82,10 +82,13 @@ $ 5.0.0
   * Lesbarkeit relevanter Seiten mit ausgegrauten "0"-Werten verbessert
   * Abbildung und Daten von Nomophila noctuella (Wanderzünsler) ergänzt.
   * Einige Meldungen verständlicher formuliert.
-  * Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio.
-  * Einige Code- und Bild-Verbesserungen.
-  * Doku überarbeitet.
-  * Bug-Fixe.
+  * Unter Einstellungen sind "Button-Vibration" und "Näherungssensor" ausgegraut, wenn im Gerät nicht vorhanden.
+  * Unter Einstellungen ist "GPS" ausgegraut, wenn kein Transekt-Track geladen ist.
+  * Viele andere Code- und einige Abbildungs-Verbesserungen
+  * Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio
+  * Doku überarbeitet
+  * Bug-Fix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10
+  * Andere Bug-Fixe
 
 $ 4.2.9
   % Version 4.2.9

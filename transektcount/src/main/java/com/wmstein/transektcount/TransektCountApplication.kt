@@ -21,7 +21,7 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edit on 2025-12-29
+ * last edited on 2025-12-29
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null

@@ -49,7 +49,7 @@ import kotlin.math.sqrt
  *
  * That code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2025-12-29
+ * last edited on 2025-12-31
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
@@ -87,16 +87,15 @@ class LocationService : Service, LocationListener {
         getLocation()
     }
 
-    @SuppressLint("UseKtx")
     private fun getLocation() {
         audioAttributionContext =
             if (Build.VERSION.SDK_INT >= 30)
                 mContext!!.createAttributionContext("ringSound")
-            else this
+            else mContext
         locationAttributionContext =
             if (Build.VERSION.SDK_INT >= 30)
                 mContext!!.createAttributionContext("locationCheck")
-            else this
+            else mContext
 
         prefs = TransektCountApplication.getPrefs()
         selTimeInterval = prefs!!.getString("pref_time_interval", "3000")!!.toLong()
@@ -107,15 +106,6 @@ class LocationService : Service, LocationListener {
 
         sectionDataSource = SectionDataSource(mContext!!)
         trackDataSource = TrackDataSource(mContext!!)
-
-        // Prepare alert sound
-        if (alertSoundPref) {
-            val uriA = if (isNotBlank(alertSound))
-                alertSound.toUri()
-            else
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            rToneA = MediaPlayer.create(audioAttributionContext, uriA)
-        }
 
         // Try to get list of trackpoints
         trackDataSource!!.open()
@@ -162,7 +152,7 @@ class LocationService : Service, LocationListener {
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "165, StopListener: $e")
+                Log.e(TAG, "155, StopListener: $e")
         }
     }
 
@@ -200,7 +190,7 @@ class LocationService : Service, LocationListener {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "203, current SecName: $sectionNameCurrent")
+            Log.d(TAG, "193, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -222,8 +212,8 @@ class LocationService : Service, LocationListener {
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.d(TAG, "225, is InsideTrack: $isInsideTrack")
-                Log.d(TAG, "226, new SecName: $sectionNameGPS")
+                Log.d(TAG, "215, is InsideTrack: $isInsideTrack")
+                Log.d(TAG, "216, new SecName: $sectionNameGPS")
             }
 
             sectionNameCurrent = sectionNameGPS
@@ -316,11 +306,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "319, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "309, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "323, StopListener: $e")
+                Log.e(TAG, "313, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -357,6 +347,12 @@ class LocationService : Service, LocationListener {
     // If the user has set the preference for an audible alert, then sound it here.
     private fun soundAlert() {
         if (alertSoundPref) {
+            val uriA = if (isNotBlank(alertSound))
+                alertSound.toUri()
+            else
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+            rToneA = MediaPlayer.create(audioAttributionContext, uriA)
             if (rToneA!!.isPlaying) {
                 rToneA!!.stop()
                 rToneA!!.release()

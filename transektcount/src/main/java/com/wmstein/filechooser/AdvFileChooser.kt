@@ -109,7 +109,7 @@ class AdvFileChooser : AppCompatActivity() {
         fileHead.text = fileHd
 
         // currentDir = /storage/emulated/0/Documents/TransektCount/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android Q (10+) changed -> R (11) todo?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android Q (10+)
         {
             currentDir = Environment.getExternalStorageDirectory()
             currentDir = File("$currentDir/Documents/TransektCount")

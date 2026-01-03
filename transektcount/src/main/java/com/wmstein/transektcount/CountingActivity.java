@@ -84,7 +84,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-12-29
+ * last edited on 2025-12-31
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -104,10 +104,10 @@ public class CountingActivity
     private LinearLayout alertNotesArea;       // alert notes line
 
     // Proximity sensor handling for screen on/off
-    private PowerManager mPowerManager;
-    private PowerManager.WakeLock mProximityWakeLock;
-    private SensorManager mSensorManager;
-    private Sensor mProximity;
+    private PowerManager powerManager;
+    private PowerManager.WakeLock proximityWakeLock;
+    private SensorManager sensorManager;
+    private Sensor proximitySensor;
 
     // Preferences
     private SharedPreferences prefs;
@@ -231,19 +231,20 @@ public class CountingActivity
         }
 
         // Proximity sensor handling screen on/off
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        if (mPowerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
-            mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        if (powerManager.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK))
+            proximityWakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
                     "TransektCount:WAKELOCK");
         else
-            mProximityWakeLock = null;
+            proximityWakeLock = null;
 
         // Get max. proximity sensitivity
         double sensorSensitivityMax;
-        if (mProximity != null)
-            sensorSensitivityMax = mProximity.getMaximumRange();
+        if (proximitySensor != null)
+            sensorSensitivityMax = proximitySensor.getMaximumRange();
         else {
             sensorSensitivityMax = 0;
         }
@@ -315,14 +316,15 @@ public class CountingActivity
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "316, onResume");
 
-        mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
-
-        // Prepare vibrator service
-        vibrator = getApplicationContext().getSystemService(Vibrator.class);
+        sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
         setPrefVariables(); // set prefs into their variables
+
+        // Prepare vibrator service
+        if (buttonVibPref)
+            vibrator = getApplicationContext().getSystemService(Vibrator.class);
 
         // Set full brightness of screen
         if (brightPref) {
@@ -341,6 +343,7 @@ public class CountingActivity
                 uriA = Uri.parse(alertSound);
             else
                 uriA = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
             if (rToneA == null)
                 rToneA = MediaPlayer.create(audioAttributionContext, uriA);
         }
@@ -484,23 +487,25 @@ public class CountingActivity
     // Proximity sensor handling
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "489 Value0: " + event.values[0] + ", " + "Sensitivity: "
-                        + (sensorSensitivity));
+        if (proximitySensor != null) {
+            if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.d(TAG, "491 Value0: " + event.values[0] + ", " + "Sensitivity: "
+                            + (sensorSensitivity));
 
-            // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
-            if (event.values[0] >= -sensorSensitivity && event.values[0] < sensorSensitivity) {
-                // near
-                if (mProximityWakeLock == null)
-                    mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
-                            "TransektCount:WAKELOCK");
+                // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
+                if (event.values[0] >= -sensorSensitivity && event.values[0] < sensorSensitivity) {
+                    // near
+                    if (proximityWakeLock == null)
+                        proximityWakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK,
+                                "TransektCount:WAKELOCK");
 
-                if (!mProximityWakeLock.isHeld())
-                    mProximityWakeLock.acquire(30 * 60 * 1000L); // 30 minutes
-            } else {
-                // far
-                disableProximitySensor();
+                    if (!proximityWakeLock.isHeld())
+                        proximityWakeLock.acquire(30 * 60 * 1000L); // 30 minutes
+                } else {
+                    // far
+                    disableProximitySensor();
+                }
             }
         }
     }
@@ -512,12 +517,12 @@ public class CountingActivity
 
     private void disableProximitySensor() // far
     {
-        if (mProximityWakeLock == null)
+        if (proximityWakeLock == null)
             return;
-        if (mProximityWakeLock.isHeld()) {
+        if (proximityWakeLock.isHeld()) {
             int flags = PowerManager.RELEASE_FLAG_WAIT_FOR_NO_PROXIMITY;
-            mProximityWakeLock.release(flags);
-            mProximityWakeLock = null;
+            proximityWakeLock.release(flags);
+            proximityWakeLock = null;
         }
     }
 
@@ -664,7 +669,7 @@ public class CountingActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "667, onPause");
+            Log.i(TAG, "669, onPause");
 
         disableProximitySensor();
 
@@ -680,7 +685,7 @@ public class CountingActivity
         }
 
         prefs.unregisterOnSharedPreferenceChangeListener(this);
-        mSensorManager.unregisterListener(this);
+        sensorManager.unregisterListener(this);
     }
     // End of onPause()
 
@@ -689,7 +694,7 @@ public class CountingActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "692, onStop");
+            Log.i(TAG, "694, onStop");
 
         counting_screen.invalidate();
 
@@ -727,7 +732,7 @@ public class CountingActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "730, onDestroy");
+            Log.i(TAG, "732, onDestroy");
     }
 
     // Spinner listener
@@ -750,13 +755,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "753, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "755, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "759, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "761, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -770,7 +775,7 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "773, countingScreen");
+            Log.d(TAG, "775, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -891,7 +896,7 @@ public class CountingActivity
         //  no action by 1st click when previous species selected again
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "894, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "896, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -948,7 +953,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "951, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "953, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1402,7 +1407,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1405, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1407, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1450,7 +1455,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1453 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1455 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1956,17 +1961,17 @@ public class CountingActivity
     }
 
     private void buttonVib(long dur) {
-        if (buttonVibPref && vibrator.hasVibrator()) {
+        if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1962, Vibrator >= SDK 31");
+                    Log.d(TAG, "1964, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                 {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "1969, Vibrator >= SDK 26");
+                        Log.d(TAG, "1971, Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();

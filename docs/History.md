@@ -1,8 +1,8 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2025, Wilhelm Stein
+#### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.0 (2025-12-29)
+#### Version 5.0.0 (2026-01-03)
 - This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
 - When activating GPS the app's name on the starting screen changes from TransektCount to TransektCountGPS
 - With GPS activated the starting page shows a short hint message with the distance to the transect 
@@ -15,10 +15,13 @@
 - On relevant pages the number fields show dimmed "0"-values for better readability
 - Picture and data of Nomophila noctuella (Rush veneer) added
 - Some messages worded more clearly
+- Under Settings, items "Button Vibration" and "Proximity Sensor" are grayed out if not available in device
+- Under Settings, “GPS” is grayed out if no transect track is loaded
+- Many other code and some picture improvements
 - For debugging in Android Studio's emulator, permanent app specific support was added
-- Some code and picture improvements
 - Docs updated
-- Bugfixes
+- Bugfix for sound-related crash under Android versions 7.1 - 10
+- Other Bugfixes
 
 #### Version 4.2.9 (2025-12-29)
 - Sound adapted for Android 16 demands

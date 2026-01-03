@@ -37,7 +37,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-12-29
+ * last edited on 2025-12-31
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -232,7 +232,7 @@ internal class SelectSectionAdapter(
     }
 
     private fun buttonVib() {
-        if (buttonVibPref && vibrator.hasVibrator()) {
+        if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
             } else {
