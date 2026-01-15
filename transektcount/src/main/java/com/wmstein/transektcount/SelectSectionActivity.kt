@@ -16,18 +16,20 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.Toast
+
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
-import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.database.TrackDataSource
+import com.wmstein.transektcount.Utils.fromHtml
 
 /************************************************************************************
  * Shows the list of selectable sections which is put together by SelectSectionAdapter.
@@ -37,10 +39,10 @@ import com.wmstein.transektcount.database.TrackDataSource
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2025-12-29
+ * last edited on 2026-01-15
  */
 class SelectSectionActivity : AppCompatActivity() {
-    private var transektCount: TransektCountApplication? = null
+    private lateinit var transektCount: TransektCountApplication
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
@@ -62,7 +64,15 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "65, onCreate")
+            Log.i(TAG, "67, onCreate")
+
+        transektCount = application as TransektCountApplication
+
+        // Register SelectSectionActivity to observe its lifecycle.
+        //  Used to modify the color of the GPS-selected section name
+        //  by restarting it in LocationService
+        val lifeCycleObserver = ActivityLifecycleObserver() // instance of observer
+        lifecycle.addObserver(lifeCycleObserver)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -86,10 +96,8 @@ class SelectSectionActivity : AppCompatActivity() {
         transectHasTrack = prefs.getBoolean("transect_has_track", false)
         autoSection = prefs.getBoolean("pref_auto_section", false)
 
-        transektCount = application as TransektCountApplication
-
         val listView = findViewById<LinearLayout>(R.id.list_view)
-        listView.background = transektCount!!.setBackgr()
+        listView.background = transektCount.setBackgr()
 
         sectionDataSource = SectionDataSource(this)
         trackDataSource = TrackDataSource(this)
@@ -128,7 +136,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "131, onResume")
+            Log.i(TAG, "139, onResume")
 
         list = findViewById(android.R.id.list)
         showData()
@@ -160,10 +168,8 @@ class SelectSectionActivity : AppCompatActivity() {
                 val mesg = getString(R.string.hasTrack)
                 Toast.makeText(
                     this,
-                    HtmlCompat.fromHtml(
-                        "<font color='red'><b>$mesg</b></font>",
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    ), Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$mesg</b></font>"),
+                    Toast.LENGTH_LONG
                 ).show()
             } else {
                 cloneSection()
@@ -178,7 +184,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "181, onPause")
+            Log.i(TAG, "187, onPause")
 
         sectionDataSource!!.close()
         trackDataSource!!.close()
@@ -193,7 +199,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "196, onStop")
+            Log.i(TAG, "202, onStop")
 
         list!!.invalidate()
     }
@@ -223,10 +229,8 @@ class SelectSectionActivity : AppCompatActivity() {
                     mesg = getString(R.string.attention) + " " + getString(R.string.newSectName)
                     Toast.makeText(
                         this,
-                        HtmlCompat.fromHtml(
-                            "<font color='red'><b>$mesg</b></font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ), Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$mesg</b></font>"),
+                        Toast.LENGTH_LONG
                     ).show()
                     return@OnClickListener
                 }
@@ -237,10 +241,8 @@ class SelectSectionActivity : AppCompatActivity() {
                         getString(R.string.attention) + " " + newSectName + " " + getString(R.string.isdouble)
                     Toast.makeText(
                         this,
-                        HtmlCompat.fromHtml(
-                            "<font color='red'><b>$mesg</b></font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ), Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$mesg</b></font>"),
+                        Toast.LENGTH_LONG
                     ).show()
                     return@OnClickListener
                 }
@@ -251,24 +253,22 @@ class SelectSectionActivity : AppCompatActivity() {
                     entries = sectionDataSource!!.numEntries
                 } catch (e: Exception) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "254 getNumEntries failed, $e")
+                        Log.e(TAG, "256 getNumEntries failed, $e")
                 }
 
                 try {
                     maxId = sectionDataSource!!.maxId
                 } catch (e: Exception) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "261 getMaxId failed, $e")
+                        Log.e(TAG, "263 getMaxId failed, $e")
                 }
 
                 if (entries != maxId) {
                     mesg = getString(R.string.notContiguous)
                     Toast.makeText(
                         this,
-                        HtmlCompat.fromHtml(
-                            "<font color='red'><b>$mesg</b></font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ), Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$mesg</b></font>"),
+                        Toast.LENGTH_LONG
                     ).show()
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                         Log.d(TAG, "274 maxId: $maxId, entries: $entries")
@@ -290,10 +290,8 @@ class SelectSectionActivity : AppCompatActivity() {
                 mesg = newSectName + " " + getString(R.string.newCopyCreated)
                 Toast.makeText(
                     this,
-                    HtmlCompat.fromHtml(
-                        "<font color='#008000'>$mesg</font>",
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    ), Toast.LENGTH_SHORT
+                    fromHtml("<font color='#008000'>$mesg</font>"),
+                    Toast.LENGTH_SHORT
                 ).show()
                 sections =
                     sectionDataSource!!.getAllSections(prefs) // with sorting order of pref_sort_sect
@@ -329,12 +327,12 @@ class SelectSectionActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             selSectName = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "332, compSectionNames, selSectName = $selSectName")
+                Log.d(TAG, "330, compSectionNames, selSectName = $selSectName")
 
             if (newName == selSectName) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "337, compSectionNames, Double name = $selSectName")
+                    Log.d(TAG, "335, compSectionNames, Double name = $selSectName")
                 break
             }
         }

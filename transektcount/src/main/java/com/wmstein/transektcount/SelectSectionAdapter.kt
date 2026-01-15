@@ -22,11 +22,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
 import com.wmstein.transektcount.LocationService.Companion.isNotBlank
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionIdGPS
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionNameCurrent
 import com.wmstein.transektcount.database.Section
+import com.wmstein.transektcount.Utils.fromHtml
 
 /**************************************************************
  * SelectSectionAdapter is called from SelectSectionActivity.
@@ -37,7 +37,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-12-31
+ * last edited on 2026-01-15
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -139,10 +139,7 @@ internal class SelectSectionAdapter(
         // Use GPS-sectionId from global variable sectionIdGPS to mark section in list
         if (sectionIdGPS > 0 && sectionId == sectionIdGPS) {
             val sName = section.name
-            holder.txtTitle!!.text = HtmlCompat.fromHtml(
-                "<font color='#4088FF'>$sName</font>",
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-            )
+            holder.txtTitle!!.text = fromHtml("<font color='#4088FF'>$sName</font>")
         } else
             holder.txtTitle!!.text = section.name // show section name without color
 
@@ -168,7 +165,6 @@ internal class SelectSectionAdapter(
         setPrefs()
         soundButton()
         buttonVib()
-
 
         sct = v.tag as Section
         sectionNameCurrent = sct!!.name.toString()
@@ -257,4 +253,3 @@ internal class SelectSectionAdapter(
     }
 
 }
-

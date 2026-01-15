@@ -67,6 +67,12 @@ _ subtitle
   .
   _
 
+$ 5.0.1
+  % Version 5.0.1
+  _ 2026-01-15
+  * Now if GPS identifies a different section the color if its name is also changed during the "Select Section" page is shown.
+  * Html formatting for app messages improved for different Android versions.
+
 $ 5.0.0
   % Version 5.0.0
   _ 2026-01-03

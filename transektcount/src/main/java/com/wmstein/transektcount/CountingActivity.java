@@ -41,11 +41,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
+import static com.wmstein.transektcount.Utils.fromHtml;
 
 import com.wmstein.transektcount.database.Alert;
 import com.wmstein.transektcount.database.AlertDataSource;
@@ -84,7 +85,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2025-12-31
+ * last edited on 2026-01-15
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -385,8 +386,8 @@ public class CountingActivity
         } catch (CursorIndexOutOfBoundsException e) {
             mesg = getString(R.string.getHelp);
             Toast.makeText(this,
-                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
+                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    Toast.LENGTH_LONG).show();
             disableProximitySensor();
             finish();
         }
@@ -561,8 +562,8 @@ public class CountingActivity
 
             mesg = getString(R.string.wait);
             Toast.makeText(this,
-                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
+                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -575,8 +576,8 @@ public class CountingActivity
 
             mesg = getString(R.string.wait);
             Toast.makeText(this,
-                    HtmlCompat.fromHtml("<font color='#008000'>" + mesg + "</font>",
-                            HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_SHORT).show();
+                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, EditSectionListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -602,8 +603,8 @@ public class CountingActivity
                     } catch (Exception e) {
                         mesg = getString(R.string.noPhotoPermit);
                         Toast.makeText(this,
-                                HtmlCompat.fromHtml("<font color='red'><b>" + mesg + "</b></font>",
-                                        HtmlCompat.FROM_HTML_MODE_LEGACY), Toast.LENGTH_LONG).show();
+                                fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             } else {

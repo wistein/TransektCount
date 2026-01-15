@@ -21,7 +21,7 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2025-12-29
+ * last edited on 2026-01-07
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -182,6 +182,9 @@ class TransektCountApplication : Application() {
 
         @JvmField
         var isFirstLoc: Boolean = true // true for showing a hint message once
+
+        @JvmField
+        var isActivityResumed: Boolean = false // true for SelectSectionActivity is shown
     }
 
 }

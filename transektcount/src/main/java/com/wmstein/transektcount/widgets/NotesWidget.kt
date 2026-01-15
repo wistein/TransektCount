@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.text.HtmlCompat
 import com.wmstein.transektcount.R
+import com.wmstein.transektcount.Utils.fromHtml
 import java.util.Objects
 
 /*****************************************************
@@ -17,7 +17,7 @@ import java.util.Objects
  * Uses widget_notes.xml.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2025-11-15
+ * last edit on 2026-01-15
  */
 class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView
@@ -30,9 +30,7 @@ class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context
 
     // Set notes with light blue introducer e.g. "Species notes: "
     fun setNotesC(intro: String?, notes: String?) {
-        textView.text = HtmlCompat.fromHtml(
-            "<font color='#BEFDFD'>$intro</font> $notes",
-            HtmlCompat.FROM_HTML_MODE_LEGACY)
+        textView.text = fromHtml("<font color='#BEFDFD'>$intro</font> $notes")
     }
 
     // Set simple notes

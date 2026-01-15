@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.1 (2026-01-15)
+- Now if GPS identifies a different section the color if its name is also changed during the "Select Section" page is shown.
+- Html formatting for app messages improved for different Android versions.
+
 #### Version 5.0.0 (2026-01-03)
 - This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
 - When activating GPS the app's name on the starting screen changes from TransektCount to TransektCountGPS

@@ -10,17 +10,19 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
+
+import com.wmstein.transektcount.Utils.fromHtml
 
 /*******************************************************************
  * PermissionsStorageDialogFragment provides the permission handling,
  * which is necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2025-12-28
+ * last edited on 2026-01-15
  */
 class PermissionsStorageDialogFragment : DialogFragment() {
     private var context: Context? = null // activity
@@ -117,10 +119,8 @@ class PermissionsStorageDialogFragment : DialogFragment() {
             val mesg = getString(R.string.dialog_storage_message)
             Toast.makeText(
                 this.context,
-                HtmlCompat.fromHtml(
-                    "<font color='red'><b>$mesg</b></font>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ), Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$mesg</b></font>"),
+                Toast.LENGTH_LONG
             ).show()
 
             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)

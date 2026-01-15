@@ -1,21 +1,21 @@
 package com.wmstein.transektcount
 
-import android.text.Html
+import androidx.core.text.HtmlCompat
 import android.text.Spanned
 
-/******************************************************
- * Class Utils cares for Android versions compatibility
- *   in ShowTextDialog fromHtml
+/***************************************************
+ * fromHtml cares for Android versions compatibility
+ *   in Toasts and text dialogs with Html formatting
  *
  * Created by wistein on 2017-09-25,
  * last modified in Java on 2018-06-13,
  * converted to Kotlin on 2024-09-30,
- * last edited on 2025-07-08.
+ * last edited on 2026-01-15.
  */
 internal object Utils {
     @JvmStatic
     fun fromHtml(source: String?): Spanned {
-        return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY)
+        return HtmlCompat.fromHtml(source!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
 }

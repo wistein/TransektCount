@@ -19,7 +19,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
-import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -27,6 +26,7 @@ import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
+import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.widgets.AddAlertWidget
 import com.wmstein.transektcount.widgets.AddAlertWidgetLh
 import com.wmstein.transektcount.widgets.AlertEditWidget
@@ -43,7 +43,7 @@ import com.wmstein.transektcount.widgets.OptionsWidgetLh
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-12-29
+ * last edited on 2026-01-15
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -519,10 +519,8 @@ class CountOptionsActivity : AppCompatActivity() {
     fun saveData() {
         val mesg = getString(R.string.saving) + " " + count!!.name + "!"
         Toast.makeText(
-            this, HtmlCompat.fromHtml(
-                "<font color='#008000'>$mesg</font>",
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-            ), Toast.LENGTH_SHORT
+            this, fromHtml("<font color='#008000'>$mesg</font>"),
+            Toast.LENGTH_SHORT
         ).show()
 
         sf1i = optWidget!!.parameterValuef1i
@@ -578,7 +576,7 @@ class CountOptionsActivity : AppCompatActivity() {
                 }
             } else {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "581, Failed to save alert: " + aew.alertId)
+                    Log.d(TAG, "579, Failed to save alert: " + aew.alertId)
             }
         }
     }
@@ -631,7 +629,7 @@ class CountOptionsActivity : AppCompatActivity() {
                     dynamicWidgetArea!!.removeView(markedForDelete!!.parent.parent as AlertEditWidget)
                 } catch (e: Exception) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "634, Failed to delete a widget: $e")
+                        Log.e(TAG, "632, Failed to delete a widget: $e")
                 }
             }
             areYouSure.setNegativeButton(R.string.cancelButton) { _: DialogInterface?, _: Int -> }

@@ -67,6 +67,12 @@ _ subtitle
   .
   _
 
+$ 5.0.1
+  % Version 5.0.1
+  _ 15.01.2026
+  * Ein GPS-erkannter Abschnitt wird nun auch blau markiert, während die Seite "Transektabschnitte" angezeigt wird.
+  * Html-Formatierung für App-Meldungen für verschiedene Android-Versionen verbessert.
+
 $ 5.0.0
   % Version 5.0.0
   _ 03.01.2026

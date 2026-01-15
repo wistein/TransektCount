@@ -1,25 +1,8 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 5.0.0:
-- Diese Version wurde in vielen Punkten überarbeitet und kommt mit optionaler GPS-Unterstützung zwecks Meldung eines Transektabschnitts-Wechsels. Die Verwendung von GPS benötigt dazu die Bereitstellung von Transekt-Trackdaten, beschrieben in der Hilfe und in TransektCount_Anleitung_5.0.0.pdf.
-- Wird GPS aktiviert, ändert sich auf der Startseite der App-Name von TransektCount zu TransektCountGPS.
-- Ist GPS aktiviert, erscheint auf der Startseite eine kurze Meldung über die Entfernung zum Transekt.
-- Ein mittels GPS erkannter neuer Transektabschnitt wird per Ton und kurz eingeblendeter Meldung angezeigt.
-- Danach ist dessen Name auf der Seite "Transektabschnitte" blau hervorgehoben.
-- Optional kann der GPS-Ortungsdienst in den Systemeinstellungen auf "Immer zulassen" gesetzt werden, um zuverlässig für längere Inspektionen zu arbeiten.
-- Der Programm-Code wurde angepasst an eine synchrone Behandlung von Abschnitten und GPS-Tracks, z. B. bei Umbenennen, Löschen oder Klonen von Abschnitten.
-- Die Funktion "Abschnitt hinzufügen" wurde von der Zählerseite zur Seite "Transektabschnitte" verlegt.
-- Die Option zur Schriftgrößenänderung für Bemerkungen wurde entfernt.
-- Auf relevanten Seiten haben nun Zahlenfelder zur besseren Lesbarkeit ausgegraute "0"-Werte.
-- Abbildung und Daten von Nomophila noctuella (Wanderzünsler) ergänzt.
-- Einige Meldungen verständlicher formuliert.
-- Unter Einstellungen sind "Button-Vibration" und "Näherungssensor" ausgegraut, wenn im Gerät nicht vorhanden.
-- Unter Einstellungen ist "GPS" ausgegraut, wenn kein Transekt-Track geladen ist.
-- Mehrere andere Code- und einige Abbildungs-Verbesserungen.
-- Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio.
-- Doku überarbeitet.
-- Bug-Fix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10.
-- Andere Bug-Fixe.
+Neu in Version 5.0.1:
+- Ein GPS-erkannter Abschnitt wird nun auch blau markiert, während die Seite "Transektabschnitte" angezeigt wird.
+- Html-Formatierung für App-Meldungen für verschiedene Android-Versionen verbessert.
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

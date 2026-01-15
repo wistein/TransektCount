@@ -21,13 +21,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.core.content.edit
-import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
+import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.widgets.AddSpeciesWidget
 import com.wmstein.transektcount.widgets.HintAddWidget
 
@@ -42,7 +42,7 @@ import com.wmstein.transektcount.widgets.HintAddWidget
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2025-12-29
+ * last edited on 2026-01-15
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -190,18 +190,14 @@ class AddSpeciesActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             Toast.makeText(
                 applicationContext,
-                HtmlCompat.fromHtml(
-                    "<font color='#008800'>$mesg</font>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ), Toast.LENGTH_SHORT
+                fromHtml("<font color='#008800'>$mesg</font>"),
+                Toast.LENGTH_SHORT
             ).show()
         } else {
             Toast.makeText(
                 applicationContext,
-                HtmlCompat.fromHtml(
-                    "<font color='#008800'>$mesg</font>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ), Toast.LENGTH_LONG
+                fromHtml("<font color='#008800'>$mesg</font>"),
+                Toast.LENGTH_LONG
             ).show()
         }
 
@@ -228,7 +224,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             searchAdd.error = null
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "231, initChars: $initChars")
+                Log.d(TAG, "227, initChars: $initChars")
             searchAdd.clearFocus()
             searchAdd.invalidate()
 
@@ -259,7 +255,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // 2. Build lists of all yet missing species
         val specCodesContainedListSize = specCodesContainedList.size
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "262, codesCountListSize: $specCodesContainedListSize")
+            Log.d(TAG, "258, codesCountListSize: $specCodesContainedListSize")
 
         // Reduce complete arraylists for already contained species
         for (i in 0 until specCodesContainedListSize) {
@@ -270,7 +266,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "273, 1. specCode: $specCode, posSpec: $posSpec")
+                    Log.d(TAG, "269, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
                 namesLCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
@@ -278,7 +274,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "281, initChars: $initChars, namesCompleteArrayListSize: "
+            Log.d(TAG, "277, initChars: $initChars, namesCompleteArrayListSize: "
                     + namesCompleteArrayList!!.size)
 
         // Copy ...CompleteArrayLists to ...ReducedArrayLists
@@ -300,7 +296,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                     specNameG = namesLCompleteArrayList!![i]
                     specCode = codesCompleteArrayList!![i]
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "303, 2. specName: $specName, specCode: $specCode")
+                        Log.d(TAG, "299, 2. specName: $specName, specCode: $specCode")
 
                     // Assemble remaining ReducedArrayLists for all Species with initChars
                     namesReducedArrayList!!.add(specName!!)
@@ -313,7 +309,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // Create remainingIdArrayList for all remaining species of codesCompleteArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "316, remainingIdArrayListSize: " + remainingIdArrayList.size)
+            Log.d(TAG, "312, remainingIdArrayListSize: " + remainingIdArrayList.size)
         var i = 0
         while (i < codesReducedArrayList!!.size) {
             remainingIdArrayList[i] = (i + 1).toString()
@@ -343,7 +339,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     fun checkBoxAdd(view: View) {
         val idToAdd = view.tag as Int
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "346, View.tag: $idToAdd")
+            Log.d(TAG, "342, View.tag: $idToAdd")
         val asw = addArea!!.getChildAt(idToAdd) as AddSpeciesWidget
 
         val checked = asw.getMarkSpec() // return boolean isChecked
@@ -353,14 +349,14 @@ class AddSpeciesActivity : AppCompatActivity() {
             listToAdd!!.add(asw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeA = asw.getSpecCode()
-                Log.d(TAG, "356, addCount, code: $codeA")
+                Log.d(TAG, "352, addCount, code: $codeA")
             }
         } else {
             // Remove species previously added from add list
             listToAdd!!.remove(asw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeA = asw.getSpecCode()
-                Log.d(TAG, "363, removeCount, code: $codeA")
+                Log.d(TAG, "359, removeCount, code: $codeA")
             }
         }
     }
@@ -375,7 +371,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.d(TAG, "378, addSpecs, code: $specCode")
+                Log.d(TAG, "374, addSpecs, code: $specCode")
             }
             try {
                 var sectid = 1
@@ -451,7 +447,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "454, onPause")
+            Log.i(TAG, "450, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -470,7 +466,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "473, onStop")
+            Log.i(TAG, "469, onStop")
 
         addArea = null
         addHintArea = null
@@ -480,7 +476,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "483, onDestroy")
+            Log.i(TAG, "479, onDestroy")
     }
 
     companion object {

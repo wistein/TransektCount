@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
@@ -18,10 +19,12 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
+
 import com.wmstein.transektcount.TransektCountApplication.Companion.distMin
+import com.wmstein.transektcount.TransektCountApplication.Companion.isActivityResumed
 import com.wmstein.transektcount.TransektCountApplication.Companion.isFirstLoc
 import com.wmstein.transektcount.TransektCountApplication.Companion.lat
 import com.wmstein.transektcount.TransektCountApplication.Companion.locServiceOn
@@ -32,7 +35,10 @@ import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.database.Track
 import com.wmstein.transektcount.database.TrackDataSource
+import com.wmstein.transektcount.Utils.fromHtml
+
 import java.text.DecimalFormat
+
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.pow
@@ -49,7 +55,7 @@ import kotlin.math.sqrt
  *
  * That code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2025-12-31
+ * last edited on 2026-01-15
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
@@ -78,12 +84,13 @@ class LocationService : Service, LocationListener {
     // DB handling
     private var sectionDataSource: SectionDataSource? = null
     private var trackDataSource: TrackDataSource? = null
+    private var isSelSectAct = false
 
     // Default constructor is demanded for service declaration in AndroidManifest.xml
     constructor() {}
 
     constructor(mContext: Context?) {
-        this.mContext = mContext // Gets ApplicationContext from call in WelcomActivity
+        this.mContext = mContext // Gets ApplicationContext from call in WelcomeActivity
         getLocation()
     }
 
@@ -126,10 +133,7 @@ class LocationService : Service, LocationListener {
                 val mesg = mContext!!.getString(R.string.no_provider)
                 Toast.makeText(
                     mContext!!,
-                    HtmlCompat.fromHtml(
-                        "<font color='red'><b>$mesg</b></font>",
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    ),
+                    fromHtml("<font color='red'><b>$mesg</b></font>"),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -148,18 +152,20 @@ class LocationService : Service, LocationListener {
                         minDistanceM.toFloat(), this
                     )
 
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.i(TAG, "155, requestLocationUpdates")
                 }
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "155, StopListener: $e")
+                Log.e(TAG, "160, StopListener: $e")
         }
     }
 
-    /* Get current location and evaluate the location for track of the current transect section:
+    /* Get current location and evaluate the location for a track of the current transect section:
      - Read tracks info,
      - compare position with tracks,
-     - identify section if its track contains the current position
+     - identify section if its track that contains the current position
      */
     fun getGPSSection() {
         sectionNameGPS = checkSectionTrack()
@@ -170,10 +176,7 @@ class LocationService : Service, LocationListener {
             val mesg = mContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
             Toast.makeText(
                 mContext!!,
-                HtmlCompat.fromHtml(
-                    "<bold><font color='#008000'>$mesg</font></bold>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ),
+                fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                 Toast.LENGTH_SHORT
             ).show()
             isFirstLoc = false
@@ -190,7 +193,7 @@ class LocationService : Service, LocationListener {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "193, current SecName: $sectionNameCurrent")
+            Log.d(TAG, "198, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -203,21 +206,29 @@ class LocationService : Service, LocationListener {
                 val mesg = mContext!!.getString(R.string.newSect) + " $sectionNameGPS"
                 Toast.makeText(
                     mContext!!,
-                    HtmlCompat.fromHtml(
-                        "<bold><font color='#008000'>$mesg</font></bold>",
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    ),
+                    fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                     Toast.LENGTH_SHORT
                 ).show()
             }, 100)
 
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.d(TAG, "215, is InsideTrack: $isInsideTrack")
-                Log.d(TAG, "216, new SecName: $sectionNameGPS")
-            }
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.i(TAG, "220, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
+
+            // Get is SelectSectionActivity active
+            isSelSectAct = isActivityResumed
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.i(TAG, "228, isSelectSectionActivityRes: $isSelSectAct")
+
+            // Reload SelectSectionActivity when it is active with new section marked blue
+            if (isSelSectAct) {
+                val intent = Intent(mContext, SelectSectionActivity::class.java)
+                intent.flags = FLAG_ACTIVITY_NEW_TASK
+                mContext!!.startActivity(intent)
+            }
+
         } else if (isInsideTrack)
             sectionIdGPS = sectionGPS!!.id // highlight last GPS section in SelectSectionActivity
         else sectionIdGPS = 0 // don't highlight a section in SelectSectionActivity
@@ -306,11 +317,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "309, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "325, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "313, StopListener: $e")
+                Log.e(TAG, "329, StopListener: $e")
         }
 
         if (alertSoundPref) {
