@@ -10,7 +10,7 @@ import android.view.Window
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +22,7 @@ import androidx.core.view.updateLayoutParams
  * Adapted for TransektCount by wmstein on 18.02.2016
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-12-29
+ * last edited on 2026-01-24
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
@@ -58,8 +58,7 @@ class SettingsActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
-            setStatusBarColor(window, ContextCompat.getColor(applicationContext,
-                R.color.DarkerGray))
+            setStatusBarColor(window, "#303030".toColorInt()) // DarkerGray
         }
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

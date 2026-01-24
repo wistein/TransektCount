@@ -17,6 +17,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -35,7 +36,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-12-29
+ * last edited on 2026-01-24
  */
 class AdvFileChooser : AppCompatActivity() {
     private var currentDir: File? = null
@@ -48,7 +49,7 @@ class AdvFileChooser : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "51, onCreate")
+            Log.i(TAG, "52, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -77,12 +78,7 @@ class AdvFileChooser : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
-            setStatusBarColor(
-                window, ContextCompat.getColor(
-                    applicationContext,
-                    R.color.DarkerGray
-                )
-            )
+            setStatusBarColor(window, "#303030".toColorInt()) // DarkerGray
         }
 
         val extras = intent.extras
@@ -195,7 +191,7 @@ class AdvFileChooser : AppCompatActivity() {
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "199, Selected file: $fileSelected")
+            Log.d(TAG, "194, Selected file: $fileSelected")
         finish()
     }
 

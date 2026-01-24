@@ -55,7 +55,7 @@ import kotlin.math.sqrt
  *
  * That code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-01-15
+ * last edited on 2026-01-24
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
@@ -132,7 +132,7 @@ class LocationService : Service, LocationListener {
             } else {
                 val mesg = mContext!!.getString(R.string.no_provider)
                 Toast.makeText(
-                    mContext!!,
+                    mContext,
                     fromHtml("<font color='red'><b>$mesg</b></font>"),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -174,8 +174,8 @@ class LocationService : Service, LocationListener {
             // Show message: GPS: Distance to track: distance m
             val dst = DecimalFormat("#.#").format(distMin)
             val mesg = mContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
-            Toast.makeText(
-                mContext!!,
+            Toast.makeText( // bright green
+                mContext,
                 fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                 Toast.LENGTH_SHORT
             ).show()
@@ -204,8 +204,8 @@ class LocationService : Service, LocationListener {
             // Pause 100 ms to play sound surely
             Handler(Looper.getMainLooper()).postDelayed({
                 val mesg = mContext!!.getString(R.string.newSect) + " $sectionNameGPS"
-                Toast.makeText(
-                    mContext!!,
+                Toast.makeText( // bright green
+                    mContext,
                     fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                     Toast.LENGTH_SHORT
                 ).show()

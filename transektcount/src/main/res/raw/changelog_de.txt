@@ -67,11 +67,17 @@ _ subtitle
   .
   _
 
+$ 5.0.2
+  % Version 5.0.2
+  _ 24.01.2026
+  * Farben der Meldungen: Fehler rot, Warnung orange, Achtung blau, Info grün
+  * Code- und Text-Verbesserungen
+
 $ 5.0.1
   % Version 5.0.1
   _ 15.01.2026
-  * Ein GPS-erkannter Abschnitt wird nun auch blau markiert, während die Seite "Transektabschnitte" angezeigt wird.
-  * Html-Formatierung für App-Meldungen für verschiedene Android-Versionen verbessert.
+  * Ein GPS-erkannter Abschnitt wird nun auch blau markiert, während die Seite "Transektabschnitte" angezeigt wird
+  * Html-Formatierung für App-Meldungen für verschiedene Android-Versionen verbessert
 
 $ 5.0.0
   % Version 5.0.0
@@ -86,10 +92,10 @@ $ 5.0.0
   * Die Funktion "Abschnitt hinzufügen" wurde von der Zählerseite zur Seite "Transektabschnitte" verlegt
   * Die Option zur Schriftgrößenänderung für Bemerkungen wurde entfernt
   * Lesbarkeit relevanter Seiten mit ausgegrauten "0"-Werten verbessert
-  * Abbildung und Daten von Nomophila noctuella (Wanderzünsler) ergänzt.
-  * Einige Meldungen verständlicher formuliert.
+  * Abbildung und Daten von Nomophila noctuella (Wanderzünsler) ergänzt
+  * Einige Meldungen verständlicher formuliert
   * Unter Einstellungen sind "Button-Vibration" und "Näherungssensor" ausgegraut, wenn im Gerät nicht vorhanden.
-  * Unter Einstellungen ist "GPS" ausgegraut, wenn kein Transekt-Track geladen ist.
+  * Unter Einstellungen ist "GPS" ausgegraut, wenn kein Transekt-Track geladen ist
   * Viele andere Code- und einige Abbildungs-Verbesserungen
   * Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio
   * Doku überarbeitet

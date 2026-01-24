@@ -40,7 +40,7 @@ import androidx.core.view.WindowInsetsCompat;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2026-01-15
+ * last edited on 2026-01-24
  */
 public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
@@ -348,8 +348,8 @@ public class EditMetaActivity extends AppCompatActivity {
         meta.tempe = emw.getWidgetTempe();
         if (meta.temps > 50 || meta.temps < 0 || meta.tempe > 50 || meta.tempe < 0) {
             mesg = getString(R.string.valTemp);
-            Toast.makeText(this,
-                    fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+            Toast.makeText(this, //orange
+                    fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
             return false;
         }
@@ -358,8 +358,8 @@ public class EditMetaActivity extends AppCompatActivity {
         meta.winde = emw.getWidgetWinde();
         if (meta.winds > 4 || meta.winds < 0 || meta.winde > 4 || meta.winde < 0) {
             mesg = getString(R.string.valWind);
-            Toast.makeText(this,
-                    fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+            Toast.makeText(this, //orange
+                    fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
             return false;
         }
@@ -368,8 +368,8 @@ public class EditMetaActivity extends AppCompatActivity {
         meta.cloude = emw.getWidgetCloude();
         if (meta.clouds > 100 || meta.clouds < 0 || meta.cloude > 100 || meta.cloude < 0) {
             mesg = getString(R.string.valClouds);
-            Toast.makeText(this,
-                    fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+            Toast.makeText(this, //orange
+                    fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
             return false;
         }

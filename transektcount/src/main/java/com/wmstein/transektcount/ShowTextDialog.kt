@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -27,7 +27,7 @@ import java.util.Locale
  * Custom class for displaying the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2025-12-29
+ * last edited on 2026-01-24
  */
 class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
@@ -65,12 +65,7 @@ class ShowTextDialog : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
-            setStatusBarColor(
-                window, ContextCompat.getColor(
-                    applicationContext,
-                    R.color.DarkerGray
-                )
-            )
+            setStatusBarColor(window, "#303030".toColorInt()) // DarkerGray
         }
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -101,7 +96,7 @@ class ShowTextDialog : AppCompatActivity() {
                 tvText.text = fromHtml(readRawTextFile(R.raw.license, this))
             }
         }
-        tvText.setLinkTextColor(getColor(R.color.SkyBlue)) // format the links within the text
+        tvText.setLinkTextColor("#4068ff".toColorInt()) // format the links within the text SkyBlue
         Linkify.addLinks(tvText, Linkify.WEB_URLS)
     }
 

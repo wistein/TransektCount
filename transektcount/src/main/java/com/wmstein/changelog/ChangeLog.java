@@ -1,11 +1,10 @@
 package com.wmstein.changelog;
 
-import static androidx.core.content.ContextCompat.getColor;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
@@ -42,7 +41,7 @@ import java.util.Locale;
  Therefore retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2025-11-16
+ last change by wmstein on 2026-01-24
  */
 public class ChangeLog
 {
@@ -65,7 +64,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
         // Get version numbers of last Version and this Version to compare
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "68, lastVersion: " + lastVersion);
+            Log.d(TAG, "67, lastVersion: " + lastVersion);
 
         try
         {
@@ -75,10 +74,10 @@ public ChangeLog(Context context, SharedPreferences prefs)
         {
             thisVersion = NO_VERSION;
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "78, Could not get version name from manifest!", e);
+                Log.e(TAG, "77, Could not get version name from manifest!", e);
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "81, appVersion: " + this.thisVersion);
+            Log.d(TAG, "80, appVersion: " + this.thisVersion);
     }
 
     /**
@@ -120,7 +119,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
     {
         WebView wv = new WebView(this.context);
 
-        wv.setBackgroundColor(getColor(context, R.color.DarkGray));
+        wv.setBackgroundColor(Color.parseColor("#1a1a1a")); // DarkGray
         wv.loadDataWithBaseURL(null, this.getLog(full), "text/html",
             "UTF-8", null);
 
@@ -161,7 +160,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
      * Return HTML displaying the changes since the previous installed version
      *   of TransektCount (what's new)
      */
-    /*
+/*
     public String getLog()
     {
         return this.getLog(false);

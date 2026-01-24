@@ -54,7 +54,7 @@
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="resetGPSMenu">Lösche GPS-Track-Daten</string>
     <string name="resetTracks">Die Track-Daten wurden gelöscht.</string>
-    <string name="saveBasisDB">Export der BasisDB nach Documents/TransektCount.</string>
+    <string name="saveBasisDB">Export der Basis-DB nach Documents/TransektCount.</string>
     <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>

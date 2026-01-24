@@ -1,8 +1,8 @@
 TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
 
-New in Version 5.0.1:
-- Now if GPS identifies a different section the color if its name is also changed during the "Select Section" page is shown.
-- Html formatting for app messages improved for different Android versions.
+New in Version 5.0.2:
+- Messages colors: Error red, warning orange, attention blue, info green.
+- Code and text improvements.
 
 Features:
 - Data collection is based on a transect inspection.

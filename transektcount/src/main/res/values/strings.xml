@@ -68,12 +68,12 @@
     <string name="resetFail">Your database could not be resetted!</string>
     <string name="resetGPSMenu">Remove GPS Track Data</string>
     <string name="resetTracks">Your track data has been deleted.</string>
-    <string name="saveBasisDB">Export BasisDB to Documents/TransektCount.</string>
-    <string name="saveDB">Export internal DB to Documents/TransektCount.</string>
+    <string name="saveBasisDB">Exporting Basic DB to Documents/TransektCount.</string>
+    <string name="saveDB">Exporting internal DB to Documents/TransektCount.</string>
     <string name="saveFail">Your database could not be exported!</string>
     <string name="saveFailList">The species list could not be exported!</string>
     <string name="saveList">Species list exported.</string>
-    <string name="savecsv">Export csv-file to Documents/TransektCount.</string>
+    <string name="savecsv">Exporting csv-file to Documents/TransektCount.</string>
     <string name="showResultsButton">Show Results</string>
     <string name="sum">Totals (internal):</string>
     <string name="sumSpec">Diff. Species:</string>

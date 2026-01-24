@@ -372,7 +372,7 @@ public class WelcomeActivity
             File inFile1 = new File(path, "/transektcount0_" + transNo + ".db"); // Standard basic DB
 
             if (!inFile.exists() && !inFile1.exists())
-                exportBasisDb(0); // create directory and copy internal DB-data to initial Basis DB-file
+                exportBasisDb(0); // create directory and copy internal DB-data to initial Basic DB-file
         }
 
         if (autoSection && isStoragePermGranted()) {
@@ -609,7 +609,7 @@ public class WelcomeActivity
             // Show message: GPS: Distance to track: distance m
             String dst = new DecimalFormat("#.#").format(distMin);
             mesg = getString(R.string.distanceToTrack) + " " + dst + " m";
-            Toast.makeText(WelcomeActivity.this,
+            Toast.makeText(this, // bright green
                     fromHtml("<font color='#008000'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
         }
@@ -724,8 +724,8 @@ public class WelcomeActivity
                 importGPS();
             else {
                 mesg = getString(R.string.importTrackFail);
-                Toast.makeText(this,
-                        fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                Toast.makeText(this, // orange
+                        fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
             }
             return true;
@@ -738,8 +738,8 @@ public class WelcomeActivity
                 welcomeTitle.setText(getString(R.string.app_name));
             } else {
                 mesg = getString(R.string.deleteTrackFail);
-                Toast.makeText(this,
-                        fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                Toast.makeText(this, // orange
+                        fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
             }
             return true;
@@ -772,7 +772,7 @@ public class WelcomeActivity
         } else if (id == R.id.showResults) {
             mesg = getString(R.string.wait);
             Toast.makeText(this,
-                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
             // To show toast, pause for 100 msec before calling ShowResultsActivity
             mHandler.postDelayed(() ->
@@ -873,7 +873,7 @@ public class WelcomeActivity
     public void showResults(View view) {
         mesg = getString(R.string.wait);
         Toast.makeText(this,
-                fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                fromHtml("<font color='blue'>" + mesg + "</font>"),
                 Toast.LENGTH_SHORT).show();
         // Trick: Pause for 100 msec to show toast
         mHandler.postDelayed(() ->
@@ -951,8 +951,8 @@ public class WelcomeActivity
                         }
                     } else if ((result.getResultCode() == Activity.RESULT_FIRST_USER)) {
                         mesg = getString(R.string.noFile);
-                        Toast.makeText(getApplicationContext(),
-                                fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                        Toast.makeText(getApplicationContext(), // orange
+                                fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                                 Toast.LENGTH_LONG).show();
                     }
                     if (inFile != null) {
@@ -1024,7 +1024,7 @@ public class WelcomeActivity
                                 } else {
                                     mesg = getString(R.string.importDB);
                                 }
-                                Toast.makeText(
+                                Toast.makeText( // bright green
                                         getApplicationContext(),
                                         fromHtml("<font color='#008000'>" + mesg + "</font>"),
                                         Toast.LENGTH_SHORT).show();
@@ -1088,8 +1088,8 @@ public class WelcomeActivity
                     // RESULT_FIRST_USER is set in AdvFileChooser for no file
                     else if ((result.getResultCode() == Activity.RESULT_FIRST_USER)) {
                         mesg = getString(R.string.noFile);
-                        Toast.makeText(getApplicationContext(),
-                                fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                        Toast.makeText(getApplicationContext(), // orange
+                                fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                                 Toast.LENGTH_LONG).show();
                     }
                     if (inFile != null) {
@@ -1140,7 +1140,7 @@ public class WelcomeActivity
         try {
             mesg = getString(R.string.waitImport);
             Toast.makeText(this,
-                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
             List<String> codeArray = new ArrayList<>();
             List<String> nameArray = new ArrayList<>();
@@ -1172,8 +1172,8 @@ public class WelcomeActivity
             }
             br.close();
             mesg = getString(R.string.importList);
-            Toast.makeText(this,
-                    fromHtml("<font color='green'>" + mesg + "</font>"),
+            Toast.makeText(this, // bright green
+                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             mesg = getString(R.string.importListFail);
@@ -1230,8 +1230,8 @@ public class WelcomeActivity
                         inFile = null;
                         if ((result.getResultCode() == Activity.RESULT_FIRST_USER)) {
                             mesg = getString(R.string.noFile);
-                            Toast.makeText(getApplicationContext(),
-                                    fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                            Toast.makeText(getApplicationContext(), // orange
+                                    fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -1265,7 +1265,7 @@ public class WelcomeActivity
 
                                 mesg = getString(R.string.waitImport);
                                 Toast.makeText(WelcomeActivity.this,
-                                        fromHtml("<font color='#005000'>" + mesg + "</font>"),
+                                        fromHtml("<font color='blue'>" + mesg + "</font>"),
                                         Toast.LENGTH_SHORT).show();
 
                                 // Parse gpxString to get number of tracks
@@ -1303,14 +1303,14 @@ public class WelcomeActivity
                                 });
 
                                 mesg = getString(R.string.importGPS);
-                                Toast.makeText(WelcomeActivity.this,
-                                        fromHtml("<font color='#005000'>" + mesg + "</font>"),
+                                Toast.makeText(WelcomeActivity.this, // bright green
+                                        fromHtml("<font color='#008000'>" + mesg + "</font>"),
                                         Toast.LENGTH_SHORT).show();
 
                             } else {
                                 mesg = getString(R.string.no_GPSfile);
-                                Toast.makeText(WelcomeActivity.this,
-                                        fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                                Toast.makeText(WelcomeActivity.this, // orange
+                                        fromHtml("<font color='#ff6000'><b>" + mesg + "</b></font>"),
                                         Toast.LENGTH_LONG).show();
                             }
                         }).setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
@@ -1447,8 +1447,8 @@ public class WelcomeActivity
                 editor.commit();
 
                 mesg = getString(R.string.resetTracks);
-                Toast.makeText(this,
-                        fromHtml("<font color='green'><b>" + mesg + "</b></font>"),
+                Toast.makeText(this, // bright green
+                        fromHtml("<font color='#008000'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -1481,7 +1481,7 @@ public class WelcomeActivity
     /*********************************************************************************
      * The next four functions below are for exporting data files.
      */
-    // Exports Basis DB to Documents/TransektCount/transektcount0.db
+    // Exports Basic DB to Documents/TransektCount/transektcount0.db
     private void exportBasisDb(int i) {
         // i = 1: show message only when executed by menu command
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
@@ -1529,7 +1529,7 @@ public class WelcomeActivity
                 // Clear DB values for basic DB
                 clearDBValues();
 
-                // Write Basis DB
+                // Write Basic DB
                 copy(inFile, outFile);
 
                 // Restore actual db from tmpfile
@@ -1540,7 +1540,7 @@ public class WelcomeActivity
                 if (d0 && i == 1) {
                     mesg = getString(R.string.saveBasisDB);
                     Toast.makeText(this,
-                            fromHtml("<font color='#006400'>" + mesg + "</font>"),
+                            fromHtml("<font color='blue'>" + mesg + "</font>"),
                             Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
@@ -1596,7 +1596,7 @@ public class WelcomeActivity
                 copy(inFile, outFile);
                 mesg = getString(R.string.saveDB);
                 Toast.makeText(this,
-                        fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                        fromHtml("<font color='blue'>" + mesg + "</font>"),
                         Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 mesg = getString(R.string.saveFail);
@@ -2222,7 +2222,7 @@ public class WelcomeActivity
                 csvWrite.close();
                 mesg = getString(R.string.savecsv);
                 Toast.makeText(this,
-                        fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                        fromHtml("<font color='blue'>" + mesg + "</font>"),
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 mesg = getString(R.string.saveFail);
@@ -2354,7 +2354,7 @@ public class WelcomeActivity
                 csvWrite.close();
                 mesg = getString(R.string.saveList);
                 Toast.makeText(this,
-                        fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                        fromHtml("<font color='blue'>" + mesg + "</font>"),
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 mesg = getString(R.string.saveFailList);
@@ -2397,7 +2397,7 @@ public class WelcomeActivity
             boolean r_ok = clearDBValues();
             if (r_ok) {
                 mesg = getString(R.string.reset2basic);
-                Toast.makeText(this,
+                Toast.makeText(this, // bright green
                         fromHtml("<font color='#008000'>" + mesg + "</font>"),
                         Toast.LENGTH_SHORT).show();
             }

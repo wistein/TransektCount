@@ -562,7 +562,7 @@ public class CountingActivity
 
             mesg = getString(R.string.wait);
             Toast.makeText(this,
-                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
@@ -576,7 +576,7 @@ public class CountingActivity
 
             mesg = getString(R.string.wait);
             Toast.makeText(this,
-                    fromHtml("<font color='#008000'>" + mesg + "</font>"),
+                    fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CountingActivity.this, EditSectionListActivity.class);

@@ -1,8 +1,8 @@
 TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.  
 
-Neu in Version 5.0.1:
-- Ein GPS-erkannter Abschnitt wird nun auch blau markiert, während die Seite "Transektabschnitte" angezeigt wird.
-- Html-Formatierung für App-Meldungen für verschiedene Android-Versionen verbessert.
+Neu in Version 5.0.2:
+- Farben der Meldungen: Fehler rot, Warnung orange, Achtung blau, Info grün.
+- Code-und Text-Verbesserungen.
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

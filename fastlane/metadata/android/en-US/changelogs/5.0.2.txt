@@ -1,0 +1,3 @@
+Version 5.0.2 (2026-01-24)
+- Messages colors: Error red, warning orange, attention blue, info green.
+- Code and text improvements
