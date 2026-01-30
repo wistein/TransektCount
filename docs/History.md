@@ -2,9 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.2 (2026-01-24)
+#### Version 5.0.2 (2026-01-30)
 - Messages colors: Error red, warning orange, attention blue, info green
 - Code and text improvements
+- Docs updated
 
 #### Version 5.0.1 (2026-01-15)
 - Now if GPS identifies a different section the color if its name is also changed during the "Select Section" page is shown

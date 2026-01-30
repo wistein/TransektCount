@@ -69,9 +69,10 @@ _ subtitle
 
 $ 5.0.2
   % Version 5.0.2
-  _ 2026-01-24
+  _ 2026-01-30
   * Messages colors: Error red, warning orange, attention blue, info green
   * Code and text improvements
+  * Docs updated
 
 $ 5.0.1
   % Version 5.0.1

@@ -1,7 +1,7 @@
 <html>
 
 <!-- TransektCount Benutzeranleitung --
-  Last edited on 2025-12-25
+  Last edited on 2026-01-30
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
@@ -14,7 +14,10 @@ Datenbankdateien können individuell bezüglich Transektabschnitte und erwartete
 <br><br>
 Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe in ein Tagfaltermonitoring-System (z.B. https://web.app.ufz.de/tagfalter-monitoring) entweder von der Ergebnisseite geordnet abgelesen oder in eine Tabelle exportiert und für eigene Bearbeitung auf einen PC übertragen und dort komfortabler gelesen und aufbereitet werden.
 <br><br>
-Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien und Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet.
+Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br>
+- Speicherzugriff zwecks Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien, <br>
+- Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet und <br>
+- ggf. Standortbestimmung durch GPS um die Abschnitte zu erkennen.
 <br><br><br>
 
 <h3><font color=#D9FDD9>2. Einrichtung</font></h3>

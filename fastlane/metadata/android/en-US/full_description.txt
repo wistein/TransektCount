@@ -3,6 +3,7 @@ TransectCount is used by transect counters during transect surveys. It supports 
 New in Version 5.0.2:
 - Messages colors: Error red, warning orange, attention blue, info green.
 - Code and text improvements.
+- Docs updated
 
 Features:
 - Data collection is based on a transect inspection.

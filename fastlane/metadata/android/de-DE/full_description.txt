@@ -3,6 +3,7 @@ TransektCount dient Transektzählern bei Transektbegehungen. Es unterstützt das
 Neu in Version 5.0.2:
 - Farben der Meldungen: Fehler rot, Warnung orange, Achtung blau, Info grün.
 - Code-und Text-Verbesserungen.
+- Doku ergänzt.
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

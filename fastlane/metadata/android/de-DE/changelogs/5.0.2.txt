@@ -1,3 +1,4 @@
-Version 5.0.2 (24.01.2026)
+Version 5.0.2 (30.01.2026)
 - Farben der Meldungen: Fehler rot, Warnung orange, Achtung blau, Info grün.
-- Code- und Text-Verbesserungen
+- Code- und Text-Verbesserungen.
+- Doku ergänzt.

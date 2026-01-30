@@ -69,9 +69,10 @@ _ subtitle
 
 $ 5.0.2
   % Version 5.0.2
-  _ 24.01.2026
+  _ 30.01.2026
   * Farben der Meldungen: Fehler rot, Warnung orange, Achtung blau, Info grün
   * Code- und Text-Verbesserungen
+  * Doku ergänzt
 
 $ 5.0.1
   % Version 5.0.1
