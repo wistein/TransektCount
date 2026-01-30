@@ -21,7 +21,7 @@ That means, you will use a fresh database instance per inspection by clearing th
 - The current butterfly list can be exported for later re-import or imported by the complementary app TourCount.
 - The integrated help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies from Karsholt/Razowski.
-- TransektCount supports counting in German or English language
+- TransektCount supports counting in German or English language.
 
 ### Prerequisites
 The app demands for 

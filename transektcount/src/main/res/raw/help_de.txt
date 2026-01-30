@@ -161,6 +161,12 @@ Unter "Lizenzen" sind die Lizenzbestimmungen zum Code und den Abbildungen beschr
 Das Optionsmenü der Zählerseite hat eine Fotofunktion um die Kamera möglichst schnell zu starten, ohne TransektCount zu verlassen. Dort lässt sich auch eine Mitteilungsfunktion aufrufen, um eine TransektCount-spezifische Nachricht über SMS oder E-Mail versenden zu können.
 <br><br>
 In der Zähler-Ansicht wird die Anzeige optional temporär per Näherungssensors abgeschaltet, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn es wieder normal genutzt wird.
+<br><br>
+In der App erscheinen verschiedene, eingefärbte Kurz-Meldungen in 4 Kategorien:<br>
+- Fehler (z. B. Bei einem Datenbank-Problem) in rot.<br>
+- Warnung (z. B. bei einer unzulässigen Eingabe) in orange.<br>
+- Hinweis (z. B. wenn etwas länger dauert) in blau.<br>
+- Info (z. B. nach erfolgreichem Vorgang) in grün.
 <br><br><br>
 
 <h3><font color=#D9FDD9>5. GPS-Nutzung</h3>

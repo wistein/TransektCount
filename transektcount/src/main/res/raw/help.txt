@@ -167,7 +167,7 @@ The app shows several short pop-up messages in 4 categories:<br>
 - Error (e.g. with a database problem) in red.<br>
 - Warning (e.g. in the event of an invalid entry) in orange.<br>
 - Note (e.g. if an action might last longer) in blue.<br>
-- Info (e.g. after a successful process) in green.<br>
+- Info (e.g. after a successful process) in green.
 <br><br><br>
 
 <h3><font color=#D9FDD9>5. GPS Usage</h3>
