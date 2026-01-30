@@ -27,7 +27,7 @@ That means, you will use a fresh database instance per inspection by clearing th
 The app demands for 
 - storage access permit which is needed for im-/exporting the counting data, 
 - the permit to keep the device awake and
-- optionally, the permit to get the exact location.
+- optionally, the permit to get the exact location to recognize the current section.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 7.1 (Nougat) or newer.
