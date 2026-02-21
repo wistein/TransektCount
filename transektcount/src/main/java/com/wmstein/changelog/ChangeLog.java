@@ -38,10 +38,10 @@ import java.util.Locale;
  Newly installed: Shows the history of TransektCount.
  Updated: Shows the last changes of TransektCount.
 
- Therefore retrieves the version names and stores the new version name in SharedPreferences
+ Therefore, retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2026-01-24
+ last change by wmstein on 2026-02-21
  */
 public class ChangeLog
 {
@@ -160,12 +160,12 @@ public ChangeLog(Context context, SharedPreferences prefs)
      * Return HTML displaying the changes since the previous installed version
      *   of TransektCount (what's new)
      */
-/*
+
     public String getLog()
     {
         return this.getLog(false);
     }
-*/
+
     private String getLog(boolean full)
     {
         // read changelog.txt file
@@ -173,11 +173,12 @@ public ChangeLog(Context context, SharedPreferences prefs)
         try
         {
             String language = Locale.getDefault().toString().substring(0, 2);
-            InputStream ins;
-            if (language.equals("de"))
-                ins = context.getResources().openRawResource(R.raw.changelog_de);
-            else
-                ins = context.getResources().openRawResource(R.raw.changelog);
+            InputStream ins = switch (language) {
+                case "de" -> context.getResources().openRawResource(R.raw.changelog_de);
+                case "fr" -> context.getResources().openRawResource(R.raw.changelog_fr);
+                case "it" -> context.getResources().openRawResource(R.raw.changelog_it);
+                default -> context.getResources().openRawResource(R.raw.changelog);
+            };
             BufferedReader br = new BufferedReader(new InputStreamReader(ins));
             boolean advanceToEOVS = false; // if true: ignore further version sections
             String line;

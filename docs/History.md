@@ -2,6 +2,16 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.3 (2026-02-21)
+- French and Italian language added
+- French and Italian example files added in GitHub Docs
+- Added species: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae and Litosia quadra
+- A "0"-character (zero) in the section specific species remark puts the species also into the results despite a 0 count
+- Exporting current DB and results creates the .db and the .csv-file name with date and time of the inspection start instead of the current time
+- Counter alert function removed as hardly used
+- Some data corrections
+- Bugfix for problem with to quickly repeated counter clicks with button sound enabled
+
 #### Version 5.0.2 (2026-01-30)
 - Messages colors: Error red, warning orange, attention blue, info green
 - Code and text improvements
@@ -15,11 +25,11 @@
 - This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
 - When activating GPS the app's name on the starting screen changes from TransektCount to TransektCountGPS
 - With GPS activated the starting page shows a short hint message with the distance to the transect 
-- A toast message and a beep inform about entering a section different than the currently selected one 
+- A toast message and a beep inform about entering a section different from the currently selected one 
 - Then, when visiting the page "Transect Sections" the name of the newly identified section is colored blue
 - Optionally you may set the system permission for the TransektCount location service to "Always on" to get it reliably work for long inspections
 - Program code has been adapted regarding aligned section and track handling for renaming, deleting and cloning a section
-- The function "Add a Further Section" was moved from the Counting page to the page "Transect Sections"
+- The function "Add a Section" was moved from the Counting page to the page "Transect Sections"
 - The option to change the font size for comments was removed
 - On relevant pages the number fields show dimmed "0"-values for better readability
 - Picture and data of Nomophila noctuella (Rush veneer) added
@@ -123,7 +133,7 @@
 - Separate views for editing, deleting and adding species
 - Checkboxes for bulk deleting of species from the counting list
 - Checkboxes for bulk adding further species to the counting list
-- Meta data enhanced with field for inspection note (replaces section notes)
+- Metadata enhanced with field for inspection note (replaces section notes)
 - Preferences option added for sorting results either by section or species names
 - CSV-export adapted to structural changes
 - Internal butterfly list now identical with the list of TourCount
@@ -133,7 +143,7 @@
 - Bugs fixed
 
 #### Version 4.0.3 (2024-03-10)
-- Meta data page enhanced with start and end time values for temperature, wind and clouds
+- Metadata page enhanced with start and end time values for temperature, wind and clouds
 - Results page and csv-export file ditto
 - One missing species with picture added
 - Some missing local species names added
@@ -367,8 +377,8 @@
 - (+)-Button in app bar of page "Add Species"
 - "Add species" now scrolls to end of page and sets focus on new field
 - Save Icon in app bar of page "New Section"
-- Additional counter per species for external sightings. Therefore layout adapted in widgets and DB structure
-- Also Database and calculating routines added for 2nd counter
+- Additional counter per species for external sightings. Therefore, layout adapted in widgets and DB structure
+- Also, Database and calculating routines added for 2nd counter
 - Count options allow to set values for both counters per species
 - Section list shows remarks
 - Section date shown only if not 0
@@ -392,4 +402,3 @@ Main features comprise:
 - Modified ChangeLog.java original code from author: Karsten Priegnitz (open source code from code.google.com)
 - Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd. (Apache License 2.0)
 - Modified File Chooser dialog based on android-file-chooser, 2011, Google Code Archive, GNU GPL v3
-

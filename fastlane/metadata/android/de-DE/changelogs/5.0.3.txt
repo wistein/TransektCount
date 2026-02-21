@@ -1,0 +1,9 @@
+Version 5.0.3 (20.02.2026)
+- Französische und italienische Sprache hinzugefügt.
+- Französische und italienische Spezies-Beispiel-Listen in GitHub-Docs hinzugefügt
+- Arten hinzugefügt: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae und Lithosia quadra
+- Eine eingefügte "0" (Null) in der abschnittsbezogenen Art-Bemerkung weist eine Art auch ohne Zählung im Ergebnis aus
+- Der Export der aktuellen DB und der Ergebnisse benennt die .db bzw. .csv-Datei nun anstelle der aktuellen Zeit mit dem Datum und der Startzeit der Inspektion
+- Die kaum verwendete Zählalarm-Funktion wurde entfernt
+- Einige Daten korrigiert.
+- Bugfix für Problem bei zu schneller Zählfolge mit aktiviertem Button-Sound

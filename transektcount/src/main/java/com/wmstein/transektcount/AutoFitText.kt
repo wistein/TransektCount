@@ -26,7 +26,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2025-12-29
+ * last edit on 2026-02-17
  */
 @SuppressLint("NewApi")
 class AutoFitText(context: Context, attrs: AttributeSet?) :
@@ -92,7 +92,7 @@ class AutoFitText(context: Context, attrs: AttributeSet?) :
         // mandatory to not get a NullPointerException)
         mTestView.layoutParams = ViewGroup.LayoutParams(targetFieldWidth, targetFieldHeight)
 
-        // maxWidth is crucial! Otherwise the text would never line wrap but blow up the width
+        // maxWidth is crucial! Otherwise, the text would never line wrap but blow up the width
         mTestView.maxWidth = targetFieldWidth
         // added by wmstein to control height
         mTestView.maxHeight = targetFieldHeight

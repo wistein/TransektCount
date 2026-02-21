@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- strings.xml French strings,
+     last edited 2026-02-07 -->
+
+<resources>
+
+    <!-- generic -->
+    <string name="action_settings">Préférences</string>
+    <string name="title_activity_list_section">Sections de transect</string>
+
+    <!-- WelcomeActivity -->
+    <string name="back_twice">Appuyez à nouveau pour quitter</string>
+    <string name="cancelButton">Annuler</string>
+    <string name="changeLogTitle">Info sur l\'application</string>
+    <string name="code_spec">Code espèce</string>
+    <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !</string>
+    <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
+    <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
+    <string name="confirmListImport">Voulez-vous vraiment importer une liste d\'espèces ? Vos données actuelles seront écrasées !</string>
+    <string name="confirmResetDB">Voulez-vous vraiment réinitialiser la BD ? Vos données de comptage actuelles seront supprimées !</string>
+    <string name="corruptDb">Erreur BD ! Si le problème persiste après le redémarrage et l\'importation d\'un autre TourCount-BD, veuillez désinstaller l\'application et la réinstaller.</string>
+    <string name="deleteTrackFail">Suppression inutile, aucune trace n\'est disponible dans la BD !</string>
+    <string name="distanceToTrack">Distance jusqu\'au transect:</string>
+    <string name="editMetaButton">Éditer Métadonnées</string>
+    <string name="exportBasisMenu">Exp. la structure de BD</string>
+    <string name="exportCSVMenu">Exp. les résultats (csv)</string>
+    <string name="exportMenu">Exp. le act. BD</string>
+    <string name="exportSpeciesListMenu">Exp. liste des espèces</string>
+    <string name="external">Externe</string>
+    <string name="from">de :</string>
+    <string name="importBasisMenu">Imp. la structure de BD</string>
+    <string name="importButton">Importer</string>
+    <string name="importDB">La BD a été importée</string>
+    <string name="importFail">Impossible d\'importer la BD !</string>
+    <string name="importFileMenu">Import BD</string>
+    <string name="importGPS">Le fichier GPX a été importé.</string>
+    <string name="importGPSMenu">Imp. un tracé GPS</string>
+    <string name="importList">La liste des espèces a été importée.</string>
+    <string name="importListFail">La liste des espèces n\'a pas pu être importée !</string>
+    <string name="importSpeciesListMenu">Imp. liste des espèces</string>
+    <string name="importTrackFail">Des traces GPS sont chargées. Veuillez les supprimer au préalable !</string>
+    <string name="internal">Interne</string>
+    <string name="kal_w">N. de S. :</string>
+    <string name="name_sect">Section</string>
+    <string name="name_spec">Nom de l\'espèce :</string>
+    <string name="name_spec_g">Nom français :</string>
+    <string name="noCard">Impossible d\'écrire dans le répertoire \'Documents/TransektCount\' !</string>
+    <string name="no_GPSfile">Aucun fichier GPX n\'est disponible dans \'Documents/TransektCount\' !</string>
+    <string name="note">Note transect:</string>
+    <string name="rem_sp">Espèce note:</string>
+    <string name="rem_spec">Espèce remarque</string>
+    <string name="reset2basic">La BD a été réinitialisée.</string>
+    <string name="resetDBMenu">Reset données</string>
+    <string name="resetFail">La BD n\'a pas pu être réinitialisée !</string>
+    <string name="resetGPSMenu">Effacer la trace GPS</string>
+    <string name="resetTracks">Les données de suivi ont été supprimées.</string>
+    <string name="saveBasisDB">Exporter la structure de BD vers \'Documents/TourCount\'</string>
+    <string name="saveDB">Exporter la BD vers \'Documents/TourCount\'</string>
+    <string name="saveFail">Impossible d\'exporter la BD !</string>
+    <string name="saveFailList">La liste des espèces n\'a pas pu être exportée !</string>
+    <string name="saveList">Exporter la liste des espèces.</string>
+    <string name="saveCSV">Exporter le fichier CSV vers \'Documents/TourCount\'</string>
+    <string name="showResultsButton">Afficher le résultat</string>
+    <string name="sum">Somme (interne):</string>
+    <string name="sumSpec">Arten:</string>
+    <string name="sum_total">Somme (total) :</string>
+    <string name="sume">Somme (externe):</string>
+    <string name="time_sect">1er compte</string>
+    <string name="timehead">Temps:</string>
+    <string name="title">Comptage des papillons dans\n\ndes sections de transect</string>
+    <string name="to">à :</string>
+    <string name="track_err">Les traces GPS ne correspondent pas aux sections du transect ! La fonction GPS est désactivée.</string>
+    <string name="tracks">Traces</string>
+    <string name="viewHelpTitle">Aide</string>
+    <string name="viewLicenseTitle">Licences</string>
+    <string name="viewSectionButton">Compter</string>
+    <string name="waitImport">Veuillez patienter, l\'importation est en cours !</string>
+    <string name="with">avec</string>
+
+    <!-- FileChooser -->
+    <string name="fileHeadlineBasicDB">Fichiers de structure TransektCount BD</string>
+    <string name="fileHeadlineCSV">Listes d\'espèces</string>
+    <string name="fileHeadlineDB">Liste des fichiers BD</string>
+    <string name="fileHeadlineGPS">TransektCount GPS-Traces</string>
+    <string name="fileSize">Taille</string>
+    <string name="importHead">Importer de données</string>
+    <string name="noFile">Aucun fichier disponible !</string>
+
+    <!-- EditMetaActivity -->
+    <string name="clouds">Nuages (%):</string>
+    <string name="date">Date:</string>
+    <string name="editHeadTitle">Métadonnées d. Inspection</string>
+    <string name="endtm">jusqu\'à:</string>
+    <string name="hinttm">Cliquez ici</string>
+    <string name="inspector">Moniteur:</string>
+    <string name="starttm">Heure de:</string>
+    <string name="temperature">Temp. (°C):</string>
+    <string name="transectnumber">Transect n°:</string>
+    <string name="valClouds">Vérifiez les nuages !</string>
+    <string name="valTemp">Température irréaliste !</string>
+    <string name="valWind">Vérifiez le vent !</string>
+    <string name="wind">Vent (0–4):</string>
+
+    <!-- CountingActivity -->
+    <string name="attention">Attention !</string>
+    <string name="chooserTitle">Choisissez une application photo</string>
+    <string name="cloneButton">Ajouter un autre section</string>
+    <string name="hasTrack">Impossible de créer une nouvelle section car des tracés GPS existent déjà. Veuillez d\'abord supprimer les données de tracé GPS. Le nombre de sections et de tracés doit correspondre !</string>
+    <string name="newCopyCreated">a été créé !</string>
+    <string name="newSectName">Aucun nom de section n\'a été saisi.</string>
+    <string name="noPhotoPermit">Autorisation de caméra est nécessaire.</string>
+    <string name="saveCountsButton">Sichern</string>
+    <string name="saving">Sauvegarder</string>
+    <string name="sectSaving">Les sections ont été enregistrées.</string>
+    <string name="species_notes">Note sur l\'espèce:</string>
+
+    <!-- CountingActivity Menu -->
+    <string name="action_share">Communiquer</string>
+    <string name="cloneSectTitle">Nouveau nom de section</string>
+    <string name="delSpeciesTitle">Supprimer des espèces</string>
+    <string name="deleteButton">Effacer</string>
+    <string name="editAddSpecTitle">Ajouter des espèces</string>
+    <string name="editDelSpecTitle">Effacer des espèces</string>
+    <string name="editSectTitle">Éditer la liste des espèces</string>
+    <string name="send_to">Envoyer</string>
+    <string name="takePhoto">Prendre une photo</string>
+
+    <!-- EditSectionListActivity -->
+    <string name="confirmDelete">Voulez-vous vraiment supprimer la dernière section ?\nDe nouvelles sections peuvent être ajoutées ultérieurement.</string>
+    <string name="duplicate">Toutes les entrées doivent être différentes !</string>
+    <string name="editSpeciesTitle">Éditer les désignations</string>
+    <string name="informNodelete">Il n\'est pas possible de supprimer la section, car cela corromprait la BD interne.\n\nSeule la dernière section créée, et non la seule, peut être supprimée.\n(Si cela n\'est pas possible, cela signifie que votre appareil ne dispose malheureusement pas de suffisamment de ressources libres pour exécuter cette fonction.)</string>
+    <string name="isdouble"> est double !</string>
+    <string name="isempty">Nom de section manquant !</string>
+    <string name="labelEditSpecButton">Éditer la liste</string>
+    <string name="notContiguous">Impossible, car une section a été supprimée auparavant !</string>
+    <string name="notesHint">Insérer une note&#8230;</string>
+    <string name="orcode"> ou Code</string>
+    <string name="presentSpecs">Espèces en liste:</string>
+    <string name="spname">Nom</string>
+    <string name="titleEdit">Nom de la section actuelle</string>
+
+    <!-- DelSpeciesActivity -->
+    <string name="labelDelSpecButton">Supprimer des espèces</string>
+
+    <!-- AddSpeciesActivity -->
+    <string name="addSpeciesTitle">Ajouter des espèces</string>
+    <string name="hintSearch">Initiale</string>
+    <string name="initCharsL">2 lettres, svp.</string>
+    <string name="labelAddSpecButton">Ajouter des espèces</string>
+    <string name="specsToAdd">Autres espèces:</string>
+
+    <!-- ChangeLog/ShowTextDialog -->
+    <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
+    <string name="changelog_show_full">plus&#8230;</string>
+    <string name="changelog_title">Quoi de neuf ?</string>
+    <string name="ok_button">OK</string>
+    <string name="title_help_dialog">Aide</string>
+    <string name="title_license_dialog">Licences</string>
+
+    <!-- Preferences -->
+    <string name="pref_alert_sound">Son de notification</string>
+    <string name="pref_alert_sound_summ">Émet un son lorsqu\'une information importante s\'affiche.</string>
+    <string name="pref_auto_section">Indiquer la section du transect à GPS</string>
+    <string name="pref_auto_section_summ">Marque automatiquement la section de transect actuelle par GPS (nécessite une liste de coordonnées GPX appropriée).</string>
+    <string name="pref_awake">Laisser l\'écran allumé</string>
+    <string name="pref_awake_summ">Empêche la mise en veille pendant le comptage</string>
+    <string name="pref_bg_dialog">Choisissez une image d\'arrière-plan standard ou aucune image.</string>
+    <string name="pref_bg_title">Image de fond</string>
+    <string name="pref_bright">Écran lumineux</string>
+    <string name="pref_bright_summ">Met en surbrillance les pages TransektCount pour le comptage et l\'édition.</string>
+    <string name="pref_button_sound">Son du bouton</string>
+    <string name="pref_button_sound_summ">Émet un son bref lorsqu\'un bouton est enfoncé.</string>
+    <string name="pref_button_vib">Vibration du bouton</string>
+    <string name="pref_button_vib_summ">Générer une vibration lorsqu\'un bouton de comptage est enfoncé.</string>
+    <string name="pref_csv_output_dialog">Tri des résultats et du tableau CSV exporté</string>
+    <string name="pref_csv_output_title">Tri des résultats</string>
+    <string name="pref_deviation_title">Distance max. de déviation de la trace</string>
+    <string name="pref_distance_title">Distance min. pour la requête GPS</string>
+    <string name="pref_interval_title">Intervalle d\'interrogation GPS</string>
+    <string name="pref_left_hand">Gaucher</string>
+    <string name="pref_left_hand_summ">Afficher la vue de comptage pour gauchers.</string>
+    <string name="pref_proximity_dialog">Sélectionnez la sensibilité pour éteindre l\'écran.</string>
+    <string name="pref_proximity_title">Sonde de proximité</string>
+    <string name="pref_sort_sect_order_dialog">Ordre de la liste des sections</string>
+    <string name="pref_sort_sect_order_title">Tri des sections</string>
+    <string name="pref_sort_sp_order_dialog">Ordre de la liste des espèces</string>
+    <string name="pref_sort_sp_order_title">Tri des espèces</string>
+    <string name="prefs_GPS">GPS (nécessite une trace GPX)</string>
+    <string name="prefs_appearance">Apparence</string>
+    <string name="prefs_counting">Compter</string>
+    <string name="prefs_csv_output_title">Résultat</string>
+    <string name="prefs_sound_vib">Sons/vibrations</string>
+
+    <!-- CountOptionsActivity -->
+    <string name="countCode">Code</string>
+    <string name="countName">Nouvelle espèce</string>
+    <string name="countNameG">Nouvelle espèce (nom français)</string>
+    <string name="editCountValueee">Modifier de compteur externe [ %1$d ] de œuf</string>
+    <string name="editCountValueei">Modifier de compteur interne [ %1$d ] de œuf</string>
+    <string name="editCountValuef1e">Modifier de compteur externe [ %1$d ] de imago ♂|♀</string>
+    <string name="editCountValuef1i">Modifier de compteur interne [ %1$d ] de imago ♂|♀</string>
+    <string name="editCountValuef2e">Modifier de compteur externe [ %1$d ] de imago ♂</string>
+    <string name="editCountValuef2i">Modifier de compteur interne [ %1$d ] de imago ♂</string>
+    <string name="editCountValuef3e">Modifier de compteur externe [ %1$d ] de imago ♀</string>
+    <string name="editCountValuef3i">Modifier de compteur interne [ %1$d ] de imago ♀</string>
+    <string name="editCountValuele">Modifier de compteur externe [ %1$d ] de chenille</string>
+    <string name="editCountValueli">Modifier de compteur interne[ %1$d ] de chenille</string>
+    <string name="editCountValuepe">Modifier de compteur externe [ %1$d ] de chrysalide</string>
+    <string name="editCountValuepi">Modifier de compteur interne [ %1$d ] de chrysalide</string>
+    <string name="notesSpecies">Note sur l\'espèce (%1$s)</string>
+    <string name="spec_Name">Nom</string>
+    <string name="spec_NameG">Nom français</string>
+
+    <!-- ListViewSpecies -->
+    <string name="txt_e">Œuf</string>
+    <string name="txt_f">♀</string>
+    <string name="txt_l">Chen.</string>
+    <string name="txt_m">♂</string>
+    <string name="txt_mf">♂|♀</string>
+    <string name="txt_p">Chry.</string>
+    <string name="viewSpecTitle">Résultat du comptage</string>
+    <string name="wait">La liste est en cours de calcul&#8230;</string>
+
+    <!-- other stuff -->
+    <string name="charZero">0</string>
+    <string name="countCodeHint">Code</string>
+    <string name="countExternalHint">Hors zone de comptage</string>
+    <string name="countExternalSum">Sommes hors de la zone de comptage :</string>
+    <string name="countImagofHint">Papillon ♀</string>
+    <string name="countImagomHint">Papillon ♂</string>
+    <string name="countImagomfHint">Papillon ♂|♀</string>
+    <string name="countInternalHint">Dans la zone de comptage</string>
+    <string name="countInternalSum">Sommes dans la zone de comptage :</string>
+    <string name="countLarvaHint">Chenille</string>
+    <string name="countNameHint">Nom de l\'espèce</string>
+    <string name="countNameHintG">Nom de l\'espèce (français)</string>
+    <string name="countOvoHint">Œuf</string>
+    <string name="countPupaHint">Chrysalide</string>
+    <string name="getHelp">Problème de BD ! Si tu as besoin d\'aide, envoie la BD problématique par e-mail.</string>
+    <string name="hintDateTime">Date et heure du\npremier comptage:</string>
+    <string name="hintInstructions">Instructions.</string>
+    <string name="hintTitle">Titre:</string>
+    <string name="hintTotal">Totaux:</string>
+    <string name="newSect">Nouvelle section:</string>
+    <string name="no_provider">Aucun service GPS disponible !</string>
+    <string name="sect01">Sect 01</string>
+    <string name="totalsIES">Total interne / externe / espèces :</string>
+
+    <!-- Permissions -->
+    <string name="app_settings">Paramètres système</string>
+    <string name="dialog_background_loc_message">Si l\'application doit être utilisée pour des transects plus longs, la localisation est plus fiable avec l\'autorisation facultative « Toujours autoriser ».</string>
+    <string name="dialog_background_loc_title">Autorisation facultative souhaitée</string>
+    <string name="dialog_fine_location_message">La détection des sections de transect nécessite la plus grande précision possible.</string>
+    <string name="dialog_fine_location_title">Autoriser la localisation précise.</string>
+    <string name="dialog_storage_message">Veuillez accorder l\'autorisation de stockage à TransektCount afin de pouvoir importer et exporter les données.</string>
+    <string name="dialog_storage_title">Autorisation de stockage requise</string>
+    <string name="grant_perm_later">L\'autorisation facultative « Toujours autoriser » peut être accordée ultérieurement dans les paramètres système, si nécessaire.</string>
+    <string name="storage_not_possible">L\'autorisation nécessaire pour enregistrer manque, l\'enregistrement n\'est pas possible.</string>
+
+</resources>

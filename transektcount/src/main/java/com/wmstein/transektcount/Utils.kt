@@ -5,12 +5,12 @@ import android.text.Spanned
 
 /***************************************************
  * fromHtml cares for Android versions compatibility
- *   in Toasts and text dialogs with Html formatting
+ *   in Toasts and text dialogs with HTML formatting
  *
- * Created by wistein on 2017-09-25,
+ * Created by wmstein on 2017-09-25,
  * last modified in Java on 2018-06-13,
  * converted to Kotlin on 2024-09-30,
- * last edited on 2026-01-15.
+ * last edited on 2026-02-17.
  */
 internal object Utils {
     @JvmStatic

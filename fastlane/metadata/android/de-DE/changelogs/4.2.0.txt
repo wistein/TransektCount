@@ -4,5 +4,5 @@ Version 4.2.0 (17.12.2024)
 - App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
 - Option der Vorauswahl mit 2 Anfangsbuchstaben bei Hinzufügen, Löschen und Editieren von Arten
 - Code-Verbesserungen
-- Bug-Fixes
+- Bugfixes
 - Doku-Update

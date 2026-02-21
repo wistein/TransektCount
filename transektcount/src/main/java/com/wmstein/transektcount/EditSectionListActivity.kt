@@ -45,7 +45,7 @@ import com.wmstein.transektcount.widgets.HintEditWidget
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-01-15
+ * last edited on 2026-02-19
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -132,7 +132,7 @@ class EditSectionListActivity : AppCompatActivity() {
                     @Suppress("UNCHECKED_CAST")
                     savedCounts = savedInstanceState.getSerializable(
                         "savedCounts", T::class.java
-                    ) as ArrayList<EditSpeciesWidget>? // error without cast, warning with cast
+                    ) as ArrayList<EditSpeciesWidget>? // warning no cast needed, error without cast
                 }
             }
         }
@@ -144,7 +144,7 @@ class EditSectionListActivity : AppCompatActivity() {
             initChars = extras.getString("init_Chars").toString()
         }
 
-        // Setup the data sources
+        // Set up the data sources
         sectionDataSource = SectionDataSource(this)
         countDataSource = CountDataSource(this)
         trackDataSource = TrackDataSource(this)
@@ -336,7 +336,7 @@ class EditSectionListActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        // Widgets must be removed from their parent before they can be serialised,
+        // Widgets must be removed from their parent before they can be serialized,
         for (esw in savedCounts!!) {
             (esw.parent as ViewGroup).removeView(esw)
         }

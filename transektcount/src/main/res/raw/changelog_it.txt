@@ -1,0 +1,125 @@
+<html>
+
+<!--
+Formattierungsbefehle:
+----------------------
+% title
+& bold text
+_ subtitle
+! free text
+# numbered list item
+* bullet list item
+. empty line
+-->
+  <head>
+    <style type='text/css'>
+      a { color:#a0a0e0 }
+      div.title {
+          color:#D9FDD9;
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle {
+          color:#C0F0C0;
+          font-size:0.8em;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext {
+          color:#F0F0F0 }
+      div.boldtext {
+          color:#F0F0F0;
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-bottom:0.5em;
+          text-align:start }
+      div.list {
+          color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+
+  % TransektCount(GPS)
+  _ Copyright (C) 2016-2026, Wilhelm Stein
+  _
+  _ email: stein.wm@web.de
+  _
+<!--
+  ! --------
+  & Attenzione:
+  ! Google ha annunciato che a partire dal 2026/2027 le app sui dispositivi Android certificati funzioneranno solo se gli sviluppatori trasmetteranno i dati di identità personali direttamente a Google. In qualità di sviluppatore privato di questa app open source conforme alla normativa sulla protezione dei dati, non accetto questo requisito di Google. Pertanto, a partire da tale data, questa app probabilmente non funzionerà più sui dispositivi Android certificati.
+  _
+  ! Sui dispositivi Android con ROM personalizzate come GrapheneOS, LineageOS, /e/OS, ecc., l'app continuerà a funzionare come al solito.
+  ! --------
+  _
+-->
+  ! TransektCount è utilizzato dai censitori durante i rilevamenti transettuali. Supporta il conteggio specifico delle specie di farfalle per sezione transettuale secondo il metodo European Butterfly Monitoring Scheme.
+  _ 
+  ! TransektCount è una delle due app dedicate al monitoraggio delle farfalle europee.
+  ! La seconda app, <B>TourCount</B>, supporta il conteggio specifico per specie e localizzato individualmente tramite GPS delle farfalle durante le escursioni nella natura.
+  _ 
+  ! Codice sorgente e documentazione pubblicati su:
+  ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+  _
+  ! Compatibile con Android 7.1 (Nougat) o versioni successive.
+  _
+  .
+  _
+
+$ 5.0.3
+  % Versione 5.0.3
+  _ 21.02.2026
+  * Aggiunte le lingue francese e italiana.
+  * Elenchi delle specie in francese e italiano su GitHub Docs.
+  * Specie aggiunte: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae e Lithosia quadra.
+  * Una stringa “0” (zero) nella sezione relativa alle osservazioni specifiche sulla specie inserisce la specie nei risultati nonostante un conteggio pari a 0.
+  * Esportando il database corrente e i risultati, vengono creati i file .db e .csv con il nome che riporta la data e l'ora di inizio dell'ispezione anziché l'ora corrente.
+  * Funzione di avviso contatore rimossa in quanto poco utilizzata.
+  * Correzione di alcuni dati.
+  * Correzione di un problema relativo alla sequenza di conteggio troppo veloce con il suono dei pulsanti attivato.
+
+$ 5.0.2
+  % Versione 5.0.2
+  _ 30.01.2026
+  * Colori dei messaggi: errore rosso, avviso arancione, attenzione blu, informazioni verde.
+  * Miglioramenti al codice e al testo.
+  * Documentazione integrata.
+
+$ 5.0.1
+  % Versione 5.0.1
+  _ 15.01.2026
+  * Una sezione rilevata dal GPS viene ora contrassegnata in blu anche quando è visualizzata la pagina “Sezioni del transetto”.
+  * Migliorata la formattazione HTML per le notifiche delle app per diverse versioni di Android.
+
+$ 5.0.0
+  % Versione 5.0.0
+  _ 03.01.2026
+  * Questa versione è stata rivista in molti punti e include il supporto GPS opzionale per segnalare un cambio di sezione del transetto. L'uso del GPS richiede la fornitura dei dati di tracciamento del transetto, descritti nella guida e in TransektCount_Anleitung_5.0.0.pdf.
+  * Quando il GPS viene attivato, il nome dell'app nella pagina iniziale cambia da TransektCount a TransektCountGPS.
+  * Se il GPS è attivato, sulla pagina iniziale compare un breve messaggio che indica la distanza dal transetto.
+  * Una nuova sezione di transetto rilevata tramite GPS viene segnalata con un segnale acustico e un breve messaggio visualizzato sullo schermo. Successivamente, il suo nome viene evidenziato in blu nella pagina “Sezioni del transetto”.
+  * Opzionalmente, il servizio di localizzazione GPS può essere impostato su “Consenti sempre” nelle impostazioni di sistema, in modo da funzionare in modo affidabile per ispezioni più lunghe.
+  * Il codice del programma è stato adattato per consentire il trattamento sincrono di sezioni e tracciati GPS, ad esempio durante la ridenominazione, l'eliminazione o la clonazione di sezioni.
+  * La funzione “Aggiungi sezione” è stata spostata dalla pagina Contatore alla pagina “Sezioni transetto”.
+  * L'opzione per modificare la dimensione dei caratteri dei commenti è stata rimossa.
+  * Migliorata la leggibilità delle pagine rilevanti con valori “0” disattivati.
+  * Aggiunte immagini e dati relativi alla Nomophila noctuella.
+  * Alcune segnalazioni formulate in modo più comprensibile.
+  * Nelle impostazioni, le opzioni “Vibrazione pulsante” e “Sensore di prossimità” sono disattivate se non presenti nel dispositivo.
+  * In Impostazioni, “GPS” è disattivato se non è stato caricato alcun tracciato di transetto.
+  * Molti altri miglioramenti al codice e alcune migliorie alle immagini.
+  * Supporto di debug permanente specifico per app nell'emulatore di Android Studio.
+  * Documentazione revisionata.
+  * Correzione di bug relativi al suono nelle versioni Android 7.1 - 10.
+  * Altre correzioni di bug.
+
+$ 4.2.9
+  % Versione 4.2.9 e precedenti
+  _
+  ! Per la cronologia fino alla versione 4.2.9, consultare il documento “History.txt” all'indirizzo
+  ! <a href="https://github.com/wistein/TransektCount/Docs" target="_blank">https://github.com/wistein/TransektCount/Docs</a>.
+  _
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

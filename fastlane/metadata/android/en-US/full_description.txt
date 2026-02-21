@@ -1,13 +1,18 @@
-TransectCount is used by transect counters during transect surveys. It supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
+TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.0.2:
-- Messages colors: Error red, warning orange, attention blue, info green.
-- Code and text improvements.
-- Docs updated
+New in Version 5.0.3:
+- French and Italian languages added
+- French and Italian example files added in GitHub Docs
+- Added species: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae and Lithosia quadra
+- A "0"-character (zero) in the section specific species remark puts the species also into the results despite a 0 count
+- Exporting current DB and results creates the .db and the .csv-file name with date and time of the inspection start instead of the current time
+- Counter alert function removed as hardly used
+- Some data corrections
+- Bugfix for problem with to quickly repeated counter clicks with button sound enabled
 
 Features:
 - Data collection is based on a transect inspection.
-- Databases refer to a transect and can be individually created and customised within the app with regard to meta data, transect sections and expected species.
+- Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species.
 - The app contains an internal list with many European species and has a prepared database for a transect section with the most common species to be expected in Germany as a starting point for direct use.
 - Export of the current species list for import by TourCount and TransektCount.
 - Separate counters for internal/external counting areas and separately for ♂-♀-indeterminate, ♂, ♀, pupa, caterpillar or egg.
@@ -19,11 +24,11 @@ Features:
 Functions:
 - Duplicate and delete transect sections.
 - Editing the transect section lists (adding and deleting species and editing terms).
-- Editor for meta data in preparation for an inspection.
+- Editor for metadata in preparation for an inspection.
 - Counter page per section with scroll-down list for species selection.
-- Species editor for annotation, bulk counter entries and count alert.
+- Species editor for annotation and bulk counter entries.
 - GPS support for selecting the current section.
-- The results page shows meta data, notes, totals and counting results per species and transect section.
+- The results page shows metadata, notes, totals and counting results per species and transect section.
 
 Prerequisites:
 The app requires

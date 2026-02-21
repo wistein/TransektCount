@@ -55,11 +55,11 @@ import kotlin.math.sqrt
  *
  * That code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-01-24
+ * last edited on 2026-02-17
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
-    protected var locationManager: LocationManager? = null
+    private var locationManager: LocationManager? = null
     private var location: Location? = null
     var checkGPS = false
     var canGetLocation = false
@@ -275,7 +275,7 @@ class LocationService : Service, LocationListener {
             }
         }
 
-        // If smallest distance still > track width, than location is outside a section
+        // If smallest distance still > track width, then location is outside a section
         //   -> keep last known section marked
         if (distMin > distMax) {
             if (!sectionNameCurrent.isEmpty())

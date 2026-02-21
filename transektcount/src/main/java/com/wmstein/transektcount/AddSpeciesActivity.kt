@@ -42,7 +42,7 @@ import com.wmstein.transektcount.widgets.HintAddWidget
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-01-24
+ * last edited on 2026-02-19
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -122,7 +122,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         addHintArea = findViewById(R.id.showHintAddLayout)
         addArea = findViewById(R.id.addSpecLayout)
 
-        // Setup the data sources
+        // Set up the data sources
         countDataSource = CountDataSource(this)
         sectionDataSource = SectionDataSource(this)
 

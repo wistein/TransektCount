@@ -51,7 +51,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.wmstein.changelog.ChangeLog;
 import com.wmstein.filechooser.AdvFileChooser;
-import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.DbHelper;
 import com.wmstein.transektcount.database.Head;
@@ -100,7 +99,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-01-15
+ * last edited on 2026-02-21
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -144,7 +143,6 @@ public class WelcomeActivity
     private SectionDataSource sectionDataSource;
     private MetaDataSource metaDataSource;
     private CountDataSource countDataSource;
-    private AlertDataSource alertDataSource;
     private TrackDataSource trackDataSource;
 
     // Track handling
@@ -160,7 +158,7 @@ public class WelcomeActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "163, onCreate");
+            Log.i(TAG, "161, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -173,10 +171,10 @@ public class WelcomeActivity
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
-        // Grey out preferences menu item pref_prox when max. proximity sensitivity = null
+        // Gray out preferences menu item pref_prox when max. proximity sensitivity = null
         boolean prefProx = proximitySensor != null;
 
-        // Grey out preferences menu item pref_button_vib when device has no vibrator
+        // Gray out preferences menu item pref_button_vib when device has no vibrator
         Vibrator vibrator = getApplicationContext().getSystemService(Vibrator.class);
         boolean prefVib = vibrator.hasVibrator();
 
@@ -229,7 +227,7 @@ public class WelcomeActivity
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "232, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "230, onCreate, autoSection: " + autoSection
                     + ", Transect has track: " + transectHasTrack);
 
         // Check and ask storage permission
@@ -237,7 +235,7 @@ public class WelcomeActivity
         if (!storagePermGranted) // in self permission
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "240, onCreate, StoragePermDialog");
+                Log.d(TAG, "238, onCreate, StoragePermDialog");
 
             PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsStorageDialogFragment.class.getName());
@@ -245,19 +243,18 @@ public class WelcomeActivity
 
         storagePermGranted = isStoragePermGranted();
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "248, onCreate, storageGranted: " + storagePermGranted);
+            Log.d(TAG, "246, onCreate, storageGranted: " + storagePermGranted);
 
         // Check DB version and upgrade if necessary
         dbHelper = new DbHelper(this);
         database = dbHelper.getWritableDatabase();
         dbHelper.close();
 
-        // Setup the data sources
+        // Set up the data sources
         headDataSource = new HeadDataSource(this);
         sectionDataSource = new SectionDataSource(this);
         metaDataSource = new MetaDataSource(this);
         countDataSource = new CountDataSource(this);
-        alertDataSource = new AlertDataSource(this);
         trackDataSource = new TrackDataSource(this);
 
         // Get transect No. and check for DB integrity
@@ -295,7 +292,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.d(TAG, "298, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "295, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks correspond to sections
@@ -339,7 +336,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "342, onCreate, ForegrndLocDialog");
+                    Log.d(TAG, "339, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -387,7 +384,7 @@ public class WelcomeActivity
                 if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "390, onCreate, BackgrndLocDialog");
+                        Log.d(TAG, "387, onCreate, BackgrndLocDialog");
 
                     // Ask optional background location permission with info in Snackbar
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
@@ -427,7 +424,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "430, NavBarMode = " + navBarMode);
+            Log.d(TAG, "427, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -465,7 +462,7 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "468, onResume");
+            Log.i(TAG, "465, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -478,7 +475,6 @@ public class WelcomeActivity
         sectionDataSource.open();
         metaDataSource.open();
         countDataSource.open();
-        alertDataSource.open();
         trackDataSource.open();
 
         baseLayout = findViewById(R.id.baseLayout);
@@ -566,7 +562,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "569, locationDispatcher 1");
+                        Log.d(TAG, "565, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         Intent sIntent = new Intent(getApplicationContext(), LocationService.class);
@@ -584,7 +580,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "587, location stop 2 by backpress");
+                        Log.d(TAG, "583, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -593,7 +589,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "596 location stop 3 by onStop");
+                        Log.d(TAG, "592 location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -794,7 +790,7 @@ public class WelcomeActivity
         // Stop location service when denied in settings
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "797, location stop by setting");
+                Log.d(TAG, "793, location stop by setting");
             stopLocSrv();
         }
     }
@@ -804,13 +800,12 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "807, onPause");
+            Log.i(TAG, "803, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
         metaDataSource.close();
         countDataSource.close();
-        alertDataSource.close();
         trackDataSource.close();
 
         prefs.unregisterOnSharedPreferenceChangeListener(this);
@@ -821,7 +816,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "824, onStop");
+            Log.i(TAG, "819, onStop");
 
         baseLayout.invalidate();
 
@@ -830,7 +825,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "833, onStop, app not visible. locationDispatcher 3");
+                Log.d(TAG, "828, onStop, app not visible. locationDispatcher 3");
         }
     }
 
@@ -839,7 +834,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "842 onDestroy");
+            Log.i(TAG, "837 onDestroy");
     }
 
     // Start SelectSectionActivity (by button)
@@ -856,7 +851,7 @@ public class WelcomeActivity
         } else {
             // Just call SelectSectionActivity to select section for counting
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "859, selectSection without GPS");
+                Log.d(TAG, "854, selectSection without GPS");
             mHandler.postDelayed(() ->
                     startActivity(new Intent(this, SelectSectionActivity.class)
                             .addFlags(FLAG_ACTIVITY_CLEAR_TOP)), 100);
@@ -896,7 +891,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "899, importBasicDBFile");
+            Log.d(TAG, "894, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -942,7 +937,7 @@ public class WelcomeActivity
                         if (data != null) {
                             selectedFile = data.getStringExtra("fileSelected");
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "945, Selected file: " + selectedFile);
+                                Log.d(TAG, "940, Selected file: " + selectedFile);
 
                             if (selectedFile != null)
                                 inFile = new File(selectedFile);
@@ -1022,7 +1017,7 @@ public class WelcomeActivity
                                             + getString(R.string.with) + " " + trCount + " "
                                             + getString(R.string.tracks);
                                 } else {
-                                    mesg = getString(R.string.importDB);
+                                    mesg = getString(R.string.importDB) + ".";
                                 }
                                 Toast.makeText( // bright green
                                         getApplicationContext(),
@@ -1111,15 +1106,12 @@ public class WelcomeActivity
             });
 
     // Clear DB for import of an external species list:
-    //  clear COUNT_TABLE and ALERT_TABLE, update SECTION_TABLE
+    //  clear COUNT_TABLE and update SECTION_TABLE
     private void clearDBforImport() {
         dbHelper = new DbHelper(this);
         database = dbHelper.getWritableDatabase();
 
         String sql = "DELETE FROM " + DbHelper.COUNT_TABLE;
-        database.execSQL(sql);
-
-        sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
         database.execSQL(sql);
 
         sql = "UPDATE " + DbHelper.SECTION_TABLE + " SET "
@@ -1219,7 +1211,7 @@ public class WelcomeActivity
                         }
 
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1222 importGPS, Selected file: " + selectedFile);
+                            Log.d(TAG, "1214 importGPS, Selected file: " + selectedFile);
 
                         if (!selectedFile.isEmpty())
                             inFile = new File(selectedFile);
@@ -1257,7 +1249,7 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG, "1260, " +
+                                        Log.e(TAG, "1252, " +
                                                 "decodeGPX, Problem converting Stream to String: " + e);
                                 }
 
@@ -1281,12 +1273,12 @@ public class WelcomeActivity
 
                                 // Parse gpxString to write fields into TRACK_TABLE
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1284, decodeGPX, Datasources open");
+                                    Log.d(TAG, "1276, decodeGPX, Datasources open");
 
                                 // get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1289, decodeGPX, numSect: "
+                                    Log.d(TAG, "1281, decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1351,7 +1343,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1354, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.d(TAG, "1346, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section
@@ -1368,7 +1360,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1371, decodeGPX, do trackpt");
+                            Log.d(TAG, "1363, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1378,7 +1370,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1381 decodeGPX, sectionNameGPS: "
+                            Log.d(TAG, "1373 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1393,13 +1385,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1396, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1388, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1402, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1394, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1409,7 +1401,7 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "1412, decodeGPX, gpxString finished: " + gpxString);
+                Log.d(TAG, "1404, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
@@ -1567,14 +1559,47 @@ public class WelcomeActivity
             path = new File(path + "/TransektCount");
         }
 
+        Meta meta; // Meta database instance
+        String date, start_tm;
+        meta = metaDataSource.getMeta();
+        date = meta.date;
+        start_tm = meta.start_tm;
+
+        String language = Locale.getDefault().toString().substring(0, 2);
+        String dbDate = "", dbTime = "";
+
+        if (date != null) {
+            if (language.equals("de") || language.equals("fr") || language.equals("it")) {
+                try {
+                    dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                } catch (Exception e) {
+                    dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                }
+            }
+            else {
+                try {
+                    dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                } catch (Exception e) {
+                    dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                }
+            }
+        }
+
+        if (start_tm != null) {
+            dbTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
+        }
+
+        dbDate = dbDate + "_" + dbTime; // yyyymmdd_hhmm
+
+
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmmss.db
         if (Objects.equals(transNo, ""))
-            outFile = new File(path, "/transektcount_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + dbDate + ".db");
         else
-            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + transNo + "_" + dbDate + ".db");
 
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
@@ -1636,25 +1661,6 @@ public class WelcomeActivity
             path = new File(path + "/TransektCount");
         }
 
-        //noinspection ResultOfMethodCallIgnored
-        path.mkdirs(); // Just verify path, result ignored
-
-        String language = Locale.getDefault().toString().substring(0, 2);
-        if (language.equals("de")) {
-            if (Objects.equals(transNo, ""))
-                outFile = new File(path, "/Transekt_" + getcurDate() + ".csv");
-            else
-                outFile = new File(path, "/Transekt_" + transNo + "_" + getcurDate() + ".csv");
-        } else {
-            if (Objects.equals(transNo, ""))
-                outFile = new File(path, "/Transect_" + getcurDate() + ".csv");
-            else
-                outFile = new File(path, "/Transect_" + transNo + "_" + getcurDate() + ".csv");
-        }
-
-        Section section;
-        int sect_id;
-
         Meta meta; // Meta database instance
         String inspecName;
         int temps, tempe;   // temperature at start time and end time
@@ -1664,6 +1670,63 @@ public class WelcomeActivity
         String date, start_tm, end_tm, kw, inspection_note; // kw = calendar week (String)
         int yyyy, mm, dd;
         int Kw = 0; // calendar week (Int)
+
+        // Open Meta table for meta info
+        meta = metaDataSource.getMeta();
+        temps = meta.temps;
+        tempe = meta.tempe;
+        winds = meta.winds;
+        winde = meta.winde;
+        clouds = meta.clouds;
+        cloude = meta.cloude;
+        date = meta.date;
+        start_tm = meta.start_tm;
+        end_tm = meta.end_tm;
+        inspection_note = meta.note;
+
+        String language = Locale.getDefault().toString().substring(0, 2);
+        String csvDate = "", csvTime = "";
+
+        if (date != null) {
+            if (language.equals("de") || language.equals("fr") || language.equals("it")) {
+                try {
+                        csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                } catch (Exception e) {
+                        csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                }
+            }
+            else {
+                try {
+                    csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                } catch (Exception e) {
+                    csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                }
+            }
+        }
+
+        if (start_tm != null) {
+           csvTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
+        }
+
+        csvDate = csvDate + "_" + csvTime; // yyyymmdd_hhmm
+
+        //noinspection ResultOfMethodCallIgnored
+        path.mkdirs(); // Just verify path, result ignored
+
+        if (language.equals("de") || language.equals("it")) {
+            if (Objects.equals(transNo, ""))
+                outFile = new File(path, "/Transekt_" + csvDate + ".csv");
+            else
+                outFile = new File(path, "/Transekt_" + transNo + "_" + csvDate + ".csv");
+        } else {
+            if (Objects.equals(transNo, ""))
+                outFile = new File(path, "/Transect_" + csvDate + ".csv");
+            else
+                outFile = new File(path, "/Transect_" + transNo + "_" + csvDate + ".csv");
+        }
+
+        Section section;
+        int sect_id;
 
         //  ♂|♀        ♂         ♀         pupa      larva     ovo
         int summf = 0, summ = 0, sumf = 0, sump = 0, suml = 0, sumo = 0;
@@ -1715,25 +1778,11 @@ public class WelcomeActivity
                 head = headDataSource.getHead();
                 inspecName = head.inspector_name;
 
-                // Open Meta table for meta info
-                meta = metaDataSource.getMeta();
-                temps = meta.temps;
-                tempe = meta.tempe;
-                winds = meta.winds;
-                winde = meta.winde;
-                clouds = meta.clouds;
-                cloude = meta.cloude;
-                date = meta.date;
-                start_tm = meta.start_tm;
-                end_tm = meta.end_tm;
-                inspection_note = meta.note;
-
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
-                assert date != null;
-                if (!date.isEmpty()) {
-                    if (language.equals("de")) {
+                if (date != null) {
+                    if (language.equals("de") || language.equals("fr") || language.equals("it")) {
                         try {
                             yyyy = Integer.parseInt(date.substring(6, 10));
                             mm = Integer.parseInt(date.substring(3, 5));
@@ -1859,8 +1908,10 @@ public class WelcomeActivity
                 Cursor curCSV;
                 if (outPref.equals("sections")) {
                     // Cursor contains list sorted by section and name with all internal count entries > 0
+                    //   and all empty counts with a "0" in a section's species remark
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                             + " WHERE ("
+                            + DbHelper.C_NOTES + " = '0' or "
                             + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
                             + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
                             + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
@@ -1870,8 +1921,10 @@ public class WelcomeActivity
                             + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
                 } else {
                     // Cursor contains list sorted by name and section with all internal count entries > 0
+                    //   and all empty counts with a "0" in a section's species remark
                     curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                             + " WHERE ("
+                            + DbHelper.C_NOTES + " = '0' or "
                             + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
                             + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
                             + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
@@ -2220,7 +2273,7 @@ public class WelcomeActivity
                 csvWrite.writeNext(arrTotal);
 
                 csvWrite.close();
-                mesg = getString(R.string.savecsv);
+                mesg = getString(R.string.saveCSV);
                 Toast.makeText(this,
                         fromHtml("<font color='blue'>" + mesg + "</font>"),
                         Toast.LENGTH_SHORT).show();
@@ -2230,7 +2283,7 @@ public class WelcomeActivity
                         fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2233, csv write external failed");
+                    Log.e(TAG, "2286, csv write external failed");
             }
             dbHelper.close();
         }
@@ -2282,20 +2335,39 @@ public class WelcomeActivity
             // If TourCount is installed export to /Documents/TourCount
             if (pathTour.exists() && pathTour.isDirectory()) {
                 String language = Locale.getDefault().toString().substring(0, 2);
-                if (language.equals("de")) {
-                    if (Objects.equals(transNo, ""))
-                        outFileTour = new File(pathTour, "/species_Transekt_de_"
-                                + getcurDate() + ".csv");
-                    else
-                        outFileTour = new File(pathTour, "/species_Transekt_de_"
-                                + getcurDate() + "_" + transNo + ".csv");
-                } else {
-                    if (Objects.equals(transNo, ""))
-                        outFileTour = new File(pathTour, "/species_Transect_en_"
-                                + getcurDate() + ".csv");
-                    else
-                        outFileTour = new File(pathTour, "/species_Transect_en_"
-                                + getcurDate() + "_" + transNo + ".csv");
+                switch (language) {
+                    case "de" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_de_Transekt_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_de_Transekt_"
+                                    + getcurDate() + "_" + transNo + ".csv");
+                    }
+                    case "fr" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_fr_transect_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_fr_transect_"
+                                    + getcurDate() + "_" + transNo + ".csv");
+                    }
+                    case "it" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_it_transekt_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_it_transekt_"
+                                    + getcurDate() + "_" + transNo + ".csv");
+                    }
+                    default -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTour = new File(pathTour, "/species_en_transect_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTour = new File(pathTour, "/species_en_transect_"
+                                    + getcurDate() + "_" + transNo + ".csv");
+                    }
                 }
 
                 try {
@@ -2324,16 +2396,39 @@ public class WelcomeActivity
             // Export to /Documents/TransektCount
             if (pathTransect.exists() && pathTransect.isDirectory()) {
                 String language = Locale.getDefault().toString().substring(0, 2);
-                if (language.equals("de")) {
-                    if (Objects.equals(transNo, ""))
-                        outFileTransect = new File(pathTransect, "/species_Transekt_" + getcurDate() + ".csv");
-                    else
-                        outFileTransect = new File(pathTransect, "/species_Transekt_" + transNo + "_" + getcurDate() + ".csv");
-                } else {
-                    if (Objects.equals(transNo, ""))
-                        outFileTransect = new File(pathTransect, "/species_Transect_" + getcurDate() + ".csv");
-                    else
-                        outFileTransect = new File(pathTransect, "/species_Transect_" + transNo + "_" + getcurDate() + ".csv");
+                switch (language) {
+                    case "de" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTransect = new File(pathTransect, "/species_de_Transekt_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTransect = new File(pathTransect, "/species_de_Transekt_"
+                                    + transNo + "_" + getcurDate() + ".csv");
+                    }
+                    case "fr" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTransect = new File(pathTransect, "/species_fr_transect_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTransect = new File(pathTransect, "/species_fr_transect_"
+                                    + transNo + "_" + getcurDate() + ".csv");
+                    }
+                    case "it" -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTransect = new File(pathTransect, "/species_it_transekt_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTransect = new File(pathTransect, "/species_it_transekt_"
+                                    + transNo + "_" + getcurDate() + ".csv");
+                    }
+                    default -> {
+                        if (Objects.equals(transNo, ""))
+                            outFileTransect = new File(pathTransect, "/species_en_transect_"
+                                    + getcurDate() + ".csv");
+                        else
+                            outFileTransect = new File(pathTransect, "/species_en_transect_"
+                                    + transNo + "_" + getcurDate() + ".csv");
+                    }
                 }
             }
 
@@ -2451,10 +2546,6 @@ public class WelcomeActivity
                     + DbHelper.M_END_TM + " = '', "
                     + DbHelper.M_NOTE + " = '';";
             database.execSQL(sql);
-
-            sql = "DELETE FROM " + DbHelper.ALERT_TABLE;
-            database.execSQL(sql);
-
         } catch (Exception e) {
             mesg = getString(R.string.resetFail);
             Toast.makeText(this,

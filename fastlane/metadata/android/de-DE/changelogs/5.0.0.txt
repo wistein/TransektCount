@@ -16,5 +16,5 @@ Version 5.0.0 (03.01.2026)
 - Mehrere andere Code- und einige Abbildungs-Verbesserungen.
 - Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio
 - Doku überarbeitet
-- Bug-Fix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10
-- Andere Bug-Fixe
+- Bugfix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10
+- Andere Bugfixe

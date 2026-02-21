@@ -67,6 +67,18 @@ _ subtitle
   .
   _
 
+$ 5.0.3
+  % Version 5.0.3
+  _ 2026-02-21
+  * French and Italian language added
+  * French and Italian example files added in GitHub Docs
+  * Added species: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae and Lithosia quadra
+  * A "0"-character (zero) in the section specific species remark puts the species also into the results despite a 0 count
+  * Exporting current DB and results creates the .db and the .csv-file name with date and time of the inspection start instead of the current time
+  * Alert function removed as hardly used
+  * Some data corrections
+  * Bugfix for problem with to quickly repeated counter clicks with button sound
+
 $ 5.0.2
   % Version 5.0.2
   _ 2026-01-30
@@ -90,7 +102,7 @@ $ 5.0.0
   * Then, when visiting the page "Transect Sections" the name of the newly identified section is colored blue
   * Optionally you may set the system permission for the TransektCount location service to "Always on" to get it reliably work for long inspections
   * Program code has been adapted regarding aligned section and track handling for renaming, deleting and cloning a section
-  * The function "Add a Further Section" was moved from the Counting page to the page "Transect Sections"
+  * The function "Add a Section" was moved from the Counting page to the page "Transect Sections"
   * The option to change the font size for comments was removed
   * On relevant pages the number fields show dimmed "0"-values for better readability
   * Picture and data of Nomophila noctuella (Rush veneer) added
@@ -440,9 +452,9 @@ $ 1.3.0
   * Reject double section names in "Duplicate Section"
   * (+)-Button in app bar of page "List of Sections"
   * New: "Reset Data" function
-  * New: Input page for meta data
-  * Results page including meta data
-  * Export functions including meta data
+  * New: Input page for metadata
+  * Results page including metadata
+  * Export functions including metadata
   * App runs always in portrait mode
   * New: Export DB in csv-Format
   * Exported DB shows only counts > 0

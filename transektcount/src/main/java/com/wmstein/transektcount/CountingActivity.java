@@ -1,7 +1,6 @@
 package com.wmstein.transektcount;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,8 +47,6 @@ import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 import static com.wmstein.transektcount.Utils.fromHtml;
 
-import com.wmstein.transektcount.database.Alert;
-import com.wmstein.transektcount.database.AlertDataSource;
 import com.wmstein.transektcount.database.Count;
 import com.wmstein.transektcount.database.CountDataSource;
 import com.wmstein.transektcount.database.Head;
@@ -66,7 +63,6 @@ import com.wmstein.transektcount.widgets.CountingWidgetLhInt;
 import com.wmstein.transektcount.widgets.NotesWidget;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,7 +70,6 @@ import java.util.Objects;
  * CountingActivity is the central activity of TransektCount and is called from
  *   SelectSectionActivity for the selected section.
  * It does the actual counting with 12 counters,
- *   checks for alerts,
  *   calls AddSpeciesActivity, DelSpeciesActivity, EditSectionListActivity,
  *   and CountOptionsActivity,
  *   clones a section,
@@ -85,7 +80,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-01-15
+ * last edited on 2026-02-21
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -102,7 +97,6 @@ public class CountingActivity
     private LinearLayout countsFieldHeadArea2; // headline external
     private LinearLayout countsFieldArea2;     // external counts field
     private LinearLayout speciesNotesArea;     // species notes line
-    private LinearLayout alertNotesArea;       // alert notes line
 
     // Proximity sensor handling for screen on/off
     private PowerManager powerManager;
@@ -116,8 +110,6 @@ public class CountingActivity
     private boolean brightPref;
     private String sortPref;
     private boolean lhandPref; // true for lefthand mode of counting screen
-    private String alertSound;
-    private boolean alertSoundPref;
     private String buttonSound;
     private String buttonSoundMinus;
     private boolean buttonSoundPref;
@@ -129,7 +121,6 @@ public class CountingActivity
     // Data
     private Count count;     // record in SQLite counts table for a counted species
     private Section section; // record in SQLite sections table
-    private List<Alert> alerts;
     private Spinner spinner; // species selector
     private int oldCounter;
     private int newCounter;
@@ -143,14 +134,13 @@ public class CountingActivity
     // Data sources
     private SectionDataSource sectionDataSource;
     private CountDataSource countDataSource;
-    private AlertDataSource alertDataSource;
     private HeadDataSource headDataSource;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler cHandler = new Handler(Looper.getMainLooper());
 
     private Context audioAttributionContext;
-    private MediaPlayer rToneP, rToneM, rToneA;
-    private boolean setNoButtonSound = false;
+    private MediaPlayer rToneP, rToneM;
     private Vibrator vibrator;
     private String mesg = "";
 
@@ -159,7 +149,7 @@ public class CountingActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "161, onCreate");
+            Log.i(TAG, "152, onCreate");
 
         audioAttributionContext = (Build.VERSION.SDK_INT >= 30) ?
                 createAttributionContext("ringSound") : this;
@@ -180,7 +170,6 @@ public class CountingActivity
 
         sectionDataSource = new SectionDataSource(this);
         countDataSource = new CountDataSource(this);
-        alertDataSource = new AlertDataSource(this);
         headDataSource = new HeadDataSource(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
@@ -196,7 +185,6 @@ public class CountingActivity
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2LH);
             countsFieldArea2 = findViewById(R.id.countsField2LH);
             speciesNotesArea = findViewById(R.id.speciesNotesLH);
-            alertNotesArea = findViewById(R.id.alertRemarkLH);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.countingScreenLH),
                     (v, windowInsets) -> {
                         Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -217,7 +205,6 @@ public class CountingActivity
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2RH);
             countsFieldArea2 = findViewById(R.id.countsField2RH);
             speciesNotesArea = findViewById(R.id.speciesNotesRH);
-            alertNotesArea = findViewById(R.id.alertRemarkRH);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.countingScreen),
                     (v, windowInsets) -> {
                         Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -300,8 +287,6 @@ public class CountingActivity
         brightPref = prefs.getBoolean("pref_bright", true);
         sortPref = prefs.getString("pref_sort_sp", "none"); // sorted species list on counting page
         lhandPref = prefs.getBoolean("pref_left_hand", false); // left-handed counting page
-        alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
-        alertSound = prefs.getString("alert_sound", null);
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
         buttonSound = prefs.getString("button_sound", null);
         buttonSoundMinus = prefs.getString("button_sound_minus", null); //use deeper button sound
@@ -315,7 +300,7 @@ public class CountingActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "316, onResume");
+            Log.i(TAG, "303, onResume");
 
         sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -336,18 +321,6 @@ public class CountingActivity
 
         if (awakePref)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        // Prepare button sounds
-        if (alertSoundPref) {
-            Uri uriA;
-            if (isNotBlank(alertSound) && alertSound != null)
-                uriA = Uri.parse(alertSound);
-            else
-                uriA = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-            if (rToneA == null)
-                rToneA = MediaPlayer.create(audioAttributionContext, uriA);
-        }
 
         if (buttonSoundPref) {
             Uri uriP;
@@ -374,12 +347,10 @@ public class CountingActivity
         countsFieldHeadArea2.removeAllViews(); // headline for external counts
         countsFieldArea2.removeAllViews();     // external counts
         speciesNotesArea.removeAllViews();     // species remarks
-        alertNotesArea.removeAllViews();       // alert remarks
 
-        // Setup the data sources
+        // Set up the data sources
         sectionDataSource.open();
         countDataSource.open();
-        alertDataSource.open();
 
         try {
             section = sectionDataSource.getSection(sectionId);
@@ -491,7 +462,7 @@ public class CountingActivity
         if (proximitySensor != null) {
             if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "491 Value0: " + event.values[0] + ", " + "Sensitivity: "
+                    Log.d(TAG, "465 Value0: " + event.values[0] + ", " + "Sensitivity: "
                             + (sensorSensitivity));
 
                 // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -670,14 +641,13 @@ public class CountingActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "669, onPause");
+            Log.i(TAG, "644, onPause");
 
         disableProximitySensor();
 
         // Close the data sources
         sectionDataSource.close();
         countDataSource.close();
-        alertDataSource.close();
 
         // N.B. a wakelock might not be held, e.g. if someone is using LineageOS and
         //   has denied wakelock permission to TransektCount
@@ -695,7 +665,7 @@ public class CountingActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "694, onStop");
+            Log.i(TAG, "668, onStop");
 
         counting_screen.invalidate();
 
@@ -716,16 +686,6 @@ public class CountingActivity
                 rToneM = null;
             }
         }
-
-        if (alertSoundPref) {
-            if (rToneA != null) {
-                if (rToneA.isPlaying()) {
-                    rToneA.stop();
-                }
-                rToneA.release();
-                rToneA = null;
-            }
-        }
     }
 
     @Override
@@ -733,7 +693,7 @@ public class CountingActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "732, onDestroy");
+            Log.i(TAG, "696, onDestroy");
     }
 
     // Spinner listener
@@ -747,7 +707,6 @@ public class CountingActivity
                     countsFieldHeadArea2.removeAllViews(); // headline for external counts
                     countsFieldArea2.removeAllViews();    // external counts
                     speciesNotesArea.removeAllViews();   // species remark
-                    alertNotesArea.removeAllViews();     // alert remark
 
                     String sid = ((TextView) view.findViewById(R.id.countId)).getText().toString();
                     iid = Integer.parseInt(sid);
@@ -756,13 +715,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "755, SpinnerListener, count id: " + count.id
+                        Log.d(TAG, "718, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "761, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "724, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -776,7 +735,7 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "775, countingScreen");
+            Log.d(TAG, "738, countingScreen");
 
         // 1. Species line is set by CountingWidgetHead1 in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -824,22 +783,6 @@ public class CountingActivity
             // Set notes with light blue introducer
             count_notes.setNotesC(getString(R.string.species_notes), count.notes);
             speciesNotesArea.addView(count_notes);
-        }
-
-        // 7. Species alerts note widget if there are any alert notes to show
-        List<String> alertExtras = new ArrayList<>();
-        alerts = new ArrayList<>();
-        List<Alert> tmpAlerts = alertDataSource.getAllAlertsForCount(count.id);
-
-        for (Alert a : tmpAlerts) {
-            alerts.add(a);
-            alertExtras.add(String.format(getString(R.string.willAlert), count.name, a.alert));
-        }
-
-        if (!alertExtras.isEmpty()) {
-            NotesWidget alertNotes = new NotesWidget(this, null);
-            alertNotes.setNotes(join(alertExtras, "\n"));
-            alertNotesArea.addView(alertNotes);
         }
     }
     // End of countingScreen
@@ -893,15 +836,15 @@ public class CountingActivity
      * and widget_counting_lhi.xml
      */
     public void countUpf1i(View view) {
-        // Run reenterActivity to re-enter CountingActivity and so fix spinner's 1. misbehaviour:
+        // Run reenterActivity to re-enter CountingActivity and so fix spinner's 1. misbehavior:
         //  no action by 1st click when previous species selected again
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "896, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.d(TAG, "843, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
-            // Desperate workaround for spinner's 2. misbehaviour: 
+            // Desperate workaround for spinner's 2. misbehavior:
             // When returning from species that got no count to previous selected species: 
             //   1st count button press is ignored,
             //   so use button sound only for 2nd press when actually counted
@@ -914,15 +857,13 @@ public class CountingActivity
                 count.count_f1i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
 
                 // Save the data
                 countDataSource.saveCountf1i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -940,21 +881,19 @@ public class CountingActivity
                 count.count_f1i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
 
                 countDataSource.saveCountf1i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "953, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "896, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingWidgetInt widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -968,7 +907,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -987,7 +926,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1005,13 +944,11 @@ public class CountingActivity
                 count.count_f2i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1029,13 +966,11 @@ public class CountingActivity
                 count.count_f2i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
                 countDataSource.saveCountf2i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1054,7 +989,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1073,7 +1008,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1091,13 +1026,11 @@ public class CountingActivity
                 count.count_f3i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1115,13 +1048,11 @@ public class CountingActivity
                 count.count_f3i = newCounter;
                 buttonVib(200);
                 assert widget.count != null;
-                checkAlert(widget.count.id, widget.count.count_f1i
-                        + widget.count.count_f2i + widget.count.count_f3i);
                 soundButtonSound();
                 countDataSource.saveCountf3i(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1140,7 +1071,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1159,7 +1090,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3i(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1180,7 +1111,7 @@ public class CountingActivity
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1201,7 +1132,7 @@ public class CountingActivity
                 countDataSource.saveCountpi(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1220,7 +1151,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpi(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1239,7 +1170,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpi(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1260,7 +1191,7 @@ public class CountingActivity
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1281,7 +1212,7 @@ public class CountingActivity
                 countDataSource.saveCountli(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1300,7 +1231,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountli(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1319,7 +1250,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountli(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1340,7 +1271,7 @@ public class CountingActivity
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1361,7 +1292,7 @@ public class CountingActivity
                 countDataSource.saveCountei(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1380,7 +1311,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountei(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1399,7 +1330,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountei(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1408,7 +1339,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1407, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1342, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1427,7 +1358,7 @@ public class CountingActivity
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1448,7 +1379,7 @@ public class CountingActivity
                 countDataSource.saveCountf1e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1456,7 +1387,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1455 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1390 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingWidgetExt widget = getCountFromId_e(tempCountId);
@@ -1471,7 +1402,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1490,7 +1421,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf1e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1511,7 +1442,7 @@ public class CountingActivity
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1532,7 +1463,7 @@ public class CountingActivity
                 countDataSource.saveCountf2e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1551,7 +1482,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1570,7 +1501,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf2e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1591,7 +1522,7 @@ public class CountingActivity
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1612,7 +1543,7 @@ public class CountingActivity
                 countDataSource.saveCountf3e(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1631,7 +1562,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1650,7 +1581,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountf3e(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1671,7 +1602,7 @@ public class CountingActivity
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1692,7 +1623,7 @@ public class CountingActivity
                 countDataSource.saveCountpe(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1711,7 +1642,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpe(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1730,7 +1661,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountpe(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1751,7 +1682,7 @@ public class CountingActivity
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1772,7 +1703,7 @@ public class CountingActivity
                 countDataSource.saveCountle(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1791,7 +1722,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountle(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1810,7 +1741,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountle(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1831,7 +1762,7 @@ public class CountingActivity
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1852,7 +1783,7 @@ public class CountingActivity
                 countDataSource.saveCountee(count);
                 sectionDataSource.saveDateSection(section);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1871,7 +1802,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountee(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
 
@@ -1890,7 +1821,7 @@ public class CountingActivity
                 buttonVib(450);
                 countDataSource.saveCountee(count);
             }
-            reenterActivity();
+            cHandler.postDelayed(this::reenterActivity, 100);
         }
     }
     // End of counters
@@ -1905,49 +1836,14 @@ public class CountingActivity
         startActivity(intent);
     }
 
-    // Alert checking...
-    private void checkAlert(int countId, int count_value) {
-        for (Alert a : alerts) {
-            if (a.count_id == countId && a.alert == count_value) {
-                AlertDialog.Builder row_alert = new AlertDialog.Builder(this);
-                row_alert.setTitle(String.format(getString(R.string.alertTitle), count_value));
-                row_alert.setMessage(a.alert_text);
-                row_alert.setNegativeButton("OK", (dialog, whichButton) ->
-                {
-                    // Cancelled.
-                });
-                setNoButtonSound = true; // don't soundButtonSound() when soundAlert()
-                soundAlert();
-                row_alert.show();
-                break;
-            }
-        }
-    }
-
-    // If the user has set the preference for an audible alert, then sound it here.
-    private void soundAlert() {
-        if (alertSoundPref) {
-            if (rToneA.isPlaying()) {
-                rToneA.stop();
-                rToneA.release();
-            }
-            rToneA.start();
-        }
-    }
-
     // If the user has set the preference for button sound, then sound it here.
     private void soundButtonSound() {
         if (buttonSoundPref) {
-            // don't soundButtonSound() when soundAlert()
-            if (setNoButtonSound) {
-                setNoButtonSound = false;
-            } else {
                 if (rToneP.isPlaying()) {
                     rToneP.stop();
                     rToneP.release();
                 }
                 rToneP.start();
-            }
         }
     }
 
@@ -1965,14 +1861,14 @@ public class CountingActivity
         if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1964, Vibrator >= SDK 31");
+                    Log.d(TAG, "1864, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                 {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "1971, Vibrator >= SDK 26");
+                        Log.d(TAG, "1871, Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();
@@ -2016,60 +1912,5 @@ public class CountingActivity
         return obj == null ? "" : obj.toString();
     }
 
-    /**
-     * Joins the elements of the provided Iterator into a single String containing the provided elements.
-     * <p>
-     * No delimiter is added before or after the list. A null separator is the same as an empty String ("").
-     * <p>
-     *
-     * @param iterator  the Iterator of values to join together, may be null.
-     * @param separator the separator character to use, null treated as "".
-     * @return the joined String, null if null iterator input.
-     * <p>
-     * Derived from package org.apache.commons.lang3/StringUtils
-     */
-    public static String join(final Iterator<?> iterator, final String separator) {
-        if (iterator == null)
-            return null;
-        else if (!iterator.hasNext())
-            return "";
-        else {
-            Object first = iterator.next();
-            if (!iterator.hasNext())
-                return toString(first);
-            else {
-                StringBuilder buf = new StringBuilder(256);
-                if (first != null)
-                    buf.append(first);
-
-                while (iterator.hasNext()) {
-                    if (separator != null)
-                        buf.append(separator);
-
-                    Object obj = iterator.next();
-                    if (obj != null)
-                        buf.append(obj);
-                }
-
-                return buf.toString();
-            }
-        }
-    }
-
-    /**
-     * Joins the elements of the provided Iterable into a single String containing the provided elements.
-     * <p>
-     * No delimiter is added before or after the list. A null separator is the same as an empty String ("").
-     * <p>
-     *
-     * @param iterable  Iterable providing the values to join together, may be null.
-     * @param separator the separator character to use, null treated as "".
-     * @return the joined String, null if null iterator input.
-     * <p>
-     * Derived from package org.apache.commons.lang3/StringUtils
-     */
-    public static String join(final Iterable<?> iterable, final String separator) {
-        return iterable == null ? null : join(iterable.iterator(), separator);
-    }
 
 }

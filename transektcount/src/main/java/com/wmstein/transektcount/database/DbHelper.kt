@@ -15,7 +15,7 @@ import com.wmstein.transektcount.R
  * Adopted for TransektCount by wmstein on 2016-02-18.
  * Last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-12-29
+ * last edited on 2026-02-21
  *
  * ************************************************************************
  * ATTENTION!
@@ -57,13 +57,6 @@ class DbHelper
                 + C_COUNT_EE + " int, "
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
-        db.execSQL(sql)
-
-        sql = ("create table " + ALERT_TABLE + " ("
-                + A_ID + " integer primary key, "
-                + A_COUNT_ID + " int, "
-                + A_ALERT + " int, "
-                + A_ALERT_TEXT + " text)")
         db.execSQL(sql)
 
         sql = ("create table " + HEAD_TABLE + " ("
@@ -371,16 +364,6 @@ class DbHelper
                 + T_LON + " text)")
         db.execSQL(sql)
 
-        // reset alert data
-        sql = "DROP TABLE $ALERT_TABLE"
-        db.execSQL(sql)
-        sql = ("create table " + ALERT_TABLE + " ("
-                + A_ID + " integer primary key, "
-                + A_COUNT_ID + " int, "
-                + A_ALERT + " int, "
-                + A_ALERT_TEXT + " text)")
-        db.execSQL(sql)
-
         // reset section data and make SECTION_TABLE contiguous
         sql = ("UPDATE " + SECTION_TABLE + " SET "
                 + S_CREATED_AT + " = 0, "
@@ -405,7 +388,7 @@ class DbHelper
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.d(TAG, "406, SECTION_TABLE resetted")
 
-        // reset meta data
+        // reset metadata
         sql = ("UPDATE " + META_TABLE + " SET "
                 + M_TEMPE + " = 0, "
                 + M_WIND + " = 0, "
@@ -606,7 +589,6 @@ class DbHelper
         // tables
         const val SECTION_TABLE = "sections"
         const val COUNT_TABLE = "counts"
-        const val ALERT_TABLE = "alerts"
         const val HEAD_TABLE = "head"
         const val META_TABLE = "meta"
         const val TRACK_TABLE = "tracks"
@@ -641,12 +623,6 @@ class DbHelper
         // fields of old counts table version 1
         private const val C_COUNT = "count" //deprecated in database version 2
         private const val C_COUNTA = "counta" //deprecated in database version 2
-
-        // fields of table alerts
-        const val A_ID = "_id"
-        const val A_COUNT_ID = "count_id"
-        const val A_ALERT = "alert"
-        const val A_ALERT_TEXT = "alert_text"
 
         // fields of table head
         const val H_ID = "_id"

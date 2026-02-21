@@ -48,7 +48,7 @@ _ subtitle
 <!--
   ! --------
   & Achtung:
-  ! Google hat angekündigt, dass ab 2026/2027 auf zertifizierten Android-Geräten Apps nur noch funktionieren, wenn die Entwickler ihre persönlichen Identitätsdaten direkt an Google übermitteln. Als privater Entwickler dieser datenschutzkonformen Open-Source-App stimme ich dieser Anforderung von Google nicht zu. Deshalb wird wahrscheinlich ab diesem Zeitpunkt diese App auf zertifizierten Android-Geräten nicht mehr funktionieren.
+  ! Google hat angekündigt, dass ab 2026/2027 Apps auf zertifizierten Android-Geräten nur noch funktionieren, wenn die Entwickler ihre persönlichen Identitätsdaten direkt an Google übermitteln. Als privater Entwickler dieser datenschutzkonformen Open-Source-App stimme ich dieser Anforderung von Google nicht zu. Deshalb wird wahrscheinlich ab diesem Zeitpunkt diese App auf zertifizierten Android-Geräten nicht mehr funktionieren.
   _
   ! Auf Android-Geräten mit Custom ROMS wie GrapheneOS, LineageOS, /e/OS, usw. wird die App weiterhin wie gewohnt funktionieren.
   ! --------
@@ -66,6 +66,18 @@ _ subtitle
   _
   .
   _
+
+$ 5.0.3
+  % Version 5.0.3
+  _ 21.02.2026
+  * Französische und italienische Sprache hinzugefügt
+  * Französische und italienische Spezies-Beispiel-Listen in GitHub-Docs hinzugefügt
+  * Arten hinzugefügt: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae und Lithosia quadra
+  * Eine eingefügte "0" (Null) in der abschnittsbezogenen Art-Bemerkung weist eine Art auch ohne Zählung im Ergebnis aus
+  * Der Export der aktuellen DB und der Ergebnisse benennt die .db bzw. .csv-Datei nun anstelle der aktuellen Zeit mit dem Datum und der Startzeit der Inspektion
+  * Die kaum verwendete Zählalarm-Funktion wurde entfernt
+  * Einige Daten korrigiert
+  * Bugfix für Problem bei zu schneller Zählfolge mit aktiviertem Button-Sound
 
 $ 5.0.2
   % Version 5.0.2
@@ -100,8 +112,8 @@ $ 5.0.0
   * Viele andere Code- und einige Abbildungs-Verbesserungen
   * Dauerhafte, App-spezifische Debug-Unterstützung im Emulator von Android Studio
   * Doku überarbeitet
-  * Bug-Fix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10
-  * Andere Bug-Fixe
+  * Bugfix für Sound-bezogenen Crash unter den Android-Versionen 7.1 - 10
+  * Andere Bugfixe
 
 $ 4.2.9
   % Version 4.2.9
@@ -114,7 +126,7 @@ $ 4.2.8
   % Version 4.2.8
   _ 03.08.2025
   * Einige Code- und Text-Verbesserungen
-  * Bug-Fixe
+  * Bugfixe
 
 $ 4.2.7
   % Version 4.2.7
@@ -126,7 +138,7 @@ $ 4.2.7
   * Einige Code- und Layout-Verbesserungen
   * Bilder von Ennomos quercinaria und Eilema lurideola hinzugefügt
   * Doku überarbeitet
-  * Bug-Fixe
+  * Bugfixe
 
 $ 4.2.6
   % Version 4.2.6
@@ -195,7 +207,7 @@ $ 4.2.0
   * App wird nach Beenden komplett aus dem Arbeitsspeicher entfernt
   * Option der Vorauswahl mit 2 Anfangsbuchstaben bei Hinzufügen, Löschen und Editieren von Arten
   * Code-Verbesserungen
-  * Bug-Fixes
+  * Bugfixes
   * Doku-Update
 
 $ 4.1.0
@@ -215,7 +227,7 @@ $ 4.1.0
   * Verbesserungen bei Code, Text und Layouts
   * Lizenzentext separat
   * Doku angepasst
-  * Bug-Fixes
+  * Bugfixes
 
 $ 4.0.3
   % Version 4.0.3
@@ -224,13 +236,13 @@ $ 4.0.3
   * Ergebnisseite und csv-Exportdatei dito
   * Einige noch fehlende lokale Artnamen ergänzt
   * Doku überarbeitet
-  * Bug-Fix
+  * Bugfix
 
 $ 4.0.2
   % Version 4.0.2
   _ 22.02.2024
   * Einge Arten mit Abbildungen hinzugefügt
-  * Bug-Fixes
+  * Bugfixes
   * Docs überarbeitet
   * Beispiel-DBs überarbeitet
 
@@ -253,7 +265,7 @@ $ 4.0.1
   * Fehlende Abbildungen ergänzt
   * Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
   * Code Verbesserungen
-  * Bug-Fixes
+  * Bugfixes
   * Code-Anpassungen für Android 14
 
 $ 3.4.3
@@ -298,7 +310,7 @@ $ 3.3.7
   * Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
   * Portrait/Landscape-Funktion verbessert
   * Update der Doku
-  * Bug-Fix für Bearbeitung der Abschnittslisten
+  * Bugfix für Bearbeitung der Abschnittslisten
 
 $ 3.3.0
   % Version 3.3.0

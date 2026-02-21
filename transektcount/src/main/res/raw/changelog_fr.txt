@@ -1,0 +1,125 @@
+<html>
+
+<!--
+Formattierungsbefehle:
+----------------------
+% title
+& bold text
+_ subtitle
+! free text
+# numbered list item
+* bullet list item
+. empty line
+-->
+  <head>
+    <style type='text/css'>
+      a { color:#a0a0e0 }
+      div.title {
+          color:#D9FDD9;
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle {
+          color:#C0F0C0;
+          font-size:0.8em;
+          margin-bottom:1em;
+          text-align:center }
+      div.freetext {
+          color:#F0F0F0 }
+      div.boldtext {
+          color:#F0F0F0;
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-bottom:0.5em;
+          text-align:start }
+      div.list {
+          color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+
+  % TransektCount(GPS)
+  _ Copyright (C) 2016-2026, Wilhelm Stein
+  _
+  _ email: stein.wm@web.de
+  _
+<!--
+  ! -----------
+  & Attention :
+  ! Google a annoncé qu'à partir de 2026/2027, les applications ne fonctionneront plus sur les appareils Android certifiés que si les développeurs transmettent leurs données d'identité personnelles directement à Google. En tant que développeur privé de cette application open source conforme à la protection des données, je n'accepte pas cette exigence de Google. C'est pourquoi cette application ne fonctionnera probablement plus sur les appareils Android certifiés à partir de cette date.
+  _
+  ! Sur les appareils Android équipés avec Custom ROM telles que GrapheneOS, LineageOS, /e/OS, etc., l'application continuera de fonctionner normalement.
+  ! --------
+  _
+-->
+  ! TransektCount est utilisé par les compteurs de transects lors des relevés de transects. Il permet le comptage spécifique des espèces de papillons par section de transect, conformément à la méthode du Programme européen de surveillance des papillons.
+  _ 
+  ! TransektCount est l'une des deux applications destinées à la surveillance des papillons européens.
+  ! La deuxième application, <B>TourCount</B>, permet de compter les papillons lors de sorties dans la nature, en les localisant individuellement par GPS et en précisant leur espèce.
+  _ 
+  ! Code source et documentation publiés sous :
+  ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+  _
+  ! Compatible avec Android 7.1 (Nougat) ou version ultérieure.
+  _
+  .
+  _
+
+$ 5.0.3
+  % Version 5.0.3
+  _ 21.02.2026
+  * Ajout des langues française et italienne.
+  * Exemples de fichiers en français et italie ajoutés dans GitHub Docs.
+  * Espèces ajoutées : Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae et Lithosia quadra.
+  * Un caractère « 0 » (zéro) dans la remarque spécifique à l'espèce de la section ajoute l'espèce aux résultats malgré un décompte de 0.
+  * L'exportation de la base de données actuelle et des résultats crée les fichiers .db et .csv avec la date et l'heure de début de l'inspection au lieu de l'heure actuelle.
+  * Fonction d'alerte du compteur supprimée, car peu utilisée.
+  * Certaines données ont été corrigées.
+  * Correction d'un problème lié à une séquence de comptage trop rapide lorsque le son des boutons était activé.
+
+$ 5.0.2
+  % Version 5.0.2
+  _ 30.01.2026
+  * Couleurs des messages : erreur rouge, avertissement orange, attention bleu, info vert.
+  * Améliorations du code et du texte.
+  * Documentation complétée.
+
+$ 5.0.1
+  % Version 5.0.1
+  _ 15.01.2026
+  * Une section détectée par GPS est désormais également marquée en bleu lorsque la page « Sections de transect » est affichée.
+  * Amélioration du formatage HTML pour les notifications des applications pour différentes versions d'Android.
+
+$ 5.0.0
+  % Version 5.0.0
+  _ 03.01.2026
+  * Cette version a été révisée sur de nombreux points et est fournie avec une assistance GPS optionnelle permettant de signaler un changement de section de transect. L'utilisation du GPS nécessite la mise à disposition de données de suivi de transect, décrites dans l'aide et dans TransektCount_Anleitung_5.0.0.pdf.
+  * Lorsque le GPS est activé, le nom de l'application change de TransektCount à TransektCountGPS sur la page d'accueil.
+  * Si le GPS est activé, un bref message indiquant la distance jusqu'au transect s'affiche sur la page d'accueil.
+  * Une nouvelle section de transect détectée par GPS est signalée par un signal sonore et un message brièvement affiché. Son nom apparaît alors en bleu sur la page « Sections transversales ».
+  * En option, le service de localisation GPS peut être réglé sur « Toujours autoriser » dans les paramètres système afin de fonctionner de manière fiable pendant les inspections prolongées.
+  * Le code du programme a été adapté pour permettre le traitement synchrone des sections et des traces GPS, par exemple lors du renommage, de la suppression ou du clonage de sections.
+  * La fonction « Ajouter une section » a été déplacée de la page « Compteur » vers la page « Sections de transect ».
+  * L'option permettant de modifier la taille de la police des commentaires a été supprimée.
+  * Amélioration de la lisibilité des pages pertinentes avec des valeurs « 0 » grisées.
+  * Illustration et données complémentaires sur Nomophila noctuella (Nomophile).
+  * Certaines notifications formulées de manière plus compréhensible.
+  * Dans les paramètres, les options « Vibration du bouton » et « Capteur de proximité » sont grisées si elles ne sont pas disponibles sur l'appareil.
+  * Dans les paramètres, « GPS » est grisé si aucun tracé de transect n'est chargé.
+  * De nombreuses autres améliorations du code et quelques améliorations des illustrations.
+  * Prise en charge permanente du débogage spécifique aux applications dans l'émulateur Android Studio.
+  * Documentation révisée.
+  * Correction d'un bug provoquant un plantage lié au son sous les versions Android 7.1 à 10.
+  * Autres corrections de bogues.
+
+$ 4.2.9
+  % Version 4.2.9 et antérieures
+  _ 
+  ! Historique des versions 4.2.9 et antérieures, voir le fichier « History.txt » sur 
+  ! <a href="https://github.com/wistein/TransektCount/Docs" target="_blank">https://github.com/wistein/TransektCount/Docs</a>.
+  _
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

@@ -1,31 +1,31 @@
 # TransektCount
 
 TransektCount is an Android app that supports transect counters in nature preserving projects according to the European Butterfly Monitoring Scheme methodology. 
-It allows a species-specific counting per transect section. 
+It allows to register individuals species-specific, separated by gender and metamorphic stages per transect section. 
 
 ### Features
 - Data recording is organized according to a single transect inspection. 
 That means, you will use a fresh database instance per inspection by clearing the current database or importing a prepared basic database.
 - The app contains a prepared basic database with some of the expected species as a starting point.
-- Databases can be individually created and adapted within the app regarding meta data, transect sections and expected butterfly species.
-- Transect sections can be selected manually or with support by GPS (needs a prepared transect gpx-track).
+- Databases can be individually created and adapted within the app regarding metadata, transect sections and expected butterfly species.
+- Transect sections must be selected manually but can optionally be indicated automatically via GPS (needs a prepared transect gpx-track).
 - There are editors 
   - for the transect counting list to setup or adapt its species,
-  - for meta data to prepare an inspection and
+  - for metadata to prepare an inspection and
   - for species remark or bulk count entry.
-- The counting page has a scroll-list to select a species by picture and name.
-- Counts are recorded per internal/external counting area and here each with separate counters for ♂|♀, ♂, ♀, pupa, larva or egg.
+- The counting page has a scroll-list to select a species by picture or name.
+- Counts are recorded per internal/external counting areas and here each with separate counters for ♂|♀, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to the entry masks of Tagfalter-Monitoring Deutschland or similar butterfly monitoring sites.
-- Results are shown with meta data, remarks, totals and species results per section.
+- Results are shown with metadata, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
-- The current butterfly list can be exported for later re-import or imported by the complementary app TourCount.
+- The current species list can be exported for later re-import or imported by the complementary app TourCount.
 - The integrated help contains a detailed user guide.
-- TransektCount uses the codes of the European coding scheme for butterflies from Karsholt/Razowski.
-- TransektCount supports counting in German or English language.
+- TransektCount uses the codes of the European coding scheme for butterflies by Karsholt/Razowski.
+- TransektCount supports counting in German, English, French and Italian language.
 
 ### Prerequisites
 The app demands for 
-- storage access permit which is needed for im-/exporting the counting data, 
+- storage access permit which is needed for im-/exporting the counting data (database, result, species list or track) 
 - the permit to keep the device awake and
 - optionally, the permit to get the exact location to recognize the current section.
 
@@ -37,10 +37,9 @@ The app is usable with Android version 7.1 (Nougat) or newer.
 Documentation and example DBs are provided under  
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-Please read the user guide (provided in German and English) or consult its contents in the app's help 
-before using the app.  
-There are further documents e.g. for setting up and using the app as well as sample basic databases 
-(transektcount0_xxxx.db or species lists in German and English versions) provided under .../docs.
+Please read the user guide (provided on GitHub.../docs in German and English) or consult its contents in the app's help
+(provided in German, English, French and Italian) before using the app.  
+There are further documents e.g. for setting up and using the app as well as sample species lists in German, English, French and Italian versions, provided under .../docs.
 
 The development history is listed in History.md in .../docs.
 
@@ -56,7 +55,7 @@ https://github.com/wistein/TransektCount.
 Please note that both versions are compiled from the same sources but signed differently and so cannot 
 be mutually updated.
 
-On GitHub you will find the published stable version when clicking the "master"-button and select 
+On GitHub, you will find the published current version when clicking the "master"-button and select 
 the Tag with the highest Branch number n.n.n. Then get the file transektcount-release_nnn.apk under apk. 
 
 The latest development version of 'transektcount-release_nnn.apk' is also provided in the GitHub 

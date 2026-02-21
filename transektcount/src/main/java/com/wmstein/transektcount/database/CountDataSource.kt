@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-11-01
+ * last edited on 2026-02-21
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -112,12 +112,6 @@ class CountDataSource(context: Context) {
         for (count in allCtsWithCode) {
             database!!.delete(DbHelper.COUNT_TABLE,
                 DbHelper.C_ID + " = " + count.id, null)
-        }
-
-        // delete associated alerts
-        for (count in allCtsWithCode) {
-            database!!.delete(DbHelper.ALERT_TABLE,
-                DbHelper.A_COUNT_ID + " = " + count.id, null)
         }
     }
 
@@ -376,6 +370,7 @@ class CountDataSource(context: Context) {
             val cursor = database!!.rawQuery(
                 "select * from " + DbHelper.COUNT_TABLE
                         + " WHERE " + " ("
+                        + DbHelper.C_NOTES + " = '0' or "
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
                         + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
                         + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
@@ -401,6 +396,7 @@ class CountDataSource(context: Context) {
             val cursor = database!!.rawQuery(
                 "select * from " + DbHelper.COUNT_TABLE
                         + " WHERE " + " ("
+                        + DbHelper.C_NOTES + " = '0' or "
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
                         + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
                         + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "

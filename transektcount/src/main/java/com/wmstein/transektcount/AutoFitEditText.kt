@@ -21,10 +21,10 @@ import kotlin.math.roundToInt
  * https://github.com/viksaaskool/autofitedittext,
  * licensed under MIT License by Viktor Arsovski.
  *
- * Modified for TransektCount by wm.stein on 2023-09-18,
+ * Modified for TransektCount by wmstein on 2023-09-18,
  * last edited in Java on 2023-09-18
  * converted to Kotlin on 2023-09-19
- * last edited on 2025-12-29.
+ * last edited on 2026-02-17.
  */
 class AutoFitEditText @JvmOverloads constructor(
     context: Context?, attrs: AttributeSet? = null,

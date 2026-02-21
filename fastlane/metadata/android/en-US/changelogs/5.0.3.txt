@@ -1,0 +1,9 @@
+Version 5.0.3 (2026-02-21)
+- French and Italian languages added
+- French and Italian example files added in GitHub Docs
+- Added species: Adela reaumurella, Zerynthia cassandra, Cucullia artemisiae and Lithosia quadra
+- A "0"-character (zero) in the section specific species remark puts the species also into the results despite a 0 count
+- Exporting current DB and results creates the .db and the .csv-file name with date and time of the inspection start instead of the current time
+- Counter alert function removed as hardly used
+- Some data corrections
+- Bugfix for problem with to quickly repeated counter clicks with button sound enabled

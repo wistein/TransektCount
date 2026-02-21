@@ -40,7 +40,7 @@ import androidx.core.view.WindowInsetsCompat;
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
  * Created by wmstein on 2016-03-31,
- * last edited on 2026-01-24
+ * last edited on 2026-02-21
  */
 public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
@@ -130,7 +130,7 @@ public class EditMetaActivity extends AppCompatActivity {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "131, onResume");
 
-        // Build the Edit Meta Data screen
+        // Build the Edit Metadata screen
         // Clear existing view
         metaArea.removeAllViews();
 
@@ -138,7 +138,7 @@ public class EditMetaActivity extends AppCompatActivity {
         headDataSource.open();
         metaDataSource.open();
 
-        // Load head and meta data
+        // Load head and metadata
         head = headDataSource.getHead();
         meta = metaDataSource.getMeta();
 
@@ -150,7 +150,7 @@ public class EditMetaActivity extends AppCompatActivity {
         ehw.setWidgetName1(head.inspector_name);
         metaArea.addView(ehw);
 
-        // Display the editable meta data
+        // Display the editable metadata
         emw = new EditMetaWidget(this, null);
         emw.setWidgetTemp1(getString(R.string.temperature));
         emw.setWidgetWind1(getString(R.string.wind));
@@ -343,7 +343,7 @@ public class EditMetaActivity extends AppCompatActivity {
 
         String mesg;
 
-        // Save meta data with plausi
+        // Save metadata with plausi
         meta.temps = emw.getWidgetTemps();
         meta.tempe = emw.getWidgetTempe();
         if (meta.temps > 50 || meta.temps < 0 || meta.tempe > 50 || meta.tempe < 0) {

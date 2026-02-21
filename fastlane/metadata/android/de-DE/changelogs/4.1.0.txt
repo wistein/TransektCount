@@ -13,4 +13,4 @@ Version 4.1.0 (26.08.2024)
 - Verbesserungen bei Code, Text und Layouts
 - Lizenztext separiert
 - Doku angepasst
-- Bug-Fixes
+- Bugfixes

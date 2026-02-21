@@ -108,14 +108,6 @@
                 android:fillViewport="true"
                 android:orientation="vertical" />
 
-            <!-- insert the alert notes in here -->
-            <LinearLayout
-                android:id="@+id/alertRemarkRH"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fillViewport="true"
-                android:orientation="vertical" />
-
         </LinearLayout>
 
     </ScrollView>

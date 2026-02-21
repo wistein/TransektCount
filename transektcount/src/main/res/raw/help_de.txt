@@ -1,7 +1,7 @@
 <html>
 
 <!-- TransektCount Benutzeranleitung --
-  Last edited on 2026-01-30
+  Last edited on 2026-02-21
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
@@ -10,14 +10,14 @@ Mit der App können Individuen pro Transektabschnitt artspezifisch, getrennt nac
 Transektabschnitte müssen manuell gewählt werden, können aber optional automatisch per GPS bestimmt werden. <br>
 Sie bietet aufbereitete Ergebnisausgaben und ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos.
 <br><br>
-Datenbankdateien können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden. Die interne Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
+Datenbankdateien können individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt werden. Dazu ist eine umfangreiche, bebilderte Liste an Arten enthalten. Die interne Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
 <br><br>
 Die erfassten Daten (Meta-Daten, Zählerstände und Anmerkungen) können zur Eingabe in ein Tagfaltermonitoring-System (z.B. https://web.app.ufz.de/tagfalter-monitoring) entweder von der Ergebnisseite geordnet abgelesen oder in eine Tabelle exportiert und für eigene Bearbeitung auf einen PC übertragen und dort komfortabler gelesen und aufbereitet werden.
 <br><br>
 Die App ist veröffentlicht unter <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a> mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br>
 - Speicherzugriff zwecks Import von DB-Dateien, Export der Zählergebnisse in DB- oder CSV-Dateien, <br>
-- Wakelock zwecks Verhinderung, dass die App sich dimmt oder abschaltet und <br>
-- ggf. Standortbestimmung durch GPS um die Abschnitte zu erkennen.
+- Wakelock zwecks Verhinderung, dass die App bei Inaktivität vom Systen abgeschaltet wird, jedoch bei Einstecken oder nahe am Körper halten den Bildschirm abdunkelt und berührungsunempfindlich macht und <br>
+- ggf. Standortbestimmung durch GPS um Abschnitte zu erkennen.
 <br><br><br>
 
 <h3><font color=#D9FDD9>2. Einrichtung</font></h3>
@@ -67,7 +67,7 @@ Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. Bei Dein
 <br><br>
 Die Dateinamen der Basis-DBs beginnen immer mit "transektcount0".
 <br><br>
-Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Meta-Daten. Sie dient als Vorlage für zukünftige Begehungen. Nach dem Import einer Basis-DB sind zur Vorbereitung einer Begehung nur noch die Begehungs-spezifischen Meta-Daten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben.
+Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Meta-Daten. Sie dient als Vorlage für zukünftige Begehungen. Nach dem Import einer Basis-DB sind zur Vorbereitung einer Begehung nur noch die begehungsspezifischen Meta-Daten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben.
 <br><br>
 Die Basis-DB kann auch später, z.B. nach Änderungen an Listen erneut exportiert werden. Nachträgliche Änderungen der Artenliste wirken sich immer auf alle vorhandenen Abschnittslisten aus.
 <br><br>
@@ -89,11 +89,15 @@ Jede Zähleingabe wird sofort gespeichert. Beim Speichern der 1. Zählung in ein
 <br><br>
 Der Bleistift-Button unter der Artnamen-Zeile auf der Zählerseite ruft die abschnittsbezogene Art-editieren-Seite auf. Hier können abschnittsbezogen Art-spezifische Bemerkungen hinzugefügt und die Art-bezogenen Zähler auf beliebige Werte gesetzt werden (z. B. für geschätzte Massenvorkommen).
 <br><br>
-Eine Art-spezifische Bemerkung wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet und in die Ergebnistabelle geschrieben (z. B.: "Foto").
+Eine Art-spezifische Bemerkung wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet und in die Ergebnistabelle geschrieben (z. B.: "Foto"). Mit dem Eintrag '0' in der Spezies-Bemerkung wird diese Art für den gewählten Abschnitt auch trotz fehlender Zählwerte bei den Ergebnissen berücksichtigt.
 <br><br>
-Hier können auch Pop-Up-Alarme gesetzt werden, die bei Erreichen der eingestellten Zahl von Faltern (Summe aller Imagines) im internen Zählbereich einen entsprechenden Hinweis anzeigen (z.B. um schon vor Ort festzustellen, ob eine Art in diesem Abschnitt häufiger angetroffen wurde als beim letzten Mal.)
+Bevor TransektCount nach einer Begehung beendet wird, sollten immer die Meta-Daten mit den Endwerten für Zeit, Wind und Wolken ergänzt werden. Dann sollte mittels Export die aktuelle Zählung als .db Datenbankdatei oder das Ergebnis als .csv (comma separated values text) Tabellendatei gesichert werden. Die Dateien werden mit Transekt-Nr., Datum und Uhrzeit des Startzeitpunkts benannt und als transektcount_Tr-No_YYYYMMDD_hhmmss.db bzw. .csv im Verzeichnis Documents/TransektCount gespeichert.
 <br><br>
-Bevor TransektCount nach einer Begehung beendet wird, sollten immer die Meta-Daten mit den Endwerten für Zeit, Wind und Wolken ergänzt werden. Dann sollte mittels Export die aktuelle Zählung als Datenbank oder .csv-Tabelle gesichert werden. Die Dateien werden mit Transekt-Nr., Datum und Uhrzeit als transektcount_Tr-Nr_JJJJMMTT_hhmmss.db oder .csv im Verzeichnis Documents/TransektCount gespeichert.
+Bei der Verwendung von GPS wird nach dem Start der App und nach dem ersten GPS-Fix zunächst eine kurze Meldung mit der Abstandsangabe zum Transekt angezeigt. Wird ein Transektabschnitt erreicht wird akustisch und per Hinweismeldung über den aktuellen Transektabschnitt informiert. Bei jedem weiteren Wechsel von Transektabschnitten wird ebenso informiert.
+<br><br>
+Die Auswahl des Abschnitts muss weiterhin manuell erfolgen, die GPS-Erkennung unterstützt das rechtzeitige Wechseln zum aktuellen Transektabschnitt, so dass seltener eine versehentlich falsche Abschnittszuordnung beim Zählen erfolgt.
+<br><br>
+Auf der Seite „Transektabschnitte“ ist nach der GPS-Erkennung der Name des neu erkannten Abschnitts blau markiert.
 <br><br>
 Schließlich gibt es noch die Ergebnisseite die die Meta-Daten zur Begehung, die Summen pro Kategorie und nachfolgend die gezählten Individuen in einer Scroll-Liste anzeigt. Die Liste der Individuen kann je nach gewählter Ausgabe-Option entweder nach Artnamen oder Abschnitten sortiert ausgegeben werden.<br>
 Diese Seite wird von der Startseite aus erreicht mit "Ergebnis anzeigen" bzw. per Augen-Icon in der Kopfzeile.
@@ -122,7 +126,7 @@ Mit "Import DB" kann jede entsprechend benannte TransektCount-DB in die App gela
 <br><br>
 <b><font color=#D9FDD9>Merke:</font></b> Der DB-Dateiname muss dazu immer mit der exakten Zeichenfolge "transektcount_" beginnen (z. B.: "transektcount_NW-5309-03.db"), ansonsten kann die Datei nicht importiert werden.
 <br><br>
-"Export akt. DB" schreibt eine Kopie der DB mit allen momentan enthaltenen Daten nach Documents/TransektCount/transektcount_Tr-Nr_JJJJMMTT_hhmmss.db mit ‘Tr-Nr’ für Transekt Nr., 'JJJJMMTT' Datum und 'hhmmss' Zeitpunkt des Speicherns.
+"Export akt. DB" schreibt eine Kopie der DB mit allen momentan enthaltenen Daten nach transektcount_Tr-Nr_JJJJMMTT_hhmmss.db mit ‘Tr-Nr’ für Transekt Nr., 'JJJJMMTT' Datum und 'hhmmss' Zeitpunkt des Begehungsstarts ins Verzeichnis Documents/TransektCount.
 <br><br>
 Mit "Import Speziesliste" kann eine vorhandene Speziesliste ausgewählt und importiert werden. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden. Mittels Datei-Manager lässt sich diese bei Bedarf sinnvoll umbennenen.
 <br><br>
@@ -132,7 +136,7 @@ Mit "Export Speziesliste" kann die aktuelle Speziesliste als CSV-Datei (CSV = Co
 <br><br>
 „Import GPS-Track“ lädt eine vorbereitete gpx-Track-Datei (z. B. transektcount_t1.gpx) aus dem Verzeichnis Documents/TransektCount. Unter „5. GPS-Nutzung“ wird beschrieben, wie eine gpx-Datei erzeugt und verwendet werden kann.
 <br><br>
-Die Funktion "Export d. Ergebnisse (csv)" scheibt die aktuellen Meta-Daten und Zählergebnisse als aufbereitete, Spreadsheet-kompatible Tabelle "Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" in das Verzeichnis "Documents/TransektCount". Von hier können die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) in einer Tabellenkalkulations-App, wie Collabora (Open Source, kostenlos, basiert auf LibreOffice) angesehen und eingeschränkt auch bearbeitet werden. Sie ist erhältlich im Collabora Office Store (eine zusätzliche Paketquelle im F-Droid App-Store), im Play Store oder direkt unter https://www.collaboraoffice.com/downloads/).
+Die Funktion "Export d. Ergebnisse (csv)" scheibt die aktuellen Meta-Daten und Zählergebnisse als aufbereitete, Spreadsheet-kompatible Tabelle "Transekt_Tr-Nr_JJJJMMTT_hhmmss.csv" mit ‘Tr-Nr’ für Transekt Nr., 'JJJJMMTT' Datum und 'hhmmss' Zeitpunkt des Begehungsstarts ins Verzeichnis "Documents/TransektCount". Von hier können die exportierten .csv-Ergebnisdateien (Komma-getrennte Textdateien) in einer Tabellenkalkulations-App, wie Collabora (Open Source, kostenlos, basiert auf LibreOffice) angesehen und eingeschränkt auch bearbeitet werden. Sie ist erhältlich im Collabora Office Store (eine zusätzliche Paketquelle im F-Droid App-Store), im Play Store oder direkt unter https://www.collaboraoffice.com/downloads/).
 <br><br>
 Je nach Bedarf hinsichtlich einer einfacheren Dateneingabe in eine zentrale Monitoring Web-Seite, wie https://web.app.ufz.de/tagfalter-monitoring/ kann die Tabelle vorab in TransektCount per Ergebnis-Sortier-Option entweder nach Speziesnamen oder Abschnitten geordnet aufbereitet werden. 
 <br><br>

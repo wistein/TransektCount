@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 
 /***********************************************************************
  * PermissionsBackgroundDialogFragment provides the permission handling,
- * which is necessary since Android Android Q for
+ * which is necessary since Android Q for
  * - ACCESS_BACKGROUND_LOCATION
  *
  * Based on RuntimePermissionsExample-master created by tylerjroach on 8/31/16,
@@ -20,7 +20,7 @@ import androidx.fragment.app.DialogFragment
  *
  * Adopted for TourCount in Kotlin by wistein on 2025-02-22,
  * used in TransektCount on 2025-07-02,
- * last edited on 2025-12-29
+ * last edited on 2026-02-17
  */
 class PermissionsBackgroundDialogFragment : DialogFragment() {
     private var context: Context? = null

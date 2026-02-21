@@ -20,7 +20,6 @@ import androidx.core.app.NavUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import com.wmstein.transektcount.database.AlertDataSource
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.widgets.DeleteSpeciesWidget
@@ -31,9 +30,10 @@ import com.wmstein.transektcount.widgets.HintDelWidget
  * It is called from CountingActivity.
  * Uses DelSpeciesWidget.kt, EditTitleWidget.kt,
  * activity_del_species.xml, widget_edit_title.xml.
+ *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-12-29
+ * last edited on 2025-02-19
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -41,7 +41,6 @@ class DelSpeciesActivity : AppCompatActivity() {
     private var specCode: String? = null
     private var sectionDataSource: SectionDataSource? = null
     private var countDataSource: CountDataSource? = null
-    private var alertDataSource: AlertDataSource? = null
 
     // Layouts
     private var delHintArea: LinearLayout? = null
@@ -101,10 +100,9 @@ class DelSpeciesActivity : AppCompatActivity() {
         deleteArea = findViewById(R.id.deleteSpecLayout)
         delHintArea = findViewById(R.id.showHintDelLayout)
 
-        // Setup the data sources
+        // Set up the data sources
         sectionDataSource = SectionDataSource(this)
         countDataSource = CountDataSource(this)
-        alertDataSource = AlertDataSource(this)
 
         // New onBackPressed logic
         val callback = object : OnBackPressedCallback(true) {
@@ -141,7 +139,6 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         sectionDataSource!!.open()
         countDataSource!!.open()
-        alertDataSource!!.open()
 
         // Clear any existing views
         deleteArea!!.removeAllViews()
@@ -278,9 +275,6 @@ class DelSpeciesActivity : AppCompatActivity() {
             i++
         }
 
-        // Delete all alerts
-        alertDataSource!!.deleteAlerts()
-
         // Re-index and sort counts table
         countDataSource!!.sortCounts()
 
@@ -346,7 +340,6 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         sectionDataSource!!.close()
         countDataSource!!.close()
-        alertDataSource!!.close()
 
         if (awakePref) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

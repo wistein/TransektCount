@@ -15,7 +15,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-11-03
+ * last edited on 2026-02-21
  */
 class SectionDataSource(context: Context) {
     // Database fields
@@ -82,18 +82,7 @@ class SectionDataSource(context: Context) {
 
     fun deleteSection(section: Section) {
         val id = section.id
-        //val sname = section.name
         database!!.delete(DbHelper.SECTION_TABLE, DbHelper.S_ID + " = " + id, null)
-
-        /*
-         Delete associated links and counts
-         Get the id of all associated counts here; alerts are the only things which can't
-         be removed directly as the section_id is not stored in them. A join is therefore required.
-        */
-        val sql = ("DELETE FROM " + DbHelper.ALERT_TABLE + " WHERE " + DbHelper.A_COUNT_ID + " IN "
-                + "(SELECT " + DbHelper.C_ID + " FROM " + DbHelper.COUNT_TABLE + " WHERE "
-                + DbHelper.C_SECTION_ID + " = " + id + ")")
-        database!!.execSQL(sql)
         database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_SECTION_ID + " = " + id, null)
     }
 

@@ -33,7 +33,7 @@ import com.wmstein.transektcount.widgets.ResultsSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2025-12-29
+ * last edited on 2026-02-21
  */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null
@@ -156,7 +156,7 @@ class ShowResultsActivity : AppCompatActivity() {
         var sumle = 0
         var sumoe = 0
 
-        //load head and meta data
+        // load head and metadata
         head = headDataSource!!.head
         meta = metaDataSource!!.meta
 
@@ -168,7 +168,7 @@ class ShowResultsActivity : AppCompatActivity() {
         lhw!!.setWidgetLName1(head!!.inspector_name)
         specArea!!.addView(lhw)
 
-        // display the editable meta data
+        // display the editable metadata
         lmw = ResultsMetaWidget(this, null)
         lmw!!.setWidgetLTemp(getString(R.string.temperature))
         lmw!!.setWidgetLTemps(meta!!.temps)

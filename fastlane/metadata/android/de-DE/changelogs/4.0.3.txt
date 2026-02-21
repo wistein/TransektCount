@@ -4,4 +4,4 @@ Version 4.0.3 (10.03.2024)
 - Eine weitere Art mit Abbildung hinzugeführt
 - Einige noch fehlende lokale Artnamen ergänzt
 - Doku überarbeitet
-- Bug-Fix
+- Bugfix

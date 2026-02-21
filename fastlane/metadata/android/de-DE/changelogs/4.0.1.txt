@@ -13,5 +13,5 @@ Funktionale Erweiterung:
 - Fehlende Abbildungen ergänzt
 - Docs überarbeitet mit Erläuterung, wie eine passende gpx-Datei erzeugt und verwendet werden kann
 - Code Verbesserungen
-- Bug-Fixes
+- Bugfixes
 - Code-Anpassungen für Android 14

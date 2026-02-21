@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2025-12-22 -->
+     last edited 2026-02-16 -->
 
 <resources>
 
@@ -59,7 +59,7 @@
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
     <string name="saveList">Export der Speziesliste.</string>
-    <string name="savecsv">Export der csv-Datei nach Documents/TransektCount.</string>
+    <string name="saveCSV">Export der csv-Datei nach Documents/TransektCount.</string>
     <string name="showResultsButton">Ergebnis anzeigen</string>
     <string name="sum">Summen (intern):</string>
     <string name="sumSpec">Arten:</string>
@@ -102,8 +102,6 @@
     <string name="wind">Wind (0–4):</string>
 
     <!-- CountingActivity -->
-    <string name="addAlertButton">Alarm hinzufügen</string>
-    <string name="alertTitle">Anzahl %1$d erreicht!</string>
     <string name="attention">Achtung! </string>
     <string name="chooserTitle">Wähle eine Foto-App</string>
     <string name="cloneButton">Weiteren Abschnitt hinzufügen</string>
@@ -115,18 +113,17 @@
     <string name="saving">Speichern</string>
     <string name="sectSaving">Abschnitte wurden gespeichert.</string>
     <string name="species_notes">Art-Bem.:</string>
-    <string name="takePhoto">Foto aufnehmen</string>
 
     <!-- CountingActivity Menu -->
     <string name="action_share">Mitteilen</string>
+    <string name="cloneSectTitle">Neuer Abschnittsname</string>
     <string name="delSpeciesTitle">Arten entfernen</string>
     <string name="deleteButton">Löschen</string>
-    <string name="dpSectTitle">Neuer Abschnittsname</string>
     <string name="editAddSpecTitle">Arten hinzufügen</string>
     <string name="editDelSpecTitle">Arten löschen</string>
     <string name="editSectTitle">Artenliste bearbeiten</string>
     <string name="send_to">Versenden</string>
-    <string name="willAlert">%1$s wird bei %2$d internen Faltern Signal geben.</string>
+    <string name="takePhoto">Foto aufnehmen</string>
 
     <!-- EditSectionListActivity -->
     <string name="confirmDelete">Soll der letzte Abschnitt wirklich gelöscht werden?\nNeue Abschnitte können später hinzugefügt werden.</string>
@@ -135,8 +132,6 @@
     <string name="informNodelete">Löschen des Abschnitts ist nicht möglich, da die interne DB korrumpiert würde.\n\nNur der zuletzt erzeugte und nicht einzige Abschnitt, kann gelöscht werden.\n(Wenn das nicht möglich ist, hat Ihr Gerät leider nicht genug freie Ressourcen um die Funktion auszuführen.)</string>
     <string name="isdouble"> ist doppelt!</string>
     <string name="isempty">Abschnittsname fehlt!</string>
-    <string name="labelAddSpecButton">Arten hinzufügen</string>
-    <string name="labelDelSpecButton">Arten entfernen</string>
     <string name="labelEditSpecButton">Liste editieren</string>
     <string name="notContiguous">Nicht möglich, da ein Abschnitt zuvor gelöscht wurde!</string>
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
@@ -145,72 +140,62 @@
     <string name="spname">Name</string>
     <string name="titleEdit">Name des aktuellen Abschnitts</string>
 
+    <!-- DelSpeciesActivity -->
+    <string name="labelDelSpecButton">Arten entfernen</string>
+
     <!-- AddSpeciesActivity -->
     <string name="addSpeciesTitle">Arten hinzufügen</string>
     <string name="hintSearch">Anfangsbuchst.</string>
     <string name="initCharsL">Bitte 2 Buchst.</string>
+    <string name="labelAddSpecButton">Arten hinzufügen</string>
     <string name="specsToAdd">Weitere Arten:</string>
 
-    <!-- ChangeLog -->
+    <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
     <string name="changelog_show_full">mehr&#8230;</string>
     <string name="changelog_title">Was ist neu</string>
     <string name="ok_button">OK</string>
-
     <string name="title_help_dialog">Hilfe</string>
     <string name="title_license_dialog">Lizenzen</string>
 
     <!-- Preferences -->
-    <string name="prefs_appearance">Aussehen</string>
-
-    <string name="pref_bg_dialog">Wähle Standard- oder kein Hintergrundbild</string>
-    <string name="pref_bg_title">Hintergrund</string>
-
-    <string name="pref_sort_sect_order_dialog">Sortierung der Liste der Abschnitte</string>
-    <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>
-
-    <string name="pref_sort_sp_order_dialog">Sortierung der Artenliste</string>
-    <string name="pref_sort_sp_order_title">Sortierung der Artenliste</string>
-
-    <string name="pref_left_hand">Linkshänder</string>
-    <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
-
-    <string name="pref_distance_title">Min. Distanz für GPS-Update</string>
-    <string name="pref_interval_title">GPS-Abfrageinterval</string>
-
-    <string name="pref_deviation_title">Max. Distanz der Track-Abweichung</string>
-
-    <string name="pref_csv_output_dialog">Sortierung der Ergebnisse und der exportierten csv-Tabelle</string>
-    <string name="pref_csv_output_title">Sortierung der Ergebnisse</string>
-    <string name="prefs_csv_output_title">Ausgabe</string>
-
     <string name="pref_alert_sound">Ereignis-Sound</string>
     <string name="pref_alert_sound_summ">Erzeuge einen Sound wenn ein Ereignis ausgelöst wird</string>
+    <string name="pref_auto_section">Transektabschnitt per GPS erkennen</string>
+    <string name="pref_auto_section_summ">Markiert automatisch den aktuellen Transektabschnitt per GPS (setzt passende GPX-Koordinaten-Liste voraus).</string>
+    <string name="pref_awake">Lass Bildschirm an</string>
+    <string name="pref_awake_summ">Verhindere den Ruhezustand beim Zählen</string>
+    <string name="pref_bg_dialog">Wähle Standard- oder kein Hintergrundbild</string>
+    <string name="pref_bg_title">Hintergrund</string>
+    <string name="pref_bright">Bildschirm hell</string>
+    <string name="pref_bright_summ">Die TransektCount-Seiten zum Zählen und Editieren hell setzen</string>
     <string name="pref_button_sound">Button-Sound</string>
     <string name="pref_button_sound_summ">Erzeuge einen Sound wenn ein Zähl-Button getippt wird</string>
     <string name="pref_button_vib">Button-Vibration</string>
     <string name="pref_button_vib_summ">Erzeuge eine Vibration wenn ein Zähl-Button getippt wird</string>
-    <string name="prefs_sound_vib">Sound/Vibration</string>
-
-    <string name="pref_awake">Lass Bildschirm an</string>
-    <string name="pref_awake_summ">Verhindere den Ruhezustand beim Zählen</string>
-    <string name="pref_bright">Bildschirm hell</string>
-    <string name="pref_bright_summ">Die TransektCount-Seiten zum Zählen und Editieren hell setzen</string>
-    <string name="prefs_GPS">GPS (benötigt GPX-Track)</string>
-    <string name="prefs_counting">Zählen</string>
-
-    <string name="pref_auto_section">Transektabschnitt per GPS erkennen</string>
-    <string name="pref_auto_section_summ">Markiert automatisch den aktuellen Transektabschnitt per GPS (setzt passende GPX-Koordinaten-Liste voraus).</string>
+    <string name="pref_csv_output_dialog">Sortierung der Ergebnisse und der exportierten csv-Tabelle</string>
+    <string name="pref_csv_output_title">Sortierung der Ergebnisse</string>
+    <string name="pref_deviation_title">Max. Distanz der Track-Abweichung</string>
+    <string name="pref_distance_title">Min. Distanz für GPS-Update</string>
+    <string name="pref_interval_title">GPS-Abfrageinterval</string>
+    <string name="pref_left_hand">Linkshänder</string>
+    <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
     <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>
     <string name="pref_proximity_title">Näherungsensor</string>
+    <string name="pref_sort_sect_order_dialog">Sortierung der Liste der Abschnitte</string>
+    <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>
+    <string name="pref_sort_sp_order_dialog">Sortierung der Artenliste</string>
+    <string name="pref_sort_sp_order_title">Sortierung der Artenliste</string>
+    <string name="prefs_GPS">GPS (benötigt GPX-Track)</string>
+    <string name="prefs_appearance">Aussehen</string>
+    <string name="prefs_counting">Zählen</string>
+    <string name="prefs_csv_output_title">Ausgabe</string>
+    <string name="prefs_sound_vib">Sound/Vibration</string>
 
     <!-- CountOptionsActivity -->
-    <string name="addSomeAlerts">Jeder Art können Alarme zugewiesen werden, die ausgelöst werden, wenn die jeweils vorgegebene Anzahl an intern gezählten Faltern erreicht wird. Verwende den \"+\"-Button rechts um Alarme hinzuzufügen und den jeweiligen Lösch-Button um ihn zu entfernen.</string>
-    <string name="alertName">Neuer Alarm</string>
     <string name="countCode">Code</string>
     <string name="countName">Neue Art</string>
     <string name="countNameG">Neue Art (deutscher Name)</string>
-    <string name="delAlert">Lösche Alarm</string>
     <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
@@ -224,7 +209,6 @@
     <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
     <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
     <string name="notesSpecies">Bemerkung zur Art (%1$s)</string>
-    <string name="reallyDeleteAlert">Bist Du sicher? Der Alarm wird sofort gelöscht.</string>
     <string name="spec_Name">Name</string>
     <string name="spec_NameG">Deutscher Name</string>
 
@@ -264,15 +248,14 @@
     <string name="totalsIES">Gesamt intern / extern / Arten:</string>
 
     <!-- Permissions -->
-    <string name="app_settings">App-Einstellungen</string>
-    <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Export der Ergebnisse.</string>
-    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
-    <string name="storage_not_possible">Die notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
-
+    <string name="app_settings">System-Einstellungen</string>
     <string name="dialog_background_loc_message">Wenn die App bei längeren Transektbegehungen genutzt werden soll, ist die Ortsbestimmung zuverlässiger mit der optionalen Berechtigung \'Immer zulassen\'.</string>
     <string name="dialog_background_loc_title">Optionale Berechtigung erwünscht</string>
     <string name="dialog_fine_location_message">Die Transektabschnitte-Erkennung benötigt höchstmögliche Genauigkeit.</string>
     <string name="dialog_fine_location_title">Erlaube den genauen Standort zu erfassen.</string>
+    <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Import und Export der Daten.</string>
+    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
     <string name="grant_perm_later">Die optionale Berechtigung \'Immer zulassen\' kann ggf. später in den Systemeinstellungen erteilt werden.</string>
+    <string name="storage_not_possible">Die notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
 
 </resources>

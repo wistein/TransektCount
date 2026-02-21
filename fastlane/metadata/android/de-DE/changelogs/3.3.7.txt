@@ -6,4 +6,4 @@ Version 3.3.7 (26.03.2023)
 - Weitere Falterarten mit Abbildungen hinzugefügt
 - Viele Falterabbildungen überarbeitet (Anzeige v. Ober- und Unterseite)
 - Portrait/Landscape-Funktion verbessert
-- Bug-Fix für Bearbeitung der Abschnittslisten
+- Bugfix für Bearbeitung der Abschnittslisten

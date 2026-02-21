@@ -6,7 +6,7 @@ Version 5.0.0 (2026-01-03)
 - Then, when visiting the page "Transect Sections" the name of the newly identified section is colored blue
 - Optionally you may set the system permission for the TransektCount location service to "Always on" to get it reliably work for long inspections
 - Program code has been adapted regarding aligned section and track handling for renaming, deleting and cloning a section
-- The function "Add a Further Section" was moved from the Counting page to the page "Transect Sections"
+- The function "Add a Section" was moved from the Counting page to the page "Transect Sections"
 - The option to change the font size for comments was removed
 - On relevant pages the number fields show dimmed "0"-values for better readability
 - Picture and data of Nomophila noctuella (Rush veneer) added

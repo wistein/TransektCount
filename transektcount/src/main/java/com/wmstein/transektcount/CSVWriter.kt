@@ -27,7 +27,7 @@ import java.io.Writer
  * Reduced to needed functions with modifications for TransektCount by wmstein.
  * Last edited in Java on 2023-06-17,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-12-29
+ * last edited on 2026-02-17
  */
 internal class CSVWriter private constructor(
     // rawWriter is the writer to an underlying CSV source
@@ -96,7 +96,7 @@ internal class CSVWriter private constructor(
     /**
      * Processes all the characters in a line.
      * @param nextElement - element to process.
-     * Returns a StringBuilder with the elements data.
+     * Returns a StringBuilder with the elements' data.
      */
     private fun processLine(nextElement: String): StringBuilder {
         // This is for the worse case where all elements have to be escaped.

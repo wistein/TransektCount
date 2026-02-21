@@ -21,7 +21,7 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2026-01-07
+ * last edited on 2026-02-19
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -60,10 +60,8 @@ class TransektCountApplication : Application() {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!
-//        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-//            Log.d(TAG, "64, Backgr.: $backgroundPref")
-
         val wm = checkNotNull(this.getSystemService(WINDOW_SERVICE) as WindowManager)
+
         if (Build.VERSION.SDK_INT >= 30) {
             val metrics = wm.currentWindowMetrics
             width = metrics.bounds.right + metrics.bounds.left
@@ -77,8 +75,6 @@ class TransektCountApplication : Application() {
             width = size.x
             height = size.y
         }
-//        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-//            Log.d(TAG, "81 width = $width, height = $height")
 
         var bMap: Bitmap?
         when (backgroundPref) {
@@ -90,7 +86,7 @@ class TransektCountApplication : Application() {
 
             "grey" -> {
                 bMap = createBitmap(width, height, Bitmap.Config.RGB_565)
-                bMap.eraseColor(-0xddddde) // dark grey
+                bMap.eraseColor(-0xddddde) // dark gray
             }
 
             else -> {

@@ -39,7 +39,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-01-15
+ * last edited on 2026-02-17
  */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication
@@ -208,9 +208,9 @@ class SelectSectionActivity : AppCompatActivity() {
     private fun cloneSection() {
         val aDialog = AlertDialog.Builder(this)
 
-        aDialog.setTitle(getString(R.string.dpSectTitle))
+        aDialog.setTitle(getString(R.string.cloneSectTitle))
 
-        // Set up the input an specify the type of input expected
+        // Set up the input and specify the type of input expected
         val input = EditText(this)
         input.inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
 
@@ -339,7 +339,7 @@ class SelectSectionActivity : AppCompatActivity() {
         return isDblName
     }
 
-    // Delete last section with respective alerts and track points
+    // Delete last section with respective track points
     fun deleteSection(sct: Section?) {
         val sctName = sct!!.name
         if (transectHasTrack) {

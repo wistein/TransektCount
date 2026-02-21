@@ -27,7 +27,7 @@ import java.util.Locale
  * Custom class for displaying the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2026-01-24
+ * last edited on 2026-02-17
  */
 class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
@@ -76,24 +76,46 @@ class ShowTextDialog : AppCompatActivity() {
         // Help dialog
         if (dialog == "help") {
             supportActionBar!!.setTitle(R.string.title_help_dialog)
-            if (language == "de") {
-                tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_de, this))
-                tvText.text = fromHtml(readRawTextFile(R.raw.help_de, this))
-            } else {
-                tvHead.text = fromHtml(readRawTextFile(R.raw.help_head, this))
-                tvText.text = fromHtml(readRawTextFile(R.raw.help, this))
+            when (language) {
+                "de" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_de, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.help_de, this))
+                }
+                "fr" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_fr, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.help_fr, this))
+                }
+                "it" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_it, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.help_it, this))
+                }
+                else -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.help, this))
+                }
             }
         }
 
         // License dialog
         else if (dialog == "license") {
             supportActionBar!!.setTitle(R.string.title_license_dialog)
-            if (language == "de") {
-                tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_de, this))
-                tvText.text = fromHtml(readRawTextFile(R.raw.license_de, this))
-            } else {
-                tvHead.text = fromHtml(readRawTextFile(R.raw.license_head, this))
-                tvText.text = fromHtml(readRawTextFile(R.raw.license, this))
+            when (language) {
+                "de" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_de, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.license_de, this))
+                }
+                "fr" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_fr, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.license_fr, this))
+                }
+                "it" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_it, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.license_it, this))
+                }
+                else -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.license_head, this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.license, this))
+                }
             }
         }
         tvText.setLinkTextColor("#4068ff".toColorInt()) // format the links within the text SkyBlue
