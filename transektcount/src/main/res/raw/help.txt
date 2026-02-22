@@ -1,7 +1,7 @@
 <html>
 
 <!-- TransektCount User Guide --
-  Last edited on 2026-02-21
+  Last edited on 2026-02-22
  -->
 
 <h3><font color=#D9FDD9>1. Introduction</font></h3>
@@ -96,7 +96,7 @@ The Pencil Button underneath the species name row of the counting page opens the
 <br><br>
 If you enter a species related note this will be shown on the counting page in an extra line beneath the counting field and is inserted into the results table (e.g.: "Photo"). By entering ‘0’ in the species note, this species is included in the results for the selected section even if no count values are available.
 <br><br>
-Before closing TransektCount after an inspection you should complete the metadata with the ending values for time, temperature, wind and clouds. Then export the current inspection data as .db database or the results as .csv (comma separated values text) table file. The files will be named with transect No., inspection start date and time and saved as transektcount_Tr-No_YYYYMMDD_hhmmss.db respective .csv in the directory Documents/TransektCount.
+Before closing TransektCount after an inspection you should complete the metadata with the ending values for time, temperature, wind and clouds. Then export the current inspection data as .db database or the results as .csv (comma separated values text) table file. The files will be named with transect No., inspection start date and time and saved as transektcount_Tr-No_YYYYMMDD_hhmmss.db respective .csv in the directory Documents/TransektCount. Without a given start time the current time ist used.
 <br><br>
 When using GPS, a short message indicating the distance to the transect is displayed after the app is started and after the first GPS fix. When a transect section is reached, an acoustic signal and a message inform you about the current transect section. You are also informed each time there is a change of transect section.
 <br><br>

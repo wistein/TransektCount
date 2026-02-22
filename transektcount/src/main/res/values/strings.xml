@@ -270,6 +270,6 @@
     <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to import and export data.</string>
     <string name="dialog_storage_title">Storage permission required</string>
     <string name="grant_perm_later">You may grant the optional permission \'Allow all the time\' in system settings later.</string>
-    <string name="storage_not_possible">Required storage permission is missing, storage is not possible.</string>
+    <string name="storage_not_possible">Required storage permission for TransektCount is missing, storage is not possible.</string>
 
 </resources>

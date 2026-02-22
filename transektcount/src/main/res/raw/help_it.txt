@@ -1,7 +1,7 @@
 <html>
 
 <!-- Manuale utente TransektCount --
-  Last edited on 2026-02-21
+  Last edited on 2026-02-22
  -->
 
 <h3><font color=#D9FDD9>1. Introduzione</font></h3>
@@ -92,7 +92,7 @@ Un commento specifico per la specie viene visualizzato nella pagina di conteggio
 <br><br>
 Qui è anche possibile impostare degli avvisi pop-up che, al raggiungimento del numero impostato di farfalle (somma di tutti gli esemplari adulti) nell'area di conteggio interna, visualizzano un messaggio corrispondente (ad es. per determinare già sul posto se una specie è stata avvistata più frequentemente in questa sezione rispetto all'ultima volta).
 <br><br>
-Prima di chiudere TransektCount dopo un sopralluogo, è necessario inserire i metadati con i valori finali relativi a ora, vento e nuvolosità. Quindi, esportare il conteggio attuale come database o tabella .csv. I file vengono salvati con il numero del transetto, la data e l'ora come transektcount_Tr-Nr_AAAAMMGG_oommss.db o .csv nella directory Documents/TransektCount.
+Prima di chiudere TransektCount dopo un sopralluogo, è necessario inserire i metadati con i valori finali relativi a ora, vento e nuvolosità. Quindi, esportare il conteggio attuale come database o tabella .csv. I file vengono salvati con il numero del transetto, la data e l'ora come transektcount_Tr-Nr_AAAAMMGG_oommss.db o .csv nella directory Documents/TransektCount. Senza un orario di inizio specificato, viene utilizzata l'ora corrente.
 <br><br>
 Quando si utilizza il GPS, dopo l'avvio dell'app e dopo il primo fix GPS, viene visualizzato un breve messaggio con l'indicazione della distanza dal transetto. Quando si raggiunge una sezione del transetto, viene fornita un'informazione acustica e tramite messaggio di avviso sulla sezione del transetto attuale. Ad ogni ulteriore cambio di sezione del transetto viene fornita la stessa informazione.
 <br><br>

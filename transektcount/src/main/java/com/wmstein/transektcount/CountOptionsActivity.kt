@@ -36,7 +36,7 @@ import com.wmstein.transektcount.widgets.OptionsWidgetLh
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-02-19
+ * last edited on 2026-02-22
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -64,7 +64,7 @@ class CountOptionsActivity : AppCompatActivity() {
     private var sle = 0
     private var see = 0
 
-    // Decision on setting or removing the date for section:
+    // Criteria on setting or removing the date for section:
     //  countsInit = false, countsCurrent = false -> delete date
     //  countsInit = false, countsCurrent = true -> save date
     //  countsInit = true, countsCurrent = false -> delete date
@@ -82,7 +82,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "112, onCreate")
+            Log.i(TAG, "85, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -139,7 +139,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "194, onResume")
+            Log.i(TAG, "142, onResume")
 
         brightPref = prefs.getBoolean("pref_bright", true)
         awakePref = prefs.getBoolean("pref_awake", true)
@@ -404,8 +404,12 @@ class CountOptionsActivity : AppCompatActivity() {
             this@CountOptionsActivity.navigateUpTo(intent)
             return true
         } else if (id == R.id.menuSaveExit) {
-            modifyData()
-            saveData()
+            if (saveData()) {
+                val intent = NavUtils.getParentActivityIntent(this)!!
+                intent.putExtra("section_id", sectionId)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                this@CountOptionsActivity.navigateUpTo(intent)
+            }
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -415,7 +419,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "521, onPause")
+            Log.i(TAG, "422, onPause")
 
         countDataSource!!.close()
         sectionDataSource!!.close()
@@ -434,7 +438,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "541, onStop")
+            Log.i(TAG, "441, onStop")
 
         staticWidgetArea = null
         dynamicWidgetArea = null
@@ -444,10 +448,10 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "552, onDestroy")
+            Log.i(TAG, "451, onDestroy")
     }
 
-    fun modifyData() {
+    fun saveData(): Boolean {
         sf1i = optWidget!!.parameterValuef1i
         count!!.count_f1i = sf1i
         sf2i = optWidget!!.parameterValuef2i
@@ -473,9 +477,7 @@ class CountOptionsActivity : AppCompatActivity() {
         see = optWidget!!.parameterValueee
         count!!.count_ee = see
         count!!.notes = enw!!.sNotes
-    }
 
-    fun saveData() {
         val mesg = getString(R.string.saving) + " " + count!!.name + "!"
         Toast.makeText(
             this, fromHtml("<font color='#008000'>$mesg</font>"),
@@ -491,6 +493,8 @@ class CountOptionsActivity : AppCompatActivity() {
 
         if (!countsCurrent) // if no count
             sectionDataSource!!.clearDateSectionOfId(sectionId)
+
+        return true
     }
 
     companion object {

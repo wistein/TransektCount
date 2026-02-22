@@ -1,7 +1,7 @@
 <html>
 
 <!-- TransektCount Benutzeranleitung --
-  Last edited on 2026-02-21
+  Last edited on 2026-02-22
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
@@ -91,7 +91,7 @@ Der Bleistift-Button unter der Artnamen-Zeile auf der Zählerseite ruft die absc
 <br><br>
 Eine Art-spezifische Bemerkung wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet und in die Ergebnistabelle geschrieben (z. B.: "Foto"). Mit dem Eintrag '0' in der Spezies-Bemerkung wird diese Art für den gewählten Abschnitt auch trotz fehlender Zählwerte bei den Ergebnissen berücksichtigt.
 <br><br>
-Bevor TransektCount nach einer Begehung beendet wird, sollten immer die Meta-Daten mit den Endwerten für Zeit, Wind und Wolken ergänzt werden. Dann sollte mittels Export die aktuelle Zählung als .db Datenbankdatei oder das Ergebnis als .csv (comma separated values text) Tabellendatei gesichert werden. Die Dateien werden mit Transekt-Nr., Datum und Uhrzeit des Startzeitpunkts benannt und als transektcount_Tr-No_YYYYMMDD_hhmmss.db bzw. .csv im Verzeichnis Documents/TransektCount gespeichert.
+Bevor TransektCount nach einer Begehung beendet wird, sollten immer die Meta-Daten mit den Endwerten für Zeit, Wind und Wolken ergänzt werden. Dann sollte mittels Export die aktuelle Zählung als .db Datenbankdatei oder das Ergebnis als .csv (comma separated values text) Tabellendatei gesichert werden. Die Dateien werden mit Transekt-Nr., Datum und Uhrzeit des Startzeitpunkts benannt und als transektcount_Tr-No_JJJJMMTT_hhmmss.db bzw. .csv im Verzeichnis Documents/TransektCount gespeichert. Falls keine Startzeit angegeben wurde, wird die aktuelle Zeit verwendet.
 <br><br>
 Bei der Verwendung von GPS wird nach dem Start der App und nach dem ersten GPS-Fix zunächst eine kurze Meldung mit der Abstandsangabe zum Transekt angezeigt. Wird ein Transektabschnitt erreicht wird akustisch und per Hinweismeldung über den aktuellen Transektabschnitt informiert. Bei jedem weiteren Wechsel von Transektabschnitten wird ebenso informiert.
 <br><br>

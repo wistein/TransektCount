@@ -1,7 +1,7 @@
 <html>
 
 <!-- Guide d'utilisation de TransektCount --
-  Last edited on 2026-02-21
+  Last edited on 2026-02-22
  -->
 
 <h3><font color=#D9FDD9>1. Introduction</font></h3>
@@ -91,7 +91,7 @@ Le bouton crayon situé sous la ligne du nom de l'espèce sur la page du compteu
 <br><br>
 Une remarque spécifique à l'espèce s'affiche sur la page de comptage de l'espèce sous le champ de comptage et est inscrite dans le tableau des résultats (par exemple : « Photo »). En saisissant « 0 » dans le champ « Note sur l'espèce », cette espèce sera prise en compte pour la section sélectionnée, même si les résultats ne contiennent aucune valeur de comptage.
 <br><br>
-Avant de fermer TransektCount après une inspection, il convient toujours de compléter les métadonnées avec les valeurs finales pour l'heure, le vent et les nuages. Ensuite, le comptage actuel doit être sauvegardé sous forme de base de données ou de tableau .csv à l'aide de la fonction d'exportation. Les fichiers sont enregistrés avec le numéro de transect, la date et l'heure sous le nom transektcount_Tr-Nr_AAAAMMJJ_hhmmss.db ou .csv dans le répertoire Documents/TransektCount.
+Avant de fermer TransektCount après une inspection, il convient toujours de compléter les métadonnées avec les valeurs finales pour l'heure, le vent et les nuages. Ensuite, le comptage actuel doit être sauvegardé sous forme de base de données ou de tableau .csv à l'aide de la fonction d'exportation. Les fichiers sont enregistrés avec le numéro de transect, la date et l'heure sous le nom transektcount_Tr-Nr_AAAAMMJJ_hhmmss.db ou .csv dans le répertoire Documents/TransektCount. Sans heure de début spécifiée, l'heure actuelle est utilisée.
 <br><br>
 Lorsque vous utilisez le GPS, après le démarrage de l'application et après la première localisation GPS, un bref message indiquant la distance par rapport au transect s'affiche. Lorsqu'un segment de transect est atteint, un signal sonore et un message d'information vous informent du segment de transect actuel. Chaque changement de segment de transect est également signalé.
 <br><br>

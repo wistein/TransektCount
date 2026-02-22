@@ -1,0 +1,2 @@
+Version 5.0.4 (22.02.2026)
+- Bugfixe für Version 5.0.3.

@@ -256,6 +256,6 @@
     <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Import und Export der Daten.</string>
     <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
     <string name="grant_perm_later">Die optionale Berechtigung \'Immer zulassen\' kann ggf. später in den Systemeinstellungen erteilt werden.</string>
-    <string name="storage_not_possible">Die notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
+    <string name="storage_not_possible">Die für TransektCount notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
 
 </resources>

@@ -99,7 +99,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-02-21
+ * last edited on 2026-02-22
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -1565,39 +1565,47 @@ public class WelcomeActivity
         date = meta.date;
         start_tm = meta.start_tm;
 
-        String language = Locale.getDefault().toString().substring(0, 2);
-        String dbDate = "", dbTime = "";
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "1569, date: " + date);
 
-        if (date != null) {
+        String language = Locale.getDefault().toString().substring(0, 2);
+        String dbDate, dbTime;
+
+        if (date != null && !date.isEmpty()) {
             if (language.equals("de") || language.equals("fr") || language.equals("it")) {
                 try {
                     dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
                 } catch (Exception e) {
                     dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
                 }
-            }
-            else {
+            } else {
                 try {
                     dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
                 } catch (Exception e) {
                     dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
                 }
             }
-        }
+        } else
+            dbDate = "";
 
-        if (start_tm != null) {
+        if (start_tm != null && !start_tm.isEmpty()) {
             dbTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
-        }
 
-        dbDate = dbDate + "_" + dbTime; // yyyymmdd_hhmm
-
+            if (!dbDate.isEmpty())
+                dbDate = dbDate + "_" + dbTime; // yyyymmdd_hhmm
+        } else
+            dbDate = ""; // has only a value when date and start time are given
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
-        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmmss.db
-        if (Objects.equals(transNo, ""))
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmm.db
+        if (Objects.equals(transNo, "") && Objects.equals(dbDate, ""))
+            outFile = new File(path, "/transektcount_" + getcurDate() + ".db");
+        else if (Objects.equals(transNo, ""))
             outFile = new File(path, "/transektcount_" + dbDate + ".db");
+        else if (Objects.equals(dbDate, ""))
+            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".db");
         else
             outFile = new File(path, "/transektcount_" + transNo + "_" + dbDate + ".db");
 
@@ -1685,45 +1693,50 @@ public class WelcomeActivity
         inspection_note = meta.note;
 
         String language = Locale.getDefault().toString().substring(0, 2);
-        String csvDate = "", csvTime = "";
+        String csvDate, csvTime;
 
-        if (date != null) {
+        if (date != null && !date.isEmpty()) {
             if (language.equals("de") || language.equals("fr") || language.equals("it")) {
                 try {
-                        csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                    csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
                 } catch (Exception e) {
-                        csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                    csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
                 }
-            }
-            else {
+            } else {
                 try {
                     csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
                 } catch (Exception e) {
                     csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
                 }
             }
-        }
+        } else
+            csvDate = "";
 
-        if (start_tm != null) {
-           csvTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
-        }
-
-        csvDate = csvDate + "_" + csvTime; // yyyymmdd_hhmm
+        if (start_tm != null && !start_tm.isEmpty()) {
+            csvTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
+            if (!csvDate.isEmpty())
+                csvDate = csvDate + "_" + csvTime; // yyyymmdd_hhmm
+        } else
+            csvDate = ""; // has only a value when date and start time are given
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
+        String tranSect;
+
         if (language.equals("de") || language.equals("it")) {
-            if (Objects.equals(transNo, ""))
-                outFile = new File(path, "/Transekt_" + csvDate + ".csv");
-            else
-                outFile = new File(path, "/Transekt_" + transNo + "_" + csvDate + ".csv");
+            tranSect = "/Transekt_";
         } else {
-            if (Objects.equals(transNo, ""))
-                outFile = new File(path, "/Transect_" + csvDate + ".csv");
-            else
-                outFile = new File(path, "/Transect_" + transNo + "_" + csvDate + ".csv");
+            tranSect = "/Transect_";
         }
+        if (Objects.equals(transNo, "") && Objects.equals(csvDate, ""))
+            outFile = new File(path, tranSect + getcurDate() + ".csv");
+        else if (Objects.equals(transNo, ""))
+            outFile = new File(path, tranSect + csvDate + ".csv");
+        else if (Objects.equals(csvDate, ""))
+            outFile = new File(path, tranSect + transNo + "_" + getcurDate() + ".csv");
+        else
+            outFile = new File(path, tranSect + transNo + "_" + csvDate + ".csv");
 
         Section section;
         int sect_id;
@@ -1781,7 +1794,7 @@ public class WelcomeActivity
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
 
-                if (date != null) {
+                if (date != null && !date.isEmpty()) {
                     if (language.equals("de") || language.equals("fr") || language.equals("it")) {
                         try {
                             yyyy = Integer.parseInt(date.substring(6, 10));
@@ -1981,6 +1994,8 @@ public class WelcomeActivity
                     code = curCSV.getString(3); //species code
                     name_s = curCSV.getString(2);
                     name_l = curCSV.getString(17);
+//                    sp_notes = "\"" + curCSV.getString(16) + "\"";
+//                    sp_notes = '\"' + curCSV.getString(16) + '\"';
                     sp_notes = curCSV.getString(16);
 
                     countmf = curCSV.getInt(4);
@@ -2283,7 +2298,7 @@ public class WelcomeActivity
                         fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2286, csv write external failed");
+                    Log.e(TAG, "2300, csv write external failed");
             }
             dbHelper.close();
         }
