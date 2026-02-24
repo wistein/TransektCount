@@ -67,6 +67,12 @@ _ subtitle
   .
   _
 
+$ 5.0.5
+  % Version 5.0.5
+  _ 24.02.2026
+  * Amélioration de l'exportation CSV pour l'affichage des chiffres dans les colonnes de texte alignées à gauche.
+  * Vérification des caractères non autorisés lors de la création de noms de fichiers.
+
 $ 5.0.4
   % Version 5.0.4
   _ 22.02.2026

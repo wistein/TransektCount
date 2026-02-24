@@ -42,8 +42,8 @@
     <string name="internal">Interne</string>
     <string name="kal_w">N. de S. :</string>
     <string name="name_sect">Section</string>
-    <string name="name_spec">Nom de l\'espèce :</string>
-    <string name="name_spec_g">Nom français :</string>
+    <string name="name_spec">Nom de l\'espèce</string>
+    <string name="name_spec_g">Nom français</string>
     <string name="noCard">Impossible d\'écrire dans le répertoire \'Documents/TransektCount\' !</string>
     <string name="no_GPSfile">Aucun fichier GPX n\'est disponible dans \'Documents/TransektCount\' !</string>
     <string name="note">Note transect:</string>

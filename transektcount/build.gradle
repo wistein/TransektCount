@@ -1,5 +1,5 @@
 // Build file where you can add configuration options for the module.
-// Last edited on 2026-02-13
+// Last edited on 2026-02-23
 
 plugins {
     id 'com.android.application'
@@ -14,8 +14,8 @@ android {
         applicationId "com.wmstein.transektcount"
         minSdk = 25
         targetSdk = 36
-        versionCode = 504
-        versionName = "5.0.4"
+        versionCode = 505
+        versionName = "5.0.5"
     }
 
     buildTypes {

@@ -2,9 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.5 (2026-02-24)
+- Improved CSV export for numbers in left-aligned text fields
+- Check for forbidden characters when creating file names
+
 #### Version 5.0.4 (2026-02-22)
 - Bugfixes for version 5.0.3
-
 
 #### Version 5.0.3 (2026-02-21)
 - French and Italian language added

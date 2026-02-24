@@ -99,7 +99,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-02-22
+ * last edited on 2026-02-24
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -120,7 +120,12 @@ public class WelcomeActivity
 
     private View baseLayout;
     private AlertDialog alert;
+
+    // Plausi check for inserting transNo into filename
+    private final String regexFilename = "[^a-zA-Z_0-9-]";
     private String transNo = "";
+    private String transNoDir = "";
+
     private String mesg;
     private int secCount; // number of sections
 
@@ -158,7 +163,7 @@ public class WelcomeActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "161, onCreate");
+            Log.i(TAG, "166, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -227,7 +232,7 @@ public class WelcomeActivity
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "230, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "235, onCreate, autoSection: " + autoSection
                     + ", Transect has track: " + transectHasTrack);
 
         // Check and ask storage permission
@@ -235,7 +240,7 @@ public class WelcomeActivity
         if (!storagePermGranted) // in self permission
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "238, onCreate, StoragePermDialog");
+                Log.d(TAG, "243, onCreate, StoragePermDialog");
 
             PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsStorageDialogFragment.class.getName());
@@ -243,7 +248,7 @@ public class WelcomeActivity
 
         storagePermGranted = isStoragePermGranted();
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "246, onCreate, storageGranted: " + storagePermGranted);
+            Log.d(TAG, "251, onCreate, storageGranted: " + storagePermGranted);
 
         // Check DB version and upgrade if necessary
         dbHelper = new DbHelper(this);
@@ -272,6 +277,13 @@ public class WelcomeActivity
             mHandler.postDelayed(this::finishAndRemoveTask, 2000);
         }
 
+        transNoDir = transNo;
+        if (Objects.equals(transNoDir, ""))
+            return;
+        else {
+            transNoDir = transNoDir.replaceAll(regexFilename, "");
+        }
+
         // ***************************************************
         // Prepare for GPS usage
         // Try to get list of trackpoints and number of tracks
@@ -292,7 +304,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.d(TAG, "295, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "207, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks correspond to sections
@@ -336,7 +348,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "339, onCreate, ForegrndLocDialog");
+                    Log.d(TAG, "351, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -384,7 +396,7 @@ public class WelcomeActivity
                 if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "387, onCreate, BackgrndLocDialog");
+                        Log.d(TAG, "399, onCreate, BackgrndLocDialog");
 
                     // Ask optional background location permission with info in Snackbar
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
@@ -424,7 +436,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "427, NavBarMode = " + navBarMode);
+            Log.d(TAG, "439, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -462,7 +474,7 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "465, onResume");
+            Log.i(TAG, "477, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -522,6 +534,13 @@ public class WelcomeActivity
             // nothing
         }
 
+        transNoDir = transNo;
+        if (Objects.equals(transNoDir, ""))
+            return;
+        else {
+            transNoDir = transNoDir.replaceAll(regexFilename, "");
+        }
+
         if (autoSection && fineLocationPermGranted && transectHasTrack) {
             // Start location service and get 1. location
             locationDispatcher(1);
@@ -562,7 +581,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "565, locationDispatcher 1");
+                        Log.d(TAG, "584, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         Intent sIntent = new Intent(getApplicationContext(), LocationService.class);
@@ -580,7 +599,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "583, location stop 2 by backpress");
+                        Log.d(TAG, "602, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -589,7 +608,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "592 location stop 3 by onStop");
+                        Log.d(TAG, "611 location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -790,7 +809,7 @@ public class WelcomeActivity
         // Stop location service when denied in settings
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "793, location stop by setting");
+                Log.d(TAG, "812, location stop by setting");
             stopLocSrv();
         }
     }
@@ -800,7 +819,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "803, onPause");
+            Log.i(TAG, "822, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -816,7 +835,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "819, onStop");
+            Log.i(TAG, "838, onStop");
 
         baseLayout.invalidate();
 
@@ -825,7 +844,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "828, onStop, app not visible. locationDispatcher 3");
+                Log.d(TAG, "847, onStop, app not visible. locationDispatcher 3");
         }
     }
 
@@ -834,7 +853,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "837 onDestroy");
+            Log.i(TAG, "856 onDestroy");
     }
 
     // Start SelectSectionActivity (by button)
@@ -851,7 +870,7 @@ public class WelcomeActivity
         } else {
             // Just call SelectSectionActivity to select section for counting
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "854, selectSection without GPS");
+                Log.d(TAG, "873, selectSection without GPS");
             mHandler.postDelayed(() ->
                     startActivity(new Intent(this, SelectSectionActivity.class)
                             .addFlags(FLAG_ACTIVITY_CLEAR_TOP)), 100);
@@ -891,7 +910,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "894, importBasicDBFile");
+            Log.d(TAG, "913, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -937,7 +956,7 @@ public class WelcomeActivity
                         if (data != null) {
                             selectedFile = data.getStringExtra("fileSelected");
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "940, Selected file: " + selectedFile);
+                                Log.d(TAG, "959, Selected file: " + selectedFile);
 
                             if (selectedFile != null)
                                 inFile = new File(selectedFile);
@@ -978,6 +997,13 @@ public class WelcomeActivity
                                 head = headDataSource.getHead();
                                 transNo = head.transect_no;
                                 Objects.requireNonNull(getSupportActionBar()).setTitle(transNo);
+
+                                transNoDir = transNo;
+                                if (Objects.equals(transNoDir, ""))
+                                    return;
+                                else {
+                                    transNoDir = transNoDir.replaceAll(regexFilename, "");
+                                }
 
                                 // Test for number of existing tracks and matching sections
                                 try {
@@ -1211,7 +1237,7 @@ public class WelcomeActivity
                         }
 
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1214 importGPS, Selected file: " + selectedFile);
+                            Log.d(TAG, "1240 importGPS, Selected file: " + selectedFile);
 
                         if (!selectedFile.isEmpty())
                             inFile = new File(selectedFile);
@@ -1249,7 +1275,7 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG, "1252, " +
+                                        Log.e(TAG, "1278, " +
                                                 "decodeGPX, Problem converting Stream to String: " + e);
                                 }
 
@@ -1273,12 +1299,12 @@ public class WelcomeActivity
 
                                 // Parse gpxString to write fields into TRACK_TABLE
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1276, decodeGPX, Datasources open");
+                                    Log.d(TAG, "1302, decodeGPX, Datasources open");
 
                                 // get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1281, decodeGPX, numSect: "
+                                    Log.d(TAG, "1307, decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1343,7 +1369,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1346, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.d(TAG, "1372, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section
@@ -1360,7 +1386,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1363, decodeGPX, do trackpt");
+                            Log.d(TAG, "1389, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1370,7 +1396,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1373 decodeGPX, sectionNameGPS: "
+                            Log.d(TAG, "1399 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1385,13 +1411,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1388, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1414, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1394, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1420, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1401,7 +1427,7 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "1404, decodeGPX, gpxString finished: " + gpxString);
+                Log.d(TAG, "1430, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
@@ -1499,10 +1525,10 @@ public class WelcomeActivity
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // just verify path, result ignored
-        if (Objects.equals(transNo, ""))
+        if (Objects.equals(transNoDir, ""))
             outFile = new File(path, "/transektcount0.db");
         else
-            outFile = new File(path, "/transektcount0_" + transNo + ".db");
+            outFile = new File(path, "/transektcount0_" + transNoDir + ".db");
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
@@ -1566,7 +1592,7 @@ public class WelcomeActivity
         start_tm = meta.start_tm;
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1569, date: " + date);
+            Log.d(TAG, "1595, date: " + date);
 
         String language = Locale.getDefault().toString().substring(0, 2);
         String dbDate, dbTime;
@@ -1594,20 +1620,20 @@ public class WelcomeActivity
             if (!dbDate.isEmpty())
                 dbDate = dbDate + "_" + dbTime; // yyyymmdd_hhmm
         } else
-            dbDate = ""; // has only a value when date and start time are given
+            dbDate = ""; // has only a value when both date and start time are given
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmm.db
-        if (Objects.equals(transNo, "") && Objects.equals(dbDate, ""))
+        if (Objects.equals(transNoDir, "") && Objects.equals(dbDate, ""))
             outFile = new File(path, "/transektcount_" + getcurDate() + ".db");
-        else if (Objects.equals(transNo, ""))
+        else if (Objects.equals(transNoDir, ""))
             outFile = new File(path, "/transektcount_" + dbDate + ".db");
         else if (Objects.equals(dbDate, ""))
-            outFile = new File(path, "/transektcount_" + transNo + "_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + transNoDir + "_" + getcurDate() + ".db");
         else
-            outFile = new File(path, "/transektcount_" + transNo + "_" + dbDate + ".db");
+            outFile = new File(path, "/transektcount_" + transNoDir + "_" + dbDate + ".db");
 
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
@@ -1717,7 +1743,7 @@ public class WelcomeActivity
             if (!csvDate.isEmpty())
                 csvDate = csvDate + "_" + csvTime; // yyyymmdd_hhmm
         } else
-            csvDate = ""; // has only a value when date and start time are given
+            csvDate = ""; // has only a value when both date and start time are given
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // Just verify path, result ignored
@@ -1729,14 +1755,14 @@ public class WelcomeActivity
         } else {
             tranSect = "/Transect_";
         }
-        if (Objects.equals(transNo, "") && Objects.equals(csvDate, ""))
+        if (Objects.equals(transNoDir, "") && Objects.equals(csvDate, ""))
             outFile = new File(path, tranSect + getcurDate() + ".csv");
-        else if (Objects.equals(transNo, ""))
+        else if (Objects.equals(transNoDir, ""))
             outFile = new File(path, tranSect + csvDate + ".csv");
         else if (Objects.equals(csvDate, ""))
-            outFile = new File(path, tranSect + transNo + "_" + getcurDate() + ".csv");
+            outFile = new File(path, tranSect + transNoDir + "_" + getcurDate() + ".csv");
         else
-            outFile = new File(path, tranSect + transNo + "_" + csvDate + ".csv");
+            outFile = new File(path, tranSect + transNoDir + "_" + csvDate + ".csv");
 
         Section section;
         int sect_id;
@@ -1789,7 +1815,7 @@ public class WelcomeActivity
 
                 // Open Head table for head info
                 head = headDataSource.getHead();
-                inspecName = head.inspector_name;
+                inspecName = "\"" + head.inspector_name + "\"";
 
                 // Calculating the week of the year (ISO 8601)
                 Calendar cal = Calendar.getInstance();
@@ -1830,18 +1856,18 @@ public class WelcomeActivity
                 kw = String.valueOf(Kw);
                 String[] arrMeta =
                         {
-                                transNo,
+                                "\"" + transNo + "\"",
                                 inspecName,
-                                date,
+                                "\"" + date + "\"",
                                 getString(R.string.from),
-                                start_tm,
+                                "\"" + start_tm + "\"",
                                 String.valueOf(temps),
                                 String.valueOf(winds),
                                 String.valueOf(clouds),
                                 "",
                                 kw,
                                 "", "", "", "", "", "", "",
-                                inspection_note,
+                                "\"" + inspection_note + "\"",
                         };
                 csvWrite.writeNext(arrMeta);
 
@@ -1851,7 +1877,7 @@ public class WelcomeActivity
                         {
                                 "", "", "",
                                 getString(R.string.to),
-                                end_tm,
+                                "\"" + end_tm + "\"",
                                 String.valueOf(tempe),
                                 String.valueOf(winde),
                                 String.valueOf(cloude),
@@ -1991,12 +2017,10 @@ public class WelcomeActivity
                         sectName2 = "";
                     }
 
-                    code = curCSV.getString(3); //species code
+                    code = "\"" + curCSV.getString(3) + "\""; //species code
                     name_s = curCSV.getString(2);
                     name_l = curCSV.getString(17);
-//                    sp_notes = "\"" + curCSV.getString(16) + "\"";
-//                    sp_notes = '\"' + curCSV.getString(16) + '\"';
-                    sp_notes = curCSV.getString(16);
+                    sp_notes = "\"" + curCSV.getString(16) + "\"";
 
                     countmf = curCSV.getInt(4);
                     if (countmf > 0)
@@ -2298,7 +2322,7 @@ public class WelcomeActivity
                         fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2300, csv write external failed");
+                    Log.e(TAG, "2325, csv write external failed");
             }
             dbHelper.close();
         }

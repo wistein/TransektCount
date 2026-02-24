@@ -67,6 +67,12 @@ _ subtitle
   .
   _
 
+$ 5.0.5
+  % Version 5.0.5
+  _ 24.02.2026
+  * CSV-Export für Zahlendarstellung in linksbündigen Text-Spalten verbessert
+  * Check für unzulässige Zeichen bei der Erstellung von Dateinamen
+
 $ 5.0.4
   % Version 5.0.4
   _ 22.02.2026

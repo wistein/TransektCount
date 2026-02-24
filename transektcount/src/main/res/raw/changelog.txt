@@ -67,6 +67,12 @@ _ subtitle
   .
   _
 
+$ 5.0.5
+  % Version 5.0.5
+  _ 2026-02-24
+  * Improved CSV export for numbers in left-aligned text fields
+  * Check for forbidden characters when creating file names
+
 $ 5.0.4
   % Version 5.0.4
   _ 2026-02-22

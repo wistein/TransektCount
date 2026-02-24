@@ -1,0 +1,3 @@
+Version 5.0.5 (2026-02-24)
+- Improved CSV export for numbers in left-aligned text fields
+- Check for forbidden characters when creating file names
