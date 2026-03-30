@@ -1,14 +1,17 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme"
+		parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
 
-	<style name="AppTheme.Dark" parent="Theme.AppCompat">
+	<style name="AppTheme.Dark"
+		parent="Theme.AppCompat">
 		<!-- Customize dark theme attributes here -->
 	</style>
 
-	<style name="PermissionsDialogFragmentStyle" parent="Base.Theme.AppCompat.Dialog">
+	<style name="PermissionsDialogFragmentStyle"
+		parent="Base.Theme.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 	

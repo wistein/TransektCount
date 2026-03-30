@@ -23,9 +23,9 @@ import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
-import com.wmstein.transektcount.widgets.EditNotesWidget
-import com.wmstein.transektcount.widgets.OptionsWidget
-import com.wmstein.transektcount.widgets.OptionsWidgetLh
+import com.wmstein.transektcount.widgets.EditSectionListNotesWidget
+import com.wmstein.transektcount.widgets.CountOptionsWidget
+import com.wmstein.transektcount.widgets.CountOptionsLhWidget
 
 /************************************************************
  * CountOptionsActivity
@@ -47,9 +47,9 @@ class CountOptionsActivity : AppCompatActivity() {
     private var sectionName = ""
     private var staticWidgetArea: LinearLayout? = null
     private var dynamicWidgetArea: LinearLayout? = null
-    private var optWidget: OptionsWidget? = null
-    private var optWidgetLh: OptionsWidgetLh? = null
-    private var enw: EditNotesWidget? = null
+    private var optWidget: CountOptionsWidget? = null
+    private var optWidgetLh: CountOptionsLhWidget? = null
+    private var enw: EditSectionListNotesWidget? = null
 
     private var sf1i = 0
     private var sf2i = 0
@@ -171,7 +171,7 @@ class CountOptionsActivity : AppCompatActivity() {
         //  1. Current count values (internal counters)
         //  2. Current count values (external counters)
         if (lhandPref) {
-            optWidgetLh = OptionsWidgetLh(this, null)
+            optWidgetLh = CountOptionsLhWidget(this, null)
             sf1i = optWidgetLh!!.parameterValuef1i
             sf2i = optWidgetLh!!.parameterValuef2i
             sf3i = optWidgetLh!!.parameterValuef3i
@@ -186,7 +186,7 @@ class CountOptionsActivity : AppCompatActivity() {
             sle = optWidgetLh!!.parameterValuele
             see = optWidgetLh!!.parameterValueee
         } else {
-            optWidget = OptionsWidget(this, null)
+            optWidget = CountOptionsWidget(this, null)
             sf1i = optWidget!!.parameterValuef1i
             sf2i = optWidget!!.parameterValuef2i
             sf3i = optWidget!!.parameterValuef3i
@@ -380,7 +380,7 @@ class CountOptionsActivity : AppCompatActivity() {
             staticWidgetArea!!.addView(optWidget)
         }
 
-        enw = EditNotesWidget(this, null)
+        enw = EditSectionListNotesWidget(this, null)
         enw!!.sNotes = count!!.notes
         enw!!.setWidgetNotes(getString(R.string.notesSpecies, sectionName))
         enw!!.setHint(getString(R.string.notesHint))

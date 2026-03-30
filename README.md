@@ -19,13 +19,13 @@ That means, you will use a fresh database instance per inspection by clearing th
 - Results are shown with metadata, remarks, totals and species results per section.
 - Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
 - The current species list can be exported for later re-import or imported by the complementary app TourCount.
-- The integrated help contains a detailed user guide.
+- Help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies by Karsholt/Razowski.
-- TransektCount supports counting in German, English, French and Italian language.
+- TransektCount supports counting in German, English, French, Italian and Spanish language and provides locale species names in these languages.
 
 ### Prerequisites
 The app demands for 
-- storage access permit which is needed for im-/exporting the counting data (database, result, species list or track) 
+- storage access permit which is needed for im-/exporting the counting data (databases, results, species lists or tracks) 
 - the permit to keep the device awake and
 - optionally, the permit to get the exact location to recognize the current section.
 
@@ -37,8 +37,7 @@ The app is usable with Android version 7.1 (Nougat) or newer.
 Documentation and example DBs are provided under  
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-Please read the user guide (provided on GitHub.../docs in German and English) or consult its contents in the app's help
-(provided in German, English, French and Italian) before using the app.  
+Please read the user guide (provided on GitHub.../docs in German and English) or consult its contents in the app's help before using the app.  
 There are further documents e.g. for setting up and using the app as well as sample species lists in German, English, French and Italian versions, provided under .../docs.
 
 The development history is listed in History.md in .../docs.
@@ -80,5 +79,5 @@ Pictures of this work by Wilhelm Stein may only be used for scientific or non-co
 
 Code and illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their license.
 
-For detailed copyrights on external code and pictures see the separate document "License.txt" in 
+For detailed copyrights on external code and pictures see "Licenses" in the app's main menu or the separate document "License.txt" under 
 https://github.com/wistein/TransektCount/tree/master/docs.

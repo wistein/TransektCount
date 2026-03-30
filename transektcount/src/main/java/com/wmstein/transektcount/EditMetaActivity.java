@@ -1,8 +1,10 @@
 package com.wmstein.transektcount;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,24 +41,23 @@ import androidx.core.view.WindowInsetsCompat;
 
 /***************************************************************
  * EditMetaActivity collects meta info for a transect inspection
+ * <p>
  * Created by wmstein on 2016-03-31,
- * last edited on 2026-02-21
+ * last edited on 2026-03-04
  */
 public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
 
+    // Preferences
+    private final SharedPreferences prefs = TransektCountApplication.getPrefs();
+
     // Data from DB tables
     private Head head;
     private Meta meta;
-
     private HeadDataSource headDataSource;
     private MetaDataSource metaDataSource;
 
     private Calendar pdate, ptime;
-
-    // Preferences
-    private final SharedPreferences prefs = TransektCountApplication.getPrefs();
-    private boolean awakePref;
 
     private LinearLayout metaArea;
     private TextView sDate, sTime, eTime;
@@ -91,7 +92,6 @@ public class EditMetaActivity extends AppCompatActivity {
 
         // Option for full bright screen
         boolean brightPref = prefs.getBoolean("pref_bright", true);
-        awakePref = prefs.getBoolean("pref_awake", true);
 
         // Set full brightness of screen
         if (brightPref) {
@@ -99,9 +99,6 @@ public class EditMetaActivity extends AppCompatActivity {
             params.screenBrightness = 1.0f;
             getWindow().setAttributes(params);
         }
-
-        if (awakePref)
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         metaArea = findViewById(R.id.meta_area);
 
@@ -111,17 +108,28 @@ public class EditMetaActivity extends AppCompatActivity {
         metaDataSource = new MetaDataSource(this);
 
         // New onBackPressed logic
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "118, handleOnBackPressed");
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+        if (getNavBarMode() == 0 || getNavBarMode() == 1) {
+            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.d(TAG, "118, handleOnBackPressed");
+                    finish();
+                }
+            };
+            getOnBackPressedDispatcher().addCallback(this, callback);
+        }
     }
     // End of onCreate()
+
+    // Check for Navigation bar 1-, 2- or 3-button mode
+    public int getNavBarMode() {
+        Resources resources = this.getResources();
+        @SuppressLint("DiscouragedApi")
+        int resourceId = resources.getIdentifier("config_navBarInteractionMode",
+                "integer", "android");
+        return resourceId > 0 ? resources.getInteger(resourceId) : 0;
+    }
 
     @Override
     protected void onResume() {
@@ -130,13 +138,13 @@ public class EditMetaActivity extends AppCompatActivity {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "131, onResume");
 
-        // Build the Edit Metadata screen
-        // Clear existing view
-        metaArea.removeAllViews();
-
         // Setup data sources
         headDataSource.open();
         metaDataSource.open();
+
+        // Build the Edit Metadata screen
+        // Clear existing view
+        metaArea.removeAllViews();
 
         // Load head and metadata
         head = headDataSource.getHead();
@@ -184,9 +192,9 @@ public class EditMetaActivity extends AppCompatActivity {
         pdate = Calendar.getInstance();
         ptime = Calendar.getInstance();
 
-        sDate = this.findViewById(R.id.widgetDate2);
-        sTime = this.findViewById(R.id.widgetSTime2);
-        eTime = this.findViewById(R.id.widgetETime2);
+        sDate = findViewById(R.id.widgetDate2);
+        sTime = findViewById(R.id.widgetSTime2);
+        eTime = findViewById(R.id.widgetETime2);
 
         // Get current date by click
         sDate.setOnClickListener(v -> {
@@ -316,10 +324,6 @@ public class EditMetaActivity extends AppCompatActivity {
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "318, onStop");
-
-        if (awakePref) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
 
         metaArea = null;
     }

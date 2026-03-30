@@ -7,11 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.media.MediaPlayer
-import android.media.RingtoneManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
@@ -21,12 +17,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.net.toUri
-import com.wmstein.transektcount.LocationService.Companion.isNotBlank
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionIdGPS
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionNameCurrent
-import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.Utils.fromHtml
+import com.wmstein.transektcount.database.Section
 
 /**************************************************************
  * SelectSectionAdapter is called from SelectSectionActivity.
@@ -37,7 +31,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-01-15
+ * last edited on 2026-02-28
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -52,16 +46,14 @@ internal class SelectSectionAdapter(
     // preferences
     private var prefs: SharedPreferences? = null
     private var buttonSoundPref: Boolean = false
-    private var buttonSound: String = ""
-    private var audioAttributionContext: Context? = null
-    private var rToneP: MediaPlayer? = null
-    private var buttonVibPref = false
-    private val vibrator = mContext.getSystemService(Vibrator::class.java)
     private fun setPrefs() {
         buttonVibPref = prefs!!.getBoolean("pref_button_vib", false)
         buttonSoundPref = prefs!!.getBoolean("pref_button_sound", false)
-        buttonSound = prefs!!.getString("button_sound", "")!!
     }
+
+    private var soundService: SoundService? = null
+    private var buttonVibPref = false
+    private val vibrator = mContext.getSystemService(Vibrator::class.java)
 
     private class SectionHolder {
         var txtTitle: Button? = null
@@ -74,26 +66,10 @@ internal class SelectSectionAdapter(
     //   may need garbage collection in SelectSectionActivity as RAM may run short
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        audioAttributionContext =
-            if (Build.VERSION.SDK_INT >= 30)
-                mContext.createAttributionContext("ringSound")
-            else mContext
         var sectionsListRow = convertView
         val holder: SectionHolder
         prefs = TransektCountApplication.getPrefs()
         setPrefs()
-
-        // Prepare button sounds
-        if (buttonSoundPref) {
-            val uriP = if (isNotBlank(buttonSound))
-                buttonSound.toUri()
-            else
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            if (rToneP == null) {
-                rToneP = MediaPlayer.create(audioAttributionContext, uriP)
-            }
-        }
-
         val section = sections[position]
         val sectionId = section.id
 
@@ -163,7 +139,14 @@ internal class SelectSectionAdapter(
     // Start counting by clicking on title
     private val mOnTitleClickListener = View.OnClickListener { v ->
         setPrefs()
-        soundButton()
+
+        // Make (+)-button sound
+        if (buttonSoundPref) {
+            soundService = SoundService(mContext)
+            soundService!!.soundPlusButtonSound() // sound for (+)-button
+        }
+
+        // Make button click vibrate
         buttonVib()
 
         sct = v.tag as Section
@@ -208,23 +191,6 @@ internal class SelectSectionAdapter(
         ) { _: DialogInterface?, _: Int -> }
         val alert = builder.create()
         alert.show()
-    }
-
-    private fun soundButton() {
-        if (buttonSoundPref) {
-            if (rToneP!!.isPlaying) {
-                rToneP!!.stop()
-                rToneP!!.release()
-            }
-            rToneP!!.start()
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (rToneP!!.isPlaying) {
-                    rToneP!!.stop()
-                }
-                rToneP!!.release()
-                rToneP = null
-            }, 500)
-        }
     }
 
     private fun buttonVib() {

@@ -33,13 +33,14 @@ import com.wmstein.transektcount.Utils.fromHtml
 
 /************************************************************************************
  * Shows the list of selectable sections which is put together by SelectSectionAdapter.
- * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Starts EditSectionListActivity.
+ *
+ * Based on ListProjectActivity.java by milo on 05/05/2014.
  * Changes and additions for TransektCount by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-02-17
+ * last edited on 2026-02-28
  */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication
@@ -50,6 +51,9 @@ class SelectSectionActivity : AppCompatActivity() {
     private var awakePref = false
     private var transectHasTrack = false
     private var autoSection = false // true for enabled GPS track selection
+    private var buttonSoundPref: Boolean = false
+
+    private var soundService: SoundService? = null
 
     // Data
     private var sectionDataSource: SectionDataSource? = null
@@ -95,6 +99,7 @@ class SelectSectionActivity : AppCompatActivity() {
 
         transectHasTrack = prefs.getBoolean("transect_has_track", false)
         autoSection = prefs.getBoolean("pref_auto_section", false)
+        buttonSoundPref = prefs.getBoolean("pref_button_sound", false)
 
         val listView = findViewById<LinearLayout>(R.id.list_view)
         listView.background = transektCount.setBackgr()
@@ -202,6 +207,11 @@ class SelectSectionActivity : AppCompatActivity() {
             Log.i(TAG, "202, onStop")
 
         list!!.invalidate()
+
+        if (buttonSoundPref) {
+            soundService = SoundService(applicationContext)
+            soundService!!.releaseSoundP()
+        }
     }
 
     // Clone section with check for double names

@@ -1,8 +1,23 @@
 TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode. Es dient Transektzählern beim Registrieren von Schmetterlingen und tagfliegenden Nachtfaltern bei Transektbegehungen.
 
 Neu in Version 5.0.5:
-- CSV-Export für Zahlendarstellung in linksbündigen Text-Spalten verbessert.
-- Check für unzulässige Zeichen bei der Erstellung von Dateinamen.
+- Spanische Sprache hinzugefügt
+- Spanische Spezies-Beispiel-Listen in GitHub-Docs hinzugefügt
+- Problem bei "Arten hinzufügen" gelöst, wenn die Systemsprache nicht der Sprache der lokalen Speziesnamen entspricht
+- Sprach-Einstellung für Daten (lokale Speziesnamen) von der Systemsprache abgekoppelt
+- Spezieslisten mit einem Eintrag für die automatische Erkennung der Datensprache ergänzt
+- Neue Einstellungsoption für die Wahl der Sprache der lokalen Speziesnamen, falls diese nicht automatisch erkannt wird (bei alter Spezieslistversion)
+- Arten hinzugefügt: Borbo borbonica, Zegris eupheme, Colotis evagore, Lysandra hispana, Coenonympha dorus und Satyrus actaea
+- CSV-Export für Zahlendarstellung in linksbündigen Text-Spalten verbessert
+- Check für unzulässige Zeichen bei der Erstellung von Dateinamen
+- Sound-Erzeugung mittels Service
+- Einige weitere Daten-Korrekturen
+- App-Meldungen verbessert
+- Hilfe überarbeitet
+- Einige Layout-Verbesserungen
+- Einige Code-Verbesserungen
+- Doku aktualisiert
+- Bugfixe
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

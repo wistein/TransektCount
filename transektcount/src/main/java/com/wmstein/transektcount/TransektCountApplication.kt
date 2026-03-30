@@ -17,11 +17,12 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.PreferenceManager
 
 /********************************************************************
- * Handle background image and prefs
+ * Provide global app data and handle background image and prefs
+ *
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
- * Adopted for TransektCount by wmstein on 18.02.2016,
+ * Adopted for TransektCount by wmstein on 2016-02-12,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2026-02-19
+ * last edited on 2026-02-28
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null

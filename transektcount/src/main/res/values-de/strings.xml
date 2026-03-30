@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-02-16 -->
+     last edited 2026-03-26 -->
 
 <resources>
 
@@ -16,12 +16,12 @@
     <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
     <string name="confirmGPSDelete">Willst Du wirklich die Track-Daten löschen?</string>
     <string name="confirmGPSImport">Soll versucht werden, die GPS-Datei zu importieren?</string>
-    <string name="confirmListImport">Willst Du wirklich eine Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
+    <string name="confirmListImport">Willst Du wirklich die Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
     <string name="confirmResetDB">Willst Du wirklich die Datenbank zurücksetzen? Deine aktuellen Zähldaten werden gelöscht!</string>
     <string name="corruptDb">DB-Fehler! Falls Problem nach wiederholtem Start bleibt und auch nicht durch Import einer anderen TransektCount-DB behoben werden kann, bitte App deinstallieren und neu installieren.</string>
     <string name="deleteTrackFail">Löschen nicht erforderlich, keine Tracks in der DB vorhanden!</string>
     <string name="distanceToTrack">Distanz zum Transekt:</string>
-    <string name="editMetaButton">Meta-Daten editieren</string>
+    <string name="editMetaButton">Metadaten editieren</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export d. Ergebnisse (csv)</string>
     <string name="exportMenu">Export akt. DB</string>
@@ -43,7 +43,7 @@
     <string name="kal_w">KW:</string>
     <string name="name_sect">Abschnitt</string>
     <string name="name_spec">Spezies-Name</string>
-    <string name="name_spec_g">Deutscher Name</string>
+    <string name="name_spec_g">Lokaler Name</string>
     <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
     <string name="no_GPSfile">Keine GPX-Datei in Documents/TransektCount vorhanden!</string>
     <string name="note">Transekt-Bem.:</string>
@@ -58,10 +58,11 @@
     <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
-    <string name="saveList">Export der Speziesliste.</string>
+    <string name="saveList">Export der Speziesliste: Ok.</string>
     <string name="saveCSV">Export der csv-Datei nach Documents/TransektCount.</string>
     <string name="showResultsButton">Ergebnis anzeigen</string>
-    <string name="sum">Summen (intern):</string>
+    <string name="specsCommonLang">Achtung, altes Listenformat! Zur korrekten Verwendung von lokalen Namen muss die Sprache der Daten unter \'Einstellungen\' gewählt werden.</string>
+    <string name="sumi">Summen (intern):</string>
     <string name="sumSpec">Arten:</string>
     <string name="sum_total">Summen (total):</string>
     <string name="sume">Summen (extern):</string>
@@ -85,11 +86,12 @@
     <string name="fileSize">Größe</string>
     <string name="importHead">Datenimport</string>
     <string name="noFile">Keine Datei vorhanden!</string>
+    <string name="br_Error">Es gibt ein Problem mit der gewählten Datei!</string>
 
     <!-- EditMetaActivity -->
     <string name="clouds">Wolken (%):</string>
     <string name="date">Datum:</string>
-    <string name="editHeadTitle">Meta-Daten d. Begehung</string>
+    <string name="editHeadTitle">Metadaten d. Begehung</string>
     <string name="endtm">bis:</string>
     <string name="hinttm">Tippe hier</string>
     <string name="inspector">Kartierer(in):</string>
@@ -149,6 +151,7 @@
     <string name="initCharsL">Bitte 2 Buchst.</string>
     <string name="labelAddSpecButton">Arten hinzufügen</string>
     <string name="specsToAdd">Weitere Arten:</string>
+    <string name="specsCommonLangMissing">Die lokale Datensprache ist nicht festgelegt. Es werden deutsche Namen verwendet.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
@@ -182,12 +185,15 @@
     <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
     <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>
     <string name="pref_proximity_title">Näherungsensor</string>
+    <string name="pref_data_language">Sprache der Daten</string>
+    <string name="pref_data_language_Summ">Wähle die Sprache für die Lokal-Namen der Schmetterlinge.</string>
     <string name="pref_sort_sect_order_dialog">Sortierung der Liste der Abschnitte</string>
     <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>
     <string name="pref_sort_sp_order_dialog">Sortierung der Artenliste</string>
     <string name="pref_sort_sp_order_title">Sortierung der Artenliste</string>
     <string name="prefs_GPS">GPS (benötigt GPX-Track)</string>
     <string name="prefs_appearance">Aussehen</string>
+    <string name="prefs_data">Daten</string>
     <string name="prefs_counting">Zählen</string>
     <string name="prefs_csv_output_title">Ausgabe</string>
     <string name="prefs_sound_vib">Sound/Vibration</string>
@@ -195,7 +201,7 @@
     <!-- CountOptionsActivity -->
     <string name="countCode">Code</string>
     <string name="countName">Neue Art</string>
-    <string name="countNameG">Neue Art (deutscher Name)</string>
+    <string name="countNameG">Neue Art (lokaler Name)</string>
     <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
@@ -210,7 +216,7 @@
     <string name="editCountValuepi">Intern-Zählerstand [ %1$d ] von Puppe ändern</string>
     <string name="notesSpecies">Bemerkung zur Art (%1$s)</string>
     <string name="spec_Name">Name</string>
-    <string name="spec_NameG">Deutscher Name</string>
+    <string name="spec_NameG">Lokaler Name</string>
 
     <!-- ListViewSpecies -->
     <string name="txt_e">Ei</string>
@@ -234,7 +240,7 @@
     <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
     <string name="countLarvaHint">Raupe</string>
     <string name="countNameHint">Art-Name</string>
-    <string name="countNameHintG">Art-Name (deutsch)</string>
+    <string name="countNameHintG">Art-Name (lokal)</string>
     <string name="countOvoHint">Ei</string>
     <string name="countPupaHint">Puppe</string>
     <string name="getHelp">Datenbank-Problem! Falls Hilfe nötig, sende die problematische DB per E-Mail.</string>

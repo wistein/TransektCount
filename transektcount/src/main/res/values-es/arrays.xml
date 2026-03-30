@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- arrays.xml Spanish array strings,
+     last edited 2026-03-21 -->
+
+<resources>
+
+    <string-array name="pref_bg_entries">
+        <item>Negro</item>
+        <item>Gris</item>
+        <item>TransektCount (Estándar)</item>
+    </string-array>
+
+    <string-array name="pref_sel_language_entries">
+        <item>Alemán</item>
+        <item>Inglés</item>
+        <item>Francés</item>
+        <item>Italiano</item>
+        <item>Español</item>
+    </string-array>
+
+    <string-array name="pref_sort_sect_entries">
+        <item>Sin clasificar</item>
+        <item>Por nombre, ascendente</item>
+        <item>Por nombre, descendente</item>
+    </string-array>
+
+    <string-array name="pref_sort_sp_entries">
+        <item>Sin clasificar</item>
+        <item>Por nombre de especie (alfabético)</item>
+        <item>Por código</item>
+    </string-array>
+
+    <string-array name="pref_sort_output_entries">
+        <item>Por nombre de especie</item>
+        <item>Por código de especie</item>
+    </string-array>
+
+    <string-array name="pref_prox_entries">
+        <item>Apagado</item>
+        <item>Medio</item>
+        <item>Alto</item>
+    </string-array>
+
+    <string-array name="pref_sel_dist_max_entries">
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>7,5 m</item>
+        <item>10 m</item>
+    </string-array>
+
+    <string-array name="pref_sel_deviation_entries">
+        <item>3 m</item>
+        <item>4 m</item>
+        <item>5 m</item>
+        <item>7,5 m</item>
+        <item>10 m</item>
+    </string-array>
+
+</resources>

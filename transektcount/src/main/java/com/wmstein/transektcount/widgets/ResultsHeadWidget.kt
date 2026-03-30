@@ -10,10 +10,11 @@ import java.util.Objects
 
 /*******************************************************
  * ResultsHeadWidget.kt is used by EditMetaActivity.java
+ *
  * Created by wmstein for TransektCount on 03.04.2016
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2025-11-15
+ * Last edited on 2026-02-28
  */
 class ResultsHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetLno // used for transect_no title

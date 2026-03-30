@@ -10,10 +10,11 @@ import java.util.Objects
 
 /********************************************************
  * ResultsMetaWidget.kt is used by ShowResultsActivity.kt
+ *
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2025-11-15
+ * Last edited on 2026-02-28
  */
 class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     // temperature

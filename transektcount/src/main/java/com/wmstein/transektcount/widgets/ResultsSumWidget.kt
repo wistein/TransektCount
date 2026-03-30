@@ -12,10 +12,11 @@ import java.util.Objects
 /****************************************************************
  * ResultsSumWidget.kt shows count totals area in the result page
  * and is used by ShowResultsActivity.kt
+ *
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2025-11-15
+ * Last edited on 2026-02-28
  */
 class ResultsSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val sumCountf1i: AutoFitText

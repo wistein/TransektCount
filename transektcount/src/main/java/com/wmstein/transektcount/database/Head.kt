@@ -1,9 +1,12 @@
 package com.wmstein.transektcount.database
 
-/*************************************************************
- * Table Head interface with record of transect meta head data
- * Created by wmstein on 31.03.2016.
- * converted to Kotlin on 2023-06-26
+/***********************************
+ * Definitions for table Head
+ *
+ * Created by wmstein on 31.03.2016,
+ * last edited in Java on 2022-03-23,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-03-17
  */
 class Head {
     @JvmField

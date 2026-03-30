@@ -6,13 +6,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
 
 /******************************************************
  * Based on CountDataSource.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-21
+ * last edited on 2026-02-28
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -69,9 +70,9 @@ class CountDataSource(context: Context) {
             values.put(DbHelper.C_COUNT_EE, 0)
             values.put(DbHelper.C_NOTES, "")
             values.put(DbHelper.C_NAME_G, nameG)
-            val insertId = database!!.insert(DbHelper.COUNT_TABLE, null, values).toInt()
+            val insertId = database!!.insert(COUNT_TABLE, null, values).toInt()
             val cursor = database!!.query(
-                DbHelper.COUNT_TABLE,
+                COUNT_TABLE,
                 allColumns, DbHelper.C_ID + " = " + insertId, null, null,
                 null, null
             )
@@ -110,7 +111,7 @@ class CountDataSource(context: Context) {
     fun deleteAllCountsWithCode(code: String?) {
         val allCtsWithCode: List<Count> = getAllCountsWithCode(code)
         for (count in allCtsWithCode) {
-            database!!.delete(DbHelper.COUNT_TABLE,
+            database!!.delete(COUNT_TABLE,
                 DbHelper.C_ID + " = " + count.id, null)
         }
     }
@@ -118,7 +119,7 @@ class CountDataSource(context: Context) {
     private fun getAllCountsWithCode(code: String?): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
+            "select * from " + COUNT_TABLE
                     + " WHERE " + " ("
                     + DbHelper.C_CODE + " = '" + code + "')", null
         )
@@ -153,7 +154,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_NAME_G, count.name_g)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f1i
@@ -162,7 +163,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F1I, count.count_f1i)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f2i
@@ -171,7 +172,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F2I, count.count_f2i)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f3i
@@ -180,7 +181,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F3I, count.count_f3i)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_pi
@@ -189,7 +190,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_PI, count.count_pi)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_li
@@ -198,7 +199,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_LI, count.count_li)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_ei
@@ -207,7 +208,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_EI, count.count_ei)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f1e
@@ -216,7 +217,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F1E, count.count_f1e)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f2e
@@ -225,7 +226,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F2E, count.count_f2e)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_f3e
@@ -234,7 +235,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_F3E, count.count_f3e)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_pe
@@ -243,7 +244,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_PE, count.count_pe)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_le
@@ -252,7 +253,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_LE, count.count_le)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // save count_ee
@@ -261,7 +262,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_COUNT_EE, count.count_ee)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(count.id.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // Used by EditSectionListActivity
@@ -279,7 +280,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_NAME_G, nameG)
         val where = DbHelper.C_ID + " = ?"
         val whereArgs = arrayOf(countid.toString())
-        database!!.update(DbHelper.COUNT_TABLE, dataToInsert, where, whereArgs)
+        database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // Used by WelcomeActivity
@@ -304,7 +305,7 @@ class CountDataSource(context: Context) {
             values.put(DbHelper.C_COUNT_EE, 0)
             values.put(DbHelper.C_NOTES, "")
             values.put(DbHelper.C_NAME_G, nameG)
-            database!!.insert(DbHelper.COUNT_TABLE, null, values)
+            database!!.insert(COUNT_TABLE, null, values)
         }
     }
 
@@ -312,7 +313,7 @@ class CountDataSource(context: Context) {
     fun getAllCountsForSection(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
+            COUNT_TABLE, allColumns,
             DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
         )
         cursor.moveToFirst()
@@ -329,7 +330,7 @@ class CountDataSource(context: Context) {
     fun getAllSpeciesForSectionSrtCode(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
+            "select * from " + COUNT_TABLE
                     + " WHERE " + " ("
                     + DbHelper.C_SECTION_ID + " = " + sectionId
                     + ") order by " + DbHelper.C_CODE, null
@@ -348,7 +349,7 @@ class CountDataSource(context: Context) {
     fun getAllSpeciesForSectionSrtName(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
+            "select * from " + COUNT_TABLE
                     + " WHERE " + " ("
                     + DbHelper.C_SECTION_ID + " = " + sectionId
                     + ") order by " + DbHelper.C_NAME, null
@@ -368,7 +369,7 @@ class CountDataSource(context: Context) {
         get() {
             val counts: MutableList<Count> = ArrayList()
             val cursor = database!!.rawQuery(
-                "select * from " + DbHelper.COUNT_TABLE
+                "select * from " + COUNT_TABLE
                         + " WHERE " + " ("
                         + DbHelper.C_NOTES + " = '0' or "
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -394,7 +395,7 @@ class CountDataSource(context: Context) {
         get() {
             val counts: MutableList<Count> = ArrayList()
             val cursor = database!!.rawQuery(
-                "select * from " + DbHelper.COUNT_TABLE
+                "select * from " + COUNT_TABLE
                         + " WHERE " + " ("
                         + DbHelper.C_NOTES + " = '0' or "
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -420,7 +421,7 @@ class CountDataSource(context: Context) {
         get() {
             var cntSpec = 0
             val cursor = database!!.rawQuery(
-                "select DISTINCT " + DbHelper.C_CODE + " from " + DbHelper.COUNT_TABLE
+                "select DISTINCT " + DbHelper.C_CODE + " from " + COUNT_TABLE
                         + " WHERE " + " ("
                         + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
                         + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
@@ -441,7 +442,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllIdsForSection(sectionId: Int): Array<String?> {
         val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
+            COUNT_TABLE, allColumns,
             DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
         )
         val idArray = arrayOfNulls<String>(cursor.count)
@@ -460,7 +461,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllIdsForSectionSrtName(sectionId: Int): Array<String?> {
         val cursor = database!!.rawQuery(
-            "select ROWID from " + DbHelper.COUNT_TABLE
+            "select ROWID from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
                     + DbHelper.C_NAME, null
         )
@@ -480,7 +481,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllIdsForSectionSrtCode(sectionId: Int): Array<String?> {
         val cursor = database!!.rawQuery(
-            "select ROWID from " + DbHelper.COUNT_TABLE
+            "select ROWID from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
                     + DbHelper.C_CODE, null
         )
@@ -500,7 +501,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllStringsForSection(sectionId: Int, sname: String?): Array<String?> {
         val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
+            COUNT_TABLE, allColumns,
             DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
         )
         val uArray = arrayOfNulls<String>(cursor.count)
@@ -519,7 +520,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllStringsForSectionSrtName(sectionId: Int, sname: String?): Array<String?> {
         val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
+            "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
                     + DbHelper.C_NAME, null
         )
@@ -539,7 +540,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity
     fun getAllStringsForSectionSrtCode(sectionId: Int, sname: String?): Array<String?> {
         val cursor = database!!.rawQuery(
-            "select * from " + DbHelper.COUNT_TABLE
+            "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
                     + DbHelper.C_CODE, null
         )
@@ -560,7 +561,7 @@ class CountDataSource(context: Context) {
     // Used by CountingActivity and CountOptionsActivity
     fun getCountById(countId: Int): Count {
         val cursor = database!!.query(
-            DbHelper.COUNT_TABLE, allColumns,
+            COUNT_TABLE, allColumns,
             DbHelper.C_ID + " = " + countId,
             null, null, null, null
         )
@@ -575,7 +576,7 @@ class CountDataSource(context: Context) {
         var sql = "alter table 'counts' rename to 'counts_backup'"
         database!!.execSQL(sql)
 
-        // create new counts table
+        // Create new counts table
         sql = ("create table counts("
                 + DbHelper.C_ID + " integer primary key, "
                 + DbHelper.C_SECTION_ID + " int, "
@@ -597,7 +598,7 @@ class CountDataSource(context: Context) {
                 + DbHelper.C_NAME_G + " text)")
         database!!.execSQL(sql)
 
-        // insert the whole COUNT_TABLE data sorted into counts
+        // Insert the whole COUNT_TABLE data sorted into counts
         sql = ("INSERT INTO 'counts' ('section_id', 'name', 'code', " +
                 "'count_f1i', 'count_f2i', 'count_f3i', 'count_pi', 'count_li', 'count_ei', " +
                 "'count_f1e', 'count_f2e', 'count_f3e', 'count_pe', 'count_le', 'count_ee', " +

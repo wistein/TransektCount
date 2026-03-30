@@ -16,10 +16,11 @@ import java.util.Objects
 /*******************************************************
  * ResultsSpeciesWidget.kt shows the count info area for
  * a species on the results page.
+ *
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edited on 2025-11-15
+ * Last edited on 2026-02-28
  */
 class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView

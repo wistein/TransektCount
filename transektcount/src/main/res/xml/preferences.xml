@@ -19,6 +19,26 @@
             android:title="@string/pref_bg_title"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreferenceCompat
+            android:key="pref_left_hand"
+            android:defaultValue="false"
+            android:icon="@drawable/outline_back_hand_48"
+            android:summary="@string/pref_left_hand_summ"
+            android:title="@string/pref_left_hand" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/prefs_data">
+        android:key="key_prefs_appearance">
+
+        <ListPreference
+            android:defaultValue="de"
+            android:dialogTitle="@string/pref_data_language_Summ"
+            android:entries="@array/pref_sel_language_entries"
+            android:entryValues="@array/pref_sel_language_values"
+            android:key="pref_sel_data_lang"
+            android:title="@string/pref_data_language"
+            app:useSimpleSummaryProvider="true" />
+
         <ListPreference
             android:key="pref_sort_sect"
             android:defaultValue="name_asc"
@@ -35,16 +55,9 @@
             android:dialogTitle="@string/pref_sort_sp_order_dialog"
             android:entries="@array/pref_sort_sp_entries"
             android:entryValues="@array/pref_sort_sp_values"
-            android:icon="@drawable/baseline_sort_48"
+            android:icon="@drawable/sort_alphabetical_descending"
             android:title="@string/pref_sort_sp_order_title"
             app:useSimpleSummaryProvider="true" />
-
-        <SwitchPreferenceCompat
-            android:key="pref_left_hand"
-            android:defaultValue="false"
-            android:icon="@drawable/outline_back_hand_48"
-            android:summary="@string/pref_left_hand_summ"
-            android:title="@string/pref_left_hand" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/prefs_csv_output_title">
@@ -56,7 +69,7 @@
             android:dialogTitle="@string/pref_csv_output_dialog"
             android:entries="@array/pref_sort_output_entries"
             android:entryValues="@array/pref_sort_output_values"
-            android:icon="@drawable/baseline_sort_48"
+            android:icon="@drawable/sort_alphabetical_descending"
             android:title="@string/pref_csv_output_title"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>

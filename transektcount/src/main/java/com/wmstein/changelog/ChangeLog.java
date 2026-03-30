@@ -40,8 +40,8 @@ import java.util.Locale;
 
  Therefore, retrieves the version names and stores the new version name in SharedPreferences
 
- Adopted for TransektCount by wm.stein on 2016-02-12,
- last change by wmstein on 2026-02-21
+ Adopted for TransektCount by wmstein on 2016-02-12,
+ last change by wmstein on 2026-03-20
  */
 public class ChangeLog
 {
@@ -115,8 +115,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
         return this.getDialog(true);
     }
 
-    private AlertDialog getDialog(boolean full)
-    {
+    private AlertDialog getDialog(boolean full) {
         WebView wv = new WebView(this.context);
 
         wv.setBackgroundColor(Color.parseColor("#1a1a1a")); // DarkGray
@@ -173,12 +172,13 @@ public ChangeLog(Context context, SharedPreferences prefs)
         try
         {
             String language = Locale.getDefault().toString().substring(0, 2);
-            InputStream ins = switch (language) {
-                case "de" -> context.getResources().openRawResource(R.raw.changelog_de);
-                case "fr" -> context.getResources().openRawResource(R.raw.changelog_fr);
-                case "it" -> context.getResources().openRawResource(R.raw.changelog_it);
-                default -> context.getResources().openRawResource(R.raw.changelog);
-            };
+            InputStream ins;
+            if (language.equals("de")) {
+                ins = context.getResources().openRawResource(R.raw.changelog_de);
+            } else {
+                ins = context.getResources().openRawResource(R.raw.changelog);
+            }
+
             BufferedReader br = new BufferedReader(new InputStreamReader(ins));
             boolean advanceToEOVS = false; // if true: ignore further version sections
             String line;
@@ -275,7 +275,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
         } catch (IOException e)
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "277, could not read changelog text.", e);
+                Log.e(TAG, "278, could not read changelog text.", e);
         }
 
         return sb.toString();

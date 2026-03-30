@@ -30,10 +30,11 @@ import com.wmstein.transektcount.widgets.ResultsSumWidget
  * ShowResultsActivity.kt shows results list of counted species,
  * uses ResultsSpeciesWidget, ResultsHeadWidget, ResultsMetaWidget,
  * ResultsSumWidget
+ *
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-02-21
+ * last edited on 2026-02-28
  */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null

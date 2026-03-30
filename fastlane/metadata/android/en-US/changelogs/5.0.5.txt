@@ -1,3 +1,18 @@
-Version 5.0.5 (2026-02-24)
+Version 5.0.5 (2026-03-27)
+- Spanish language added
+- Spanish species list file examples added in GitHub Docs
+- Problem fixed for "Add species" when system language differs from language of common species names
+- Language handling for data (common species names) and system separated
+- Species list supplemented with a data language field for automatic data language recognition
+- New settings option for selecting the data language for common butterfly names if not automatically recognized for old species list version
+- Added species: Borbo borbonica, Zegris eupheme, Colotis evagore, Lysandra hispana, Coenonympha dorus and Satyrus actaea
 - Improved CSV export for numbers in left-aligned text fields
 - Check for forbidden characters when creating file names
+- Sounds produced by service
+- Some other data corrections
+- App messages improved
+- Help improved
+- Some layout improvements
+- Some code cleaning
+- Docs updated
+- Bugfixes

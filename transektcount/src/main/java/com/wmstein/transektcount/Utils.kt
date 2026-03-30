@@ -4,13 +4,15 @@ import androidx.core.text.HtmlCompat
 import android.text.Spanned
 
 /***************************************************
+ * Utils has a string function
+ *
  * fromHtml cares for Android versions compatibility
  *   in Toasts and text dialogs with HTML formatting
  *
  * Created by wmstein on 2017-09-25,
  * last modified in Java on 2018-06-13,
  * converted to Kotlin on 2024-09-30,
- * last edited on 2026-02-17.
+ * last edited on 2026-03-02.
  */
 internal object Utils {
     @JvmStatic

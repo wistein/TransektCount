@@ -53,9 +53,9 @@ import kotlin.math.sqrt
  * https://github.com/journaldev/journaldev/tree/master/Android/GPSLocationTracking
  * under MIT License.
  *
- * That code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
- * adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-02-17
+ * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
+ * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
+ * last edited on 2026-02-28
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
@@ -87,7 +87,7 @@ class LocationService : Service, LocationListener {
     private var isSelSectAct = false
 
     // Default constructor is demanded for service declaration in AndroidManifest.xml
-    constructor() {}
+    constructor()
 
     constructor(mContext: Context?) {
         this.mContext = mContext // Gets ApplicationContext from call in WelcomeActivity
@@ -370,6 +370,36 @@ class LocationService : Service, LocationListener {
             }
             rToneA!!.start()
         }
+    }
+
+    // Release alert sound, called by WelcomeActivity
+    fun releaseSoundA() {
+        if (alertSoundPref && rToneA != null) {
+            rToneA!!.reset()
+            rToneA!!.release()
+            rToneA = null
+        }
+    }
+
+    // Stop alert sound, called by WelcomeActivity when denied in settings
+    fun stopSoundA() {
+        if (rToneA != null) {
+            rToneA!!.reset()
+            rToneA!!.release()
+            rToneA = null
+        }
+    }
+
+    override fun onDestroy() {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "291, onDestroy")
+
+        if (alertSoundPref && rToneA != null) {
+            rToneA!!.reset()
+            rToneA!!.release()
+            rToneA = null
+        }
+        super.onDestroy()
     }
 
     companion object {

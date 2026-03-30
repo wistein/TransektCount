@@ -15,14 +15,14 @@ import java.util.Objects
 /******************************************************
  * AddSpeciesWidget.kt is used by AddSpeciesActivity.kt
  * It shows the list of selectable species with
- * name, code, picture and an add checkbox
+ * name, code, picture and an add checkbox.
  *
  * Created for TourCount by wmstein on 2019-04-03,
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-05-26,
  * renamed to AddSpeciesWidget.kt on 2024-06-14
  * imported to TransektCount on 2023-08-23
- * last edited on 2025-11-15
+ * last edited on 2026-02-28
  */
 class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {

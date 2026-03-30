@@ -22,12 +22,12 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.Locale
 
-/****************************************************************
+/********************************************
  * ShowTextDialog.kt
- * Custom class for displaying the Help and License Dialogs
+ * displays the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2026-02-17
+ * last edited on 2026-03-21
  */
 class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
@@ -41,7 +41,6 @@ class ShowTextDialog : AppCompatActivity() {
         setTheme(R.style.AppTheme_Dark)
 
         val dialog = intent.getStringExtra("dialog")
-
         val language = Locale.getDefault().toString().substring(0, 2)
 
         setContentView(R.layout.activity_dialog)
@@ -81,14 +80,6 @@ class ShowTextDialog : AppCompatActivity() {
                     tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_de, this))
                     tvText.text = fromHtml(readRawTextFile(R.raw.help_de, this))
                 }
-                "fr" -> {
-                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_fr, this))
-                    tvText.text = fromHtml(readRawTextFile(R.raw.help_fr, this))
-                }
-                "it" -> {
-                    tvHead.text = fromHtml(readRawTextFile(R.raw.help_head_it, this))
-                    tvText.text = fromHtml(readRawTextFile(R.raw.help_it, this))
-                }
                 else -> {
                     tvHead.text = fromHtml(readRawTextFile(R.raw.help_head, this))
                     tvText.text = fromHtml(readRawTextFile(R.raw.help, this))
@@ -111,6 +102,10 @@ class ShowTextDialog : AppCompatActivity() {
                 "it" -> {
                     tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_it, this))
                     tvText.text = fromHtml(readRawTextFile(R.raw.license_it, this))
+                }
+                "es" -> {
+                    tvHead.text = fromHtml(readRawTextFile(R.raw.license_head_es,this))
+                    tvText.text = fromHtml(readRawTextFile(R.raw.license_es,this))
                 }
                 else -> {
                     tvHead.text = fromHtml(readRawTextFile(R.raw.license_head, this))

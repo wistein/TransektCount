@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml French strings,
-     last edited 2026-02-07 -->
+     last edited 2026-03-26 -->
 
 <resources>
 
@@ -16,7 +16,7 @@
     <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !</string>
     <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
     <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
-    <string name="confirmListImport">Voulez-vous vraiment importer une liste d\'espèces ? Vos données actuelles seront écrasées !</string>
+    <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données actuelles seront écrasées !</string>
     <string name="confirmResetDB">Voulez-vous vraiment réinitialiser la BD ? Vos données de comptage actuelles seront supprimées !</string>
     <string name="corruptDb">Erreur BD ! Si le problème persiste après le redémarrage et l\'importation d\'un autre TourCount-BD, veuillez désinstaller l\'application et la réinstaller.</string>
     <string name="deleteTrackFail">Suppression inutile, aucune trace n\'est disponible dans la BD !</string>
@@ -43,7 +43,7 @@
     <string name="kal_w">N. de S. :</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Nom de l\'espèce</string>
-    <string name="name_spec_g">Nom français</string>
+    <string name="name_spec_g">Nom commun</string>
     <string name="noCard">Impossible d\'écrire dans le répertoire \'Documents/TransektCount\' !</string>
     <string name="no_GPSfile">Aucun fichier GPX n\'est disponible dans \'Documents/TransektCount\' !</string>
     <string name="note">Note transect:</string>
@@ -58,10 +58,11 @@
     <string name="saveDB">Exporter la BD vers \'Documents/TourCount\'</string>
     <string name="saveFail">Impossible d\'exporter la BD !</string>
     <string name="saveFailList">La liste des espèces n\'a pas pu être exportée !</string>
-    <string name="saveList">Exporter la liste des espèces.</string>
+    <string name="saveList">Exporter la liste des espèces: Ok.</string>
     <string name="saveCSV">Exporter le fichier CSV vers \'Documents/TourCount\'</string>
     <string name="showResultsButton">Afficher le résultat</string>
-    <string name="sum">Somme (interne):</string>
+    <string name="specsCommonLang">Attention, ancien format de liste ! Pour utiliser correctement les noms communs, il faut sélectionner la langue des données dans « Paramètres ».</string>
+    <string name="sumi">Somme (interne):</string>
     <string name="sumSpec">Arten:</string>
     <string name="sum_total">Somme (total) :</string>
     <string name="sume">Somme (externe):</string>
@@ -85,6 +86,7 @@
     <string name="fileSize">Taille</string>
     <string name="importHead">Importer de données</string>
     <string name="noFile">Aucun fichier disponible !</string>
+    <string name="br_Error">Il y a un problème avec le fichier sélectionné !</string>
 
     <!-- EditMetaActivity -->
     <string name="clouds">Nuages (%):</string>
@@ -149,6 +151,7 @@
     <string name="initCharsL">2 lettres, svp.</string>
     <string name="labelAddSpecButton">Ajouter des espèces</string>
     <string name="specsToAdd">Autres espèces:</string>
+    <string name="specsCommonLangMissing">La langue locale des données n\'est pas définie ! Les noms allemands seront utilisés.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
@@ -182,12 +185,15 @@
     <string name="pref_left_hand_summ">Afficher la vue de comptage pour gauchers.</string>
     <string name="pref_proximity_dialog">Sélectionnez la sensibilité pour éteindre l\'écran.</string>
     <string name="pref_proximity_title">Sonde de proximité</string>
+    <string name="pref_data_language">Data language</string>
+    <string name="pref_data_language_Summ">Sélectionnez la langue pour les noms communs des papillons.</string>
     <string name="pref_sort_sect_order_dialog">Ordre de la liste des sections</string>
     <string name="pref_sort_sect_order_title">Tri des sections</string>
     <string name="pref_sort_sp_order_dialog">Ordre de la liste des espèces</string>
     <string name="pref_sort_sp_order_title">Tri des espèces</string>
     <string name="prefs_GPS">GPS (nécessite une trace GPX)</string>
     <string name="prefs_appearance">Apparence</string>
+    <string name="prefs_data">Données</string>
     <string name="prefs_counting">Compter</string>
     <string name="prefs_csv_output_title">Résultat</string>
     <string name="prefs_sound_vib">Sons/vibrations</string>
@@ -195,7 +201,7 @@
     <!-- CountOptionsActivity -->
     <string name="countCode">Code</string>
     <string name="countName">Nouvelle espèce</string>
-    <string name="countNameG">Nouvelle espèce (nom français)</string>
+    <string name="countNameG">Nouvelle espèce (nom commun)</string>
     <string name="editCountValueee">Modifier de compteur externe [ %1$d ] de œuf</string>
     <string name="editCountValueei">Modifier de compteur interne [ %1$d ] de œuf</string>
     <string name="editCountValuef1e">Modifier de compteur externe [ %1$d ] de imago ♂|♀</string>
@@ -210,7 +216,7 @@
     <string name="editCountValuepi">Modifier de compteur interne [ %1$d ] de chrysalide</string>
     <string name="notesSpecies">Note sur l\'espèce (%1$s)</string>
     <string name="spec_Name">Nom</string>
-    <string name="spec_NameG">Nom français</string>
+    <string name="spec_NameG">Nom commun</string>
 
     <!-- ListViewSpecies -->
     <string name="txt_e">Œuf</string>
@@ -234,7 +240,7 @@
     <string name="countInternalSum">Sommes dans la zone de comptage :</string>
     <string name="countLarvaHint">Chenille</string>
     <string name="countNameHint">Nom de l\'espèce</string>
-    <string name="countNameHintG">Nom de l\'espèce (français)</string>
+    <string name="countNameHintG">Nom de l\'espèce (commun)</string>
     <string name="countOvoHint">Œuf</string>
     <string name="countPupaHint">Chrysalide</string>
     <string name="getHelp">Problème de BD ! Si tu as besoin d\'aide, envoie la BD problématique par e-mail.</string>

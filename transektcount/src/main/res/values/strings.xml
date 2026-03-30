@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-02-21 -->
+     last edited 2026-03-26 -->
 
 <resources>
 
@@ -30,7 +30,7 @@
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
     <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
-    <string name="confirmListImport">Are you sure you want to import a species list? Your current data will be overwritten! May last long for a long list.</string>
+    <string name="confirmListImport">Are you sure you want to import the species list? Your current data will be overwritten! May last long for a long list.</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current counting data will be deleted!</string>
     <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
     <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
@@ -57,7 +57,7 @@
     <string name="kal_w">CW:</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
-    <string name="name_spec_g">Local Name</string>
+    <string name="name_spec_g">Common Name</string>
     <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
     <string name="no_GPSfile">There is no GPX file in Documents/TransektCount!</string>
     <string name="note">Transect Note:</string>
@@ -75,7 +75,8 @@
     <string name="saveList">Species list exported.</string>
     <string name="saveCSV">Exporting csv-file to Documents/TransektCount.</string>
     <string name="showResultsButton">Show Results</string>
-    <string name="sum">Totals (internal):</string>
+    <string name="specsCommonLang">Note: This is the old list format! To ensure common names are displayed correctly, you must select the data language under “Settings.”.</string>
+    <string name="sumi">Totals (internal):</string>
     <string name="sumSpec">Diff. Species:</string>
     <string name="sum_total">Totals (all):</string>
     <string name="sume">Totals (external):</string>
@@ -99,6 +100,7 @@
     <string name="fileSize">Size</string>
     <string name="importHead">Data Import</string>
     <string name="noFile">No file available!</string>
+    <string name="br_Error">There is a problem with the selected file!</string>
 
     <!-- EditMetaActivity -->
     <string name="clouds">Clouds (%):</string>
@@ -163,6 +165,7 @@
     <string name="initCharsL">Please 2 chars.</string>
     <string name="labelAddSpecButton">Add Species</string>
     <string name="specsToAdd">Further species:</string>
+    <string name="specsCommonLangMissing">Local data language is not defined! German names will be used.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App Info (TransektCount Ver.</string>
@@ -196,12 +199,15 @@
     <string name="pref_left_hand_summ">Show left-hander counter view</string>
     <string name="pref_proximity_dialog">Set the sensitivity for switching off the screen.</string>
     <string name="pref_proximity_title">Proximity Sensor</string>
+    <string name="pref_data_language">Data language</string>
+    <string name="pref_data_language_Summ">Set language for the common names of the butterflies.</string>
     <string name="pref_sort_sect_order_dialog">Sort order of your sections list</string>
     <string name="pref_sort_sect_order_title">Sorting Sections</string>
     <string name="pref_sort_sp_order_dialog">Sort order of your species list</string>
     <string name="pref_sort_sp_order_title">Sorting the Species List</string>
     <string name="prefs_GPS">GPS (needs GPX track)</string>
     <string name="prefs_appearance">Appearance</string>
+    <string name="prefs_data">Data</string>
     <string name="prefs_counting">Counting</string>
     <string name="prefs_csv_output_title">Output</string>
     <string name="prefs_sound_vib">Sound/Vibration</string>
@@ -209,7 +215,7 @@
     <!-- CountOptionsActivity -->
     <string name="countCode">Code</string>
     <string name="countName">New Species</string>
-    <string name="countNameG">New Species (Local name)</string>
+    <string name="countNameG">New Species (common name)</string>
     <string name="editCountValueee">Change ext. count value [ %1$d ] of egg</string>
     <string name="editCountValueei">Change int. count value [ %1$d ] of egg</string>
     <string name="editCountValuef1e">Change ext. count value [ %1$d ] of butterfly ♂|♀</string>
@@ -224,7 +230,7 @@
     <string name="editCountValuepi">Change int. count value [ %1$d ] of pupa</string>
     <string name="notesSpecies">Species Notes (%1$s)</string>
     <string name="spec_Name">Name</string>
-    <string name="spec_NameG">Local Name</string>
+    <string name="spec_NameG">Common Name</string>
 
     <!-- ListViewSpecies -->
     <string name="txt_e">Egg</string>
@@ -248,7 +254,7 @@
     <string name="countInternalSum">Totals for Internal Species:</string>
     <string name="countLarvaHint">Larva</string>
     <string name="countNameHint">Name of Species</string>
-    <string name="countNameHintG">Name of Species (English)</string>
+    <string name="countNameHintG">Name of Species (common)</string>
     <string name="countOvoHint">Egg</string>
     <string name="countPupaHint">Pupa</string>
     <string name="getHelp">Database problem! Please mail your problematic DB if you need assistance.</string>

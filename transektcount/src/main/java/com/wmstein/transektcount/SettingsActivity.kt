@@ -18,11 +18,12 @@ import androidx.core.view.updateLayoutParams
 
 /**********************************************************
  * Set the Settings parameters for TransektCount
+ *
  * Based on SettingsActivity created by milo on 05/05/2014.
- * Adapted for TransektCount by wmstein on 18.02.2016
+ * Adapted for TransektCount by wmstein on 18.02.2016.
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-01-24
+ * last edited on 2026-01-28
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()

@@ -6,11 +6,13 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
-/***********************************
- * Created by wmstein on 31.03.2016.
- * Last edited in Java on 2022-04-26,
+/******************************************************
+ * Class HeadDataSource provides methods for table Head
+ *
+ * Created by wmstein on 31.03.2016,
+ * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-12-28
+ * last edited on 2026-03-17
  */
 class HeadDataSource(context: Context) {
     // Database fields
@@ -20,6 +22,7 @@ class HeadDataSource(context: Context) {
         DbHelper.H_ID,
         DbHelper.H_TRANSECT_NO,
         DbHelper.H_INSPECTOR_NAME
+//        DbHelper.H_DATA_LANGUAGE
     )
 
     fun open() {
@@ -64,4 +67,5 @@ class HeadDataSource(context: Context) {
             cursor.close()
             return head
         }
+
 }

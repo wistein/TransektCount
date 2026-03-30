@@ -99,7 +99,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-02-24
+ * last edited on 2026-03-27
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -121,8 +121,8 @@ public class WelcomeActivity
     private View baseLayout;
     private AlertDialog alert;
 
-    // Plausi check for inserting transNo into filename
-    private final String regexFilename = "[^a-zA-Z_0-9-]";
+    // Inserting tourName into filename with plausi check
+    private final String regexFilename = "[^a-zA-Z_0-9äöüÄÖÜ-]";
     private String transNo = "";
     private String transNoDir = "";
 
@@ -135,6 +135,9 @@ public class WelcomeActivity
     private String outPref;
     private boolean autoSection = false; // true for enabled GPS track selection
     private boolean transectHasTrack = false; // transect sections have tracks
+    private boolean buttonSoundPref;
+    private boolean alertSoundPref;
+    private String dataLanguage = "";
 
     // Permissions
     private boolean storagePermGranted = false; // initial storage permission state
@@ -155,6 +158,11 @@ public class WelcomeActivity
     private List<Track> trackPts; // list of all transect track points
     private LocationService locationService;
     private String sectionNameGPS; // track section name from track table
+
+    // Sound handling
+    SoundService soundService;
+    Intent sndIntent;
+    private boolean sndServiceOn = false;
     private TextView welcomeTitle;
 
     @SuppressLint({"SourceLockedOrientationActivity", "ApplySharedPref"})
@@ -163,7 +171,7 @@ public class WelcomeActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "166, onCreate");
+            Log.i(TAG, "174, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -171,6 +179,25 @@ public class WelcomeActivity
 
         // Get preferences
         prefs = TransektCountApplication.getPrefs();
+        editor = prefs.edit();
+
+        buttonSoundPref = prefs.getBoolean("pref_button_sound", false); // Prepare SoundService
+        alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
+        transectHasTrack = prefs.getBoolean("transect_has_track", false);
+        autoSection = prefs.getBoolean("pref_auto_section", false);
+
+        // Initialize (button) sound service
+        if (buttonSoundPref) {
+            soundService = new SoundService(getApplicationContext());
+            sndIntent = new Intent(getApplicationContext(), SoundService.class);
+            startService(sndIntent);
+            sndServiceOn = true;
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.i(TAG, "196, onCreate: sndServiceOn: true");
+
+            editor.putBoolean("snd_srv_on", true);
+            editor.commit();
+        }
 
         // Proximity sensor handling in preferences menu
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -184,7 +211,6 @@ public class WelcomeActivity
         boolean prefVib = vibrator.hasVibrator();
 
         // Set pref_prox enabler, used in SettingsFragment
-        editor = prefs.edit();
         editor.putBoolean("enable_prox", prefProx);
         editor.putBoolean("enable_vib", prefVib);
         editor.apply();
@@ -222,9 +248,6 @@ public class WelcomeActivity
         if (cl.firstRun())
             cl.getLogDialog().show();
 
-        transectHasTrack = prefs.getBoolean("transect_has_track", false);
-        autoSection = prefs.getBoolean("pref_auto_section", false);
-
         if (!transectHasTrack && autoSection) {
             autoSection = false;
             editor.putBoolean("pref_auto_section", false);
@@ -232,7 +255,7 @@ public class WelcomeActivity
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "235, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "258, onCreate, autoSection: " + autoSection
                     + ", Transect has track: " + transectHasTrack);
 
         // Check and ask storage permission
@@ -240,7 +263,7 @@ public class WelcomeActivity
         if (!storagePermGranted) // in self permission
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "243, onCreate, StoragePermDialog");
+                Log.d(TAG, "266, onCreate, StoragePermDialog");
 
             PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsStorageDialogFragment.class.getName());
@@ -248,11 +271,15 @@ public class WelcomeActivity
 
         storagePermGranted = isStoragePermGranted();
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "251, onCreate, storageGranted: " + storagePermGranted);
+            Log.d(TAG, "274, onCreate, storageGranted: " + storagePermGranted);
 
-        // Check DB version and upgrade if necessary
+        // Check current DB version and upgrade if necessary
         dbHelper = new DbHelper(this);
-        database = dbHelper.getWritableDatabase();
+        database = dbHelper.getWritableDatabase(); // Make DB upgrade if necessary
+        int dbVer = database.getVersion(); // DB version after upgrade
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "281, onCreate, dbVersion: " + dbVer);
+
         dbHelper.close();
 
         // Set up the data sources
@@ -262,25 +289,47 @@ public class WelcomeActivity
         countDataSource = new CountDataSource(this);
         trackDataSource = new TrackDataSource(this);
 
+        // Write initial Basic database
+        storagePermGranted = isStoragePermGranted();
+        if (storagePermGranted) {
+            // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
+            File path;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
+            {
+                path = Environment.getExternalStorageDirectory();
+                path = new File(path + "/Documents/TransektCount");
+            } else {
+                path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                path = new File(path + "/TransektCount");
+            }
+
+            // Create preliminary transektcount0.db if it does not exist
+            inFile = new File(path, "/transektcount0.db"); // Initial basic DB
+
+            if (!inFile.exists())
+                exportBasisDb(0); // create directory and create initial transektcount0.db file, 0: short name, no message
+        }
+
         // Get transect No. and check for DB integrity
         try {
             headDataSource.open();
             head = headDataSource.getHead();
-            transNo = head.transect_no; // just read to test for DB integrity
+            transNo = head.transect_no; // get transNo and test for DB integrity
             headDataSource.close();
         } catch (SQLiteException e) {
             headDataSource.close();
+
             mesg = getString(R.string.corruptDb);
             Toast.makeText(this,
                     fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
+
             mHandler.postDelayed(this::finishAndRemoveTask, 2000);
         }
 
         transNoDir = transNo;
-        if (Objects.equals(transNoDir, ""))
-            return;
-        else {
+        if (!Objects.equals(transNoDir, "")) {
+            assert transNoDir != null;
             transNoDir = transNoDir.replaceAll(regexFilename, "");
         }
 
@@ -304,7 +353,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.d(TAG, "207, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "356, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks correspond to sections
@@ -313,6 +362,7 @@ public class WelcomeActivity
 
             editor.putBoolean("pref_auto_section", false);
             editor.commit();
+
             mesg = getString(R.string.track_err);
             Toast.makeText(getApplicationContext(),
                     fromHtml("<font color='red'>" + mesg + "</font>"),
@@ -328,6 +378,7 @@ public class WelcomeActivity
                 editor.putBoolean("pref_auto_section", false);
                 editor.putBoolean("transect_has_track", false);
                 editor.commit();
+
                 mesg = getString(R.string.track_err);
                 Toast.makeText(getApplicationContext(),
                         fromHtml("<font color='red'>" + mesg + "</font>"),
@@ -348,7 +399,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "351, onCreate, ForegrndLocDialog");
+                    Log.d(TAG, "402, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -363,27 +414,6 @@ public class WelcomeActivity
             }
         }
 
-        storagePermGranted = isStoragePermGranted();
-        if (storagePermGranted) {
-            // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
-            File path;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-            {
-                path = Environment.getExternalStorageDirectory();
-                path = new File(path + "/Documents/TransektCount");
-            } else {
-                path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-                path = new File(path + "/TransektCount");
-            }
-
-            // Create preliminary transektcount0.db if it does not exist
-            inFile = new File(path, "/transektcount0.db"); // Initial basic DB
-            File inFile1 = new File(path, "/transektcount0_" + transNo + ".db"); // Standard basic DB
-
-            if (!inFile.exists() && !inFile1.exists())
-                exportBasisDb(0); // create directory and copy internal DB-data to initial Basic DB-file
-        }
-
         if (autoSection && isStoragePermGranted()) {
             fineLocationPermGranted = isFineLocationPermGranted();
             if (transectHasTrack && fineLocationPermGranted) {
@@ -396,9 +426,9 @@ public class WelcomeActivity
                 if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "399, onCreate, BackgrndLocDialog");
+                        Log.d(TAG, "429, onCreate, BackgrndLocDialog");
 
-                    // Ask optional background location permission with info in Snackbar
+                    // Ask optional background location permission
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                             PermissionsBackgroundDialogFragment.class.getName());
 
@@ -436,7 +466,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "439, NavBarMode = " + navBarMode);
+            Log.d(TAG, "469, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -454,10 +484,24 @@ public class WelcomeActivity
                     m1Handler.removeCallbacks(r1);
                     if (fineLocationPermGranted && autoSection)
                         locationDispatcher(2); // stop locHandler and location service
+
+                    // Stop sound server
+                    if (sndServiceOn && locServiceOn) {
+                        locationService.releaseSoundA();
+                        soundService.releaseSoundM();
+                        soundService.releaseSoundP();
+
+                        stopService(sndIntent);
+                        sndServiceOn = false;
+                        editor = prefs.edit();
+                        editor.putBoolean("snd_srv_on", false);
+                        editor.commit();
+                    }
                     finish();
                     remove();
                 } else {
                     doubleBackToExitPressedTwice = true;
+
                     mesg = getString(R.string.back_twice);
                     Toast.makeText(getApplicationContext(),
                             fromHtml("<font color='blue'>" + mesg + "</font>"),
@@ -474,14 +518,18 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "477, onResume");
+            Log.i(TAG, "521, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
+        editor = prefs.edit();
+
         outPref = prefs.getString("pref_csv_out", "sections"); // sort mode csv-export
         autoSection = prefs.getBoolean("pref_auto_section", false);
         locServiceOn = prefs.getBoolean("loc_srv_on", false);
+        sndServiceOn = prefs.getBoolean("snd_srv_on", false);
         transectHasTrack = prefs.getBoolean("transect_has_track", false);
+        dataLanguage = prefs.getString("pref_sel_data_lang", "");
 
         headDataSource.open();
         sectionDataSource.open();
@@ -503,14 +551,13 @@ public class WelcomeActivity
         secCount = sectionDataSource.getNumEntries();
         sectionNameGPS = sectionDataSource.getSection(1).name;
 
-        editor = prefs.edit();
-
         // Check if tracks correspond to sections
         if (trCount > 0 && trCount != secCount) {
             autoSection = false;
 
             editor.putBoolean("pref_auto_section", false);
             editor.commit();
+
             mesg = getString(R.string.track_err);
             Toast.makeText(getApplicationContext(),
                     fromHtml("<font color='red'>" + mesg + "</font>"),
@@ -534,6 +581,7 @@ public class WelcomeActivity
             // nothing
         }
 
+        // Prepare modified transNo to be part of a filename
         transNoDir = transNo;
         if (Objects.equals(transNoDir, ""))
             return;
@@ -581,7 +629,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "584, locationDispatcher 1");
+                        Log.d(TAG, "632, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         Intent sIntent = new Intent(getApplicationContext(), LocationService.class);
@@ -599,7 +647,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "602, location stop 2 by backpress");
+                        Log.d(TAG, "650, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -608,7 +656,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "611 location stop 3 by onStop");
+                        Log.d(TAG, "659 location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -623,6 +671,7 @@ public class WelcomeActivity
         if (locationService.canGetLocation() && distMin != 0.0) {
             // Show message: GPS: Distance to track: distance m
             String dst = new DecimalFormat("#.#").format(distMin);
+
             mesg = getString(R.string.distanceToTrack) + " " + dst + " m";
             Toast.makeText(this, // bright green
                     fromHtml("<font color='#008000'>" + mesg + "</font>"),
@@ -697,12 +746,12 @@ public class WelcomeActivity
             return true;
         } else if (id == R.id.exportBasisMenu) {
             if (storagePermGranted) {
-                exportBasisDb(1);
+                exportBasisDb(2); // 2: long name + message
             } else {
                 PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsStorageDialogFragment.class.getName());
                 if (storagePermGranted) {
-                    exportBasisDb(1);
+                    exportBasisDb(2); // 2: long name + message
                 } else {
                     mesg = getString(R.string.storage_not_possible);
                     Toast.makeText(this,
@@ -789,6 +838,7 @@ public class WelcomeActivity
             Toast.makeText(this,
                     fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
+
             // To show toast, pause for 100 msec before calling ShowResultsActivity
             mHandler.postDelayed(() ->
                     startActivity(new Intent(getApplicationContext(), ShowResultsActivity
@@ -805,12 +855,30 @@ public class WelcomeActivity
         baseLayout.setBackground(transektCount.setBackgr());
         outPref = prefs.getString("pref_csv_out", "species");
         autoSection = prefs.getBoolean("pref_auto_section", false);
-
+        sndServiceOn = prefs.getBoolean("snd_srv_on", false);
+        buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
+        alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
         // Stop location service when denied in settings
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "812, location stop by setting");
+                Log.d(TAG, "864, location stop by setting");
             stopLocSrv();
+        }
+
+        // Stop sound service when denied in settings
+        if (!buttonSoundPref && sndServiceOn) {
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.d(TAG, "871, button sound stop by setting");
+            stopService(sndIntent);
+            sndServiceOn = false;
+            editor = prefs.edit();
+            editor.putBoolean("snd_srv_on", false);
+            editor.commit();
+        }
+
+        // Stop alert sound when denied in settings
+        if (!alertSoundPref && locServiceOn) {
+            locationService.stopSoundA();
         }
     }
 
@@ -819,7 +887,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "822, onPause");
+            Log.i(TAG, "890, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -835,16 +903,24 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "838, onStop");
+            Log.i(TAG, "906, onStop");
 
         baseLayout.invalidate();
+
+        if (sndServiceOn) {
+            soundService.releaseSoundM();
+            soundService.releaseSoundP();
+        }
+
+        if (locServiceOn)
+            locationService.releaseSoundA();
 
         // Stop location service when app is finished
         if (!TCLifecycleHandler.isApplicationVisible()) {
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "847, onStop, app not visible. locationDispatcher 3");
+                Log.d(TAG, "923, onStop, app not visible. locationDispatcher 3");
         }
     }
 
@@ -853,7 +929,15 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "856 onDestroy");
+            Log.i(TAG, "932 onDestroy");
+
+        if (sndServiceOn) {
+            stopService(sndIntent);
+            sndServiceOn = false;
+            editor = prefs.edit();
+            editor.putBoolean("snd_srv_on", false);
+            editor.commit();
+        }
     }
 
     // Start SelectSectionActivity (by button)
@@ -869,8 +953,6 @@ public class WelcomeActivity
                     startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)), 100);
         } else {
             // Just call SelectSectionActivity to select section for counting
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "873, selectSection without GPS");
             mHandler.postDelayed(() ->
                     startActivity(new Intent(this, SelectSectionActivity.class)
                             .addFlags(FLAG_ACTIVITY_CLEAR_TOP)), 100);
@@ -889,6 +971,7 @@ public class WelcomeActivity
         Toast.makeText(this,
                 fromHtml("<font color='blue'>" + mesg + "</font>"),
                 Toast.LENGTH_SHORT).show();
+
         // Trick: Pause for 100 msec to show toast
         mHandler.postDelayed(() ->
                 startActivity(new Intent(getApplicationContext(), ShowResultsActivity.class)
@@ -910,7 +993,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "913, importBasicDBFile");
+            Log.d(TAG, "996, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -955,9 +1038,6 @@ public class WelcomeActivity
                         Intent data = result.getData();
                         if (data != null) {
                             selectedFile = data.getStringExtra("fileSelected");
-                            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "959, Selected file: " + selectedFile);
-
                             if (selectedFile != null)
                                 inFile = new File(selectedFile);
                             else
@@ -1114,17 +1194,40 @@ public class WelcomeActivity
                                 Toast.LENGTH_LONG).show();
                     }
                     if (inFile != null) {
+                        String csvLine;
+                        boolean brError = false;
+
+                        // Check for old version of species list
+                        try {
+                            BufferedReader br = new BufferedReader(new FileReader(inFile));
+                            csvLine = br.readLine(); // Read 1. line only
+                            String[] specLine = csvLine.split(",");
+                            if (Objects.equals(specLine[0], "nocode"))
+                                mesg = getString(R.string.confirmListImport);
+                            else
+                                mesg = getString(R.string.specsCommonLang) + "\n\n" + getString(R.string.confirmListImport);
+                            br.close();
+                        } catch (Exception e) {
+                            mesg = getString(R.string.br_Error);
+                            brError = true;
+                        }
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
                         builder.setIcon(android.R.drawable.ic_dialog_alert);
-                        builder.setMessage(R.string.confirmListImport);
-                        builder.setCancelable(false);
-                        builder.setPositiveButton(R.string.importButton, (dialog, id) ->
-                        {
-                            // Load .csv species list
-                            clearDBforImport();
-                            readSpeciesCSV(inFile);
-                        });
-                        builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
+                        builder.setMessage(mesg);
+                        if (brError) {
+                            builder.setCancelable(true);
+                            builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
+                        } else {
+                            builder.setCancelable(false);
+                            builder.setPositiveButton(R.string.importButton, (dialog, id) ->
+                            {
+                                // Load .csv species list
+                                clearDBforImport();
+                                readSpeciesCSV(inFile);
+                            });
+                            builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
+                        }
                         alert = builder.create();
                         alert.show();
                     }
@@ -1160,11 +1263,27 @@ public class WelcomeActivity
             Toast.makeText(this,
                     fromHtml("<font color='blue'>" + mesg + "</font>"),
                     Toast.LENGTH_SHORT).show();
+
+            String csvLine;
             List<String> codeArray = new ArrayList<>();
             List<String> nameArray = new ArrayList<>();
             List<String> nameGArray = new ArrayList<>();
+
             BufferedReader br = new BufferedReader(new FileReader(inFile));
-            String csvLine;
+            boolean newList505 = true;
+
+            csvLine = br.readLine(); // Read 1. line only
+            String[] specLine = csvLine.split(",");
+            if (Objects.equals(specLine[0], "nocode")) {
+                dataLanguage = specLine[2];
+                editor = prefs.edit();
+                editor.putString("pref_sel_data_lang", dataLanguage);
+                editor.apply();
+            } else
+                newList505 = false;
+
+            br.close();
+
             int iList;       // index of imported list
             int iCounts = 1; // index of id in table counts
             int iSec;        // index of section
@@ -1172,23 +1291,32 @@ public class WelcomeActivity
 
             // For all sections
             for (iSec = 1; iSec <= maxSec; iSec++) {
+                br = new BufferedReader(new FileReader(inFile));
                 iList = 0;
+                // For all species list lines
                 while ((csvLine = br.readLine()) != null) // for each csvLine
                 {
                     // comma-separated 0:id (not used), 1:code, 2:name, 3:nameL
-                    String[] specLine = csvLine.split(",");
-                    codeArray.add(iList, specLine[0]);
-                    nameArray.add(iList, specLine[1]);
-                    nameGArray.add(iList, specLine[2]);
-                    countDataSource.writeCountItem(String.valueOf(iCounts), String.valueOf(iSec),
-                            codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
+                    specLine = csvLine.split(",");
+
+                    // 1. line fields contain String[0]: "nocode", [1]: "language", [2]: "de"|"en"|"fr"|"it"|"es"
+                    if (Objects.equals(specLine[0], "nocode")) {
+                        if (newList505) {
+                            iCounts--;
+                            iList--;
+                        }
+                    } else {
+                        codeArray.add(iList, specLine[0]);
+                        nameArray.add(iList, specLine[1]);
+                        nameGArray.add(iList, specLine[2]);
+                        countDataSource.writeCountItem(String.valueOf(iCounts), String.valueOf(iSec),
+                                codeArray.get(iList), nameArray.get(iList), nameGArray.get(iList));
+                    }
                     iList++;
                     iCounts++;
                 }
                 br.close();
-                br = new BufferedReader(new FileReader(inFile));
             }
-            br.close();
             mesg = getString(R.string.importList);
             Toast.makeText(this, // bright green
                     fromHtml("<font color='#008000'>" + mesg + "</font>"),
@@ -1236,9 +1364,6 @@ public class WelcomeActivity
                             selectedFile = "";
                         }
 
-                        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1240 importGPS, Selected file: " + selectedFile);
-
                         if (!selectedFile.isEmpty())
                             inFile = new File(selectedFile);
                         else
@@ -1275,8 +1400,8 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG, "1278, " +
-                                                "decodeGPX, Problem converting Stream to String: " + e);
+                                        Log.e(TAG,
+                                                "1404, decodeGPX, Problem converting Stream to String: " + e);
                                 }
 
                                 String gpxString = gpxsb.toString();
@@ -1299,12 +1424,12 @@ public class WelcomeActivity
 
                                 // Parse gpxString to write fields into TRACK_TABLE
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1302, decodeGPX, Datasources open");
+                                    Log.d(TAG, "1427, decodeGPX, Datasources open");
 
                                 // get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1307, decodeGPX, numSect: "
+                                    Log.d(TAG, "1432 decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1369,7 +1494,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1372, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.d(TAG, "1497, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section
@@ -1386,7 +1511,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1389, decodeGPX, do trackpt");
+                            Log.d(TAG, "1514, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1396,7 +1521,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1399 decodeGPX, sectionNameGPS: "
+                            Log.d(TAG, "1524 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1411,13 +1536,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1414, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1539, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1420, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1545, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1427,14 +1552,14 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "1430, decodeGPX, gpxString finished: " + gpxString);
+                Log.d(TAG, "1555, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
         editor = prefs.edit();
         editor.putBoolean("transect_has_track", transectHasTrack);
         editor.apply();
-        exportBasisDb(0); // Write modified DB as Basic DB
+        exportBasisDb(1); // Write modified DB as Basic DB without message
     }
     // End of importGPS()
 
@@ -1453,7 +1578,7 @@ public class WelcomeActivity
 
             if (r_ok) {
                 // switch autoSection off
-                exportBasisDb(0); // Write modified DB as Basic DB
+                exportBasisDb(1); // Write modified DB as Basic DB without message
 
                 if (locServiceOn)
                     stopLocSrv();
@@ -1525,10 +1650,16 @@ public class WelcomeActivity
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // just verify path, result ignored
-        if (Objects.equals(transNoDir, ""))
+        if (i == 0)
             outFile = new File(path, "/transektcount0.db");
-        else
-            outFile = new File(path, "/transektcount0_" + transNoDir + ".db");
+        else if (i >= 0) {
+            dataLanguage = prefs.getString("pref_sel_data_lang", "");
+
+            if (Objects.equals(transNoDir, ""))
+                outFile = new File(path, "/transektcount0_" + dataLanguage + ".db");
+            else
+                outFile = new File(path, "/transektcount0_" + dataLanguage + "_" + transNoDir + ".db");
+        }
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);
@@ -1555,7 +1686,9 @@ public class WelcomeActivity
 
                 // Delete backup db
                 boolean d0 = tmpfile.delete();
-                if (d0 && i == 1) {
+
+                // Show message success
+                if (d0 && i == 2) { // show message
                     mesg = getString(R.string.saveBasisDB);
                     Toast.makeText(this,
                             fromHtml("<font color='blue'>" + mesg + "</font>"),
@@ -1573,8 +1706,7 @@ public class WelcomeActivity
 
     @SuppressLint({"SdCardPath", "LongLogTag"})
     private void exportDb() {
-        // New data directory:
-        //   outFile -> Public Directory Documents/TransektCount/
+        // Public data directory for outFile: Documents/TransektCount/
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -1591,24 +1723,25 @@ public class WelcomeActivity
         date = meta.date;
         start_tm = meta.start_tm;
 
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1595, date: " + date);
-
-        String language = Locale.getDefault().toString().substring(0, 2);
+        dataLanguage = prefs.getString("pref_sel_data_lang", "");
         String dbDate, dbTime;
 
-        if (date != null && !date.isEmpty()) {
-            if (language.equals("de") || language.equals("fr") || language.equals("it")) {
+        if (date != null && !Objects.equals(date, "")) {
+            String dbDateEU, dbDateEN;
+            dbDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+            dbDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+            if (dataLanguage.equals("de") || dataLanguage.equals("fr")
+                    || dataLanguage.equals("it") || dataLanguage.equals("es")) {
                 try {
-                    dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                    dbDate = dbDateEU;
                 } catch (Exception e) {
-                    dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                    dbDate = dbDateEN;
                 }
             } else {
                 try {
-                    dbDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                    dbDate = dbDateEN;
                 } catch (Exception e) {
-                    dbDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                    dbDate = dbDateEU;
                 }
             }
         } else
@@ -1627,13 +1760,13 @@ public class WelcomeActivity
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmm.db
         if (Objects.equals(transNoDir, "") && Objects.equals(dbDate, ""))
-            outFile = new File(path, "/transektcount_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + dataLanguage + "_" + getcurDate() + ".db");
         else if (Objects.equals(transNoDir, ""))
-            outFile = new File(path, "/transektcount_" + dbDate + ".db");
+            outFile = new File(path, "/transektcount_" + dataLanguage + "_" + dbDate + ".db");
         else if (Objects.equals(dbDate, ""))
-            outFile = new File(path, "/transektcount_" + transNoDir + "_" + getcurDate() + ".db");
+            outFile = new File(path, "/transektcount_" + dataLanguage + "_" + transNoDir + "_" + getcurDate() + ".db");
         else
-            outFile = new File(path, "/transektcount_" + transNoDir + "_" + dbDate + ".db");
+            outFile = new File(path, "/transektcount_" + dataLanguage + "_" + transNoDir + "_" + dbDate + ".db");
 
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
@@ -1653,6 +1786,7 @@ public class WelcomeActivity
             // Export the db
             try {
                 copy(inFile, outFile);
+
                 mesg = getString(R.string.saveDB);
                 Toast.makeText(this,
                         fromHtml("<font color='blue'>" + mesg + "</font>"),
@@ -1676,15 +1810,8 @@ public class WelcomeActivity
      //   - "" for text recognition.
      */
     private void exportDb2CSV() {
-        /* outFile -> /storage/emulated/0/Documents/TransektCount/Transekt_Tr-No_yyyyMMdd_HHmmss.csv
-        //
-        // 1. Alternative for Android >= 10 (Q):
-        //    path = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
-        //
-        // 2. Alternative for Android < 10 (deprecated in Q):
-        //    path = new File(Environment.getExternalStoragePublicDirectory
-        //    (Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
-        */
+        // outFile -> /storage/emulated/0/Documents/TransektCount/Transekt_Tr-No_yyyyMMdd_HHmmss.csv
+        // and distinguish versions (as getExternalStoragePublicDirectory is deprecated in Q, Android 10)
         File path;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
@@ -1718,21 +1845,26 @@ public class WelcomeActivity
         end_tm = meta.end_tm;
         inspection_note = meta.note;
 
-        String language = Locale.getDefault().toString().substring(0, 2);
+        dataLanguage = prefs.getString("pref_sel_data_lang", "");
+
         String csvDate, csvTime;
 
         if (date != null && !date.isEmpty()) {
-            if (language.equals("de") || language.equals("fr") || language.equals("it")) {
+            String csvDateEU, csvDateEN;
+            csvDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+            csvDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+            if (dataLanguage.equals("de") || dataLanguage.equals("fr")
+                    || dataLanguage.equals("it") || dataLanguage.equals("es")) {
                 try {
-                    csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                    csvDate = csvDateEU;
                 } catch (Exception e) {
-                    csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                    csvDate = csvDateEN;
                 }
             } else {
                 try {
-                    csvDate = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+                    csvDate = csvDateEN;
                 } catch (Exception e) {
-                    csvDate = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+                    csvDate = csvDateEU;
                 }
             }
         } else
@@ -1749,20 +1881,24 @@ public class WelcomeActivity
         path.mkdirs(); // Just verify path, result ignored
 
         String tranSect;
+        String language = Locale.getDefault().toString().substring(0, 2);
 
-        if (language.equals("de") || language.equals("it")) {
+        if (language.equals("de")) {
             tranSect = "/Transekt_";
+        } else if (language.equals("it")) {
+            tranSect = "/Transetto_";
         } else {
             tranSect = "/Transect_";
         }
+
         if (Objects.equals(transNoDir, "") && Objects.equals(csvDate, ""))
-            outFile = new File(path, tranSect + getcurDate() + ".csv");
+            outFile = new File(path, tranSect + dataLanguage + "_" + getcurDate() + ".csv");
         else if (Objects.equals(transNoDir, ""))
-            outFile = new File(path, tranSect + csvDate + ".csv");
+            outFile = new File(path, tranSect + dataLanguage + "_" + csvDate + ".csv");
         else if (Objects.equals(csvDate, ""))
-            outFile = new File(path, tranSect + transNoDir + "_" + getcurDate() + ".csv");
+            outFile = new File(path, tranSect + dataLanguage + "_" + transNoDir + "_" + getcurDate() + ".csv");
         else
-            outFile = new File(path, tranSect + transNoDir + "_" + csvDate + ".csv");
+            outFile = new File(path, tranSect + dataLanguage + "_" + transNoDir + "_" + csvDate + ".csv");
 
         Section section;
         int sect_id;
@@ -1821,7 +1957,8 @@ public class WelcomeActivity
                 Calendar cal = Calendar.getInstance();
 
                 if (date != null && !date.isEmpty()) {
-                    if (language.equals("de") || language.equals("fr") || language.equals("it")) {
+                    if (language.equals("de") || language.equals("fr")
+                            || language.equals("it") || language.equals("es")) {
                         try {
                             yyyy = Integer.parseInt(date.substring(6, 10));
                             mm = Integer.parseInt(date.substring(3, 5));
@@ -2230,7 +2367,7 @@ public class WelcomeActivity
                                 "", "",
                                 getString(R.string.sumSpec),
                                 Integer.toString(sumSpec),
-                                getString(R.string.sum),
+                                getString(R.string.sumi),
                                 strsummf,
                                 strsumm,
                                 strsumf,
@@ -2312,6 +2449,7 @@ public class WelcomeActivity
                 csvWrite.writeNext(arrTotal);
 
                 csvWrite.close();
+
                 mesg = getString(R.string.saveCSV);
                 Toast.makeText(this,
                         fromHtml("<font color='blue'>" + mesg + "</font>"),
@@ -2321,8 +2459,9 @@ public class WelcomeActivity
                 Toast.makeText(this,
                         fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                         Toast.LENGTH_LONG).show();
+
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2325, csv write external failed");
+                    Log.e(TAG, "2464, csv write external failed");
             }
             dbHelper.close();
         }
@@ -2331,12 +2470,13 @@ public class WelcomeActivity
 
     /**********************************************************************************************/
     // Export current species list to both data directories
-    //  /Documents/TourCount/species_YYYYMMDD_hhmmss.csv and
-    //  /Documents/TransektCount/species_YYYYMMDD_hhmmss.csv
+    //  /Documents/TourCount/species_ll_Transect_YYYYMMDD_hhmmss.csv and
+    //  /Documents/TransektCount/species_ll_Transect_YYYYMMDD_hhmmss.csv
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void exportSpeciesList() {
-        // outFileTour -> /storage/emulated/0/Documents/TourCount/species_yyyyMMdd_HHmmss.csv
-        // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_yyyyMMdd_HHmmss.csv
-        File pathTour, outFileTour, pathTransect, outFileTransect = null;
+        // outFileTour -> /storage/emulated/0/Documents/TourCount/species_ll_Transekt_transNo_yyyyMMdd_HHmmss.csv
+        // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_ll_Transekt_transNo_yyyyMMdd_HHmmss.csv
+        File pathTour, outFileTour, pathTransect, outFileTransect;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
         {
             pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
@@ -2357,9 +2497,8 @@ public class WelcomeActivity
                     fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
         } else {
-            // Export species list into species_yyyy-MM-dd_HHmmss.csv
-            dbHelper = new DbHelper(this);
-            database = dbHelper.getWritableDatabase();
+            // Export species list into species_ll_yyyy-MM-dd_HHmmss.csv
+            dataLanguage = prefs.getString("pref_sel_data_lang", "");
 
             String[] codeArray;
             String[] nameArray;
@@ -2371,46 +2510,99 @@ public class WelcomeActivity
 
             int specNum = codeArray.length;
 
-            // If TourCount is installed export to /Documents/TourCount
-            if (pathTour.exists() && pathTour.isDirectory()) {
-                String language = Locale.getDefault().toString().substring(0, 2);
-                switch (language) {
-                    case "de" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_de_Transekt_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_de_Transekt_"
-                                    + getcurDate() + "_" + transNo + ".csv");
-                    }
-                    case "fr" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_fr_transect_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_fr_transect_"
-                                    + getcurDate() + "_" + transNo + ".csv");
-                    }
-                    case "it" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_it_transekt_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_it_transekt_"
-                                    + getcurDate() + "_" + transNo + ".csv");
-                    }
-                    default -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTour = new File(pathTour, "/species_en_transect_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTour = new File(pathTour, "/species_en_transect_"
-                                    + getcurDate() + "_" + transNo + ".csv");
+            pathTransect.mkdirs(); // Just verify pathTransect, result ignored
+            pathTour.mkdirs(); // Just verify pathTour, result ignored
+
+            switch (dataLanguage) {
+                case "de" -> {
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_de_Transekt_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_de_Transekt_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_de_Transekt_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_de_Transekt_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
                     }
                 }
+                case "en" -> {
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_en_Transect_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_en_Transect_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_en_Transect_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_en_Transect_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                    }
+                }
+                case "fr" -> {
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_fr_Transect_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_fr_Transect_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_fr_Transect_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_fr_Transect_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                    }
+                }
+                case "it" -> {
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_it_Transetto_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_it_Transetto_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_it_Transetto_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_it_Transetto_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                    }
+                }
+                case "es" -> {
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_es_Transecto_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_es_Transecto_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_es_Transecto_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_es_Transecto_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                    }
+                }
+                default -> {
+                    // No data language given
+                    if (Objects.equals(transNoDir, "")) {
+                        outFileTour = new File(pathTour, "/species_Transekt_"
+                                + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_Transekt_"
+                                + getcurDate() + ".csv");
+                    } else {
+                        outFileTour = new File(pathTour, "/species_Transekt_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                        outFileTransect = new File(pathTransect, "/species_Transekt_"
+                                + transNoDir + "_" + getcurDate() + ".csv");
+                    }
+                }
+            }
 
+            // If TourCount is installed export to /Documents/TourCount
+            if (pathTour.exists() && pathTour.isDirectory()) {
                 try {
                     CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTour));
+
+                    // 1. line with nocode, language, de|en|fr|it|es
+                    String[] specLine1 = {"nocode,language," + dataLanguage};
+                    csvWrite.writeNext(specLine1);
 
                     int i = 0;
                     while (i < specNum) {
@@ -2434,69 +2626,37 @@ public class WelcomeActivity
 
             // Export to /Documents/TransektCount
             if (pathTransect.exists() && pathTransect.isDirectory()) {
-                String language = Locale.getDefault().toString().substring(0, 2);
-                switch (language) {
-                    case "de" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTransect = new File(pathTransect, "/species_de_Transekt_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTransect = new File(pathTransect, "/species_de_Transekt_"
-                                    + transNo + "_" + getcurDate() + ".csv");
+                try {
+                    CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTransect));
+
+                    // 1. line with nocode, language, de|en|fr|it|es
+                    String[] specLine1 = {"nocode,language," + dataLanguage};
+                    csvWrite.writeNext(specLine1);
+
+                    int i = 0;
+                    while (i < specNum) {
+                        String[] specLine =
+                                {
+                                        codeArray[i],
+                                        nameArray[i],
+                                        nameArrayL[i]
+                                };
+                        i++;
+                        csvWrite.writeNext(specLine);
                     }
-                    case "fr" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTransect = new File(pathTransect, "/species_fr_transect_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTransect = new File(pathTransect, "/species_fr_transect_"
-                                    + transNo + "_" + getcurDate() + ".csv");
-                    }
-                    case "it" -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTransect = new File(pathTransect, "/species_it_transekt_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTransect = new File(pathTransect, "/species_it_transekt_"
-                                    + transNo + "_" + getcurDate() + ".csv");
-                    }
-                    default -> {
-                        if (Objects.equals(transNo, ""))
-                            outFileTransect = new File(pathTransect, "/species_en_transect_"
-                                    + getcurDate() + ".csv");
-                        else
-                            outFileTransect = new File(pathTransect, "/species_en_transect_"
-                                    + transNo + "_" + getcurDate() + ".csv");
-                    }
+                    csvWrite.close();
+
+                    mesg = getString(R.string.saveList);
+                    Toast.makeText(this,
+                            fromHtml("<font color='blue'>" + mesg + "</font>"),
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    mesg = getString(R.string.saveFailList);
+                    Toast.makeText(this,
+                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                            Toast.LENGTH_LONG).show();
                 }
             }
-
-            try {
-                CSVWriter csvWrite = new CSVWriter(new FileWriter(outFileTransect));
-
-                int i = 0;
-                while (i < specNum) {
-                    String[] specLine =
-                            {
-                                    codeArray[i],
-                                    nameArray[i],
-                                    nameArrayL[i]
-                            };
-                    i++;
-                    csvWrite.writeNext(specLine);
-                }
-                csvWrite.close();
-                mesg = getString(R.string.saveList);
-                Toast.makeText(this,
-                        fromHtml("<font color='blue'>" + mesg + "</font>"),
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                mesg = getString(R.string.saveFailList);
-                Toast.makeText(this,
-                        fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                        Toast.LENGTH_LONG).show();
-            }
-            dbHelper.close();
         }
     }
     // End of exportSpeciesList()

@@ -10,14 +10,16 @@ import com.wmstein.transektcount.Utils.fromHtml
 import java.util.Objects
 
 /*****************************************************
- * Created by milo on 26/05/2014.
  * NotesWidget.kt is used by CountingActivity.java and
  * CountOptionsActivity.kt
+ *
+ * Based on NotesWidget.java from milo of 26/05/2014.
  * Adopted for TransektCount by wmstein on 18.02.2016.
+ *
  * Uses widget_notes.xml.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2026-01-15
+ * last edited on 2026-02-28
  */
 class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView
@@ -31,11 +33,6 @@ class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context
     // Set notes with light blue introducer e.g. "Species notes: "
     fun setNotesC(intro: String?, notes: String?) {
         textView.text = fromHtml("<font color='#BEFDFD'>$intro</font> $notes")
-    }
-
-    // Set simple notes
-    fun setNotes(notes: String?) {
-        textView.text = notes
     }
 
 }

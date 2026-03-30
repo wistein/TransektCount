@@ -14,7 +14,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 2016-04-02,
  * last edited in java on 2024-12-06,
  * converted to Kotlin on 2025-11-15,
- * last edited on 2025-11-15
+ * last edited on 2026-02-28
  */
 class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val widget_temp1: TextView // start temperature
@@ -43,24 +43,24 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     init {
         Objects.requireNonNull(inflater)
             .inflate(R.layout.widget_edit_meta, this, true)
-        widget_temp1 = findViewById<TextView>(R.id.widgetTemp1)
-        widget_starttemp2 = findViewById<EditText>(R.id.widgetStartTemp2)
-        widget_endtemp2 = findViewById<EditText>(R.id.widgetEndTemp2)
-        widget_wind1 = findViewById<TextView>(R.id.widgetWind1)
-        widget_startwind2 = findViewById<EditText>(R.id.widgetStartWind2)
-        widget_endwind2 = findViewById<EditText>(R.id.widgetEndWind2)
-        widget_clouds1 = findViewById<TextView>(R.id.widgetClouds1)
-        widget_startclouds2 = findViewById<EditText>(R.id.widgetStartClouds2)
-        widget_endclouds2 = findViewById<EditText>(R.id.widgetEndClouds2)
+        widget_temp1 = findViewById(R.id.widgetTemp1)
+        widget_starttemp2 = findViewById(R.id.widgetStartTemp2)
+        widget_endtemp2 = findViewById(R.id.widgetEndTemp2)
+        widget_wind1 = findViewById(R.id.widgetWind1)
+        widget_startwind2 = findViewById(R.id.widgetStartWind2)
+        widget_endwind2 = findViewById(R.id.widgetEndWind2)
+        widget_clouds1 = findViewById(R.id.widgetClouds1)
+        widget_startclouds2 = findViewById(R.id.widgetStartClouds2)
+        widget_endclouds2 = findViewById(R.id.widgetEndClouds2)
 
-        widget_date1 = findViewById<TextView>(R.id.widgetDate1)
-        widget_date2 = findViewById<TextView>(R.id.widgetDate2)
-        widget_stime1 = findViewById<TextView>(R.id.widgetSTime1)
-        widget_stime2 = findViewById<TextView>(R.id.widgetSTime2)
-        widget_etime1 = findViewById<TextView>(R.id.widgetETime1)
-        widget_etime2 = findViewById<TextView>(R.id.widgetETime2)
-        widget_note1 = findViewById<TextView>(R.id.widgetNote1)
-        widget_note2 = findViewById<TextView>(R.id.widgetNote2)
+        widget_date1 = findViewById(R.id.widgetDate1)
+        widget_date2 = findViewById(R.id.widgetDate2)
+        widget_stime1 = findViewById(R.id.widgetSTime1)
+        widget_stime2 = findViewById(R.id.widgetSTime2)
+        widget_etime1 = findViewById(R.id.widgetETime1)
+        widget_etime2 = findViewById(R.id.widgetETime2)
+        widget_note1 = findViewById(R.id.widgetNote1)
+        widget_note2 = findViewById(R.id.widgetNote2)
     }
 
     // Following the SETS
@@ -153,24 +153,24 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val widgetTemps: Int
         get() {
             val text = widget_starttemp2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 100
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 100
+                100
             }
         }
 
     val widgetTempe: Int
         get() {
             val text = widget_endtemp2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 100
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 100
+                100
             }
         }
 
@@ -178,24 +178,24 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         // get wind with plausi
         get() {
             val text = widget_startwind2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 100
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 100
+                100
             }
         }
 
     val widgetWinde: Int
         get() {
             val text = widget_endwind2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 100
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 100
+                100
             }
         }
 
@@ -203,29 +203,29 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         // get clouds with plausi
         get() {
             val text = widget_startclouds2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 200
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 200
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 200
+                200
             }
         }
 
     val widgetCloude: Int
         get() {
             val text = widget_endclouds2.text.toString()
-            if (isEmpty(text)) return 0
-            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) return 200
+            return if (isEmpty(text)) 0
+            else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 200
             else try {
-                return text.replace("\\D".toRegex(), "").toInt()
+                text.replace("\\D".toRegex(), "").toInt()
             } catch (_: NumberFormatException) {
-                return 200
+                200
             }
         }
 
     val widgetDate: String
-        // get get date
+        // get date
         get() = widget_date2.text.toString()
 
     val widgetSTime: String
