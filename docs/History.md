@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.6 (2026-03-31)
+- Data language only changeable when not automatically detected (after import of old version of species list)
+- Code improvements
+- Translations corrected
+
 #### Version 5.0.5 (2026-03-30)
 - Spanish language added
 - Spanish species list file examples added in GitHub Docs

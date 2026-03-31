@@ -1282,6 +1282,10 @@ public class WelcomeActivity
             } else
                 newList505 = false;
 
+            editor = prefs.edit();
+            editor.putBoolean("new_list_505", newList505); // controls data language setting
+            editor.apply();
+
             br.close();
 
             int iList;       // index of imported list

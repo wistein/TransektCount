@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-03-26 -->
+     last edited 2026-03-31 -->
 
 <resources>
 
@@ -80,7 +80,7 @@
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">TransektCount Basis-DB-Dateien</string>
-    <string name="fileHeadlineCSV">TransektCount Spezieslisten</string>
+    <string name="fileHeadlineCSV">Spezieslisten</string>
     <string name="fileHeadlineDB">TransektCount DB-Dateien</string>
     <string name="fileHeadlineGPS">TransektCount GPS-Tracks</string>
     <string name="fileSize">Größe</string>
@@ -185,7 +185,8 @@
     <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
     <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>
     <string name="pref_proximity_title">Näherungsensor</string>
-    <string name="pref_data_language">Sprache der Daten</string>
+    <string name="pref_data_language">Wahl der Datensprache</string>
+    <string name="pref_data_language_ok">Datensprache (automatisch erkannt)</string>
     <string name="pref_data_language_Summ">Wähle die Sprache für die Lokal-Namen der Schmetterlinge.</string>
     <string name="pref_sort_sect_order_dialog">Sortierung der Liste der Abschnitte</string>
     <string name="pref_sort_sect_order_title">Sortierung der Abschnitte</string>

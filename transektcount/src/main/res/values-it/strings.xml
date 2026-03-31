@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-03-26 -->
+     last edited 2026-03-31 -->
 
 <resources>
 
@@ -80,7 +80,7 @@
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">File DB di base TransektCount</string>
-    <string name="fileHeadlineCSV">Lista delle specie TransektCount</string>
+    <string name="fileHeadlineCSV">Lista delle specie</string>
     <string name="fileHeadlineDB">File DB TransektCount</string>
     <string name="fileHeadlineGPS">TransektCount Tracciati GPS</string>
     <string name="fileSize">Dimensioni</string>
@@ -185,7 +185,8 @@
     <string name="pref_left_hand_summ">Mostra visualizzazione conteggio per mancini</string>
     <string name="pref_proximity_dialog">Seleziona la sensibilità per spegnere lo screen.</string>
     <string name="pref_proximity_title">Sensore di prossimità</string>
-    <string name="pref_data_language">Lingua dei dati</string>
+    <string name="pref_data_language">Seleziona la lingua dei dati</string>
+    <string name="pref_data_language_ok">Lingua dei dati (rilevata automaticamente)</string>
     <string name="pref_data_language_Summ">Seleziona la lingua per i nomi comuni delle farfalle.</string>
     <string name="pref_sort_sect_order_dialog">Ordinamento della lista delle sezioni</string>
     <string name="pref_sort_sect_order_title">Ordinamento delle sezioni</string>

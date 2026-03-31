@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-03-26 -->
+     last edited 2026-03-31 -->
 
 <resources>
 
@@ -94,7 +94,7 @@
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">TransektCount Basic DB Files</string>
-    <string name="fileHeadlineCSV">TransektCount Species Lists</string>
+    <string name="fileHeadlineCSV">Species Lists</string>
     <string name="fileHeadlineDB">TransektCount DB Files</string>
     <string name="fileHeadlineGPS">TransektCount GPS Tracks</string>
     <string name="fileSize">Size</string>
@@ -199,7 +199,8 @@
     <string name="pref_left_hand_summ">Show left-hander counter view</string>
     <string name="pref_proximity_dialog">Set the sensitivity for switching off the screen.</string>
     <string name="pref_proximity_title">Proximity Sensor</string>
-    <string name="pref_data_language">Data language</string>
+    <string name="pref_data_language">Select data language of species list</string>
+    <string name="pref_data_language_ok">Data language (automatically detected)</string>
     <string name="pref_data_language_Summ">Set language for the common names of the butterflies.</string>
     <string name="pref_sort_sect_order_dialog">Sort order of your sections list</string>
     <string name="pref_sort_sect_order_title">Sorting Sections</string>
