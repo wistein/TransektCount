@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-03-31 -->
+     last edited 2026-04-07 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Abbrechen</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="code_spec">Spezies Code</string>
-    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!</string>
+    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!\nAchtung! Bitte anschließend unter „Einstellungen“ überprüfen, ob die Datensprache eingestellt ist.</string>
     <string name="confirmGPSDelete">Willst Du wirklich die Track-Daten löschen?</string>
     <string name="confirmGPSImport">Soll versucht werden, die GPS-Datei zu importieren?</string>
     <string name="confirmListImport">Willst Du wirklich die Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
@@ -39,6 +39,7 @@
     <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
     <string name="importSpeciesListMenu">Import Speziesliste</string>
     <string name="importTrackFail">GPS Tracks sind geladen. Bitte diese vorher löschen!</string>
+    <string name="inspection_note">Bem. zur Begehung:</string>
     <string name="internal">Intern</string>
     <string name="kal_w">KW:</string>
     <string name="name_sect">Abschnitt</string>
@@ -77,6 +78,10 @@
     <string name="viewSectionButton">Zählen</string>
     <string name="waitImport">Bitte warten, der Import läuft!</string>
     <string name="with">mit</string>
+    <string name="sortModeN">Sortiert nach Name</string>
+    <string name="sortModeC">Sortiert nach Code</string>
+    <string name="sortModeSN">Sortiert nach Abschnitt + Name</string>
+    <string name="sortModeSC">Sortiert nach Abschnitt + Code</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">TransektCount Basis-DB-Dateien</string>

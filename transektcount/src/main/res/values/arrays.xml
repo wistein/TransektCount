@@ -31,8 +31,8 @@
 
     <string-array name="pref_sort_sect_entries">
         <item>None</item>
-        <item>Name, ascending</item>
-        <item>Name, decending</item>
+        <item>By name, ascending</item>
+        <item>By name, decending</item>
     </string-array>
     <string-array name="pref_sort_sect_values">
         <item>none</item>
@@ -42,8 +42,8 @@
 
     <string-array name="pref_sort_sp_entries">
         <item>None</item>
-        <item>Species names, alphab.</item>
-        <item>Species codes</item>
+        <item>By species names, alphab.</item>
+        <item>By species codes</item>
     </string-array>
     <string-array name="pref_sort_sp_values">
         <item>none</item>
@@ -52,12 +52,16 @@
     </string-array>
 
     <string-array name="pref_sort_output_entries">
-        <item>Species names</item>
-        <item>Section names</item>
+        <item>By species names</item>
+        <item>By species codes</item>
+        <item>By sections and spec. names</item>
+        <item>By sections and spec. codes</item>
     </string-array>
     <string-array name="pref_sort_output_values">
-        <item>species</item>
-        <item>sections</item>
+        <item>names</item>
+        <item>codes</item>
+        <item>sections_names</item>
+        <item>sections_codes</item>
     </string-array>
 
     <string-array name="pref_prox_entries">

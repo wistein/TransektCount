@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml French strings,
-     last edited 2026-03-31 -->
+     last edited 2026-04-07 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Annuler</string>
     <string name="changeLogTitle">Info sur l\'application</string>
     <string name="code_spec">Code espèce</string>
-    <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !</string>
+    <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !\nAttention ! Veuillez vérifier ensuite dans les « Paramètres » si la langue des données est bien sélectionnée.</string>
     <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
     <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
     <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données actuelles seront écrasées !</string>
@@ -39,6 +39,7 @@
     <string name="importListFail">La liste des espèces n\'a pas pu être importée !</string>
     <string name="importSpeciesListMenu">Imp. liste des espèces</string>
     <string name="importTrackFail">Des traces GPS sont chargées. Veuillez les supprimer au préalable !</string>
+    <string name="inspection_note">Note d\'inspection:</string>
     <string name="internal">Interne</string>
     <string name="kal_w">N. de S. :</string>
     <string name="name_sect">Section</string>
@@ -77,6 +78,10 @@
     <string name="viewSectionButton">Compter</string>
     <string name="waitImport">Veuillez patienter, l\'importation est en cours !</string>
     <string name="with">avec</string>
+    <string name="sortModeN">Classés par nom</string>
+    <string name="sortModeC">Classés par code</string>
+    <string name="sortModeSN">Classés par section + nom</string>
+    <string name="sortModeSC">Classés par section + code</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">Fichiers de structure TransektCount BD</string>

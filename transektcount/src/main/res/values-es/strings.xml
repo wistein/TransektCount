@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-03-31 -->
+     last edited 2026-04-07 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Cancelar</string>
     <string name="changeLogTitle">Info de app</string>
     <string name="code_spec">Código de especie</string>
-    <string name="confirmDBImport">¿De verdad quieres importar una BD? ¡Se sobrescribirán tus datos actuales!</string>
+    <string name="confirmDBImport">¿De verdad quieres importar una BD? ¡Se sobrescribirán tus datos actuales!\n¡Atención! Comprueba después en «Configuración» si se ha seleccionado el idioma de los datos.</string>
     <string name="confirmGPSDelete">¿De verdad quieres borrar los datos de la pista?</string>
     <string name="confirmGPSImport">¿Quieres intentar importar el fichero GPS?</string>
     <string name="confirmListImport">¿De verdad quieres importar la lista de especies? ¡Se sobrescribirán tus datos actuales!</string>
@@ -39,6 +39,7 @@
     <string name="importListFail">¡No se ha podido importar la lista de especies!</string>
     <string name="importSpeciesListMenu">Importar lista de especies</string>
     <string name="importTrackFail">Se han cargado las rutas GPS. ¡Por favor, bórralas antes!</string>
+    <string name="inspection_note">Nota de inspección:</string>
     <string name="internal">Interno</string>
     <string name="kal_w">SN:</string>
     <string name="name_sect">Sección</string>
@@ -77,6 +78,10 @@
     <string name="viewSectionButton">Contar</string>
     <string name="waitImport">¡Por favor, espere, la importación está en curso!</string>
     <string name="with">con</string>
+    <string name="sortModeN">Ordenado por nombre</string>
+    <string name="sortModeC">Ordenado por código</string>
+    <string name="sortModeSN">Ordenado por sección + nombre</string>
+    <string name="sortModeSC">Ordenado por sección + código</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">Ficheros de BD básica de TransektCount</string>

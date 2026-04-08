@@ -20,19 +20,21 @@
 
     <string-array name="pref_sort_sect_entries">
         <item>Non ordinato</item>
-        <item>Nome, crescente</item>
-        <item>Nome, decrescente</item>
+        <item>Per nomi, crescente</item>
+        <item>Per nomi, decrescente</item>
     </string-array>
 
     <string-array name="pref_sort_sp_entries">
         <item>Non ordinato</item>
-        <item>Per nome della specie</item>
-        <item>Per codice</item>
+        <item>Per nomi delle specie</item>
+        <item>Per codici delle specie</item>
     </string-array>
 
     <string-array name="pref_sort_output_entries">
-        <item>Per nome della specie</item>
-        <item>Per sezioni</item>
+        <item>Per nomi delle specie</item>
+        <item>Per codici delle specie</item>
+        <item>Per sezioni e nome della specie</item>
+        <item>Per sezioni e codici delle specie</item>
     </string-array>
 
     <string-array name="pref_prox_entries">

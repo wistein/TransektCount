@@ -1,21 +1,14 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.0.5:
-- Spanish language added
-- Spanish species list file examples added in GitHub Docs
-- Problem fixed for "Add species" when system language differs from language of common species names
-- Language handling for data (common species names) and system separated
-- Species list supplemented with a data language field for automatic data language recognition
-- New settings option for selecting the data language for common butterfly names if not automatically recognized for old species list version
-- Added species: Borbo borbonica, Zegris eupheme, Colotis evagore, Lysandra hispana, Coenonympha dorus and Satyrus actaea
-- Improved CSV export for numbers in left-aligned text fields
-- Check for forbidden characters when creating file names
-- Sounds produced by service
-- Some other data corrections
-- App messages improved
-- Help improved
-- Some layout improvements
-- Some code cleaning
+New in Version 5.0.6:
+- Data language recognition also while importing DBs (depending on new data language field in DB)
+- Data language changeable in 'Settings' when not automatically detected (for old versions of species lists and DBs)
+- Added local language chars to filename of initial Basic DB
+- "Sorting the Results" supplemented with 2 more options
+- CSV result export files adapted for new sorting options
+- Result sorting modes marked within the exported .csv-filename (by name: _n, code: _c, section + name: _sn, section + code: _sc)
+- Code improvements
+- Some translated strings corrected
 - Docs updated
 - Bugfixes
 

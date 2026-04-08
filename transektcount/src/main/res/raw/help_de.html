@@ -5,7 +5,7 @@
 <html lang="de">
 
 <!-- TransektCount Benutzeranleitung help_de.html --
-  Last edited on 2026-03-26
+  Last edited on 2026-04-07
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
@@ -146,6 +146,8 @@ Zwecks Vorbereitung einer neuen Begehung können mittels <b>„Reset Daten"</b> 
 <br><br>
 TransektCount speichert die Daten Android-spezifisch in einer internen SQLite-DB im App-eigenen, für den Anwender gesperrten Speicherbereich. Dadurch sind externe Anwenderdaten nur per Import für die App nutzbar und DB-Daten bzw. Ergebnisse nur per Export zur weiteren Verwendung durch den Anwender erreichbar.
 <br><br>
+Ab App-Version 5.0.6 werden auch DB-Dateien mit einem Feld zur Erkennung der Datensprache für lokale Artnamen (Deutsch, Englisch, Französisch, Italienisch oder Spanisch) exportiert. Für eine zuvor erzeugte DB-Datei sollte nach deren Import zwecks korrekter Weiterverarbeitung per "Einstellungen" die korrekte Datensprache gewählt werden.
+<br><br>
 Mit <b>„Import Basis-DB"</b> kann eine vorhandene Basis-DB-Datei ausgewählt und eingelesen werden, die als Vorlage für ein Transekt exportiert wurde.<br>
 <b><font color=#2C87FD>Merke:</font></b> Ihr Dateiname beginnt mit „transektcount0".
 <br><br>
@@ -154,7 +156,7 @@ Mit <b>„Export Basis-DB"</b> kann die interne DB als Basis-DB „transektcount
 Mit <b>„Import DB"</b> kann jede entsprechend benannte TransektCount-DB in die App geladen werden.<br>
 <b><font color=#2C87FD>Merke:</font></b> Der DB-Dateiname muss dazu immer mit der exakten Zeichenfolge „transektcount_" beginnen (z. B.: „transektcount_de_NW-5309-03.db"), ansonsten kann die Datei nicht importiert werden.
 <br><br>
-<b>„Export akt. DB"</b> schreibt eine Kopie der DB mit allen momentan enthaltenen Daten in die Datei  transektcount_ds_Tr-Nr_JJJJMMTT_hhmm.db ins Verzeichnis Documents/TransektCount. Falls in den Metadaten vorhanden, werden Datum und Zeitpunkt des Begehungsstarts eingefügt. Anderenfalls wird das aktuelle Datum verwendet. Die Transektbezeichnung wird eingefügt, falls sie unter Metadaten existiert und ggf. um Zeichen bereinigt, die den Dateinamen-Konventionen widersprechen.
+<b>„Export akt. DB"</b> schreibt eine Kopie der DB mit allen momentan enthaltenen Daten in die Datei  transektcount_ds_Tr-Nr_JJJJMMTT_hhmm.db ins Verzeichnis Documents/TransektCount. Falls in den Metadaten vorhanden, werden Datum und Zeitpunkt des Begehungsstarts in den Dateinamen eingefügt. Anderenfalls wird das aktuelle Datum verwendet. Die Transektbezeichnung wird eingefügt, falls sie unter Metadaten existiert und ggf. um Zeichen bereinigt, die den Dateinamen-Konventionen widersprechen.
 <br><br>
 Mit <b>„Import Speziesliste"</b> kann eine vorhandene Speziesliste ausgewählt und importiert werden. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden. Mittels Dateimanager lässt sich diese bei Bedarf eingeschränkt umbenennen.<br>
 Ab App-Version 5.0.5 wurde die Struktur der Speziesliste um die Angabe der Datensprache ergänzt. Als Datensprache können Deutsch, Englisch, Französisch, Italienisch oder Spanisch genutzt werden. Soweit lokale Artnamen aufgefunden werden konnten, sind sie für die in der App vorhandenen Arten enthalten.<br>

@@ -13,30 +13,30 @@ import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
  * Created by wmstein on 2020-04-17,
  * last edited in Java on 2020-04-17,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-03-31
+ * last edited on 2026-04-07
  */
 // Load the preferences from preferences.xml
 class SettingsFragment : PreferenceFragmentCompat() {
     private var prefs = getPrefs()
-    private var dataLanguage: String? = ""
-    private var newList505: Boolean = false
+    private var dataLanguage: String = ""
+    private var hasDataLang: Boolean = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         // Set language icon
-        dataLanguage = prefs.getString("pref_sel_data_lang", "")
+        dataLanguage = prefs.getString("pref_sel_data_lang", "").toString()
         val langPref: ListPreference? = findPreference("pref_sel_data_lang") // key
 
         // Set data language option visible if species in unknown language was imported
-        newList505 = prefs.getBoolean("new_list_505", true)
-        langPref?.isEnabled = !newList505 // enabled only fpr imported old species list
-        if (newList505)
+        hasDataLang = prefs.getBoolean("has_data_lang", true)
+        langPref?.isEnabled = !hasDataLang // enabled only fpr imported old DB or species list
+        if (hasDataLang)
             langPref?.title = getString(R.string.pref_data_language_ok)
         else
             langPref?.title = getString(R.string.pref_data_language)
 
-        if (!newList505) { // old species list: option on to select
+        if (!hasDataLang) { // old species list: option on to select
             when (dataLanguage) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en)
@@ -60,6 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val prefProx: Boolean = prefs.getBoolean("enable_prox", false)
         val proxPref: ListPreference? = findPreference("pref_prox")
         proxPref?.isEnabled = prefProx
+
         if (prefProx)
             proxPref?.setIcon(R.drawable.ic_speaker_phone_black_48dp)
         else
@@ -69,6 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val prefVib: Boolean = prefs.getBoolean("enable_vib", false)
         val vibPref: SwitchPreferenceCompat? = findPreference("pref_button_vib")
         vibPref?.isEnabled = prefVib
+
         if (prefVib)
             vibPref?.setIcon(R.drawable.outline_vibration_48)
         else
@@ -78,6 +80,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val transectHasTrack = prefs.getBoolean("transect_has_track", false)
         val hasTrackPref: SwitchPreferenceCompat? = findPreference("pref_auto_section")
         hasTrackPref?.isEnabled = transectHasTrack
+
         if (transectHasTrack)
             hasTrackPref?.setIcon(R.drawable.baseline_room_48)
         else
@@ -89,10 +92,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onDisplayPreferenceDialog(langPref: Preference) {
         super.onDisplayPreferenceDialog(langPref)
 
-        dataLanguage = prefs.getString("pref_sel_data_lang", "")
+        dataLanguage = prefs.getString("pref_sel_data_lang", "").toString()
         val langPref: ListPreference? = findPreference("pref_sel_data_lang") // key
 
-        if (!newList505) {
+        if (!hasDataLang) {
             when (dataLanguage) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en)
@@ -111,10 +114,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 else -> langPref?.setIcon(R.drawable.alpha_xx)
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
     }
 
 }

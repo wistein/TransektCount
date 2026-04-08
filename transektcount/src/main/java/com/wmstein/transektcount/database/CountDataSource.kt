@@ -13,7 +13,7 @@ import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-28
+ * last edited on 2026-04-04
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -391,6 +391,32 @@ class CountDataSource(context: Context) {
         }
 
     // Used by ShowResultsActivity
+    val allCountsForSrtSectionCode: List<Count>
+        get() {
+            val counts: MutableList<Count> = ArrayList()
+            val cursor = database!!.rawQuery(
+                "select * from " + COUNT_TABLE
+                        + " WHERE " + " ("
+                        + DbHelper.C_NOTES + " = '0' or "
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_CODE, null
+            )
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                val count = cursorToCount(cursor)
+                counts.add(count)
+                cursor.moveToNext()
+            }
+            cursor.close()
+            return counts
+        }
+
+    // Used by ShowResultsActivity
     val allCountsForSrtNameSection: List<Count>
         get() {
             val counts: MutableList<Count> = ArrayList()
@@ -405,6 +431,32 @@ class CountDataSource(context: Context) {
                         + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
                         + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
                         + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null
+            )
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                val count = cursorToCount(cursor)
+                counts.add(count)
+                cursor.moveToNext()
+            }
+            cursor.close()
+            return counts
+        }
+
+    // Used by ShowResultsActivity
+    val allCountsForSrtCodeSection: List<Count>
+        get() {
+            val counts: MutableList<Count> = ArrayList()
+            val cursor = database!!.rawQuery(
+                "select * from " + COUNT_TABLE
+                        + " WHERE " + " ("
+                        + DbHelper.C_NOTES + " = '0' or "
+                        + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                        + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                        + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                        + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                        + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                        + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                        + " order by " + DbHelper.C_CODE + ", " + DbHelper.C_SECTION_ID, null
             )
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {

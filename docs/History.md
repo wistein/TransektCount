@@ -2,10 +2,17 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.6 (2026-03-31)
-- Data language only changeable when not automatically detected (after import of old version of species list)
+#### Version 5.0.6 (2026-04-07)
+- Data language recognition also while importing DBs (depending on new data language field in DB)
+- Data language changeable in 'Settings' when not automatically detected (for old versions of species lists and DBs)
+- Added local language chars to filename of initial Basic DB
+- "Sorting the Results" supplemented with 2 more options
+- CSV result export files adapted for new sorting options  
+- Result sorting modes marked within the exported .csv-filename (by name: _n, code: _c, section + name: _sn, section + code: _sc)
 - Code improvements
-- Translations corrected
+- Some translated strings corrected
+- Docs updated
+- Bugfixes
 
 #### Version 5.0.5 (2026-03-30)
 - Spanish language added

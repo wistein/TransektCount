@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-06
+ * last edited on 2026-04-07
  */
 class AdvFileChooser : AppCompatActivity() {
     private var currentDir: File? = null
@@ -186,6 +186,7 @@ class AdvFileChooser : AppCompatActivity() {
     // onFileClick(opt);
     private fun doSelect(opt: Option?) {
         val fileSelected = File(opt!!.path)
+
         val intent = Intent()
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)

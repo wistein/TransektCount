@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-03-31 -->
+     last edited 2026-04-07 -->
 
 <resources>
 
@@ -27,7 +27,7 @@
     <string name="cancelButton">Cancel</string>
     <string name="changeLogTitle">App Info</string>
     <string name="code_spec">Species Code</string>
-    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!</string>
+    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!\nNote! Please, check afterwards in "Settings" if the data language is set.</string>
     <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
     <string name="confirmListImport">Are you sure you want to import the species list? Your current data will be overwritten! May last long for a long list.</string>
@@ -53,6 +53,7 @@
     <string name="importListFail">The species list could not be imported!</string>
     <string name="importSpeciesListMenu">Import Species List</string>
     <string name="importTrackFail">GPS tracks are loaded. Please remove these before!</string>
+    <string name="inspection_note">Inspection Note:</string>
     <string name="internal">Internal</string>
     <string name="kal_w">CW:</string>
     <string name="name_sect">Section</string>
@@ -91,6 +92,11 @@
     <string name="viewSectionButton">Counting</string>
     <string name="waitImport">Please wait, import may take a while!</string>
     <string name="with">with</string>
+    <string name="sortModeN">Sorted by name</string>
+    <string name="sortModeC">Sorted by code</string>
+    <string name="sortModeSN">Sorted by section + name</string>
+    <string name="sortModeSC">Sorted by section + code</string>
+
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">TransektCount Basic DB Files</string>

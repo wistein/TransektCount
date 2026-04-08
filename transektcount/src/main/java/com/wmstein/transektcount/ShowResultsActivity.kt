@@ -34,7 +34,7 @@ import com.wmstein.transektcount.widgets.ResultsSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-02-28
+ * last edited on 2026-04-02
  */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null
@@ -194,13 +194,20 @@ class ShowResultsActivity : AppCompatActivity() {
         var sectId: Int
         var section: Section
 
-        val specs: List<Count> = if (outPref.equals("sections")) {
-            // sort criteria are section and name
+        // List of sorted species
+        val specs: List<Count> = if (outPref.equals("sections_names")) {
+            // sort criteria are section and species name
             countDataSource!!.allCountsForSrtSectionName
-        } else {
-            // sort criteria are name and section
+        } else if (outPref.equals("sections_codes")) {
+            // sort criteria are section and species code
+            countDataSource!!.allCountsForSrtSectionCode
+        } else if (outPref.equals("species")) {
+            // sort criteria are species name and section
             countDataSource!!.allCountsForSrtNameSection
-        } // List of sorted species
+        } else {
+            // sort criteria are species code and section
+            countDataSource!!.allCountsForSrtCodeSection
+        }
 
         val sumSpec: Int = countDataSource!!.diffSpec // get number of different species
         var specCntf1i: Int

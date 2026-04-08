@@ -67,6 +67,19 @@ _ subtitle
   .
   _
 
+$ 5.0.6
+  % Version 5.0.6
+  _ 07.04.2026
+  * Die Datensprache wird auch beim Import einer DB anhand eines neuen Datensprachenfelds in DB erkannt
+  * Die Datensprache kann unter 'Einstellungen' angepasst werden, wenn sie beim Import einer alten Version der Speziesliste nicht erkannt wird
+  * Der Dateiname der initialen Basis-DB hat nun auch ein Sprachkürzel
+  * Die Einstellung "Sortierung der Ergebnisse" hat 2 weitere Optionen
+  * Die Ergebnisausgabe in .csv-Dateien wurde an die neuen Sortieroptionen angepasst
+  * Die .csv-Dateinamen der Ergebnisse wurden mit einem zusätzlichen Kürzel versehen, das den Sortiermodus anzeigt (nach Name: _n, Code: _c, Abschnitt + Name: _sn, Abschnitt + Code: _sc)
+  * Einige Code-Verbesserungen
+  * Einige übersetzte Texte verbessert
+  * Bugfixe
+
 $ 5.0.5
   % Version 5.0.5
   _ 30.03.2026

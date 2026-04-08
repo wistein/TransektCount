@@ -15,4 +15,7 @@ class Head {
     var transect_no: String? = null
     @JvmField
     var inspector_name: String? = null
+
+    @JvmField
+    var data_language: String? = null
 }

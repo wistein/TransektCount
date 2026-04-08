@@ -20,8 +20,8 @@
 
     <string-array name="pref_sort_sect_entries">
         <item>Unsortiert</item>
-        <item>Name, aufsteigend</item>
-        <item>Name, absteigend</item>
+        <item>Nach Namen, aufsteigend</item>
+        <item>Nach Namen, absteigend</item>
     </string-array>
 
     <string-array name="pref_sort_sp_entries">
@@ -32,7 +32,9 @@
 
     <string-array name="pref_sort_output_entries">
         <item>Nach Artnamen</item>
-        <item>Nach Abschnitten</item>
+        <item>Nach Art-Codes</item>
+        <item>Nach Abschnitten und Artnamen</item>
+        <item>Nach Abschnitten und Art-Codes</item>
     </string-array>
 
     <string-array name="pref_prox_entries">

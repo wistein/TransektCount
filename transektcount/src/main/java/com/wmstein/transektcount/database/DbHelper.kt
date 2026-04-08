@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.wmstein.transektcount.BuildConfig
@@ -21,7 +22,7 @@ import java.util.Locale
  * last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
  * updated to version 7 on 2026-03-07,
- * last edited on 2026-03-21
+ * last edited on 2026-04-07
  *
  * ************************************************************************
  * ATTENTION!
@@ -31,13 +32,13 @@ import java.util.Locale
 class DbHelper
     (private val mContext: Context?) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
-
+    // initDataLanguage = current system locale
     val initDataLanguage = Locale.getDefault().toString().substring(0, 2)
 
     // Called on initial database creation and on DB version upgrades
     override fun onCreate(db: SQLiteDatabase) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "40, onCreate, Creating database: $DATABASE_NAME")
+            Log.i(TAG, "41, onCreate, Creating database: $DATABASE_NAME")
 
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
@@ -70,7 +71,8 @@ class DbHelper
         sql = ("create table " + HEAD_TABLE + " ("
                 + H_ID + " integer primary key, "
                 + H_TRANSECT_NO + " text, "
-                + H_INSPECTOR_NAME + " text)")
+                + H_INSPECTOR_NAME + " text, "
+                + H_DATA_LANGUAGE + " text)")
         db.execSQL(sql)
 
         sql = ("create table " + META_TABLE + " ("
@@ -99,6 +101,7 @@ class DbHelper
         values1.put(H_ID, 1)
         values1.put(H_TRANSECT_NO, "")
         values1.put(H_INSPECTOR_NAME, "")
+        values1.put(H_DATA_LANGUAGE, "")
         db.insert(HEAD_TABLE, null, values1)
 
         // Create empty row for META_TABLE
@@ -119,10 +122,13 @@ class DbHelper
         // Create initial data for SECTION_TABLE
         initialSection(db)
 
+        // Create initial data for HEAD_TABLE
+        initialHead(db)
+
         // Create initial data for COUNT_TABLE
         initialCount(db)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "127, onCreate, Success!")
+            Log.d(TAG, "131, onCreate, Success!")
     }
     // End of onCreate
 
@@ -135,13 +141,18 @@ class DbHelper
         db.insert(SECTION_TABLE, null, values3)
     }
 
-    // Initial data for COUNT_TABLE
+    private fun initialHead(db: SQLiteDatabase) {
+        // Enter current system language as initial data language
+        val sql = "UPDATE $HEAD_TABLE SET $H_DATA_LANGUAGE = '$initDataLanguage'"
+        db.execSQL(sql)
+    }
+
+    // Initial data for section 1 in COUNT_TABLE
     private fun initialCount(db: SQLiteDatabase) {
-        // Entries for sect 1 comprise initial selected species
         val specs: Array<String> = mContext!!.resources.getStringArray(R.array.initSpecs)
         val codes: Array<String> = mContext.resources.getStringArray(R.array.initCodes)
+        // Initial local species name entries comprise initial species in the current system language
         val specsL: Array<String> = when (initDataLanguage) {
-            "de" -> mContext.resources.getStringArray(R.array.initSpecs_de)
             "en" -> mContext.resources.getStringArray(R.array.initSpecs_en)
             "fr" -> mContext.resources.getStringArray(R.array.initSpecs_fr)
             "it" -> mContext.resources.getStringArray(R.array.initSpecs_it)
@@ -179,25 +190,32 @@ class DbHelper
     // see https://guides.codepath.org/android/local-databases-with-sqliteopenhelper
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "176, upGrade")
+            Log.d(TAG, "193, onUpgrade DB")
 
+        if (oldVersion == 7) {
+            version8(db)
+        }
         if (oldVersion == 6) {
             version7(db)
+            version8(db)
         }
         if (oldVersion == 5) {
             version6(db)
             version7(db)
+            version8(db)
         }
         if (oldVersion == 4) {
             version5(db)
             version6(db)
             version7(db)
+            version8(db)
         }
         if (oldVersion == 3) {
             version4(db)
             version5(db)
             version6(db)
             version7(db)
+            version8(db)
         }
         if (oldVersion == 2) {
             version3(db)
@@ -205,6 +223,7 @@ class DbHelper
             version5(db)
             version6(db)
             version7(db)
+            version8(db)
         }
         if (oldVersion == 1) {
             version2(db)
@@ -213,6 +232,7 @@ class DbHelper
             version5(db)
             version6(db)
             version7(db)
+            version8(db)
         }
     }
 
@@ -410,7 +430,7 @@ class DbHelper
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "407, SECTION_TABLE resetted")
+            Log.d(TAG, "433, SECTION_TABLE resetted")
 
         // reset metadata
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -422,7 +442,7 @@ class DbHelper
                 + M_END_TM + " = ''")
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "419, META_TABLE resetted")
+            Log.d(TAG, "445, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -451,7 +471,7 @@ class DbHelper
                 + C_NAME_G + " text)")
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "448, new empty counts1 table created")
+            Log.d(TAG, "473, new empty counts1 table created")
 
         val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
         val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
@@ -459,7 +479,7 @@ class DbHelper
         val specNum: Int = codes.size
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "456, Anzahl Spez.: $specNum")
+            Log.d(TAG, "482, Anzahl Spez.: $specNum")
 
         var cnti = 1  // count index for new track table
         var speci: Int // species index in initSpecs-array
@@ -491,14 +511,14 @@ class DbHelper
                 values4.put(C_NAME_G, specsL[speci])
                 db.insert(COUNT_TABLE1, null, values4)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "488, species cnti: " + cnti + ", " + specs[speci])
+                    Log.d(TAG, "514, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "492, species cnti: $cnti, index speci: $speci")
+                    Log.d(TAG, "518, species cnti: $cnti, index speci: $speci")
             }
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "495, last species-index: $cnti")
+                Log.d(TAG, "521, last species-index: $cnti")
 
             sectIncr++
             cnti = (sectIncr * speci) + 1
@@ -510,7 +530,7 @@ class DbHelper
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "507, Upgraded database to version 5")
+            Log.d(TAG, "533, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -555,16 +575,37 @@ class DbHelper
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "552, META_TABLE initialized")
+            Log.d(TAG, "578, META_TABLE initialized")
     }
 
     /*** V7 ***/
-    // DATABASE_VERSION 7: Drop table ALERT_TABLE
+    // DATABASE_VERSION 7: Drop table ALERT_TABLE and add field H_DATA_LANGUAGE
     private fun version7(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $ALERT_TABLE")
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "568, HEAD_TABLE upgraded")
+            Log.d(TAG, "587, HEAD_TABLE upgraded")
+    }
+
+    /*** V8 ***/
+    // DATABASE_VERSION 8: Add field H_DATA_LANGUAGE
+    private fun version8(db: SQLiteDatabase) {
+        // Add extra column data_language to table head if not exists
+        var sql: String
+        try {
+            sql = "alter table head add column data_language text"
+            db.execSQL(sql)
+        } catch (_: SQLiteException) {
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.i(TAG, "600, Column already exists.")
+        }
+
+        // Enter empty data_language
+        sql = "UPDATE head SET data_language = ''"
+        db.execSQL(sql)
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.d(TAG, "608, HEAD_TABLE upgraded")
     }
 
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
@@ -609,8 +650,8 @@ class DbHelper
     }
 
     companion object {
-        private const val DATABASE_VERSION = 7
-//DATABASE_VERSION 7: Add field H_DATA_LANGUAGE to HEAD_TABLE and drop table ALERT_TABLE
+        private const val DATABASE_VERSION = 8
+        //DATABASE_VERSION 8: Add field H_DATA_LANGUAGE to HEAD_TABLE if not exists
         //DATABASE_VERSION 7: Drop table ALERT_TABLE
         //DATABASE_VERSION 6: Modified table META_TABLE for start and end values
         //DATABASE_VERSION 5: New table TRACK_TABLE for GPS supported control of transect sections
@@ -664,6 +705,7 @@ class DbHelper
         const val H_ID = "_id"
         const val H_TRANSECT_NO = "transect_no"
         const val H_INSPECTOR_NAME = "inspector_name"
+        const val H_DATA_LANGUAGE = "data_language"
 
         // fields of table meta
         const val M_ID = "_id"
