@@ -99,7 +99,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-04-04
+ * last edited on 2026-04-11
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -1247,7 +1247,7 @@ public class WelcomeActivity
                             if (Objects.equals(specLine[0], "nocode"))
                                 mesg = getString(R.string.confirmListImport);
                             else
-                                mesg = getString(R.string.specsCommonLang) + "\n\n" + getString(R.string.confirmListImport);
+                                mesg = getString(R.string.specsCommonLangMissing) + "\n\n" + getString(R.string.confirmListImport);
                             br.close();
                         } catch (Exception e) {
                             mesg = getString(R.string.br_Error);
@@ -1780,21 +1780,23 @@ public class WelcomeActivity
 
         boolean engl = false;
         boolean hasDate = true;
+        String dbDate, dbTime;
+        String dbDateEN, dbDateEU;
 
         // Get year from date
         if (!Objects.equals(date, "")) {
             // "-" at position 4 of the date means EN
             if (Objects.equals(date.substring(4, 5), "-"))
                 engl = true;
-        } else
+            // Create date for filename as YYYYMMDD from any format
+            dbDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+            dbDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+        } else {
+            dbDateEU = "";
+            dbDateEN = "";
             hasDate = false;
+        }
 
-        // Create date for filename as YYYYMMDD from any format
-        String dbDate, dbTime;
-        String dbDateEN, dbDateEU;
-
-        dbDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
-        dbDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         if (engl)
             dbDate = dbDateEN;
         else
@@ -1906,21 +1908,23 @@ public class WelcomeActivity
 
         boolean engl = false;
         boolean hasDate = true;
+        String csvDate, csvTime;
+        String csvDateEU, csvDateEN;
 
         // Get year from date
         if (!Objects.equals(date, "")) {
             // "-" at position 4 of the date means EN
             if (Objects.equals(date.substring(4, 5), "-"))
                 engl = true;
-        } else
+            // Create date for filename as YYYYMMDD from any format
+            csvDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+            csvDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+        } else {
             hasDate = false;
+            csvDateEN = "";
+            csvDateEU = "";
+        }
 
-        // Create date for filename as YYYYMMDD from any format
-        String csvDate, csvTime;
-        String csvDateEU, csvDateEN;
-
-        csvDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
-        csvDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         if (engl)
             csvDate = csvDateEN;
         else

@@ -1,16 +1,9 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
 New in Version 5.0.6:
-- Data language recognition also while importing DBs (depending on new data language field in DB)
-- Data language changeable in 'Settings' when not automatically detected (for old versions of species lists and DBs)
-- Added local language chars to filename of initial Basic DB
-- "Sorting the Results" supplemented with 2 more options
-- CSV result export files adapted for new sorting options
-- Result sorting modes marked within the exported .csv-filename (by name: _n, code: _c, section + name: _sn, section + code: _sc)
-- Code improvements
-- Some translated strings corrected
-- Docs updated
-- Bugfixes
+- Some messages improved
+- Bugfix: Data language change in 'Settings' was not written to DB
+- Bugfixes in language dependent date formatting for filenames
 
 Features:
 - Data collection is based on a transect inspection.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-07 -->
+     last edited 2026-04-11 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Abbrechen</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="code_spec">Spezies Code</string>
-    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!\nAchtung! Bitte anschließend unter „Einstellungen“ überprüfen, ob die Datensprache eingestellt ist.</string>
+    <string name="confirmDBImport">Willst Du wirklich eine DB importieren? Deine aktuellen Zähldaten werden überschrieben!\n\nAchtung! Bei älterer Dateiversion anschließend unter „Einstellungen“ überprüfen, ob die korrekte Datensprache eingestellt ist.</string>
     <string name="confirmGPSDelete">Willst Du wirklich die Track-Daten löschen?</string>
     <string name="confirmGPSImport">Soll versucht werden, die GPS-Datei zu importieren?</string>
     <string name="confirmListImport">Willst Du wirklich die Speziesliste importieren? Deine aktuellen Daten werden überschrieben! Kann bei großen Listen länger dauern.</string>
@@ -62,7 +62,11 @@
     <string name="saveList">Export der Speziesliste: Ok.</string>
     <string name="saveCSV">Export der csv-Datei nach Documents/TransektCount.</string>
     <string name="showResultsButton">Ergebnis anzeigen</string>
-    <string name="specsCommonLang">Achtung, altes Listenformat! Zur korrekten Verwendung von lokalen Namen muss die Sprache der Daten unter \'Einstellungen\' gewählt werden.</string>
+    <string name="sortModeC">Sortiert nach Code</string>
+    <string name="sortModeN">Sortiert nach Name</string>
+    <string name="sortModeSC">Sortiert nach Abschnitt + Code</string>
+    <string name="sortModeSN">Sortiert nach Abschnitt + Name</string>
+    <string name="specsCommonLangMissing">Achtung! Die lokale Datensprache ist in der alten Liste nicht festgelegt. Bitte unter "Einstellungen" wählen. Ansonsten werden deutsche Artnamen verwendet.</string>
     <string name="sumi">Summen (intern):</string>
     <string name="sumSpec">Arten:</string>
     <string name="sum_total">Summen (total):</string>
@@ -78,10 +82,6 @@
     <string name="viewSectionButton">Zählen</string>
     <string name="waitImport">Bitte warten, der Import läuft!</string>
     <string name="with">mit</string>
-    <string name="sortModeN">Sortiert nach Name</string>
-    <string name="sortModeC">Sortiert nach Code</string>
-    <string name="sortModeSN">Sortiert nach Abschnitt + Name</string>
-    <string name="sortModeSC">Sortiert nach Abschnitt + Code</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">TransektCount Basis-DB-Dateien</string>
@@ -155,8 +155,8 @@
     <string name="hintSearch">Anfangsbuchst.</string>
     <string name="initCharsL">Bitte 2 Buchst.</string>
     <string name="labelAddSpecButton">Arten hinzufügen</string>
+    <string name="specsCommonLang">Achtung, altes DB- oder Artenlistenformat! Zur korrekten Verwendung von lokalen Namen muss die Sprache der Daten unter \'Einstellungen\' gewählt werden.</string>
     <string name="specsToAdd">Weitere Arten:</string>
-    <string name="specsCommonLangMissing">Die lokale Datensprache ist nicht festgelegt. Es werden deutsche Namen verwendet.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>

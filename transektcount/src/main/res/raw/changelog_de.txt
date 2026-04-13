@@ -67,6 +67,13 @@ _ subtitle
   .
   _
 
+$ 5.0.7
+  % Version 5.0.7
+  _ 11.04.2026
+  * Einige Meldungen verbessert
+  * Bugfix: In "Einstellungen" gewählte Datensprache wurde nicht in die DB geschrieben
+  * Bugfixe in der Sprach-abhängigen Datumsformatierung für Dateinamen
+
 $ 5.0.6
   % Version 5.0.6
   _ 07.04.2026

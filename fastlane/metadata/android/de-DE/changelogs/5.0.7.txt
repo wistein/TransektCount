@@ -1,0 +1,4 @@
+Version 5.0.7 (11.04.2026)
+- Einige Meldungen verbessert
+- Bugfix: In "Einstellungen" gewählte Datensprache wurde nicht in die DB geschrieben
+- Bugfixe in der Sprach-abhängigen Datumsformatierung für Dateinamen

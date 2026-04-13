@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-07 -->
+     last edited 2026-04-11 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Annulla</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="code_spec">Codice specie</string>
-    <string name="confirmDBImport">Vuoi davvero importare un database? I tuoi dati attuali verranno sovrascritti!\nAttenzione! Ti preghiamo di verificare successivamente in “Impostazioni” se la lingua dei dati è stata impostata.</string>
+    <string name="confirmDBImport">Vuoi davvero importare un database? I tuoi dati attuali verranno sovrascritti!\n\nAttenzione! Se si tratta di una versione precedente del file, vai poi su «Impostazioni» e verifica che sia impostata la lingua dei dati corretta.</string>
     <string name="confirmGPSDelete">Vuoi davvero cancellare i dati della traccia?</string>
     <string name="confirmGPSImport">Vuoi provare a importare il file GPS?</string>
     <string name="confirmListImport">Vuoi davvero importare la lista di specie? I tuoi dati attuali verranno sovrascritti! L\'operazione potrebbe richiedere più tempo in caso di elenchi di grandi dimensioni.</string>
@@ -62,7 +62,11 @@
     <string name="saveList">Esportazione lista specie: Ok.</string>
     <string name="saveCSV">Esporre il file csv in Documents/TransektCount</string>
     <string name="showResultsButton">Mostra risultato</string>
-    <string name="specsCommonLang">Attenzione: vecchio formato della lista! Per utilizzare correttamente i nomi comuni, è necessario selezionare la lingua dei dati in «Impostazioni».</string>
+    <string name="specsCommonLangMissing">Attenzione! La lingua dei dati locali non è definita nel vecchio elenco. Selezionarla in “Impostazioni”. In caso contrario, verranno utilizzati i nomi delle specie in tedesco.</string>
+    <string name="sortModeC">Ordinati per codice</string>
+    <string name="sortModeN">Ordinati per nome</string>
+    <string name="sortModeSC">Ordinati per sezione + codice</string>
+    <string name="sortModeSN">Ordinati per sezione + nome</string>
     <string name="sumi">Totali (interni):</string>
     <string name="sumSpec">Specie:</string>
     <string name="sum_total">Totale (totale):</string>
@@ -78,10 +82,6 @@
     <string name="viewSectionButton">Contare</string>
     <string name="waitImport">Attendere, l\'importazione è in corso!</string>
     <string name="with">con</string>
-    <string name="sortModeN">Ordinati per nome</string>
-    <string name="sortModeC">Ordinati per codice</string>
-    <string name="sortModeSN">Ordinati per sezione + nome</string>
-    <string name="sortModeSC">Ordinati per sezione + codice</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">File DB di base TransektCount</string>
@@ -155,8 +155,8 @@
     <string name="hintSearch">Iniziali</string>
     <string name="initCharsL">2 lettere, per favore</string>
     <string name="labelAddSpecButton">Aggiungi specie</string>
+    <string name="specsCommonLang">Attenzione: vecchio formato del database o lista delle specie! Per utilizzare correttamente i nomi comuni, è necessario selezionare la lingua dei dati in «Impostazioni».</string>
     <string name="specsToAdd">Altre specie:</string>
-    <string name="specsCommonLangMissing">La lingua dei dati locali non è stata definita! Verranno utilizzati i nomi in tedesco.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">Info app (TransektCount Ver.</string>

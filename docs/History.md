@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.7 (2026-04-11)
+- Some messages improved
+- Bugfix: Data language change in 'Settings' was not written to DB
+- Bugfixes in language dependent date formatting for filenames
+
 #### Version 5.0.6 (2026-04-07)
 - Data language recognition also while importing DBs (depending on new data language field in DB)
 - Data language changeable in 'Settings' when not automatically detected (for old versions of species lists and DBs)

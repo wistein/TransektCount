@@ -15,6 +15,8 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import com.wmstein.transektcount.database.Head
+import com.wmstein.transektcount.database.HeadDataSource
 
 /**********************************************************
  * Set the Settings parameters for TransektCount
@@ -23,11 +25,12 @@ import androidx.core.view.updateLayoutParams
  * Adapted for TransektCount by wmstein on 18.02.2016.
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-01-28
+ * last edited on 2026-04-10
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
     private var editor: SharedPreferences.Editor? = null
+    private var headDataSource: HeadDataSource? = null
 
     @SuppressLint("CommitPrefEdits", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +86,15 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+
+        val dataLanguage = prefs.getString("pref_sel_data_lang", "")
+
+        // Set up the data source
+        headDataSource = HeadDataSource(applicationContext)
+        headDataSource!!.open()
+        val head: Head = headDataSource!!.head
+        head.data_language = dataLanguage
+        headDataSource!!.close()
 
         var ringtone: String
 

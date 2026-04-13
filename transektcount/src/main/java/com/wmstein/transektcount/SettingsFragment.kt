@@ -6,6 +6,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
+import java.util.Locale
 
 /************************************
  * SettingsFragment
@@ -13,19 +14,19 @@ import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
  * Created by wmstein on 2020-04-17,
  * last edited in Java on 2020-04-17,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-04-07
+ * last edited on 2026-04-10
  */
 // Load the preferences from preferences.xml
 class SettingsFragment : PreferenceFragmentCompat() {
     private var prefs = getPrefs()
-    private var dataLanguage: String = ""
+    private var language: String = ""
     private var hasDataLang: Boolean = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         // Set language icon
-        dataLanguage = prefs.getString("pref_sel_data_lang", "").toString()
+        language = Locale.getDefault().toString().substring(0, 2)
         val langPref: ListPreference? = findPreference("pref_sel_data_lang") // key
 
         // Set data language option visible if species in unknown language was imported
@@ -37,7 +38,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             langPref?.title = getString(R.string.pref_data_language)
 
         if (!hasDataLang) { // old species list: option on to select
-            when (dataLanguage) {
+            when (language) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en)
                 "fr" -> langPref?.setIcon(R.drawable.alpha_fr)
@@ -46,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 else -> langPref?.setIcon(R.drawable.alpha_xx)
             }
         } else { // new species list: option off; language automatically set
-            when (dataLanguage) {
+            when (language) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de_gr)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en_gr)
                 "fr" -> langPref?.setIcon(R.drawable.alpha_fr_gr)
@@ -92,11 +93,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onDisplayPreferenceDialog(langPref: Preference) {
         super.onDisplayPreferenceDialog(langPref)
 
-        dataLanguage = prefs.getString("pref_sel_data_lang", "").toString()
         val langPref: ListPreference? = findPreference("pref_sel_data_lang") // key
 
         if (!hasDataLang) {
-            when (dataLanguage) {
+            when (language) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en)
                 "fr" -> langPref?.setIcon(R.drawable.alpha_fr)
@@ -105,7 +105,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 else -> langPref?.setIcon(R.drawable.alpha_xx)
             }
         } else {
-            when (dataLanguage) {
+            when (language) {
                 "de" -> langPref?.setIcon(R.drawable.alpha_de_gr)
                 "en" -> langPref?.setIcon(R.drawable.alpha_en_gr)
                 "fr" -> langPref?.setIcon(R.drawable.alpha_fr_gr)

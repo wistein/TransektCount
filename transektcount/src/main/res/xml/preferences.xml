@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- used by SettingsActivity.java
-     last edited 2026-01-03 -->
+     last edited 2026-04-10 -->
 
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/prefs_data">
-        android:key="key_prefs_appearance">
+        android:key="key_prefs_data">
 
         <ListPreference
             android:defaultValue="de"

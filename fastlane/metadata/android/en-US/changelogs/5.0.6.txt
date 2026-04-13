@@ -1,4 +1,4 @@
-Version 5.0.5 (2026-04-07)
+Version 5.0.6 (2026-04-07)
 - Data language recognition also while importing DBs (depending on new data language field in DB)
 - Data language changeable in 'Settings' when not automatically detected (for old versions of species lists and DBs)
 - Added local language chars to filename of initial Basic DB

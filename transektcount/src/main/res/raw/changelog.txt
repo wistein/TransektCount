@@ -67,6 +67,13 @@ _ subtitle
   .
   _
 
+$ 5.0.7
+  % Version 5.0.7
+  _ 2026-04-11
+  * Some messages improved
+  * Bugfix: Data language change in 'Settings' was not written to DB
+  * Bugfixes in language dependent date formatting for filenames
+
 $ 5.0.6
   % Version 5.0.6
   _ 2026-04-04

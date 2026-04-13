@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml French strings,
-     last edited 2026-04-07 -->
+     last edited 2026-04-11 -->
 
 <resources>
 
@@ -13,7 +13,7 @@
     <string name="cancelButton">Annuler</string>
     <string name="changeLogTitle">Info sur l\'application</string>
     <string name="code_spec">Code espèce</string>
-    <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !\nAttention ! Veuillez vérifier ensuite dans les « Paramètres » si la langue des données est bien sélectionnée.</string>
+    <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !\n\nAttention ! S\'il s\'agit d\'une ancienne version du fichier, rendez-vous ensuite dans « Paramètres » et vérifiez que la langue des données est correctement définie.</string>
     <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
     <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
     <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données actuelles seront écrasées !</string>
@@ -62,7 +62,11 @@
     <string name="saveList">Exporter la liste des espèces: Ok.</string>
     <string name="saveCSV">Exporter le fichier CSV vers \'Documents/TourCount\'</string>
     <string name="showResultsButton">Afficher le résultat</string>
-    <string name="specsCommonLang">Attention, ancien format de liste ! Pour utiliser correctement les noms communs, il faut sélectionner la langue des données dans « Paramètres ».</string>
+    <string name="sortModeC">Classés par code</string>
+    <string name="sortModeN">Classés par nom</string>
+    <string name="sortModeSC">Classés par section + code</string>
+    <string name="sortModeSN">Classés par section + nom</string>
+    <string name="specsCommonLangMissing">Attention ! La langue locale des données n\'est pas définie dans l\'ancienne liste. Veuillez la sélectionner dans « Paramètres ». Sinon, les noms d\'espèces en allemand seront utilisés.</string>
     <string name="sumi">Somme (interne):</string>
     <string name="sumSpec">Arten:</string>
     <string name="sum_total">Somme (total) :</string>
@@ -78,10 +82,6 @@
     <string name="viewSectionButton">Compter</string>
     <string name="waitImport">Veuillez patienter, l\'importation est en cours !</string>
     <string name="with">avec</string>
-    <string name="sortModeN">Classés par nom</string>
-    <string name="sortModeC">Classés par code</string>
-    <string name="sortModeSN">Classés par section + nom</string>
-    <string name="sortModeSC">Classés par section + code</string>
 
     <!-- FileChooser -->
     <string name="fileHeadlineBasicDB">Fichiers de structure TransektCount BD</string>
@@ -155,8 +155,8 @@
     <string name="hintSearch">Initiale</string>
     <string name="initCharsL">2 lettres, svp.</string>
     <string name="labelAddSpecButton">Ajouter des espèces</string>
+    <string name="specsCommonLang">Attention, ancien format de BD ou liste des espèces ! Pour utiliser correctement les noms communs, il faut sélectionner la langue des données dans « Paramètres ».</string>
     <string name="specsToAdd">Autres espèces:</string>
-    <string name="specsCommonLangMissing">La langue locale des données n\'est pas définie ! Les noms allemands seront utilisés.</string>
 
     <!-- ChangeLog/ShowTextDialog -->
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
