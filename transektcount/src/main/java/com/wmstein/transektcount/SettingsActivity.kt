@@ -25,7 +25,7 @@ import com.wmstein.transektcount.database.HeadDataSource
  * Adapted for TransektCount by wmstein on 18.02.2016.
  * Last edited in Java on 2023-06-28,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-04-10
+ * last edited on 2026-04-15
  */
 class SettingsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
@@ -94,6 +94,7 @@ class SettingsActivity : AppCompatActivity() {
         headDataSource!!.open()
         val head: Head = headDataSource!!.head
         head.data_language = dataLanguage
+        headDataSource!!.saveHead(head)
         headDataSource!!.close()
 
         var ringtone: String

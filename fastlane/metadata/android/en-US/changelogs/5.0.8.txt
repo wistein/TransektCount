@@ -1,0 +1,4 @@
+Version 5.0.8 (2026-04-15)
+- Some messages improved
+- Gradle update -> 9.1.1
+- Bugfix

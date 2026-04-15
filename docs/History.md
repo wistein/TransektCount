@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.0.8 (2026-04-15)
+- Some messages improved
+- Gradle update -> 9.1.1
+- Bugfix
+
 #### Version 5.0.7 (2026-04-11)
 - Some messages improved
 - Bugfix: Data language change in 'Settings' was not written to DB

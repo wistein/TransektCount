@@ -67,6 +67,13 @@ _ subtitle
   .
   _
 
+$ 5.0.8
+  % Version 5.0.8
+  _ 2026-04-15
+  * Some messages improved
+  * Gradle update -> 9.1.1
+  * Bugfix
+
 $ 5.0.7
   % Version 5.0.7
   _ 2026-04-11

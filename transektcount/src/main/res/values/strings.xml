@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-04-11 -->
+     last edited 2026-04-15 -->
 
 <resources>
 
@@ -30,7 +30,7 @@
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!\n\nNote! If this is an older version of the file, go afterwards to “Settings” and check that the correct data language is set.</string>
     <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
-    <string name="confirmListImport">Are you sure you want to import the species list? Your current data will be overwritten! May last long for a long list.</string>
+    <string name="confirmListImport">Are you sure you want to import the species list? Your current counting data will be deleted! May last long for a long list.</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current counting data will be deleted!</string>
     <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
     <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
@@ -184,7 +184,7 @@
     <string name="pref_alert_sound">Audible Event Alert</string>
     <string name="pref_alert_sound_summ">Sound an audible alert when an event is triggered</string>
     <string name="pref_auto_section">Indicate transect section by GPS</string>
-    <string name="pref_auto_section_summ">Marks automatically the current section by GPS (provided that a suitable GPX list of transect coordinates is given)</string>
+    <string name="pref_auto_section_summ">Marks automatically the current section by GPS (provided a suitable GPX list of transect coordinates is given)</string>
     <string name="pref_awake">Keep Screen On</string>
     <string name="pref_awake_summ">Prevent screen from sleeping whilst counting</string>
     <string name="pref_bg_dialog">Choose background image</string>
@@ -206,7 +206,7 @@
     <string name="pref_proximity_title">Proximity Sensor</string>
     <string name="pref_data_language">Select data language of species list</string>
     <string name="pref_data_language_ok">Data language (automatically detected)</string>
-    <string name="pref_data_language_Summ">Set language for the common names of the butterflies.</string>
+    <string name="pref_data_language_Summ">Set language for the common names of butterflies.</string>
     <string name="pref_sort_sect_order_dialog">Sort order of your sections list</string>
     <string name="pref_sort_sect_order_title">Sorting Sections</string>
     <string name="pref_sort_sp_order_dialog">Sort order of your species list</string>
@@ -224,12 +224,12 @@
     <string name="countNameG">New Species (common name)</string>
     <string name="editCountValueee">Change ext. count value [ %1$d ] of egg</string>
     <string name="editCountValueei">Change int. count value [ %1$d ] of egg</string>
-    <string name="editCountValuef1e">Change ext. count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef1i">Change int. count value [ %1$d ] of butterfly ♂|♀</string>
-    <string name="editCountValuef2e">Change ext. count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef2i">Change int. count value [ %1$d ] of butterfly ♂</string>
-    <string name="editCountValuef3e">Change ext. count value [ %1$d ] of butterfly ♀</string>
-    <string name="editCountValuef3i">Change int. count value [ %1$d ] of butterfly ♀</string>
+    <string name="editCountValuef1e">Change ext. count value [ %1$d ] of imago ♂|♀</string>
+    <string name="editCountValuef1i">Change int. count value [ %1$d ] of imago ♂|♀</string>
+    <string name="editCountValuef2e">Change ext. count value [ %1$d ] of imago ♂</string>
+    <string name="editCountValuef2i">Change int. count value [ %1$d ] of imago ♂</string>
+    <string name="editCountValuef3e">Change ext. count value [ %1$d ] of imago ♀</string>
+    <string name="editCountValuef3i">Change int. count value [ %1$d ] of imago ♀</string>
     <string name="editCountValuele">Change ext. count value [ %1$d ] of larva</string>
     <string name="editCountValueli">Change int. count value [ %1$d ] of larva</string>
     <string name="editCountValuepe">Change ext. count value [ %1$d ] of pupa</string>

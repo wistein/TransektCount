@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-11 -->
+     last edited 2026-04-15 -->
 
 <resources>
 
@@ -16,8 +16,8 @@
     <string name="confirmDBImport">¿De verdad quieres importar una BD? ¡Se sobrescribirán tus datos actuales!\n\n¡Atención! Si se trata de una versión anterior del fichero, ve después a «Configuración» y comprueba que el idioma de los datos esté correctamente configurado.</string>
     <string name="confirmGPSDelete">¿De verdad quieres borrar los datos de la pista?</string>
     <string name="confirmGPSImport">¿Quieres intentar importar el fichero GPS?</string>
-    <string name="confirmListImport">¿De verdad quieres importar la lista de especies? ¡Se sobrescribirán tus datos actuales!</string>
-    <string name="confirmResetDB">¿De verdad quieres restablecer la BD? ¡Se borrarán tus datos actuales!</string>
+    <string name="confirmListImport">¿De verdad quieres importar la lista de especies? ¡Se borrarán tus datos de conteo actuales! Puede tardar más tiempo si las listas son largas.</string>
+    <string name="confirmResetDB">¿De verdad quieres restablecer la BD? ¡Se borrarán tus datos de conteo actuales!</string>
     <string name="corruptDb">¡Error de BD! Si el problema persiste tras reiniciar el dispositivo e importar otra BD de TourCount, desinstala la aplicación y vuelve a instalarla.</string>
     <string name="deleteTrackFail">No es necesario borrar nada, ¡no hay pistas en la base de datos!</string>
     <string name="distanceToTrack">Distancia al transecto:</string>

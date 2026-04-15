@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml French strings,
-     last edited 2026-04-11 -->
+     last edited 2026-04-15 -->
 
 <resources>
 
@@ -16,7 +16,7 @@
     <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !\n\nAttention ! S\'il s\'agit d\'une ancienne version du fichier, rendez-vous ensuite dans « Paramètres » et vérifiez que la langue des données est correctement définie.</string>
     <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
     <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
-    <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données actuelles seront écrasées !</string>
+    <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données de comptage actuelles seront supprimées ! Cela peut prendre plus de temps avec des listes volumineuses.</string>
     <string name="confirmResetDB">Voulez-vous vraiment réinitialiser la BD ? Vos données de comptage actuelles seront supprimées !</string>
     <string name="corruptDb">Erreur BD ! Si le problème persiste après le redémarrage et l\'importation d\'un autre TourCount-BD, veuillez désinstaller l\'application et la réinstaller.</string>
     <string name="deleteTrackFail">Suppression inutile, aucune trace n\'est disponible dans la BD !</string>
