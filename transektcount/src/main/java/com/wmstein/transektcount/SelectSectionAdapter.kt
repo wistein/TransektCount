@@ -31,7 +31,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-02-28
+ * last edited on 2026-04-19
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -93,13 +93,13 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "120, getView, Id = $sectionId, maxId = $maxId")
+                    Log.d(TAG, "96, getView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "126, getView, Id = $sectionId, not maxId = $maxId")
+                    Log.d(TAG, "102, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
         } else {

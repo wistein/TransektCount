@@ -66,6 +66,7 @@
     <string name="sortModeN">Sortiert nach Name</string>
     <string name="sortModeSC">Sortiert nach Abschnitt + Code</string>
     <string name="sortModeSN">Sortiert nach Abschnitt + Name</string>
+    <string name="specis">Arten</string>
     <string name="specsCommonLangMissing">Achtung! Die lokale Datensprache ist in der alten Liste nicht festgelegt. Bitte unter "Einstellungen" wählen. Ansonsten werden deutsche Artnamen verwendet.</string>
     <string name="sumi">Summen (intern):</string>
     <string name="sumSpec">Arten:</string>
@@ -144,7 +145,7 @@
     <string name="notesHint">Bemerkung einfügen&#8230;</string>
     <string name="orcode"> oder Code</string>
     <string name="presentSpecs">Arten in Liste:</string>
-    <string name="spname">Name</string>
+    <string name="strName">Name</string>
     <string name="titleEdit">Name des aktuellen Abschnitts</string>
 
     <!-- DelSpeciesActivity -->

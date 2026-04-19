@@ -80,6 +80,7 @@
     <string name="sortModeN">Sorted by name</string>
     <string name="sortModeSC">Sorted by section + code</string>
     <string name="sortModeSN">Sorted by section + name</string>
+    <string name="specis">Species</string>
     <string name="specsCommonLangMissing">Attention! The local data language is not defined in the old list. Please, select it in "Settings". Otherwise, German species names will be used.</string>
     <string name="sumi">Totals (internal):</string>
     <string name="sumSpec">Diff. Species:</string>
@@ -158,7 +159,7 @@
     <string name="notesHint">Type notes here&#8230;</string>
     <string name="orcode"> or code</string>
     <string name="presentSpecs">Species in list:</string>
-    <string name="spname">Name</string>
+    <string name="strName">Name</string>
     <string name="titleEdit">Name of current section</string>
 
     <!-- DelSpeciesActivity -->

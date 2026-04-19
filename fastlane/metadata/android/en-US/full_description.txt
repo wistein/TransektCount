@@ -2,7 +2,9 @@ TransectCount supports the species-specific counting of butterflies per transect
 
 New in Version 5.0.8:
 - Some messages improved
-- Gradle update -> 9.1.1
+- Results layout (.csv) improved
+- Code improvements
+- Docs and example files updated
 - Bugfix
 
 Features:

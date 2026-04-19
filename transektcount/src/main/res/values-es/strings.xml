@@ -66,6 +66,7 @@
     <string name="sortModeN">Ordenado por nombre</string>
     <string name="sortModeSC">Ordenado por sección + código</string>
     <string name="sortModeSN">Ordenado por sección + nombre</string>
+    <string name="specis">Especies</string>
     <string name="specsCommonLangMissing">¡Atención! El idioma de los datos locales no aparece en la lista anterior. Selecciónalo en «Configuración». De lo contrario, se utilizarán los nombres de las especies en alemán.</string>
     <string name="sumi">Suma (interna):</string>
     <string name="sumSpec">Núm. de especies:</string>
@@ -144,7 +145,7 @@
     <string name="notesHint">Insertar nota&#8230;</string>
     <string name="orcode"> o código</string>
     <string name="presentSpecs">Especies de la lista:</string>
-    <string name="spname">Nombre</string>
+    <string name="strName">Nombre</string>
     <string name="titleEdit">Nombre de la sección actual</string>
 
     <!-- DelSpeciesActivity -->

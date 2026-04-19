@@ -864,7 +864,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "865, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.d(TAG, "867, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingInternWidget widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1332,7 +1332,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1311, countUpf1e, section Id: " + sectionId
+            Log.d(TAG, "1335, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1382,7 +1382,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1359 countDownf1e, section Id: " + sectionId
+            Log.d(TAG, "1385 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1857,14 +1857,14 @@ public class CountingActivity
         if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1812, Vibrator >= SDK 31");
+                    Log.d(TAG, "1860, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                 {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "1819, Vibrator >= SDK 26");
+                        Log.d(TAG, "1867, Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();

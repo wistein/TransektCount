@@ -69,9 +69,11 @@ _ subtitle
 
 $ 5.0.8
   % Version 5.0.8
-  _ 15.04.2026
+  _ 19.04.2026
   * Einige Meldungen verbessert
-  * Gradle-Update -> 9.1.1
+  * Code-Verbesserungen
+  * Layout der Ergebnisse (.csv) verbessert
+  * Doku und Beispieldateien aktualisiert
   * Bugfix
 
 $ 5.0.7

@@ -2,7 +2,9 @@ TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen p
 
 Neu in Version 5.0.8:
 - Einige Meldungen verbessert
-- Gradle-Update -> 9.1.1
+- Code-Verbesserungen
+- Layout der Ergebnisse (.csv) verbessert
+- Doku und Beispieldateien aktualisiert
 - Bugfix
 
 Eigenschaften:

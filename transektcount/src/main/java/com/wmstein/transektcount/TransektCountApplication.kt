@@ -181,7 +181,7 @@ class TransektCountApplication : Application() {
         var isFirstLoc: Boolean = true // true for showing a hint message once
 
         @JvmField
-        var isActivityResumed: Boolean = false // true for SelectSectionActivity is shown
+        var isSelectSectionActivityResumed: Boolean = false // true for SelectSectionActivity is shown
     }
 
 }

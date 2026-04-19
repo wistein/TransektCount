@@ -67,6 +67,7 @@
     <string name="sortModeN">Ordinati per nome</string>
     <string name="sortModeSC">Ordinati per sezione + codice</string>
     <string name="sortModeSN">Ordinati per sezione + nome</string>
+    <string name="specis">Specie</string>
     <string name="sumi">Totali (interni):</string>
     <string name="sumSpec">Specie:</string>
     <string name="sum_total">Totale (totale):</string>
@@ -144,7 +145,7 @@
     <string name="notesHint">Inserisci una nota&#8230;</string>
     <string name="orcode"> o codice</string>
     <string name="presentSpecs">Specie nella lista:</string>
-    <string name="spname">Nome</string>
+    <string name="strName">Nome</string>
     <string name="titleEdit">Nome della sezione corrente</string>
 
     <!-- DelSpeciesActivity -->

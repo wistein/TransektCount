@@ -24,7 +24,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 
 import com.wmstein.transektcount.TransektCountApplication.Companion.distMin
-import com.wmstein.transektcount.TransektCountApplication.Companion.isActivityResumed
+import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSectionActivityResumed
 import com.wmstein.transektcount.TransektCountApplication.Companion.isFirstLoc
 import com.wmstein.transektcount.TransektCountApplication.Companion.lat
 import com.wmstein.transektcount.TransektCountApplication.Companion.locServiceOn
@@ -55,7 +55,7 @@ import kotlin.math.sqrt
  *
  * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-02-28
+ * last edited on 2026-04-18
  */
 class LocationService : Service, LocationListener {
     var mContext: Context? = null
@@ -153,12 +153,12 @@ class LocationService : Service, LocationListener {
                     )
 
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "155, requestLocationUpdates")
+                        Log.i(TAG, "156, requestLocationUpdates")
                 }
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "160, StopListener: $e")
+                Log.e(TAG, "161, StopListener: $e")
         }
     }
 
@@ -193,7 +193,7 @@ class LocationService : Service, LocationListener {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "198, current SecName: $sectionNameCurrent")
+            Log.d(TAG, "196, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -212,15 +212,15 @@ class LocationService : Service, LocationListener {
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "220, new SecName: $sectionNameGPS")
+                Log.i(TAG, "215, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
 
-            // Get is SelectSectionActivity active
-            isSelSectAct = isActivityResumed
+            // Start SelectSectionActivity if it called location
+            isSelSectAct = isSelectSectionActivityResumed
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "228, isSelectSectionActivityRes: $isSelSectAct")
+                Log.i(TAG, "223, isSelectSectionActivityRes: $isSelSectAct")
 
             // Reload SelectSectionActivity when it is active with new section marked blue
             if (isSelSectAct) {
@@ -262,7 +262,7 @@ class LocationService : Service, LocationListener {
             }
         }
 
-        // Read all TRACK_TABLE entries and find distMin
+        // Read all TRACK_TABLE entries and find distMin for nearest track
         for (trackpt: Track in trackPts) {
             tSName = trackpt.tsection.toString()
             tLat = trackpt.tlat.toString() // Lat. from DB
@@ -317,11 +317,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "325, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "320, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "329, StopListener: $e")
+                Log.e(TAG, "324, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -392,7 +392,7 @@ class LocationService : Service, LocationListener {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "291, onDestroy")
+            Log.i(TAG, "395, onDestroy")
 
         if (alertSoundPref && rToneA != null) {
             rToneA!!.reset()

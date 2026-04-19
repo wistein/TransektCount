@@ -40,7 +40,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-02-28
+ * last edited on 2026-04-19
  */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication
@@ -68,7 +68,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "67, onCreate")
+            Log.i(TAG, "71, onCreate")
 
         transektCount = application as TransektCountApplication
 
@@ -141,7 +141,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "139, onResume")
+            Log.i(TAG, "144, onResume")
 
         list = findViewById(android.R.id.list)
         showData()
@@ -189,7 +189,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "187, onPause")
+            Log.i(TAG, "192, onPause")
 
         sectionDataSource!!.close()
         trackDataSource!!.close()
@@ -204,7 +204,7 @@ class SelectSectionActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "202, onStop")
+            Log.i(TAG, "207, onStop")
 
         list!!.invalidate()
 
@@ -263,14 +263,14 @@ class SelectSectionActivity : AppCompatActivity() {
                     entries = sectionDataSource!!.numEntries
                 } catch (e: Exception) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "256 getNumEntries failed, $e")
+                        Log.e(TAG, "266 getNumEntries failed, $e")
                 }
 
                 try {
                     maxId = sectionDataSource!!.maxId
                 } catch (e: Exception) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "263 getMaxId failed, $e")
+                        Log.e(TAG, "273 getMaxId failed, $e")
                 }
 
                 if (entries != maxId) {
@@ -281,7 +281,7 @@ class SelectSectionActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "274 maxId: $maxId, entries: $entries")
+                        Log.d(TAG, "284 maxId: $maxId, entries: $entries")
                     return@OnClickListener
                 }
 
@@ -337,12 +337,12 @@ class SelectSectionActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             selSectName = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "330, compSectionNames, selSectName = $selSectName")
+                Log.d(TAG, "340, compSectionNames, selSectName = $selSectName")
 
             if (newName == selSectName) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "335, compSectionNames, Double name = $selSectName")
+                    Log.d(TAG, "345, compSectionNames, Double name = $selSectName")
                 break
             }
         }

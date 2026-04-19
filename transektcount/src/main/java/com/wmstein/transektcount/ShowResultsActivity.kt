@@ -7,12 +7,14 @@ import android.util.Log
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.LinearLayout
+
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.Head
@@ -34,7 +36,7 @@ import com.wmstein.transektcount.widgets.ResultsSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-04-02
+ * last edited on 2026-04-19
  */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null
@@ -61,7 +63,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "63, onCreate")
+            Log.i(TAG, "66, onCreate")
 
         awakePref = prefs.getBoolean("pref_awake", true)
         outPref = prefs.getString("pref_csv_out", "species") // sort mode output
@@ -116,7 +118,7 @@ class ShowResultsActivity : AppCompatActivity() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "118, handleOnBackPressed")
+                    Log.d(TAG, "121, handleOnBackPressed")
                 finish()
                 remove()
             }
@@ -129,7 +131,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "131, onResume")
+            Log.i(TAG, "134, onResume")
 
         headDataSource!!.open()
         metaDataSource!!.open()
@@ -294,7 +296,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "289, onPause")
+            Log.i(TAG, "299, onPause")
 
         // close the data sources
         headDataSource!!.close()
@@ -310,7 +312,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "305, onStop")
+            Log.i(TAG, "315, onStop")
 
         if (awakePref) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -323,7 +325,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "318, onDestroy")
+            Log.i(TAG, "328, onDestroy")
     }
 
     companion object {

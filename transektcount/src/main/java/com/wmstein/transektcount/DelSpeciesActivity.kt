@@ -34,7 +34,7 @@ import java.util.Locale
  *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-03-02
+ * last edited on 2025-04-19
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -161,6 +161,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     // End of onResume()
 
     // Get initial 2 characters of species to select by search button
+    // Parameter view is necessary for function call
     fun getDelInitialChars(view: View) {
         // Read EditText searchDel from widget_del_hint.xml
         val searchDel: EditText = findViewById(R.id.searchD)
@@ -176,7 +177,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             searchDel.error = null
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "179, initChars: $initChars")
+                Log.d(TAG, "180, initChars: $initChars")
             searchDel.clearFocus()
             searchDel.invalidate()
 
@@ -212,7 +213,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                     cnt++
                     deleteArea!!.addView(dsw)
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "215, name: " + count.name)
+                        Log.d(TAG, "216, name: " + count.name)
                 }
             }
         } else {
@@ -225,7 +226,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "228, name: " + count.name)
+                    Log.d(TAG, "229, name: " + count.name)
             }
         }
     }
@@ -234,7 +235,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "237, View.tag: $idToDel")
+            Log.d(TAG, "238, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -244,14 +245,14 @@ class DelSpeciesActivity : AppCompatActivity() {
             listToDelete!!.add(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "247, mark delete code: $codeD")
+                Log.d(TAG, "248, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "254, mark delete code: $codeD")
+                Log.d(TAG, "255, mark delete code: $codeD")
             }
         }
     }
@@ -263,7 +264,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.d(TAG, "266, delete code: $specCode")
+                Log.d(TAG, "267, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -328,7 +329,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "331 onPause")
+            Log.i(TAG, "332 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -347,7 +348,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "350, onStop")
+            Log.i(TAG, "351, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -357,7 +358,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "360, onDestroy")
+            Log.i(TAG, "361, onDestroy")
     }
 
     companion object {

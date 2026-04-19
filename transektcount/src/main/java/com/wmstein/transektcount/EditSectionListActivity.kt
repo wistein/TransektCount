@@ -42,7 +42,7 @@ import java.util.Locale
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-03-30
+ * last edited on 2026-04-19
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -199,6 +199,7 @@ class EditSectionListActivity : AppCompatActivity() {
     // End of onResume()
 
     // Get initial 2 characters of species to select by search button
+    // Parameter view is necessary for function call
     fun getEditInitialChars(view: View) {
         // Read EditText searchEdit from widget_edit_hint.xml
         val searchEdit: EditText = findViewById(R.id.searchE)
@@ -214,7 +215,7 @@ class EditSectionListActivity : AppCompatActivity() {
             searchEdit.error = null
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "217, initChars: $initChars")
+                Log.d(TAG, "218, initChars: $initChars")
 
             searchEdit.clearFocus()
             searchEdit.invalidate()
@@ -267,7 +268,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 esw!!.setCountId(count.id)
                 editingSpeciesArea!!.addView(esw)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "270, name: " + count.name)
+                    Log.d(TAG, "271, name: " + count.name)
             }
         }
     }
@@ -276,7 +277,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "279 onPause")
+            Log.i(TAG, "280 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -299,7 +300,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "302 onStop")
+            Log.i(TAG, "303 onStop")
 
         editingSpeciesArea = null
         speciesNotesArea = null
@@ -310,7 +311,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "313, onDestroy")
+            Log.i(TAG, "314, onDestroy")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -348,7 +349,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "351, newSectName: $newSectName")
+            Log.d(TAG, "352, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
@@ -400,7 +401,7 @@ class EditSectionListActivity : AppCompatActivity() {
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "403, childcount: $childcount")
+            Log.d(TAG, "404, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -421,7 +422,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 // for all species per section
                 for (i in 0 until childcount) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "424, Section: $si, Species $i")
+                        Log.d(TAG, "425, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -451,7 +452,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 si++
             }
         } else {
-            mesg = (getString(R.string.spname) + " " + isDblName + " "
+            mesg = (getString(R.string.spec_Name) + " " + isDblName + " "
                     + getString(R.string.orcode) + " " + isDblCode + " " + getString(
                 R.string.isdouble
             ))
@@ -463,7 +464,7 @@ class EditSectionListActivity : AppCompatActivity() {
             correct = false
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "466, getEditSpecies, ok: $correct")
+            Log.d(TAG, "467, getEditSpecies, ok: $correct")
         return correct
     }
 
@@ -500,11 +501,11 @@ class EditSectionListActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "503, sname = $sname")
+                Log.d(TAG, "504, sname = $sname")
             if (newSectName == sname) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "507, Double name = $sname")
+                    Log.d(TAG, "508, Double name = $sname")
                 break
             }
         }
@@ -525,7 +526,7 @@ class EditSectionListActivity : AppCompatActivity() {
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "528, Double name = $isDblName")
+                    Log.d(TAG, "529, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -547,7 +548,7 @@ class EditSectionListActivity : AppCompatActivity() {
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "550, Double name = $isDblCode")
+                    Log.d(TAG, "551, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)

@@ -43,7 +43,7 @@ import androidx.core.view.WindowInsetsCompat;
  * EditMetaActivity collects meta info for a transect inspection
  * <p>
  * Created by wmstein on 2016-03-31,
- * last edited on 2026-03-04
+ * last edited on 2026-04-19
  */
 public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
@@ -70,7 +70,7 @@ public class EditMetaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "72, onCreate");
+            Log.i(TAG, "73, onCreate");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -113,7 +113,7 @@ public class EditMetaActivity extends AppCompatActivity {
                 @Override
                 public void handleOnBackPressed() {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "118, handleOnBackPressed");
+                        Log.d(TAG, "116, handleOnBackPressed");
                     finish();
                 }
             };
@@ -136,7 +136,7 @@ public class EditMetaActivity extends AppCompatActivity {
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "131, onResume");
+            Log.i(TAG, "139, onResume");
 
         // Setup data sources
         headDataSource.open();
@@ -282,14 +282,14 @@ public class EditMetaActivity extends AppCompatActivity {
         if (id == android.R.id.home) // back button in actionBar
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "277, MenuItem home");
+                Log.d(TAG, "285, MenuItem home");
             finish();
             return true;
         }
 
         if (id == R.id.menuSaveExit) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "284, MenuItem saveExit");
+                Log.d(TAG, "292, MenuItem saveExit");
             if (saveData())
                 finish();
             return true;
@@ -302,7 +302,7 @@ public class EditMetaActivity extends AppCompatActivity {
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "297, onPause");
+            Log.i(TAG, "305, onPause");
 
         headDataSource.close();
         metaDataSource.close();
@@ -323,7 +323,7 @@ public class EditMetaActivity extends AppCompatActivity {
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "318, onStop");
+            Log.i(TAG, "326, onStop");
 
         metaArea = null;
     }
@@ -333,12 +333,12 @@ public class EditMetaActivity extends AppCompatActivity {
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "332, onDestroy");
+            Log.i(TAG, "336, onDestroy");
     }
 
     public boolean saveData() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "337, saveData");
+            Log.i(TAG, "341, saveData");
         // Save head data
         head.transect_no = ehw.getWidgetNo1();
         head.inspector_name = ehw.getWidgetName1();

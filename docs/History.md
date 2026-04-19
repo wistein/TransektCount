@@ -2,9 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.8 (2026-04-15)
+#### Version 5.0.8 (2026-04-19)
 - Some messages improved
-- Gradle update -> 9.1.1
+- Results layout (.csv) improved
+- Code improvements
+- Docs and example files updated
 - Bugfix
 
 #### Version 5.0.7 (2026-04-11)

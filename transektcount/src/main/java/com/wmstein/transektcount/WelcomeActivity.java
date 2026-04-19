@@ -2,6 +2,14 @@ package com.wmstein.transektcount;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
+import static com.wmstein.transektcount.TransektCountApplication.distMin;
+import static com.wmstein.transektcount.TransektCountApplication.isSelectSectionActivityResumed;
+import static com.wmstein.transektcount.TransektCountApplication.isFirstLoc;
+import static com.wmstein.transektcount.TransektCountApplication.lat;
+import static com.wmstein.transektcount.TransektCountApplication.lon;
+import static com.wmstein.transektcount.TransektCountApplication.locServiceOn;
+import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
+import static com.wmstein.transektcount.TransektCountApplication.sectionNameCurrent;
 import static com.wmstein.transektcount.Utils.fromHtml;
 
 import android.Manifest;
@@ -82,12 +90,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.wmstein.transektcount.TransektCountApplication.lat;
-import static com.wmstein.transektcount.TransektCountApplication.lon;
-import static com.wmstein.transektcount.TransektCountApplication.distMin;
-import static com.wmstein.transektcount.TransektCountApplication.locServiceOn;
-import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
-
 /**********************************************************************
  * WelcomeActivity provides the starting page with menu and buttons for
  * import/export/help/info methods and lets you call
@@ -99,7 +101,7 @@ import static com.wmstein.transektcount.TransektCountApplication.sectionIdGPS;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-04-11
+ * last edited on 2026-04-18
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -173,7 +175,7 @@ public class WelcomeActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "176, onCreate");
+            Log.i(TAG, "178, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -195,7 +197,7 @@ public class WelcomeActivity
             startService(sndIntent);
             sndServiceOn = true;
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "198, onCreate: sndServiceOn: true");
+                Log.i(TAG, "200, onCreate: sndServiceOn: true");
 
             editor.putBoolean("snd_srv_on", true);
             editor.commit();
@@ -257,7 +259,7 @@ public class WelcomeActivity
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "260, onCreate, autoSection: " + autoSection
+            Log.d(TAG, "262, onCreate, autoSection: " + autoSection
                     + ", Transect has track: " + transectHasTrack);
 
         // Check and ask storage permission
@@ -265,7 +267,7 @@ public class WelcomeActivity
         if (!storagePermGranted) // in self permission
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "268, onCreate, StoragePermDialog");
+                Log.d(TAG, "270, onCreate, StoragePermDialog");
 
             PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                     PermissionsStorageDialogFragment.class.getName());
@@ -273,14 +275,14 @@ public class WelcomeActivity
 
         storagePermGranted = isStoragePermGranted();
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "276, onCreate, storageGranted: " + storagePermGranted);
+            Log.d(TAG, "278, onCreate, storageGranted: " + storagePermGranted);
 
         // Check current DB version and upgrade if necessary
         dbHelper = new DbHelper(this);
         database = dbHelper.getWritableDatabase(); // Make DB upgrade if necessary
         int dbVer = database.getVersion(); // DB version after upgrade
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "283, onCreate, dbVersion: " + dbVer);
+            Log.i(TAG, "285, onCreate, dbVersion: " + dbVer);
 
         dbHelper.close();
 
@@ -316,7 +318,7 @@ public class WelcomeActivity
             inFile = new File(path, "/transektcount0_" + localLanguage + ".db"); // new initial basic DB
             if (!inFile.exists()) {
                 // parameter 0: short name, local language and don't show a message
-                exportBasisDb(0);
+                exportBasicDb(0);
             }
         }
 
@@ -361,7 +363,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.d(TAG, "364, onCreate, TrkPts: " + trackPts.size()
+            Log.d(TAG, "366, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks correspond to sections
@@ -407,7 +409,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "410, onCreate, ForegrndLocDialog");
+                    Log.d(TAG, "412, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -434,7 +436,7 @@ public class WelcomeActivity
                 if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "437, onCreate, BackgrndLocDialog");
+                        Log.d(TAG, "439, onCreate, BackgrndLocDialog");
 
                     // Ask optional background location permission
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
@@ -474,7 +476,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "477, NavBarMode = " + navBarMode);
+            Log.d(TAG, "479, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -526,7 +528,7 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "529, onResume");
+            Log.i(TAG, "531, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -634,7 +636,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "637, locationDispatcher 1");
+                        Log.d(TAG, "639, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         Intent sIntent = new Intent(getApplicationContext(), LocationService.class);
@@ -652,7 +654,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "655, location stop 2 by backpress");
+                        Log.d(TAG, "657, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -661,7 +663,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "664 location stop 3 by onStop");
+                        Log.d(TAG, "666 location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -717,6 +719,22 @@ public class WelcomeActivity
             startActivity(new Intent(this, SettingsActivity.class)
                     .addFlags(FLAG_ACTIVITY_CLEAR_TOP));
             return true;
+        } else if (id == R.id.exportBasisMenu) {
+            if (storagePermGranted) {
+                exportBasicDb(2); // 2: long name + message
+            } else {
+                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
+                        PermissionsStorageDialogFragment.class.getName());
+                if (storagePermGranted) {
+                    exportBasicDb(2); // 2: long name + message
+                } else {
+                    mesg = getString(R.string.storage_not_possible);
+                    Toast.makeText(this,
+                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+            return true;
         } else if (id == R.id.exportMenu) {
             if (storagePermGranted) {
                 exportDb();
@@ -741,22 +759,6 @@ public class WelcomeActivity
                         PermissionsStorageDialogFragment.class.getName());
                 if (storagePermGranted) {
                     exportDb2CSV();
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-            return true;
-        } else if (id == R.id.exportBasisMenu) {
-            if (storagePermGranted) {
-                exportBasisDb(2); // 2: long name + message
-            } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportBasisDb(2); // 2: long name + message
                 } else {
                     mesg = getString(R.string.storage_not_possible);
                     Toast.makeText(this,
@@ -867,14 +869,14 @@ public class WelcomeActivity
         // Stop location service when denied in settings
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "870, location stop by setting");
+                Log.d(TAG, "872, location stop by setting");
             stopLocSrv();
         }
 
         // Stop sound service when denied in settings
         if (!buttonSoundPref && sndServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "877, button sound stop by setting");
+                Log.d(TAG, "879, button sound stop by setting");
             stopService(sndIntent);
             sndServiceOn = false;
             editor = prefs.edit();
@@ -893,7 +895,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "896, onPause");
+            Log.i(TAG, "898, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -909,7 +911,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "912, onStop");
+            Log.i(TAG, "914, onStop");
 
         baseLayout.invalidate();
 
@@ -926,7 +928,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "929, onStop, app not visible. locationDispatcher 3");
+                Log.d(TAG, "931, onStop, app not visible. locationDispatcher 3");
         }
     }
 
@@ -935,7 +937,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "938 onDestroy");
+            Log.i(TAG, "940 onDestroy");
 
         if (sndServiceOn) {
             stopService(sndIntent);
@@ -999,7 +1001,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1002, importBasicDBFile");
+            Log.d(TAG, "1004, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -1148,6 +1150,12 @@ public class WelcomeActivity
                                     welcomeTitle.setText(getString(R.string.app_name));
                                 }
 
+                                // Reset invalid values
+                                lat = 0.0;
+                                lon = 0.0;
+                                sectionIdGPS = 0;
+                                sectionNameCurrent = "";
+
                                 if (trCount > 0) {
                                     mesg = getString(R.string.importDB) + ",\n"
                                             + getString(R.string.with) + " " + trCount + " "
@@ -1291,6 +1299,14 @@ public class WelcomeActivity
         database.execSQL(sql);
 
         dbHelper.close();
+
+        lat = 0.0;
+        lon = 0.0;
+        isFirstLoc = true;
+        locServiceOn = false;
+        isSelectSectionActivityResumed = false;
+        sectionIdGPS = 0;
+        sectionNameCurrent = "";
 
         editor = prefs.edit();
         editor.putInt("item_Position", 0);
@@ -1447,7 +1463,7 @@ public class WelcomeActivity
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                                         Log.e(TAG,
-                                                "1450, decodeGPX, Problem converting Stream to String: " + e);
+                                                "1465, decodeGPX, Problem converting Stream to String: " + e);
                                 }
 
                                 String gpxString = gpxsb.toString();
@@ -1470,12 +1486,12 @@ public class WelcomeActivity
 
                                 // Parse gpxString to write fields into TRACK_TABLE
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1473, decodeGPX, Datasources open");
+                                    Log.d(TAG, "1489, decodeGPX, Datasources open");
 
                                 // get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.d(TAG, "1478 decodeGPX, numSect: "
+                                    Log.d(TAG, "1494 decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1540,7 +1556,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1543, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.d(TAG, "1559, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section
@@ -1557,7 +1573,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1560, decodeGPX, do trackpt");
+                            Log.d(TAG, "1576, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1567,7 +1583,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.d(TAG, "1570 decodeGPX, sectionNameGPS: "
+                            Log.d(TAG, "1586 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1582,13 +1598,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1585, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1601, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.d(TAG, "1591, decodeGPX, trackpt " + trkPt);
+                                Log.d(TAG, "1607, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1598,14 +1614,14 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "1601, decodeGPX, gpxString finished: " + gpxString);
+                Log.d(TAG, "1617, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
         editor = prefs.edit();
         editor.putBoolean("transect_has_track", transectHasTrack);
         editor.apply();
-        exportBasisDb(1); // Write modified DB as Basic DB without message
+        exportBasicDb(1); // Write modified DB as Basic DB without message
     }
     // End of importGPS()
 
@@ -1624,7 +1640,7 @@ public class WelcomeActivity
 
             if (r_ok) {
                 // switch autoSection off
-                exportBasisDb(1); // Write modified DB as Basic DB without message
+                exportBasicDb(1); // Write modified DB as Basic DB without message
 
                 if (locServiceOn) {
                     stopLocSrv();
@@ -1674,17 +1690,17 @@ public class WelcomeActivity
      * The next four functions below are for exporting data files.
      */
     // Exports Basic DB to Documents/TransektCount/transektcount0.db
-    private void exportBasisDb(int i) {
+    private void exportBasicDb(int i) {
         // i = 1: show message only when executed by menu command
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
         inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
         inFile = new File(inPath);
 
-        // tmpfile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
+        // tmpFile -> /data/data/com.wmstein.transektcount/files/transektcount_tmp.db
         String tmpPath = getApplicationContext().getFilesDir().getPath();
         tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
-        File tmpfile = new File(tmpPath);
+        File tmpFile = new File(tmpPath);
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
         File path;
@@ -1721,20 +1737,21 @@ public class WelcomeActivity
         } else {
             // Export the basic db
             try {
-                // Save current db as backup db tmpfile
-                copy(inFile, tmpfile);
+                // Save current db as backup db tmpFile
+                copy(inFile, tmpFile);
 
-                // Clear DB values for basic DB
-                clearDBValues();
+                // Clear DB and location values for basic DB
+                boolean r_ok = clearDBValues();
 
                 // Write Basic DB
-                copy(inFile, outFile);
-
-                // Restore actual db from tmpfile
-                copy(tmpfile, inFile);
+                if (r_ok) {
+                    copy(inFile, outFile);
+                    // Restore actual db from tmpFile
+                    copy(tmpFile, inFile);
+                }
 
                 // Delete backup db
-                boolean d0 = tmpfile.delete();
+                boolean d0 = tmpFile.delete();
 
                 // Show message success
                 if (d0 && i == 2) { // show message
@@ -1751,7 +1768,7 @@ public class WelcomeActivity
             }
         }
     }
-    // End of exportBasisDb()
+    // End of exportBasicDb()
 
     @SuppressLint({"SdCardPath", "LongLogTag"})
     private void exportDb() {
@@ -2018,23 +2035,42 @@ public class WelcomeActivity
                 CSVWriter csvWrite = new CSVWriter(new FileWriter(outFile));
 
                 // Set header according to table representation in spreadsheet
-                String[] arrCol =
-                        {
-                                getString(R.string.transectnumber),
-                                getString(R.string.inspector),
-                                getString(R.string.date),
-                                "",
-                                getString(R.string.timehead),
-                                getString(R.string.temperature),
-                                getString(R.string.wind),
-                                getString(R.string.clouds),
-                                "",
-                                getString(R.string.kal_w),
-                                "","",
-                                sortMode,
-                                "","","","",
-                                getString(R.string.inspection_note),
-                        };
+                String[] arrCol;
+                switch (outPref) {
+                    case "names", "codes" -> arrCol = new String[]{
+                            getString(R.string.transectnumber),
+                            getString(R.string.inspector),
+                            getString(R.string.date),
+                            "",
+                            getString(R.string.timehead),
+                            getString(R.string.temperature),
+                            getString(R.string.wind),
+                            getString(R.string.clouds),
+                            "",
+                            getString(R.string.kal_w),
+                            "",
+                            sortMode,
+                            "", "", "", "",
+                            getString(R.string.inspection_note),
+                    };
+                    default -> arrCol = new String[]{
+                            getString(R.string.transectnumber),
+                            getString(R.string.inspector),
+                            getString(R.string.date),
+                            "",
+                            getString(R.string.timehead),
+                            getString(R.string.temperature),
+                            getString(R.string.wind),
+                            getString(R.string.clouds),
+                            "",
+                            getString(R.string.kal_w),
+                            "", "",
+                            sortMode,
+                            "", "", "", "",
+                            getString(R.string.inspection_note),
+                    };
+                }
+
                 csvWrite.writeNext(arrCol); // write line to csv-file
 
                 // Open Head table for head info
@@ -2064,28 +2100,44 @@ public class WelcomeActivity
                 //    transect no., inspector name, date, start-time, start-temperature, start-wind,
                 //    clouds, calendar week and inspection note
                 kw = String.valueOf(Kw);
-                String[] arrMeta =
-                        {
-                                "\"" + transNo + "\"",
-                                inspecName,
-                                "\"" + date + "\"",
-                                getString(R.string.from),
-                                "\"" + start_tm + "\"",
-                                String.valueOf(temps),
-                                String.valueOf(winds),
-                                String.valueOf(clouds),
-                                "",
-                                kw,
-                                "", "", "", "", "", "", "",
-                                "\"" + inspection_note + "\"",
-                        };
+                String[] arrMeta;
+                switch (outPref) {
+                    case "names", "codes" -> arrMeta = new String[]{
+                            "\"" + transNo + "\"",
+                            inspecName,
+                            "\"" + date + "\"",
+                            getString(R.string.from),
+                            "\"" + start_tm + "\"",
+                            String.valueOf(temps),
+                            String.valueOf(winds),
+                            String.valueOf(clouds),
+                            "",
+                            kw,
+                            "", "", "", "", "", "",
+                            "\"" + inspection_note + "\"",
+                    };
+                    default -> arrMeta = new String[]{
+                            "\"" + transNo + "\"",
+                            inspecName,
+                            "\"" + date + "\"",
+                            getString(R.string.from),
+                            "\"" + start_tm + "\"",
+                            String.valueOf(temps),
+                            String.valueOf(winds),
+                            String.valueOf(clouds),
+                            "",
+                            kw,
+                            "", "", "", "", "", "", "",
+                            "\"" + inspection_note + "\"",
+                    };
+                }
                 csvWrite.writeNext(arrMeta);
 
                 // 2. headline info with
                 //    end-time, end-temperature, end-clouds
                 String[] arrMeta1 =
                         {"", "", "", getString(R.string.to), "\"" + end_tm + "\"", String.valueOf(tempe),
-                                String.valueOf(winde),String.valueOf(cloude),};
+                                String.valueOf(winde), String.valueOf(cloude),};
                 csvWrite.writeNext(arrMeta1);
 
                 // Empty row
@@ -2094,10 +2146,14 @@ public class WelcomeActivity
 
                 String[] arrIE;
                 switch (outPref) {
-                    case "names" -> arrIE = new String[] {"","","","",getString(R.string.internal),"","","","","",getString(R.string.external)};
-                    case "codes" -> arrIE = new String[] {"","","","",getString(R.string.internal),"","","","","",getString(R.string.external)};
-                    case "sections_names" -> arrIE = new String[] {"","","","","",getString(R.string.internal),"","","","","",getString(R.string.external)};
-                    default -> arrIE = new String[] {"","","","","",getString(R.string.internal),"","","","","",getString(R.string.external)};
+                    case "names" ->
+                            arrIE = new String[]{"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    case "codes" ->
+                            arrIE = new String[]{"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    case "sections_names" ->
+                            arrIE = new String[]{getString(R.string.name_sect), "", getString(R.string.specis), "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    default ->
+                            arrIE = new String[]{getString(R.string.name_sect), "", getString(R.string.specis), "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
                 }
                 csvWrite.writeNext(arrIE);
 
@@ -2153,7 +2209,7 @@ public class WelcomeActivity
                         // Section, Time of 1. Count, Species Name, Local Name, Code, Internal Counts,
                         //   External Counts, Spec.-Notes
                             new String[]{
-                                    getString(R.string.name_sect),
+                                    getString(R.string.strName),
                                     getString(R.string.time_sect),
                                     getString(R.string.name_spec),
                                     nameSpecG,
@@ -2176,7 +2232,7 @@ public class WelcomeActivity
                         // Section, Time of 1. Count, Code, Species Name, Local Name, Internal Counts,
                         //   External Counts, Spec.-Notes
                             new String[]{
-                                    getString(R.string.name_sect),
+                                    getString(R.string.strName),
                                     getString(R.string.time_sect),
                                     getString(R.string.code_spec),
                                     getString(R.string.name_spec),
@@ -2205,55 +2261,55 @@ public class WelcomeActivity
                     case "names" ->
                         // Cursor contains list sorted by section and name with all internal count entries > 0
                         //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                                + " WHERE ("
-                                + DbHelper.C_NOTES + " = '0' or "
-                                + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                                + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                                + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                                + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                                + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                                + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                                + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
+                            curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                                    + " WHERE ("
+                                    + DbHelper.C_NOTES + " = '0' or "
+                                    + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                                    + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                                    + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                                    + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                                    + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                                    + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                                    + " order by " + DbHelper.C_NAME + ", " + DbHelper.C_SECTION_ID, null);
                     case "codes" ->
                         // Cursor contains list sorted by name and section with all internal count entries > 0
                         //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                                + " WHERE ("
-                                + DbHelper.C_NOTES + " = '0' or "
-                                + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                                + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                                + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                                + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                                + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                                + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                                + " order by " + DbHelper.C_CODE + ", " + DbHelper.C_SECTION_ID, null);
+                            curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                                    + " WHERE ("
+                                    + DbHelper.C_NOTES + " = '0' or "
+                                    + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                                    + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                                    + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                                    + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                                    + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                                    + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                                    + " order by " + DbHelper.C_CODE + ", " + DbHelper.C_SECTION_ID, null);
                     case "sections_names" ->
                         // Cursor contains list sorted by name and section with all internal count entries > 0
                         //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                                + " WHERE ("
-                                + DbHelper.C_NOTES + " = '0' or "
-                                + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                                + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                                + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                                + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                                + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                                + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                                + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
+                            curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                                    + " WHERE ("
+                                    + DbHelper.C_NOTES + " = '0' or "
+                                    + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                                    + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                                    + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                                    + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                                    + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                                    + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                                    + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_NAME, null);
                     default ->
                         // Cursor contains list sorted by name and section with all internal count entries > 0
                         //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
-                                + " WHERE ("
-                                + DbHelper.C_NOTES + " = '0' or "
-                                + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
-                                + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
-                                + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
-                                + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
-                                + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
-                                + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
-                                + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_CODE, null);
+                            curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                                    + " WHERE ("
+                                    + DbHelper.C_NOTES + " = '0' or "
+                                    + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
+                                    + DbHelper.C_COUNT_F3I + " > 0 or " + DbHelper.C_COUNT_PI + " > 0 or "
+                                    + DbHelper.C_COUNT_LI + " > 0 or " + DbHelper.C_COUNT_EI + " > 0 or "
+                                    + DbHelper.C_COUNT_F1E + " > 0 or " + DbHelper.C_COUNT_F2E + " > 0 or "
+                                    + DbHelper.C_COUNT_F3E + " > 0 or " + DbHelper.C_COUNT_PE + " > 0 or "
+                                    + DbHelper.C_COUNT_LE + " > 0 or " + DbHelper.C_COUNT_EE + " > 0)"
+                                    + " order by " + DbHelper.C_SECTION_ID + ", " + DbHelper.C_CODE, null);
                 }
 
                 String code;       // current species code
@@ -2496,17 +2552,28 @@ public class WelcomeActivity
                 total = totali + totale;
 
                 // Intern, extern
-                csvWrite.writeNext(arrIE);
+                String[] arrIE1;
+                switch (outPref) {
+                    case "names" ->
+                            arrIE1 = new String[]{"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    case "codes" ->
+                            arrIE1 = new String[]{"", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    case "sections_names" ->
+                            arrIE1 = new String[]{"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                    default ->
+                            arrIE1 = new String[]{"", "", "", "", "", getString(R.string.internal), "", "", "", "", "", getString(R.string.external)};
+                }
+                csvWrite.writeNext(arrIE1);
 
                 // Internal counts, External counts, Totals
                 String[] arrCol2;
                 switch (outPref) {
                     case "names", "codes" -> arrCol2 = new String[]{"", "", "", "",
-                            getString(R.string.countImagomfHint),getString(R.string.countImagomHint),getString(R.string.countImagofHint),getString(R.string.countPupaHint),getString(R.string.countLarvaHint),getString(R.string.countOvoHint),
-                            getString(R.string.countImagomfHint),getString(R.string.countImagomHint),getString(R.string.countImagofHint),getString(R.string.countPupaHint),getString(R.string.countLarvaHint),getString(R.string.countOvoHint),getString(R.string.hintTotal)};
+                            getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint),
+                            getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint), getString(R.string.hintTotal)};
                     default -> arrCol2 = new String[]{"", "", "", "", "",
-                            getString(R.string.countImagomfHint),getString(R.string.countImagomHint),getString(R.string.countImagofHint),getString(R.string.countPupaHint),getString(R.string.countLarvaHint),getString(R.string.countOvoHint),
-                            getString(R.string.countImagomfHint),getString(R.string.countImagomHint),getString(R.string.countImagofHint),getString(R.string.countPupaHint),getString(R.string.countLarvaHint),getString(R.string.countOvoHint),getString(R.string.hintTotal)};
+                            getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint),
+                            getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint), getString(R.string.hintTotal)};
                 }
                 csvWrite.writeNext(arrCol2);
 
@@ -2550,13 +2617,13 @@ public class WelcomeActivity
                 String[] arrSumi;
                 switch (outPref) {
                     case "names", "codes" -> arrSumi = new String[]{"", "",
-                            getString(R.string.sumSpec) + " " + sumSpec,getString(R.string.sumi),
-                            strsummf,strsumm,strsumf,strsump,strsuml,strsumo,
-                            "", "", "", "", "", "",strtotali};
+                            getString(R.string.sumSpec) + " " + sumSpec, getString(R.string.sumi),
+                            strsummf, strsumm, strsumf, strsump, strsuml, strsumo,
+                            "", "", "", "", "", "", strtotali};
                     default -> arrSumi = new String[]{"", "", "",
-                            getString(R.string.sumSpec) + " " + sumSpec,getString(R.string.sumi),
-                            strsummf,strsumm,strsumf,strsump,strsuml,strsumo,
-                            "", "", "", "", "", "",strtotali};
+                            getString(R.string.sumSpec) + " " + sumSpec, getString(R.string.sumi),
+                            strsummf, strsumm, strsumf, strsump, strsuml, strsumo,
+                            "", "", "", "", "", "", strtotali};
                 }
                 csvWrite.writeNext(arrSumi);
 
@@ -2600,11 +2667,11 @@ public class WelcomeActivity
                 String[] arrSume;
                 switch (outPref) {
                     case "names", "codes" -> arrSume = new String[]{"", "", "",
-                            getString(R.string.sume),"", "", "", "", "", "",
-                            strsummfe,strsumme,strsumfe,strsumpe,strsumle,strsumoe,strtotale};
+                            getString(R.string.sume), "", "", "", "", "", "",
+                            strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe, strtotale};
                     default -> arrSume = new String[]{"", "", "", "",
-                            getString(R.string.sume),"", "", "", "", "", "",
-                            strsummfe,strsumme,strsumfe,strsumpe,strsumle,strsumoe,strtotale};
+                            getString(R.string.sume), "", "", "", "", "", "",
+                            strsummfe, strsumme, strsumfe, strsumpe, strsumle, strsumoe, strtotale};
                 }
                 csvWrite.writeNext(arrSume);
 
@@ -2619,10 +2686,10 @@ public class WelcomeActivity
                 switch (outPref) {
                     case "names", "codes" -> arrTotal = new String[]{"", "", "",
                             getString(R.string.sum_total), "", "", "", "", "", "",
-                            "", "", "", "", "", "",strtotal};
+                            "", "", "", "", "", "", strtotal};
                     default -> arrTotal = new String[]{"", "", "", "",
                             getString(R.string.sum_total), "", "", "", "", "", "",
-                            "", "", "", "", "", "",strtotal};
+                            "", "", "", "", "", "", strtotal};
                 }
                 csvWrite.writeNext(arrTotal);
 
@@ -2639,7 +2706,7 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2642, csv write external failed");
+                    Log.e(TAG, "2709, csv write external failed");
             }
             dbHelper.close();
         }
@@ -2875,7 +2942,6 @@ public class WelcomeActivity
             }
         });
         builder.setNegativeButton(R.string.cancelButton, (dialog, id) -> dialog.cancel());
-
         alert = builder.create();
         alert.show();
     }
@@ -2886,7 +2952,6 @@ public class WelcomeActivity
         // Clear values in DB
         dbHelper = new DbHelper(this);
         database = dbHelper.getWritableDatabase();
-
         boolean r_ok = true; // Gets false when reset fails
 
         try {
@@ -2931,6 +2996,15 @@ public class WelcomeActivity
             r_ok = false;
         }
         dbHelper.close();
+
+        lat = 0.0;
+        lon = 0.0;
+        isFirstLoc = true;
+        locServiceOn = false;
+        isSelectSectionActivityResumed = false;
+        sectionIdGPS = 0;
+        sectionNameCurrent = "";
+
         return r_ok;
     }
     // End of resetToBasisDb()
