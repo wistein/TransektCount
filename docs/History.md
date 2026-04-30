@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.8 (2026-04-19)
+#### Version 5.0.8 (2026-04-30)
 - Some messages improved
 - Results layout (.csv) improved
 - Code improvements

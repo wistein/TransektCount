@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-04-15 -->
+     last edited 2026-04-30 -->
 
 <resources>
 
@@ -179,7 +179,7 @@
     <string name="changelog_title">What\'s New</string>
     <string name="ok_button">OK</string>
     <string name="title_help_dialog">Help</string>
-    <string name="title_license_dialog">License</string>
+    <string name="title_license_dialog">Licenses</string>
 
     <!-- Preferences -->
     <string name="pref_alert_sound">Audible Event Alert</string>
@@ -268,7 +268,7 @@
     <string name="hintDateTime">Date and time\nof 1. count:</string>
     <string name="hintInstructions">Instructions.</string>
     <string name="hintTitle">Title</string>
-    <string name="hintTotal">Totals:</string>
+    <string name="hintTotal">Totals</string>
     <string name="newSect">New section:</string>
     <string name="no_provider">No GPS service available!</string>
     <string name="sect01">Sect 01</string>

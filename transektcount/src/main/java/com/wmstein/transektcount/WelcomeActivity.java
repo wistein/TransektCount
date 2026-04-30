@@ -101,7 +101,7 @@ import java.util.concurrent.Executors;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-04-18
+ * last edited on 2026-04-30
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -203,7 +203,7 @@ public class WelcomeActivity
             editor.commit();
         }
 
-        // Proximity sensor handling in preferences menu
+        // Entry handling for Proximity and Vibrator sensor in preferences menu
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
@@ -673,7 +673,7 @@ public class WelcomeActivity
         }
     }
 
-    // Get the current location for a hint with the distance to transect
+    // Get the current location for a hint telling the distance to transect
     public void getDistance() {
         if (locationService.canGetLocation() && distMin != 0.0) {
             // Show message: GPS: Distance to track: distance m

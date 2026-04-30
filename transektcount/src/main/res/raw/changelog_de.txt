@@ -69,7 +69,7 @@ _ subtitle
 
 $ 5.0.8
   % Version 5.0.8
-  _ 19.04.2026
+  _ 30.04.2026
   * Einige Meldungen verbessert
   * Code-Verbesserungen
   * Layout der Ergebnisse (.csv) verbessert

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-15 -->
+     last edited 2026-04-30 -->
 
 <resources>
 
@@ -254,7 +254,7 @@
     <string name="hintDateTime">Fecha y hora\ndel 1.º recuento:</string>
     <string name="hintInstructions">Instrucciones</string>
     <string name="hintTitle">Título</string>
-    <string name="hintTotal">Totales:</string>
+    <string name="hintTotal">Totales</string>
     <string name="newSect">Nueva sección:</string>
     <string name="no_provider">¡No hay servicio GPS disponible!</string>
     <string name="sect01">Sec. 01</string>

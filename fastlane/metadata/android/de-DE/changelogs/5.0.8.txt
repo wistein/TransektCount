@@ -1,4 +1,4 @@
-Version 5.0.8 (19.04.2026)
+Version 5.0.8 (30.04.2026)
 - Einige Meldungen verbessert
 - Code-Verbesserungen
 - Layout der Ergebnisse (.csv) verbessert

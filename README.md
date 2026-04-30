@@ -51,8 +51,7 @@ https://f-droid.org/packages/com.wmstein.transektcount/.
 All versions of the apk-file 'transektcount-release_nnn.apk' are provided in the GitHub repository under 
 https://github.com/wistein/TransektCount.
 
-Please note that both versions are compiled from the same sources but signed differently and so cannot 
-be mutually updated.
+Please note that both apk versions (F-Droid and GitHub) are compiled from the same sources but signed differently and so cannot be mutually updated.
 
 On GitHub, you will find the published current version when clicking the "master"-button and select 
 the Tag with the highest Branch number n.n.n. Then get the file transektcount-release_nnn.apk under apk. 
