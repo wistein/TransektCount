@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionIdGPS
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionNameCurrent
 import com.wmstein.transektcount.Utils.fromHtml
@@ -31,7 +32,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-04-19
+ * last edited on 2026-05-16
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -93,13 +94,13 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "96, getView, Id = $sectionId, maxId = $maxId")
+                    Log.i(TAG, "97, getView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "102, getView, Id = $sectionId, not maxId = $maxId")
+                    Log.i(TAG, "103, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
         } else {

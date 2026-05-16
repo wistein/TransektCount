@@ -1,22 +1,20 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.0.8:
-- Some messages improved
-- Results layout (.csv) improved
-- Code improvements
-- Docs and example files updated
+New in Version 5.0.9:
+- Info about new Google restrictions in "App Info"
+- Some GPS parameters for Settings improved
 - Bugfix
 
 Features:
 - Data collection is based on a transect inspection.
 - Databases refer to a transect and can be individually created and customised within the app with regard to metadata, transect sections and expected species.
 - The app contains an internal list with many European species and has a prepared database for a transect section with the most common species to be expected in Germany as a starting point for direct use.
-- Export of the current species list for import by TourCount and TransektCount.
+- Export of the current species list for later re-import by TransektCount or import by the complementary app TourCount.
 - Separate counters for internal/external counting areas and separately for ♂-♀-indeterminate, ♂, ♀, pupa, caterpillar or egg.
 - Results page with prepared presentation for transfer to the input mask of Butterfly Monitoring Germany (web.app.ufz.de/tagfalter-monitoring/).
-- The result can be output as an SQLite DB file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC).
+- The result can be output as an SQLite-DB file or as a CSV table (e.g. for transfer and further use in a spreadsheet programme on a PC).
 - The help contains detailed user instructions.
-- TransektCount supports counting in German or English language.
+- TransektCount supports counting in German, English, French, Italian and Spanish language and provides locale species names in these languages.
 
 Functions:
 - Duplicate and delete transect sections.
@@ -24,17 +22,17 @@ Functions:
 - Editor for metadata in preparation for an inspection.
 - Counter page per section with scroll-down list for species selection.
 - Species editor for annotation and bulk counter entries.
-- GPS support for selecting the current section.
+- Optionally, GPS support for an info to change the current section.
 - The results page shows metadata, notes, totals and counting results per species and transect section.
 
 Prerequisites:
 The app requires
 - storage access permit for importing and exporting counting data, 
 - the permit to set the screen brightness, 
-- the permit to prevent the sleep mode,
-- optionally the permit for exact GPS location recognition.
+- the permit to prevent the sleep mode und
+- optionally, the permit to get the exact location for recognizing the current transect section.
 
-The smartphone screen should have a minimum resolution of 1024 x 1920 pixels.
+The device screen should have a minimum resolution of 1024 x 1920 pixels.
 The app can be used with Android version 7.1 (Nougat) or newer.
 
 Documentation is provided under:

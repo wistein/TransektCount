@@ -6,7 +6,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -24,18 +23,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 
 import com.wmstein.transektcount.TransektCountApplication.Companion.distMin
-import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSectionActivityResumed
 import com.wmstein.transektcount.TransektCountApplication.Companion.isFirstLoc
+import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSectionActivityResumed
 import com.wmstein.transektcount.TransektCountApplication.Companion.lat
-import com.wmstein.transektcount.TransektCountApplication.Companion.locServiceOn
 import com.wmstein.transektcount.TransektCountApplication.Companion.lon
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionIdGPS
 import com.wmstein.transektcount.TransektCountApplication.Companion.sectionNameCurrent
+import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.Section
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.database.Track
 import com.wmstein.transektcount.database.TrackDataSource
-import com.wmstein.transektcount.Utils.fromHtml
 
 import java.text.DecimalFormat
 
@@ -55,25 +53,23 @@ import kotlin.math.sqrt
  *
  * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-04-18
+ * last edited on 2026-05-16
  */
 class LocationService : Service, LocationListener {
-    var mContext: Context? = null
+    private var mContext: Context? = null
     private var locationManager: LocationManager? = null
     private var location: Location? = null
-    var checkGPS = false
+    private var checkGPS = false
     var canGetLocation = false
     private var sectionGPS: Section? = null
     private var sectionNameGPS: String = "" // current track section name
     private var isInsideTrack = true // inside of track (always true for manual section selection)
-    private var distMax = 0.0 // track width: default 5 meters
     private lateinit var trackPts: List<Track>
 
     // prefs
-    private var prefs: SharedPreferences? = null
     private var selTimeInterval: Long = 3000 // Default time interval for updates
-    private var deviationAllowed: Long = 5 // Default min. distance for updates
-    private val minDistanceM: Long = 0 // No movement between updates necessary
+    private var maxDeviation = 5.0 // track width: default 5 meters
+    private var minDistanceM: Long = 0 // No movement between updates necessary
     private var alertSoundPref: Boolean = false
     private var alertSound: String = ""
 
@@ -87,14 +83,10 @@ class LocationService : Service, LocationListener {
     private var isSelSectAct = false
 
     // Default constructor is demanded for service declaration in AndroidManifest.xml
-    constructor()
+    constructor() // not to be removed!
 
     constructor(mContext: Context?) {
         this.mContext = mContext // Gets ApplicationContext from call in WelcomeActivity
-        getLocation()
-    }
-
-    private fun getLocation() {
         audioAttributionContext =
             if (Build.VERSION.SDK_INT >= 30)
                 mContext!!.createAttributionContext("ringSound")
@@ -104,15 +96,15 @@ class LocationService : Service, LocationListener {
                 mContext!!.createAttributionContext("locationCheck")
             else mContext
 
-        prefs = TransektCountApplication.getPrefs()
-        selTimeInterval = prefs!!.getString("pref_time_interval", "3000")!!.toLong()
-        deviationAllowed = prefs!!.getString("pref_distance", "5")!!.toLong()
-        distMax = prefs!!.getString("pref_deviation", "5")!!.toDouble()
-        alertSoundPref = prefs!!.getBoolean("pref_alert_sound", false)
-        alertSound = prefs!!.getString("alert_sound", "")!!
+        val prefs = TransektCountApplication.getPrefs()
+        selTimeInterval = prefs.getString("pref_time_interval", "3000")!!.toLong()
+        minDistanceM = prefs.getString("pref_distance", "0")!!.toLong()
+        maxDeviation = prefs.getString("pref_deviation", "5")!!.toDouble()
+        alertSoundPref = prefs.getBoolean("pref_alert_sound", false)
+        alertSound = prefs.getString("alert_sound", "")!!
 
         sectionDataSource = SectionDataSource(mContext!!)
-        trackDataSource = TrackDataSource(mContext!!)
+        trackDataSource = TrackDataSource(mContext)
 
         // Try to get list of trackpoints
         trackDataSource!!.open()
@@ -122,7 +114,6 @@ class LocationService : Service, LocationListener {
         try {
             locationManager =
                 locationAttributionContext!!.getSystemService(LOCATION_SERVICE) as LocationManager
-            assert(locationManager != null)
 
             // Get GPS provider status
             checkGPS = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -130,7 +121,7 @@ class LocationService : Service, LocationListener {
             if (checkGPS) {
                 this.canGetLocation = true
             } else {
-                val mesg = mContext!!.getString(R.string.no_provider)
+                val mesg = mContext.getString(R.string.no_provider)
                 Toast.makeText(
                     mContext,
                     fromHtml("<font color='red'><b>$mesg</b></font>"),
@@ -141,24 +132,20 @@ class LocationService : Service, LocationListener {
             // if GPS is enabled get position using GPS service
             if (checkGPS && canGetLocation) {
                 if (ActivityCompat.checkSelfPermission(
-                        mContext!!,
+                        mContext,
                         Manifest.permission.ACCESS_FINE_LOCATION
-                    )
-                    == PackageManager.PERMISSION_GRANTED
+                    ) == PackageManager.PERMISSION_GRANTED
                 ) {
                     locationManager!!.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         selTimeInterval,
                         minDistanceM.toFloat(), this
                     )
-
-                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "156, requestLocationUpdates")
                 }
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "161, StopListener: $e")
+                Log.e(TAG, "148, Error in getLocation: $e")
         }
     }
 
@@ -167,7 +154,7 @@ class LocationService : Service, LocationListener {
      - compare position with tracks,
      - identify section if its track that contains the current position
      */
-    fun getGPSSection() {
+    override fun onLocationChanged(location: Location) {
         sectionNameGPS = checkSectionTrack()
 
         if (isFirstLoc && distMin != 0.0) {
@@ -193,11 +180,11 @@ class LocationService : Service, LocationListener {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "196, current SecName: $sectionNameCurrent")
+            Log.i(TAG, "183, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
-        if (isInsideTrack && sectionNameGPS != sectionNameCurrent && locServiceOn) {
+        if (isInsideTrack && sectionNameGPS != sectionNameCurrent) {
             // Beep and show message for mew recognized section
             soundAlert()
 
@@ -212,7 +199,7 @@ class LocationService : Service, LocationListener {
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "215, new SecName: $sectionNameGPS")
+                Log.i(TAG, "202, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
@@ -220,7 +207,7 @@ class LocationService : Service, LocationListener {
             // Start SelectSectionActivity if it called location
             isSelSectAct = isSelectSectionActivityResumed
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "223, isSelectSectionActivityRes: $isSelSectAct")
+                Log.i(TAG, "210, isSelectSectionActivityRes: $isSelSectAct")
 
             // Reload SelectSectionActivity when it is active with new section marked blue
             if (isSelSectAct) {
@@ -250,8 +237,7 @@ class LocationService : Service, LocationListener {
         if (ActivityCompat.checkSelfPermission(
                 mContext!!,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             if (locationManager != null) {
                 location = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -277,7 +263,7 @@ class LocationService : Service, LocationListener {
 
         // If smallest distance still > track width, then location is outside a section
         //   -> keep last known section marked
-        if (distMin > distMax) {
+        if (distMin > maxDeviation) {
             if (!sectionNameCurrent.isEmpty())
                 tSecNam = ""
             else if (sectionNameCurrent.isEmpty())
@@ -314,14 +300,15 @@ class LocationService : Service, LocationListener {
         try {
             if (locationManager != null) {
                 locationManager!!.removeUpdates(this@LocationService)
+                stopSelf()
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "320, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "307, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "324, StopListener: $e")
+                Log.e(TAG, "311, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -339,20 +326,16 @@ class LocationService : Service, LocationListener {
         return canGetLocation
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
-
-    override fun onLocationChanged(location: Location) {
-        getGPSSection()
-    }
-
     override fun onProviderEnabled(s: String) {
         // do nothing
     }
 
     override fun onProviderDisabled(s: String) {
         // do nothing
+    }
+
+    override fun onBind(intent: Intent): IBinder? {
+        return null
     }
 
     // If the user has set the preference for an audible alert, then sound it here.
@@ -392,7 +375,7 @@ class LocationService : Service, LocationListener {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "395, onDestroy")
+            Log.i(TAG, "378, onDestroy")
 
         if (alertSoundPref && rToneA != null) {
             rToneA!!.reset()

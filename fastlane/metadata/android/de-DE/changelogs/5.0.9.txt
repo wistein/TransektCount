@@ -1,0 +1,4 @@
+Version 5.0.9 (16.05.2026)
+- Info über neue Google Einschränkungen in "App-Info"
+- Einige GPS-Parameter für Einstellungen verbessert
+- Bugfix

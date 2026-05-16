@@ -41,7 +41,7 @@ import java.util.Locale;
  Therefore, retrieves the version names and stores the new version name in SharedPreferences
 
  Adopted for TransektCount by wmstein on 2016-02-12,
- last change by wmstein on 2026-03-20
+ last change by wmstein on 2026-05-16
  */
 public class ChangeLog
 {
@@ -64,7 +64,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
         // Get version numbers of last Version and this Version to compare
         this.lastVersion = prefs.getString(VERSION_KEY, NO_VERSION);
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "67, lastVersion: " + lastVersion);
+            Log.i(TAG, "67, lastVersion: " + lastVersion);
 
         try
         {
@@ -77,7 +77,7 @@ public ChangeLog(Context context, SharedPreferences prefs)
                 Log.e(TAG, "77, Could not get version name from manifest!", e);
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "80, appVersion: " + this.thisVersion);
+            Log.i(TAG, "80, appVersion: " + this.thisVersion);
     }
 
     /**
@@ -202,69 +202,66 @@ public ChangeLog(Context context, SharedPreferences prefs)
                     }
                 }
                 // other text
-                else if (!advanceToEOVS)
-                {
-                    switch (marker)
-                    {
-                        // line contains version title
-                        case '%' ->
-                        {
+                else if (!advanceToEOVS) {
+                    switch (marker) {
+                        case '%' -> {
+                            // line contains version title
                             this.closeList();
                             sb.append("<div class='title'>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</div>\n");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
                         }
-                        // line contains version subtitle
-                        case '_' ->
-                        {
+                        case '_' -> {
+                            // line contains version subtitle
                             this.closeList();
                             sb.append("<div class='subtitle'>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</div>\n");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
                         }
-                        // line contains free text
-                        case '!' ->
-                        {
+                        case '!' -> {
+                            // line contains free text
                             this.closeList();
                             sb.append("<div class='freetext'>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</div>\n");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
                         }
-                        // empty line
-                        case '.' -> {
+                        case ')' -> {
+                            // line contains normal text
                             this.closeList();
-                            sb.append("<div class='freetext'>").append(line.substring(1)).append("<br></div>\n");
+                            sb.append("<div class='normaltext'>");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
                         }
-                        // line contains bold text
-                        case '&' ->
-                        {
+                        case '+' -> {
+                            // line contains normal text with left margin
+                            this.closeList();
+                            sb.append("<div class='margtext'>");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
+                        }
+                        case '&' -> {
+                            // line contains bold text
                             this.closeList();
                             sb.append("<div class='boldtext'>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</div>\n");
+                            sb.append(line.substring(1).trim()).append("</div>\n");
                         }
-                        // line contains numbered list item
-                        case '#' ->
-                        {
+                        case '.' -> {
+                            // empty line
+                            this.closeList();
+                            sb.append("<div class='freetext'>");
+                            sb.append(line.substring(1)).append("<br></div>\n");
+                        }
+                        case '#' -> {
+                            // line contains numbered list item
                             this.openList(Listmode.ORDERED);
                             sb.append("<li>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</li>\n");
+                            sb.append(line.substring(1).trim()).append("</li>\n");
                         }
-                        // line contains bullet list item
-                        case '*' ->
-                        {
+                        case '*' -> {
+                            // line contains bullet list item
                             this.openList(Listmode.UNORDERED);
                             sb.append("<li>");
-                            sb.append(line.substring(1).trim());
-                            sb.append("</li>\n");
+                            sb.append(line.substring(1).trim()).append("</li>\n");
                         }
-                        // just use line as is
-                        default ->
-                        {
+                        default -> {
+                            // just use line as is
                             this.closeList();
-                            sb.append(line);
-                            sb.append("\n");
+                            sb.append(line).append("\n");
                         }
                     }
                 }

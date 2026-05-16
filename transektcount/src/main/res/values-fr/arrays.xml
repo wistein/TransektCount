@@ -43,20 +43,12 @@
 		<item>Haut</item>
 	</string-array>
 
-    <string-array name="pref_sel_dist_max_entries">
+    <string-array name="pref_sel_deviation_entries">
         <item>3 m</item>
         <item>4 m</item>
         <item>5 m</item>
         <item>7,5 m</item>
         <item>10 m</item>
     </string-array>
-
-	<string-array name="pref_sel_deviation_entries">
-		<item>3 m</item>
-		<item>4 m</item>
-		<item>5 m</item>
-		<item>7,5 m</item>
-		<item>10 m</item>
-	</string-array>
 
 </resources>

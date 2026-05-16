@@ -76,7 +76,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-03-03
+ * last edited on 2026-05-16
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -102,7 +102,6 @@ public class CountingActivity
 
     // Preferences
     private SharedPreferences prefs;
-    private SharedPreferences.Editor editor;
     private boolean awakePref;
     private boolean brightPref;
     private String sortPref;
@@ -143,7 +142,7 @@ public class CountingActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "146, onCreate");
+            Log.i(TAG, "145, onCreate");
 
         TransektCountApplication transektCount = (TransektCountApplication) getApplication();
         prefs = TransektCountApplication.getPrefs();
@@ -293,7 +292,7 @@ public class CountingActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "296, onResume");
+            Log.i(TAG, "295, onResume");
 
         sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -404,7 +403,7 @@ public class CountingActivity
         // Get itemPosition of added species by specCode from sharedPreference
         if (!Objects.equals(prefs.getString("new_spec_code", ""), "")) {
             specCode = prefs.getString("new_spec_code", "");
-            editor = prefs.edit();
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putString("new_spec_code", ""); // clear prefs value after use
             editor.apply();
         }
@@ -437,7 +436,7 @@ public class CountingActivity
         if (proximitySensor != null) {
             if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "440 Value0: " + event.values[0] + ", " + "Sensitivity: "
+                    Log.i(TAG, "439 Value0: " + event.values[0] + ", " + "Sensitivity: "
                             + (sensorSensitivity));
 
                 // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -589,13 +588,6 @@ public class CountingActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         setPrefVariables();
-
-        // Stop sound service when denied in settings
-        if (!buttonSoundPref) {
-            editor = prefs.edit();
-            editor.putBoolean("snd_srv_on", false);
-            editor.commit();
-        }
     }
 
     // Save activity state for getting back to CountingActivity
@@ -623,7 +615,7 @@ public class CountingActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "626, onPause");
+            Log.i(TAG, "618, onPause");
 
         disableProximitySensor();
 
@@ -647,7 +639,7 @@ public class CountingActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "650, onStop");
+            Log.i(TAG, "642, onStop");
 
         counting_screen.invalidate();
 
@@ -662,7 +654,7 @@ public class CountingActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "665, onDestroy");
+            Log.i(TAG, "657, onDestroy");
     }
 
     // Spinner listener
@@ -684,13 +676,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "687, SpinnerListener, count id: " + count.id
+                        Log.i(TAG, "679, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "693, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "685, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -704,7 +696,7 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "707, countingScreen");
+            Log.i(TAG, "699, countingScreen");
 
         // 1. Species line is set by CountingHead1Widget in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -809,7 +801,7 @@ public class CountingActivity
         //  no action by 1st click when previous species selected again
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "812, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.i(TAG, "804, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingInternWidget widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -864,7 +856,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "867, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.i(TAG, "859, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingInternWidget widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1332,7 +1324,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1335, countUpf1e, section Id: " + sectionId
+            Log.i(TAG, "1327, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1382,7 +1374,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "1385 countDownf1e, section Id: " + sectionId
+            Log.i(TAG, "1377 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1857,14 +1849,14 @@ public class CountingActivity
         if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "1860, Vibrator >= SDK 31");
+                    Log.i(TAG, "1852, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (Build.VERSION.SDK_INT >= 26) // Oreo Android 8
                 {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "1867, Vibrator >= SDK 26");
+                        Log.i(TAG, "1859, Vibrator >= SDK 26");
                     vibrator.vibrate(VibrationEffect.createOneShot(dur,
                             VibrationEffect.DEFAULT_AMPLITUDE));
                     vibrator.cancel();

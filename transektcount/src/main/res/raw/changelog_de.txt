@@ -28,6 +28,13 @@ _ subtitle
           text-align:center }
       div.freetext {
           color:#F0F0F0 }
+      div.normaltext {
+          color:#C0C0F0;
+          margin-bottom: 0.5em }
+      div.margtext {
+          color:#C0C0F0;
+          margin-left: 2.5em;
+          margin-bottom: 0.5em }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.2em; 
@@ -41,47 +48,54 @@ _ subtitle
   <body>
 
   % TransektCount(GPS)
-  _ Copyright (C) 2016-2026, Wilhelm Stein
+  _ Copyright (C) 2016-2026, Wilhelm Stein, Bonn, Germany
   _
   _ email: stein.wm@web.de
   _
-<!--
-  ! --------
+  !
   & Achtung:
-  ! Google hat angekündigt, dass ab 2026/2027 Apps auf zertifizierten Android-Geräten nur noch funktionieren, wenn die Entwickler ihre persönlichen Identitätsdaten direkt an Google übermitteln. Als privater Entwickler dieser datenschutzkonformen Open-Source-App stimme ich dieser Anforderung von Google nicht zu. Deshalb wird wahrscheinlich ab diesem Zeitpunkt diese App auf zertifizierten Android-Geräten nicht mehr funktionieren.
+  ! Google hat angekündigt, dass ab September 2026 alle Apps auf regulären Android-Geräten nur noch funktionieren, wenn die Entwickler sich bei Google registrieren, eine Gebühr bezahlen und ihre offiziellen Identitätsdaten direkt an Google übermitteln. Als privater Entwickler dieser datenschutzkonformen Open-Source-App stimme ich dieser Anforderung von Google nicht zu. Deshalb wird leider diese App ab diesem Zeitpunkt auf regulären Android-Geräten möglicherweise nicht mehr ohne besondere Vorkehrungen funktionieren. Mehr Information dazu siehe <a href="https://keepandroidopen.org/" target="_blank">https://keepandroidopen.org/</a>.
   _
-  ! Auf Android-Geräten mit Custom ROMS wie GrapheneOS, LineageOS, /e/OS, usw. wird die App weiterhin wie gewohnt funktionieren.
-  ! --------
+  ! Auf Android-Geräten mit Custom ROMS wie GrapheneOS, LineageOS, iodéOS, CalyxOS o.ä. wird die App weiterhin wie gewohnt funktionieren.
+  !
   _
--->
-  ! TransektCount dient Transektzählern bei Transekt-Begehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.
+  .
+  ) <B>TransektCount</B> dient Transektzählern bei Transekt-Begehungen. Es unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode.
   _ 
-  ! TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge.
-  ! Die zweite App, <B>TourCount</B>, unterstützt das Spezies-spezifische und individuell GPS-lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur.
+  ) TransektCount ist eine von zwei Apps für das Monitoring Europäischer Schmetterlinge.
+  ) Die zweite App, <B>TourCount</B>, unterstützt das Spezies-spezifische und individuell GPS-lokalisierte Zählen von Schmetterlingen bei Aufenthalten in der Natur.
   _ 
-  ! Quellcode und Dokumentation veröffentlicht unter:
-  ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+  ) Quellcode und Dokumentation veröffentlicht unter:
+  ) <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-  ! Geeignet für Android 7.1 (Nougat) oder neuer.
+  ) Geeignet für Android 7.1 (Nougat) oder neuer.
   _
   .
   _
+
+$ 5.0.9
+  % Version 5.0.9
+  _ 16.05.2026
+  * Info über neue Google Einschränkungen in "App-Info"
+  * Einige GPS-Parameter für Einstellungen verbessert
+  * Bugfix
 
 $ 5.0.8
   % Version 5.0.8
   _ 30.04.2026
   * Einige Meldungen verbessert
+  * Layout der Ergebnistabelle (.csv) verbessert
   * Code-Verbesserungen
-  * Layout der Ergebnisse (.csv) verbessert
-  * Doku und Beispieldateien aktualisiert
+  * Doku und Beispieldatendateien aktualisiert
   * Bugfix
 
 $ 5.0.7
   % Version 5.0.7
   _ 11.04.2026
   * Einige Meldungen verbessert
-  * Bugfix: In "Einstellungen" gewählte Datensprache wurde nicht in die DB geschrieben
-  * Bugfixe in der Sprach-abhängigen Datumsformatierung für Dateinamen
+  * Bugfixe:
+  + - Unter "Einstellungen" geänderte Datensprache wurde nicht in die DB geschrieben
+  + - Sprach-abhängige Datumsformatierung für Dateinamen korrigiert
 
 $ 5.0.6
   % Version 5.0.6

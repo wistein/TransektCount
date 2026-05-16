@@ -1,39 +1,38 @@
 TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode. Es dient Transektzählern beim Registrieren von Schmetterlingen und tagfliegenden Nachtfaltern bei Transektbegehungen.
 
-Neu in Version 5.0.8:
-- Einige Meldungen verbessert
-- Code-Verbesserungen
-- Layout der Ergebnisse (.csv) verbessert
-- Doku und Beispieldateien aktualisiert
+Neu in Version 5.0.9:
+- Info über neue Google Einschränkungen in "App-Info"
+- Einige GPS-Parameter für Einstellungen verbessert
 - Bugfix
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
-- Datenbanken beziehen sich auf ein Transekt und können innerhalb der App individuell erstellt und angepasst werden bezüglich Meta-Daten, Transektabschnitten und zu erwartenden Arten.
+- Datenbanken beziehen sich auf ein Transekt und können innerhalb der App individuell erstellt und angepasst werden bezüglich Metadaten, Transektabschnitten und zu erwartenden Arten.
 - Die App enthält eine interne Liste mit vielen europäischen Arten und hat als Ausgangspunkt zur direkten Nutzung eine vorbereitete Datenbank für einen Transektabschnitt mit den häufigsten in Deutschland zu erwartenden Arten.
-- Export der aktuellen Speziesliste für Import durch TourCount and TransektCount.
+- Export der aktuellen Speziesliste für Re-Import durch TransektCount oder Import durch die komplementäre App TourCount.
 - Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂-♀-unbestimmt, ♂, ♀, Puppe, Raupe oder Ei.
 - Ergebnisseite mit aufbereiteter Darstellung zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (web.app.ufz.de/tagfalter-monitoring/).
 - Das Ergebnis kann als SQLite-Datei oder als CSV-Tabelle ausgegeben werden (u. a. zwecks Transfer und Weiterverwendung in einem Spreadsheet-Programm auf einem PC).
 - Die Hilfe enthält eine detaillierte Benutzeranleitung.
+- TransektCount kann in Deutsch, Englisch, Französisch, Italienisch und Spanisch genutzt werden und bietet die lokalen Artennamen in diesen Sprachen an.
 
 Funktionen:
 - Duplizieren und Löschen von Transektabschnitten.
 - Bearbeitung der Transektabschnittslisten (Hinzufügen und Löschen von Arten sowie Editieren der Bezeichnungen).
-- Editor für Meta-Daten zur Vorbereitung einer Begehung.
-- Zählerseite pro Abschnitt mit Scroll-Down-Liste zur Artauswahl.
-- Spezies-Editor für Bemerkung, Zählerstände und Zähl-Alarm.
-- GPS-Unterstützung zwecks Wechsel des aktuellen Abschnitts.
-- Die Ergebnisseite zeigt Meta-Daten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
+- Editor für Metadaten zur Vorbereitung einer Begehung.
+- Zählseite pro Abschnitt mit Scroll-Down-Liste zur Artauswahl.
+- Spezies-Editor für Bemerkung und Zählerstände.
+- Optionale GPS-Unterstützung zwecks Hinweis zum Wechsel des aktuellen Abschnitts.
+- Die Ergebnisseite zeigt Metadaten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
 
 Voraussetzungen:
 Die App benötigt
 - Speicherzugriffsrecht zwecks Im- und Export der Zähldaten, 
 - Einstellungsrecht zwecks Helligkeitssteuerung des Bildschirms, 
-- Recht zur Verhinderung des Ruhezustands,
-- optional das Recht, per GPS die exakte Position zu erkennen.
+- Recht zur Verhinderung des Ruhezustands und
+- optional das Recht, per GPS die exakte Position festzustellen um den aktuellen Transektabschnitt zu erkennen.
 
-Der Smartphone-Bildschirm sollte eine Auflösung von mindestens 1024 x 1920 Pixel haben.
+Der Bildschirm sollte eine Auflösung von mindestens 1024 x 1920 Pixel haben.
 Die App kann ab Android-Version 7.1 (Nougat) oder neuer verwendet werden.
 
 Dokumentation ist verfügbar unter:

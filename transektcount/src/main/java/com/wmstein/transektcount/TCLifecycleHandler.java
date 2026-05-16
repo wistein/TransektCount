@@ -16,12 +16,12 @@ import androidx.annotation.NonNull;
  *   checking-if-an-android-application-is-running-in-the-background/13809991#13809991
  * <p>
  * Adopted for TransektCount by wmstein on 2025-08-14,
- * Last edited on 2025-12-29
+ * Last edited on 2026-05-14
  */
 public class TCLifecycleHandler implements Application.ActivityLifecycleCallbacks {
     // Increment/decrement the variables 'started' and 'stopped' by all activities
-    private static int started;
-    private static int stopped;
+    private static int started = 0;
+    private static int stopped = 0;
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
@@ -45,14 +45,14 @@ public class TCLifecycleHandler implements Application.ActivityLifecycleCallback
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        ++started;
+        started++;
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        ++stopped;
+        stopped++;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d("TransektCount", " TCLifecycleHandler: Application is visible: " + (started > stopped));
+            Log.i("TCLifecycleHandler", " Application is visible: " + (started > stopped));
     }
 
     // Static function to check if the application is in foreground or background

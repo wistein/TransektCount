@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -25,7 +26,7 @@ import androidx.fragment.app.DialogFragment
  * last edited in java on 2024-09-30,
  * converted to Kotlin on 2025-01-22,
  * used ba TransektCount on 2025-07-02,
- * last edited on 2025-12-02
+ * last edited on 2026-05-16
  */
 class PermissionsForegroundDialogFragment : DialogFragment() {
     private var context: Context? = null
@@ -40,7 +41,7 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "43, onCreate, PermForegr Loc")
+            Log.i(TAG, "44, onCreate, PermForegr Loc")
 
         setStyle(STYLE_NO_TITLE, R.style.PermissionsDialogFragmentStyle)
         isCancelable = false
@@ -58,7 +59,7 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
     { isGranted ->
         if (isGranted) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "61, permLauncherForegrLoc granted: true")
+                Log.i(TAG, "62, permLauncherForegrLoc granted: true")
             dismiss()
         } else {
             showAppSettingsForegroundDialog()
@@ -68,7 +69,7 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
     // Query and set missing foreground permissions
     private fun showAppSettingsForegroundDialog() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "71, AppSettingsForegrLocDialog")
+            Log.i(TAG, "72, AppSettingsForegrLocDialog")
 
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.dialog_fine_location_title))
@@ -91,7 +92,7 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
         super.onDetach()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "94, onDetach")
+            Log.i(TAG, "95, onDetach")
         context = null
     }
 

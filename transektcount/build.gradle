@@ -1,5 +1,5 @@
 // Build file where you can add configuration options for the module.
-// Last edited on 2026-04-30
+// Last edited on 2026-05-16
 
 plugins {
     id 'com.android.application'
@@ -14,8 +14,8 @@ android {
         minSdk = 25
         //noinspection OldTargetApi
         targetSdk = 36
-        versionCode = 508
-        versionName = "5.0.8"
+        versionCode = 509
+        versionName = "5.0.9"
     }
 
     buildTypes {
@@ -42,9 +42,11 @@ android {
         checkReleaseBuilds = true
     }
 
-    applicationVariants.configureEach { variant ->
-        variant.outputs.configureEach {
-            outputFileName = "transektcount_${variant.buildType.name}_${defaultConfig.versionCode}.apk"
+    androidComponents {
+        applicationVariants.configureEach { variant ->
+            variant.outputs.configureEach {
+                outputFileName = "transektcount_${variant.buildType.name}_${defaultConfig.versionCode}.apk"
+            }
         }
     }
 }
@@ -60,7 +62,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.8.9'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'com.google.android.material:material:1.14.0'
     implementation 'androidx.lifecycle:lifecycle-process:2.10.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.10.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.10.0'

@@ -128,7 +128,7 @@ class DbHelper
         // Create initial data for COUNT_TABLE
         initialCount(db)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "131, onCreate, Success!")
+            Log.i(TAG, "131, onCreate, Success!")
     }
     // End of onCreate
 
@@ -190,7 +190,7 @@ class DbHelper
     // see https://guides.codepath.org/android/local-databases-with-sqliteopenhelper
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "193, onUpgrade DB")
+            Log.i(TAG, "193, onUpgrade DB")
 
         if (oldVersion == 7) {
             version8(db)
@@ -430,7 +430,7 @@ class DbHelper
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "433, SECTION_TABLE resetted")
+            Log.i(TAG, "433, SECTION_TABLE resetted")
 
         // reset metadata
         sql = ("UPDATE " + META_TABLE + " SET "
@@ -442,7 +442,7 @@ class DbHelper
                 + M_END_TM + " = ''")
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "445, META_TABLE resetted")
+            Log.i(TAG, "445, META_TABLE resetted")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -471,7 +471,7 @@ class DbHelper
                 + C_NAME_G + " text)")
         db.execSQL(sql)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "473, new empty counts1 table created")
+            Log.i(TAG, "473, new empty counts1 table created")
 
         val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
         val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
@@ -479,7 +479,7 @@ class DbHelper
         val specNum: Int = codes.size
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "482, Anzahl Spez.: $specNum")
+            Log.i(TAG, "482, Anzahl Spez.: $specNum")
 
         var cnti = 1  // count index for new track table
         var speci: Int // species index in initSpecs-array
@@ -511,14 +511,14 @@ class DbHelper
                 values4.put(C_NAME_G, specsL[speci])
                 db.insert(COUNT_TABLE1, null, values4)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "514, species cnti: " + cnti + ", " + specs[speci])
+                    Log.i(TAG, "514, species cnti: " + cnti + ", " + specs[speci])
                 speci++
                 cnti++
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "518, species cnti: $cnti, index speci: $speci")
+                    Log.i(TAG, "518, species cnti: $cnti, index speci: $speci")
             }
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "521, last species-index: $cnti")
+                Log.i(TAG, "521, last species-index: $cnti")
 
             sectIncr++
             cnti = (sectIncr * speci) + 1
@@ -530,7 +530,7 @@ class DbHelper
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "533, Upgraded database to version 5")
+            Log.i(TAG, "533, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -575,7 +575,7 @@ class DbHelper
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "578, META_TABLE initialized")
+            Log.i(TAG, "578, META_TABLE initialized")
     }
 
     /*** V7 ***/
@@ -584,7 +584,7 @@ class DbHelper
         db.execSQL("DROP TABLE IF EXISTS $ALERT_TABLE")
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "587, HEAD_TABLE upgraded")
+            Log.i(TAG, "587, HEAD_TABLE upgraded")
     }
 
     /*** V8 ***/
@@ -605,7 +605,7 @@ class DbHelper
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "608, HEAD_TABLE upgraded")
+            Log.i(TAG, "608, HEAD_TABLE upgraded")
     }
 
     data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)

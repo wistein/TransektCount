@@ -113,7 +113,7 @@ public class EditMetaActivity extends AppCompatActivity {
                 @Override
                 public void handleOnBackPressed() {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "116, handleOnBackPressed");
+                        Log.i(TAG, "116, handleOnBackPressed");
                     finish();
                 }
             };
@@ -282,14 +282,14 @@ public class EditMetaActivity extends AppCompatActivity {
         if (id == android.R.id.home) // back button in actionBar
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "285, MenuItem home");
+                Log.i(TAG, "285, MenuItem home");
             finish();
             return true;
         }
 
         if (id == R.id.menuSaveExit) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "292, MenuItem saveExit");
+                Log.i(TAG, "292, MenuItem saveExit");
             if (saveData())
                 finish();
             return true;

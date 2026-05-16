@@ -75,19 +75,34 @@
         <item>High</item>
     </string-array>
 
-    <string-array name="pref_sel_dist_max_entries">
+    <string-array name="pref_sel_deviation_entries">
         <item>3 m</item>
         <item>4 m</item>
         <item>5 m</item>
         <item>7.5 m</item>
         <item>10 m</item>
     </string-array>
-    <string-array name="pref_sel_dist_max_values">
+    <string-array name="pref_sel_deviation_values">
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>7.5</item>
         <item>10</item>
+    </string-array>
+
+    <string-array name="pref_sel_dist_max_entries">
+        <item>0 m</item>
+        <item>1 m</item>
+        <item>2 m</item>
+        <item>3 m</item>
+        <item>5 m</item>
+    </string-array>
+    <string-array name="pref_sel_dist_max_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
     </string-array>
 
     <string-array name="pref_sel_interval_entries">
@@ -103,21 +118,6 @@
         <item>3000</item>
         <item>5000</item>
         <item>10000</item>
-    </string-array>
-
-    <string-array name="pref_sel_deviation_entries">
-        <item>3 m</item>
-        <item>4 m</item>
-        <item>5 m</item>
-        <item>7.5 m</item>
-        <item>10 m</item>
-    </string-array>
-    <string-array name="pref_sel_deviation_values">
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>7.5</item>
-        <item>10</item>
     </string-array>
 
     <string-array name="initSpecs">

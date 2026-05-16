@@ -281,7 +281,7 @@ class SelectSectionActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "284 maxId: $maxId, entries: $entries")
+                        Log.i(TAG, "284 maxId: $maxId, entries: $entries")
                     return@OnClickListener
                 }
 
@@ -337,12 +337,12 @@ class SelectSectionActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             selSectName = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "340, compSectionNames, selSectName = $selSectName")
+                Log.i(TAG, "340, compSectionNames, selSectName = $selSectName")
 
             if (newName == selSectName) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "345, compSectionNames, Double name = $selSectName")
+                    Log.i(TAG, "345, compSectionNames, Double name = $selSectName")
                 break
             }
         }

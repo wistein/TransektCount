@@ -12,6 +12,7 @@ import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.view.WindowManager
+
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.PreferenceManager
@@ -22,7 +23,7 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-12,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2026-02-28
+ * last edited on 2026-05-14
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -33,6 +34,7 @@ class TransektCountApplication : Application() {
     //   start any ActivityLifecycle function
     override fun onCreate() {
         super.onCreate()
+
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
             Log.i(TAG, "37, onCreate, StrictMode.setVmPolicy")
@@ -173,9 +175,6 @@ class TransektCountApplication : Application() {
 
         @JvmField
         var sectionNameCurrent: String = "" // SelectSectionAdapter, LocationService
-
-        @JvmField
-        var locServiceOn: Boolean = false // WelcomeActivity, LocationService
 
         @JvmField
         var isFirstLoc: Boolean = true // true for showing a hint message once

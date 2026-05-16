@@ -28,6 +28,13 @@ _ subtitle
           text-align:center }
       div.freetext {
        	  color:#F0F0F0 }
+      div.normaltext {
+          color:#C0C0F0;
+          margin-bottom: 0.5em }
+      div.margtext {
+          color:#C0C0F0;
+          margin-left: 2.5em;
+          margin-bottom: 0.5em }
       div.boldtext {
           color:#F0F0F0;
           font-size:1.2em; 
@@ -41,31 +48,37 @@ _ subtitle
   <body>
 
   % TransektCount(GPS)
-  _ Copyright (C) 2016-2026, Wilhelm Stein
+  _ Copyright (C) 2016-2026, Wilhelm Stein, Bonn, Germany
   _
   _ email: stein.wm@web.de
   _
-<!--
-  ! ----------
+  !
   & Attention:
-  ! Google has announced that starting in 2026/2027, all apps on certified Android devices will only work if developers submit their personal identity data directly to Google. As the private developer of this privacy conform open-source app, I do not agree with this requirement. So probably, this app might no longer work on certified Android devices after that date.
+  ! Google has announced that starting in September 2026, all apps on regular Android devices will only work if developers have registered with Google, paid up a fee, and submit their official identity data directly to Google. As the private developer of this privacy conform open-source app, I do not agree with this requirement. So unfortunately, this app may no longer work without special precautions on regular Android devices after that date. For more info on this see <a href="https://keepandroidopen.org/" target="_blank">https://keepandroidopen.org/</a>.
   _
   ! On Android devices with custom ROMS like GrapheneOS, LineageOS, /e/OS, etc., the app will continue to work as usual.
-  ! ----------
+  !
   _
--->
-  ! TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
+  .
+  ) TransektCount serves transect counters on their inspection walks. It supports species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method.
   _ 
-  ! TransektCount is one of two Apps for European butterfly monitoring.
-  ! The 2nd app, <B>TourCount</B>, supports species-specific and individually GPS-localized counting of butterflies on any tour in nature.
+  ) TransektCount is one of two Apps for European butterfly monitoring.
+  ) The 2nd app, <B>TourCount</B>, supports species-specific and individually GPS-localized counting of butterflies on any tour in nature.
   _
-  ! Source code and documentation published under:
-  ! <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
+  ) Source code and documentation published under:
+  ) <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-  ! Suitable for Android 7.1 (Nougat) or newer.
+  ) Suitable for Android 7.1 (Nougat) or newer.
   _
   .
   _
+
+$ 5.0.9
+  % Version 5.0.9
+  _ 2026-05-16
+  * Info about new Google restrictions in "App Info"
+  * Some GPS parameters for Settings improved
+  * Bugfix
 
 $ 5.0.8
   % Version 5.0.8

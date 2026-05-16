@@ -3,6 +3,12 @@
 TransektCount is an Android app that supports transect counters in nature preserving projects according to the European Butterfly Monitoring Scheme methodology. 
 It allows to register individuals species-specific, separated by gender and metamorphic stages per transect section. 
 
+### New Google restrictions
+Unfortunately, Google is enforcing its monopoly position as they decided to restrict the use of free Android software. 
+Starting September 2026, a silent update, nonconsensually pushed by Google, will block every Android app whose developers have not registered with Google, signed their contract, paid up a fee, and handed over their government ID.
+I am NOT willing to accept neither these registration conditions nor the procedure.
+For more background on this you may visit https://keepandroidopen.org/.
+
 ### Features
 - Data recording is organized according to a single transect inspection. 
 That means, you will use a fresh database instance per inspection by clearing the current database or importing a prepared basic database.
@@ -17,7 +23,7 @@ That means, you will use a fresh database instance per inspection by clearing th
 - Counts are recorded per internal/external counting areas and here each with separate counters for ♂|♀, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to the entry masks of Tagfalter-Monitoring Deutschland or similar butterfly monitoring sites.
 - Results are shown with metadata, remarks, totals and species results per section.
-- Results may also be exported in SQLite- or CSV-format and transferred to a PC for your own processing, e.g. by importing a csv-file into a spreadsheet.
+- Results may also be exported to SQLite-DB or CSV-format files and transferred to a PC for your own processing, e.g. by importing a .csv-file into a spreadsheet.
 - The current species list can be exported for later re-import or imported by the complementary app TourCount.
 - Help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies by Karsholt/Razowski.
@@ -26,8 +32,9 @@ That means, you will use a fresh database instance per inspection by clearing th
 ### Prerequisites
 The app demands for 
 - storage access permit which is needed for im-/exporting the counting data (databases, results, species lists or tracks) 
-- the permit to keep the device awake and
-- optionally, the permit to get the exact location to recognize the current section.
+- the permit to set the screen brightness, 
+- the permit to prevent the sleep mode and
+- optionally, the permit to get the exact location to recognize the current transect section.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 7.1 (Nougat) or newer.
@@ -56,10 +63,10 @@ Please note that both apk versions (F-Droid and GitHub) are compiled from the sa
 On GitHub, you will find the published current version when clicking the "master"-button and select 
 the Tag with the highest Branch number n.n.n. Then get the file transektcount-release_nnn.apk under apk. 
 
-The latest development version of 'transektcount-release_nnn.apk' is also provided in the GitHub 
+The latest development status version of 'transektcount-release_nnn.apk' is also provided in the GitHub 
 repository under the master branch https://github.com/wistein/TransektCount/tree/master/apk.
 
-### Licenses:
+#### Licenses:
 Copyright © 2016-2026 Wilhelm Stein
 
 TransektCount is licensed under the Apache License, Version 2.0 (the "License");

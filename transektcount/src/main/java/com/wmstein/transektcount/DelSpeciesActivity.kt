@@ -13,6 +13,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
+
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,10 +21,12 @@ import androidx.core.app.NavUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+
 import com.wmstein.transektcount.database.CountDataSource
 import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.widgets.DeleteSpeciesWidget
 import com.wmstein.transektcount.widgets.DeleteSpeciesHintWidget
+
 import java.util.Locale
 
 /********************************************************************
@@ -34,7 +37,7 @@ import java.util.Locale
  *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-04-19
+ * last edited on 2025-05-16
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -62,7 +65,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "65 onCreate")
+            Log.i(TAG, "68 onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -122,7 +125,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "125 onResume")
+            Log.i(TAG, "128 onResume")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -177,7 +180,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             searchDel.error = null
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "180, initChars: $initChars")
+                Log.i(TAG, "183, initChars: $initChars")
             searchDel.clearFocus()
             searchDel.invalidate()
 
@@ -213,7 +216,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                     cnt++
                     deleteArea!!.addView(dsw)
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.d(TAG, "216, name: " + count.name)
+                        Log.i(TAG, "219, name: " + count.name)
                 }
             }
         } else {
@@ -226,7 +229,7 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "229, name: " + count.name)
+                    Log.i(TAG, "232, name: " + count.name)
             }
         }
     }
@@ -235,7 +238,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "238, View.tag: $idToDel")
+            Log.i(TAG, "241, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -245,14 +248,14 @@ class DelSpeciesActivity : AppCompatActivity() {
             listToDelete!!.add(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "248, mark delete code: $codeD")
+                Log.i(TAG, "251, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.d(TAG, "255, mark delete code: $codeD")
+                Log.i(TAG, "258, mark delete code: $codeD")
             }
         }
     }
@@ -264,7 +267,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.d(TAG, "267, delete code: $specCode")
+                Log.i(TAG, "270, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -329,7 +332,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "332 onPause")
+            Log.i(TAG, "335 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -348,7 +351,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "351, onStop")
+            Log.i(TAG, "354, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -358,7 +361,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "361, onDestroy")
+            Log.i(TAG, "364, onDestroy")
     }
 
     companion object {

@@ -118,7 +118,7 @@ class ShowResultsActivity : AppCompatActivity() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "121, handleOnBackPressed")
+                    Log.i(TAG, "121, handleOnBackPressed")
                 finish()
                 remove()
             }

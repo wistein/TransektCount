@@ -7,7 +7,7 @@
      Solution: application attribute android:resizeableActivity="false"
      prohibits multi-window-mode.
 
-     Last edited 2026-02-28
+     Last edited 2026-05-13
 -->
 
 <manifest
@@ -81,6 +81,8 @@
             android:exported="true"
             android:label="@string/app_name"
             android:configChanges="uiMode"
+            android:launchMode="singleTask"
+            android:persistableMode="persistNever"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

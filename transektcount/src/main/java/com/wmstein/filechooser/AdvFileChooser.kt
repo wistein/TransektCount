@@ -191,7 +191,7 @@ class AdvFileChooser : AppCompatActivity() {
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "193, Selected file: $fileSelected")
+            Log.i(TAG, "193, Selected file: $fileSelected")
         finish()
     }
 

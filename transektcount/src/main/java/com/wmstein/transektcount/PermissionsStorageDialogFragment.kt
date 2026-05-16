@@ -22,7 +22,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * which is necessary since Android Marshmallow (M)
  *
  * Created in Kotlin on 2023-05-26,
- * last edited on 2026-01-15
+ * last edited on 2026-05-16
  */
 class PermissionsStorageDialogFragment : DialogFragment() {
     private var context: Context? = null // activity
@@ -37,7 +37,7 @@ class PermissionsStorageDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "38, onCreate, PermStorage")
+            Log.i(TAG, "40, onCreate, PermStorage")
 
         setStyle(STYLE_NO_TITLE, R.style.PermissionsDialogFragmentStyle)
         isCancelable = false
@@ -71,17 +71,17 @@ class PermissionsStorageDialogFragment : DialogFragment() {
     { isGranted ->
         if (isGranted) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.d(TAG, "72, permLauncherStorage granted: true")
+                Log.i(TAG, "74, permLauncherStorage granted: true")
             dismiss()
         } else {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "77, ask external storage")
+                    Log.i(TAG, "79, ask external storage")
                 showAppSettingsStorageDialog()
             } else {
                 // >= API 30
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.d(TAG, "82, ask manage storage")
+                    Log.i(TAG, "84, ask manage storage")
                 showAppSettingsManageStorageDialog()
             }
         }
@@ -90,7 +90,7 @@ class PermissionsStorageDialogFragment : DialogFragment() {
     // Query missing external storage permissions for API <30
     private fun showAppSettingsStorageDialog() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "91, AppSettingsStorDlg")
+            Log.i(TAG, "93, AppSettingsStorDlg")
 
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.dialog_storage_title))
@@ -113,7 +113,7 @@ class PermissionsStorageDialogFragment : DialogFragment() {
     // Query missing manage storage permission for API >=30
     private fun showAppSettingsManageStorageDialog() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "114, AppSettingsManageStorDlg")
+            Log.i(TAG, "116, AppSettingsManageStorDlg")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) { // API 30
             val mesg = getString(R.string.dialog_storage_message)
@@ -136,7 +136,7 @@ class PermissionsStorageDialogFragment : DialogFragment() {
         super.onDetach()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.d(TAG, "139, onDetach")
+            Log.i(TAG, "139, onDetach")
 
         context = null
     }
