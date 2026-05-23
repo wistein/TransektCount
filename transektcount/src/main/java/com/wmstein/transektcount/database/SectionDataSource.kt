@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
+
 import java.util.Date
 import java.util.Objects
 
@@ -15,7 +16,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-21
+ * last edited on 2026-05-23
  */
 class SectionDataSource(context: Context) {
     // Database fields

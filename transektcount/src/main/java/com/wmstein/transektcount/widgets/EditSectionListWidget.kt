@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
+
 import java.io.Serializable
 import java.util.Objects
 
@@ -18,7 +20,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-03-02
+ * Last edited on 2026-05-23
  */
 class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {

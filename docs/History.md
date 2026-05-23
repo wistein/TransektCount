@@ -2,9 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.0.9 (2026-05-16)
+#### Version 5.0.9 (2026-05-22)
 - Info about new Google restrictions in "App Info"
 - Some GPS parameters for Settings improved
+- Changed the minimal Android version from 7.1 to 11
+- Code improvements
+- Docs updated
 - Bugfix
 
 #### Version 5.0.8 (2026-04-30)

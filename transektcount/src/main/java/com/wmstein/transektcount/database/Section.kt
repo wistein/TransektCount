@@ -1,6 +1,7 @@
 package com.wmstein.transektcount.database
 
 import android.annotation.SuppressLint
+
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -10,7 +11,7 @@ import java.util.Date
  * Adopted for TransektCount by wmstein on 18.02.2016
  * last edited in Java on 2019-08-22,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-05-15
+ * last edited on 2025-05-23
  */
 class Section {
     @JvmField

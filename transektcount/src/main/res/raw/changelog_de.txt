@@ -68,16 +68,19 @@ _ subtitle
   ) Quellcode und Dokumentation veröffentlicht unter:
   ) <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-  ) Geeignet für Android 7.1 (Nougat) oder neuer.
+  ) Geeignet für Android 11 oder neuer.
   _
   .
   _
 
 $ 5.0.9
   % Version 5.0.9
-  _ 16.05.2026
+  _ 22.05.2026
   * Info über neue Google Einschränkungen in "App-Info"
   * Einige GPS-Parameter für Einstellungen verbessert
+  * Die minimale Android-Version nach 11 geändert
+  * Code-Verbesserungen
+  * Doku aktualisiert
   * Bugfix
 
 $ 5.0.8

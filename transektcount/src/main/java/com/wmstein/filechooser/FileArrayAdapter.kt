@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
+
 import java.util.Locale
 
 /**
@@ -17,7 +19,7 @@ import java.util.Locale
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2021-01-26
  * converted to Kotlin on 2023-06-26
- * last edited on 2025-12-29
+ * last edited on 2026-05-19
  */
 internal class FileArrayAdapter(
     private val faaContext: Context,

@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
+
 import java.util.Objects
 
 /****************************************************************
@@ -16,7 +18,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-02-28
+ * Last edited on 2026-05-23
  */
 class ResultsSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val sumCountf1i: AutoFitText

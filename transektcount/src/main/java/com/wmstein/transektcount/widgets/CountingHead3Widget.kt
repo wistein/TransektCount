@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
+
 import java.util.Objects
 
 /***********************************************************************
@@ -15,7 +17,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-10-06,
- * last edited on 2026-03-03
+ * last edited on 2026-05-23
  */
 class CountingHead3Widget(
     context: Context,

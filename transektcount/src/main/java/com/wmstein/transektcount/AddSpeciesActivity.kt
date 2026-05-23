@@ -46,7 +46,7 @@ import java.util.Locale
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-05-16
+ * last edited on 2026-05-23
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -210,19 +210,11 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Toast for duration of list calculation
         val mesg = getString(R.string.wait)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Toast.makeText(
-                applicationContext,
-                fromHtml("<font color='blue'>$mesg</font>"),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText( // bright green
-                applicationContext,
-                fromHtml("<font color='#008800'>$mesg</font>"),
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        Toast.makeText(
+            applicationContext,
+            fromHtml("<font color='blue'>$mesg</font>"),
+            Toast.LENGTH_SHORT
+        ).show()
 
         // Delay necessary for Toast to show and not break activity
         Handler(Looper.getMainLooper()).postDelayed({
@@ -248,7 +240,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             searchAdd.error = null
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "251, initChars: $initChars")
+                Log.i(TAG, "243, initChars: $initChars")
             searchAdd.clearFocus()
             searchAdd.invalidate()
 
@@ -279,7 +271,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // 2. Build lists of all yet missing species
         val specCodesContainedListSize = specCodesContainedList.size
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "282, specCodesContainedListSize: $specCodesContainedListSize")
+            Log.i(TAG, "274, specCodesContainedListSize: $specCodesContainedListSize")
 
         // Reduce complete arraylists for already contained species
         for (i in 0 until specCodesContainedListSize) {
@@ -290,7 +282,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "293, 1. specCode: $specCode, posSpec: $posSpec")
+                    Log.i(TAG, "285, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
                 namesLCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
@@ -318,7 +310,7 @@ class AddSpeciesActivity : AppCompatActivity() {
                     specNameG = namesLCompleteArrayList!![i]
                     specCode = codesCompleteArrayList!![i]
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "321, 2. specName: $specName, specCode: $specCode")
+                        Log.i(TAG, "313, 2. specName: $specName, specCode: $specCode")
 
                     // Assemble remaining ReducedArrayLists for all Species with initChars
                     namesReducedArrayList!!.add(specName!!)
@@ -331,7 +323,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // Create remainingIdArrayList for all remaining species of codesCompleteArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "334, remainingIdArrayListSize: " + remainingIdArrayList.size)
+            Log.i(TAG, "326, remainingIdArrayListSize: " + remainingIdArrayList.size)
         var i = 0
         while (i < codesReducedArrayList!!.size) {
             remainingIdArrayList[i] = (i + 1).toString()
@@ -361,7 +353,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     fun checkBoxAdd(view: View) {
         val idToAdd = view.tag as Int
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "364, View.tag: $idToAdd")
+            Log.i(TAG, "356, View.tag: $idToAdd")
         val asw = addArea!!.getChildAt(idToAdd) as AddSpeciesWidget
 
         val checked = asw.getMarkSpec() // return boolean isChecked
@@ -371,14 +363,14 @@ class AddSpeciesActivity : AppCompatActivity() {
             listToAdd!!.add(asw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeA = asw.getSpecCode()
-                Log.i(TAG, "374, addCount, code: $codeA")
+                Log.i(TAG, "366, addCount, code: $codeA")
             }
         } else {
             // Remove species previously added from add list
             listToAdd!!.remove(asw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeA = asw.getSpecCode()
-                Log.i(TAG, "381, removeCount, code: $codeA")
+                Log.i(TAG, "373, removeCount, code: $codeA")
             }
         }
     }
@@ -394,7 +386,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.i(TAG, "397, addSpecs, code: $specCode")
+                Log.i(TAG, "389, addSpecs, code: $specCode")
             }
             try {
                 var sectid = 1
@@ -452,7 +444,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "455, onPause")
+            Log.i(TAG, "447, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -471,7 +463,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "474, onStop")
+            Log.i(TAG, "466, onStop")
 
 
         addArea = null
@@ -482,7 +474,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "485, onDestroy")
+            Log.i(TAG, "477, onDestroy")
     }
 
     companion object {

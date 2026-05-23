@@ -13,16 +13,18 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import android.widget.TextView
+
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+
 import com.wmstein.transektcount.BuildConfig
 import com.wmstein.transektcount.IsRunningOnEmulator
 import com.wmstein.transektcount.R
+
 import java.io.File
 import java.io.FileFilter
 import java.text.DateFormat
@@ -35,7 +37,7 @@ import java.text.SimpleDateFormat
  * Adopted by wmstein on 2016-06-18,
  * last change in Java on 2022-04-30,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-04-07
+ * last edited on 2026-05-23
  */
 class AdvFileChooser : AppCompatActivity() {
     private var currentDir: File? = null
@@ -48,7 +50,7 @@ class AdvFileChooser : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "51, onCreate")
+            Log.i(TAG, "53, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -104,16 +106,8 @@ class AdvFileChooser : AppCompatActivity() {
         fileHead.text = fileHd
 
         // currentDir = /storage/emulated/0/Documents/TransektCount/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android Q (10+)
-        {
-            currentDir = Environment.getExternalStorageDirectory()
-            currentDir = File("$currentDir/Documents/TransektCount")
-        } else {
-            currentDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS
-            )
-            currentDir = File("$currentDir/TransektCount")
-        }
+        currentDir = Environment.getExternalStorageDirectory()
+        currentDir = File("$currentDir/Documents/TransektCount")
         fill(currentDir!!)
 
         currentDir = Environment.getExternalStoragePublicDirectory(
@@ -124,7 +118,6 @@ class AdvFileChooser : AppCompatActivity() {
     }
     // End of onCreate()
 
-    @RequiresApi(Build.VERSION_CODES.R)
     fun setStatusBarColor(window: Window, color: Int) {
         window.decorView.setOnApplyWindowInsetsListener { view, insets ->
             view.setBackgroundColor(color)
@@ -191,7 +184,7 @@ class AdvFileChooser : AppCompatActivity() {
         intent.putExtra("fileSelected", fileSelected.absolutePath)
         setResult(RESULT_OK, intent)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "193, Selected file: $fileSelected")
+            Log.i(TAG, "187, Selected file: $fileSelected")
         finish()
     }
 

@@ -32,7 +32,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-16
+ * last edited on 2026-05-19
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -199,17 +199,12 @@ internal class SelectSectionAdapter(
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
             } else {
-                if (Build.VERSION.SDK_INT >= 26) {
-                    vibrator.vibrate(
-                        VibrationEffect.createOneShot(
-                            200,
-                            VibrationEffect.DEFAULT_AMPLITUDE
-                        )
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        200,
+                        VibrationEffect.DEFAULT_AMPLITUDE
                     )
-                } else {
-                    @Suppress("DEPRECATION")
-                    vibrator.vibrate(200)
-                }
+                )
                 vibrator.cancel()
             }
         }

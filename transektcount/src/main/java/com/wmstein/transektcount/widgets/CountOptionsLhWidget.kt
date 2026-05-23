@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.AutoFitEditText
 import com.wmstein.transektcount.R
+
 import java.util.Objects
 
 /***************************************************************************
@@ -16,7 +18,7 @@ import java.util.Objects
  * Created by wmstein on 2016-02-16,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-03-03
+ * last edited on 2026-05-23
  */
 class CountOptionsLhWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView

@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+
 import com.wmstein.transektcount.BuildConfig
 import com.wmstein.transektcount.IsRunningOnEmulator
 import com.wmstein.transektcount.R
+
 import java.util.Locale
 
 /************************************************************************************
@@ -22,7 +24,7 @@ import java.util.Locale
  * last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
  * updated to version 7 on 2026-03-07,
- * last edited on 2026-04-07
+ * last edited on 2026-05-19
  *
  * ************************************************************************
  * ATTENTION!

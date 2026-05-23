@@ -40,7 +40,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-04-19
+ * last edited on 2026-05-19
  */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication

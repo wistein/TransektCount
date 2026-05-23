@@ -7,7 +7,7 @@ It allows to register individuals species-specific, separated by gender and meta
 Unfortunately, Google is enforcing its monopoly position as they decided to restrict the use of free Android software. 
 Starting September 2026, a silent update, nonconsensually pushed by Google, will block every Android app whose developers have not registered with Google, signed their contract, paid up a fee, and handed over their government ID.
 I am NOT willing to accept neither these registration conditions nor the procedure.
-For more background on this you may visit https://keepandroidopen.org/.
+For more background on this and how to overcome the restriction you may visit https://keepandroidopen.org/.
 
 ### Features
 - Data recording is organized according to a single transect inspection. 
@@ -37,7 +37,7 @@ The app demands for
 - optionally, the permit to get the exact location to recognize the current transect section.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
-The app is usable with Android version 7.1 (Nougat) or newer.
+The app is usable with Android version 11 or newer.
 
 ### General
 #### Documentation

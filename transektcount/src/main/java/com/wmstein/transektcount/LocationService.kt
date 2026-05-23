@@ -12,7 +12,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
-import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -53,7 +52,7 @@ import kotlin.math.sqrt
  *
  * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-05-16
+ * last edited on 2026-05-23
  */
 class LocationService : Service, LocationListener {
     private var mContext: Context? = null
@@ -85,16 +84,12 @@ class LocationService : Service, LocationListener {
     // Default constructor is demanded for service declaration in AndroidManifest.xml
     constructor() // not to be removed!
 
-    constructor(mContext: Context?) {
-        this.mContext = mContext // Gets ApplicationContext from call in WelcomeActivity
+    constructor(context: Context) {
+        this.mContext = context // Gets ApplicationContext from call in WelcomeActivity
         audioAttributionContext =
-            if (Build.VERSION.SDK_INT >= 30)
-                mContext!!.createAttributionContext("ringSound")
-            else mContext
+            mContext!!.createAttributionContext("ringSound")
         locationAttributionContext =
-            if (Build.VERSION.SDK_INT >= 30)
-                mContext!!.createAttributionContext("locationCheck")
-            else mContext
+            mContext!!.createAttributionContext("locationCheck")
 
         val prefs = TransektCountApplication.getPrefs()
         selTimeInterval = prefs.getString("pref_time_interval", "3000")!!.toLong()
@@ -104,7 +99,7 @@ class LocationService : Service, LocationListener {
         alertSound = prefs.getString("alert_sound", "")!!
 
         sectionDataSource = SectionDataSource(mContext!!)
-        trackDataSource = TrackDataSource(mContext)
+        trackDataSource = TrackDataSource(mContext!!)
 
         // Try to get list of trackpoints
         trackDataSource!!.open()
@@ -121,9 +116,9 @@ class LocationService : Service, LocationListener {
             if (checkGPS) {
                 this.canGetLocation = true
             } else {
-                val mesg = mContext.getString(R.string.no_provider)
+                val mesg = mContext!!.getString(R.string.no_provider)
                 Toast.makeText(
-                    mContext,
+                    mContext!!,
                     fromHtml("<font color='red'><b>$mesg</b></font>"),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -132,7 +127,7 @@ class LocationService : Service, LocationListener {
             // if GPS is enabled get position using GPS service
             if (checkGPS && canGetLocation) {
                 if (ActivityCompat.checkSelfPermission(
-                        mContext,
+                        mContext!!,
                         Manifest.permission.ACCESS_FINE_LOCATION
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
@@ -145,14 +140,14 @@ class LocationService : Service, LocationListener {
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "148, Error in getLocation: $e")
+                Log.e(TAG, "143, Error in getLocation: $e")
         }
     }
 
     /* Get current location and evaluate the location for a track of the current transect section:
      - Read tracks info,
-     - compare position with tracks,
-     - identify section if its track that contains the current position
+     - compare position with track points,
+     - identify section if its track contains the current position
      */
     override fun onLocationChanged(location: Location) {
         sectionNameGPS = checkSectionTrack()
@@ -162,7 +157,7 @@ class LocationService : Service, LocationListener {
             val dst = DecimalFormat("#.#").format(distMin)
             val mesg = mContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
             Toast.makeText( // bright green
-                mContext,
+                mContext!!,
                 fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                 Toast.LENGTH_SHORT
             ).show()
@@ -180,7 +175,7 @@ class LocationService : Service, LocationListener {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "183, current SecName: $sectionNameCurrent")
+            Log.i(TAG, "178, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -192,14 +187,14 @@ class LocationService : Service, LocationListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 val mesg = mContext!!.getString(R.string.newSect) + " $sectionNameGPS"
                 Toast.makeText( // bright green
-                    mContext,
+                    mContext!!,
                     fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
                     Toast.LENGTH_SHORT
                 ).show()
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "202, new SecName: $sectionNameGPS")
+                Log.i(TAG, "197, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
@@ -207,7 +202,7 @@ class LocationService : Service, LocationListener {
             // Start SelectSectionActivity if it called location
             isSelSectAct = isSelectSectionActivityResumed
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "210, isSelectSectionActivityRes: $isSelSectAct")
+                Log.i(TAG, "205, isSelectSectionActivityRes: $isSelSectAct")
 
             // Reload SelectSectionActivity when it is active with new section marked blue
             if (isSelSectAct) {
@@ -304,11 +299,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "307, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "302, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "311, StopListener: $e")
+                Log.e(TAG, "306, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -375,7 +370,7 @@ class LocationService : Service, LocationListener {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "378, onDestroy")
+            Log.i(TAG, "373, onDestroy")
 
         if (alertSoundPref && rToneA != null) {
             rToneA!!.reset()

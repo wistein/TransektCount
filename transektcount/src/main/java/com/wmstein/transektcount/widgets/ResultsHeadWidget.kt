@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
+
 import java.util.Objects
 
 /*******************************************************
@@ -14,7 +16,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 03.04.2016
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-02-28
+ * Last edited on 2026-05-23
  */
 class ResultsHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetLno // used for transect_no title

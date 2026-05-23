@@ -6,9 +6,9 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
+
 import androidx.core.net.toUri
 
 /*********************************************************************
@@ -16,7 +16,7 @@ import androidx.core.net.toUri
  * in background.
  *
  * Created for TransektCount (and TourCount) by wmstein on 2026-02-24,
- * last edited on 2026-02-27
+ * last edited on 2026-05-19
  */
 class SoundService : Service {
     private var mContext: Context? = null
@@ -39,8 +39,8 @@ class SoundService : Service {
     // Default constructor is demanded for service declaration
     constructor() // not to be removed!
 
-    constructor(mContext: Context) {
-        this.mContext = mContext
+    constructor(context: Context) {
+        this.mContext = context
         makeSound()
     }
 
@@ -48,9 +48,7 @@ class SoundService : Service {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "49, onCreate")
 
-        audioAttributionContext = if (Build.VERSION.SDK_INT >= 30)
-            mContext!!.createAttributionContext("ringSound")
-        else mContext
+        audioAttributionContext = mContext!!.createAttributionContext("ringSound")
 
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false) // make button sound
         buttonSoundMinus = prefs.getString("button_sound_minus", null).toString() // use deeper button sound
@@ -59,14 +57,14 @@ class SoundService : Service {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "62, onStartCommand")
+            Log.i(TAG, "60, onStartCommand")
 
         return super.onStartCommand(intent, flags, startId)
     }
 
     fun soundMinusButtonSound() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "69, soundMinus")
+            Log.i(TAG, "67, soundMinus")
         if (buttonSoundPref) {
             uriM = if (buttonSoundMinus.isNotBlank())
                 buttonSoundMinus.toUri()
@@ -85,7 +83,7 @@ class SoundService : Service {
 
     fun soundPlusButtonSound() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "88, soundPlus")
+            Log.i(TAG, "86, soundPlus")
         if (buttonSoundPref) {
             uriP = if (buttonSoundPlus.isNotBlank())
                 buttonSoundPlus.toUri()
@@ -122,7 +120,7 @@ class SoundService : Service {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "125, onDestroy")
+            Log.i(TAG, "123, onDestroy")
 
         if (buttonSoundPref) {
             if (rToneM != null) {

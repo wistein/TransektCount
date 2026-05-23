@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.Section
+
 import java.util.Objects
 
 /*******************************************************
@@ -20,7 +22,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edited on 2026-02-28
+ * Last edited on 2026-05-23
  */
 class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView

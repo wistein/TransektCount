@@ -100,7 +100,7 @@ import java.util.concurrent.Executors;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-05-16
+ * last edited on 2026-05-23
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -290,14 +290,8 @@ public class WelcomeActivity
         if (storagePermGranted) {
             // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
             File path;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-            {
-                path = Environment.getExternalStorageDirectory();
-                path = new File(path + "/Documents/TransektCount");
-            } else {
-                path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-                path = new File(path + "/TransektCount");
-            }
+            path = Environment.getExternalStorageDirectory();
+            path = new File(path + "/Documents/TransektCount");
 
             // Delete old preliminary transektcount0.db if it does exist
             inFile = new File(path, "/transektcount0.db"); // old initial basic DB
@@ -355,7 +349,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.i(TAG, "358, onCreate, TrkPts: " + trackPts.size()
+            Log.i(TAG, "352, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks correspond to sections
@@ -401,7 +395,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "404, onCreate, ForegrndLocDialog");
+                    Log.i(TAG, "398, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -425,10 +419,9 @@ public class WelcomeActivity
 
                 // Get background location with permissions check only once and if storage and fine location
                 //   permissions are granted
-                if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation
-                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "431, onCreate, BackgrndLocDialog");
+                        Log.i(TAG, "424, onCreate, BackgrndLocDialog");
 
                     // Ask optional background location permission
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
@@ -465,7 +458,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "468, NavBarMode = " + navBarMode);
+            Log.i(TAG, "461, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -514,7 +507,7 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "517, onResume");
+            Log.i(TAG, "510, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -590,14 +583,8 @@ public class WelcomeActivity
     // Check external storage self permission
     private Boolean isStoragePermGranted() {
         boolean storGranted;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) // Android >= 11
-        {
-            // Check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
-            storGranted = Environment.isExternalStorageManager();
-        } else {
-            storGranted = ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        }
+        // Check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
+        storGranted = Environment.isExternalStorageManager();
         return storGranted;
     }
 
@@ -612,7 +599,6 @@ public class WelcomeActivity
      *  2: Stop location service on backpress, when running
      *  3: Stop location service by onStop() when app is invisible
      */
-    @SuppressLint("ApplySharedPref")
     private void locationDispatcher(int locationDispatcherMode) {
         if (fineLocationPermGranted && autoSection) // if GPS should be used
         {
@@ -620,7 +606,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "623, locationDispatcher 1");
+                        Log.i(TAG, "609, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         locationService = new LocationService(getApplicationContext());
@@ -636,7 +622,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "639, location stop 2 by backpress");
+                        Log.i(TAG, "625, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -645,7 +631,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "648 location stop 3 by onStop");
+                        Log.i(TAG, "634, location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -847,14 +833,14 @@ public class WelcomeActivity
         // Stop location service when denied in settings
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "850, location stop by setting");
+                Log.i(TAG, "836, location stop by setting");
             stopLocSrv();
         }
 
         // Stop sound service when denied in settings
         if (!buttonSoundPref && sndServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "857, button sound stop by setting");
+                Log.i(TAG, "843, button sound stop by setting");
             stopService(sndIntent);
             sndServiceOn = false;
         }
@@ -875,7 +861,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "878, onPause");
+            Log.i(TAG, "864, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -891,7 +877,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "894, onStop");
+            Log.i(TAG, "880, onStop");
 
         baseLayout.invalidate();
 
@@ -910,7 +896,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "913, onStop, app not visible, LocationService running: "
+                Log.i(TAG, "899, onStop, app not visible, LocationService running: "
                         + locServiceOn);
 
             finishAndRemoveTask(); // In combination with System.exit(0) in onDestroy() closes app completely
@@ -922,7 +908,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "925 onDestroy");
+            Log.i(TAG, "911 onDestroy");
 
         System.exit(0);
     }
@@ -980,7 +966,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "983, importBasicDBFile");
+            Log.i(TAG, "969, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -1438,7 +1424,7 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG,"1441, decodeGPX, " +
+                                        Log.e(TAG,"1427, decodeGPX, " +
                                                 "Problem converting Stream to String: " + e);
                                 }
 
@@ -1463,7 +1449,7 @@ public class WelcomeActivity
                                 // Get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.i(TAG, "1466, decodeGPX, numSect: "
+                                    Log.i(TAG, "1452 decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1528,7 +1514,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1531, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.i(TAG, "1517, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section
@@ -1545,7 +1531,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1548, decodeGPX, do trackpt");
+                            Log.i(TAG, "1534, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1555,7 +1541,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1558 decodeGPX, sectionNameGPS: "
+                            Log.i(TAG, "1544 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1570,13 +1556,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1573, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1559, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1579, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1565, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1586,7 +1572,7 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1589, decodeGPX, gpxString finished: " + gpxString);
+                Log.i(TAG, "1575, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
@@ -1675,14 +1661,8 @@ public class WelcomeActivity
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
-        } else {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
-        }
+        path = Environment.getExternalStorageDirectory();
+        path = new File(path + "/Documents/TransektCount");
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // just verify path, result ignored
@@ -1745,14 +1725,8 @@ public class WelcomeActivity
     private void exportDb() {
         // Public data directory for outFile: Documents/TransektCount/
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
-        } else {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
-        }
+        path = Environment.getExternalStorageDirectory();
+        path = new File(path + "/Documents/TransektCount");
 
         String date, start_tm;
 
@@ -1857,14 +1831,8 @@ public class WelcomeActivity
     private void exportDb2CSV() {
         // Public data directory for outFile: Documents/TransektCount/
         File path;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            path = Environment.getExternalStorageDirectory();
-            path = new File(path + "/Documents/TransektCount");
-        } else {
-            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            path = new File(path + "/TransektCount");
-        }
+        path = Environment.getExternalStorageDirectory();
+        path = new File(path + "/Documents/TransektCount");
 
         String inspecName;
         int temps, tempe;   // temperature at start time and end time
@@ -2677,7 +2645,7 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2680, csv write external failed");
+                    Log.e(TAG, "2648, csv write external failed");
             }
             dbHelper.close();
         }
@@ -2693,16 +2661,8 @@ public class WelcomeActivity
         // outFileTour -> /storage/emulated/0/Documents/TourCount/species_ll_Transekt_transNo_yyyyMMdd_HHmmss.csv
         // outFileTransect -> /storage/emulated/0/Documents/TransektCount/species_ll_Transekt_transNo_yyyyMMdd_HHmmss.csv
         File pathTour, outFileTour, pathTransect, outFileTransect;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) // Android 10+
-        {
-            pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
-            pathTransect = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
-        } else {
-            pathTour = new File(Environment
-                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TourCount");
-            pathTransect = new File(Environment
-                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/TransektCount");
-        }
+        pathTour = new File(Environment.getExternalStorageDirectory() + "/Documents/TourCount");
+        pathTransect = new File(Environment.getExternalStorageDirectory() + "/Documents/TransektCount");
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED.equals(sState);

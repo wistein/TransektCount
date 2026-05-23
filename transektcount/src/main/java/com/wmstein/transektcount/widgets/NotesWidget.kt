@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.Utils.fromHtml
+
 import java.util.Objects
 
 /*****************************************************
@@ -19,7 +21,7 @@ import java.util.Objects
  * Uses widget_notes.xml.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-28
+ * last edited on 2026-05-23
  */
 class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView

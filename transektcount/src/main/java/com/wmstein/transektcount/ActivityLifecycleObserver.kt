@@ -1,18 +1,20 @@
 package com.wmstein.transektcount
 
 import android.util.Log
+
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+
 import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSectionActivityResumed
 
 /********************************************************************************************
  * ActivityLifecycleObserver
+ * Check if an Activity is currently active (resumed)
  * Used to restart SelectSectionActivity to show the name of a GPS-recognized section in blue
  *
  * Created for TransektCount on 2026-01-08,
- * last edited on 2026-04-18.
+ * last edited on 2026-05-19.
  */
-// Check if an Activity is currently active (resumed)
 open class ActivityLifecycleObserver() : DefaultLifecycleObserver {
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)

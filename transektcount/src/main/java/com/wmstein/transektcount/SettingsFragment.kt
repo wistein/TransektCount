@@ -1,11 +1,14 @@
 package com.wmstein.transektcount
 
 import android.os.Bundle
+
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+
 import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
+
 import java.util.Locale
 
 /************************************
@@ -14,7 +17,7 @@ import java.util.Locale
  * Created by wmstein on 2020-04-17,
  * last edited in Java on 2020-04-17,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-04-10
+ * last edited on 2026-05-19
  */
 // Load the preferences from preferences.xml
 class SettingsFragment : PreferenceFragmentCompat() {

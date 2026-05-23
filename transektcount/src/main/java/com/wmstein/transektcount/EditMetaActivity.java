@@ -43,7 +43,7 @@ import androidx.core.view.WindowInsetsCompat;
  * EditMetaActivity collects meta info for a transect inspection
  * <p>
  * Created by wmstein on 2016-03-31,
- * last edited on 2026-04-19
+ * last edited on 2026-05-23
  */
 public class EditMetaActivity extends AppCompatActivity {
     private final static String TAG = "EditMetaAct";
@@ -199,7 +199,7 @@ public class EditMetaActivity extends AppCompatActivity {
         // Get current date by click
         sDate.setOnClickListener(v -> {
             Date date = new Date();
-            sDate.setText(getformDate(date));
+            sDate.setText(getFormDate(date));
         });
 
         // Get date picker result
@@ -208,7 +208,7 @@ public class EditMetaActivity extends AppCompatActivity {
             pdate.set(Calendar.MONTH, monthOfYear);
             pdate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             Date date = pdate.getTime();
-            sDate.setText(getformDate(date));
+            sDate.setText(getFormDate(date));
         };
 
         // Select date by long click
@@ -223,7 +223,7 @@ public class EditMetaActivity extends AppCompatActivity {
         // Get current start time
         sTime.setOnClickListener(v -> {
             Date date = new Date();
-            sTime.setText(getformTime(date));
+            sTime.setText(getFormTime(date));
         });
 
         // Get start time picker result
@@ -231,7 +231,7 @@ public class EditMetaActivity extends AppCompatActivity {
             ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             ptime.set(Calendar.MINUTE, minute);
             Date date = ptime.getTime();
-            sTime.setText(getformTime(date));
+            sTime.setText(getFormTime(date));
         };
 
         // Select start time
@@ -246,7 +246,7 @@ public class EditMetaActivity extends AppCompatActivity {
         // Get current end time
         eTime.setOnClickListener(v -> {
             Date date = new Date();
-            eTime.setText(getformTime(date));
+            eTime.setText(getFormTime(date));
         });
 
         // Get start time picker result
@@ -254,7 +254,7 @@ public class EditMetaActivity extends AppCompatActivity {
             ptime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             ptime.set(Calendar.MINUTE, minute);
             Date date = ptime.getTime();
-            eTime.setText(getformTime(date));
+            eTime.setText(getFormTime(date));
         };
 
         // Select end time
@@ -388,7 +388,7 @@ public class EditMetaActivity extends AppCompatActivity {
     }
 
     // Formatted date
-    public String getformDate(Date date) {
+    public String getFormDate(Date date) {
         DateFormat dform;
         String lng = Locale.getDefault().toString().substring(0, 2);
 
@@ -401,7 +401,7 @@ public class EditMetaActivity extends AppCompatActivity {
     }
 
     // Date for start_tm and end_tm
-    public String getformTime(Date date) {
+    public String getFormTime(Date date) {
         DateFormat dform = new SimpleDateFormat("HH:mm", Locale.US);
         return dform.format(date);
     }

@@ -2,8 +2,6 @@ package com.wmstein.transektcount.widgets
 
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
-import android.graphics.Point
-import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,9 +10,11 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.AutoFitText
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
+
 import java.util.Objects
 
 /********************************************************************
@@ -23,7 +23,7 @@ import java.util.Objects
  * Created by wmstein on 18.12.2016.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-03-03
+ * last edited on 2026-05-23
  */
 class CountingExternWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
@@ -83,17 +83,8 @@ class CountingExternWidget(context: Context, attrs: AttributeSet?) : RelativeLay
     fun setCounte(newcount: Count?) {
         // Get screen size to adapt the counting view
         val wm = checkNotNull(context.getSystemService(WINDOW_SERVICE) as WindowManager)
-        if (Build.VERSION.SDK_INT >= 30) {
-            val metrics = wm.currentWindowMetrics
-            sHeight = metrics.bounds.top + metrics.bounds.bottom
-        } else {
-            @Suppress("DEPRECATION")
-            val display = wm.defaultDisplay // deprecated in 30
-            val size = Point()
-            @Suppress("DEPRECATION")
-            display.getSize(size) // deprecated in 30
-            sHeight = size.y
-        }
+        val metrics = wm.currentWindowMetrics
+        sHeight = metrics.bounds.top + metrics.bounds.bottom
 
         // Height for counter line on counting page
         ht = sHeight / 22

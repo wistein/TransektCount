@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
+
 import java.util.Objects
 
 /**************************************************************
@@ -15,7 +17,7 @@ import java.util.Objects
  * Created by wmstein on 23.10.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-03-03.
+ * Last edited on 2026-05-23.
  */
 class EditSectionListNotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetnotes: TextView

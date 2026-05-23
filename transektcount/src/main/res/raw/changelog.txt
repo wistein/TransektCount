@@ -68,16 +68,19 @@ _ subtitle
   ) Source code and documentation published under:
   ) <a href="https://github.com/wistein/TransektCount" target="_blank">https://github.com/wistein/TransektCount</a>
   _
-  ) Suitable for Android 7.1 (Nougat) or newer.
+  ) Suitable for Android 11 or newer.
   _
   .
   _
 
 $ 5.0.9
   % Version 5.0.9
-  _ 2026-05-16
+  _ 2026-05-22
   * Info about new Google restrictions in "App Info"
   * Some GPS parameters for Settings improved
+  * Changed the minimal Android version from 7.1 to 11
+  * Code improvements
+  * Docs updated
   * Bugfix
 
 $ 5.0.8

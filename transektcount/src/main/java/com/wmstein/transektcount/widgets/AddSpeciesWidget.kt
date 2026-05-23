@@ -8,7 +8,9 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
+
 import java.io.Serializable
 import java.util.Objects
 
@@ -22,7 +24,7 @@ import java.util.Objects
  * converted to Kotlin on 2023-05-26,
  * renamed to AddSpeciesWidget.kt on 2024-06-14
  * imported to TransektCount on 2023-08-23
- * last edited on 2026-02-28
+ * last edited on 2026-05-23
  */
 class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {

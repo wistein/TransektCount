@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
 import com.wmstein.transektcount.database.Count
+
 import java.util.Objects
 
 /***********************************************************************
@@ -18,7 +20,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-03-03
+ * last edited on 2026-05-23
  */
 @SuppressLint("ViewConstructor")
 class CountingHead2Widget(context: Context, attrs: AttributeSet?) :

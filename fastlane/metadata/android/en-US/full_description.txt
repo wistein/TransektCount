@@ -3,6 +3,9 @@ TransectCount supports the species-specific counting of butterflies per transect
 New in Version 5.0.9:
 - Info about new Google restrictions in "App Info"
 - Some GPS parameters for Settings improved
+- Changed the minimal Android version from 7.1 to 11
+- Code improvements
+- Docs updated
 - Bugfix
 
 Features:

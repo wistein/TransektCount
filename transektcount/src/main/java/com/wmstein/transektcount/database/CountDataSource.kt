@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+
 import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
 
 /******************************************************
@@ -13,7 +14,7 @@ import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-04-04
+ * last edited on 2026-05-19
  */
 class CountDataSource(context: Context) {
     // Database fields

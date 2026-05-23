@@ -12,6 +12,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
+
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import androidx.core.app.NavUtils
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+
 import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
@@ -36,7 +38,7 @@ import com.wmstein.transektcount.widgets.CountOptionsLhWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-02-22
+ * last edited on 2026-05-19
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -82,7 +84,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "85, onCreate")
+            Log.i(TAG, "87, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -139,7 +141,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "142, onResume")
+            Log.i(TAG, "144, onResume")
 
         brightPref = prefs.getBoolean("pref_bright", true)
         awakePref = prefs.getBoolean("pref_awake", true)
@@ -419,7 +421,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "422, onPause")
+            Log.i(TAG, "424, onPause")
 
         countDataSource!!.close()
         sectionDataSource!!.close()
@@ -438,7 +440,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "441, onStop")
+            Log.i(TAG, "443, onStop")
 
         staticWidgetArea = null
         dynamicWidgetArea = null
@@ -448,7 +450,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "451, onDestroy")
+            Log.i(TAG, "453, onDestroy")
     }
 
     fun saveData(): Boolean {

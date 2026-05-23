@@ -3,7 +3,6 @@ package com.wmstein.transektcount
 import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 
@@ -21,7 +20,7 @@ import androidx.fragment.app.DialogFragment
  *
  * Adopted for TourCount in Kotlin by wistein on 2025-02-22,
  * used in TransektCount on 2025-07-02,
- * last edited on 2026-05-16
+ * last edited on 2026-05-23
  */
 class PermissionsBackgroundDialogFragment : DialogFragment() {
     private var context: Context? = null
@@ -42,12 +41,10 @@ class PermissionsBackgroundDialogFragment : DialogFragment() {
         isCancelable = false
 
         // Request background location permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val permission = Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        val permission = Manifest.permission.ACCESS_BACKGROUND_LOCATION
 
-            //launch permission request dialog
-            permissionLauncherBackground.launch(permission)
-        }
+        //launch permission request dialog
+        permissionLauncherBackground.launch(permission)
     }
 
     // Request background location permission in system settings dialog
@@ -57,7 +54,7 @@ class PermissionsBackgroundDialogFragment : DialogFragment() {
     { isGranted ->
         if (isGranted) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "60, permLauncherBackgrLoc granted: true")
+                Log.i(TAG, "58, permLauncherBackgrLoc granted: true")
             dismiss()
         } else {
             showAppSettingsBackgroundDialog()
@@ -67,7 +64,7 @@ class PermissionsBackgroundDialogFragment : DialogFragment() {
     // Query and set optional background permission
     private fun showAppSettingsBackgroundDialog() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "70, AppSettingsBackgrLocDlg")
+            Log.i(TAG, "68, AppSettingsBackgrLocDlg")
 
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.dialog_background_loc_title))
@@ -86,7 +83,7 @@ class PermissionsBackgroundDialogFragment : DialogFragment() {
         super.onDetach()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "89, onDetach")
+            Log.i(TAG, "87, onDetach")
 
         context = null
     }

@@ -26,7 +26,7 @@ import androidx.fragment.app.DialogFragment
  * last edited in java on 2024-09-30,
  * converted to Kotlin on 2025-01-22,
  * used ba TransektCount on 2025-07-02,
- * last edited on 2026-05-16
+ * last edited on 2026-05-23
  */
 class PermissionsForegroundDialogFragment : DialogFragment() {
     private var context: Context? = null
@@ -79,7 +79,8 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
                 val intent = Intent()
                 intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 val uri =
-                    Uri.fromParts("package", requireContext().applicationContext.packageName, null)
+                    Uri.fromParts("package", requireContext()
+                        .applicationContext.packageName, null)
                 intent.data = uri
                 requireContext().startActivity(intent)
                 dismiss()
@@ -92,7 +93,7 @@ class PermissionsForegroundDialogFragment : DialogFragment() {
         super.onDetach()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "95, onDetach")
+            Log.i(TAG, "96, onDetach")
         context = null
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+
 import com.wmstein.transektcount.R
 
 /*********************************************************************
@@ -16,7 +17,7 @@ import com.wmstein.transektcount.R
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-03-03
+ * last edited on 2026-05-23
  */
 class CountingHead1Widget(
     context: Context,
