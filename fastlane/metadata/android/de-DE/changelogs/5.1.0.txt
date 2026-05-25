@@ -1,0 +1,3 @@
+Version 5.1.0 (25.05.2026)
+- Komfortablere Vorauswahl für Hinzufügen, Löschen oder Editieren von Arten der Zählliste
+- Doku aktualisiert

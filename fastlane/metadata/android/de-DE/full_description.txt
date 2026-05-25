@@ -1,12 +1,8 @@
 TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode. Es dient Transektzählern beim Registrieren von Schmetterlingen und tagfliegenden Nachtfaltern bei Transektbegehungen.
 
-Neu in Version 5.0.9:
-- Info über neue Google Einschränkungen in "App-Info"
-- Einige GPS-Parameter für Einstellungen verbessert
-- Die minimale Android-Version nach 11 geändert
-- Code-Verbesserungen
+Neu in Version 5.1.0:
+- Komfortablere Vorauswahl für Hinzufügen, Löschen oder Editieren von Arten der Zählliste
 - Doku aktualisiert
-- Bugfix
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

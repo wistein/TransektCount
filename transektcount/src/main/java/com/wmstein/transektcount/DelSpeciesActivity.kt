@@ -1,6 +1,5 @@
 package com.wmstein.transektcount
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
@@ -37,7 +36,7 @@ import java.util.Locale
  *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-05-16
+ * last edited on 2025-05-25
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -50,8 +49,8 @@ class DelSpeciesActivity : AppCompatActivity() {
     private var delHintArea: LinearLayout? = null
     private var deleteArea: LinearLayout? = null
 
-    // 2 initial characters to limit selection
-    private var initChars: String = ""
+    // 2 or more characters to limit selection
+    private var searchChars: String = ""
 
     // Arraylists
     private var listToDelete: ArrayList<DeleteSpeciesWidget>? = null
@@ -65,7 +64,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "68 onCreate")
+            Log.i(TAG, "67 onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -96,8 +95,13 @@ class DelSpeciesActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             sectionId = extras.getInt("section_id")
-            initChars = extras.getString("init_Chars").toString()
+            searchChars = extras.getString("search_Chars").toString()
+            if (searchChars == "null")
+                searchChars = ""
         }
+
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "104 onCreate, searchChars: $searchChars")
 
         listToDelete = ArrayList()
 
@@ -125,7 +129,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "128 onResume")
+            Log.i(TAG, "132 onResume")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -153,8 +157,9 @@ class DelSpeciesActivity : AppCompatActivity() {
 
         // Display hint: Species in counting list
         val hdw = DeleteSpeciesHintWidget(this, null)
-        if (initChars.length == 2)
-            hdw.setSearchD(initChars)
+        if (searchChars.length >= 2) {
+            hdw.setSearchD(searchChars)
+        }
         else
             hdw.setSearchD(getString(R.string.hintSearch))
         delHintArea!!.addView(hdw)
@@ -163,31 +168,27 @@ class DelSpeciesActivity : AppCompatActivity() {
     }
     // End of onResume()
 
-    // Get initial 2 characters of species to select by search button
+    // Get 2 or more characters of species to select by search button
     // Parameter view is necessary for function call
-    fun getDelInitialChars(view: View) {
+    fun getDelSearchChars(view: View) {
         // Read EditText searchDel from widget_del_hint.xml
         val searchDel: EditText = findViewById(R.id.searchD)
         searchDel.findFocus()
 
-        // Get the initial characters of species to select from
-        initChars = searchDel.text.toString().trim()
-        if (initChars.length == 1) {
-            // Reminder: "Please, 2 characters"
-            searchDel.error = getString(R.string.initCharsL)
+        // Get 2 or more characters of species to select from
+        searchChars = searchDel.text.toString().trim()
+        if (searchChars.length == 1) {
+            // Reminder: "Please, >1 characters"
+            searchDel.error = getString(R.string.searchCharsL)
         } else {
-            initChars = initChars.substring(0, 2)
             searchDel.error = null
-
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "183, initChars: $initChars")
             searchDel.clearFocus()
             searchDel.invalidate()
 
             // Re-enter DelSpeciesActivity for reduced add list
             val intent = Intent(this@DelSpeciesActivity, DelSpeciesActivity::class.java)
             intent.putExtra("section_id", sectionId)
-            intent.putExtra("init_Chars", initChars)
+            intent.putExtra("search_Chars", searchChars)
             intent.flags = FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             finish()
@@ -195,18 +196,21 @@ class DelSpeciesActivity : AppCompatActivity() {
     }
 
     // Construct delete-species-list of contained species in the counting list
-    //   and optionally reduce it by initChar selection
+    //   and optionally reduce it by searchChars selection
     private fun constructDelList() {
         // Load the sorted species data from section 1
         val counts = countDataSource!!.getAllSpeciesForSectionSrtCode(1)
 
         // Get the counting list species into their DeleteSpeciesWidget and add these to the view
-        if (initChars.length == 2) {
-            initChars = initChars.uppercase(Locale.getDefault()) //Compare initChars in uppercase
+        if (searchChars.length >= 2) {
+            searchChars = searchChars.uppercase(Locale.getDefault()) //Compare searchChars in uppercase
             var cnt = 1
-            // Check name in counts for InitChars to reduce list
+            // Check name in counts for searchChars to reduce list
             for (count in counts) {
-                if (count.name?.substring(0, 2)?.uppercase(Locale.getDefault()) == initChars) {
+                val checkedName = count.name!!.uppercase(Locale.getDefault()).contains(searchChars)
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.i(TAG, "212, checkedName: $checkedName")
+                if (checkedName) {
                     val dsw = DeleteSpeciesWidget(this, null)
                     dsw.setSpecName(count.name)
                     dsw.setSpecNameG(count.name_g)
@@ -215,8 +219,6 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
                     cnt++
                     deleteArea!!.addView(dsw)
-                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "219, name: " + count.name)
                 }
             }
         } else {
@@ -228,8 +230,6 @@ class DelSpeciesActivity : AppCompatActivity() {
                 dsw.setPicSpec(count)
                 dsw.setSpecId(count.id.toString()) // Index in complete list
                 deleteArea!!.addView(dsw)
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "232, name: " + count.name)
             }
         }
     }
@@ -310,7 +310,6 @@ class DelSpeciesActivity : AppCompatActivity() {
         return true
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here.
         val id = item.itemId
@@ -332,7 +331,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "335 onPause")
+            Log.i(TAG, "334 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -351,7 +350,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "354, onStop")
+            Log.i(TAG, "353, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -361,7 +360,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "364, onDestroy")
+            Log.i(TAG, "363, onDestroy")
     }
 
     companion object {

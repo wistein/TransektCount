@@ -73,6 +73,12 @@ _ subtitle
   .
   _
 
+$ 5.1.0
+  % Version 5.1.0
+  _ 25.05.2026
+  * Komfortablere Vorauswahl für Hinzufügen, Löschen oder Editieren von Arten der Zählliste
+  * Doku aktualisiert
+
 $ 5.0.9
   % Version 5.0.9
   _ 22.05.2026

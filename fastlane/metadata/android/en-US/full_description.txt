@@ -1,12 +1,8 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.0.9:
-- Info about new Google restrictions in "App Info"
-- Some GPS parameters for Settings improved
-- Changed the minimal Android version from 7.1 to 11
-- Code improvements
+New in Version 5.1.0:
+- More comfortable preselection for adding, deleting or editing species of the counting list
 - Docs updated
-- Bugfix
 
 Features:
 - Data collection is based on a transect inspection.

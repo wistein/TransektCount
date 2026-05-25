@@ -73,6 +73,12 @@ _ subtitle
   .
   _
 
+$ 5.1.0
+  % Version 5.1.0
+  _ 2026-05-25
+  * More comfortable preselection for adding, deleting or editing species of the counting list
+  * Docs updated
+
 $ 5.0.9
   % Version 5.0.9
   _ 2026-05-22

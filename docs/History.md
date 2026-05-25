@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.1.0 (2026-05-25)
+- More comfortable preselection for adding, deleting or editing species of the counting list
+- Docs updated
+
 #### Version 5.0.9 (2026-05-22)
 - Info about new Google restrictions in "App Info"
 - Some GPS parameters for Settings improved

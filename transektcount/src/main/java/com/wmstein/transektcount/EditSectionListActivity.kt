@@ -45,7 +45,7 @@ import java.util.Locale
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-16
+ * last edited on 2026-05-25
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -70,8 +70,8 @@ class EditSectionListActivity : AppCompatActivity() {
     private var cmpCountCodes: ArrayList<String>? = null
     private var savedCounts: ArrayList<EditSectionListWidget>? = null
 
-    // 2 initial characters to limit selection
-    private var initChars: String = ""
+    // 2 or more characters to limit selection
+    private var searchChars: String = ""
 
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
@@ -122,7 +122,9 @@ class EditSectionListActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             sectionId = extras.getInt("section_id")
-            initChars = extras.getString("init_Chars").toString()
+            searchChars = extras.getString("search_Chars").toString()
+            if (searchChars == "null")
+                searchChars = ""
         }
 
         // Set up the data sources
@@ -147,7 +149,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "150 onResume")
+            Log.i(TAG, "152 onResume")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -185,14 +187,11 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.sectionName = oldName
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "189, onResume, EditSectionListTitleWidget, old section name: "
-                        + oldName + ", new sectionName: " + etw!!.sectionName)
 
         // Display hint: Current species list
         val hew = EditSectionListHintWidget(this, null)
-        if (initChars.length == 2)
-            hew.setSearchE(initChars)
+        if (searchChars.length >= 2)
+            hew.setSearchE(searchChars)
         else
             hew.setSearchE(getString(R.string.hintSearch))
         editHintArea!!.addView(hew)
@@ -201,32 +200,27 @@ class EditSectionListActivity : AppCompatActivity() {
     }
     // End of onResume()
 
-    // Get initial 2 characters of species to select by search button
+    // Get 2 or more characters of species to select by search button
     // Parameter view is necessary for function call
-    fun getEditInitialChars(view: View) {
+    fun getEditSearchChars(view: View) {
         // Read EditText searchEdit from widget_edit_hint.xml
         val searchEdit: EditText = findViewById(R.id.searchE)
         searchEdit.findFocus()
 
         // Get the initial characters of species to select from
-        initChars = searchEdit.text.toString().trim()
-        if (initChars.length == 1) {
-            // Reminder: "Please, 2 characters"
-            searchEdit.error = getString(R.string.initCharsL)
+        searchChars = searchEdit.text.toString().trim()
+        if (searchChars.length == 1) {
+            // Reminder: "Please, >1 chars"
+            searchEdit.error = getString(R.string.searchCharsL)
         } else {
-            initChars = initChars.substring(0, 2)
             searchEdit.error = null
-
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "221, initChars: $initChars")
-
             searchEdit.clearFocus()
             searchEdit.invalidate()
 
             // Re-enter EditSectionListActivity for edited list
             val intent = Intent(this@EditSectionListActivity, EditSectionListActivity::class.java)
             intent.putExtra("section_id", sectionId)
-            intent.putExtra("init_Chars", initChars)
+            intent.putExtra("search_Chars", searchChars)
             intent.flags = FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             finish()
@@ -245,12 +239,12 @@ class EditSectionListActivity : AppCompatActivity() {
 
         // Display all the counts by adding them to editingSpeciesArea
         // Get the counting list species into their EditSectionListWidget and add them to the view
-        if (initChars.length == 2) {
-            initChars = initChars.uppercase(Locale.getDefault()) //Compare initChars in uppercase
+        if (searchChars.length >= 2) {
+            searchChars = searchChars.uppercase(Locale.getDefault()) //Compare searchChars in uppercase
             var cnt = 1
             // Check name in counts for InitChars to reduce list
             for (count in counts) {
-                if (count.name?.substring(0, 2)?.uppercase(Locale.getDefault()) == initChars) {
+                if (count.name!!.uppercase(Locale.getDefault()).contains(searchChars)) {
                     esw = EditSectionListWidget(this, null)
                     esw!!.setCountName(count.name)
                     esw!!.setCountNameG(count.name_g)
@@ -270,8 +264,6 @@ class EditSectionListActivity : AppCompatActivity() {
                 esw!!.setPicSpec(count)
                 esw!!.setCountId(count.id)
                 editingSpeciesArea!!.addView(esw)
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "274, name: " + count.name)
             }
         }
     }
@@ -280,7 +272,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "283 onPause")
+            Log.i(TAG, "275 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -303,7 +295,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "306 onStop")
+            Log.i(TAG, "298 onStop")
 
         editingSpeciesArea = null
         speciesNotesArea = null
@@ -314,7 +306,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "317, onDestroy")
+            Log.i(TAG, "309, onDestroy")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -352,7 +344,7 @@ class EditSectionListActivity : AppCompatActivity() {
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "355, newSectName: $newSectName")
+            Log.i(TAG, "347, newSectName: $newSectName")
 
         if (isNotEmpty(newSectName)) {
             // Check if this is not a duplicate of an existing section name
@@ -404,7 +396,7 @@ class EditSectionListActivity : AppCompatActivity() {
         var correct = false
         val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "407, childcount: $childcount")
+            Log.i(TAG, "399, childcount: $childcount")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compCountNames()
@@ -425,7 +417,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 // for all species per section
                 for (i in 0 until childcount) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "428, Section: $si, Species $i")
+                        Log.i(TAG, "420, Section: $si, Species $i")
                     esw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
                     cname = esw!!.getCountName()
                     ccode = esw!!.getCountCode()
@@ -467,7 +459,7 @@ class EditSectionListActivity : AppCompatActivity() {
             correct = false
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "470, getEditSpecies, ok: $correct")
+            Log.i(TAG, "462, getEditSpecies, ok: $correct")
         return correct
     }
 
@@ -504,11 +496,11 @@ class EditSectionListActivity : AppCompatActivity() {
             section = sectionDataSource!!.getSection(i)
             sname = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "507, sname = $sname")
+                Log.i(TAG, "499, sname = $sname")
             if (newSectName == sname) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "511, Double name = $sname")
+                    Log.i(TAG, "503, Double name = $sname")
                 break
             }
         }
@@ -529,7 +521,7 @@ class EditSectionListActivity : AppCompatActivity() {
             if (cmpCountNames!!.contains(name)) {
                 isDblName = name
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "532, Double name = $isDblName")
+                    Log.i(TAG, "524, Double name = $isDblName")
                 break
             }
             cmpCountNames!!.add(name)
@@ -551,7 +543,7 @@ class EditSectionListActivity : AppCompatActivity() {
             if (cmpCountCodes!!.contains(code)) {
                 isDblCode = code
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "554, Double name = $isDblCode")
+                    Log.i(TAG, "546, Double name = $isDblCode")
                 break
             }
             cmpCountCodes!!.add(code)
