@@ -11,7 +11,7 @@ import java.util.Date
  * Adopted for TransektCount by wmstein on 18.02.2016
  * last edited in Java on 2019-08-22,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2025-05-23
+ * last edited on 2025-05-26
  */
 class Section {
     @JvmField
@@ -19,9 +19,9 @@ class Section {
     @JvmField
     var created_at: Long = 0
     @JvmField
-    var name: String? = null
+    var name = ""
     @JvmField
-    var notes: String? = null
+    var notes = ""
 
     //Get date and time from DB table sections field created_at
     val dateTime: String

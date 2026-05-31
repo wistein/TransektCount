@@ -24,15 +24,14 @@ import java.util.Locale
  * last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
  * updated to version 7 on 2026-03-07,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  *
  * ************************************************************************
  * ATTENTION!
  * Current DATABASE_VERSION must be set under 'companion object' at the end
  * ************************************************************************
  */
-class DbHelper
-    (private val mContext: Context?) :
+class DbHelper(private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
     // initDataLanguage = current system locale
     val initDataLanguage = Locale.getDefault().toString().substring(0, 2)
@@ -138,7 +137,7 @@ class DbHelper
         val values3 = ContentValues()
         values3.put(S_ID, 1)
         values3.put(S_CREATED_AT, 0)
-        values3.put(S_NAME, mContext!!.resources.getString(R.string.sect01))
+        values3.put(S_NAME, mContext.resources.getString(R.string.sect01))
         values3.put(S_NOTES, "")
         db.insert(SECTION_TABLE, null, values3)
     }
@@ -151,7 +150,7 @@ class DbHelper
 
     // Initial data for section 1 in COUNT_TABLE
     private fun initialCount(db: SQLiteDatabase) {
-        val specs: Array<String> = mContext!!.resources.getStringArray(R.array.initSpecs)
+        val specs: Array<String> = mContext.resources.getStringArray(R.array.initSpecs)
         val codes: Array<String> = mContext.resources.getStringArray(R.array.initCodes)
         // Initial local species name entries comprise initial species in the current system language
         val specsL: Array<String> = when (initDataLanguage) {

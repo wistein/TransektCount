@@ -24,7 +24,7 @@ import java.util.Objects
  * converted to Kotlin on 2023-05-26,
  * renamed to AddSpeciesWidget.kt on 2024-06-14
  * imported to TransektCount on 2023-08-23
- * last edited on 2026-05-23
+ * last edited on 2026-05-26
  */
 class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -62,7 +62,7 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         return specName.text.toString()
     }
 
-    fun setSpecName(name: String?) {
+    fun setSpecName(name: String) {
         specName.text = name
     }
 
@@ -70,7 +70,7 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         return specNameG.text.toString()
     }
 
-    fun setSpecNameG(nameg: String?) {
+    fun setSpecNameG(nameg: String) {
         specNameG.text = nameg
     }
 
@@ -78,7 +78,7 @@ class AddSpeciesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         return specCode.text.toString()
     }
 
-    fun setSpecCode(code: String?) {
+    fun setSpecCode(code: String) {
         specCode.text = code
     }
 

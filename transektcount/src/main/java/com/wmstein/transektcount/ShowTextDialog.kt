@@ -29,7 +29,7 @@ import java.util.Locale
  * displays the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")

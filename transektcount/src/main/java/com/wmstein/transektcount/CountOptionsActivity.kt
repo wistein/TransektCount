@@ -38,7 +38,7 @@ import com.wmstein.transektcount.widgets.CountOptionsLhWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null

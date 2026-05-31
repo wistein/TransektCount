@@ -15,7 +15,7 @@ import java.util.Objects
  * shows single hint line with search field
  *
  * Created by wmstein on 2024-12-17
- * Last edited on 2026-05-23
+ * Last edited on 2026-05-28
  */
 class AddSpeciesHintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     var searchA: EditText
@@ -26,8 +26,13 @@ class AddSpeciesHintWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         searchA = findViewById(R.id.searchA)
     }
 
-    fun setSearchA(name: String?) {
+    fun setSearchA(name: String) {
         searchA.hint = name
+    }
+
+    // When searchChars exist, show editable searchChars
+    fun setSearchA1(name: String) {
+        searchA.setText(name)
     }
 
 }

@@ -32,7 +32,7 @@ import com.wmstein.transektcount.database.Section
  * Modified for TransektCount by wmstein since 2016-02-18
  * Last edited in Java on 2023-07-05,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 internal class SelectSectionAdapter(
     private val context: Context,
@@ -46,7 +46,7 @@ internal class SelectSectionAdapter(
 
     // preferences
     private var prefs: SharedPreferences? = null
-    private var buttonSoundPref: Boolean = false
+    private var buttonSoundPref = false
     private fun setPrefs() {
         buttonVibPref = prefs!!.getBoolean("pref_button_vib", false)
         buttonSoundPref = prefs!!.getBoolean("pref_button_sound", false)
@@ -151,7 +151,7 @@ internal class SelectSectionAdapter(
         buttonVib()
 
         sct = v.tag as Section
-        sectionNameCurrent = sct!!.name.toString()
+        sectionNameCurrent = sct!!.name
         val intent = Intent(context, CountingActivity::class.java)
         intent.putExtra("section_id", sct!!.id)
         mContext.startActivity(intent)

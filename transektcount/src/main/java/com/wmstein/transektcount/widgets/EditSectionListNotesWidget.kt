@@ -17,7 +17,7 @@ import java.util.Objects
  * Created by wmstein on 23.10.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-23.
+ * Last edited on 2026-05-26
  */
 class EditSectionListNotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetnotes: TextView
@@ -30,17 +30,17 @@ class EditSectionListNotesWidget(context: Context, attrs: AttributeSet?) : Linea
         snotes = findViewById(R.id.sNotes)
     }
 
-    fun setWidgetNotes(title: String?) {
+    fun setWidgetNotes(title: String) {
         widgetnotes.text = title
     }
 
-    var sNotes: String?
+    var sNotes: String
         get() = snotes.text.toString()
         set(name) {
             snotes.setText(name)
         }
 
-    fun setHint(hint: String?) {
+    fun setHint(hint: String) {
         snotes.hint = hint
     }
 

@@ -18,7 +18,7 @@ import java.util.Objects
  * Created by wmstein on 2016-02-16,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23
+ * last edited on 2026-05-26
  */
 class CountOptionsLhWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView
@@ -33,6 +33,7 @@ class CountOptionsLhWidget(context: Context, attrs: AttributeSet?) : LinearLayou
     private val numberli: AutoFitEditText
     private val instructionsei: TextView
     private val numberei: AutoFitEditText
+
     private val instructionsf1e: TextView
     private val numberf1e: AutoFitEditText
     private val instructionsf2e: TextView

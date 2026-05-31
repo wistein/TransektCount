@@ -20,7 +20,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-23
+ * Last edited on 2026-05-31
  */
 class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -52,7 +52,7 @@ class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayo
         return countName.text.toString()
     }
 
-    fun setCountName(name: String?) {
+    fun setCountName(name: String) {
         countName.setText(name)
     }
 
@@ -60,7 +60,7 @@ class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayo
         return countNameG.text.toString()
     }
 
-    fun setCountNameG(name: String?) {
+    fun setCountNameG(name: String) {
         countNameG.setText(name)
     }
 
@@ -68,8 +68,12 @@ class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayo
         return countCode.text.toString()
     }
 
-    fun setCountCode(name: String?) {
+    fun setCountCode(name: String) {
         countCode.setText(name)
+    }
+
+    fun getCountId(): Int {
+        return countId
     }
 
     fun setCountId(id: Int) {

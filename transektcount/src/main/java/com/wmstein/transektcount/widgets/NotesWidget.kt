@@ -21,7 +21,7 @@ import java.util.Objects
  * Uses widget_notes.xml.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23
+ * last edited on 2026-05-26
  */
 class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView
@@ -33,7 +33,7 @@ class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context
     }
 
     // Set notes with light blue introducer e.g. "Species notes: "
-    fun setNotesC(intro: String?, notes: String?) {
+    fun setNotesC(intro: String, notes: String) {
         textView.text = fromHtml("<font color='#BEFDFD'>$intro</font> $notes")
     }
 

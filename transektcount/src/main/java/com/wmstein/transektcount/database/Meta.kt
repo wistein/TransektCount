@@ -4,7 +4,7 @@ package com.wmstein.transektcount.database
  * Table Meta interface with record of transect metadata
  * Created by wmstein on 31.03.2016.
  * Converted to Kotlin on 2024-03-09,
- * last edited on 2026-02-21.
+ * last edited on 2026-05-26.
  */
 class Meta {
     @JvmField
@@ -22,11 +22,11 @@ class Meta {
     @JvmField
     var cloude = 0
     @JvmField
-    var date: String? = null     // Formet: EN: yyyy-mm-dd, DE: dd.mm.yyyy
+    var date = ""     // Formet: EN: yyyy-mm-dd, DE: dd.mm.yyyy
     @JvmField
-    var start_tm: String? = null // Format: hh:mm
+    var start_tm = "" // Format: hh:mm
     @JvmField
-    var end_tm: String? = null   // Format: hh:mm
+    var end_tm = ""   // Format: hh:mm
     @JvmField
-    var note: String? = null
+    var note = ""
 }

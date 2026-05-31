@@ -52,7 +52,7 @@ import kotlin.math.sqrt
  *
  * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-05-23
+ * last edited on 2026-05-26
  */
 class LocationService : Service, LocationListener {
     private var mContext: Context? = null
@@ -61,7 +61,7 @@ class LocationService : Service, LocationListener {
     private var checkGPS = false
     var canGetLocation = false
     private var sectionGPS: Section? = null
-    private var sectionNameGPS: String = "" // current track section name
+    private var sectionNameGPS = "" // current track section name
     private var isInsideTrack = true // inside of track (always true for manual section selection)
     private lateinit var trackPts: List<Track>
 
@@ -69,8 +69,8 @@ class LocationService : Service, LocationListener {
     private var selTimeInterval: Long = 3000 // Default time interval for updates
     private var maxDeviation = 5.0 // track width: default 5 meters
     private var minDistanceM: Long = 0 // No movement between updates necessary
-    private var alertSoundPref: Boolean = false
-    private var alertSound: String = ""
+    private var alertSoundPref = false
+    private var alertSound = ""
 
     private var audioAttributionContext: Context? = null
     private var locationAttributionContext: Context? = null
@@ -245,9 +245,9 @@ class LocationService : Service, LocationListener {
 
         // Read all TRACK_TABLE entries and find distMin for nearest track
         for (trackpt: Track in trackPts) {
-            tSName = trackpt.tsection.toString()
-            tLat = trackpt.tlat.toString() // Lat. from DB
-            tLon = trackpt.tlon.toString() // Lon. from DB
+            tSName = trackpt.tsection
+            tLat = trackpt.tlat // Lat. from DB
+            tLon = trackpt.tlon // Lon. from DB
             dist = sDistance(tLat, tLon, lat, lon)
             if (distMinInit > dist) {
                 distMinInit = dist

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase
 
 /**********************************
  * Created by wmstein on 2023-09-06
- * last edited on 2025-12-29
+ * last edited on 2026-05-26
  */
 class TrackDataSource(context: Context) {
     // Database fields
@@ -88,7 +88,7 @@ class TrackDataSource(context: Context) {
         }
 
     // Delete track points for last section to be deleted
-    fun deleteAllTrkPointsOfSection(sectName: String?) {
+    fun deleteAllTrkPointsOfSection(sectName: String) {
         val allTrkPtsOfSect: List<Track> = getAllTrkPtsOfSection(sectName)
         for (trkPt in allTrkPtsOfSect) {
             database!!.delete(
@@ -98,7 +98,7 @@ class TrackDataSource(context: Context) {
         }
     }
 
-    private fun getAllTrkPtsOfSection(sectName: String?): List<Track> {
+    private fun getAllTrkPtsOfSection(sectName: String): List<Track> {
         val trkPts: MutableList<Track> = ArrayList()
         val cursor = database!!.rawQuery(
             "select * from " + DbHelper.TRACK_TABLE
@@ -115,12 +115,12 @@ class TrackDataSource(context: Context) {
     }
 
     // Used by EditSectionListActivity
-    fun saveTrackName(newName: String?, oldName: String?) {
+    fun saveTrackName(newName: String, oldName: String) {
         if (database!!.isOpen) {
             val dataToInsert = ContentValues()
             dataToInsert.put(DbHelper.T_SECTION, newName)
             val where = DbHelper.T_SECTION + " = ?"
-            val whereArgs = arrayOf(oldName.toString())
+            val whereArgs = arrayOf(oldName)
             database!!.update(DbHelper.TRACK_TABLE, dataToInsert, where, whereArgs)
         }
     }

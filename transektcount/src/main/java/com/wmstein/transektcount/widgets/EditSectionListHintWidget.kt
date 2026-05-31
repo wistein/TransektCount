@@ -17,7 +17,7 @@ import java.util.Objects
  * Created by wmstein on 2023-05-16,
  * last edited in java on 2023-05-16,
  * converted to Kotlin on 2023-07-05,
- * last edited on 2026-05-23
+ * last edited on 2026-05-28
  */
 class EditSectionListHintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var searchE: EditText
@@ -28,8 +28,13 @@ class EditSectionListHintWidget(context: Context, attrs: AttributeSet?) : Linear
         searchE = findViewById(R.id.searchE)
     }
 
-    fun setSearchE(name: String?) {
+    fun setSearchE(name: String) {
         searchE.hint = name
+    }
+
+    // When searchChars exist, show editable searchChars
+    fun setSearchE1(name: String) {
+        searchE.setText(name)
     }
 
 }

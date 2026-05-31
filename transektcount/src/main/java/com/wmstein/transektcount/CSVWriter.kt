@@ -31,7 +31,7 @@ import java.io.Writer
  *
  * Last edited in Java on 2023-06-17,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-02-23
+ * last edited on 2026-06-26
  */
 internal class CSVWriter private constructor(
     private val rawWriter: Writer,
@@ -39,8 +39,8 @@ internal class CSVWriter private constructor(
     private val separator: Char = ',',
 ) : Closeable, Flushable {
     private val pw: PrintWriter = PrintWriter(rawWriter)
-    private val newLine: String = "\n"
-    private val carriageReturn: String = "\r"
+    private val newLine = "\n"
+    private val carriageReturn = "\r"
 
     constructor(writer: Writer) : this(writer, ',')
 

@@ -16,7 +16,7 @@ import androidx.core.net.toUri
  * in background.
  *
  * Created for TransektCount (and TourCount) by wmstein on 2026-02-24,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 class SoundService : Service {
     private var mContext: Context? = null
@@ -27,8 +27,8 @@ class SoundService : Service {
     private var rToneP: MediaPlayer? = null
 
     // prefs
-    private var buttonSoundMinus: String = ""
-    private var buttonSoundPlus: String = ""
+    private var buttonSoundMinus = ""
+    private var buttonSoundPlus = ""
     private var prefs = TransektCountApplication.getPrefs()
     private var buttonSoundPref = false
 

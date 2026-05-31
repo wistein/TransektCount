@@ -13,7 +13,7 @@ import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSect
  * Used to restart SelectSectionActivity to show the name of a GPS-recognized section in blue
  *
  * Created for TransektCount on 2026-01-08,
- * last edited on 2026-05-19.
+ * last edited on 2026-05-26.
  */
 open class ActivityLifecycleObserver() : DefaultLifecycleObserver {
     override fun onResume(owner: LifecycleOwner) {
@@ -22,7 +22,7 @@ open class ActivityLifecycleObserver() : DefaultLifecycleObserver {
         // Check if SelectSectionActivity is currently active (resumed)
         isSelectSectionActivityResumed = true // Activity is now in foreground
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i("ActLifecycleObserver","22, onResume, isSelectSectionActivityResumed: true")
+            Log.i("ActLifecycleObserver","25, onResume, isSelectSectionActivityResumed: true")
     }
 
     override fun onPause(owner: LifecycleOwner) {
@@ -30,7 +30,7 @@ open class ActivityLifecycleObserver() : DefaultLifecycleObserver {
 
         isSelectSectionActivityResumed = false // Activity is now in background
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i("ActLifecycleObserver","30, onPause, isSelectSectionActivityResumed: false")
+            Log.i("ActLifecycleObserver","33, onPause, isSelectSectionActivityResumed: false")
     }
 
 }

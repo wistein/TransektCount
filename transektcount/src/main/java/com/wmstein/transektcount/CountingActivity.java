@@ -76,7 +76,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -500,6 +500,7 @@ public class CountingActivity
             Intent intent = new Intent(CountingActivity.this, AddSpeciesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("section_id", sectionId);
+            intent.putExtra("search_Chars", "");
             startActivity(intent);
             return true;
         } else if (id == R.id.menuDelSpecies) {
@@ -513,6 +514,7 @@ public class CountingActivity
             Intent intent = new Intent(CountingActivity.this, DelSpeciesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("section_id", sectionId);
+            intent.putExtra("search_Chars", "");
             mHandler.postDelayed(() ->
                     startActivity(intent), 100);
             return true;
@@ -527,6 +529,7 @@ public class CountingActivity
             Intent intent = new Intent(CountingActivity.this, EditSectionListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("section_id", sectionId);
+            intent.putExtra("search_Chars", "");
             mHandler.postDelayed(() ->
                     startActivity(intent), 100);
             return true;
@@ -615,7 +618,7 @@ public class CountingActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "618, onPause");
+            Log.i(TAG, "621, onPause");
 
         disableProximitySensor();
 
@@ -639,7 +642,7 @@ public class CountingActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "642, onStop");
+            Log.i(TAG, "645, onStop");
 
         counting_screen.invalidate();
 
@@ -654,7 +657,7 @@ public class CountingActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "657, onDestroy");
+            Log.i(TAG, "660, onDestroy");
     }
 
     // Spinner listener
@@ -676,13 +679,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "679, SpinnerListener, count id: " + count.id
+                        Log.i(TAG, "682, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "685, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "688, SpinnerListener, catch: " + e);
                 }
             }
 

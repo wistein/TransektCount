@@ -18,7 +18,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-23.
+ * Last edited on 2026-05-26
  */
 class EditSectionListTitleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetTitle: TextView
@@ -31,11 +31,11 @@ class EditSectionListTitleWidget(context: Context, attrs: AttributeSet?) : Linea
         sectName = findViewById(R.id.editsectionName)
     }
 
-    fun setWidgetTitle(title: String?) {
+    fun setWidgetTitle(title: String) {
         widgetTitle.text = title
     }
 
-    var sectionName: String?
+    var sectionName: String
         get() = sectName.text.toString()
         set(name) {
             sectName.setText(name)

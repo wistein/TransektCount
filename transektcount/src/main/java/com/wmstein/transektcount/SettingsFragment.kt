@@ -17,13 +17,13 @@ import java.util.Locale
  * Created by wmstein on 2020-04-17,
  * last edited in Java on 2020-04-17,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 // Load the preferences from preferences.xml
 class SettingsFragment : PreferenceFragmentCompat() {
     private var prefs = getPrefs()
-    private var language: String = ""
-    private var hasDataLang: Boolean = false
+    private var language = ""
+    private var hasDataLang = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)

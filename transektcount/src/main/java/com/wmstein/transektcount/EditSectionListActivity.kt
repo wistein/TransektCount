@@ -39,13 +39,13 @@ import java.util.Locale
  * lists (change new species for all sections).
  * EditSectionListActivity is called from CountingActivity,
  * uses EditSectionListWidget.kt, EditSectionListTitleWidget.kt,
- * activity_edit_section_list.xml, widget_edit_title.xml.
+ * activity_edit_section_list.xml, widget_edit_title.xml, widget_edit_count.xml.
  *
  * Based on EditProjectActivity.java by milo on 05/05/2014.
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-25
+ * last edited on 2026-05-31
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -66,26 +66,27 @@ class EditSectionListActivity : AppCompatActivity() {
     private var esw: EditSectionListWidget? = null
 
     // Arraylists
-    private var cmpCountNames: ArrayList<String>? = null
-    private var cmpCountCodes: ArrayList<String>? = null
+    private var cmpSpeciesNames: ArrayList<String>? = null
+    private var cmpSpeciesCodes: ArrayList<String>? = null
     private var savedCounts: ArrayList<EditSectionListWidget>? = null
 
     // 2 or more characters to limit selection
-    private var searchChars: String = ""
+    private var searchChars = ""
 
+    private var diffSpecies = 0 // No. of different species in DB
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
     private var awakePref = false
-    private var sortPref: String? = null
-    private var oldName: String? = null
-    private var mesg: String? = null
+    private var sortPref = ""
+    private var oldName = ""
+    private var mesg = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "88 onCreate")
+            Log.i(TAG, "89 onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -112,7 +113,7 @@ class EditSectionListActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
-        savedCounts = ArrayList()
+        savedCounts = ArrayList() // EditSectionListWidget: countName, countNameG, countCode, pSpecies
 
         speciesNotesArea = findViewById(R.id.editingLineLayout)
         editHintArea = findViewById(R.id.showHintLayout)
@@ -123,8 +124,6 @@ class EditSectionListActivity : AppCompatActivity() {
         if (extras != null) {
             sectionId = extras.getInt("section_id")
             searchChars = extras.getString("search_Chars").toString()
-            if (searchChars == "null")
-                searchChars = ""
         }
 
         // Set up the data sources
@@ -149,12 +148,12 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "152 onResume")
+            Log.i(TAG, "151 onResume")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
         awakePref = prefs.getBoolean("pref_awake", true)
-        sortPref = prefs.getString("pref_sort_sp", "none")
+        sortPref = prefs.getString("pref_sort_sp", "none").toString()
 
         // Set full brightness of screen
         if (brightPref) {
@@ -187,11 +186,14 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.sectionName = oldName
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "190, onResume, EditSectionListTitleWidget, old section name: "
+                        + oldName + ", new sectionName: " + etw!!.sectionName)
 
         // Display hint: Current species list
         val hew = EditSectionListHintWidget(this, null)
         if (searchChars.length >= 2)
-            hew.setSearchE(searchChars)
+            hew.setSearchE1(searchChars)
         else
             hew.setSearchE(getString(R.string.hintSearch))
         editHintArea!!.addView(hew)
@@ -227,24 +229,26 @@ class EditSectionListActivity : AppCompatActivity() {
         }
     }
 
-    // Construct edit-species-list of contained species in the counting list
-    //   and optionally reduce it by initChar selection
+    // Construct edit-species-list of contained species from 1. section
+    //   and optionally reduce it to searchChars selection
     private fun constructEditList() {
         // Load the sorted species data from section 1
-        val counts = when (sortPref) {
+        val countsToEdit = when (sortPref) {
             "names_alpha" -> countDataSource!!.getAllSpeciesForSectionSrtName(1)
             "codes" -> countDataSource!!.getAllSpeciesForSectionSrtCode(1)
-            else -> countDataSource!!.getAllCountsForSection(1)
+            else -> countDataSource!!.getAllSpeciesForSection(1)
         }
 
-        // Display all the counts by adding them to editingSpeciesArea
+        diffSpecies = countsToEdit.size
+
+        // Display all the countsToEdit by adding them to editingSpeciesArea
         // Get the counting list species into their EditSectionListWidget and add them to the view
         if (searchChars.length >= 2) {
             searchChars = searchChars.uppercase(Locale.getDefault()) //Compare searchChars in uppercase
-            var cnt = 1
-            // Check name in counts for InitChars to reduce list
-            for (count in counts) {
-                if (count.name!!.uppercase(Locale.getDefault()).contains(searchChars)) {
+
+            // Check name in countsToEdit for searchChars to reduce list
+            for (count in countsToEdit) {
+                if (count.name.uppercase(Locale.getDefault()).contains(searchChars)) {
                     esw = EditSectionListWidget(this, null)
                     esw!!.setCountName(count.name)
                     esw!!.setCountNameG(count.name_g)
@@ -252,11 +256,10 @@ class EditSectionListActivity : AppCompatActivity() {
                     esw!!.setPicSpec(count)
                     esw!!.setCountId(count.id)
                     editingSpeciesArea!!.addView(esw)
-                    cnt++
                 }
             }
         } else {
-            for (count in counts) {
+            for (count in countsToEdit) {
                 esw = EditSectionListWidget(this, null)
                 esw!!.setCountName(count.name)
                 esw!!.setCountNameG(count.name_g)
@@ -268,45 +271,227 @@ class EditSectionListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    // Test species list for double entry
+    private fun testData(): Boolean {
+        var retValue = true
 
+        // Check for unique species names
+        val isDbl: String = compSpeciesNames()
+        if (isDbl != "") {
+            mesg = isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
+            Toast.makeText(
+                applicationContext,
+                fromHtml("<font color='red'><b>$mesg</b></font>"),
+                Toast.LENGTH_LONG
+            ).show()
+            retValue = false
+        }
+        return retValue
+    }
+
+    // Save changed and unique section name,
+    // call doEditedSpecies()
+    private fun saveData(): Boolean {
+        // Save section name only if it has been changed and is unique
+        var saveState: Boolean
+
+        // Add title if the user has written one
+        val newSectName = etw!!.sectionName // edited section name
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "275 onPause")
+            Log.i(TAG, "301, newSectName: $newSectName")
 
-        // Close the data sources
-        sectionDataSource!!.close()
-        countDataSource!!.close()
-        trackDataSource!!.close()
+        if (isNotEmpty(newSectName)) {
+            // Check for duplicate section name
+            sectionBackup = section
+            if (compSectionNames(newSectName)) {
+                mesg = newSectName + " " + getString(R.string.isdouble)
+                Toast.makeText(
+                    applicationContext,
+                    fromHtml("<font color='red'><b>$mesg</b></font>"),
+                    Toast.LENGTH_LONG
+                ).show()
+                saveState = false
+            } else {
+                sectionBackup!!.name = newSectName
+                saveState = true
+            }
+            // Save edited section with new name
+            section = sectionBackup
 
-        if (awakePref) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            // Save new section name also as track name in track table
+            trackDataSource!!.saveTrackName(newSectName, oldName)
+        } else {
+            mesg = getString(R.string.isempty)
+            Toast.makeText(
+                applicationContext,
+                fromHtml("<font color='red'><b>$mesg</b></font>"),
+                Toast.LENGTH_LONG
+            ).show()
+            saveState = false
         }
 
-        editingSpeciesArea!!.clearFocus()
-        editingSpeciesArea!!.removeAllViews()
-        speciesNotesArea!!.clearFocus()
-        speciesNotesArea!!.removeAllViews()
-        editHintArea!!.clearFocus()
-        editHintArea!!.removeAllViews()
+        if (saveState) {
+            // Save changed section name
+            sectionDataSource!!.saveSectionName(section!!)
+            mesg = getString(R.string.sectSaving)
+            Toast.makeText(
+                applicationContext,
+                fromHtml("<font color='#008000'>$mesg</font>"),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        saveState = doEditedSpecies()
+        return saveState
     }
 
-    override fun onStop() {
-        super.onStop()
-
+    private fun doEditedSpecies(): Boolean {
+        // Read the edited species list
+        var correct = false
+        val childcount: Int = editingSpeciesArea!!.childCount // No. of counts in selection list
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "298 onStop")
+            Log.i(TAG, "353, childcount: $childcount")
 
-        editingSpeciesArea = null
-        speciesNotesArea = null
-        editHintArea = null
+        // Check for unique species names and codes before storing
+        val isDblName: String = compSpeciesNames()
+        val isDblCode: String = compSpeciesCodes()
+
+        // Updates species names and code for all sections if no doubles
+        if (isDblName == "" && isDblCode == "") {
+            // Copy edited species list for all other sections
+            val numSect: Int = sectionDataSource!!.numEntries
+            var si = 1   // section index
+            var ci = 1   // count index
+            
+            var cid: Int // count id
+            var cname: String
+            var ccode: String
+            var cnameg: String
+
+            // For all sections
+            while (si <= numSect) {
+                // for all selected species per section
+                for (i in 0 until childcount) {
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.i(TAG, "376, Section: $si, Species $ci")
+                    val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+                    cid = esaw.getCountId() + (diffSpecies * (si - 1)) // cid with offset for sections
+                    cname = esaw.getCountName()
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.i(TAG, "381, id: $cid, name: $cname")
+                    ccode = esaw.getCountCode()
+                    if (isNotEmpty(cname) && isNotEmpty(ccode)) {
+                        cnameg = esaw.getCountNameG()
+                        countDataSource!!.updateEditedSpecies(
+                            si,
+                            cid,
+                            cname,
+                            ccode,
+                            cnameg
+                        )
+                        correct = true
+                    } else {
+                        mesg = getString(R.string.isempty)
+                        Toast.makeText(
+                            applicationContext,
+                            fromHtml("<font color='red'><b>$mesg</b></font>"),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        correct = false
+                        break
+                    }
+
+                    ci++
+                }
+
+                if (!correct) break
+                si++
+            }
+        } else {
+            mesg = (getString(R.string.spec_Name) + " " + isDblName + " "
+                    + getString(R.string.orcode) + " " + isDblCode + " " + getString(
+                R.string.isdouble
+            ))
+            Toast.makeText(
+                applicationContext,
+                fromHtml("<font color='red'><b>$mesg</b></font>"),
+                Toast.LENGTH_LONG
+            ).show()
+            correct = false
+        }
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "423, getEditSpecies, ok: $correct")
+        return correct
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    // Compare section names for duplicates and return TRUE when duplicate found
+    private fun compSectionNames(newSectName: String): Boolean {
+        var isDblName = false
+        var sname: String
+        if (newSectName == oldName) {
+            return false // name has not changed
+        }
+        val sectionList = sectionDataSource!!.allSectionNames
+        val childcount = sectionList.size + 1
 
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "309, onDestroy")
+        // For all Sections
+        for (i in 1 until childcount) {
+            section = sectionDataSource!!.getSection(i)
+            sname = section!!.name
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                Log.i(TAG, "442, sname = $sname")
+            if (newSectName == sname) {
+                isDblName = true
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.i(TAG, "446, Double section name = $sname")
+                break
+            }
+        }
+        return isDblName
+    }
+
+    // Compare species names for duplicates and returns name of 1. duplicate found
+    private fun compSpeciesNames(): String {
+        var name: String
+        var isDblName = ""
+        cmpSpeciesNames = ArrayList()
+        val childcount = editingSpeciesArea!!.childCount // # of species
+
+        // For all CountEditWidgets
+        for (i in 0 until childcount) {
+            val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+            name = esaw.getCountName()
+            if (cmpSpeciesNames!!.contains(name)) {
+                isDblName = name
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.i(TAG, "467, Double name = $isDblName")
+                break
+            }
+            cmpSpeciesNames!!.add(name)
+        }
+        return isDblName
+    }
+
+    // Compare count codes for duplicates and returns name of 1. duplicate found
+    private fun compSpeciesCodes(): String {
+        var code: String
+        var isDblCode = ""
+        cmpSpeciesCodes = ArrayList()
+        val childcount = editingSpeciesArea!!.childCount
+
+        // For all CountEditWidgets
+        for (i in 0 until childcount) {
+            val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+            code = esaw.getCountCode()
+            if (cmpSpeciesCodes!!.contains(code)) {
+                isDblCode = code
+                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                    Log.i(TAG, "489, Double name = $isDblCode")
+                break
+            }
+            cmpSpeciesCodes!!.add(code)
+        }
+        return isDblCode
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -336,223 +521,49 @@ class EditSectionListActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Test for double entries and save species lists
-    private fun saveData(): Boolean {
-        // Save section name only if it has changed
-        var saveState: Boolean
+    override fun onPause() {
+        super.onPause()
 
-        // Add title if the user has written one
-        val newSectName = etw!!.sectionName // edited section name
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "347, newSectName: $newSectName")
+            Log.i(TAG, "528 onPause")
 
-        if (isNotEmpty(newSectName)) {
-            // Check if this is not a duplicate of an existing section name
-            sectionBackup = section
-            if (compSectionNames(newSectName)) {
-                mesg = newSectName + " " + getString(R.string.isdouble)
-                Toast.makeText(
-                    applicationContext,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
-                ).show()
-                saveState = false
-            } else {
-                sectionBackup!!.name = newSectName
-                saveState = true
-            }
-            // Save edited section with new name
-            section = sectionBackup
+        // Close the data sources
+        sectionDataSource!!.close()
+        countDataSource!!.close()
+        trackDataSource!!.close()
 
-            // Save new section name as track name in track table
-            trackDataSource!!.saveTrackName(newSectName, oldName)
-        } else {
-            mesg = getString(R.string.isempty)
-            Toast.makeText(
-                applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
-            ).show()
-            saveState = false
+        if (awakePref) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (saveState) {
-            // Save changed section name
-            sectionDataSource!!.saveSection(section!!)
-            mesg = getString(R.string.sectSaving)
-            Toast.makeText(
-                applicationContext,
-                fromHtml("<font color='#008000'>$mesg</font>"),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        saveState = doEditedSpecies()
-        return saveState
+        editingSpeciesArea!!.clearFocus()
+        editingSpeciesArea!!.removeAllViews()
+        speciesNotesArea!!.clearFocus()
+        speciesNotesArea!!.removeAllViews()
+        editHintArea!!.clearFocus()
+        editHintArea!!.removeAllViews()
     }
 
-    private fun doEditedSpecies(): Boolean {
-        // Read the edited species list
-        var correct = false
-        val childcount: Int = editingSpeciesArea!!.childCount //No. of counts in list
+    override fun onStop() {
+        super.onStop()
+
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "399, childcount: $childcount")
+            Log.i(TAG, "551 onStop")
 
-        // Check for unique species names and codes before storing
-        val isDblName: String = compCountNames()
-        val isDblCode: String = compCountCodes()
+        editingSpeciesArea = null
+        speciesNotesArea = null
+        editHintArea = null
+    }
 
-        // Updates species names and code for all sections if no doubles
-        if (isDblName == "" && isDblCode == "") {
-            // Copy edited species list for all other sections
-            val numSect: Int = sectionDataSource!!.numEntries
-            var si = 1   // section id
-            var ci = 1   // count id
-            var cname: String
-            var ccode: String
-            var cnameg: String
+    override fun onDestroy() {
+        super.onDestroy()
 
-            // For all sections
-            while (si <= numSect) {
-                // for all species per section
-                for (i in 0 until childcount) {
-                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "420, Section: $si, Species $i")
-                    esw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-                    cname = esw!!.getCountName()
-                    ccode = esw!!.getCountCode()
-                    if (isNotEmpty(cname) && isNotEmpty(ccode)) {
-                        cnameg = esw!!.getCountNameG()
-                        countDataSource!!.updateCountForAllSections(
-                            si,
-                            ci,
-                            cname,
-                            ccode,
-                            cnameg
-                        )
-                        ci++
-                        correct = true
-                    } else {
-                        mesg = getString(R.string.isempty)
-                        Toast.makeText(
-                            applicationContext,
-                            fromHtml("<font color='red'><b>$mesg</b></font>"),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        correct = false
-                        break
-                    }
-                }
-                if (!correct) break
-                si++
-            }
-        } else {
-            mesg = (getString(R.string.spec_Name) + " " + isDblName + " "
-                    + getString(R.string.orcode) + " " + isDblCode + " " + getString(
-                R.string.isdouble
-            ))
-            Toast.makeText(
-                applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
-            ).show()
-            correct = false
-        }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "462, getEditSpecies, ok: $correct")
-        return correct
-    }
-
-    // Test species list for double entry
-    private fun testData(): Boolean {
-        var retValue = true
-
-        // Check for unique species names
-        val isDbl: String = compCountNames()
-        if (isDbl != "") {
-            mesg = isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
-            Toast.makeText(
-                applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
-            ).show()
-            retValue = false
-        }
-        return retValue
-    }
-
-    // Compare section names for duplicates and return TRUE when duplicate found
-    private fun compSectionNames(newSectName: String?): Boolean {
-        var isDblName = false
-        var sname: String?
-        if (newSectName == oldName) {
-            return false // name has not changed
-        }
-        val sectionList = sectionDataSource!!.allSectionNames
-        val childcount = sectionList.size + 1
-
-        // For all Sections
-        for (i in 1 until childcount) {
-            section = sectionDataSource!!.getSection(i)
-            sname = section!!.name
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "499, sname = $sname")
-            if (newSectName == sname) {
-                isDblName = true
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "503, Double name = $sname")
-                break
-            }
-        }
-        return isDblName
-    }
-
-    // Compare count names for duplicates and returns name of 1. duplicate found
-    private fun compCountNames(): String {
-        var name: String
-        var isDblName = ""
-        cmpCountNames = ArrayList()
-        val childcount = editingSpeciesArea!!.childCount
-
-        // For all CountEditWidgets
-        for (i in 0 until childcount) {
-            esw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-            name = esw!!.getCountName()
-            if (cmpCountNames!!.contains(name)) {
-                isDblName = name
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "524, Double name = $isDblName")
-                break
-            }
-            cmpCountNames!!.add(name)
-        }
-        return isDblName
-    }
-
-    // Compare count codes for duplicates and returns name of 1. duplicate found
-    private fun compCountCodes(): String {
-        var code: String
-        var isDblCode = ""
-        cmpCountCodes = ArrayList()
-        val childcount = editingSpeciesArea!!.childCount
-
-        // For all CountEditWidgets
-        for (i in 0 until childcount) {
-            esw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-            code = esw!!.getCountCode()
-            if (cmpCountCodes!!.contains(code)) {
-                isDblCode = code
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "546, Double name = $isDblCode")
-                break
-            }
-            cmpCountCodes!!.add(code)
-        }
-        return isDblCode
+            Log.i(TAG, "562, onDestroy")
     }
 
     companion object {
-        private const val TAG = "EditSpecListAct"
+        private const val TAG = "EditSectionListAct"
 
         /**
          * Checks if a CharSequence is empty ("") or null.

@@ -22,7 +22,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edited on 2026-05-23
+ * Last edited on 2026-05-26
  */
 class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -73,25 +73,21 @@ class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLay
     fun setCount(spec: Count, section: Section) {
         txtSectName.text = section.name
         txtSpecName.text = spec.name
-        if (spec.name_g != null) {
-            if (spec.name_g!!.isNotEmpty()) {
-                txtSpecNameG.text = spec.name_g
-            } else {
-                txtSpecNameG.text = ""
-            }
+        if (spec.name_g.isNotEmpty()) {
+            txtSpecNameG.text = spec.name_g
+        } else {
+            txtSpecNameG.text = ""
         }
         setPicSpec(spec) // get picSpecies
 
-        if (spec.notes != null) {
-            if (spec.notes!!.isNotEmpty()) {
-                txtSectRem.text = context.getString(R.string.rem_sp)
-                txtSectRem.visibility = VISIBLE
-                txtSpecRem.text = spec.notes
-                txtSpecRem.visibility = VISIBLE
-            } else {
-                txtSectRem.visibility = GONE
-                txtSpecRem.visibility = GONE
-            }
+        if (spec.notes.isNotEmpty()) {
+            txtSectRem.text = context.getString(R.string.rem_sp)
+            txtSectRem.visibility = VISIBLE
+            txtSpecRem.text = spec.notes
+            txtSpecRem.visibility = VISIBLE
+        } else {
+            txtSectRem.visibility = GONE
+            txtSpecRem.visibility = GONE
         }
         if (spec.count_f1i > 0) specCountf1i.text = spec.count_f1i.toString()
         if (spec.count_f2i > 0) specCountf2i.text = spec.count_f2i.toString()

@@ -36,12 +36,12 @@ import java.util.Locale
  *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-05-25
+ * last edited on 2025-05-28
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
     private var sectionId = 1
-    private var specCode: String? = null
+    private var specCode = ""
     private var sectionDataSource: SectionDataSource? = null
     private var countDataSource: CountDataSource? = null
 
@@ -50,7 +50,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     private var deleteArea: LinearLayout? = null
 
     // 2 or more characters to limit selection
-    private var searchChars: String = ""
+    private var searchChars = ""
 
     // Arraylists
     private var listToDelete: ArrayList<DeleteSpeciesWidget>? = null
@@ -96,12 +96,10 @@ class DelSpeciesActivity : AppCompatActivity() {
         if (extras != null) {
             sectionId = extras.getInt("section_id")
             searchChars = extras.getString("search_Chars").toString()
-            if (searchChars == "null")
-                searchChars = ""
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "104 onCreate, searchChars: $searchChars")
+            Log.i(TAG, "102 onCreate, searchChars: $searchChars")
 
         listToDelete = ArrayList()
 
@@ -129,7 +127,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "132 onResume")
+            Log.i(TAG, "130 onResume")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -158,7 +156,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         // Display hint: Species in counting list
         val hdw = DeleteSpeciesHintWidget(this, null)
         if (searchChars.length >= 2) {
-            hdw.setSearchD(searchChars)
+            hdw.setSearchD1(searchChars)
         }
         else
             hdw.setSearchD(getString(R.string.hintSearch))
@@ -207,9 +205,9 @@ class DelSpeciesActivity : AppCompatActivity() {
             var cnt = 1
             // Check name in counts for searchChars to reduce list
             for (count in counts) {
-                val checkedName = count.name!!.uppercase(Locale.getDefault()).contains(searchChars)
+                val checkedName = count.name.uppercase(Locale.getDefault()).contains(searchChars)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "212, checkedName: $checkedName")
+                    Log.i(TAG, "210, checkedName: $checkedName")
                 if (checkedName) {
                     val dsw = DeleteSpeciesWidget(this, null)
                     dsw.setSpecName(count.name)
@@ -217,8 +215,8 @@ class DelSpeciesActivity : AppCompatActivity() {
                     dsw.setSpecCode(count.code)
                     dsw.setPicSpec(count)
                     dsw.setSpecId(cnt.toString()) // Index in reduced list
-                    cnt++
                     deleteArea!!.addView(dsw)
+                    cnt++
                 }
             }
         } else {
@@ -238,7 +236,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     fun checkBoxDel(view: View) {
         val idToDel = view.tag as Int
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "241, View.tag: $idToDel")
+            Log.i(TAG, "239, View.tag: $idToDel")
         val dsw = deleteArea!!.getChildAt(idToDel) as DeleteSpeciesWidget
 
         val checked = dsw.getMarkSpec() // return boolean isChecked
@@ -248,14 +246,14 @@ class DelSpeciesActivity : AppCompatActivity() {
             listToDelete!!.add(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.i(TAG, "251, mark delete code: $codeD")
+                Log.i(TAG, "249, mark delete code: $codeD")
             }
         } else {
             // Remove species previously added from delete list
             listToDelete!!.remove(dsw)
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
                 val codeD = dsw.getSpecCode()
-                Log.i(TAG, "258, mark delete code: $codeD")
+                Log.i(TAG, "256, mark delete code: $codeD")
             }
         }
     }
@@ -267,7 +265,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.i(TAG, "270, delete code: $specCode")
+                Log.i(TAG, "268, delete code: $specCode")
             }
             try {
                 var sectid = 1
@@ -331,7 +329,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "334 onPause")
+            Log.i(TAG, "332 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -350,7 +348,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "353, onStop")
+            Log.i(TAG, "351, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -360,7 +358,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "363, onDestroy")
+            Log.i(TAG, "361, onDestroy")
     }
 
     companion object {

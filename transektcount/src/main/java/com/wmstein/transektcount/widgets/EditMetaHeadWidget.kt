@@ -17,7 +17,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 31.03.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2026-05-23
+ * Last edit on 2026-05-26
  */
 class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetno // used for transect_no title
@@ -39,20 +39,20 @@ class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
         widgetname1 = findViewById(R.id.widgetName1)
     }
 
-    fun setWidgetNo(title: String?) {
+    fun setWidgetNo(title: String) {
         widgetno.text = title
     }
 
-    fun setWidgetName(title: String?) {
+    fun setWidgetName(title: String) {
         widgetname.text = title
     }
 
-    var widgetNo1: String?
+    var widgetNo1: String
         get() = widgetno1.text.toString()
         set(name) {
             widgetno1.setText(name)
         }
-    var widgetName1: String?
+    var widgetName1: String
         get() = widgetname1.text.toString()
         set(name) {
             widgetname1.setText(name)

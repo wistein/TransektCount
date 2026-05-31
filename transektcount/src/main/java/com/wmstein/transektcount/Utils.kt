@@ -15,7 +15,7 @@ import java.util.Locale
  * Created by wmstein on 2017-09-25,
  * last modified in Java on 2018-06-13,
  * converted to Kotlin on 2024-09-30,
- * last edited on 2026-05-19.
+ * last edited on 2026-05-26
  */
 internal object Utils {
     @JvmStatic

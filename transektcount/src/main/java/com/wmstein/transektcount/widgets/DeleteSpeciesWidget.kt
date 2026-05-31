@@ -54,15 +54,15 @@ class DeleteSpeciesWidget(context: Context, attrs: AttributeSet?)
         markButton.tag = 0
     }
 
-    fun setSpecName(name: String?) {
+    fun setSpecName(name: String) {
         specName.text = name
     }
 
-    fun setSpecNameG(nameg: String?) {
+    fun setSpecNameG(nameg: String) {
         specNameG.text = nameg
     }
 
-    fun setSpecCode(code: String?) {
+    fun setSpecCode(code: String) {
         specCode.text = code
     }
 

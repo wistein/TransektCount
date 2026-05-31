@@ -6,16 +6,16 @@ package com.wmstein.transektcount.database
  * Created by wmstein on 31.03.2016,
  * last edited in Java on 2022-03-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-03-17
+ * last edited on 2026-05-26
  */
 class Head {
     @JvmField
     var id = 0
     @JvmField
-    var transect_no: String? = null
+    var transect_no = ""
     @JvmField
-    var inspector_name: String? = null
+    var inspector_name = ""
 
     @JvmField
-    var data_language: String? = null
+    var data_language = ""
 }

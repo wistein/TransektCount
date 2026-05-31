@@ -2,6 +2,12 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.1.1 (2026-06-01)
+- Enhanced preselection for adding, deleting or editing species of the counting list
+- Code improvements
+- Docs updated
+- Bugfix for editing species
+
 #### Version 5.1.0 (2026-05-25)
 - More comfortable preselection for adding, deleting or editing species of the counting list
 - Docs updated

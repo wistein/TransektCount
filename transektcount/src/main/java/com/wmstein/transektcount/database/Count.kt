@@ -6,7 +6,7 @@ package com.wmstein.transektcount.database
  * Created by wmstein on 2016-02-18.
  * last edited in Java on 2019-03-22
  * converted to Kotlin on 2023-06-26
- * last edited on 2026-02-28
+ * last edited on 2026-05-26
  */
 class Count {
     @JvmField
@@ -14,9 +14,9 @@ class Count {
     @JvmField
     var section_id = 0
     @JvmField
-    var name: String? = null
+    var name = ""
     @JvmField
-    var code: String? = null
+    var code = ""
     @JvmField
     var count_f1i = 0
     @JvmField
@@ -42,9 +42,9 @@ class Count {
     @JvmField
     var count_ee = 0
     @JvmField
-    var notes: String? = null
+    var notes = ""
     @JvmField
-    var name_g: String? = null
+    var name_g = ""
 
     fun increase_f1i(): Int {
         count_f1i += 1

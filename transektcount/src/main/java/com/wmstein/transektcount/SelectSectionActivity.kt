@@ -40,7 +40,7 @@ import com.wmstein.transektcount.Utils.fromHtml
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
  * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication
@@ -51,7 +51,7 @@ class SelectSectionActivity : AppCompatActivity() {
     private var awakePref = false
     private var transectHasTrack = false
     private var autoSection = false // true for enabled GPS track selection
-    private var buttonSoundPref: Boolean = false
+    private var buttonSoundPref = false
 
     private var soundService: SoundService? = null
 
@@ -287,8 +287,8 @@ class SelectSectionActivity : AppCompatActivity() {
 
                 // Creating the new section
                 val newSection = sectionDataSource!!.createSection(newSectName)
-                sectionDataSource!!.saveSection(newSection)
-                for (c in countDataSource!!.getAllCountsForSection(1)) {
+                sectionDataSource!!.saveSectionName(newSection)
+                for (c in countDataSource!!.getAllSpeciesForSection(1)) {
                     val newCount =
                         countDataSource!!.createCount(newSection.id, c.name, c.code, c.name_g)
                     if (newCount != null) {

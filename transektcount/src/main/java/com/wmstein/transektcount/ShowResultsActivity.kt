@@ -36,7 +36,7 @@ import com.wmstein.transektcount.widgets.ResultsSumWidget
  * Created by wmstein on 2016-03-15,
  * last edited in Java on 2022-04-30,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-04-19
+ * last edited on 2026-05-26
  */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null
@@ -56,7 +56,7 @@ class ShowResultsActivity : AppCompatActivity() {
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
     private var awakePref = false
-    private var outPref: String? = null
+    private var outPref = ""
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +66,7 @@ class ShowResultsActivity : AppCompatActivity() {
             Log.i(TAG, "66, onCreate")
 
         awakePref = prefs.getBoolean("pref_awake", true)
-        outPref = prefs.getString("pref_csv_out", "species") // sort mode output
+        outPref = prefs.getString("pref_csv_out", "species").toString() // sort mode output
         brightPref = prefs.getBoolean("pref_bright", true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+

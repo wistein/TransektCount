@@ -16,7 +16,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2023-06-23,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23
+ * last edited on 2026-05-30
  */
 class SectionDataSource(context: Context) {
     // Database fields
@@ -38,7 +38,7 @@ class SectionDataSource(context: Context) {
     }
 
     @SuppressLint("Range")
-    fun createSection(name: String?): Section {
+    fun createSection(name: String): Section {
         val values = ContentValues()
         values.put(DbHelper.S_NAME, name)
         val cursor: Cursor
@@ -87,7 +87,7 @@ class SectionDataSource(context: Context) {
         database!!.delete(DbHelper.COUNT_TABLE, DbHelper.C_SECTION_ID + " = " + id, null)
     }
 
-    fun saveSection(section: Section) {
+    fun saveSectionName(section: Section) {
         if (database!!.isOpen) {
             val dataToInsert = ContentValues()
             dataToInsert.put(DbHelper.S_NAME, section.name)

@@ -1,0 +1,5 @@
+Version 5.1.1 (01.06.2026)
+- Erweiterte Vorauswahl für Hinzufügen, Löschen oder Editieren von Arten der Zählliste
+- Code-Verbesserungen
+- Doku aktualisiert
+- Bugfix für Editieren von Arten

@@ -340,8 +340,8 @@ public class EditMetaActivity extends AppCompatActivity {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "341, saveData");
         // Save head data
-        head.transect_no = ehw.getWidgetNo1();
-        head.inspector_name = ehw.getWidgetName1();
+        head.transect_no = Objects.requireNonNull(ehw.getWidgetNo1());
+        head.inspector_name = Objects.requireNonNull(ehw.getWidgetName1());
 
         headDataSource.saveHead(head);
 

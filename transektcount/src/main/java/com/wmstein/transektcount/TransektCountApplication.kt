@@ -21,12 +21,12 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-12,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2026-05-19
+ * last edited on 2026-05-26
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
-    var width: Int = 0
-    var height: Int = 0
+    var width = 0
+    var height = 0
 
     // onCreate() here is started before any activity starts, so it is the place to
     //   start any ActivityLifecycle function
@@ -159,16 +159,16 @@ class TransektCountApplication : Application() {
         var distMin: Double = 0.0 // WelcomeActivity, LocationService
 
         @JvmField
-        var sectionIdGPS: Int = 0 // SelectSectionAdapter, WelcomeActivity, LocationService
+        var sectionIdGPS = 0 // SelectSectionAdapter, WelcomeActivity, LocationService
 
         @JvmField
-        var sectionNameCurrent: String = "" // SelectSectionAdapter, LocationService
+        var sectionNameCurrent = "" // SelectSectionAdapter, LocationService
 
         @JvmField
-        var isFirstLoc: Boolean = true // true for showing a hint message once
+        var isFirstLoc = true // true for showing a hint message once
 
         @JvmField
-        var isSelectSectionActivityResumed: Boolean = false // true for SelectSectionActivity is shown
+        var isSelectSectionActivityResumed = false // true for SelectSectionActivity is shown
     }
 
 }

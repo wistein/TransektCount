@@ -16,7 +16,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-23
+ * Last edited on 2026-05-26
  */
 class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     // temperature
@@ -74,7 +74,7 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
 
     // Following the SETS
     // temperature
-    fun setWidgetLTemp(title: String?) {
+    fun setWidgetLTemp(title: String) {
         widgetLTemp.text = title
     }
 
@@ -87,7 +87,7 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     // wind
-    fun setWidgetLWind(title: String?) {
+    fun setWidgetLWind(title: String) {
         widgetLWind.text = title
     }
 
@@ -100,7 +100,7 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     // clouds
-    fun setWidgetLCloud(title: String?) {
+    fun setWidgetLCloud(title: String) {
         widgetLCloud.text = title
     }
 
@@ -113,38 +113,38 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
     }
 
     // date
-    fun setWidgetLDate1(title: String?) {
+    fun setWidgetLDate1(title: String) {
         widgetLdate1.text = title
     }
 
-    fun setWidgetLDate2(name: String?) {
+    fun setWidgetLDate2(name: String) {
         widgetLdate2.text = name
     }
 
     // start_tm
-    fun setWidgetLTime1(title: String?) {
+    fun setWidgetLTime1(title: String) {
         widgetLtime1.text = title
     }
 
-    fun setWidgetLItem4(name: String?) {
+    fun setWidgetLItem4(name: String) {
         widgetLitem4.text = name
     }
 
     // end_tm
-    fun setWidgetLTime2(title: String?) {
+    fun setWidgetLTime2(title: String) {
         widgetLtime2.text = title
     }
 
-    fun setWidgetLItem5(name: String?) {
+    fun setWidgetLItem5(name: String) {
         widgetLitem5.text = name
     }
 
     // note
-    fun setWidgetLNote1(title: String?) {
+    fun setWidgetLNote1(title: String) {
         widgetLNote1.text = title
     }
 
-    fun setWidgetLNote2(name: String?) {
+    fun setWidgetLNote2(name: String) {
         widgetLNote2.text = name
     }
 

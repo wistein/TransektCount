@@ -14,7 +14,7 @@ import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
  * Adopted for TransektCount by wmstein on 2016-02-18,
  * last edited in Java on 2022-04-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-19
+ * last edited on 2026-05-31
  */
 class CountDataSource(context: Context) {
     // Database fields
@@ -51,7 +51,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by AddSpeciesActivity and CountingActivity
-    fun createCount(sectionId: Int, name: String?, code: String?, nameG: String?): Count? {
+    fun createCount(sectionId: Int, name: String, code: String, nameG: String): Count? {
         return if (database!!.isOpen) {
             val values = ContentValues()
             values.put(DbHelper.C_SECTION_ID, sectionId)
@@ -266,8 +266,7 @@ class CountDataSource(context: Context) {
         database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
-    // Used by EditSectionListActivity
-    fun updateCountForAllSections(
+    fun updateEditedSpecies(
         sectid: Int,
         countid: Int,
         name: String?,
@@ -275,17 +274,16 @@ class CountDataSource(context: Context) {
         nameG: String?,
     ) {
         val dataToInsert = ContentValues()
-        dataToInsert.put(DbHelper.C_SECTION_ID, sectid)
         dataToInsert.put(DbHelper.C_NAME, name)
         dataToInsert.put(DbHelper.C_CODE, code)
         dataToInsert.put(DbHelper.C_NAME_G, nameG)
-        val where = DbHelper.C_ID + " = ?"
-        val whereArgs = arrayOf(countid.toString())
+        val where = DbHelper.C_SECTION_ID + " = ? AND " + DbHelper.C_ID + " = ?"
+        val whereArgs = arrayOf(sectid.toString(), countid.toString())
         database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
     // Used by WelcomeActivity
-    fun writeCountItem(id: String?, secId: String?, code: String?, name: String?, nameG: String?) {
+    fun writeCountItem(id: String, secId: String, code: String, name: String, nameG: String) {
         if (database!!.isOpen) {
             val values = ContentValues()
             values.put(DbHelper.C_ID, id)
@@ -311,7 +309,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by EditSectionListActivity and CountingActivity
-    fun getAllCountsForSection(sectionId: Int): List<Count> {
+    fun getAllSpeciesForSection(sectionId: Int): List<Count> {
         val counts: MutableList<Count> = ArrayList()
         val cursor = database!!.query(
             COUNT_TABLE, allColumns,
@@ -552,7 +550,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSection(sectionId: Int, sname: String?): Array<String?> {
+    fun getAllStringsForSection(sectionId: Int, sname: String): Array<String?> {
         val cursor = database!!.query(
             COUNT_TABLE, allColumns,
             DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
@@ -571,7 +569,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSectionSrtName(sectionId: Int, sname: String?): Array<String?> {
+    fun getAllStringsForSectionSrtName(sectionId: Int, sname: String): Array<String?> {
         val cursor = database!!.rawQuery(
             "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
@@ -591,7 +589,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSectionSrtCode(sectionId: Int, sname: String?): Array<String?> {
+    fun getAllStringsForSectionSrtCode(sectionId: Int, sname: String): Array<String?> {
         val cursor = database!!.rawQuery(
             "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
