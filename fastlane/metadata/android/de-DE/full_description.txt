@@ -1,10 +1,9 @@
-TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode. Es dient Transektzählern beim Registrieren von Schmetterlingen und tagfliegenden Nachtfaltern bei Transektbegehungen.
+TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen pro Transektabschnitt gemäß der European Butterfly Monitoring Scheme-Methode. Es dient Transektzählern beim Registrieren von Schmetterlingen und tagaktiven Nachtfaltern bei Transektbegehungen.
 
-Neu in Version 5.1.1:
-- Erweiterte Vorauswahl für Hinzufügen, Löschen oder Editieren von Arten der Zählliste
+Neu in Version 5.1.2:
+- Ergebnisexport in formatierte Excel-Tabellendatei (.xlsx)
 - Code-Verbesserungen
 - Doku aktualisiert
-- Bugfix für Editieren von Arten
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.
@@ -13,7 +12,7 @@ Eigenschaften:
 - Export der aktuellen Speziesliste für Re-Import durch TransektCount oder Import durch die komplementäre App TourCount.
 - Getrennte Zähler für intern/extern Zählbereiche und jeweils separat für ♂-♀-unbestimmt, ♂, ♀, Puppe, Raupe oder Ei.
 - Ergebnisseite mit aufbereiteter Darstellung zur Übertragung in die Eingabemaske von Tagfalter-Monitoring-Deutschland (web.app.ufz.de/tagfalter-monitoring/).
-- Das Ergebnis kann als SQLite-Datei oder als CSV-Tabelle ausgegeben werden (u. a. zwecks Transfer und Weiterverwendung in einem Spreadsheet-Programm auf einem PC).
+- Das Ergebnis kann sowohl in formatiertem XLSX- oder CSV-Format als auch als SQLite-DB-Datei ausgegeben werden (u. a. zwecks Transfer auf einen PC und komfortablerem Lesen in einem Spreadsheet-Programm oder zur weiteren Verarbeitung.)
 - Die Hilfe enthält eine detaillierte Benutzeranleitung.
 - TransektCount kann in Deutsch, Englisch, Französisch, Italienisch und Spanisch genutzt werden und bietet die lokalen Artennamen in diesen Sprachen an.
 
@@ -27,14 +26,13 @@ Funktionen:
 - Die Ergebnisseite zeigt Metadaten, Bemerkungen, Summen und Zählergebnisse pro Art und Transektabschnitt.
 
 Voraussetzungen:
-Die App benötigt
-- Speicherzugriffsrecht zwecks Im- und Export der Zähldaten, 
-- Einstellungsrecht zwecks Helligkeitssteuerung des Bildschirms, 
-- Recht zur Verhinderung des Ruhezustands und
-- optional das Recht, per GPS die exakte Position festzustellen um den aktuellen Transektabschnitt zu erkennen.
+Die App benötigt Zugriffsrechte
+- für Speicherzugriff zwecks Import und Export von Zähldaten, Spezieslisten, Ergebnisse oder Track-Daten,
+- zwecks Verhinderung des ungewollten Ruhezustands
+- optional für die GPS-gesteuerte Signalisierung des aktuellen Transektabschnitts.
 
 Der Bildschirm sollte eine Auflösung von mindestens 1024 x 1920 Pixel haben.
-Die App kann ab Android-Version 7.1 (Nougat) oder neuer verwendet werden.
+Die App kann ab Android-Version 11 oder neuer verwendet werden.
 
 Dokumentation ist verfügbar unter:
 https://github.com/wistein/TransektCount/tree/master/docs.

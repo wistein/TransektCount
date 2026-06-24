@@ -2,6 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.1.2 (2026-06-23)
+- Export results into formatted Excel spreadsheet file (.xlsx)
+- Code improvements
+- Docs updated
+
 #### Version 5.1.1 (2026-06-01)
 - Enhanced preselection for adding, deleting or editing species of the counting list
 - Code improvements

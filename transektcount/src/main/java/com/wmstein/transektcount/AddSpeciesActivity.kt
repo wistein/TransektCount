@@ -46,7 +46,7 @@ import java.util.Locale
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-05-28
+ * last edited on 2026-06-08
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -230,7 +230,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         val searchAdd: EditText = findViewById(R.id.searchA)
         searchAdd.findFocus()
 
-        // Get 2 or more characters of species to select from
+        // Get the search characters to build a species list to select from
         searchChars = searchAdd.text.toString().trim()
         if (searchChars.length == 1) {
             // Reminder: "Please, >1 characters"
@@ -314,7 +314,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             }
         }
 
-        // Create remainingIdArrayList for all remaining species of codesCompleteArrayList
+        // Create remainingIdArrayList for all remaining species of codesReducedArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "320, remainingIdArrayListSize: " + remainingIdArrayList.size)
@@ -324,7 +324,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             i++
         }
 
-        // Load the data of remaining species into the AddSpeciesWidget
+        // Load the data of the remaining species into the AddSpeciesWidget
         i = 0
         while (i < codesReducedArrayList!!.size) {
             val asw = AddSpeciesWidget(this, null)
@@ -346,42 +346,29 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Mark the selected species and consider it for the species counts list
     fun checkBoxAdd(view: View) {
         val idToAdd = view.tag as Int
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "350, View.tag: $idToAdd")
         val asw = addArea!!.getChildAt(idToAdd) as AddSpeciesWidget
 
         val checked = asw.getMarkSpec() // return boolean isChecked
 
-        // Put species on add list
+        // Put species on add-list
         if (checked) {
             listToAdd!!.add(asw)
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                val codeA = asw.getSpecCode()
-                Log.i(TAG, "360, addCount, code: $codeA")
-            }
         } else {
-            // Remove species previously added from add list
+            // Remove species previously added from the add-list
             listToAdd!!.remove(asw)
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                val codeA = asw.getSpecCode()
-                Log.i(TAG, "367, removeCount, code: $codeA")
-            }
         }
     }
 
     // Update COUNT_TABLE with added species to species lists of all sections
     @SuppressLint("ApplySharedPref")
     private fun addSpecs() {
-        // Append the species from list to add to the COUNT_TABLE
+        // Append the species from the add-list to the COUNT_TABLE
         var i = 0 // index of species list to add
         val numSect: Int = sectionDataSource!!.numEntries
         while (i < listToAdd!!.size) {
             specName = listToAdd!![i].getSpecName()
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-                Log.i(TAG, "383, addSpecs, code: $specCode")
-            }
             try {
                 var sectid = 1
                 while (sectid <= numSect) {
@@ -438,7 +425,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "441, onPause")
+            Log.i(TAG, "428, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -457,7 +444,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "460, onStop")
+            Log.i(TAG, "447, onStop")
 
 
         addArea = null
@@ -468,7 +455,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "471, onDestroy")
+            Log.i(TAG, "458, onDestroy")
     }
 
     companion object {

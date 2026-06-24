@@ -45,7 +45,7 @@ import java.util.Locale
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-31
+ * last edited on 2026-06-08
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -209,7 +209,7 @@ class EditSectionListActivity : AppCompatActivity() {
         val searchEdit: EditText = findViewById(R.id.searchE)
         searchEdit.findFocus()
 
-        // Get the initial characters of species to select from
+        // Get the search characters to build a species list to select from
         searchChars = searchEdit.text.toString().trim()
         if (searchChars.length == 1) {
             // Reminder: "Please, >1 chars"
@@ -219,7 +219,7 @@ class EditSectionListActivity : AppCompatActivity() {
             searchEdit.clearFocus()
             searchEdit.invalidate()
 
-            // Re-enter EditSectionListActivity for edited list
+            // Re-enter EditSectionListActivity for the reduced species-edit-list
             val intent = Intent(this@EditSectionListActivity, EditSectionListActivity::class.java)
             intent.putExtra("section_id", sectionId)
             intent.putExtra("search_Chars", searchChars)
@@ -233,21 +233,21 @@ class EditSectionListActivity : AppCompatActivity() {
     //   and optionally reduce it to searchChars selection
     private fun constructEditList() {
         // Load the sorted species data from section 1
-        val countsToEdit = when (sortPref) {
+        val countsToEditList = when (sortPref) {
             "names_alpha" -> countDataSource!!.getAllSpeciesForSectionSrtName(1)
             "codes" -> countDataSource!!.getAllSpeciesForSectionSrtCode(1)
             else -> countDataSource!!.getAllSpeciesForSection(1)
         }
 
-        diffSpecies = countsToEdit.size
+        diffSpecies = countsToEditList.size
 
-        // Display all the countsToEdit by adding them to editingSpeciesArea
+        // Display all the countsToEditList by adding them to editingSpeciesArea
         // Get the counting list species into their EditSectionListWidget and add them to the view
         if (searchChars.length >= 2) {
             searchChars = searchChars.uppercase(Locale.getDefault()) //Compare searchChars in uppercase
 
-            // Check name in countsToEdit for searchChars to reduce list
-            for (count in countsToEdit) {
+            // Check name in countsToEditList for searchChars to reduce list
+            for (count in countsToEditList) {
                 if (count.name.uppercase(Locale.getDefault()).contains(searchChars)) {
                     esw = EditSectionListWidget(this, null)
                     esw!!.setCountName(count.name)
@@ -259,7 +259,7 @@ class EditSectionListActivity : AppCompatActivity() {
                 }
             }
         } else {
-            for (count in countsToEdit) {
+            for (count in countsToEditList) {
                 esw = EditSectionListWidget(this, null)
                 esw!!.setCountName(count.name)
                 esw!!.setCountNameG(count.name_g)
@@ -345,6 +345,7 @@ class EditSectionListActivity : AppCompatActivity() {
         return saveState
     }
 
+    // Save the changed species data for all sections
     private fun doEditedSpecies(): Boolean {
         // Read the edited species list
         var correct = false

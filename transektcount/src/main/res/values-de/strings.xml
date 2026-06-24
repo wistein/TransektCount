@@ -24,6 +24,7 @@
     <string name="editMetaButton">Metadaten editieren</string>
     <string name="exportBasisMenu">Export Basis-DB</string>
     <string name="exportCSVMenu">Export d. Ergebnisse (csv)</string>
+    <string name="exportXLSXMenu">Export d. Ergebnisse (xlsx)</string>
     <string name="exportMenu">Export akt. DB</string>
     <string name="exportSpeciesListMenu">Export Speziesliste</string>
     <string name="external">Extern</string>
@@ -39,9 +40,9 @@
     <string name="importListFail">Die Speziesliste konnte nicht importiert werden!</string>
     <string name="importSpeciesListMenu">Import Speziesliste</string>
     <string name="importTrackFail">GPS Tracks sind geladen. Bitte diese vorher löschen!</string>
-    <string name="inspection_note">Bem. zur Begehung:</string>
+    <string name="inspection_note">Bem. zur Begehung</string>
     <string name="internal">Intern</string>
-    <string name="kal_w">KW:</string>
+    <string name="kal_w">KW</string>
     <string name="name_sect">Abschnitt</string>
     <string name="name_spec">Spezies-Name</string>
     <string name="name_spec_g">Lokaler Name</string>
@@ -55,12 +56,14 @@
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
     <string name="resetGPSMenu">Lösche GPS-Track-Daten</string>
     <string name="resetTracks">Die Track-Daten wurden gelöscht.</string>
+    <string name="results">TransektCount-Ergebnis</string>
     <string name="saveBasisDB">Export der Basis-DB nach Documents/TransektCount.</string>
     <string name="saveDB">Export der internen DB nach Documents/TransektCount.</string>
     <string name="saveFail">Die Datenbank konnte nicht exportiert werden!</string>
     <string name="saveFailList">Die Speziesliste konnte nicht exportiert werden!</string>
     <string name="saveList">Export der Speziesliste: Ok.</string>
     <string name="saveCSV">Export der csv-Datei nach Documents/TransektCount.</string>
+    <string name="saveXLSX">Export der xlsx-Datei nach Documents/TransektCount.</string>
     <string name="showResultsButton">Ergebnis anzeigen</string>
     <string name="sortModeC">Sortiert nach Code</string>
     <string name="sortModeN">Sortiert nach Name</string>
@@ -73,7 +76,7 @@
     <string name="sum_total">Summen (total):</string>
     <string name="sume">Summen (extern):</string>
     <string name="time_sect">1. Zählung</string>
-    <string name="timehead">Zeit:</string>
+    <string name="timehead">Zeit</string>
     <string name="title">Artspezifische Erfassung von\n\nSchmetterlingen in Transektabschnitten</string>
     <string name="to">bis:</string>
     <string name="track_err">GPS-Tracks entsprechen nicht den Transekt-Abschnitten! GPS-Funktion wird abgeschaltet.</string>
@@ -95,19 +98,19 @@
     <string name="br_Error">Es gibt ein Problem mit der gewählten Datei!</string>
 
     <!-- EditMetaActivity -->
-    <string name="clouds">Wolken (%):</string>
-    <string name="date">Datum:</string>
+    <string name="clouds">Wolken (%)</string>
+    <string name="date">Datum</string>
     <string name="editHeadTitle">Metadaten d. Begehung</string>
     <string name="endtm">bis:</string>
     <string name="hinttm">Tippe hier</string>
-    <string name="inspector">Kartierer(in):</string>
+    <string name="inspector">Kartierer(in)</string>
     <string name="starttm">Zeit von:</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="transectnumber">Transekt-Nr.:</string>
+    <string name="temperature">Temp. (°C)</string>
+    <string name="transectnumber">Transekt-Nr.</string>
     <string name="valClouds">Wolken überprüfen!</string>
     <string name="valTemp">Unrealistische Temperatur!</string>
     <string name="valWind">Wind überprüfen!</string>
-    <string name="wind">Wind (0–4):</string>
+    <string name="wind">Wind (0–4)</string>
 
     <!-- CountingActivity -->
     <string name="attention">Achtung! </string>
@@ -119,7 +122,7 @@
     <string name="noPhotoPermit">Kamera-Berechtigung ist erforderlich.</string>
     <string name="saveCountsButton">Sichern</string>
     <string name="saving">Speichern</string>
-    <string name="sectSaving">Abschnitte wurden gespeichert.</string>
+    <string name="sectSaving">Änderungen wurden gespeichert.</string>
     <string name="species_notes">Art-Bem.:</string>
 
     <!-- CountingActivity Menu -->

@@ -24,6 +24,7 @@
     <string name="editMetaButton">Éditer Métadonnées</string>
     <string name="exportBasisMenu">Exp. la structure de BD</string>
     <string name="exportCSVMenu">Exp. les résultats (csv)</string>
+    <string name="exportXLSXMenu">Exp. les résultats (xlsx)</string>
     <string name="exportMenu">Exp. le act. BD</string>
     <string name="exportSpeciesListMenu">Exp. liste des espèces</string>
     <string name="external">Externe</string>
@@ -39,9 +40,9 @@
     <string name="importListFail">La liste des espèces n\'a pas pu être importée !</string>
     <string name="importSpeciesListMenu">Imp. liste des espèces</string>
     <string name="importTrackFail">Des traces GPS sont chargées. Veuillez les supprimer au préalable !</string>
-    <string name="inspection_note">Note d\'inspection:</string>
+    <string name="inspection_note">Note d\'inspection</string>
     <string name="internal">Interne</string>
-    <string name="kal_w">N. de S. :</string>
+    <string name="kal_w">N. de S.</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Nom de l\'espèce</string>
     <string name="name_spec_g">Nom commun</string>
@@ -55,12 +56,14 @@
     <string name="resetFail">La BD n\'a pas pu être réinitialisée !</string>
     <string name="resetGPSMenu">Effacer la trace GPS</string>
     <string name="resetTracks">Les données de suivi ont été supprimées.</string>
-    <string name="saveBasisDB">Exporter la structure de BD vers \'Documents/TourCount\'</string>
-    <string name="saveDB">Exporter la BD vers \'Documents/TourCount\'</string>
+    <string name="results">Résultat de TransektCount</string>
+    <string name="saveBasisDB">Exporter la structure de BD vers \'Documents/TransektCount\'</string>
+    <string name="saveDB">Exporter la BD vers \'Documents/TransektCount\'</string>
     <string name="saveFail">Impossible d\'exporter la BD !</string>
     <string name="saveFailList">La liste des espèces n\'a pas pu être exportée !</string>
     <string name="saveList">Exporter la liste des espèces: Ok.</string>
-    <string name="saveCSV">Exporter le fichier CSV vers \'Documents/TourCount\'</string>
+    <string name="saveCSV">Exporter le fichier CSV vers \'Documents/TransektCount\'</string>
+    <string name="saveXLSX">Exporter le fichier XLSX vers \'Documents/TransektCount\'</string>
     <string name="showResultsButton">Afficher le résultat</string>
     <string name="sortModeC">Classés par code</string>
     <string name="sortModeN">Classés par nom</string>
@@ -73,7 +76,7 @@
     <string name="sum_total">Somme (total) :</string>
     <string name="sume">Somme (externe):</string>
     <string name="time_sect">1er compte</string>
-    <string name="timehead">Temps:</string>
+    <string name="timehead">Temps</string>
     <string name="title">Comptage des papillons dans\n\ndes sections de transect</string>
     <string name="to">à :</string>
     <string name="track_err">Les traces GPS ne correspondent pas aux sections du transect ! La fonction GPS est désactivée.</string>
@@ -95,19 +98,19 @@
     <string name="br_Error">Il y a un problème avec le fichier sélectionné !</string>
 
     <!-- EditMetaActivity -->
-    <string name="clouds">Nuages (%):</string>
-    <string name="date">Date:</string>
+    <string name="clouds">Nuages (%)</string>
+    <string name="date">Date</string>
     <string name="editHeadTitle">Métadonnées d. Inspection</string>
     <string name="endtm">jusqu\'à:</string>
     <string name="hinttm">Cliquez ici</string>
-    <string name="inspector">Moniteur:</string>
+    <string name="inspector">Moniteur</string>
     <string name="starttm">Heure de:</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="transectnumber">Transect n°:</string>
+    <string name="temperature">Temp. (°C)</string>
+    <string name="transectnumber">Transect n°</string>
     <string name="valClouds">Vérifiez les nuages !</string>
     <string name="valTemp">Température irréaliste !</string>
     <string name="valWind">Vérifiez le vent !</string>
-    <string name="wind">Vent (0–4):</string>
+    <string name="wind">Vent (0–4)</string>
 
     <!-- CountingActivity -->
     <string name="attention">Attention !</string>
@@ -119,7 +122,7 @@
     <string name="noPhotoPermit">Autorisation de caméra est nécessaire.</string>
     <string name="saveCountsButton">Sichern</string>
     <string name="saving">Sauvegarder</string>
-    <string name="sectSaving">Les sections ont été enregistrées.</string>
+    <string name="sectSaving">Modifications ont été enregistrées.</string>
     <string name="species_notes">Note sur l\'espèce:</string>
 
     <!-- CountingActivity Menu -->

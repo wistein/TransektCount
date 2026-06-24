@@ -38,6 +38,7 @@
     <string name="editMetaButton">Edit Metadata</string>
     <string name="exportBasisMenu">Export Basic DB</string>
     <string name="exportCSVMenu">Export Results (csv)</string>
+    <string name="exportXLSXMenu">Export Results (xlsx)</string>
     <string name="exportMenu">Export Current DB</string>
     <string name="exportSpeciesListMenu">Export Species List</string>
     <string name="external">External</string>
@@ -53,9 +54,9 @@
     <string name="importListFail">The species list could not be imported!</string>
     <string name="importSpeciesListMenu">Import Species List</string>
     <string name="importTrackFail">GPS tracks are loaded. Please remove these before!</string>
-    <string name="inspection_note">Inspection Note:</string>
+    <string name="inspection_note">Inspection Note</string>
     <string name="internal">Internal</string>
-    <string name="kal_w">CW:</string>
+    <string name="kal_w">CW</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
     <string name="name_spec_g">Common Name</string>
@@ -69,12 +70,14 @@
     <string name="resetFail">Your database could not be resetted!</string>
     <string name="resetGPSMenu">Remove GPS Track Data</string>
     <string name="resetTracks">Your track data has been deleted.</string>
+    <string name="results">TransektCount Result</string>
     <string name="saveBasisDB">Exporting Basic DB to Documents/TransektCount.</string>
     <string name="saveDB">Exporting internal DB to Documents/TransektCount.</string>
     <string name="saveFail">Your database could not be exported!</string>
     <string name="saveFailList">The species list could not be exported!</string>
     <string name="saveList">Species list exported.</string>
-    <string name="saveCSV">Exporting csv-file to Documents/TransektCount.</string>
+    <string name="saveCSV">Exporting the csv-file to Documents/TransektCount</string>
+    <string name="saveXLSX">Exporting the XLSX-file to Documents/TransektCount</string>
     <string name="showResultsButton">Show Results</string>
     <string name="sortModeC">Sorted by code</string>
     <string name="sortModeN">Sorted by name</string>
@@ -87,7 +90,7 @@
     <string name="sum_total">Totals (all):</string>
     <string name="sume">Totals (external):</string>
     <string name="time_sect">1. Count</string>
-    <string name="timehead">Time:</string>
+    <string name="timehead">Time</string>
     <string name="title">Species-specific counting of\n\nbutterflies in transect sections</string>
     <string name="to">to:</string>
     <string name="track_err">There is a discrepancy between your sections and tracks! GPS function will be switched off.</string>
@@ -109,19 +112,19 @@
     <string name="br_Error">There is a problem with the selected file!</string>
 
     <!-- EditMetaActivity -->
-    <string name="clouds">Clouds (%):</string>
-    <string name="date">Date:</string>
+    <string name="clouds">Clouds (%)</string>
+    <string name="date">Date</string>
     <string name="editHeadTitle">Metadata of Inspection</string>
     <string name="endtm">until:</string>
     <string name="hinttm">Click here</string>
-    <string name="inspector">Inspector Name:</string>
+    <string name="inspector">Inspector Name</string>
     <string name="starttm">Time from:</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="transectnumber">Transect No.:</string>
+    <string name="temperature">Temp. (°C)</string>
+    <string name="transectnumber">Transect No.</string>
     <string name="valClouds">Clouds out of range!</string>
     <string name="valTemp">Unrealistic temperature!</string>
     <string name="valWind">Wind out of range!</string>
-    <string name="wind">Wind (0–4):</string>
+    <string name="wind">Wind (0–4)</string>
 
     <!-- CountingActivity -->
     <string name="attention">Attention! </string>
@@ -133,7 +136,7 @@
     <string name="noPhotoPermit">The right to take photos is missing.</string>
     <string name="saveCountsButton">Save &amp; Exit</string>
     <string name="saving">Saving</string>
-    <string name="sectSaving">Sections have been saved.</string>
+    <string name="sectSaving">Changes have been saved.</string>
     <string name="species_notes">Species notes:</string>
 
     <!-- CountingActivity Menu -->

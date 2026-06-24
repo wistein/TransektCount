@@ -23,7 +23,7 @@ import java.util.Locale
  * Adopted for TransektCount by wmstein on 2016-02-18.
  * last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
- * updated to version 7 on 2026-03-07,
+ * current version 8, set under 'companion object'
  * last edited on 2026-05-26
  *
  * ************************************************************************

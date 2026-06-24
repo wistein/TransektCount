@@ -73,6 +73,13 @@ _ subtitle
   .
   _
 
+$ 5.1.2
+  % Version 5.1.2
+  _ 23.06.2026
+  * Ergebnisexport in formatierte Excel-Tabellendatei (.xlsx)
+  * Code-Verbesserungen
+  * Doku aktualisiert
+
 $ 5.1.1
   % Version 5.1.1
   _ 01.06.2026

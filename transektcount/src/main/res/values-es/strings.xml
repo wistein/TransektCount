@@ -24,6 +24,7 @@
     <string name="editMetaButton">Editar metadatos</string>
     <string name="exportBasisMenu">Exportar BD básica</string>
     <string name="exportCSVMenu">Exportar los resultados (csv)</string>
+    <string name="exportXLSXMenu">Exportar los resultados (xlsx)</string>
     <string name="exportMenu">Exportar BD actual</string>
     <string name="exportSpeciesListMenu">Exportar lista de especies</string>
     <string name="external">Externo</string>
@@ -39,9 +40,9 @@
     <string name="importListFail">¡No se ha podido importar la lista de especies!</string>
     <string name="importSpeciesListMenu">Importar lista de especies</string>
     <string name="importTrackFail">Se han cargado las rutas GPS. ¡Por favor, bórralas antes!</string>
-    <string name="inspection_note">Nota de inspección:</string>
+    <string name="inspection_note">Nota de inspección</string>
     <string name="internal">Interno</string>
-    <string name="kal_w">SN:</string>
+    <string name="kal_w">SN</string>
     <string name="name_sect">Sección</string>
     <string name="name_spec">Nombre de especie</string>
     <string name="name_spec_g">Nombre común</string>
@@ -55,12 +56,14 @@
     <string name="resetFail">¡No se ha podido restablecer la base de datos!</string>
     <string name="resetGPSMenu">Borrar los datos GPS</string>
     <string name="resetTracks">Se han borrado los datos de la pista.</string>
+    <string name="results">Resultado de TransektCount</string>
     <string name="saveBasisDB">Exportar la BD base a Documents/TransektCount.</string>
     <string name="saveDB">Exportar la BD interna a Documents/TransektCount</string>
     <string name="saveFail">¡No se ha podido exportar la BD!</string>
     <string name="saveFailList">¡No se ha podido exportar la lista de especies!</string>
     <string name="saveList">Exportar la lista de especies.</string>
     <string name="saveCSV">Exportar el fichero CSV a Documents/TransektCount.</string>
+    <string name="saveXLSX">Exportar el fichero XLSX a Documents/TransektCount.</string>
     <string name="showResultsButton">Mostrar resultado</string>
     <string name="sortModeC">Ordenado por código</string>
     <string name="sortModeN">Ordenado por nombre</string>
@@ -73,7 +76,7 @@
     <string name="sum_total">Total:</string>
     <string name="sume">Totales (externos):</string>
     <string name="time_sect">1. Recuento</string>
-    <string name="timehead">Hora:</string>
+    <string name="timehead">Hora</string>
     <string name="title">Registro específico de mariposas\n\nen secciones de transectos</string>
     <string name="to">hasta:</string>
     <string name="track_err">¡Las rutas GPS no coinciden con los tramos del transecto! Se desactivará la función GPS.</string>
@@ -95,19 +98,19 @@
     <string name="br_Error">¡Hay un problema con el archivo seleccionado!</string>
 
     <!-- EditMetaActivity -->
-    <string name="clouds">Nubosidad (%):</string>
-    <string name="date">Fecha:</string>
+    <string name="clouds">Nubosidad (%)</string>
+    <string name="date">Fecha</string>
     <string name="editHeadTitle">Metadatos de la inspección</string>
     <string name="endtm">hasta:</string>
     <string name="hinttm">Pulsa aquí</string>
-    <string name="inspector">Cartógrafo/a:</string>
+    <string name="inspector">Cartógrafo/a</string>
     <string name="starttm">Hora de:</string>
-    <string name="temperature">Temp. (°C):</string>
-    <string name="transectnumber">N.º de transecto:</string>
+    <string name="temperature">Temp. (°C)</string>
+    <string name="transectnumber">N.º de transecto</string>
     <string name="valClouds">¡Comprueba las nubes!</string>
     <string name="valTemp">¡Una temperatura irreal!</string>
     <string name="valWind">¡Comprueba el viento!</string>
-    <string name="wind">Viento (0–4):</string>
+    <string name="wind">Viento (0–4)</string>
 
     <!-- CountingActivity -->
     <string name="attention">¡Atención! </string>
@@ -119,7 +122,7 @@
     <string name="noPhotoPermit">Es necesario tener permiso para acceder a la cámara.</string>
     <string name="saveCountsButton">Guardar</string>
     <string name="saving">Guardar</string>
-    <string name="sectSaving">Se han guardado las secciones.</string>
+    <string name="sectSaving">Cambios se han guardado.</string>
     <string name="species_notes">Nota especie:</string>
 
     <!-- CountingActivity Menu -->

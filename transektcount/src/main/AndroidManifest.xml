@@ -7,32 +7,17 @@
      Solution: application attribute android:resizeableActivity="false"
      prohibits multi-window-mode.
 
-     Last edited 2026-05-13
+     Last edited 2026-06-04
 -->
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permission used for exporting files to the public directory Documents/TransektCount
-         which are then readable by an external app (until Android SDK-version 29) -->
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29"
-        tools:ignore="ScopedStorage" />
-
-    <!-- Permission used for importing files from the public directory Documents/TransektCount
-         (until Android SDK-version 29) -->
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29"
-        tools:ignore="ScopedStorage" />
-
     <!-- Permission used for importing data files from the public directory Documents/TransektCount
          which are provided by an external app or the user (since Android SDK-version 30) -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        android:minSdkVersion="30"
         tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
 
     <!-- Permissions needed for location providers -->

@@ -1,0 +1,4 @@
+Version 5.1.2 (2026-06-23)
+- Export results into formatted Excel spreadsheet file (.xlsx)
+- Code improvements
+- Docs updated

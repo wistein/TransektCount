@@ -152,17 +152,17 @@ public class EditMetaActivity extends AppCompatActivity {
 
         // Display the editable head data
         ehw = new EditMetaHeadWidget(this, null);
-        ehw.setWidgetNo(getString(R.string.transectnumber));
+        ehw.setWidgetNo(getString(R.string.transectnumber)+":");
         ehw.setWidgetNo1(head.transect_no);
-        ehw.setWidgetName(getString(R.string.inspector));
+        ehw.setWidgetName(getString(R.string.inspector)+":");
         ehw.setWidgetName1(head.inspector_name);
         metaArea.addView(ehw);
 
         // Display the editable metadata
         emw = new EditMetaWidget(this, null);
-        emw.setWidgetTemp1(getString(R.string.temperature));
-        emw.setWidgetWind1(getString(R.string.wind));
-        emw.setWidgetClouds1(getString(R.string.clouds));
+        emw.setWidgetTemp1(getString(R.string.temperature)+":");
+        emw.setWidgetWind1(getString(R.string.wind)+":");
+        emw.setWidgetClouds1(getString(R.string.clouds)+":");
 
         emw.setWidgetStartTemp2(meta.temps);
         emw.setWidgetEndTemp2(meta.tempe);
@@ -171,13 +171,13 @@ public class EditMetaActivity extends AppCompatActivity {
         emw.setWidgetStartClouds2(meta.clouds);
         emw.setWidgetEndClouds2(meta.cloude);
 
-        emw.setWidgetDate1(getString(R.string.date));
+        emw.setWidgetDate1(getString(R.string.date)+":");
         emw.setWidgetDate2(meta.date);
         emw.setWidgetSTime1(getString(R.string.starttm));
         emw.setWidgetSTime2(meta.start_tm);
         emw.setWidgetETime1(getString(R.string.endtm));
         emw.setWidgetETime2(meta.end_tm);
-        emw.setWidgetNote1(getString(R.string.note));
+        emw.setWidgetNote1(getString(R.string.note)+":");
         emw.setWidgetNote2(meta.note);
         metaArea.addView(emw);
 

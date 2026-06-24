@@ -23,18 +23,17 @@ That means, you will use a fresh database instance per inspection by clearing th
 - Counts are recorded per internal/external counting areas and here each with separate counters for ♂|♀, ♂, ♀, pupa, larva or egg.
 - Results are prepared for easy readout to transfer them to the entry masks of Tagfalter-Monitoring Deutschland or similar butterfly monitoring sites.
 - Results are shown with metadata, remarks, totals and species results per section.
-- Results may also be exported to SQLite-DB or CSV-format files and transferred to a PC for your own processing, e.g. by importing a .csv-file into a spreadsheet.
+- The results can be exported in formatted XLSX or CSV format, as well as in an SQLite database file (e.g. to transfer them to a PC, for easier reading in a spreadsheet program, or for further processing).
 - The current species list can be exported for later re-import or imported by the complementary app TourCount.
 - Help contains a detailed user guide.
 - TransektCount uses the codes of the European coding scheme for butterflies by Karsholt/Razowski.
 - TransektCount supports counting in German, English, French, Italian and Spanish language and provides locale species names in these languages.
 
 ### Prerequisites
-The app demands for 
-- storage access permit which is needed for im-/exporting the counting data (databases, results, species lists or tracks) 
-- the permit to set the screen brightness, 
-- the permit to prevent the sleep mode and
-- optionally, the permit to get the exact location to recognize the current transect section.
+The app requires permits for 
+- storage access which is needed for im-/exporting the counting data, results, species lists or track data 
+- preventing the sleep mode and
+- (optionally) the GPS controlled signaling of the current transect section.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 11 or newer.

@@ -76,7 +76,7 @@ import java.util.Objects;
  * <p>
  * Basic counting functions created by milo for BeeCount on 2014-05-05.
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-05-26
+ * last edited on 2026-06-08
  */
 public class CountingActivity
         extends AppCompatActivity
@@ -400,7 +400,7 @@ public class CountingActivity
         else
             spinner = findViewById(R.id.countHead1Spinner);
 
-        // Get itemPosition of added species by specCode from sharedPreference
+        // Get itemPosition of the species to be shown from sharedPreference
         if (!Objects.equals(prefs.getString("new_spec_code", ""), "")) {
             specCode = prefs.getString("new_spec_code", "");
             SharedPreferences.Editor editor = prefs.edit();
@@ -421,7 +421,7 @@ public class CountingActivity
             specCode = "";
         }
 
-        // Set part of counting screen
+        // Set spinner part of the counting screen by itemPosition
         CountingHead1Widget adapter = new CountingHead1Widget(this,
                 idArray, nameArray, nameArrayL, codeArray, imageArray);
         spinner.setAdapter(adapter);
@@ -577,7 +577,7 @@ public class CountingActivity
     }
     // End of onOptionsItemSelected()
 
-    // Call CountOptionsActivity with parameters by button in widget_counting_head2.xml
+    // Edit count options by CountOptionsActivity by button in widget_counting_head2.xml
     public void editOptions(View view) {
         disableProximitySensor();
 
@@ -626,8 +626,7 @@ public class CountingActivity
         sectionDataSource.close();
         countDataSource.close();
 
-        // N.B. a wakelock might not be held, e.g. if someone is using LineageOS and
-        //   has denied wakelock permission to TransektCount
+        // On some Custom ROMS a wakelock might not be held, if wakelock permission is not granted
         if (awakePref) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -642,7 +641,7 @@ public class CountingActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "645, onStop");
+            Log.i(TAG, "644, onStop");
 
         counting_screen.invalidate();
 
@@ -657,7 +656,7 @@ public class CountingActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "660, onDestroy");
+            Log.i(TAG, "659, onDestroy");
     }
 
     // Spinner listener
@@ -679,13 +678,13 @@ public class CountingActivity
                     count = countDataSource.getCountById(iid);
                     countingScreen(count);
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "682, SpinnerListener, count id: " + count.id
+                        Log.i(TAG, "681, SpinnerListener, count id: " + count.id
                                 + ", code: " + count.code);
                 } catch (Exception e) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "688, SpinnerListener, catch: " + e);
+                        Log.e(TAG, "687, SpinnerListener, catch: " + e);
                 }
             }
 
@@ -699,7 +698,7 @@ public class CountingActivity
     // Show rest of widgets for counting screen
     private void countingScreen(Count count) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "699, countingScreen");
+            Log.i(TAG, "701, countingScreen");
 
         // 1. Species line is set by CountingHead1Widget in onResume, Spinner
         // 2. Headline Counting Area 1 (internal)
@@ -804,7 +803,7 @@ public class CountingActivity
         //  no action by 1st click when previous species selected again
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "804, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
+            Log.i(TAG, "806, countUpf1i, section Id: " + sectionId + ", count Id: " + tempCountId);
 
         CountingInternWidget widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -859,7 +858,7 @@ public class CountingActivity
     public void countDownf1i(View view) {
         int tempCountId = Integer.parseInt(view.getTag().toString());
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "859, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
+            Log.i(TAG, "861, countDownf1i, section Id: " + sectionId + ", tempCountId: " + tempCountId);
 
         CountingInternWidget widget = getCountFromId_i(tempCountId);
         if (widget != null) {
@@ -1327,7 +1326,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1327, countUpf1e, section Id: " + sectionId
+            Log.i(TAG, "1329, countUpf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1377,7 +1376,7 @@ public class CountingActivity
         int tempCountId = Integer.parseInt(view.getTag().toString());
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1377 countDownf1e, section Id: " + sectionId
+            Log.i(TAG, "1379 countDownf1e, section Id: " + sectionId
                     + ", tempCountId: " + tempCountId);
 
         CountingExternWidget widget = getCountFromId_e(tempCountId);
@@ -1852,12 +1851,12 @@ public class CountingActivity
         if (buttonVibPref) {
             if (Build.VERSION.SDK_INT >= 31) { // S, Android 12
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1852, Vibrator >= SDK 31");
+                    Log.i(TAG, "1854, Vibrator >= SDK 31");
 
                 vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
             } else {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1857, Vibrator >= SDK 26");
+                    Log.i(TAG, "1859, Vibrator >= SDK 26");
                 vibrator.vibrate(VibrationEffect.createOneShot(dur,
                         VibrationEffect.DEFAULT_AMPLITUDE));
                 vibrator.cancel();
