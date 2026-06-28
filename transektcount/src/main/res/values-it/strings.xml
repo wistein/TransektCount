@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-30 -->
+     last edited 2026-06-27 -->
 
 <resources>
 
@@ -45,7 +45,6 @@
     <string name="kal_w">SdC</string>
     <string name="name_sect">Sezione</string>
     <string name="name_spec">Nome della specie</string>
-    <string name="name_spec_g">Nome comune</string>
     <string name="noCard">Non è possibile utilizzare la directory Documents/TransektCount!</string>
     <string name="no_GPSfile">Nessun file GPX presente in Documents/TransektCount!</string>
     <string name="note">Nota transetto:</string>
@@ -72,7 +71,7 @@
     <string name="sortModeSN">Ordinati per sezione + nome</string>
     <string name="specis">Specie</string>
     <string name="sumi">Totali (interni):</string>
-    <string name="sumSpec">Specie:</string>
+    <string name="sumSpec">Varie specie</string>
     <string name="sum_total">Totale (totale):</string>
     <string name="sume">Totali (externi):</string>
     <string name="time_sect">1° conta</string>
@@ -270,7 +269,6 @@
     <string name="dialog_fine_location_message">Il riconoscimento dei tratti di transetto richiede la massima precisione possibile.</string>
     <string name="dialog_fine_location_title">Consenti la localizzazione precisa.</string>
     <string name="dialog_storage_message">Concedi l\'autorizzazione di archiviazione a TransektCount per l\'importazione e l\'esportazione dei dati.</string>
-    <string name="dialog_storage_title">Autorizzazione di archiviazione richiesta</string>
     <string name="grant_perm_later">L\'autorizzazione opzionale \“Consenti sempre\” può essere concessa in un secondo momento nelle impostazioni di sistema.</string>
     <string name="storage_not_possible">Manca l\'autorizzazione necessaria per il salvataggio, non è possibile salvare.</string>
 

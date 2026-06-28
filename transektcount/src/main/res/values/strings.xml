@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-04-30 -->
+     last edited 2026-06-27 -->
 
 <resources>
 
@@ -59,7 +59,6 @@
     <string name="kal_w">CW</string>
     <string name="name_sect">Section</string>
     <string name="name_spec">Species Name</string>
-    <string name="name_spec_g">Common Name</string>
     <string name="noCard">Cannot access the Documents/TransektCount directory!</string>
     <string name="no_GPSfile">There is no GPX file in Documents/TransektCount!</string>
     <string name="note">Transect Note:</string>
@@ -86,7 +85,7 @@
     <string name="specis">Species</string>
     <string name="specsCommonLangMissing">Attention! The local data language is not defined in the old list. Please, select it in "Settings". Otherwise, German species names will be used.</string>
     <string name="sumi">Totals (internal):</string>
-    <string name="sumSpec">Diff. Species:</string>
+    <string name="sumSpec">Different Species</string>
     <string name="sum_total">Totals (all):</string>
     <string name="sume">Totals (external):</string>
     <string name="time_sect">1. Count</string>
@@ -284,7 +283,6 @@
     <string name="dialog_fine_location_message">Identifying transect sections needs maximum precision.</string>
     <string name="dialog_fine_location_title">Allow to use precise location.</string>
     <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to import and export data.</string>
-    <string name="dialog_storage_title">Storage permission required</string>
     <string name="grant_perm_later">You may grant the optional permission \'Allow all the time\' in system settings later.</string>
     <string name="storage_not_possible">Required storage permission for TransektCount is missing, storage is not possible.</string>
 

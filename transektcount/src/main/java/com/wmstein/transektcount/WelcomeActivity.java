@@ -95,18 +95,19 @@ import org.dhatim.fastexcel.Position;
 import org.dhatim.fastexcel.Workbook;
 import org.dhatim.fastexcel.Worksheet;
 
-/**********************************************************************
- * WelcomeActivity provides the starting page with menu and buttons for
- * import/export/help/info methods and lets you call
+/***************************************************************************************************
+ * WelcomeActivity provides the starting page with buttons to start
  * EditMetaActivity, SelectSectionActivity and ShowResultsActivity.
+ * and a menu for the import/export/help/info methods.
+ * <p>
  * It uses further LocationService and the PermissionDialogFragments.
  * <p>
- * Database handling is mainly done in WelcomeActivity as upgrade to current
- * DB version when importing an older DB file by importDBFile().
+ * Database handling is mainly controlled in WelcomeActivity as e.g. upgrade
+ * to current DB version when importing an older DB file by importDBFile().
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-06-23
+ * last edited on 2026-06-28
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -124,18 +125,12 @@ public class WelcomeActivity
     private String localLanguage = "";
     private boolean mExternalStorageWriteable = false;
     private final String sState = Environment.getExternalStorageState();
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-
-    private View baseLayout;
-    private AlertDialog alert;
 
     // Inserting tourName into filename with plausi check
     private final String regexFilename = "[^a-zA-Z_0-9äöüÄÖÜ-]";
     private String transNo = ""; // The transect name as shown
     private String transNoDir = ""; // The transect name as part of a filename
-
-    private String mesg;
-    private int secCount; // number of sections
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     // Preferences
     private SharedPreferences prefs;
@@ -167,13 +162,18 @@ public class WelcomeActivity
     private List<Track> trackPts; // list of all transect track points
     private LocationService locationService;
     private boolean locServiceOn = false;
+    private int secCount; // number of sections
     private String sectionNameGPS; // track section name from track table
 
     // Sound handling
     SoundService soundService;
     Intent sndIntent;
     private boolean sndServiceOn = false;
+
+    private View baseLayout;
     private TextView welcomeTitle;
+    private AlertDialog alert;
+    private String mesg;
 
     @SuppressLint({"SourceLockedOrientationActivity", "ApplySharedPref"})
     @Override
@@ -294,12 +294,12 @@ public class WelcomeActivity
         // Write initial Basic database
         storagePermGranted = isStoragePermGranted();
         if (storagePermGranted) {
-            // Test for existence of directory /storage/emulated/0/Documents/TransektCount/transektcount0.db
+            // Test for existence of directory /storage/emulated/0/Documents/TransektCount
             File path;
             path = Environment.getExternalStorageDirectory();
             path = new File(path + "/Documents/TransektCount");
 
-            // Delete old preliminary transektcount0.db if it does exist
+            // Delete an old existing transektcount0.db if it does exist
             inFile = new File(path, "/transektcount0.db"); // old initial basic DB
             if (inFile.exists())
                 //noinspection ResultOfMethodCallIgnored
@@ -358,7 +358,7 @@ public class WelcomeActivity
             Log.i(TAG, "358, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
-        // Check if tracks correspond to sections
+        // Check if tracks exist and correspond to sections
         if (trCount > 0 && trCount != secCount) {
             autoSection = false;
 
@@ -371,7 +371,7 @@ public class WelcomeActivity
                     Toast.LENGTH_LONG).show();
         }
 
-        // Check if tracks exist and correspond to sections
+        // Check if track discovery is set and tracks correspond to sections
         if (autoSection) {
             if (trCount != secCount) {
                 autoSection = false;
@@ -546,7 +546,7 @@ public class WelcomeActivity
         secCount = sectionDataSource.getNumEntries();
         sectionNameGPS = sectionDataSource.getSection(1).name;
 
-        // Check if tracks correspond to sections
+        // Check if tracks exist and correspond to sections
         if (trCount > 0 && trCount != secCount) {
             autoSection = false;
 
@@ -559,12 +559,12 @@ public class WelcomeActivity
                     Toast.LENGTH_LONG).show();
         }
 
-        // Set app title according to using GPS and ask location permission
+        // Set app title according to using GPS or not
         welcomeTitle = findViewById(R.id.welcomeTitle);
         if (autoSection) {
             welcomeTitle.setText(getString(R.string.app_name1)); // app title = TransektCountGPS
         } else {
-            welcomeTitle.setText(getString(R.string.app_name)); // app title = TransektCount
+            welcomeTitle.setText(getString(R.string.app_name));    // app title = TransektCount
         }
 
         // Set transect number as transect title
@@ -581,6 +581,7 @@ public class WelcomeActivity
         if (!Objects.equals(transNoDir, ""))
             transNoDir = transNoDir.replaceAll(regexFilename, "");
 
+        // If all requirements are given start location service
         if (autoSection && fineLocationPermGranted && transectHasTrack) {
             // Start location service and get 1. location
             locationDispatcher(1);
@@ -614,7 +615,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "615, locationDispatcher 1");
+                        Log.i(TAG, "618, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         locationService = new LocationService(getApplicationContext());
@@ -624,13 +625,13 @@ public class WelcomeActivity
                         locServiceOn = true;
                     }
 
-                    // Get location to check distance to transect
+                    // Get location to check distance to nearest transect
                     getDistance();
                 }
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "631, location stop 2 by backpress");
+                        Log.i(TAG, "634, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -639,7 +640,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "640, location stop 3 by onStop");
+                        Log.i(TAG, "643, location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -694,12 +695,12 @@ public class WelcomeActivity
             return true;
         } else if (id == R.id.exportBasisMenu) {
             if (storagePermGranted) {
-                exportBasicDb(2); // 2: long name + message
+                exportBasicDb(2); // 2: show message + long name
             } else {
                 PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsStorageDialogFragment.class.getName());
                 if (storagePermGranted) {
-                    exportBasicDb(2); // 2: long name + message
+                    exportBasicDb(2); // 2: show message + long name
                 } else {
                     mesg = getString(R.string.storage_not_possible);
                     Toast.makeText(this,
@@ -854,17 +855,18 @@ public class WelcomeActivity
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false);
         alertSoundPref = prefs.getBoolean("pref_alert_sound", false);
 
-        // Stop location service when denied in settings
+        // Stop location service when denied in settings with alert sound first
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "858, location stop by setting");
+                Log.i(TAG, "861, location stop by setting");
+            locationService.stopSoundA();
             stopLocSrv();
         }
 
         // Stop sound service when denied in settings
         if (!buttonSoundPref && sndServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "865, button sound stop by setting");
+                Log.i(TAG, "869, button sound stop by setting");
             stopService(sndIntent);
             sndServiceOn = false;
         }
@@ -885,7 +887,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "886, onPause");
+            Log.i(TAG, "890, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -901,7 +903,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "902, onStop");
+            Log.i(TAG, "906, onStop");
 
         baseLayout.invalidate();
 
@@ -920,7 +922,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "921, onStop, app not visible, LocationService running: "
+                Log.i(TAG, "925, onStop, app not visible, LocationService running: "
                         + locServiceOn);
 
             finishAndRemoveTask(); // In combination with System.exit(0) in onDestroy() closes app completely
@@ -932,7 +934,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "933 onDestroy");
+            Log.i(TAG, "937 onDestroy");
 
         System.exit(0);
     }
@@ -975,7 +977,7 @@ public class WelcomeActivity
                         .addFlags(FLAG_ACTIVITY_CLEAR_TOP)), 100);
     }
 
-    // Date for filename of exported data
+    // Get date for filename of exported data
     private static String getcurDate() {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat")
@@ -983,14 +985,14 @@ public class WelcomeActivity
         return dform.format(date);
     }
 
-    /******************************************************************************
-     * The next four functions below are for importing data files.
+    /***********************************************************************************************
+     * The next four function groups below are for importing data files.
      * They've been put here because no database should be left open at this point.
      */
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "991, importBasicDBFile");
+            Log.i(TAG, "995, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -1005,7 +1007,7 @@ public class WelcomeActivity
     }
     // End of part 1 of importBasisDb()
 
-    /***********************************************************************/
+    /**********************************************************************************************/
     // Choose a transektcount db-file to load and set it to transektcount.db
     private void importDBFile() {
         String fileExtension = ".db";
@@ -1377,7 +1379,7 @@ public class WelcomeActivity
     }
     // End of importSpeciesList()
 
-    /*******************************************************************************************
+    /***********************************************************************************************
      * Select and import gpx-file to store track coords into the TRACK_TABLE of transektcount.db
      */
     private void importGPS() {
@@ -1447,7 +1449,7 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG, "1448, decodeGPX, " +
+                                        Log.e(TAG, "1452, decodeGPX, " +
                                                 "Problem converting Stream to String: " + e);
                                 }
 
@@ -1472,7 +1474,7 @@ public class WelcomeActivity
                                 // Get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.i(TAG, "1473 decodeGPX, numSect: "
+                                    Log.i(TAG, "1477, decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1507,6 +1509,7 @@ public class WelcomeActivity
                 }
             });
 
+    // Parse the GPX string for its data items
     private void decodeGPX(String gpxString) {
         String gpxTrkString;
 
@@ -1537,10 +1540,10 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1538, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.i(TAG, "1543, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
-                // record of transect section
+                // record of transect section for trk
                 Section section = sectionDataSource.getSection(trk);
                 sectionNameGPS = section.name;
 
@@ -1550,11 +1553,12 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxString = gpxString.substring(strEnd + 6);
 
+                // get coords of all track points
                 if (gpxTrkString.contains("<trkseg>")) {
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1555, decodeGPX, do trackpt");
+                            Log.i(TAG, "1561, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1564,12 +1568,12 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1565 decodeGPX, sectionNameGPS: "
+                            Log.i(TAG, "1571 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
 
-                        // increment gpxTrkString line
+                        // increment gpxTrkString line for next track point
                         trkPt = trkPt + 1;
 
                         if (gpxVik) // test for track data (Viking/Garmin)
@@ -1579,13 +1583,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1580, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1586, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1586, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1592, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1595,7 +1599,7 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1596, decodeGPX, gpxString finished: " + gpxString);
+                Log.i(TAG, "1602, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
@@ -1605,8 +1609,9 @@ public class WelcomeActivity
         exportBasicDb(1); // Write modified DB as Basic DB without message
     }
     // End of importGPS()
+    // End of import file functions group
 
-    /****************************************/
+    /**********************************************************************************************/
     // Delete all track info from TRACK_TABLE
     @SuppressLint("ApplySharedPref")
     private void deleteGPS() {
@@ -1666,12 +1671,14 @@ public class WelcomeActivity
     }
     // End of deleteGPS()
 
-    /*********************************************************************************
-     * The next four functions below are for exporting data files.
+    /***********************************************************************************************
+     * The next five functions below are for exporting data files.
      */
-    // Exports Basic DB to Documents/TransektCount/transektcount0.db
+    // Exports Basic DB to Documents/TransektCount/transektcount0_ll.db
     private void exportBasicDb(int i) {
-        // i = 1: show message only when executed by menu command
+        // i = 0: don't show a message, use local language and short name
+        // i = 1: don't show a message and use data language and long name
+        // i = 2: show message and use data language and long name
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         String inPath = getApplicationContext().getFilesDir().getPath();
         inPath = inPath.substring(0, inPath.lastIndexOf("/")) + "/databases/transektcount.db";
@@ -1682,16 +1689,18 @@ public class WelcomeActivity
         tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("/")) + "/files/transektcount_tmp.db";
         File tmpFile = new File(tmpPath);
 
-        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0.db
+        // outFile in Public Directory Documents/TransektCount/
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount0_dl_.db
         File path;
         path = Environment.getExternalStorageDirectory();
         path = new File(path + "/Documents/TransektCount");
 
         //noinspection ResultOfMethodCallIgnored
         path.mkdirs(); // just verify path, result ignored
-        if (i == 0)
+
+        if (i == 0) // Initial creation of basic DB with
             outFile = new File(path, "/transektcount0_" + localLanguage + ".db");
-        else if (i >= 0) {
+        else if (i > 0) { // For all later creations of basic DB
             dataLanguage = prefs.getString("pref_sel_data_lang", "");
             if (dataLanguage.isEmpty())
                 dataLanguage = "--";
@@ -1730,7 +1739,7 @@ public class WelcomeActivity
                 boolean d0 = tmpFile.delete();
 
                 // Show message success
-                if (d0 && i == 2) { // show message
+                if (d0 && i == 2) {
                     mesg = getString(R.string.saveBasisDB);
                     Toast.makeText(this,
                             fromHtml("<font color='blue'>" + mesg + "</font>"),
@@ -1847,8 +1856,8 @@ public class WelcomeActivity
     }
     // End of exportDb()
 
-    /*****************************************************************************
-     // Exports DB contents as Transekt_dl_TransNo_yyyyMMdd_HHmm.csv-file to
+    /***********************************************************************************************
+     // Exports DB contents as Transekt_dL_TransNo_yyyyMMdd_HHmm.csv to
      // Documents/TransektCount/ with purged data set.
      // Spreadsheet programs can import this csv file with
      //   - Unicode UTF-8 filter,
@@ -1861,11 +1870,11 @@ public class WelcomeActivity
         path = Environment.getExternalStorageDirectory();
         path = new File(path + "/Documents/TransektCount");
 
-        String inspecName;
+        // Prepare metadata
+        String inspecName;  // Inspector's name
         int temps, tempe;   // temperature at start time and end time
         int winds, winde;   // wind
         int clouds, cloude; // clouds
-
         String date, start_tm;
         String end_tm, kw, inspection_note; // kw = calendar week (String)
 
@@ -2536,10 +2545,12 @@ public class WelcomeActivity
                 // Internal counts, External counts, Totals
                 String[] arrCol2;
                 switch (outPref) {
-                    case "names", "codes" -> arrCol2 = new String[]{"", "", "", "",
+                    case "names", "codes" -> arrCol2 = new String[]{"",
+                            getString(R.string.sumSpec), "", "",
                             getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint),
                             getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint), getString(R.string.hintTotal)};
-                    default -> arrCol2 = new String[]{"", "", "", "", "",
+                    default -> arrCol2 = new String[]{"", "",
+                            getString(R.string.sumSpec), "", "",
                             getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint),
                             getString(R.string.countImagomfHint), getString(R.string.countImagomHint), getString(R.string.countImagofHint), getString(R.string.countPupaHint), getString(R.string.countLarvaHint), getString(R.string.countOvoHint), getString(R.string.hintTotal)};
                 }
@@ -2584,12 +2595,12 @@ public class WelcomeActivity
                 // Write internal total sums
                 String[] arrSumi;
                 switch (outPref) {
-                    case "names", "codes" -> arrSumi = new String[]{"", "",
-                            getString(R.string.sumSpec) + " " + sumSpec, getString(R.string.sumi),
+                    case "names", "codes" -> arrSumi = new String[]{"",
+                            Integer.toString(sumSpec), "", getString(R.string.sumi),
                             strsummf, strsumm, strsumf, strsump, strsuml, strsumo,
                             "", "", "", "", "", "", strtotali};
-                    default -> arrSumi = new String[]{"", "", "",
-                            getString(R.string.sumSpec) + " " + sumSpec, getString(R.string.sumi),
+                    default -> arrSumi = new String[]{"", "",
+                            Integer.toString(sumSpec), "", getString(R.string.sumi),
                             strsummf, strsumm, strsumf, strsump, strsuml, strsumo,
                             "", "", "", "", "", "", strtotali};
                 }
@@ -2674,15 +2685,15 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2669, csv write external failed");
+                    Log.e(TAG, "2688, csv write external failed");
             }
             dbHelper.close();
         }
     }
     // End of exportDb2CSV()
 
-    /*****************************************************************************
-     // Exports DB contents as Transekt_dl_TransNo_yyyyMMdd_HHmm.xlsx to
+    /***********************************************************************************************
+     // Exports DB contents as Transekt_dL_TransNo_yyyyMMdd_HHmm.xlsx to
      // Documents/TransektCount/ with purged data set.
      // Spreadsheet programs can directly load this xlsx file
      */
@@ -2858,35 +2869,22 @@ public class WelcomeActivity
             //**************************
             // Start creating xlsx table
             // Row 0: Headline
-            switch (outPref) {
-                case "names", "codes" -> {
-                    ws.value(0, 0, getString(R.string.transectnumber));
-                    ws.value(0, 1, getString(R.string.inspector));
-                    ws.value(0, 2, getString(R.string.date));
-                    ws.value(0, 4, getString(R.string.timehead));
-                    ws.value(0, 5, getString(R.string.temperature));
-                    ws.value(0, 6, getString(R.string.wind));
-                    ws.value(0, 7, getString(R.string.clouds));
-                    ws.value(0, 9, getString(R.string.kal_w));
-                    ws.value(0, 11, getString(R.string.inspection_note));
-                    ws.value(0, 16, sortMode);
-                }
-                default -> {
-                    ws.value(0, 0, getString(R.string.transectnumber));
-                    ws.value(0, 1, getString(R.string.inspector));
-                    ws.value(0, 2, getString(R.string.date));
-                    ws.value(0, 4, getString(R.string.timehead));
-                    ws.value(0, 5, getString(R.string.temperature));
-                    ws.value(0, 6, getString(R.string.wind));
-                    ws.value(0, 7, getString(R.string.clouds));
-                    ws.value(0, 9, getString(R.string.kal_w));
-                    ws.value(0, 11, getString(R.string.inspection_note));
-                    ws.value(0, 16, sortMode);
-                }
-            }
-            ws.range(0,0,0,14).style().fillColor("CCCCCC")
-                    .borderStyle(BorderSide.BOTTOM,"thin").fontSize(12).bold().set();
-            ws.range(0,4,0,9).style().horizontalAlignment("center").set();
+            ws.value(0, 0, getString(R.string.transectnumber));
+            ws.value(0, 1, getString(R.string.inspector));
+            ws.value(0, 2, getString(R.string.date));
+            ws.value(0, 4, getString(R.string.timehead));
+            ws.value(0, 5, getString(R.string.temperature));
+            ws.value(0, 6, getString(R.string.wind));
+            ws.value(0, 7, getString(R.string.clouds));
+            ws.value(0, 9, getString(R.string.kal_w));
+            ws.value(0, 11, getString(R.string.inspection_note));
+            ws.value(0, 16, sortMode);
+
+            ws.range(0, 0, 0, 14).style().fillColor("CCCCCC")
+                    .borderStyle(BorderSide.BOTTOM, "thin").fontSize(12).bold().set();
+            ws.range(0, 4, 0, 9).style().horizontalAlignment("center").set();
+            ws.range(0,11,0,14).merge();
+            ws.range(0,16,0,17).merge();
 
             // Open Head table for head info
             head = headDataSource.getHead();
@@ -2915,83 +2913,67 @@ public class WelcomeActivity
             //    transect no., inspector name, date, start-time, start-temperature, start-wind,
             //    clouds, calendar week and inspection note
             kw = String.valueOf(Kw);
-            switch (outPref) {
-                case "names", "codes" -> {
-                    ws.value(1, 0, transNo);
-                    ws.value(1, 1, inspecName);
-                    ws.value(1, 2, date);
-                    ws.value(1, 3, getString(R.string.from));
-                    ws.value(1, 4, start_tm);
-                    ws.value(1, 5, String.valueOf(temps));
-                    ws.value(1, 6, String.valueOf(winds));
-                    ws.value(1, 7, String.valueOf(clouds));
-                    ws.value(1, 9, kw);
-                    ws.value(1, 11, inspection_note);
-                }
-                default -> {
-                    ws.value(1, 0, transNo);
-                    ws.value(1, 1, inspecName);
-                    ws.value(1, 2, date);
-                    ws.value(1, 3, getString(R.string.from));
-                    ws.value(1, 4, start_tm);
-                    ws.value(1, 5, String.valueOf(temps));
-                    ws.value(1, 6, String.valueOf(winds));
-                    ws.value(1, 7, String.valueOf(clouds));
-                    ws.value(1, 9, kw);
-                    ws.value(1, 11, inspection_note);
-                }
-            }
-            ws.style(1,3).horizontalAlignment("right").set();
-            ws.range(1,4,0,9).style().horizontalAlignment("center").set();
-
+            ws.value(1, 0, transNo);
+            ws.value(1, 1, inspecName);
+            ws.value(1, 2, date);
+            ws.value(1, 3, getString(R.string.from));
+            ws.value(1, 4, start_tm);
+            ws.value(1, 5, String.valueOf(temps));
+            ws.value(1, 6, String.valueOf(winds));
+            ws.value(1, 7, String.valueOf(clouds));
+            ws.value(1, 9, kw);
+            ws.value(1, 11, inspection_note);
+            ws.style(1, 3).horizontalAlignment("right").set();
+            ws.range(1, 4, 0, 9).style().horizontalAlignment("center").set();
+            ws.range(1,11,1,14).merge();
 
             // 2. metadata info with
             //    end-time, end-temperature, end-clouds
-            ws.value(2,3, getString(R.string.to));
-            ws.value(2,4, end_tm);
-            ws.value(2,5, String.valueOf(tempe));
-            ws.value(2,6, String.valueOf(winde));
-            ws.value(2,7, String.valueOf(cloude));
-            ws.style(2,3).horizontalAlignment("right").set();
-            ws.range(2,4,0,7).style().horizontalAlignment("center").set();
+            ws.value(2, 3, getString(R.string.to));
+            ws.value(2, 4, end_tm);
+            ws.value(2, 5, String.valueOf(tempe));
+            ws.value(2, 6, String.valueOf(winde));
+            ws.value(2, 7, String.valueOf(cloude));
+            ws.style(2, 3).horizontalAlignment("right").set();
+            ws.range(2, 4, 0, 7).style().horizontalAlignment("center").set();
 
             // Headline 1 of species table
             switch (outPref) {
                 case "names" -> {
-                    ws.value(4,4, getString(R.string.internal));
-                    ws.value(4,10, getString(R.string.external));
-                    ws.style(4,4).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,10).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,16).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(4, 4, getString(R.string.internal));
+                    ws.value(4, 10, getString(R.string.external));
+                    ws.style(4, 4).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 10).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 16).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 case "codes" -> {
-                    ws.value(4,4, getString(R.string.internal));
-                    ws.value(4,10, getString(R.string.external));
-                    ws.style(4,4).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,10).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,16).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(4, 4, getString(R.string.internal));
+                    ws.value(4, 10, getString(R.string.external));
+                    ws.style(4, 4).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 10).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 16).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 case "sections_names" -> {
-                    ws.value(4,0, getString(R.string.name_sect));
-                    ws.value(4,2, getString(R.string.specis));
-                    ws.value(4,5, getString(R.string.internal));
-                    ws.value(4,11, getString(R.string.external));
-                    ws.style(4,0).bold().set();
-                    ws.style(4,2).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,5).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,11).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,17).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(4, 0, getString(R.string.name_sect));
+                    ws.value(4, 2, getString(R.string.specis));
+                    ws.value(4, 5, getString(R.string.internal));
+                    ws.value(4, 11, getString(R.string.external));
+                    ws.style(4, 0).bold().set();
+                    ws.style(4, 2).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 5).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 11).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 17).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 default -> {
-                    ws.value(4,0, getString(R.string.name_sect));
-                    ws.value(4,2, getString(R.string.specis));
-                    ws.value(4,5, getString(R.string.internal));
-                    ws.value(4,11, getString(R.string.external));
-                    ws.style(4,0).bold().set();
-                    ws.style(4,2).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,5).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,11).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(4,17).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(4, 0, getString(R.string.name_sect));
+                    ws.value(4, 2, getString(R.string.specis));
+                    ws.value(4, 5, getString(R.string.internal));
+                    ws.value(4, 11, getString(R.string.external));
+                    ws.style(4, 0).bold().set();
+                    ws.style(4, 2).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 5).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 11).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(4, 17).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
             }
 
@@ -3002,135 +2984,135 @@ public class WelcomeActivity
                 case "names" -> {
                     // Species Name, Local Name, Code, Section, Internal Counts, External Counts,
                     //   Spec.-Notes
-                    ws.value(5,0, getString(R.string.name_spec));
-                    ws.value(5,1, nameSpecG);
-                    ws.value(5,2, getString(R.string.code_spec));
-                    ws.value(5,3, getString(R.string.name_sect));
-                    ws.value(5,4, getString(R.string.countImagomfHint));
-                    ws.value(5,5, getString(R.string.countImagomHint));
-                    ws.value(5,6, getString(R.string.countImagofHint));
-                    ws.value(5,7, getString(R.string.countPupaHint));
-                    ws.value(5,8, getString(R.string.countLarvaHint));
-                    ws.value(5,9, getString(R.string.countOvoHint));
-                    ws.value(5,10, getString(R.string.countImagomfHint));
-                    ws.value(5,11, getString(R.string.countImagomHint));
-                    ws.value(5,12, getString(R.string.countImagofHint));
-                    ws.value(5,13, getString(R.string.countPupaHint));
-                    ws.value(5,14, getString(R.string.countLarvaHint));
-                    ws.value(5,15, getString(R.string.countOvoHint));
-                    ws.value(5,16, getString(R.string.rem_spec));
-                    ws.range(5,0,5,16).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.range(5,2,5,15).style()
+                    ws.value(5, 0, getString(R.string.name_spec));
+                    ws.value(5, 1, nameSpecG);
+                    ws.value(5, 2, getString(R.string.code_spec));
+                    ws.value(5, 3, getString(R.string.name_sect));
+                    ws.value(5, 4, getString(R.string.countImagomfHint));
+                    ws.value(5, 5, getString(R.string.countImagomHint));
+                    ws.value(5, 6, getString(R.string.countImagofHint));
+                    ws.value(5, 7, getString(R.string.countPupaHint));
+                    ws.value(5, 8, getString(R.string.countLarvaHint));
+                    ws.value(5, 9, getString(R.string.countOvoHint));
+                    ws.value(5, 10, getString(R.string.countImagomfHint));
+                    ws.value(5, 11, getString(R.string.countImagomHint));
+                    ws.value(5, 12, getString(R.string.countImagofHint));
+                    ws.value(5, 13, getString(R.string.countPupaHint));
+                    ws.value(5, 14, getString(R.string.countLarvaHint));
+                    ws.value(5, 15, getString(R.string.countOvoHint));
+                    ws.value(5, 16, getString(R.string.rem_spec));
+                    ws.range(5, 0, 5, 16).style()
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.range(5, 2, 5, 15).style()
                             .horizontalAlignment("center").set();
-                    ws.style(5,4).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,10).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,16).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.style(5, 4).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 10).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 16).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
                 }
                 case "codes" -> {
                     // Species Code, Name, Local Name, Section, Internal Counts, External Counts,
                     //   Spec.-Notes
-                    ws.value(5,0, getString(R.string.code_spec));
-                    ws.value(5,1, getString(R.string.name_spec));
-                    ws.value(5,2, nameSpecG);
-                    ws.value(5,3, getString(R.string.name_sect));
-                    ws.value(5,4, getString(R.string.countImagomfHint));
-                    ws.value(5,5, getString(R.string.countImagomHint));
-                    ws.value(5,6, getString(R.string.countImagofHint));
-                    ws.value(5,7, getString(R.string.countPupaHint));
-                    ws.value(5,8, getString(R.string.countLarvaHint));
-                    ws.value(5,9, getString(R.string.countOvoHint));
-                    ws.value(5,10, getString(R.string.countImagomfHint));
-                    ws.value(5,11, getString(R.string.countImagomHint));
-                    ws.value(5,12, getString(R.string.countImagofHint));
-                    ws.value(5,13, getString(R.string.countPupaHint));
-                    ws.value(5,14, getString(R.string.countLarvaHint));
-                    ws.value(5,15, getString(R.string.countOvoHint));
-                    ws.value(5,16, getString(R.string.rem_spec));
-                    ws.range(5,0,5,16).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,0).horizontalAlignment("center").set();
-                    ws.range(5,3,5,15).style()
+                    ws.value(5, 0, getString(R.string.code_spec));
+                    ws.value(5, 1, getString(R.string.name_spec));
+                    ws.value(5, 2, nameSpecG);
+                    ws.value(5, 3, getString(R.string.name_sect));
+                    ws.value(5, 4, getString(R.string.countImagomfHint));
+                    ws.value(5, 5, getString(R.string.countImagomHint));
+                    ws.value(5, 6, getString(R.string.countImagofHint));
+                    ws.value(5, 7, getString(R.string.countPupaHint));
+                    ws.value(5, 8, getString(R.string.countLarvaHint));
+                    ws.value(5, 9, getString(R.string.countOvoHint));
+                    ws.value(5, 10, getString(R.string.countImagomfHint));
+                    ws.value(5, 11, getString(R.string.countImagomHint));
+                    ws.value(5, 12, getString(R.string.countImagofHint));
+                    ws.value(5, 13, getString(R.string.countPupaHint));
+                    ws.value(5, 14, getString(R.string.countLarvaHint));
+                    ws.value(5, 15, getString(R.string.countOvoHint));
+                    ws.value(5, 16, getString(R.string.rem_spec));
+                    ws.range(5, 0, 5, 16).style()
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 0).horizontalAlignment("center").set();
+                    ws.range(5, 3, 5, 15).style()
                             .horizontalAlignment("center").set();
-                    ws.style(5,4).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,10).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,16).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.style(5, 4).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 10).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 16).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
                 }
                 case "sections_names" -> {
                     // Section, Time of 1. Count, Species Name, Local Name, Code, Internal Counts,
                     //   External Counts, Spec.-Notes
-                    ws.value(5,0, getString(R.string.strName));
-                    ws.value(5,1, getString(R.string.time_sect));
-                    ws.value(5,2, getString(R.string.strName));
-                    ws.value(5,3, nameSpecG);
-                    ws.value(5,4, getString(R.string.code_spec));
-                    ws.value(5,5, getString(R.string.countImagomfHint));
-                    ws.value(5,6, getString(R.string.countImagomHint));
-                    ws.value(5,7, getString(R.string.countImagofHint));
-                    ws.value(5,8, getString(R.string.countPupaHint));
-                    ws.value(5,9, getString(R.string.countLarvaHint));
-                    ws.value(5,10, getString(R.string.countOvoHint));
-                    ws.value(5,11, getString(R.string.countImagomfHint));
-                    ws.value(5,12, getString(R.string.countImagomHint));
-                    ws.value(5,13, getString(R.string.countImagofHint));
-                    ws.value(5,14, getString(R.string.countPupaHint));
-                    ws.value(5,15, getString(R.string.countLarvaHint));
-                    ws.value(5,16, getString(R.string.countOvoHint));
-                    ws.value(5,17, getString(R.string.rem_spec));
-                    ws.range(5,0,5,17).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.range(5,4,5,16).style()
+                    ws.value(5, 0, getString(R.string.strName));
+                    ws.value(5, 1, getString(R.string.time_sect));
+                    ws.value(5, 2, getString(R.string.strName));
+                    ws.value(5, 3, nameSpecG);
+                    ws.value(5, 4, getString(R.string.code_spec));
+                    ws.value(5, 5, getString(R.string.countImagomfHint));
+                    ws.value(5, 6, getString(R.string.countImagomHint));
+                    ws.value(5, 7, getString(R.string.countImagofHint));
+                    ws.value(5, 8, getString(R.string.countPupaHint));
+                    ws.value(5, 9, getString(R.string.countLarvaHint));
+                    ws.value(5, 10, getString(R.string.countOvoHint));
+                    ws.value(5, 11, getString(R.string.countImagomfHint));
+                    ws.value(5, 12, getString(R.string.countImagomHint));
+                    ws.value(5, 13, getString(R.string.countImagofHint));
+                    ws.value(5, 14, getString(R.string.countPupaHint));
+                    ws.value(5, 15, getString(R.string.countLarvaHint));
+                    ws.value(5, 16, getString(R.string.countOvoHint));
+                    ws.value(5, 17, getString(R.string.rem_spec));
+                    ws.range(5, 0, 5, 17).style()
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.range(5, 4, 5, 16).style()
                             .horizontalAlignment("center").set();
-                    ws.style(5,2).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,5).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,11).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,17).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.style(5, 2).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 5).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 11).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 17).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
                 }
                 default -> {
                     // section_codes
                     // Section, Time of 1. Count, Code, Species Name, Local Name, Internal Counts,
                     //   External Counts, Spec.-Notes
-                    ws.value(5,0, getString(R.string.strName));
-                    ws.value(5,1, getString(R.string.time_sect));
-                    ws.value(5,2, getString(R.string.code_spec));
-                    ws.value(5,3, getString(R.string.name_spec));
-                    ws.value(5,4, nameSpecG);
-                    ws.value(5,5, getString(R.string.countImagomfHint));
-                    ws.value(5,6, getString(R.string.countImagomHint));
-                    ws.value(5,7, getString(R.string.countImagofHint));
-                    ws.value(5,8, getString(R.string.countPupaHint));
-                    ws.value(5,9, getString(R.string.countLarvaHint));
-                    ws.value(5,10, getString(R.string.countOvoHint));
-                    ws.value(5,11, getString(R.string.countImagomfHint));
-                    ws.value(5,12, getString(R.string.countImagomHint));
-                    ws.value(5,13, getString(R.string.countImagofHint));
-                    ws.value(5,14, getString(R.string.countPupaHint));
-                    ws.value(5,15, getString(R.string.countLarvaHint));
-                    ws.value(5,16, getString(R.string.countOvoHint));
-                    ws.value(5,17, getString(R.string.rem_spec));
-                    ws.range(5,0,5,17).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,2).horizontalAlignment("center").set();
-                    ws.range(5,5,5,17).style()
+                    ws.value(5, 0, getString(R.string.strName));
+                    ws.value(5, 1, getString(R.string.time_sect));
+                    ws.value(5, 2, getString(R.string.code_spec));
+                    ws.value(5, 3, getString(R.string.name_spec));
+                    ws.value(5, 4, nameSpecG);
+                    ws.value(5, 5, getString(R.string.countImagomfHint));
+                    ws.value(5, 6, getString(R.string.countImagomHint));
+                    ws.value(5, 7, getString(R.string.countImagofHint));
+                    ws.value(5, 8, getString(R.string.countPupaHint));
+                    ws.value(5, 9, getString(R.string.countLarvaHint));
+                    ws.value(5, 10, getString(R.string.countOvoHint));
+                    ws.value(5, 11, getString(R.string.countImagomfHint));
+                    ws.value(5, 12, getString(R.string.countImagomHint));
+                    ws.value(5, 13, getString(R.string.countImagofHint));
+                    ws.value(5, 14, getString(R.string.countPupaHint));
+                    ws.value(5, 15, getString(R.string.countLarvaHint));
+                    ws.value(5, 16, getString(R.string.countOvoHint));
+                    ws.value(5, 17, getString(R.string.rem_spec));
+                    ws.range(5, 0, 5, 17).style()
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 2).horizontalAlignment("center").set();
+                    ws.range(5, 5, 5, 17).style()
                             .horizontalAlignment("center").set();
-                    ws.style(5,2).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,5).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,11).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(5,17).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.style(5, 2).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 5).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 11).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                    ws.style(5, 17).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
                 }
             }
 
@@ -3273,55 +3255,61 @@ public class WelcomeActivity
                             ws.value(tableIndex, 14, countle);
                             ws.value(tableIndex, 15, countee);
                             ws.value(tableIndex, 16, sp_notes);
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 16).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,4).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 4).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,4).fontColor("00FFFFFF").set(); // transparent
+                                ws.style(tableIndex, 4).fontColor("00FFFFFF").set(); // transparent
                             if (countm > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,5).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 5).fontColor("00FFFFFF").set();
                             if (countf > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 6).fontColor("00FFFFFF").set();
                             if (countp > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 7).fontColor("00FFFFFF").set();
                             if (countl > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 8).fontColor("00FFFFFF").set();
                             if (counte > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 9).fontColor("00FFFFFF").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,10).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 10).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,10).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 10).fontColor("00FFFFFF").set();
                             if (countme > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,11).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 11).fontColor("00FFFFFF").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 12).fontColor("00FFFFFF").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 13).fontColor("00FFFFFF").set();
                             if (countle > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 14).fontColor("00FFFFFF").set();
                             if (countee > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("00FFFFFF").set();
-                            ws.range(tableIndex,2,tableIndex,15).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 15).fontColor("00FFFFFF").set();
+
+                            ws.range(tableIndex, 2, tableIndex, 15).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").set();
@@ -3346,56 +3334,62 @@ public class WelcomeActivity
                             ws.value(tableIndex, 14, countle);
                             ws.value(tableIndex, 15, countee);
                             ws.value(tableIndex, 16, sp_notes);
-                            ws.style(tableIndex,0).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 0).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 16).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,4).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 4).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,4).fontColor("00FFFFFF").set(); // transparent
+                                ws.style(tableIndex, 4).fontColor("00FFFFFF").set(); // transparent
                             if (countm > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,5).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 5).fontColor("00FFFFFF").set();
                             if (countf > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 6).fontColor("00FFFFFF").set();
                             if (countp > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 7).fontColor("00FFFFFF").set();
                             if (countl > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 8).fontColor("00FFFFFF").set();
                             if (counte > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 9).fontColor("00FFFFFF").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,10).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 10).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,10).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 10).fontColor("00FFFFFF").set();
                             if (countme > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,11).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 11).fontColor("00FFFFFF").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 12).fontColor("00FFFFFF").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 13).fontColor("00FFFFFF").set();
                             if (countle > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 14).fontColor("00FFFFFF").set();
                             if (countee > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("00FFFFFF").set();
-                            ws.range(tableIndex,3,tableIndex,15).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 15).fontColor("00FFFFFF").set();
+                            ws.range(tableIndex, 3, tableIndex, 15).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").set();
@@ -3421,55 +3415,60 @@ public class WelcomeActivity
                             ws.value(tableIndex, 15, countle);
                             ws.value(tableIndex, 16, countee);
                             ws.value(tableIndex, 17, sp_notes);
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 17).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,5).fontColor("00FFFFFF").set(); // gray
+                                ws.style(tableIndex, 5).fontColor("00FFFFFF").set(); // gray
                             if (countm > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 6).fontColor("00FFFFFF").set();
                             if (countf > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 7).fontColor("00FFFFFF").set();
                             if (countp > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 8).fontColor("00FFFFFF").set();
                             if (countl > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 9).fontColor("00FFFFFF").set();
                             if (counte > 0)
-                                ws.style(tableIndex,10).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 10).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,10).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 10).fontColor("00FFFFFF").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,11).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 11).fontColor("00FFFFFF").set();
                             if (countme > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 12).fontColor("00FFFFFF").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 13).fontColor("00FFFFFF").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 14).fontColor("00FFFFFF").set();
                             if (countle > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 15).fontColor("00FFFFFF").set();
                             if (countee > 0)
-                                ws.style(tableIndex,16).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 16).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,16).fontColor("00FFFFFF").set(); // transparent
-                            ws.range(tableIndex,4,tableIndex,16).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 16).fontColor("00FFFFFF").set(); // transparent
+                            ws.range(tableIndex, 4, tableIndex, 16).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 2).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").set();
@@ -3497,56 +3496,62 @@ public class WelcomeActivity
                             ws.value(tableIndex, 15, countle);
                             ws.value(tableIndex, 16, countee);
                             ws.value(tableIndex, 17, sp_notes);
-                            ws.style(tableIndex,2).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 2).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 17).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,5).fontColor("00FFFFFF").set(); // transparent
+                                ws.style(tableIndex, 5).fontColor("00FFFFFF").set(); // transparent
                             if (countm > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 6).fontColor("00FFFFFF").set();
                             if (countf > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 7).fontColor("00FFFFFF").set();
                             if (countp > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 8).fontColor("00FFFFFF").set();
                             if (countl > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 9).fontColor("00FFFFFF").set();
                             if (counte > 0)
-                                ws.style(tableIndex,10).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 10).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,10).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 10).fontColor("00FFFFFF").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,11).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 11).fontColor("00FFFFFF").set();
                             if (countme > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 12).fontColor("00FFFFFF").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 13).fontColor("00FFFFFF").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 14).fontColor("00FFFFFF").set();
                             if (countle > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("00FFFFFF").set();
+                                ws.style(tableIndex, 15).fontColor("00FFFFFF").set();
                             if (countee > 0)
-                                ws.style(tableIndex,16).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 16).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,16).fontColor("00FFFFFF").set();
-                            ws.range(tableIndex,5,tableIndex,16).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 16).fontColor("00FFFFFF").set();
+                            ws.range(tableIndex, 5, tableIndex, 16).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 2).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").set();
@@ -3575,61 +3580,67 @@ public class WelcomeActivity
                             ws.value(tableIndex, 14, countle);
                             ws.value(tableIndex, 15, countee);
                             ws.value(tableIndex, 16, sp_notes);
-                            ws.style(tableIndex,2).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 2).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 16).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,4).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 4).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,4).fontColor("DDDDDD").set(); // gray
+                                ws.style(tableIndex, 4).fontColor("DDDDDD").set(); // gray
                             if (countm > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,5).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 5).fontColor("DDDDDD").set();
                             if (countf > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 6).fontColor("DDDDDD").set();
                             if (countp > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 7).fontColor("DDDDDD").set();
                             if (countl > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 8).fontColor("DDDDDD").set();
                             if (counte > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 9).fontColor("DDDDDD").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,10).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 10).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,10).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 10).fontColor("DDDDDD").set();
                             if (countme > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,11).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 11).fontColor("DDDDDD").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 12).fontColor("DDDDDD").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 13).fontColor("DDDDDD").set();
                             if (countle > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 14).fontColor("DDDDDD").set();
                             if (countee > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("DDDDDD").set();
-                            ws.range(tableIndex,3,tableIndex,15).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 15).fontColor("DDDDDD").set();
+                            ws.range(tableIndex, 3, tableIndex, 15).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 16).borderStyle(BorderSide.LEFT, "thin").set();
-                            ws.range(tableIndex,0,tableIndex,16).style().fillColor("DDDDDD").set();
+                            ws.range(tableIndex, 0, tableIndex, 16).style().fillColor("DDDDDD").set();
                         }
                         case "codes" -> {
                             // Build line in species table for order of codes
@@ -3650,61 +3661,67 @@ public class WelcomeActivity
                             ws.value(tableIndex, 14, countle);
                             ws.value(tableIndex, 15, countee);
                             ws.value(tableIndex, 16, sp_notes);
-                            ws.style(tableIndex,0).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 0).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 16).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,4).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 4).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,4).fontColor("DDDDDD").set(); // transparent
+                                ws.style(tableIndex, 4).fontColor("DDDDDD").set(); // transparent
                             if (countm > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,5).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 5).fontColor("DDDDDD").set();
                             if (countf > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 6).fontColor("DDDDDD").set();
                             if (countp > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 7).fontColor("DDDDDD").set();
                             if (countl > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 8).fontColor("DDDDDD").set();
                             if (counte > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 9).fontColor("DDDDDD").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,10).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 10).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,10).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 10).fontColor("DDDDDD").set();
                             if (countme > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,11).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 11).fontColor("DDDDDD").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 12).fontColor("DDDDDD").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 13).fontColor("DDDDDD").set();
                             if (countle > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 14).fontColor("DDDDDD").set();
                             if (countee > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("DDDDDD").set();
-                            ws.range(tableIndex,3,tableIndex,15).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 15).fontColor("DDDDDD").set();
+                            ws.range(tableIndex, 3, tableIndex, 15).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 16).borderStyle(BorderSide.LEFT, "thin").set();
-                            ws.range(tableIndex,0,tableIndex,16).style().fillColor("DDDDDD").set();
+                            ws.range(tableIndex, 0, tableIndex, 16).style().fillColor("DDDDDD").set();
                         }
                         case "sections_names" -> {
                             // Build line in species table for order of sections
@@ -3726,62 +3743,68 @@ public class WelcomeActivity
                             ws.value(tableIndex, 15, countle);
                             ws.value(tableIndex, 16, countee);
                             ws.value(tableIndex, 17, sp_notes);
-                            ws.style(tableIndex,4).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 4).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 17).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,5).fontColor("DDDDDD").set(); // gray
+                                ws.style(tableIndex, 5).fontColor("DDDDDD").set(); // gray
                             if (countm > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 6).fontColor("DDDDDD").set();
                             if (countf > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 7).fontColor("DDDDDD").set();
                             if (countp > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 8).fontColor("DDDDDD").set();
                             if (countl > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 9).fontColor("DDDDDD").set();
                             if (counte > 0)
-                                ws.style(tableIndex,10).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 10).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,10).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 10).fontColor("DDDDDD").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,11).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 11).fontColor("DDDDDD").set();
                             if (countme > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 12).fontColor("DDDDDD").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 13).fontColor("DDDDDD").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 14).fontColor("DDDDDD").set();
                             if (countle > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 15).fontColor("DDDDDD").set();
                             if (countee > 0)
-                                ws.style(tableIndex,16).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 16).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,16).fontColor("DDDDDD").set();
-                            ws.range(tableIndex,5,tableIndex,16).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 16).fontColor("DDDDDD").set();
+                            ws.range(tableIndex, 5, tableIndex, 16).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 2).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 11).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 17).borderStyle(BorderSide.LEFT, "thin").set();
-                            ws.range(tableIndex,0,tableIndex,17).style().fillColor("DDDDDD").set();
+                            ws.range(tableIndex, 0, tableIndex, 17).style().fillColor("DDDDDD").set();
                         }
                         default -> {
                             // section_codes
@@ -3804,62 +3827,68 @@ public class WelcomeActivity
                             ws.value(tableIndex, 15, countle);
                             ws.value(tableIndex, 16, countee);
                             ws.value(tableIndex, 17, sp_notes);
-                            ws.style(tableIndex,2).horizontalAlignment("center").set();
+
+                            ws.style(tableIndex, 2).horizontalAlignment("center").set();
+
+                            // Conditional species notes, if "0" -> red
+                            if (Objects.equals(sp_notes, "0"))
+                                ws.style(tableIndex, 17).fontColor("FF0000").set();
+
                             if (countmf > 0)
-                                ws.style(tableIndex,5).fontColor("008000").bold().set(); // green
+                                ws.style(tableIndex, 5).fontColor("008000").bold().set(); // green
                             else
-                                ws.style(tableIndex,5).fontColor("DDDDDD").set(); // gray
+                                ws.style(tableIndex, 5).fontColor("DDDDDD").set(); // gray
                             if (countm > 0)
-                                ws.style(tableIndex,6).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 6).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,6).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 6).fontColor("DDDDDD").set();
                             if (countf > 0)
-                                ws.style(tableIndex,7).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 7).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,7).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 7).fontColor("DDDDDD").set();
                             if (countp > 0)
-                                ws.style(tableIndex,8).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 8).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,8).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 8).fontColor("DDDDDD").set();
                             if (countl > 0)
-                                ws.style(tableIndex,9).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 9).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,9).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 9).fontColor("DDDDDD").set();
                             if (counte > 0)
-                                ws.style(tableIndex,10).fontColor("008000").bold().set();
+                                ws.style(tableIndex, 10).fontColor("008000").bold().set();
                             else
-                                ws.style(tableIndex,10).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 10).fontColor("DDDDDD").set();
                             if (countmfe > 0)
-                                ws.style(tableIndex,11).fontColor("FF0000").bold().set(); // red
+                                ws.style(tableIndex, 11).fontColor("FF0000").bold().set(); // red
                             else
-                                ws.style(tableIndex,11).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 11).fontColor("DDDDDD").set();
                             if (countme > 0)
-                                ws.style(tableIndex,12).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 12).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,12).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 12).fontColor("DDDDDD").set();
                             if (countfe > 0)
-                                ws.style(tableIndex,13).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 13).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,13).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 13).fontColor("DDDDDD").set();
                             if (countpe > 0)
-                                ws.style(tableIndex,14).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 14).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,14).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 14).fontColor("DDDDDD").set();
                             if (countle > 0)
-                                ws.style(tableIndex,15).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 15).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,15).fontColor("DDDDDD").set();
+                                ws.style(tableIndex, 15).fontColor("DDDDDD").set();
                             if (countee > 0)
-                                ws.style(tableIndex,16).fontColor("FF0000").bold().set();
+                                ws.style(tableIndex, 16).fontColor("FF0000").bold().set();
                             else
-                                ws.style(tableIndex,16).fontColor("DDDDDD").set();
-                            ws.range(tableIndex,5,tableIndex,16).style().horizontalAlignment("center")
+                                ws.style(tableIndex, 16).fontColor("DDDDDD").set();
+                            ws.range(tableIndex, 5, tableIndex, 16).style().horizontalAlignment("center")
                                     .set();
                             ws.style(tableIndex, 2).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 11).borderStyle(BorderSide.LEFT, "thin").set();
                             ws.style(tableIndex, 17).borderStyle(BorderSide.LEFT, "thin").set();
-                            ws.range(tableIndex,0,tableIndex,17).style().fillColor("DDDDDD").set();
+                            ws.range(tableIndex, 0, tableIndex, 17).style().fillColor("DDDDDD").set();
                         }
                     }
                 }
@@ -3891,280 +3920,282 @@ public class WelcomeActivity
             // Headline 1 for totals of Internal, External counts
             switch (outPref) {
                 case "names" -> {
-                    ws.value(tableIndex,4, getString(R.string.internal));
-                    ws.value(tableIndex,10, getString(R.string.external));
-                    ws.style(tableIndex,4).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,10).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,16).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(tableIndex, 4, getString(R.string.internal));
+                    ws.value(tableIndex, 10, getString(R.string.external));
+                    ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 16).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 case "codes" -> {
-                    ws.value(tableIndex,4, getString(R.string.internal));
-                    ws.value(tableIndex,10, getString(R.string.external));
-                    ws.style(tableIndex,4).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,10).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,16).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(tableIndex, 4, getString(R.string.internal));
+                    ws.value(tableIndex, 10, getString(R.string.external));
+                    ws.style(tableIndex, 4).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 10).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 16).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 case "sections_names" -> {
-                    ws.value(tableIndex,5, getString(R.string.internal));
-                    ws.value(tableIndex,11, getString(R.string.external));
-                    ws.style(tableIndex,5).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,11).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,17).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(tableIndex, 5, getString(R.string.internal));
+                    ws.value(tableIndex, 11, getString(R.string.external));
+                    ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 11).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 17).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
                 default -> {
-                    ws.value(tableIndex,5, getString(R.string.internal));
-                    ws.value(tableIndex,11, getString(R.string.external));
-                    ws.style(tableIndex,5).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,11).borderStyle(BorderSide.LEFT,"thin").bold().set();
-                    ws.style(tableIndex,17).borderStyle(BorderSide.LEFT,"thin").bold().set();
+                    ws.value(tableIndex, 5, getString(R.string.internal));
+                    ws.value(tableIndex, 11, getString(R.string.external));
+                    ws.style(tableIndex, 5).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 11).borderStyle(BorderSide.LEFT, "thin").bold().set();
+                    ws.style(tableIndex, 17).borderStyle(BorderSide.LEFT, "thin").bold().set();
                 }
             }
 
             // Headline 2 for totals of Internal, External counts
             switch (outPref) {
                 case "names", "codes" -> {
-                    ws.value(tableIndex + 1,4, getString(R.string.countImagomfHint));
-                    ws.value(tableIndex + 1,5, getString(R.string.countImagomHint));
-                    ws.value(tableIndex + 1,6, getString(R.string.countImagofHint));
-                    ws.value(tableIndex + 1,7, getString(R.string.countPupaHint));
-                    ws.value(tableIndex + 1,8, getString(R.string.countLarvaHint));
-                    ws.value(tableIndex + 1,9, getString(R.string.countOvoHint));
-                    ws.value(tableIndex + 1,10, getString(R.string.countImagomfHint));
-                    ws.value(tableIndex + 1,11, getString(R.string.countImagomHint));
-                    ws.value(tableIndex + 1,12, getString(R.string.countImagofHint));
-                    ws.value(tableIndex + 1,13, getString(R.string.countPupaHint));
-                    ws.value(tableIndex + 1,14, getString(R.string.countLarvaHint));
-                    ws.value(tableIndex + 1,15, getString(R.string.countOvoHint));
-                    ws.value(tableIndex + 1,16, getString(R.string.hintTotal));
-                    ws.range(tableIndex + 1,4,tableIndex + 1,16).style()
-                            .horizontalAlignment("center").set();
-                    ws.range(tableIndex + 1, 2, tableIndex + 1, 16).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,4).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,10).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,16).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.value(tableIndex + 1, 1, getString(R.string.sumSpec));
+                    ws.value(tableIndex + 1, 4, getString(R.string.countImagomfHint));
+                    ws.value(tableIndex + 1, 5, getString(R.string.countImagomHint));
+                    ws.value(tableIndex + 1, 6, getString(R.string.countImagofHint));
+                    ws.value(tableIndex + 1, 7, getString(R.string.countPupaHint));
+                    ws.value(tableIndex + 1, 8, getString(R.string.countLarvaHint));
+                    ws.value(tableIndex + 1, 9, getString(R.string.countOvoHint));
+                    ws.value(tableIndex + 1, 10, getString(R.string.countImagomfHint));
+                    ws.value(tableIndex + 1, 11, getString(R.string.countImagomHint));
+                    ws.value(tableIndex + 1, 12, getString(R.string.countImagofHint));
+                    ws.value(tableIndex + 1, 13, getString(R.string.countPupaHint));
+                    ws.value(tableIndex + 1, 14, getString(R.string.countLarvaHint));
+                    ws.value(tableIndex + 1, 15, getString(R.string.countOvoHint));
+                    ws.value(tableIndex + 1, 16, getString(R.string.hintTotal));
+                    ws.range(tableIndex + 1, 1, tableIndex + 1, 16)
+                            .style().horizontalAlignment("center").bold()
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 4).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 10).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 16).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                 }
                 default -> {
-                    ws.value(tableIndex + 1,5, getString(R.string.countImagomfHint));
-                    ws.value(tableIndex + 1,6, getString(R.string.countImagomHint));
-                    ws.value(tableIndex + 1,7, getString(R.string.countImagofHint));
-                    ws.value(tableIndex + 1,8, getString(R.string.countPupaHint));
-                    ws.value(tableIndex + 1,9, getString(R.string.countLarvaHint));
-                    ws.value(tableIndex + 1,10, getString(R.string.countOvoHint));
-                    ws.value(tableIndex + 1,11, getString(R.string.countImagomfHint));
-                    ws.value(tableIndex + 1,12, getString(R.string.countImagomHint));
-                    ws.value(tableIndex + 1,13, getString(R.string.countImagofHint));
-                    ws.value(tableIndex + 1,14, getString(R.string.countPupaHint));
-                    ws.value(tableIndex + 1,15, getString(R.string.countLarvaHint));
-                    ws.value(tableIndex + 1,16, getString(R.string.countOvoHint));
-                    ws.value(tableIndex + 1,17, getString(R.string.hintTotal));
-                    ws.range(tableIndex + 1,5,tableIndex + 1,17).style()
-                            .horizontalAlignment("center").set();
-                    ws.range(tableIndex + 1, 3, tableIndex + 1, 17).style()
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,5).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,11).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
-                    ws.style(tableIndex + 1,17).borderStyle(BorderSide.LEFT,"thin")
-                            .borderStyle(BorderSide.BOTTOM,"thin").bold().set();
+                    ws.value(tableIndex + 1, 2, getString(R.string.sumSpec));
+                    ws.value(tableIndex + 1, 5, getString(R.string.countImagomfHint));
+                    ws.value(tableIndex + 1, 6, getString(R.string.countImagomHint));
+                    ws.value(tableIndex + 1, 7, getString(R.string.countImagofHint));
+                    ws.value(tableIndex + 1, 8, getString(R.string.countPupaHint));
+                    ws.value(tableIndex + 1, 9, getString(R.string.countLarvaHint));
+                    ws.value(tableIndex + 1, 10, getString(R.string.countOvoHint));
+                    ws.value(tableIndex + 1, 11, getString(R.string.countImagomfHint));
+                    ws.value(tableIndex + 1, 12, getString(R.string.countImagomHint));
+                    ws.value(tableIndex + 1, 13, getString(R.string.countImagofHint));
+                    ws.value(tableIndex + 1, 14, getString(R.string.countPupaHint));
+                    ws.value(tableIndex + 1, 15, getString(R.string.countLarvaHint));
+                    ws.value(tableIndex + 1, 16, getString(R.string.countOvoHint));
+                    ws.value(tableIndex + 1, 17, getString(R.string.hintTotal));
+                    ws.range(tableIndex + 1, 2, tableIndex + 1, 17)
+                            .style().horizontalAlignment("center").bold()
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.range(tableIndex + 1, 2, tableIndex + 1, 17).style()
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 5).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 11).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
+                    ws.style(tableIndex + 1, 17).borderStyle(BorderSide.LEFT, "thin")
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                 }
             }
 
             // Write internal total sums
             switch (outPref) {
                 case "names", "codes" -> {
-                    ws.value(tableIndex + 2,1, getString(R.string.sumSpec) + " " + sumSpec);
-                    ws.value(tableIndex + 2,3, getString(R.string.sumi));
-                    ws.value(tableIndex + 2,4, summf);
-                    ws.value(tableIndex + 2,5, summ);
-                    ws.value(tableIndex + 2,6, sumf);
-                    ws.value(tableIndex + 2,7, sump);
-                    ws.value(tableIndex + 2,8, suml);
-                    ws.value(tableIndex + 2,9, sumo);
-                    ws.value(tableIndex + 2,16, totali);
+                    ws.value(tableIndex + 2, 1, sumSpec);
+                    ws.value(tableIndex + 2, 3, getString(R.string.sumi));
+                    ws.value(tableIndex + 2, 4, summf);
+                    ws.value(tableIndex + 2, 5, summ);
+                    ws.value(tableIndex + 2, 6, sumf);
+                    ws.value(tableIndex + 2, 7, sump);
+                    ws.value(tableIndex + 2, 8, suml);
+                    ws.value(tableIndex + 2, 9, sumo);
+                    ws.value(tableIndex + 2, 16, totali);
                     if (summf > 0)
-                        ws.style(tableIndex + 2,4).fontColor("008000").bold().set(); // green
+                        ws.style(tableIndex + 2, 4).fontColor("008000").bold().set(); // green
                     else
-                        ws.style(tableIndex + 2,4).fontColor("00FFFFFF").set(); // transparent
+                        ws.style(tableIndex + 2, 4).fontColor("00FFFFFF").set(); // transparent
                     if (summ > 0)
-                        ws.style(tableIndex + 2,5).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 5).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,5).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 5).fontColor("00FFFFFF").set();
                     if (sumf > 0)
-                        ws.style(tableIndex + 2,6).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 6).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,6).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 6).fontColor("00FFFFFF").set();
                     if (sump > 0)
-                        ws.style(tableIndex + 2,7).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 7).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,7).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 7).fontColor("00FFFFFF").set();
                     if (suml > 0)
-                        ws.style(tableIndex + 2,8).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 8).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,8).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 8).fontColor("00FFFFFF").set();
                     if (sumo > 0)
-                        ws.style(tableIndex + 2,9).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 9).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,9).fontColor("00FFFFFF").set();
-                    ws.style(tableIndex + 2,1).bold().set();
-                    ws.style(tableIndex + 2,3).horizontalAlignment("right").bold().set();
-                    ws.range(tableIndex + 2,4,tableIndex + 2,16).style()
+                        ws.style(tableIndex + 2, 9).fontColor("00FFFFFF").set();
+                    ws.style(tableIndex + 2, 1).horizontalAlignment("center").bold().set();
+                    ws.style(tableIndex + 2, 3).horizontalAlignment("right").bold().set();
+                    ws.range(tableIndex + 2, 4, tableIndex + 2, 16).style()
                             .horizontalAlignment("center").set();
-                    ws.style(tableIndex + 2,4).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 2,10).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 2,16).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.style(tableIndex + 2, 4).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 2, 10).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 2, 16).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
                 default -> {
-                    ws.value(tableIndex + 2,2, getString(R.string.sumSpec) + " " + sumSpec);
-                    ws.value(tableIndex + 2,4, getString(R.string.sumi));
-                    ws.value(tableIndex + 2,5, summf);
-                    ws.value(tableIndex + 2,6, summ);
-                    ws.value(tableIndex + 2,7, sumf);
-                    ws.value(tableIndex + 2,8, sump);
-                    ws.value(tableIndex + 2,9, suml);
-                    ws.value(tableIndex + 2,10, sumo);
-                    ws.value(tableIndex + 2,17, totali);
+                    ws.value(tableIndex + 2, 2, sumSpec);
+                    ws.value(tableIndex + 2, 4, getString(R.string.sumi));
+                    ws.value(tableIndex + 2, 5, summf);
+                    ws.value(tableIndex + 2, 6, summ);
+                    ws.value(tableIndex + 2, 7, sumf);
+                    ws.value(tableIndex + 2, 8, sump);
+                    ws.value(tableIndex + 2, 9, suml);
+                    ws.value(tableIndex + 2, 10, sumo);
+                    ws.value(tableIndex + 2, 17, totali);
                     if (summf > 0)
-                        ws.style(tableIndex + 2,5).fontColor("008000").bold().set(); // green
+                        ws.style(tableIndex + 2, 5).fontColor("008000").bold().set(); // green
                     else
-                        ws.style(tableIndex + 2,5).fontColor("00FFFFFF").set(); // transparent
+                        ws.style(tableIndex + 2, 5).fontColor("00FFFFFF").set(); // transparent
                     if (summ > 0)
-                        ws.style(tableIndex + 2,6).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 6).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,6).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 6).fontColor("00FFFFFF").set();
                     if (sumf > 0)
-                        ws.style(tableIndex + 2,7).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 7).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,7).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 7).fontColor("00FFFFFF").set();
                     if (sump > 0)
-                        ws.style(tableIndex + 2,8).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 8).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,8).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 8).fontColor("00FFFFFF").set();
                     if (suml > 0)
-                        ws.style(tableIndex + 2,9).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 9).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,9).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 2, 9).fontColor("00FFFFFF").set();
                     if (sumo > 0)
-                        ws.style(tableIndex + 2,10).fontColor("008000").bold().set();
+                        ws.style(tableIndex + 2, 10).fontColor("008000").bold().set();
                     else
-                        ws.style(tableIndex + 2,10).fontColor("00FFFFFF").set();
-                    ws.style(tableIndex + 2,2).bold().set();
-                    ws.style(tableIndex + 2,4).horizontalAlignment("right").bold().set();
-                    ws.range(tableIndex + 2,5,tableIndex + 2,17).style()
+                        ws.style(tableIndex + 2, 10).fontColor("00FFFFFF").set();
+                    ws.style(tableIndex + 2, 2).horizontalAlignment("center").bold().set();
+                    ws.style(tableIndex + 2, 4).horizontalAlignment("right").bold().set();
+                    ws.range(tableIndex + 2, 5, tableIndex + 2, 17).style()
                             .horizontalAlignment("center").set();
-                    ws.style(tableIndex + 2,5).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 2,11).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 2,17).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.style(tableIndex + 2, 5).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 2, 11).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 2, 17).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
             }
 
             // Write external total sums
             switch (outPref) {
                 case "names", "codes" -> {
-                    ws.value(tableIndex + 3,3, getString(R.string.sume));
-                    ws.value(tableIndex + 3,10, summfe);
-                    ws.value(tableIndex + 3,11, summe);
-                    ws.value(tableIndex + 3,12, sumfe);
-                    ws.value(tableIndex + 3,13, sumpe);
-                    ws.value(tableIndex + 3,14, sumle);
-                    ws.value(tableIndex + 3,15, sumoe);
-                    ws.value(tableIndex + 3,16, totale);
-                    ws.style(tableIndex + 3,3).horizontalAlignment("right").bold().set();
+                    ws.value(tableIndex + 3, 3, getString(R.string.sume));
+                    ws.value(tableIndex + 3, 10, summfe);
+                    ws.value(tableIndex + 3, 11, summe);
+                    ws.value(tableIndex + 3, 12, sumfe);
+                    ws.value(tableIndex + 3, 13, sumpe);
+                    ws.value(tableIndex + 3, 14, sumle);
+                    ws.value(tableIndex + 3, 15, sumoe);
+                    ws.value(tableIndex + 3, 16, totale);
+                    ws.style(tableIndex + 3, 3).horizontalAlignment("right").bold().set();
                     if (summfe > 0)
-                        ws.style(tableIndex + 3,10).fontColor("FF0000").bold().set(); // rot
+                        ws.style(tableIndex + 3, 10).fontColor("FF0000").bold().set(); // rot
                     else
-                        ws.style(tableIndex + 3,10).fontColor("00FFFFFF").set(); // transparent
+                        ws.style(tableIndex + 3, 10).fontColor("00FFFFFF").set(); // transparent
                     if (summe > 0)
-                        ws.style(tableIndex + 3,11).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 11).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,11).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 11).fontColor("00FFFFFF").set();
                     if (sumfe > 0)
-                        ws.style(tableIndex + 3,12).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 12).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,12).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 12).fontColor("00FFFFFF").set();
                     if (sumpe > 0)
-                        ws.style(tableIndex + 3,13).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 13).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,13).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 13).fontColor("00FFFFFF").set();
                     if (sumle > 0)
-                        ws.style(tableIndex + 3,14).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 14).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,14).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 14).fontColor("00FFFFFF").set();
                     if (sumoe > 0)
-                        ws.style(tableIndex + 3,15).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 15).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,15).fontColor("00FFFFFF").set();
-                    ws.range(tableIndex + 3,4,tableIndex + 2,16).style()
+                        ws.style(tableIndex + 3, 15).fontColor("00FFFFFF").set();
+                    ws.range(tableIndex + 3, 4, tableIndex + 2, 16).style()
                             .horizontalAlignment("center").set();
-                    ws.style(tableIndex + 3,4).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 3,10).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 3,16).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.style(tableIndex + 3, 4).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 3, 10).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 3, 16).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
                 default -> {
-                    ws.value(tableIndex + 3,4, getString(R.string.sume));
-                    ws.value(tableIndex + 3,11, summfe);
-                    ws.value(tableIndex + 3,12, summe);
-                    ws.value(tableIndex + 3,13, sumfe);
-                    ws.value(tableIndex + 3,14, sumpe);
-                    ws.value(tableIndex + 3,15, sumle);
-                    ws.value(tableIndex + 3,16, sumoe);
-                    ws.value(tableIndex + 3,17, totale);
-                    ws.style(tableIndex + 3,4).horizontalAlignment("right").bold().set();
+                    ws.value(tableIndex + 3, 4, getString(R.string.sume));
+                    ws.value(tableIndex + 3, 11, summfe);
+                    ws.value(tableIndex + 3, 12, summe);
+                    ws.value(tableIndex + 3, 13, sumfe);
+                    ws.value(tableIndex + 3, 14, sumpe);
+                    ws.value(tableIndex + 3, 15, sumle);
+                    ws.value(tableIndex + 3, 16, sumoe);
+                    ws.value(tableIndex + 3, 17, totale);
+                    ws.style(tableIndex + 3, 4).horizontalAlignment("right").bold().set();
                     if (summfe > 0)
-                        ws.style(tableIndex + 3,11).fontColor("FF0000").bold().set(); // rot
+                        ws.style(tableIndex + 3, 11).fontColor("FF0000").bold().set(); // rot
                     else
-                        ws.style(tableIndex + 3,11).fontColor("00FFFFFF").set(); // transparent
+                        ws.style(tableIndex + 3, 11).fontColor("00FFFFFF").set(); // transparent
                     if (summe > 0)
-                        ws.style(tableIndex + 3,12).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 12).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,12).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 12).fontColor("00FFFFFF").set();
                     if (sumfe > 0)
-                        ws.style(tableIndex + 3,13).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 13).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,13).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 13).fontColor("00FFFFFF").set();
                     if (sumpe > 0)
-                        ws.style(tableIndex + 3,14).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 14).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,14).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 14).fontColor("00FFFFFF").set();
                     if (sumle > 0)
-                        ws.style(tableIndex + 3,15).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 15).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,15).fontColor("00FFFFFF").set();
+                        ws.style(tableIndex + 3, 15).fontColor("00FFFFFF").set();
                     if (sumoe > 0)
-                        ws.style(tableIndex + 3,16).fontColor("FF0000").bold().set();
+                        ws.style(tableIndex + 3, 16).fontColor("FF0000").bold().set();
                     else
-                        ws.style(tableIndex + 3,16).fontColor("00FFFFFF").set();
-                    ws.range(tableIndex + 3,5,tableIndex + 2,17).style()
+                        ws.style(tableIndex + 3, 16).fontColor("00FFFFFF").set();
+                    ws.range(tableIndex + 3, 5, tableIndex + 2, 17).style()
                             .horizontalAlignment("center").set();
-                    ws.style(tableIndex + 3,5).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 3,11).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 3,17).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.style(tableIndex + 3, 5).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 3, 11).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 3, 17).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
             }
 
             // Write overall total sum
             switch (outPref) {
                 case "names", "codes" -> {
-                    ws.value(tableIndex + 4,3, getString(R.string.sum_total));
-                    ws.value(tableIndex + 4,16, total);
-                    ws.style(tableIndex + 4,3).horizontalAlignment("right").bold().set();
-                    ws.style(tableIndex + 4,16).horizontalAlignment("center").set();
-                    ws.style(tableIndex + 4,4).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 4,10).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 4,16).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.value(tableIndex + 4, 3, getString(R.string.sum_total));
+                    ws.value(tableIndex + 4, 16, total);
+                    ws.style(tableIndex + 4, 3).horizontalAlignment("right").bold().set();
+                    ws.style(tableIndex + 4, 16).horizontalAlignment("center").set();
+                    ws.style(tableIndex + 4, 4).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 4, 10).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 4, 16).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
                 default -> {
-                    ws.value(tableIndex + 4,4, getString(R.string.sum_total));
-                    ws.value(tableIndex + 4,17, total);
-                    ws.style(tableIndex + 4,4).horizontalAlignment("right").bold().set();
-                    ws.style(tableIndex + 4,17).horizontalAlignment("center").set();
-                    ws.style(tableIndex + 4,5).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 4,11).borderStyle(BorderSide.LEFT,"thin").set();
-                    ws.style(tableIndex + 4,17).bold().borderStyle(BorderSide.LEFT,"thin").set();
+                    ws.value(tableIndex + 4, 4, getString(R.string.sum_total));
+                    ws.value(tableIndex + 4, 17, total);
+                    ws.style(tableIndex + 4, 4).horizontalAlignment("right").bold().set();
+                    ws.style(tableIndex + 4, 17).horizontalAlignment("center").set();
+                    ws.style(tableIndex + 4, 5).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 4, 11).borderStyle(BorderSide.LEFT, "thin").set();
+                    ws.style(tableIndex + 4, 17).bold().borderStyle(BorderSide.LEFT, "thin").set();
                 }
             }
 

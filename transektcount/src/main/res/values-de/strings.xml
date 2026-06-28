@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-04-30 -->
+     last edited 2026-06-27 -->
 
 <resources>
 
@@ -45,7 +45,6 @@
     <string name="kal_w">KW</string>
     <string name="name_sect">Abschnitt</string>
     <string name="name_spec">Spezies-Name</string>
-    <string name="name_spec_g">Lokaler Name</string>
     <string name="noCard">Das Documents/TransektCount-Directory kann nicht verwendet werden!</string>
     <string name="no_GPSfile">Keine GPX-Datei in Documents/TransektCount vorhanden!</string>
     <string name="note">Transekt-Bem.:</string>
@@ -72,7 +71,7 @@
     <string name="specis">Arten</string>
     <string name="specsCommonLangMissing">Achtung! Die lokale Datensprache ist in der alten Liste nicht festgelegt. Bitte unter "Einstellungen" wählen. Ansonsten werden deutsche Artnamen verwendet.</string>
     <string name="sumi">Summen (intern):</string>
-    <string name="sumSpec">Arten:</string>
+    <string name="sumSpec">Verschiedene Arten</string>
     <string name="sum_total">Summen (total):</string>
     <string name="sume">Summen (extern):</string>
     <string name="time_sect">1. Zählung</string>
@@ -270,7 +269,6 @@
     <string name="dialog_fine_location_message">Die Transektabschnitte-Erkennung benötigt höchstmögliche Genauigkeit.</string>
     <string name="dialog_fine_location_title">Erlaube den genauen Standort zu erfassen.</string>
     <string name="dialog_storage_message">Bitte erteile die Speicher-Berechtigung für TransektCount zwecks Import und Export der Daten.</string>
-    <string name="dialog_storage_title">Speicher-Berechtigung benötigt</string>
     <string name="grant_perm_later">Die optionale Berechtigung \'Immer zulassen\' kann ggf. später in den Systemeinstellungen erteilt werden.</string>
     <string name="storage_not_possible">Die für TransektCount notwendige Speicher-Berechtigung fehlt, Speichern ist nicht möglich.</string>
 
