@@ -2,6 +2,10 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
+#### Version 5.1.4 (2026-07-08)
+- Exported results in xlsx spreadsheet improved
+- Code improvements
+
 #### Version 5.1.3 (2026-06-28)
 - Exported results in xlsx spreadsheet improved
 - Exported results in csv spreadsheet improved

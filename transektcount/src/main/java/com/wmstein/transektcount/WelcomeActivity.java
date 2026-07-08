@@ -107,7 +107,7 @@ import org.dhatim.fastexcel.Worksheet;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-06-28
+ * last edited on 2026-07-08
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -2695,7 +2695,7 @@ public class WelcomeActivity
     /***********************************************************************************************
      // Exports DB contents as Transekt_dL_TransNo_yyyyMMdd_HHmm.xlsx to
      // Documents/TransektCount/ with purged data set.
-     // Spreadsheet programs can directly load this xlsx file
+     // Spreadsheet programs can directly load this formatted xlsx file
      */
     private void exportDb2XLSX() {
         mesg = getString(R.string.saveXLSX);
@@ -2733,8 +2733,8 @@ public class WelcomeActivity
 
         boolean engl = false;
         boolean hasDate = true;
-        String csvDate, csvTime;
-        String csvDateEU, csvDateEN;
+        String xlsxDate, xlsxTime;
+        String xlsxDateEU, xlsxDateEN;
 
         // Get year from date
         if (!Objects.equals(date, "")) {
@@ -2742,26 +2742,26 @@ public class WelcomeActivity
             if (Objects.equals(date.substring(4, 5), "-"))
                 engl = true;
             // Create date for filename as YYYYMMDD from any format
-            csvDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
-            csvDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+            xlsxDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2);
+            xlsxDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             hasDate = false;
-            csvDateEN = "";
-            csvDateEU = "";
+            xlsxDateEN = "";
+            xlsxDateEU = "";
         }
 
         if (engl)
-            csvDate = csvDateEN;
+            xlsxDate = xlsxDateEN;
         else
-            csvDate = csvDateEU;
+            xlsxDate = xlsxDateEU;
 
         if (!Objects.equals(start_tm, "")) {
-            csvTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
+            xlsxTime = start_tm.substring(0, 2) + start_tm.substring(3, 5);
 
             if (hasDate)
-                csvDate = csvDate + "_" + csvTime; // yyyymmdd_hhmm
+                xlsxDate = xlsxDate + "_" + xlsxTime; // yyyymmdd_hhmm
         } else
-            csvDate = ""; // has only a value when both date and start time are given
+            xlsxDate = ""; // has only a value when both date and start time are given
 
         // outFile -> /storage/emulated/0/Documents/TransektCount/tranSect_DL_transNo_yyyyMMdd_HHmm_si.xlsx
         File path;
@@ -2806,14 +2806,14 @@ public class WelcomeActivity
         if (dataLanguage.isEmpty())
             dataLanguage = "--";
 
-        if (Objects.equals(transNoDir, "") && Objects.equals(csvDate, ""))
+        if (Objects.equals(transNoDir, "") && Objects.equals(xlsxDate, ""))
             outFile = new File(path, tranSect + dataLanguage + "_" + getcurDate() + "_" + sortIdent + ".xlsx");
         else if (Objects.equals(transNoDir, ""))
-            outFile = new File(path, tranSect + dataLanguage + "_" + csvDate + "_" + sortIdent + ".xlsx");
-        else if (Objects.equals(csvDate, ""))
+            outFile = new File(path, tranSect + dataLanguage + "_" + xlsxDate + "_" + sortIdent + ".xlsx");
+        else if (Objects.equals(xlsxDate, ""))
             outFile = new File(path, tranSect + dataLanguage + "_" + transNoDir + "_" + getcurDate() + "_" + sortIdent + ".xlsx");
         else
-            outFile = new File(path, tranSect + dataLanguage + "_" + transNoDir + "_" + csvDate + "_" + sortIdent + ".xlsx");
+            outFile = new File(path, tranSect + dataLanguage + "_" + transNoDir + "_" + xlsxDate + "_" + sortIdent + ".xlsx");
 
         FileOutputStream outputStream;
         try {
@@ -2859,7 +2859,7 @@ public class WelcomeActivity
                     fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
                     Toast.LENGTH_LONG).show();
         } else {
-            // Export purged db as csv
+            // Export purged db as xlsx
             dbHelper = new DbHelper(this);
             database = dbHelper.getWritableDatabase();
 
@@ -2878,13 +2878,20 @@ public class WelcomeActivity
             ws.value(0, 7, getString(R.string.clouds));
             ws.value(0, 9, getString(R.string.kal_w));
             ws.value(0, 11, getString(R.string.inspection_note));
-            ws.value(0, 16, sortMode);
+            ws.value(0, 15, sortMode);
 
             ws.range(0, 0, 0, 14).style().fillColor("CCCCCC")
                     .borderStyle(BorderSide.BOTTOM, "thin").fontSize(12).bold().set();
             ws.range(0, 4, 0, 9).style().horizontalAlignment("center").set();
             ws.range(0,11,0,14).merge();
-            ws.range(0,16,0,17).merge();
+            ws.style(0,15).horizontalAlignment("right").set();
+
+            switch (outPref) {
+                case "names", "codes" ->
+                        ws.range(0,15,0,16).merge();
+                default ->
+                        ws.range(0,15,0,17).merge();
+            }
 
             // Open Head table for head info
             head = headDataSource.getHead();
@@ -3070,13 +3077,14 @@ public class WelcomeActivity
                     ws.range(5, 4, 5, 16).style()
                             .horizontalAlignment("center").set();
                     ws.style(5, 2).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 5).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 11).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 17).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin")
+                            .horizontalAlignment("left").set();
                 }
                 default -> {
                     // section_codes
@@ -3106,24 +3114,25 @@ public class WelcomeActivity
                     ws.range(5, 5, 5, 17).style()
                             .horizontalAlignment("center").set();
                     ws.style(5, 2).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 5).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 11).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin").set();
                     ws.style(5, 17).borderStyle(BorderSide.LEFT, "thin")
-                            .borderStyle(BorderSide.BOTTOM, "thin").bold().set();
+                            .borderStyle(BorderSide.BOTTOM, "thin")
+                            .horizontalAlignment("left").set();
                 }
             }
 
             //*****************************************************************************
             // Build the internal species array according to the sorted species or sections
-            Cursor curCSV;
+            Cursor curXLSX;
             switch (outPref) {
                 case "names" ->
                     // Cursor contains list sorted by section and name with all internal count entries > 0
                     //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        curXLSX = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                                 + " WHERE ("
                                 + DbHelper.C_NOTES + " = '0' or "
                                 + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -3136,7 +3145,7 @@ public class WelcomeActivity
                 case "codes" ->
                     // Cursor contains list sorted by name and section with all internal count entries > 0
                     //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        curXLSX = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                                 + " WHERE ("
                                 + DbHelper.C_NOTES + " = '0' or "
                                 + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -3149,7 +3158,7 @@ public class WelcomeActivity
                 case "sections_names" ->
                     // Cursor contains list sorted by name and section with all internal count entries > 0
                     //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        curXLSX = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                                 + " WHERE ("
                                 + DbHelper.C_NOTES + " = '0' or "
                                 + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -3162,7 +3171,7 @@ public class WelcomeActivity
                 default ->
                     // Cursor contains list sorted by name and section with all internal count entries > 0
                     //   and all empty counts with a "0" in a section's species remark
-                        curCSV = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
+                        curXLSX = database.rawQuery("select * from " + DbHelper.COUNT_TABLE
                                 + " WHERE ("
                                 + DbHelper.C_NOTES + " = '0' or "
                                 + DbHelper.C_COUNT_F1I + " > 0 or " + DbHelper.C_COUNT_F2I + " > 0 or "
@@ -3194,9 +3203,9 @@ public class WelcomeActivity
             long sectTimeValue;
 
             int tableIndex = 6;
-            curCSV.moveToFirst();
-            while (!curCSV.isAfterLast()) {
-                sect_id = curCSV.getInt(1);
+            curXLSX.moveToFirst();
+            while (!curXLSX.isAfterLast()) {
+                sect_id = curXLSX.getInt(1);
                 section = sectionDataSource.getSection(sect_id);
                 sectName = section.name;
 
@@ -3211,25 +3220,25 @@ public class WelcomeActivity
                     sectName2 = "";
                 }
 
-                code = curCSV.getString(3); //species code
-                name_s = curCSV.getString(2);
-                name_l = curCSV.getString(17);
-                sp_notes = curCSV.getString(16);
+                code = curXLSX.getString(3); //species code
+                name_s = curXLSX.getString(2);
+                name_l = curXLSX.getString(17);
+                sp_notes = curXLSX.getString(16);
                 if (sp_notes == null)
                     sp_notes = "";
 
-                countmf = curCSV.getInt(4);
-                countm = curCSV.getInt(5);
-                countf = curCSV.getInt(6);
-                countp = curCSV.getInt(7);
-                countl = curCSV.getInt(8);
-                counte = curCSV.getInt(9);
-                countmfe = curCSV.getInt(10);
-                countme = curCSV.getInt(11);
-                countfe = curCSV.getInt(12);
-                countpe = curCSV.getInt(13);
-                countle = curCSV.getInt(14);
-                countee = curCSV.getInt(15);
+                countmf = curXLSX.getInt(4);
+                countm = curXLSX.getInt(5);
+                countf = curXLSX.getInt(6);
+                countp = curXLSX.getInt(7);
+                countl = curXLSX.getInt(8);
+                counte = curXLSX.getInt(9);
+                countmfe = curXLSX.getInt(10);
+                countme = curXLSX.getInt(11);
+                countfe = curXLSX.getInt(12);
+                countpe = curXLSX.getInt(13);
+                countle = curXLSX.getInt(14);
+                countee = curXLSX.getInt(15);
 
                 boolean even = tableIndex % 2 == 0;
 
@@ -3893,23 +3902,23 @@ public class WelcomeActivity
                     }
                 }
 
-                summf = summf + curCSV.getInt(4);
-                summ = summ + curCSV.getInt(5);
-                sumf = sumf + curCSV.getInt(6);
-                sump = sump + curCSV.getInt(7);
-                suml = suml + curCSV.getInt(8);
-                sumo = sumo + curCSV.getInt(9);
-                summfe = summfe + curCSV.getInt(10);
-                summe = summe + curCSV.getInt(11);
-                sumfe = sumfe + curCSV.getInt(12);
-                sumpe = sumpe + curCSV.getInt(13);
-                sumle = sumle + curCSV.getInt(14);
-                sumoe = sumoe + curCSV.getInt(15);
-                curCSV.moveToNext();
+                summf = summf + curXLSX.getInt(4);
+                summ = summ + curXLSX.getInt(5);
+                sumf = sumf + curXLSX.getInt(6);
+                sump = sump + curXLSX.getInt(7);
+                suml = suml + curXLSX.getInt(8);
+                sumo = sumo + curXLSX.getInt(9);
+                summfe = summfe + curXLSX.getInt(10);
+                summe = summe + curXLSX.getInt(11);
+                sumfe = sumfe + curXLSX.getInt(12);
+                sumpe = sumpe + curXLSX.getInt(13);
+                sumle = sumle + curXLSX.getInt(14);
+                sumoe = sumoe + curXLSX.getInt(15);
+                curXLSX.moveToNext();
 
                 tableIndex++;
             }
-            curCSV.close();
+            curXLSX.close();
 
             tableIndex++; // Empty row
 
