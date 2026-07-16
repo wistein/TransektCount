@@ -21,10 +21,17 @@ import java.util.Locale
  *
  * Basic structure of DbHelper.java by milo on 05/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-18.
+ * updated to version 2 on 2018-02-27, rel. 212
+ * updated to version 3 on 2018-04-01, rel. 301
+ * updated to version 4 on 2019-03-26, rel. 307
  * last edited in Java on 2023-06-11,
  * converted to Kotlin on 2023-06-26,
- * current version 8, set under 'companion object'
- * last edited on 2026-05-26
+ * updated to version 5 on 2023-12-17, rel. 401
+ * updated to version 6 on 2024-03-23, rel. 403
+ * updated to version 7 on 2026-03-30, rel. 505
+ * updated to version 8 on 2026-04-08, rel. 506
+ * current version 8, -> has to be set under 'companion object'
+ * last edited on 2026-07-16
  *
  * ************************************************************************
  * ATTENTION!
@@ -34,12 +41,12 @@ import java.util.Locale
 class DbHelper(private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
     // initDataLanguage = current system locale
-    val initDataLanguage = Locale.getDefault().toString().substring(0, 2)
+    private val initDataLanguage = Locale.getDefault().toString().substring(0, 2)
 
     // Called on initial database creation and on DB version upgrades
     override fun onCreate(db: SQLiteDatabase) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "41, onCreate, Creating database: $DATABASE_NAME")
+            Log.i(TAG, "49, onCreate, Creating database: $DATABASE_NAME")
 
         var sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
@@ -105,7 +112,7 @@ class DbHelper(private val mContext: Context) :
         values1.put(H_DATA_LANGUAGE, "")
         db.insert(HEAD_TABLE, null, values1)
 
-        // Create empty row for META_TABLE
+        // Create single row for META_TABLE
         val values2 = ContentValues()
         values2.put(M_ID, 1)
         values2.put(M_TEMPS, 0)
@@ -129,7 +136,7 @@ class DbHelper(private val mContext: Context) :
         // Create initial data for COUNT_TABLE
         initialCount(db)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "131, onCreate, Success!")
+            Log.i(TAG, "139, onCreate, Success!")
     }
     // End of onCreate
 
@@ -143,15 +150,19 @@ class DbHelper(private val mContext: Context) :
     }
 
     private fun initialHead(db: SQLiteDatabase) {
-        // Enter current system language as initial data language
-        val sql = "UPDATE $HEAD_TABLE SET $H_DATA_LANGUAGE = '$initDataLanguage'"
-        db.execSQL(sql)
+        val valuesH = ContentValues()
+        valuesH.put(H_ID, 1)
+        valuesH.put(H_TRANSECT_NO, "")
+        valuesH.put(H_INSPECTOR_NAME, "")
+        valuesH.put(H_DATA_LANGUAGE, initDataLanguage) // current system language
+        db.insert(HEAD_TABLE,null, valuesH)
     }
 
     // Initial data for section 1 in COUNT_TABLE
     private fun initialCount(db: SQLiteDatabase) {
         val specs: Array<String> = mContext.resources.getStringArray(R.array.initSpecs)
         val codes: Array<String> = mContext.resources.getStringArray(R.array.initCodes)
+
         // Initial local species name entries comprise initial species in the current system language
         val specsL: Array<String> = when (initDataLanguage) {
             "en" -> mContext.resources.getStringArray(R.array.initSpecs_en)
@@ -161,12 +172,12 @@ class DbHelper(private val mContext: Context) :
             else -> mContext.resources.getStringArray(R.array.initSpecs_de)
         }
 
-        for (i in 1 until codes.size) {
+        for ((i, element) in codes.withIndex()) {
             val values4 = ContentValues()
             values4.put(C_ID, i)
             values4.put(C_SECTION_ID, 1) // sect01
             values4.put(C_NAME, specs[i])
-            values4.put(C_CODE, codes[i])
+            values4.put(C_CODE, element)
             values4.put(C_COUNT_F1I, 0)
             values4.put(C_COUNT_F2I, 0)
             values4.put(C_COUNT_F3I, 0)
@@ -191,7 +202,7 @@ class DbHelper(private val mContext: Context) :
     // see https://guides.codepath.org/android/local-databases-with-sqliteopenhelper
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "193, onUpgrade DB")
+            Log.i(TAG, "205, onUpgrade DB")
 
         if (oldVersion == 7) {
             version8(db)
@@ -242,7 +253,7 @@ class DbHelper(private val mContext: Context) :
     private fun version2(db: SQLiteDatabase) {
         // Adds new count columns to TABLE:COUNT
         var sql: String
-        var colExist = false
+        var colExist = false // true for columns exist already
 
         // Add new extra columns to table counts without count_f1i and count_f1e as these are
         //  still represented by count and counta
@@ -306,18 +317,19 @@ class DbHelper(private val mContext: Context) :
         } catch (_: Exception) {
             //
         }
+
+        // Create new counts table with new columns and fill in old data
         if (!colExist) {
-            // rename table counts to counts_backup
+            // Rename table counts to counts_backup
             sql = "alter table 'counts' rename to 'counts_backup'"
             db.execSQL(sql)
 
-            // create new counts table
             sql = ("create table " + COUNT_TABLE + "("
                     + C_ID + " integer primary key, "
                     + C_SECTION_ID + " int, "
                     + C_NAME + " text, "
                     + C_CODE + " text, "
-                    + C_COUNT_F1I + " int, "
+                    + C_COUNT_F1I + " int, " // renamed from C_COUNT
                     + C_COUNT_F2I + " int, "
                     + C_COUNT_F3I + " int, "
                     + C_COUNT_PI + " int, "
@@ -332,7 +344,6 @@ class DbHelper(private val mContext: Context) :
                     + C_NOTES + " text)")
             db.execSQL(sql)
 
-            // insert the whole old data into counts
             sql = ("INSERT INTO " + COUNT_TABLE + " SELECT "
                     + C_ID + ", "
                     + C_SECTION_ID + ", "
@@ -352,6 +363,7 @@ class DbHelper(private val mContext: Context) :
                     + C_COUNT_EE + ", "
                     + C_NOTES + " FROM 'counts_backup'")
             db.execSQL(sql)
+
             sql = "DROP TABLE 'counts_backup'"
             db.execSQL(sql)
         }
@@ -365,10 +377,10 @@ class DbHelper(private val mContext: Context) :
         var sql = "alter table $META_TABLE rename to meta_backup"
         db.execSQL(sql)
 
-        // create new meta table
+        // Create new meta table
         sql = ("create table " + META_TABLE + " ("
                 + M_ID + " integer primary key, "
-                + M_TEMPE + " int, "
+                + M_TEMPE + " int, " // renamed from M_TEMP
                 + M_WIND + " int, "
                 + M_CLOUDS + " int, "
                 + M_DATE + " text, "
@@ -376,7 +388,7 @@ class DbHelper(private val mContext: Context) :
                 + M_END_TM + " text)")
         db.execSQL(sql)
 
-        // insert the old data into meta
+        // Insert the old data into meta
         sql = ("INSERT INTO " + META_TABLE + " SELECT "
                 + M_ID + ", "
                 + M_TEMP + ", "
@@ -386,6 +398,7 @@ class DbHelper(private val mContext: Context) :
                 + M_START_TM + ", "
                 + M_END_TM + " FROM meta_backup")
         db.execSQL(sql)
+
         sql = "DROP TABLE meta_backup"
         db.execSQL(sql)
     }
@@ -394,7 +407,11 @@ class DbHelper(private val mContext: Context) :
     // DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names
     private fun version4(db: SQLiteDatabase) {
         // Add column C_NAME_G
-        val sql = "alter table $COUNT_TABLE add column $C_NAME_G text"
+        var sql = "ALTER TABLE counts ADD COLUMN name_g text"
+        db.execSQL(sql)
+
+        // Enter empty C_NAME_G
+        sql = "UPDATE counts SET name_g = ''"
         db.execSQL(sql)
     }
 
@@ -409,31 +426,36 @@ class DbHelper(private val mContext: Context) :
                 + T_LON + " text)")
         db.execSQL(sql)
 
-        // reset section data and make SECTION_TABLE contiguous
+        // Reset section data and make SECTION_TABLE contiguous
         sql = ("UPDATE " + SECTION_TABLE + " SET "
                 + S_CREATED_AT + " = 0, "
                 + S_NOTES + " = ''")
         db.execSQL(sql)
+
         sql = "alter table $SECTION_TABLE rename to section_backup"
         db.execSQL(sql)
+
         sql = ("create table " + SECTION_TABLE + " ("
                 + S_ID + " integer primary key, "
                 + S_CREATED_AT + " int, "
                 + S_NAME + " text, "
                 + S_NOTES + " text)")
         db.execSQL(sql)
+
         sql = ("INSERT INTO " + SECTION_TABLE
                 + " (created_at, name, notes) SELECT "
                 + S_CREATED_AT + ", "
                 + S_NAME + ", "
                 + S_NOTES + " FROM section_backup order by " + S_ID)
         db.execSQL(sql)
+
         sql = "DROP TABLE section_backup"
         db.execSQL(sql)
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "433, SECTION_TABLE resetted")
 
-        // reset metadata
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "456, SECTION_TABLE reset")
+
+        // Reset metadata
         sql = ("UPDATE " + META_TABLE + " SET "
                 + M_TEMPE + " = 0, "
                 + M_WIND + " = 0, "
@@ -442,8 +464,9 @@ class DbHelper(private val mContext: Context) :
                 + M_START_TM + " = '', "
                 + M_END_TM + " = ''")
         db.execSQL(sql)
+
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "445, META_TABLE resetted")
+            Log.i(TAG, "469, META_TABLE reset")
 
         // Unify and reset species in section lists of COUNT_TABLE
         //   (For automatic switching between sections all lists
@@ -471,31 +494,34 @@ class DbHelper(private val mContext: Context) :
                 + C_NOTES + " text, "
                 + C_NAME_G + " text)")
         db.execSQL(sql)
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "473, new empty counts1 table created")
 
-        val specs: List<String> = getAllSpeciesDataSrtCode(db).specs
-        val codes: List<String> = getAllSpeciesDataSrtCode(db).codes
-        val specsL: List<String> = getAllSpeciesDataSrtCode(db).specsL
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "499, new empty counts1 table created")
+
+        // Get species data from current species list of section 1
+        val specs: List<String> = getCountSpeciesDataSrtCode(db).specs
+        val codes: List<String> = getCountSpeciesDataSrtCode(db).codes
+        val specsL: List<String> = getCountSpeciesDataSrtCode(db).specsL
         val specNum: Int = codes.size
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "482, Anzahl Spez.: $specNum")
+            Log.i(TAG, "508, Anzahl Spez.: $specNum")
 
-        var cnti = 1  // count index for new track table
-        var speci: Int // species index in initSpecs-array
+        var cntInd = 1  // count index for new track table
+        var specInd: Int // species index in initSpecs-array
         var sectIncr = 0
         val sectionList: List<Section> = getAllSects(db)
-        // fill table for all previous sections with initSpecs data
-        for (secti in 0 until sectionList.size) {
-            speci = 0
+
+        // Fill table for all previous sections with initSpecs data
+        for (sectInd in sectionList.indices) {
+            specInd = 0
             // for all species of section 1
-            while (speci < specNum) {
+            while (specInd < specNum) {
                 val values4 = ContentValues()
-                values4.put(C_ID, cnti) // id from count index
-                values4.put(C_SECTION_ID, secti + 1)
-                values4.put(C_NAME, specs[speci]) // name from species index
-                values4.put(C_CODE, codes[speci])
+                values4.put(C_ID, cntInd) // id from count index
+                values4.put(C_SECTION_ID, sectInd + 1)
+                values4.put(C_NAME, specs[specInd]) // name from species index
+                values4.put(C_CODE, codes[specInd])
                 values4.put(C_COUNT_F1I, 0)
                 values4.put(C_COUNT_F2I, 0)
                 values4.put(C_COUNT_F3I, 0)
@@ -509,21 +535,24 @@ class DbHelper(private val mContext: Context) :
                 values4.put(C_COUNT_LE, 0)
                 values4.put(C_COUNT_EE, 0)
                 values4.put(C_NOTES, "")
-                values4.put(C_NAME_G, specsL[speci])
+                values4.put(C_NAME_G, specsL[specInd])
                 db.insert(COUNT_TABLE1, null, values4)
+
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "514, species cnti: " + cnti + ", " + specs[speci])
-                speci++
-                cnti++
+                    Log.i(TAG, "542, species cntInd: " + cntInd + ", " + specs[specInd])
+
+                specInd++
+                cntInd++
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "518, species cnti: $cnti, index speci: $speci")
+                    Log.i(TAG, "547, species cntInd: $cntInd, index specInd: $specInd")
             }
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "521, last species-index: $cnti")
+                Log.i(TAG, "550, last species-index: $cntInd")
 
             sectIncr++
-            cnti = (sectIncr * speci) + 1
+            cntInd = (sectIncr * specInd) + 1
         }
+
         sql = "DROP TABLE $COUNT_TABLE"
         db.execSQL(sql)
 
@@ -531,7 +560,7 @@ class DbHelper(private val mContext: Context) :
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "533, Upgraded database to version 5")
+            Log.i(TAG, "563, Upgraded database to version 5")
     }
 
     /*** V6 ***/
@@ -576,16 +605,16 @@ class DbHelper(private val mContext: Context) :
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "578, META_TABLE initialized")
+            Log.i(TAG, "608, META_TABLE initialized")
     }
 
     /*** V7 ***/
-    // DATABASE_VERSION 7: Drop table ALERT_TABLE and add field H_DATA_LANGUAGE
+    // DATABASE_VERSION 7: Drop table ALERT_TABLE
     private fun version7(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $ALERT_TABLE")
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "587, HEAD_TABLE upgraded")
+            Log.i(TAG, "617, HEAD_TABLE upgraded")
     }
 
     /*** V8 ***/
@@ -594,11 +623,11 @@ class DbHelper(private val mContext: Context) :
         // Add extra column data_language to table head if not exists
         var sql: String
         try {
-            sql = "alter table head add column data_language text"
+            sql = "ALTER TABLE head ADD COLUMN data_language text"
             db.execSQL(sql)
         } catch (_: SQLiteException) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "600, Column already exists.")
+                Log.i(TAG, "630, Column already exists.")
         }
 
         // Enter empty data_language
@@ -606,19 +635,19 @@ class DbHelper(private val mContext: Context) :
         db.execSQL(sql)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "608, HEAD_TABLE upgraded")
+            Log.i(TAG, "638, HEAD_TABLE upgraded")
     }
 
-    data class SpcCdsSpL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
+    // Get species data from current species list of section 1
+    data class SpcCdsSpcL(val specs: List<String>, val codes: List<String>, val specsL: List<String>)
 
     @SuppressLint("Range")
-    private fun getAllSpeciesDataSrtCode(db: SQLiteDatabase): SpcCdsSpL {
+    private fun getCountSpeciesDataSrtCode(db: SQLiteDatabase): SpcCdsSpcL {
         val sNames: MutableList<String> = ArrayList()
         val sCodes: MutableList<String> = ArrayList()
         val sNamesL: MutableList<String> = ArrayList()
         val cursor = db.rawQuery(
-            "select * from " + COUNT_TABLE
-                    + " WHERE (" + C_SECTION_ID + " = 1) order by " + C_CODE, null
+            "SELECT * FROM counts WHERE (section_id = 1) ORDER BY code", null
         )
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
@@ -628,7 +657,7 @@ class DbHelper(private val mContext: Context) :
             cursor.moveToNext()
         }
         cursor.close()
-        return SpcCdsSpL(sNames, sCodes, sNamesL)
+        return SpcCdsSpcL(sNames, sCodes, sNamesL)
     }
 
     private fun getAllSects(db: SQLiteDatabase): List<Section> {

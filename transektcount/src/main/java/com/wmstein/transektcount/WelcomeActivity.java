@@ -3,6 +3,7 @@ package com.wmstein.transektcount;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static com.wmstein.transektcount.TransektCountApplication.distMin;
 import static com.wmstein.transektcount.TransektCountApplication.isFirstLoc;
+import static com.wmstein.transektcount.TransektCountApplication.isStorPermReq;
 import static com.wmstein.transektcount.TransektCountApplication.isSelectSectionActivityResumed;
 import static com.wmstein.transektcount.TransektCountApplication.lat;
 import static com.wmstein.transektcount.TransektCountApplication.lon;
@@ -24,15 +25,20 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +61,7 @@ import androidx.core.view.MenuCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wmstein.changelog.ChangeLog;
 import com.wmstein.filechooser.AdvFileChooser;
 import com.wmstein.transektcount.database.CountDataSource;
@@ -107,7 +114,7 @@ import org.dhatim.fastexcel.Worksheet;
  * <p>
  * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited on 2026-07-08
+ * last edited on 2026-07-16
  */
 public class WelcomeActivity
         extends AppCompatActivity
@@ -147,6 +154,7 @@ public class WelcomeActivity
     private boolean fineLocationPermGranted = false; // foreground location permission state
 
     // DB handling
+    Intent stoIntent;
     private SQLiteDatabase database;
     private DbHelper dbHelper;
     private HeadDataSource headDataSource;
@@ -181,7 +189,7 @@ public class WelcomeActivity
         super.onCreate(savedInstanceState);
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "184, onCreate");
+            Log.i(TAG, "192, onCreate");
 
         transektCount = (TransektCountApplication) getApplication();
 
@@ -260,27 +268,27 @@ public class WelcomeActivity
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "263, onCreate, autoSection: " + autoSection
-                    + ", Transect has track: " + transectHasTrack);
+            Log.i(TAG, "271, onCreate, autoSection: " + autoSection
+                    + ", transect has track: " + transectHasTrack);
 
-        // Check and ask storage permission
+        // Check initial storage permission state and if not granted provide dialog
         storagePermGranted = isStoragePermGranted();
         if (!storagePermGranted) // in self permission
         {
-            PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                    PermissionsStorageDialogFragment.class.getName());
+            // Provide dialog for storage permission request
+            requestAllFilesAccessPermission(1);
         }
 
         storagePermGranted = isStoragePermGranted();
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "276, onCreate, storageGranted: " + storagePermGranted);
+            Log.i(TAG, "284, onCreate, storageGranted: " + storagePermGranted);
 
         // Check current DB version and upgrade if necessary
         dbHelper = new DbHelper(this);
         database = dbHelper.getWritableDatabase(); // Make DB upgrade if necessary
         int dbVer = database.getVersion(); // DB version after upgrade
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "283, onCreate, dbVersion: " + dbVer);
+            Log.i(TAG, "291, onCreate, dbVersion: " + dbVer);
 
         dbHelper.close();
 
@@ -355,7 +363,7 @@ public class WelcomeActivity
         sectionDataSource.close();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.i(TAG, "358, onCreate, TrkPts: " + trackPts.size()
+            Log.i(TAG, "366, onCreate, TrkPts: " + trackPts.size()
                     + ", trCount: " + trCount + ", secCount: " + secCount);
 
         // Check if tracks exist and correspond to sections
@@ -401,7 +409,7 @@ public class WelcomeActivity
 
             if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "404, onCreate, ForegrndLocDialog");
+                    Log.i(TAG, "412, onCreate, ForegrndLocDialog");
 
                 PermissionsForegroundDialogFragment.newInstance().show(getSupportFragmentManager(),
                         PermissionsForegroundDialogFragment.class.getName());
@@ -427,7 +435,7 @@ public class WelcomeActivity
                 //   permissions are granted
                 if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "430, onCreate, BackgrndLocDialog");
+                        Log.i(TAG, "438, onCreate, BackgrndLocDialog");
 
                     // Ask optional background location permission
                     PermissionsBackgroundDialogFragment.newInstance().show(getSupportFragmentManager(),
@@ -453,6 +461,41 @@ public class WelcomeActivity
     }
     // End of onCreate()
 
+    // Check external storage self permission
+    private Boolean isStoragePermGranted() {
+        // Check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
+        boolean storGranted;
+        storGranted = Environment.isExternalStorageManager();
+        return storGranted;
+    }
+
+    // Request All-Files-Access Permission
+    public void requestAllFilesAccessPermission(int m) {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "475, requestAllFilesAccessPermission");
+
+        String mesg = "";
+        if (m == 1)
+            mesg = getString(R.string.dialog_storage_message1);
+        else if ( m == 2)
+            mesg = getString(R.string.dialog_storage_message2);
+
+        // Provide dialog for storage permission request
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_storage_title))
+                .setMessage(mesg)
+                .setPositiveButton(getString(R.string.ok_button), (dialogInterface, i) -> {
+                    stoIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri packageUri = Uri.fromParts("package", getPackageName(), null);
+                    stoIntent.setData(packageUri);
+                    isStorPermReq = true;
+                    startActivity(stoIntent);
+                })
+                .setNegativeButton(getString(R.string.cancelButton), (dialogInterface, i) ->
+                        showSnackbarRed(getString(R.string.storage_perm_denied)))
+                .create().show();
+    }
+
     // Check for Navigation bar (1-, 2- or 3-button mode)
     public int getNavBarMode() {
         Resources resources = this.getResources();
@@ -464,7 +507,7 @@ public class WelcomeActivity
         // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
         int navBarMode = resourceId > 0 ? resources.getInteger(resourceId) : 0;
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "467, NavBarMode = " + navBarMode);
+            Log.i(TAG, "510, NavBarMode = " + navBarMode);
 
         return navBarMode;
     }
@@ -513,7 +556,7 @@ public class WelcomeActivity
         super.onResume();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "516, onResume");
+            Log.i(TAG, "559, onResume");
 
         prefs = TransektCountApplication.getPrefs();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -525,6 +568,9 @@ public class WelcomeActivity
         dataLanguage = prefs.getString("pref_sel_data_lang", "");
         if (dataLanguage.isEmpty())
             dataLanguage = "--";
+
+        // Set storagePermGranted from self permission
+        storagePermGranted = isStoragePermGranted();
 
         headDataSource.open();
         sectionDataSource.open();
@@ -589,14 +635,6 @@ public class WelcomeActivity
     }
     // End of onResume()
 
-    // Check external storage self permission
-    private Boolean isStoragePermGranted() {
-        boolean storGranted;
-        // Check permission MANAGE_EXTERNAL_STORAGE for Android >= 11
-        storGranted = Environment.isExternalStorageManager();
-        return storGranted;
-    }
-
     // Check initial fine location permission
     private Boolean isFineLocationPermGranted() {
         return ContextCompat.checkSelfPermission(this,
@@ -615,7 +653,7 @@ public class WelcomeActivity
                 case 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "618, locationDispatcher 1");
+                        Log.i(TAG, "656, locationDispatcher 1");
 
                     if (!locServiceOn) {
                         locationService = new LocationService(getApplicationContext());
@@ -631,7 +669,7 @@ public class WelcomeActivity
                 case 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "634, location stop 2 by backpress");
+                        Log.i(TAG, "672, location stop 2 by backpress");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -640,7 +678,7 @@ public class WelcomeActivity
                 case 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "643, location stop 3 by onStop");
+                        Log.i(TAG, "681, location stop 3 by onStop");
 
                     if (locServiceOn) {
                         stopLocSrv();
@@ -693,96 +731,76 @@ public class WelcomeActivity
             startActivity(new Intent(this, SettingsActivity.class)
                     .addFlags(FLAG_ACTIVITY_CLEAR_TOP));
             return true;
+
         } else if (id == R.id.exportBasisMenu) {
             if (storagePermGranted) {
                 exportBasicDb(2); // 2: show message + long name
             } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportBasicDb(2); // 2: show message + long name
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
+                requestAllFilesAccessPermission(2);
             }
             return true;
+
         } else if (id == R.id.exportMenu) {
             if (storagePermGranted) {
                 exportDb();
             } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportDb();
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
+                requestAllFilesAccessPermission(2);
             }
             return true;
+
         } else if (id == R.id.exportXLSXMenu) {
             if (storagePermGranted) {
                 exportDb2XLSX();
             } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportDb2XLSX();
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
+                requestAllFilesAccessPermission(2);
             }
             return true;
+
         } else if (id == R.id.exportCSVMenu) {
             if (storagePermGranted) {
                 exportDb2CSV();
             } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportDb2CSV();
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
+                requestAllFilesAccessPermission(2);
             }
             return true;
+
         } else if (id == R.id.exportSpeciesListMenu) {
             if (storagePermGranted) {
                 exportSpeciesList();
             } else {
-                PermissionsStorageDialogFragment.newInstance().show(getSupportFragmentManager(),
-                        PermissionsStorageDialogFragment.class.getName());
-                if (storagePermGranted) {
-                    exportSpeciesList();
-                } else {
-                    mesg = getString(R.string.storage_not_possible);
-                    Toast.makeText(this,
-                            fromHtml("<font color='red'><b>" + mesg + "</b></font>"),
-                            Toast.LENGTH_LONG).show();
-                }
+                requestAllFilesAccessPermission(2);
             }
             return true;
+
         } else if (id == R.id.importBasisMenu) {
-            importBasisDb();
+            if (storagePermGranted) {
+                importBasisDb();
+            } else {
+                requestAllFilesAccessPermission(2);
+            }
             return true;
+
         } else if (id == R.id.importFileMenu) {
-            inFile = null;
-            importDBFile();
+            if (storagePermGranted) {
+                importDBFile();
+            } else {
+                requestAllFilesAccessPermission(2);
+            }
             return true;
+
+        } else if (id == R.id.importSpeciesListMenu) {
+            if (storagePermGranted) {
+                importSpeciesList();
+            } else {
+                requestAllFilesAccessPermission(2);
+            }
+            return true;
+
         } else if (id == R.id.importGPSMenu) {
-            if (!transectHasTrack)
+            if (!transectHasTrack && storagePermGranted)
                 importGPS();
+            else if (!storagePermGranted)
+                requestAllFilesAccessPermission(2);
             else {
                 mesg = getString(R.string.importTrackFail);
                 Toast.makeText(this, // orange
@@ -790,6 +808,7 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
             }
             return true;
+
         } else if (id == R.id.deleteGPXMenu) {
             if (transectHasTrack) {
                 deleteGPS();
@@ -804,32 +823,36 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
             }
             return true;
+
         } else if (id == R.id.resetDBMenu) {
             resetToBasisDb();
             return true;
-        } else if (id == R.id.importSpeciesListMenu) {
-            importSpeciesList();
-            return true;
+
         } else if (id == R.id.viewHelp) {
             intent = new Intent(WelcomeActivity.this, ShowTextDialog.class);
             intent.putExtra("dialog", "help");
             startActivity(intent);
             return true;
+
         } else if (id == R.id.changeLog) {
             cl.getFullLogDialog().show();
             return true;
+
         } else if (id == R.id.viewLicense) {
             intent = new Intent(WelcomeActivity.this, ShowTextDialog.class);
             intent.putExtra("dialog", "license");
             startActivity(intent);
             return true;
+
         } else if (id == R.id.editMeta) {
             startActivity(new Intent(this, EditMetaActivity.class)
                     .addFlags(FLAG_ACTIVITY_CLEAR_TOP));
             return true;
+
         } else if (id == R.id.selectSection) {
             selSect();
             return true;
+
         } else if (id == R.id.showResults) {
             mesg = getString(R.string.wait);
             Toast.makeText(this,
@@ -858,7 +881,7 @@ public class WelcomeActivity
         // Stop location service when denied in settings with alert sound first
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "861, location stop by setting");
+                Log.i(TAG, "884, location stop by setting");
             locationService.stopSoundA();
             stopLocSrv();
         }
@@ -866,7 +889,7 @@ public class WelcomeActivity
         // Stop sound service when denied in settings
         if (!buttonSoundPref && sndServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "869, button sound stop by setting");
+                Log.i(TAG, "892, button sound stop by setting");
             stopService(sndIntent);
             sndServiceOn = false;
         }
@@ -887,7 +910,7 @@ public class WelcomeActivity
         super.onPause();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "890, onPause");
+            Log.i(TAG, "913, onPause");
 
         headDataSource.close();
         sectionDataSource.close();
@@ -903,7 +926,7 @@ public class WelcomeActivity
         super.onStop();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "906, onStop");
+            Log.i(TAG, "929, onStop");
 
         baseLayout.invalidate();
 
@@ -922,7 +945,7 @@ public class WelcomeActivity
             locationDispatcher(3);
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "925, onStop, app not visible, LocationService running: "
+                Log.i(TAG, "948, onStop, app not visible, LocationService running: "
                         + locServiceOn);
 
             finishAndRemoveTask(); // In combination with System.exit(0) in onDestroy() closes app completely
@@ -934,7 +957,7 @@ public class WelcomeActivity
         super.onDestroy();
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "937 onDestroy");
+            Log.i(TAG, "968 onDestroy");
 
         System.exit(0);
     }
@@ -992,7 +1015,7 @@ public class WelcomeActivity
     // Import the basic DB
     private void importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "995, importBasicDBFile");
+            Log.i(TAG, "1018, importBasicDBFile");
 
         String fileExtension = ".db";
         String fileNameStart = "transektcount0";
@@ -1092,7 +1115,7 @@ public class WelcomeActivity
                                 String headLanguage = head.data_language; // Could be null in head table
                                 boolean hasDataLang = true;
 
-                                if (Objects.equals(headLanguage, "") || headLanguage == null)
+                                if (Objects.equals(headLanguage, ""))
                                     hasDataLang = false;
                                 else
                                     headLanguage = headLanguage.substring(0, 2);
@@ -1449,7 +1472,7 @@ public class WelcomeActivity
                                     fileIS.close();
                                 } catch (IOException e) {
                                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                        Log.e(TAG, "1452, decodeGPX, " +
+                                        Log.e(TAG, "1475, decodeGPX, " +
                                                 "Problem converting Stream to String: " + e);
                                 }
 
@@ -1474,7 +1497,7 @@ public class WelcomeActivity
                                 // Get number of sections and compare with number of tracks
                                 int numSect = sectionDataSource.getNumEntries();
                                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                    Log.i(TAG, "1477, decodeGPX, numSect: "
+                                    Log.i(TAG, "1500, decodeGPX, numSect: "
                                             + numSect + ", numTrk: " + numTrk);
 
                                 if (numSect != numTrk) {
@@ -1540,7 +1563,7 @@ public class WelcomeActivity
                 // add offset = length of "</trk>" = 6
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 6);
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1543, decodeGPX, gpxTrkString: " + gpxTrkString);
+                    Log.i(TAG, "1566, decodeGPX, gpxTrkString: " + gpxTrkString);
 
                 // set track name from section name
                 // record of transect section for trk
@@ -1558,7 +1581,7 @@ public class WelcomeActivity
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1561, decodeGPX, do trackpt");
+                            Log.i(TAG, "1584, decodeGPX, do trackpt");
                         int nextTp; // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5;
                         strEnd = gpxTrkString.indexOf("lat=") + 14;
@@ -1568,7 +1591,7 @@ public class WelcomeActivity
                         strEnd = gpxTrkString.indexOf("lon=") + 14;
                         String tlon = gpxTrkString.substring(strStart, strEnd);
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1571 decodeGPX, sectionNameGPS: "
+                            Log.i(TAG, "1594 decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon);
 
                         trackDataSource.createTrackTp(sectionNameGPS, tlat, tlon);
@@ -1583,13 +1606,13 @@ public class WelcomeActivity
                             gpxTrkString = gpxTrkString.substring(nextTp + 8);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1586, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1609, decodeGPX, trackpt " + trkPt);
                         } else {
                             nextTp = gpxTrkString.indexOf("/>");
                             gpxTrkString = gpxTrkString.substring(nextTp + 2);
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1592, decodeGPX, trackpt " + trkPt);
+                                Log.i(TAG, "1615, decodeGPX, trackpt " + trkPt);
                         }
                     } while (gpxTrkString.contains("<trkpt"));
                 }
@@ -1599,7 +1622,7 @@ public class WelcomeActivity
             } while (gpxString.contains("<trk>"));
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1602, decodeGPX, gpxString finished: " + gpxString);
+                Log.i(TAG, "1625, decodeGPX, gpxString finished: " + gpxString);
         }
 
         transectHasTrack = true;
@@ -1769,11 +1792,6 @@ public class WelcomeActivity
         date = meta.date; // has system date
         start_tm = meta.start_tm;
 
-        if (date == null) // 'date' field could be null in meta table
-            date = "";
-        if (start_tm == null) // 'start_tm' field could be null in meta table
-            start_tm = "";
-
         boolean engl = false;
         boolean hasDate = true;
         String dbDate, dbTime;
@@ -1890,13 +1908,6 @@ public class WelcomeActivity
         start_tm = meta.start_tm;
         end_tm = meta.end_tm;
         inspection_note = meta.note;
-
-        if (inspection_note == null)
-            inspection_note = "";
-        if (date == null)
-            date = "";
-        if (start_tm == null)
-            start_tm = "";
 
         boolean engl = false;
         boolean hasDate = true;
@@ -2685,7 +2696,7 @@ public class WelcomeActivity
                         Toast.LENGTH_LONG).show();
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2688, csv write external failed");
+                    Log.e(TAG, "2699, csv write external failed");
             }
             dbHelper.close();
         }
@@ -2723,13 +2734,6 @@ public class WelcomeActivity
         start_tm = meta.start_tm;
         end_tm = meta.end_tm;
         inspection_note = meta.note;
-
-        if (inspection_note == null)
-            inspection_note = "";
-        if (date == null)
-            date = "";
-        if (start_tm == null)
-            start_tm = "";
 
         boolean engl = false;
         boolean hasDate = true;
@@ -4513,5 +4517,17 @@ public class WelcomeActivity
         return r_ok;
     }
     // End of resetToBasisDb()
+
+    // Red warning message
+    private void showSnackbarRed(String str)
+    {
+        baseLayout = findViewById(R.id.baseLayout); // in WelcomeActivity
+        Snackbar sB = Snackbar.make(baseLayout, str, Snackbar.LENGTH_LONG);
+        TextView tv = sB.getView().findViewById(R.id.snackbar_text);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        tv.setTextColor(Color.RED);
+        tv.setGravity(Gravity.CENTER);
+        sB.show();
+    }
 
 }

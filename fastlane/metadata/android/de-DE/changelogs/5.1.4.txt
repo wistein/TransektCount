@@ -1,3 +1,5 @@
 Version 5.1.4 (08.07.2026)
 - Exportierte Ergebnisse für xlsx-Tabelle verbessert
 - Code-Verbesserungen
+- Überarbeitete Speicherberechtigungserteilung
+- Zusätzliche Sprachen für Fastlane-Beschreibungen

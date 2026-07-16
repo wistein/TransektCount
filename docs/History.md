@@ -2,9 +2,11 @@
 
 #### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
 
-#### Version 5.1.4 (2026-07-08)
+#### Version 5.1.4 (2026-07-16)
 - Exported results in xlsx spreadsheet improved
 - Code improvements
+- Revised storage permission handling
+- Additional languages for Fastlane descriptions
 
 #### Version 5.1.3 (2026-06-28)
 - Exported results in xlsx spreadsheet improved

@@ -1,0 +1,44 @@
+TransektCount supporta il conteggio specifico per specie delle farfalle per ogni sezione di transetto secondo il metodo dell’European Butterfly Monitoring Scheme. Aiuta gli addetti al conteggio lungo i transetti a registrare le farfalle diurne e notturne durante i sopralluoghi lungo i transetti.
+
+Novità della versione 5.1.4:
+- Miglioramento dell’esportazione dei risultati in formato xlsx
+- Miglioramenti al codice
+- Gestione rivista delle autorizzazioni di archiviazione
+- Lingue aggiuntive per le descrizioni di Fastlane
+
+Caratteristiche:
+- La raccolta dei dati si basa sul percorso lungo un transetto.
+- I database si riferiscono a un transetto e possono essere creati e personalizzati all’interno dell’app per quanto riguarda i metadati, le sezioni del transetto e le specie previste.
+- L’app contiene un elenco interno con numerose specie europee e, come punto di partenza per l’uso immediato, dispone di un database predefinito per una sezione di transetto con le specie più comuni presenti in Germania.
+- Esportazione dell’elenco delle specie attuale per la reimportazione tramite TransektCount o l’importazione tramite l’app complementare TourCount.
+- Contatori separati per aree di conteggio interne/esterne e, per ciascuna, separatamente per ♂-♀-indeterminato, ♂, ♀, crisalide, bruco o uovo.
+- Pagina dei risultati con una rappresentazione elaborata per il trasferimento nella maschera di inserimento dati di Tagfalter-Monitoring-Deutschland (web.app.ufz.de/tagfalter-monitoring/).
+- Il risultato può essere esportato sia in formato XLSX o CSV formattato, sia come file SQLite-DB (tra l’altro per il trasferimento su un PC e una lettura più comoda in un programma di foglio di calcolo o per un’ulteriore elaborazione).
+- La sezione “Aiuto” contiene un manuale d’uso dettagliato.
+- TransektCount è disponibile in tedesco, inglese, francese, italiano e spagnolo e fornisce i nomi locali delle specie in queste lingue.
+
+Funzioni:
+- Duplicazione ed eliminazione di sezioni di transetto.
+- Modifica degli elenchi delle sezioni di transetto (aggiunta ed eliminazione di specie, nonché modifica delle denominazioni).
+- Editor per i metadati in vista di un sopralluogo.
+- Pagina di conteggio per ogni sezione con elenco a scorrimento per la selezione delle specie.
+- Editor delle specie per note e conteggi.
+- Supporto GPS opzionale per segnalare il cambio della sezione corrente.
+- La pagina dei risultati mostra metadati, note, totali e risultati dei conteggi per specie e sezione di transetto.
+
+Requisiti:
+L’app richiede diritti di accesso
+- alla memoria per l’importazione e l’esportazione di dati di conteggio, elenchi di specie, risultati o dati di tracciamento,
+- per impedire l’entrata involontaria in modalità di sospensione
+- opzionalmente per la segnalazione tramite GPS della sezione di transetto corrente.
+
+Lo schermo dovrebbe avere una risoluzione di almeno 1024 x 1920 pixel.
+L'app può essere utilizzata a partire dalla versione 11 di Android o successive.
+
+La documentazione è disponibile all'indirizzo:
+https://github.com/wistein/TransektCount/tree/master/docs.
+
+TransektCount è una delle due app dedicate al monitoraggio delle farfalle europee.
+La seconda app, TourCount, consente il conteggio delle farfalle in base alla specie e con localizzazione GPS individuale durante le escursioni nella natura.
+
+Entrambe le app utilizzano la classificazione delle farfalle europee secondo Karsholt/Razowski e contengono quindi solo immagini di farfalle europee.

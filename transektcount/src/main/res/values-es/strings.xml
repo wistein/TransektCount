@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-06-27 -->
+     last edited 2026-07-16 -->
 
 <resources>
 
@@ -71,7 +71,7 @@
     <string name="specis">Especies</string>
     <string name="specsCommonLangMissing">¡Atención! El idioma de los datos locales no aparece en la lista anterior. Selecciónalo en «Configuración». De lo contrario, se utilizarán los nombres de las especies en alemán.</string>
     <string name="sumi">Suma (interna):</string>
-    <string name="sumSpec">Diferentes especies</string>
+    <string name="sumSpec">Varios tipos</string>
     <string name="sum_total">Total:</string>
     <string name="sume">Totales (externos):</string>
     <string name="time_sect">1. Recuento</string>
@@ -268,8 +268,11 @@
     <string name="dialog_background_loc_title">Autorización opcional solicitada.</string>
     <string name="dialog_fine_location_message">La identificación de los tramos de transectos requiere la mayor precisión posible.</string>
     <string name="dialog_fine_location_title">Permite que se registre tu ubicación exacta.</string>
-    <string name="dialog_storage_message">Por favor, concede a TransektCount permiso de almacenamiento para poder importar y exportar los datos.</string>
     <string name="grant_perm_later">La autorización opcional «Permitir siempre» se puede conceder más adelante en la configuración del sistema, si fuera necesario.</string>
-    <string name="storage_not_possible">Falta el permiso de almacenamiento necesario para TransektCount; no es posible guardar.</string>
+
+    <string name="dialog_storage_message1">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount\n\npara poder importar y exportar archivos de TransektCount.\n\nDe lo contrario, no se podrán importar ni exportar bases de datos, listas ni resultados.</string>
+    <string name="dialog_storage_message2">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount\n\npara poder importar y exportar archivos de TransektCount.\n\nDespués, vuelve a intentarlo.</string>
+    <string name="dialog_storage_title">Permitir el «Acceso a todos los archivos»\n(solo las específicas de TransektCount).</string>
+    <string name="storage_perm_denied">Falta el permiso de almacenamiento necesario para TransektCount; no es posible guardar.</string>
 
 </resources>

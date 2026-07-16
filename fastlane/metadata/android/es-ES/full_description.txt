@@ -1,0 +1,44 @@
+TransektCount permite el recuento específico por especies de mariposas en cada tramo de transecto, de acuerdo con el método del European Butterfly Monitoring Scheme. Ayuda a los recuentistas de transectos a registrar mariposas y polillas diurnas durante los recorridos por los transectos.
+
+Novedades de la versión 5.1.4:
+- Mejora de los resultados exportados a hojas de cálculo xlsx
+- Mejoras en el código
+- Gestión revisada de permisos de almacenamiento
+- Idiomas adicionales para las descripciones de Fastlane
+
+Características:
+- El registro de datos se basa en un recorrido por transectos.
+- Las bases de datos se refieren a un transecto y pueden crearse y personalizarse individualmente dentro de la aplicación en lo que respecta a metadatos, tramos del transecto y especies esperadas.
+- La aplicación incluye una lista interna con numerosas especies europeas y, como punto de partida para su uso inmediato, cuenta con una base de datos preparada para un tramo de transecto con las especies más comunes que cabe esperar en Alemania.
+- Exportación de la lista actual de especies para su reimportación mediante TransektCount o su importación a través de la aplicación complementaria TourCount.
+- Contadores independientes para las zonas de recuento internas y externas, y por separado para ♂-♀-indeterminado, ♂, ♀, crisálida, oruga u huevo.
+- Página de resultados con una presentación preparada para su transferencia al formulario de entrada de Tagfalter-Monitoring-Deutschland (web.app.ufz.de/tagfalter-monitoring/).
+- El resultado se puede exportar tanto en formato XLSX o CSV con formato como en un archivo de base de datos SQLite (entre otras cosas, para transferirlo a un ordenador y facilitar su lectura en un programa de hojas de cálculo o para su posterior procesamiento).
+- La sección de ayuda incluye un manual de usuario detallado.
+- TransektCount puede utilizarse en alemán, inglés, francés, italiano y español, y ofrece los nombres locales de las especies en estos idiomas.
+
+Funciones:
+- Duplicar y eliminar tramos de transectos.
+- Edición de las listas de tramos de transectos (añadir y eliminar especies, así como editar las denominaciones).
+- Editor de metadatos para preparar un recorrido.
+- Página de recuento por tramo con una lista desplegable para seleccionar especies.
+- Editor de especies para comentarios y recuentos.
+- Compatibilidad opcional con GPS para indicar el cambio de tramo actual.
+- La página de resultados muestra metadatos, comentarios, totales y resultados de recuento por especie y tramo.
+
+Requisitos:
+La aplicación necesita permisos de acceso
+- para acceder al almacenamiento con el fin de importar y exportar datos de recuento, listas de especies, resultados o datos de seguimiento,
+- para evitar que el dispositivo entre en modo de suspensión de forma involuntaria
+- opcionalmente, para la señalización controlada por GPS del tramo actual del transecto.
+
+La pantalla debe tener una resolución mínima de 1024 x 1920 píxeles.
+La aplicación se puede utilizar a partir de la versión 11 de Android o posterior.
+
+La documentación está disponible en:
+https://github.com/wistein/TransektCount/tree/master/docs.
+
+TransektCount es una de las dos aplicaciones destinadas al seguimiento de las mariposas europeas.
+La segunda aplicación, TourCount, permite realizar recuentos de mariposas específicos por especie y localizados individualmente por GPS durante las salidas a la naturaleza.
+
+Ambas aplicaciones utilizan la clasificación de las mariposas europeas según Karsholt/Razowski y, por lo tanto, solo incluyen imágenes de mariposas europeas.

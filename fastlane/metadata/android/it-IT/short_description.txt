@@ -1,0 +1,1 @@
+Un'app per il monitoraggio delle farfalle destinata a chi effettua conteggi lungo transetti.

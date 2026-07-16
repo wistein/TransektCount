@@ -1,0 +1,44 @@
+TransektCount permet de compter les papillons par espèce et par section de transect, conformément à la méthode du Programme européen de surveillance des papillons (European Butterfly Monitoring Scheme). Il aide les observateurs à recenser les papillons diurnes et les papillons de nuit actifs le jour lors de leurs relevés sur les transects.
+
+Nouveautés de la version 5.1.4 :
+- Amélioration de l'exportation des résultats vers un fichier xlsx
+- Améliorations du code
+- Gestion révisée des autorisations de mémoire
+- Ajout de langues supplémentaires pour les descriptions de Fastlane
+
+Caractéristiques :
+- La collecte des données s'appuie sur un relevé par transect.
+- Les bases de données se rapportent à un transect et peuvent être créées et personnalisées individuellement au sein de l'application en ce qui concerne les métadonnées, les segments de transect et les espèces attendues.
+- L'application contient une liste interne répertoriant de nombreuses espèces européennes et propose, comme point de départ prêt à l'emploi, une base de données préconfigurée pour une section de transect comprenant les espèces les plus courantes en Allemagne.
+- Exportation de la liste actuelle des espèces pour une réimportation via TransektCount ou une importation via l'application complémentaire TourCount.
+- Compteurs distincts pour les zones de comptage internes/externes et, pour chacune d’entre elles, séparément pour ♂-♀-indéterminé, ♂, ♀, chrysalide, chenille ou œuf.
+- Page de résultats avec une présentation structurée pour le transfert vers le formulaire de saisie de Tagfalter-Monitoring-Deutschland (web.app.ufz.de/tagfalter-monitoring/).
+- Les résultats peuvent être exportés au format XLSX ou CSV formaté, ainsi que sous forme de fichier SQLite DB (notamment pour les transférer sur un PC et faciliter leur lecture dans un tableur ou pour un traitement ultérieur).
+- La rubrique « Aide » contient un guide d’utilisation détaillé.
+- TransektCount est disponible en allemand, anglais, français, italien et espagnol et propose les noms d'espèces locaux dans ces langues.
+
+Fonctionnalités :
+- Duplication et suppression de segments de transect.
+- Modification des listes de segments de transect (ajout et suppression d'espèces, ainsi que modification des noms).
+- Éditeur de métadonnées pour la préparation d'un relevé.
+- Page de comptage par segment avec liste déroulante pour la sélection des espèces.
+- Éditeur d'espèces pour les remarques et les résultats de comptage.
+- Prise en charge GPS en option pour signaler le changement de section en cours.
+- La page des résultats affiche les métadonnées, les remarques, les totaux et les résultats de comptage par espèce et par section de transect.
+
+Prérequis :
+L'application nécessite des droits d'accès
+- pour accéder à la mémoire afin d'importer et d'exporter des données de comptage, des listes d'espèces, des résultats ou des données de suivi,
+- pour empêcher la mise en veille involontaire
+- en option pour la signalisation, via le GPS, de la section de transect actuelle.
+
+L'écran doit avoir une résolution d'au moins 1 024 x 1 920 pixels.
+L'application est compatible avec Android 11 ou une version plus récente.
+
+La documentation est disponible à l'adresse suivante :
+https://github.com/wistein/TransektCount/tree/master/docs.
+
+TransektCount est l'une des deux applications destinées au suivi des papillons européens.
+La deuxième application, TourCount, permet de recenser les papillons par espèce et de les localiser individuellement par GPS lors de sorties dans la nature.
+
+Les deux applications utilisent la classification des papillons européens selon Karsholt/Razowski et ne contiennent donc que des illustrations de papillons européens.

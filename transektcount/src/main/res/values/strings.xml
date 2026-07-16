@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml English strings,
-     last edited 2026-06-27 -->
+     last edited 2026-07-16 -->
 
 <resources>
 
@@ -85,7 +85,7 @@
     <string name="specis">Species</string>
     <string name="specsCommonLangMissing">Attention! The local data language is not defined in the old list. Please, select it in "Settings". Otherwise, German species names will be used.</string>
     <string name="sumi">Totals (internal):</string>
-    <string name="sumSpec">Different Species</string>
+    <string name="sumSpec">Various Types</string>
     <string name="sum_total">Totals (all):</string>
     <string name="sume">Totals (external):</string>
     <string name="time_sect">1. Count</string>
@@ -282,8 +282,11 @@
     <string name="dialog_background_loc_title">Optional permission wanted</string>
     <string name="dialog_fine_location_message">Identifying transect sections needs maximum precision.</string>
     <string name="dialog_fine_location_title">Allow to use precise location.</string>
-    <string name="dialog_storage_message">Please grant storage permission for TransektCount to be able to import and export data.</string>
     <string name="grant_perm_later">You may grant the optional permission \'Allow all the time\' in system settings later.</string>
-    <string name="storage_not_possible">Required storage permission for TransektCount is missing, storage is not possible.</string>
+
+    <string name="dialog_storage_message1">Please grant the "All files access" permission for TransektCount\n\nin order to import or export TransektCount files.\n\nOtherwise, neither databases, lists, nor results can be imported or exported.</string>
+    <string name="dialog_storage_message2">Please grant the “All files access” permission for TransektCount\n\nso that TransektCount files can be imported and exported.\n\nThen try again.</string>
+    <string name="dialog_storage_title">Allow to use "All files access"\n(only TransektCount-specific files).</string>
+    <string name="storage_perm_denied">Required storage permission for TransektCount is missing, file import and export is not possible.</string>
 
 </resources>

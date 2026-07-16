@@ -3,6 +3,8 @@ TransectCount supports the species-specific counting of butterflies per transect
 New in Version 5.1.4:
 - Exported results in xlsx spreadsheet improved
 - Code improvements
+- Revised storage permission handling
+- Additional languages for Fastlane descriptions
 
 Features:
 - Data collection is based on a transect inspection.

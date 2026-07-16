@@ -3,6 +3,8 @@ TransektCount unterstützt das Spezies-spezifische Zählen von Schmetterlingen p
 Neu in Version 5.1.4:
 - Exportierte Ergebnisse für xlsx-Tabelle verbessert
 - Code-Verbesserungen
+- Überarbeitete Speicherberechtigungserteilung
+- Zusätzliche Sprachen für Fastlane-Beschreibungen
 
 Eigenschaften:
 - Die Datenerfassung orientiert sich an einer Transektbegehung.

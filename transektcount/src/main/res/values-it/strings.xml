@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml German strings,
-     last edited 2026-06-27 -->
+     last edited 2026-07-16 -->
 
 <resources>
 
@@ -71,7 +71,7 @@
     <string name="sortModeSN">Ordinati per sezione + nome</string>
     <string name="specis">Specie</string>
     <string name="sumi">Totali (interni):</string>
-    <string name="sumSpec">Varie specie</string>
+    <string name="sumSpec">Diversi tipi</string>
     <string name="sum_total">Totale (totale):</string>
     <string name="sume">Totali (externi):</string>
     <string name="time_sect">1° conta</string>
@@ -268,8 +268,11 @@
     <string name="dialog_background_loc_title">Autorizzazione facoltativa richiesta</string>
     <string name="dialog_fine_location_message">Il riconoscimento dei tratti di transetto richiede la massima precisione possibile.</string>
     <string name="dialog_fine_location_title">Consenti la localizzazione precisa.</string>
-    <string name="dialog_storage_message">Concedi l\'autorizzazione di archiviazione a TransektCount per l\'importazione e l\'esportazione dei dati.</string>
     <string name="grant_perm_later">L\'autorizzazione opzionale \“Consenti sempre\” può essere concessa in un secondo momento nelle impostazioni di sistema.</string>
-    <string name="storage_not_possible">Manca l\'autorizzazione necessaria per il salvataggio, non è possibile salvare.</string>
+
+    <string name="dialog_storage_message1">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount\n\nal fine di importare ed esportare i file di TransektCount.\n\nIn caso contrario, non sarà possibile importare né esportare né database, né elenchi, né risultati.</string>
+    <string name="dialog_storage_message2">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount\n\nal fine di importare ed esportare i file di TransektCount.\n\nProva poi di nuovo.</string>
+    <string name="dialog_storage_title">Autorizza la \'Accesso a tutti i file\'\n(solo quelle specifiche di TransektCount).</string>
+    <string name="storage_perm_denied">Manca l\'autorizzazione di salvataggio necessaria per TransektCount, non è possibile salvare.</string>
 
 </resources>

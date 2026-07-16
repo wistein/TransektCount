@@ -1,63 +1,89 @@
-package com.wmstein.transektcount;
+package com.wmstein.transektcount
 
-import android.app.Activity;
-import android.app.Application;
-import android.os.Bundle;
-import android.util.Log;
+import android.app.Activity
+import android.app.Application.ActivityLifecycleCallbacks
+import android.os.Bundle
+import android.util.Log
 
-import androidx.annotation.NonNull;
-
-/***************************************************************************************
+/*********************************************************************************************
  * TCLifecycleHandler controls the state of all activities and check if your application
  * is in foreground or background.
- * Needed to stop location service when app is finished.
- * <p>
- * Based on <a href="https://stackoverflow.com/questions/3667022/">...</a>
- *   checking-if-an-android-application-is-running-in-the-background/13809991#13809991
- * <p>
+ * Needed to stop location service when app is finished and
+ * takes care of the special activity handling of the permit dialog of MANAGE_EXTERNAL_STORAGE.
+ * 
+ * Based on [...](https://stackoverflow.com/questions/3667022/)
+ * checking-if-an-android-application-is-running-in-the-background/13809991#13809991
+ * 
  * Adopted for TransektCount by wmstein on 2025-08-14,
- * Last edited on 2026-05-14
+ * converted to Kotlin on 2026-07-16,
+ * Last edited on 2026-07-16
  */
-public class TCLifecycleHandler implements Application.ActivityLifecycleCallbacks {
-    // Increment/decrement the variables 'started' and 'stopped' by all activities
-    private static int started = 0;
-    private static int stopped = 0;
-
-    @Override
-    public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+class TCLifecycleHandler : ActivityLifecycleCallbacks {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) Log.i(
+            "TCLifecycleHandler ","24, Activity created: $activity $started"
+        )
     }
 
-    @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {
+    override fun onActivityDestroyed(activity: Activity) {
     }
 
-    @Override
-    public void onActivityResumed(@NonNull Activity activity) {
+    override fun onActivityResumed(activity: Activity) {
+        // Reduce activity counts for startActivity(stoIntent) from requestAllFilesAccessPermission
+        // in WelcomeActivity
+        val activ: String = activity.toString()
+        var isWelcomeActivity = false
+        if (activ.contains("WelcomeActivity"))
+            isWelcomeActivity = true
+
+        if(TransektCountApplication.isStorPermReq && isWelcomeActivity) {
+            stopped++
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) Log.i(
+                "TCLifecycleHandler ","42, Activity resumed, stopped: $activ $stopped"
+            )
+            TransektCountApplication.isStorPermReq = false
+        }
     }
 
-    @Override
-    public void onActivityPaused(@NonNull Activity activity) {
+    override fun onActivityPaused(activity: Activity) {
+        // Increase activity counts for startActivity(stoIntent) from requestAllFilesAccessPermission
+        // in WelcomeActivity
+        val activ: String = activity.toString()
+        var isWelcomeActivity = false
+        if (activ.contains("WelcomeActivity"))
+            isWelcomeActivity = true
+
+        if(TransektCountApplication.isStorPermReq && isWelcomeActivity) {
+            started++
+            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) Log.i(
+                "TCLifecycleHandler ","59, Activity paused, started: $activ $started"
+            )
+        }
     }
 
-    @Override
-    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
     }
 
-    @Override
-    public void onActivityStarted(@NonNull Activity activity) {
-        started++;
+    override fun onActivityStarted(activity: Activity) {
+        started++
     }
 
-    @Override
-    public void onActivityStopped(@NonNull Activity activity) {
-        stopped++;
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i("TCLifecycleHandler", " Application is visible: " + (started > stopped));
+    override fun onActivityStopped(activity: Activity) {
+        stopped++
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
+            Log.i("TCLifecycleHandler ","74, Activity stopped: $activity $stopped")
+            Log.i("TCLifecycleHandler ","75, Application is visible: " + (started > stopped))
+        }
     }
 
-    // Static function to check if the application is in foreground or background
-    public static boolean isApplicationVisible() {
-        return started > stopped;
-    }
+    companion object {
+        // Increment/decrement the variables 'started' and 'stopped' by all activities
+        private var started = 0
+        private var stopped = 0
 
+        @JvmStatic
+        val isApplicationVisible: Boolean
+            // Static function to check if the application is in foreground or background
+            get() = started > stopped
+    }
 }

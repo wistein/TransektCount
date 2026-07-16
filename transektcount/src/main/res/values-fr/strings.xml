@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- strings.xml French strings,
-     last edited 2026-06-27 -->
+     last edited 2026-07-16 -->
 
 <resources>
 
@@ -71,7 +71,7 @@
     <string name="specis">Espèces</string>
     <string name="specsCommonLangMissing">Attention ! La langue locale des données n\'est pas définie dans l\'ancienne liste. Veuillez la sélectionner dans « Paramètres ». Sinon, les noms d\'espèces en allemand seront utilisés.</string>
     <string name="sumi">Somme (interne):</string>
-    <string name="sumSpec">Différentes espèces</string>
+    <string name="sumSpec">Différents types</string>
     <string name="sum_total">Somme (total) :</string>
     <string name="sume">Somme (externe):</string>
     <string name="time_sect">1er compte</string>
@@ -268,8 +268,11 @@
     <string name="dialog_background_loc_title">Autorisation facultative souhaitée</string>
     <string name="dialog_fine_location_message">La détection des sections de transect nécessite la plus grande précision possible.</string>
     <string name="dialog_fine_location_title">Autoriser la localisation précise.</string>
-    <string name="dialog_storage_message">Veuillez accorder l\'autorisation de stockage à TransektCount afin de pouvoir importer et exporter les données.</string>
     <string name="grant_perm_later">L\'autorisation facultative « Toujours autoriser » peut être accordée ultérieurement dans les paramètres système, si nécessaire.</string>
-    <string name="storage_not_possible">L\'autorisation nécessaire pour enregistrer manque, l\'enregistrement n\'est pas possible.</string>
+
+    <string name="dialog_storage_message1">Veuillez attribuer l\'autorisation « Accès à tous les fichiers » à TransektCount\n\nafin de permettre l\'importation et l\'exportation des fichiers TransektCount.\n\nSinon, ni les bases de données, ni les listes, ni les résultats ne pourront être importés ou exportés.</string>
+    <string name="dialog_storage_message2">Veuillez accorder l\'autorisation « Accès à tous les fichiers » à TransektCount\n\nafin de pouvoir importer et exporter des fichiers TransektCount.\n\nRéessayez ensuite.</string>
+    <string name="dialog_storage_title">Autoriser le \'Accès à tous les fichiers\'\n(seulement ceux spécifiques à TransektCount).</string>
+    <string name="storage_perm_denied">L\'autorisation de stockage nécessaire pour TransektCount fait défaut, l\'enregistrement n\'est pas possible.</string>
 
 </resources>

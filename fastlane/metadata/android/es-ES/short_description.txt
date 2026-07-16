@@ -1,0 +1,1 @@
+Una aplicación de seguimiento de mariposas para quienes realizan recuentos en transectos.

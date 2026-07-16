@@ -21,7 +21,7 @@ import androidx.preference.PreferenceManager
  * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
  * Adopted for TransektCount by wmstein on 2016-02-12,
  * converted to Kotlin on 2024-12-09,
- * last edited on 2026-05-26
+ * last edited on 2026-07-16
  */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
@@ -169,6 +169,10 @@ class TransektCountApplication : Application() {
 
         @JvmField
         var isSelectSectionActivityResumed = false // true for SelectSectionActivity is shown
+
+        // Reduces Activity count in TCLifecycleHandler
+        @JvmField
+        var isStorPermReq = false // true for showing a 'missing email' hint message once
     }
 
 }
