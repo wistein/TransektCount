@@ -27,7 +27,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * Bug fixed (height of single character), cleaned of unused code and context comments changed
  * last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edit on 2026-05-19
+ * last edit on 2026-07-21
  */
 @SuppressLint("NewApi")
 class AutoFitText(context: Context, attrs: AttributeSet?) :
@@ -119,20 +119,12 @@ class AutoFitText(context: Context, attrs: AttributeSet?) :
     }
 
     /**
-     * This method receives a call upon a change in text content of the TextView. Unfortunately it
-     * is also called - among others - upon text size change which means that we MUST NEVER CALL
-     * []"">&quot;#refitText&quot;(String) from this method! Doing so would result in an endless loop that
-     * would ultimately result in a stack overflow and termination of the application
+     * This method receives a call upon a change in text content of the TextView.
      *
-     * So for the time being this method does absolutely nothing. If you want to notify the view of
-     * a changed text call [.setText]
+     * Here, this method does nothing.
+     * If you want to notify the view of a changed text call [.setText]
      */
-    override fun onTextChanged(
-        text: CharSequence,
-        start: Int,
-        lengthBefore: Int,
-        lengthAfter: Int
-    ) {
+    override fun onTextChanged(text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int) {
         // Super implementation is also intentionally empty so for now we do absolutely nothing here
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
     }

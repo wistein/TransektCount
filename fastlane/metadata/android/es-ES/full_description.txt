@@ -1,10 +1,9 @@
 TransektCount permite el recuento específico por especies de mariposas en cada tramo de transecto, de acuerdo con el método del European Butterfly Monitoring Scheme. Ayuda a los recuentistas de transectos a registrar mariposas y polillas diurnas durante los recorridos por los transectos.
 
-Novedades de la versión 5.1.4:
-- Mejora de los resultados exportados a hojas de cálculo xlsx
+Novedades de la versión 5.1.5:
 - Mejoras en el código
-- Gestión revisada de permisos de almacenamiento
-- Idiomas adicionales para las descripciones de Fastlane
+- Se han convertido al Kotlin los módulos de Java restantes
+- Se ha modificado la composición de los nombres de los archivos exportados
 
 Características:
 - El registro de datos se basa en un recorrido por transectos.

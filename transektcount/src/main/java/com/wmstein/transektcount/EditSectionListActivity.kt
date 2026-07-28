@@ -45,7 +45,7 @@ import java.util.Locale
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-06-08
+ * last edited on 2026-07-21
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -205,6 +205,9 @@ class EditSectionListActivity : AppCompatActivity() {
     // Get 2 or more characters of species to select by search button
     // Parameter view is necessary for function call
     fun getEditSearchChars(view: View) {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "209, getEditSearchChars, View: $view")
+
         // Read EditText searchEdit from widget_edit_hint.xml
         val searchEdit: EditText = findViewById(R.id.searchE)
         searchEdit.findFocus()

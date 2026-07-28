@@ -36,7 +36,7 @@ import java.util.Locale
  *
  * Based on EditSectionListActivity.kt.
  * Created on 2024-07-27 by wmstein,
- * last edited on 2025-06-08
+ * last edited on 2025-07-21.
  */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
@@ -169,6 +169,9 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Get 2 or more characters of species to select by search button
     // Parameter view is necessary for function call
     fun getDelSearchChars(view: View) {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "173, getDelSearchChars, View: $view")
+
         // Read EditText searchDel from widget_del_hint.xml
         val searchDel: EditText = findViewById(R.id.searchD)
         searchDel.findFocus()
@@ -207,7 +210,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             for (count in countsCodesSortList) {
                 val checkedName = count.name.uppercase(Locale.getDefault()).contains(searchChars)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "210, checkedName: $checkedName")
+                    Log.i(TAG, "213, checkedName: $checkedName")
                 if (checkedName) {
                     val dsw = DeleteSpeciesWidget(this, null)
                     dsw.setSpecName(count.name)
@@ -316,7 +319,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "319 onPause")
+            Log.i(TAG, "322 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -335,7 +338,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "338, onStop")
+            Log.i(TAG, "341, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -345,7 +348,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "348, onDestroy")
+            Log.i(TAG, "351, onDestroy")
     }
 
     companion object {

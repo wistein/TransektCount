@@ -1,0 +1,4 @@
+Version 5.1.5 (28.07.2026)
+- Code-Verbesserungen
+- Restliche Java-Module nach Kotlin konvertiert
+- Benennung der exportierten Dateien geändert

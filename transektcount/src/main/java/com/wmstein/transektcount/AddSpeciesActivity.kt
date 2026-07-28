@@ -46,7 +46,7 @@ import java.util.Locale
  * Created for TransektCount by wmstein on 2019-04-12,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-06-28,
- * last edited on 2026-06-08
+ * last edited on 2026-07-21
  */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
@@ -226,6 +226,9 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Get 2 or more characters of species to select by search button
     // Parameter view is necessary for function call
     fun getAddSearchChars(view: View) {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "230, getAddSearchChars, View: $view")
+
         // Read EditText searchAdd from widget_add_hint.xml
         val searchAdd: EditText = findViewById(R.id.searchA)
         searchAdd.findFocus()
@@ -300,7 +303,7 @@ class AddSpeciesActivity : AppCompatActivity() {
             codesReducedArrayList = arrayListOf()
 
             // Check NamesCompleteArrayList for searchChars
-            for (i in 0 until namesCompleteArrayList!!.size) {
+            for (i in namesCompleteArrayList!!.indices) {
                 if (namesCompleteArrayList!![i].uppercase(Locale.getDefault()).contains(searchChars)) {
                     specName = namesCompleteArrayList!![i]
                     specNameG = namesLCompleteArrayList!![i]

@@ -13,9 +13,9 @@ import com.wmstein.transektcount.TransektCountApplication.Companion.isSelectSect
  * Used to restart SelectSectionActivity to show the name of a GPS-recognized section in blue
  *
  * Created for TransektCount on 2026-01-08,
- * last edited on 2026-05-26.
+ * last edited on 2026-07-21.
  */
-open class ActivityLifecycleObserver() : DefaultLifecycleObserver {
+open class ActivityLifecycleObserver : DefaultLifecycleObserver {
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
 

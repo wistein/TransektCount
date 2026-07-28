@@ -1,6 +1,11 @@
 # History
 
-#### TransektCount Copyright (C) 2016-2026, Wilhelm Stein
+#### TransektCount Copyright © 2016-2026, Wilhelm Stein
+
+#### Version 5.1.5 (2026-07-28)
+- Code improvements
+- Remaining Java modules converted to Kotlin
+- Name composition for exported files changed
 
 #### Version 5.1.4 (2026-07-16)
 - Exported results in xlsx spreadsheet improved

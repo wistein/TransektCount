@@ -38,7 +38,7 @@ import com.wmstein.transektcount.widgets.CountOptionsLhWidget
  * Adapted and changed by wmstein since 2016-02-18,
  * last edited in Java on 2023-05-08,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-26
+ * last edited on 2026-07-21.
  */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
@@ -203,10 +203,10 @@ class CountOptionsActivity : AppCompatActivity() {
             sle = optWidget!!.parameterValuele
             see = optWidget!!.parameterValueee
         }
-        if (sf1i + sf2i + sf3i + spi + sli + sei + sf1e + sf2e + sf3e + spe + sle + see > 0)
-            countsInit = true // has initial counts
+        countsInit = if (sf1i + sf2i + sf3i + spi + sli + sei + sf1e + sf2e + sf3e + spe + sle + see > 0)
+            true // has initial counts
         else
-            countsInit = false // no count so far
+            false // no count so far
 
         if (lhandPref) {
             optWidgetLh!!.setInstructionsf1i(
