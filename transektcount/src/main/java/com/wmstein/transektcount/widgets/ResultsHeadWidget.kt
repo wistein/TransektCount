@@ -16,7 +16,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 03.04.2016
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-26
+ * Last edited on 2026-08-03
  */
 class ResultsHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetLno // used for transect_no title
@@ -30,7 +30,9 @@ class ResultsHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_list_head, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_list_head, this, true)
+
         widgetLno = findViewById(R.id.widgetLNo)
         widgetLno1 = findViewById(R.id.widgetLNo1)
         widgetLname = findViewById(R.id.widgetLName)

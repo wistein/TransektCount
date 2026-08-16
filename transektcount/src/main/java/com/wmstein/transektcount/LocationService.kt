@@ -52,7 +52,7 @@ import kotlin.math.sqrt
  *
  * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
  * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-05-26
+ * last edited on 2026-08-01
  */
 class LocationService : Service, LocationListener {
     private var mContext: Context? = null
@@ -259,7 +259,7 @@ class LocationService : Service, LocationListener {
         // If smallest distance still > track width, then location is outside a section
         //   -> keep last known section marked
         if (distMin > maxDeviation) {
-            if (!sectionNameCurrent.isEmpty())
+            if (sectionNameCurrent.isNotEmpty())
                 tSecNam = ""
             else if (sectionNameCurrent.isEmpty())
                 tSecNam = sectionNameCurrent
@@ -380,22 +380,22 @@ class LocationService : Service, LocationListener {
         super.onDestroy()
     }
 
+    fun isNotBlank(cs: CharSequence): Boolean {
+        return !isBlank(cs)
+    }
+
+    fun isBlank(cs: CharSequence): Boolean {
+        val strLen = cs.length
+        if (strLen == 0) return true
+
+        for (i in 0..strLen) {
+            if (!Character.isWhitespace(cs[i])) return false
+        }
+        return true
+    }
+
     companion object {
         private const val TAG = "LocationSrv"
-
-        fun isNotBlank(cs: CharSequence): Boolean {
-            return !isBlank(cs)
-        }
-
-        fun isBlank(cs: CharSequence): Boolean {
-            val strLen = cs.length
-            if (strLen == 0) return true
-
-            for (i in 0..strLen) {
-                if (!Character.isWhitespace(cs[i])) return false
-            }
-            return true
-        }
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2020-10-18,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-31
+ * Last edited on 2026-08-03
  */
 class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
     Serializable {
@@ -41,7 +41,9 @@ class EditSectionListWidget(context: Context, attrs: AttributeSet?) : LinearLayo
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_count, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_edit_count, this, true)
+
         countName = findViewById(R.id.countName)
         countNameG = findViewById(R.id.countNameG)
         countCode = findViewById(R.id.countCode)

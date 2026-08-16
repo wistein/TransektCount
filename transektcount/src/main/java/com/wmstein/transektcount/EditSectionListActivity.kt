@@ -45,7 +45,7 @@ import java.util.Locale
  * Adopted, modified and enhanced by wmstein since 2016-02-16,
  * last edited in Java on 2023-07-07,
  * converted to Kotlin on 2023-07-17,
- * last edited on 2026-07-21
+ * last edited on 2026-08-02
  */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
@@ -303,7 +303,7 @@ class EditSectionListActivity : AppCompatActivity() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, "301, newSectName: $newSectName")
 
-        if (isNotEmpty(newSectName)) {
+        if ((newSectName.isNotEmpty())) {
             // Check for duplicate section name
             sectionBackup = section
             if (compSectionNames(newSectName)) {
@@ -384,7 +384,7 @@ class EditSectionListActivity : AppCompatActivity() {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                         Log.i(TAG, "381, id: $cid, name: $cname")
                     ccode = esaw.getCountCode()
-                    if (isNotEmpty(cname) && isNotEmpty(ccode)) {
+                    if ((cname.isNotEmpty()) && (ccode.isNotEmpty())) {
                         cnameg = esaw.getCountNameG()
                         countDataSource!!.updateEditedSpecies(
                             si,
@@ -568,38 +568,6 @@ class EditSectionListActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "EditSectionListAct"
-
-        /**
-         * Checks if a CharSequence is empty ("") or null.
-         *
-         * isEmpty(null)      = true
-         * isEmpty("")        = true
-         * isEmpty(" ")       = false
-         * isEmpty("bob")     = false
-         * isEmpty("  bob  ") = false
-         *
-         * @param cs the CharSequence to check, may be null
-         * @return `true` if the CharSequence is empty or null
-         */
-        private fun isEmpty(cs: CharSequence?): Boolean {
-            return cs.isNullOrEmpty()
-        }
-
-        /**
-         * Checks if a CharSequence is not empty ("") and not null.
-         *
-         * isNotEmpty(null)      = false
-         * isNotEmpty("")        = false
-         * isNotEmpty(" ")       = true
-         * isNotEmpty("bob")     = true
-         * isNotEmpty("  bob  ") = true
-         *
-         * @param cs the CharSequence to check, may be null
-         * @return `true` if the CharSequence is not empty and not null
-         */
-        fun isNotEmpty(cs: CharSequence?): Boolean {
-            return !isEmpty(cs)
-        }
     }
 
 }

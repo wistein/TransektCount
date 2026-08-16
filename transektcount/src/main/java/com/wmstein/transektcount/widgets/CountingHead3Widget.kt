@@ -17,7 +17,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-10-06,
- * last edited on 2026-05-23
+ * last edited on 2026-08-03
  */
 class CountingHead3Widget(
     context: Context,
@@ -27,7 +27,9 @@ class CountingHead3Widget(
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_head3, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_counting_head3, this, true)
+
         countHead3 = findViewById(R.id.countHead3)
     }
 

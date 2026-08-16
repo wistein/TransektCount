@@ -18,7 +18,7 @@ import java.util.Objects
  * Adopted for TransektCount by wmstein on 18.02.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-26
+ * Last edited on 2026-08-03
  */
 class EditSectionListTitleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetTitle: TextView
@@ -26,7 +26,9 @@ class EditSectionListTitleWidget(context: Context, attrs: AttributeSet?) : Linea
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_edit_title, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_edit_title, this, true)
+
         widgetTitle = findViewById(R.id.widgeteditTitle)
         sectName = findViewById(R.id.editsectionName)
     }

@@ -12,13 +12,13 @@ import com.wmstein.transektcount.R
 import java.util.Objects
 
 /************************************************************************
- * Edit options for species,
+ * Edit count options for species,
  * used by CountOptionsActivity.kt in conjunction with widget_options.xml
  *
  * Created by wmstein on 2016-02-16,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-26
+ * last edited on 2026-08-12
  */
 class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val instructionsf1i: TextView
@@ -49,7 +49,8 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_options, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_options, this, true)
 
         //For transect internal counters
         instructionsf1i = findViewById(R.id.help_textf1i)
@@ -134,7 +135,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef1i: Int
         get() {
             val text = numberf1i.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -152,7 +153,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef2i: Int
         get() {
             val text = numberf2i.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -170,7 +171,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef3i: Int
         get() {
             val text = numberf3i.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -188,7 +189,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuepi: Int
         get() {
             val text = numberpi.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -206,7 +207,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValueli: Int
         get() {
             val text = numberli.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -224,7 +225,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValueei: Int
         get() {
             val text = numberei.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -243,7 +244,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef1e: Int
         get() {
             val text = numberf1e.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -261,7 +262,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef2e: Int
         get() {
             val text = numberf2e.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -279,7 +280,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuef3e: Int
         get() {
             val text = numberf3e.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -297,7 +298,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuepe: Int
         get() {
             val text = numberpe.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -315,7 +316,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValuele: Int
         get() {
             val text = numberle.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -333,7 +334,7 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
     var parameterValueee: Int
         get() {
             val text = numberee.text.toString()
-            return if (isEmpty(text)) {
+            return if (text.isEmpty()) {
                 0
             } else {
                 try {
@@ -348,24 +349,4 @@ class CountOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
                 numberee.setText(i.toString())
         }
 
-    companion object {
-        /**
-         * Following function is taken from the Apache commons-lang3-3.4 library
-         * licensed under Apache License Version 2.0, January 2004
-         *
-         * Checks if a CharSequence is empty ("") or null.
-         *
-         * isEmpty(null)      = true
-         * isEmpty("")        = true
-         * isEmpty(" ")       = false
-         * isEmpty("bob")     = false
-         * isEmpty("  bob  ") = false
-         *
-         * @param cs the CharSequence to check, may be null
-         * @return `true` if the CharSequence is empty or null
-         */
-        fun isEmpty(cs: CharSequence?): Boolean {
-            return cs.isNullOrEmpty()
-        }
-    }
 }

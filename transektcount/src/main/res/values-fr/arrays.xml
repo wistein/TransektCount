@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- arrays.xml French strings,
-     last edited 2026-02-06 -->
+     last edited 2026-08-12 -->
 
 <resources>
 
@@ -49,6 +49,18 @@
         <item>5 m</item>
         <item>7,5 m</item>
         <item>10 m</item>
+    </string-array>
+
+    <string-array name="notes_options">
+        <item>Photo</item>
+        <item>Survol</item>
+        <item>Nouvelle espèce</item>
+        <item>1. de la saison</item>
+        <item>Sur la fleur de </item>
+        <item>Plante fourragère: </item>
+        <item>Exemplaire mort</item>
+        <item>Incertain</item>
+
     </string-array>
 
 </resources>

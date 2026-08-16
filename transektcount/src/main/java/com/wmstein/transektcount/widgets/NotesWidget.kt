@@ -21,14 +21,16 @@ import java.util.Objects
  * Uses widget_notes.xml.
  * Last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-26
+ * last edited on 2026-08-03
  */
 class NotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val textView: TextView
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_notes, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_notes, this, true)
+
         textView = findViewById(R.id.notes_text)
     }
 

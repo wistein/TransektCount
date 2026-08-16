@@ -15,14 +15,16 @@ import java.util.Objects
  * shows single hint line with search field
  *
  * Created by wmstein on 2024-12-17
- * Last edited on 2026-05-28
+ * Last edited on 2026-08-03
  */
 class AddSpeciesHintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     var searchA: EditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_add_hint, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_add_hint, this, true)
+
         searchA = findViewById(R.id.searchA)
     }
 

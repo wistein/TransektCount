@@ -213,12 +213,12 @@
     <string name="countNameG">Neue Art (lokaler Name)</string>
     <string name="editCountValueee">Extern-Zählerstand [ %1$d ] von Ei ändern</string>
     <string name="editCountValueei">Intern-Zählerstand [ %1$d ] von Ei ändern</string>
-    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
-    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Falter ♂|♀ ändern</string>
-    <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
-    <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Falter ♂ ändern</string>
-    <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
-    <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Falter ♀ ändern</string>
+    <string name="editCountValuef1e">Extern-Zählerstand [ %1$d ] von Imago ♂|♀ ändern</string>
+    <string name="editCountValuef1i">Intern-Zählerstand [ %1$d ] von Imago ♂|♀ ändern</string>
+    <string name="editCountValuef2e">Extern-Zählerstand [ %1$d ] von Imago ♂ ändern</string>
+    <string name="editCountValuef2i">Intern-Zählerstand [ %1$d ] von Imago ♂ ändern</string>
+    <string name="editCountValuef3e">Extern-Zählerstand [ %1$d ] von Imago ♀ ändern</string>
+    <string name="editCountValuef3i">Intern-Zählerstand [ %1$d ] von Imago ♀ ändern</string>
     <string name="editCountValuele">Extern-Zählerstand [ %1$d ] von Raupe ändern</string>
     <string name="editCountValueli">Intern-Zählerstand [ %1$d ] von Raupe ändern</string>
     <string name="editCountValuepe">Extern-Zählerstand [ %1$d ] von Puppe ändern</string>
@@ -237,14 +237,14 @@
     <string name="viewSpecTitle">Zählergebnis</string>
     <string name="wait">Liste wird berechnet&#8230;</string>
 
-    <!-- other stuff -->
+    <!-- Other stuff -->
     <string name="charZero">0</string>
     <string name="countCodeHint">Code</string>
     <string name="countExternalHint">Außerhalb des Zählbereichs</string>
     <string name="countExternalSum">Summen außerhalb des Zählbereichs:</string>
-    <string name="countImagofHint">Falter ♀</string>
-    <string name="countImagomHint">Falter ♂</string>
-    <string name="countImagomfHint">Falter ♂|♀</string>
+    <string name="countImagofHint">Imago ♀</string>
+    <string name="countImagomHint">Imago ♂</string>
+    <string name="countImagomfHint">Imago ♂|♀</string>
     <string name="countInternalHint">Innerhalb des Zählbereichs</string>
     <string name="countInternalSum">Summen innerhalb des Zählbereichs:</string>
     <string name="countLarvaHint">Raupe</string>

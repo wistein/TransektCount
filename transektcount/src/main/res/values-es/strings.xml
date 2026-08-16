@@ -237,7 +237,7 @@
     <string name="viewSpecTitle">Resultado del recuento</string>
     <string name="wait">Se calcula la lista&#8230;</string>
 
-    <!-- other stuff -->
+    <!-- Other stuff -->
     <string name="charZero">0</string>
     <string name="countCodeHint">Código</string>
     <string name="countExternalHint">Außerhalb des Zählbereichs</string>

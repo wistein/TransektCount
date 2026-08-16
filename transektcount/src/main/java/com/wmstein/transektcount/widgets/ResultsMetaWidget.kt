@@ -16,7 +16,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 03.04.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-26
+ * Last edited on 2026-08-03
  */
 class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     // temperature
@@ -46,7 +46,9 @@ class ResultsMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(c
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_list_meta, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_list_meta, this, true)
+
         widgetLTemp = findViewById(R.id.widgetLTemp)
         widgetLTemps = findViewById(R.id.widgetLTemps)
         widgetLTempe = findViewById(R.id.widgetLTempe)

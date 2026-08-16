@@ -18,7 +18,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * Last edited on 2026-05-23
+ * Last edited on 2026-08-03
  */
 class ResultsSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val sumCountf1i: AutoFitText
@@ -39,7 +39,9 @@ class ResultsSumWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_sum_species, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_sum_species, this, true)
+
         sumCountf1i = findViewById(R.id.sumCountf1i)
         sumCountf2i = findViewById(R.id.sumCountf2i)
         sumCountf3i = findViewById(R.id.sumCountf3i)

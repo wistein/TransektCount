@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!-- last edited 2026-02-16 -->
 <!-- arrays.xml English array strings and butterflies in 5 languages
-     last edited 2026-03-21 -->
+     last edited 2026-08-12 -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="pref_bg_entries">
@@ -118,6 +118,17 @@
         <item>3000</item>
         <item>5000</item>
         <item>10000</item>
+    </string-array>
+
+    <string-array name="notes_options">
+        <item>Photo</item>
+        <item>Flyby</item>
+        <item>New species</item>
+        <item>1st in season</item>
+        <item>On the flower of </item>
+        <item>Forage crop: </item>
+        <item>Dead specimen</item>
+        <item>Not sure</item>
     </string-array>
 
     <string-array name="initSpecs">

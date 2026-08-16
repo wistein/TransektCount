@@ -20,7 +20,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23
+ * last edited on 2026-08-03
  */
 @SuppressLint("ViewConstructor")
 class CountingHead2Widget(context: Context, attrs: AttributeSet?) :
@@ -29,7 +29,9 @@ class CountingHead2Widget(context: Context, attrs: AttributeSet?) :
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_head2, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_counting_head2, this, true)
+
         countHead2 = findViewById(R.id.countHead2)
     }
 

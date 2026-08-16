@@ -164,7 +164,7 @@ class ChangeLog(private val context: Context, prefs: SharedPreferences) {
             var line: String?
             while ((br.readLine().also { line = it }) != null) {
                 line = line!!.trim { it <= ' ' }
-                val marker = if (!line.isEmpty()) line[0] else 0.toChar()
+                val marker = if (line.isNotEmpty()) line[0] else 0.toChar()
 
                 // begin of a version section
                 if (marker == '$') {

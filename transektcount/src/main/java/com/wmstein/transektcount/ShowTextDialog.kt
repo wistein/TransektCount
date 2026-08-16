@@ -29,7 +29,7 @@ import java.util.Locale
  * displays the Help and License Dialogs
  *
  * Adopted 2025 by wistein for TransektCount,
- * last edited on 2026-05-26
+ * last edited on 2026-08-01
  */
 class ShowTextDialog : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
@@ -136,20 +136,17 @@ class ShowTextDialog : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    companion object {
-        private fun readRawTextFile(id: Int, context: Context): String? {
-            val inputStream = context.resources.openRawResource(id)
-            val `in` = InputStreamReader(inputStream)
-            val buf = BufferedReader(`in`)
-            var line: String?
-            val text = StringBuilder()
-            try {
-                while ((buf.readLine().also { line = it }) != null) text.append(line)
-            } catch (_: IOException) {
-                return null
-            }
-            return text.toString()
+    private fun readRawTextFile(id: Int, context: Context): String? {
+        val inputStream = context.resources.openRawResource(id)
+        val buf = BufferedReader(InputStreamReader(inputStream))
+        var line: String?
+        val text = StringBuilder()
+        try {
+            while ((buf.readLine().also { line = it }) != null) text.append(line)
+        } catch (_: IOException) {
+            return null
         }
+        return text.toString()
     }
 
 }

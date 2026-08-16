@@ -27,7 +27,7 @@
     <string name="cancelButton">Cancel</string>
     <string name="changeLogTitle">App Info</string>
     <string name="code_spec">Species Code</string>
-    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!\n\nNote! If this is an older version of the file, go afterwards to “Settings” and check that the correct data language is set.</string>
+    <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!\n\nNote! If this is an older version of the file, go afterward to “Settings” and check that the correct data language is set.</string>
     <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
     <string name="confirmListImport">Are you sure you want to import the species list? Your current counting data will be deleted! May last long for a long list.</string>
@@ -251,7 +251,7 @@
     <string name="viewSpecTitle">Counting Results</string>
     <string name="wait">View gets calculated&#8230;</string>
 
-    <!-- other stuff -->
+    <!-- Other stuff -->
     <string name="charZero">0</string>
     <string name="countCodeHint">Code</string>
     <string name="countExternalHint">External of Counting Range</string>

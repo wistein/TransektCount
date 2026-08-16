@@ -1,9 +1,14 @@
 TransektCount supporta il conteggio specifico per specie delle farfalle per ogni sezione di transetto secondo il metodo dell’European Butterfly Monitoring Scheme. Aiuta gli addetti al conteggio lungo i transetti a registrare le farfalle diurne e notturne durante i sopralluoghi lungo i transetti.
 
-Novità della versione 5.1.5:
+Novità della versione 5.1.6:
 - Miglioramenti al codice
-- I restanti moduli Java sono stati convertiti in Kotlin
-- Modifica della struttura dei nomi dei file esportati
+- La data nei nomi dei file esportati è stata modificata da “date_time” a “date-time”
+- L'importazione dei file GPX riconosce anche i file contenenti 1 traccia con n segmenti, anziché n tracce.
+- Inserimento di note relative alle specie utilizzando le diciture predefinite “Foto”, “Avvistamento in volo”, “Nuova specie”, …
+- Il valore immesso in % relativo alla nuvolosità viene arrotondato ai valori più vicini a 10
+- Controlli di plausibilità più rigorosi per l'inserimento dei metadati numerici
+- Testo “Aiuto” aggiornato
+- Documenti aggiornati
 
 Caratteristiche:
 - La raccolta dei dati si basa sul percorso lungo un transetto.

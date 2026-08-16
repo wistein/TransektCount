@@ -1,9 +1,14 @@
 TransektCount permet de compter les papillons par espèce et par section de transect, conformément à la méthode du Programme européen de surveillance des papillons (European Butterfly Monitoring Scheme). Il aide les observateurs à recenser les papillons diurnes et les papillons de nuit actifs le jour lors de leurs relevés sur les transects.
 
-Nouveautés de la version 5.1.5 :
+Nouveautés de la version 5.1.6 :
 - Améliorations du code
-- Conversion des modules Java restants en Kotlin
-- Modification de la structure des noms des fichiers exportés
+- La date figurant dans les noms des fichiers exportés a été modifiée, passant de « date_heure » à « date-heure »
+- L'importation de fichiers GPX prend également en charge les fichiers comportant une seule trace divisée en n segments, plutôt que n traces distinctes
+- Saisie de notes sur les espèces à partir des formulations prédéfinies « Photo », « Survol », « Nouvelle espèce », …
+- La valeur saisie en % pour la nébulosité est arrondie aux dizaines
+- Contrôle de cohérence plus strict pour la saisie des métadonnées numériques
+- Mise à jour du texte « Aide »
+- Documents mis à jour
 
 Caractéristiques :
 - La collecte des données s'appuie sur un relevé par transect.

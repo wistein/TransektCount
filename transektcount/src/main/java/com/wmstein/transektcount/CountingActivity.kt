@@ -536,7 +536,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
                 )
 
                 // Select from available camera apps
-                val isIntentSafe = !activities.isEmpty()
+                val isIntentSafe = activities.isNotEmpty()
                 if (isIntentSafe) {
                     val title = getResources().getString(R.string.chooserTitle)
                     val chooser = Intent.createChooser(camIntent, title)

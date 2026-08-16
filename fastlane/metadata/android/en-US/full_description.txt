@@ -1,9 +1,14 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.1.5:
+New in Version 5.1.6:
 - Code improvements
-- Remaining Java modules converted to Kotlin
-- Name composition for exported files changed
+- The date in names of exported files modified from "date_time" to "date-time"
+- GPX file import recognizes also files having 1 track with n track segments instead of having n tracks
+- Entering species notes proposed with predefined wordings like "Photo", "Flyby", "New species", …
+- Cloud %-values rounded to multiples of 10
+- More restrictive plausi for input of metadata numbers
+- "Help" text updated
+- Docs updated
 
 Features:
 - Data collection is based on a transect inspection.

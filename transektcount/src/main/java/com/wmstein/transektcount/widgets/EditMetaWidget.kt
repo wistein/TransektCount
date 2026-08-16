@@ -16,136 +16,137 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 2016-04-02,
  * last edited in java on 2024-12-06,
  * converted to Kotlin on 2025-11-15,
- * last edited on 2026-05-26
+ * last edited on 2026-08-14
  */
 class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val widget_temp1: TextView // start temperature
-    var widget_starttemp2: EditText
-    var widget_endtemp2: EditText // end temperature
+    val widgetTempHead: TextView
+    var widgetStartTemp: EditText // start temperature
+    var widgetEndTemp: EditText // end temperature
 
-    val widget_wind1: TextView // start wind
-    var widget_startwind2: EditText
-    var widget_endwind2: EditText // end wind
+    val widgetWindHead: TextView
+    var widgetStartWind: EditText // start wind
+    var widgetEndWind: EditText // end wind
 
-    val widget_clouds1: TextView // start clouds
-    var widget_startclouds2: EditText
-    var widget_endclouds2: EditText // end clouds
+    val widgetCloudsHead: TextView
+    var widgetStartClouds: EditText // start clouds
+    var widgetEndClouds: EditText // end clouds
 
-    val widget_date1: TextView // date
-    val widget_date2: TextView
-    val widget_stime1: TextView // start-time
-    val widget_stime2: TextView
-    val widget_etime1: TextView // end-time
-    val widget_etime2: TextView
-    val widget_note1: TextView // notes
-    val widget_note2: TextView
+    val widgetDateHead: TextView // date
+    val widgetDatum: TextView
+    val widgetStartTimeHead: TextView // start-time
+    val widgetStartTime: TextView
+    val widgetEndTimeHead: TextView // end-time
+    val widgetEndTime: TextView
+    val widgetNotesHead: TextView // notes
+    val widgetNotesText: TextView
 
     val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     init {
         Objects.requireNonNull(inflater)
             .inflate(R.layout.widget_edit_meta, this, true)
-        widget_temp1 = findViewById(R.id.widgetTemp1)
-        widget_starttemp2 = findViewById(R.id.widgetStartTemp2)
-        widget_endtemp2 = findViewById(R.id.widgetEndTemp2)
-        widget_wind1 = findViewById(R.id.widgetWind1)
-        widget_startwind2 = findViewById(R.id.widgetStartWind2)
-        widget_endwind2 = findViewById(R.id.widgetEndWind2)
-        widget_clouds1 = findViewById(R.id.widgetClouds1)
-        widget_startclouds2 = findViewById(R.id.widgetStartClouds2)
-        widget_endclouds2 = findViewById(R.id.widgetEndClouds2)
 
-        widget_date1 = findViewById(R.id.widgetDate1)
-        widget_date2 = findViewById(R.id.widgetDate2)
-        widget_stime1 = findViewById(R.id.widgetSTime1)
-        widget_stime2 = findViewById(R.id.widgetSTime2)
-        widget_etime1 = findViewById(R.id.widgetETime1)
-        widget_etime2 = findViewById(R.id.widgetETime2)
-        widget_note1 = findViewById(R.id.widgetNote1)
-        widget_note2 = findViewById(R.id.widgetNote2)
+        widgetTempHead = findViewById(R.id.widgetTemp1)
+        widgetStartTemp = findViewById(R.id.widgetStartTemp2)
+        widgetEndTemp = findViewById(R.id.widgetEndTemp2)
+        widgetWindHead = findViewById(R.id.widgetWind1)
+        widgetStartWind = findViewById(R.id.widgetStartWind2)
+        widgetEndWind = findViewById(R.id.widgetEndWind2)
+        widgetCloudsHead = findViewById(R.id.widgetClouds1)
+        widgetStartClouds = findViewById(R.id.widgetStartClouds2)
+        widgetEndClouds = findViewById(R.id.widgetEndClouds2)
+
+        widgetDateHead = findViewById(R.id.widgetDate1)
+        widgetDatum = findViewById(R.id.widgetDate2)
+        widgetStartTimeHead = findViewById(R.id.widgetSTime1)
+        widgetStartTime = findViewById(R.id.widgetSTime2)
+        widgetEndTimeHead = findViewById(R.id.widgetETime1)
+        widgetEndTime = findViewById(R.id.widgetETime2)
+        widgetNotesHead = findViewById(R.id.widgetNote1)
+        widgetNotesText = findViewById(R.id.widgetNote2)
     }
 
     // Following the SETS
     // temperature
     fun setWidgetTemp1(title: String) {
-        widget_temp1.text = title
+        widgetTempHead.text = title
     }
 
     fun setWidgetStartTemp2(name: Int) {
-        if (name == 0) widget_starttemp2.setText("")
-        else widget_starttemp2.setText(name.toString())
+        if (name == 0) widgetStartTemp.setText("")
+        else widgetStartTemp.setText(name.toString())
     }
 
     fun setWidgetEndTemp2(name: Int) {
-        if (name == 0) widget_endtemp2.setText("")
-        else widget_endtemp2.setText(name.toString())
+        if (name == 0) widgetEndTemp.setText("")
+        else widgetEndTemp.setText(name.toString())
     }
 
     // wind
     fun setWidgetWind1(title: String) {
-        widget_wind1.text = title
+        widgetWindHead.text = title
     }
 
     fun setWidgetStartWind2(name: Int) {
-        if (name == 0) widget_startwind2.setText("")
-        else widget_startwind2.setText(name.toString())
+        if (name == 0) widgetStartWind.setText("")
+        else widgetStartWind.setText(name.toString())
     }
 
     fun setWidgetEndWind2(name: Int) {
-        if (name == 0) widget_endwind2.setText("")
-        else widget_endwind2.setText(name.toString())
+        if (name == 0) widgetEndWind.setText("")
+        else widgetEndWind.setText(name.toString())
     }
 
 
     // clouds
     fun setWidgetClouds1(title: String) {
-        widget_clouds1.text = title
+        widgetCloudsHead.text = title
     }
 
     fun setWidgetStartClouds2(name: Int) {
-        if (name == 0) widget_startclouds2.setText("")
-        else widget_startclouds2.setText(name.toString())
+        if (name == 0) widgetStartClouds.setText("")
+        else widgetStartClouds.setText(name.toString())
     }
 
     fun setWidgetEndClouds2(name: Int) {
-        if (name == 0) widget_endclouds2.setText("")
-        else widget_endclouds2.setText(name.toString())
+        if (name == 0) widgetEndClouds.setText("")
+        else widgetEndClouds.setText(name.toString())
     }
 
     // date
     fun setWidgetDate1(title: String) {
-        widget_date1.text = title
+        widgetDateHead.text = title
     }
 
     fun setWidgetDate2(name: String) {
-        widget_date2.text = name
+        widgetDatum.text = name
     }
 
     // start_tm
     fun setWidgetSTime1(title: String) {
-        widget_stime1.text = title
+        widgetStartTimeHead.text = title
     }
 
     fun setWidgetSTime2(name: String) {
-        widget_stime2.text = name
+        widgetStartTime.text = name
     }
 
     // end_tm
     fun setWidgetETime1(title: String) {
-        widget_etime1.text = title
+        widgetEndTimeHead.text = title
     }
 
     fun setWidgetETime2(name: String) {
-        widget_etime2.text = name
+        widgetEndTime.text = name
     }
 
     // note
     fun setWidgetNote1(title: String) {
-        widget_note1.text = title
+        widgetNotesHead.text = title
     }
 
     fun setWidgetNote2(name: String) {
-        widget_note2.text = name
+        widgetNotesText.text = name
     }
 
     // plausi for numeric input
@@ -154,8 +155,8 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     // following the GETS
     val widgetTemps: Int
         get() {
-            val text = widget_starttemp2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetStartTemp.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
                 text.replace("\\D".toRegex(), "").toInt()
@@ -166,8 +167,8 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     val widgetTempe: Int
         get() {
-            val text = widget_endtemp2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetEndTemp.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
                 text.replace("\\D".toRegex(), "").toInt()
@@ -179,8 +180,8 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val widgetWinds: Int
         // get wind with plausi
         get() {
-            val text = widget_startwind2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetStartWind.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
                 text.replace("\\D".toRegex(), "").toInt()
@@ -191,8 +192,8 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     val widgetWinde: Int
         get() {
-            val text = widget_endwind2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetEndWind.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 100
             else try {
                 text.replace("\\D".toRegex(), "").toInt()
@@ -202,25 +203,29 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
 
     val widgetClouds: Int
-        // get clouds with plausi
+        // get start clouds with plausi
         get() {
-            val text = widget_startclouds2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetStartClouds.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 200
             else try {
-                text.replace("\\D".toRegex(), "").toInt()
+                // Round integer value to decade (number+5)/10*10
+                val number = (text.replace("\\D".toRegex(), "").toInt() + 5) / 10 * 10
+                number
             } catch (_: NumberFormatException) {
                 200
             }
         }
 
     val widgetCloude: Int
+        // get end clouds with plausi
         get() {
-            val text = widget_endclouds2.text.toString()
-            return if (isEmpty(text)) 0
+            val text = widgetEndClouds.text.toString()
+            return if (text.isEmpty()) 0
             else if (!text.trim { it <= ' ' }.matches(regEx.toRegex())) 200
             else try {
-                text.replace("\\D".toRegex(), "").toInt()
+                val number = (text.replace("\\D".toRegex(), "").toInt() + 5) / 10 * 10
+                number
             } catch (_: NumberFormatException) {
                 200
             }
@@ -228,37 +233,18 @@ class EditMetaWidget(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     val widgetDate: String
         // get date
-        get() = widget_date2.text.toString()
+        get() = widgetDatum.text.toString()
 
     val widgetSTime: String
         // get start time
-        get() = widget_stime2.text.toString()
+        get() = widgetStartTime.text.toString()
 
     val widgetETime: String
         // get stop time
-        get() = widget_etime2.text.toString()
+        get() = widgetEndTime.text.toString()
 
     val widgetNote: String
         // get stop time
-        get() = widget_note2.text.toString()
-
-    companion object {
-        /**
-         * Checks if a CharSequence is empty ("") or null.
-         *
-         *
-         * isEmpty(null)      = true
-         * isEmpty("")        = true
-         * isEmpty(" ")       = false
-         * isEmpty("bob")     = false
-         * isEmpty("  bob  ") = false
-         *
-         * @param cs the CharSequence to check, may be null
-         * @return `true` if the CharSequence is empty or null
-         */
-        fun isEmpty(cs: CharSequence?): Boolean {
-            return cs.isNullOrEmpty()
-        }
-    }
+        get() = widgetNotesText.text.toString()
 
 }

@@ -73,6 +73,18 @@ _ subtitle
   .
   _
 
+$ 5.1.6
+  % Version 5.1.6
+  _ 2026-08-16
+  * Code improvements
+  * The date in names of exported files modified from "date_time" to "date-time"
+  * GPX file import recognizes also files having 1 track with n track segments instead of having n tracks
+  * Entering species notes proposed with predefined wordings like "Photo", "Flyby", "New species", …
+  * Cloud %-values rounded to multiples of 10
+  * More restrictive plausi for input of metadata numbers
+  * "Help" text updated
+  * Docs updated
+
 $ 5.1.5
   % Version 5.1.5
   _ 2026-07-28

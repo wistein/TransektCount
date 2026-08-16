@@ -17,7 +17,7 @@ import com.wmstein.transektcount.R
  * Created by wmstein 18.12.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23
+ * last edited on 2026-08-03
  */
 class CountingHead1Widget(
     context: Context,
@@ -26,9 +26,12 @@ class CountingHead1Widget(
     private val nameArrayL: Array<String>, // species local names
     private val codeArray: Array<String>,  // species codes
     private val imageArray: Array<Int>     // species images
-) : ArrayAdapter<String?>(context, R.layout.widget_counting_head1, R.id.countName, nameArray) {
+) : ArrayAdapter<String?>(
+    context, R.layout.widget_counting_head1,
+    R.id.countName, nameArray) {
 
-    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater = context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     // Shows Spinner list
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -41,17 +44,24 @@ class CountingHead1Widget(
     }
 
     private fun getCustomView(position: Int, parent: ViewGroup): View {
-        val head1 = inflater.inflate(R.layout.widget_counting_head1, parent, false)
+        val head1 = inflater.inflate(
+            R.layout.widget_counting_head1, parent, false)
+
         val countId = head1.findViewById<TextView>(R.id.countId) // used for spinner interface  
         countId.text = idArray[position]
+
         val countName = head1.findViewById<TextView>(R.id.countName)
         countName.text = nameArray[position]
+
         val countNameg = head1.findViewById<TextView>(R.id.countNameg)
         countNameg.text = nameArrayL[position]
+
         val countCode = head1.findViewById<TextView>(R.id.countCode)
         countCode.text = codeArray[position]
+
         val pSpecies = head1.findViewById<ImageView>(R.id.pSpecies)
         pSpecies.setImageResource(imageArray[position])
+
         return head1
     }
 

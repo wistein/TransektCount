@@ -15,14 +15,16 @@ import java.util.Objects
  * shows single Hint line with search field,
  *
  * Created by wmstein on 2024-12-17
- * Last edited on 2026-05-28
+ * Last edited on 2026-08-03
  */
 class DeleteSpeciesHintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var searchD: EditText
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_del_hint, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_del_hint, this, true)
+
         searchD = findViewById(R.id.searchD)
     }
 

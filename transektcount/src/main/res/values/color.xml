@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Color collection to be used in xml files.
-     In java or kotlin files colors are inserted as values.
-     Last edited on 2026-01-24
+     In Java or Kotlin files colors are inserted as values.
+     Last edited on 2026-08-12
 -->
 
 <resources>

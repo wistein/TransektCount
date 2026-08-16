@@ -23,7 +23,7 @@ import java.util.Objects
  * Created by wmstein 18.12.2016,
  * last edited in Java on 2021-01-26,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-23.
+ * last edited on 2026-08-03.
  */
 class CountingInternWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
@@ -56,7 +56,9 @@ class CountingInternWidget(context: Context, attrs: AttributeSet?) : RelativeLay
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_counting_i, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_counting_i, this, true)
+
         idf1i = findViewById(R.id.idf1i)
         idf2i = findViewById(R.id.idf2i)
         idf3i = findViewById(R.id.idf3i)

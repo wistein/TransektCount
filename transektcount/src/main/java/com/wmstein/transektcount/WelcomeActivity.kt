@@ -104,7 +104,7 @@ import kotlin.system.exitProcess
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
  * last edited in Java on 2026-07-18,
  * converted to Kotlin on 2026-07-20,
- * last edited on 2026-07-28.
+ * last edited on 2026-08-02.
  */
 class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -1503,7 +1503,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 builder.setCancelable(true).setPositiveButton(
                     R.string.importButton
                 ) { _: DialogInterface?, _: Int ->
-                    if (!selectedFile.isEmpty()) {
+                    if (selectedFile.isNotEmpty()) {
                         val fileIS: FileInputStream?
                         try {
                             fileIS = FileInputStream(selectedFile)
@@ -1533,9 +1533,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         var numTrk = 0 // number of tracks
                         var indexRestString: Int
 
-                        while (gpxStringT.contains("<trk>")) {
+                        while (gpxStringT.contains("<trkseg>")) {
                             numTrk++
-                            indexRestString = gpxStringT.indexOf("</trk>") + 6
+                            indexRestString = gpxStringT.indexOf("</trkseg>") + 9
                             gpxStringT = gpxStringT.substring(indexRestString)
                         }
 
@@ -1590,8 +1590,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         // Begin with start of 1. track segment as start of string to be checked
         var trkPt = 1 // trackpoint counter
-        var trk = 1 // track counter
-        var strStart = gpxString.indexOf("<trk>")
+        var trkseg = 1 // track counter
+        var strStart = gpxString.indexOf("<trkseg>")
         var strEnd: Int // end of string to be checked
         var trkStart: Int
         var trkEnd: Int // start and end of a track segment
@@ -1603,31 +1603,31 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             gpxVik = true
         }
 
-        if (gpxString.contains("<trk>"))  // test for track data
+        if (gpxString.contains("<trkseg>"))  // test for track data
         {
-            // reduce gpxString to all tracks <trk> ... </gpx>
+            // reduce gpxString to all tracksegments <trkseg> ... </gpx>
             gpxString = gpxString.substring(strStart) // rest string with all tracks
 
             // For each track
             do {
                 // get data of indexed track
-                trkStart = gpxString.indexOf("<trk>")
-                trkEnd = gpxString.indexOf("</trk>")
-                // add offset = length of "</trk>" = 6
-                gpxTrkString = gpxString.substring(trkStart, trkEnd + 6)
+                trkStart = gpxString.indexOf("<trkseg>")
+                trkEnd = gpxString.indexOf("</trkseg>")
+                // add offset = length of "</trkseg>" = 9
+                gpxTrkString = gpxString.substring(trkStart, trkEnd + 9)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                     Log.i(TAG, "1619, decodeGPX, gpxTrkString: $gpxTrkString")
 
                 // set track name from section name
-                // record of transect section for trk
-                val section = sectionDataSource!!.getSection(trk)
+                // record of transect section for trkseg
+                val section = sectionDataSource!!.getSection(trkseg)
                 sectionNameGPS = section.name
 
-                // reduce gpxString to rest after </trk>
-                strEnd = gpxString.indexOf("</trk>")
+                // reduce gpxString to rest after </trkseg>
+                strEnd = gpxString.indexOf("</trkseg>")
 
-                // add offset = length of "</trk>" = 6
-                gpxString = gpxString.substring(strEnd + 6)
+                // add offset = length of "</trkseg>" = 9
+                gpxString = gpxString.substring(strEnd + 9)
 
                 // get coords of all track points
                 if (gpxTrkString.contains("<trkseg>")) {
@@ -1672,9 +1672,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     } while (gpxTrkString.contains("<trkpt"))
                 }
 
-                // increment trk and reduce gpxString for next track segment
-                trk += 1
-            } while (gpxString.contains("<trk>"))
+                // increment trkseg and reduce gpxString for next track segment
+                trkseg += 1
+            } while (gpxString.contains("<trkseg>"))
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                 Log.i(TAG, "1680, decodeGPX, gpxString finished: $gpxString")
@@ -1876,7 +1876,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         if (startTime != "") {
             dbTime = startTime.substring(0, 2) + startTime.substring(3, 5)
 
-            if (hasDate) dbDate = dbDate + "_" + dbTime // yyyymmdd_hhmm
+            if (hasDate) dbDate = "$dbDate-$dbTime" // yyyymmdd-hhmm
         } else dbDate = "" // has only a value when both date and start time are given
 
 
@@ -1885,7 +1885,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         dataLanguage = prefs.getString("pref_sel_data_lang", "")!!
         if (dataLanguage.isEmpty()) dataLanguage = "--"
 
-        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd_HHmm.db
+        // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd-HHmm.db
         outFile = if (transNoForDir == "" && dbDate == "")
             File(path, "/transektcount_" + dataLanguage + "_" + getcurDate() + ".db")
         else if (transNoForDir == "")
@@ -1992,9 +1992,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         if (startTime != "") {
             csvTime = startTime.substring(0, 2) + startTime.substring(3, 5)
 
-            if (hasDate) csvDate = csvDate + "_" + csvTime // yyyymmdd_hhmm
+            if (hasDate) csvDate = "$csvDate-$csvTime" // yyyymmdd-hhmm
         } else csvDate = "" // has only a value when both date and start time are given
-
 
         path.mkdirs() // Just verify path, result ignored
 
@@ -2153,7 +2152,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 // Calculating the week of the year (ISO 8601)
                 val cal = Calendar.getInstance()
 
-                if (!date.isEmpty()) {
+                if (date.isNotEmpty()) {
                     if (engl) {
                         yyyy = date.substring(0, 4).toInt()
                         mm = date.substring(5, 7).toInt()
@@ -2960,7 +2959,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         if (startTime != "") {
             xlsxTime = startTime.substring(0, 2) + startTime.substring(3, 5)
 
-            if (hasDate) xlsxDate = xlsxDate + "_" + xlsxTime // yyyymmdd_hhmm
+            if (hasDate) xlsxDate = "$xlsxDate-$xlsxTime" // yyyymmdd-hhmm
         } else xlsxDate = ""
         // has only a value when both date and start time are given
 
@@ -3128,7 +3127,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             // Calculating the week of the year (ISO 8601)
             val cal = Calendar.getInstance()
 
-            if (!date.isEmpty()) {
+            if (date.isNotEmpty()) {
                 if (engl) {
                     yyyy = date.substring(0, 4).toInt()
                     mm = date.substring(5, 7).toInt()
@@ -4386,33 +4385,34 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         sB.show()
     }
 
+    // Get date for filename of exported data
+    private fun getcurDate(): String {
+        val date = Date()
+        @SuppressLint("SimpleDateFormat") val dform: DateFormat =
+            SimpleDateFormat("yyyyMMdd-HHmm")
+        return dform.format(date)
+    }
+
+    // Copy file block-wise
+    @Throws(IOException::class)
+    private fun copy(src: File?, dst: File?) {
+        val fIS = FileInputStream(src)
+        val fOS = FileOutputStream(dst)
+
+        // Transfer bytes from in to out
+        val buf = ByteArray(1024)
+        var len: Int
+        while ((fIS.read(buf).also { len = it }) > 0) {
+            fOS.write(buf, 0, len)
+        }
+
+        fIS.close()
+        fOS.close()
+    }
+
     companion object {
         private const val TAG = "WelcomeAct"
 
-        // Get date for filename of exported data
-        private fun getcurDate(): String {
-            val date = Date()
-            @SuppressLint("SimpleDateFormat") val dform: DateFormat =
-                SimpleDateFormat("yyyyMMdd_HHmmss")
-            return dform.format(date)
-        }
-
-        // Copy file block-wise
-        @Throws(IOException::class)
-        private fun copy(src: File?, dst: File?) {
-            val fIS = FileInputStream(src)
-            val fOS = FileOutputStream(dst)
-
-            // Transfer bytes from in to out
-            val buf = ByteArray(1024)
-            var len: Int
-            while ((fIS.read(buf).also { len = it }) > 0) {
-                fOS.write(buf, 0, len)
-            }
-
-            fIS.close()
-            fOS.close()
-        }
     }
 
 }

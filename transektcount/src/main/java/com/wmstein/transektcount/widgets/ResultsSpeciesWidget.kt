@@ -22,7 +22,7 @@ import java.util.Objects
  * Created for TransektCount by wmstein on 15.03.2016,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-08-31,
- * Last edited on 2026-05-26
+ * Last edited on 2026-08-03
  */
 class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     private val txtSectName: TextView
@@ -48,7 +48,9 @@ class ResultsSpeciesWidget(context: Context, attrs: AttributeSet?) : RelativeLay
             as LayoutInflater
 
     init {
-        Objects.requireNonNull(inflater).inflate(R.layout.widget_list_species, this, true)
+        Objects.requireNonNull(inflater)
+            .inflate(R.layout.widget_list_species, this, true)
+
         txtSectName = findViewById(R.id.txtSectName)
         txtSectRem = findViewById(R.id.txtSectRem)
         txtSpecName = findViewById(R.id.txtSpecName)

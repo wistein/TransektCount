@@ -17,7 +17,7 @@ import java.util.Objects
  * Created by wmstein for TransektCount on 31.03.2016.
  * Last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * Last edit on 2026-05-26
+ * Last edit on 2026-08-03
  */
 class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val widgetno // used for transect_no title
@@ -33,6 +33,7 @@ class EditMetaHeadWidget(context: Context, attrs: AttributeSet?) : LinearLayout(
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         Objects.requireNonNull(inflater)
             .inflate(R.layout.widget_edit_meta_head, this, true)
+
         widgetno = findViewById(R.id.widgetNo)
         widgetno1 = findViewById(R.id.widgetNo1)
         widgetname = findViewById(R.id.widgetName)

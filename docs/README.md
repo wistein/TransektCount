@@ -31,9 +31,9 @@ That means, you will use a fresh database instance per inspection by clearing th
 
 ### Prerequisites
 The app requires permits for 
-- storage access which is needed for im-/exporting the counting data, results, species lists or track data 
-- preventing the sleep mode and
-- (optionally) the GPS controlled signaling of the current transect section.
+- storage access for im-/exporting the counting data, results, species lists or track data from/to Documents/TransektCount/, 
+- preventing the sleep mode while counting and
+- (optionally) get fine location for the GPS controlled signaling of the current transect section.
 
 The device screen should have a minimum resolution of 1920 x 1024 pixels. 
 The app is usable with Android version 11 or newer.
@@ -43,10 +43,10 @@ The app is usable with Android version 11 or newer.
 Documentation and example DBs are provided under  
 https://github.com/wistein/TransektCount/tree/master/docs.
 
-Please read the user guide (provided on GitHub.../docs in German and English) or consult its contents in the app's help before using the app.  
-There are further documents e.g. for setting up and using the app as well as sample species lists in German, English, French and Italian versions, provided under .../docs.
+Please read the user guide (provided in German and English) or consult its contents in the app's help before using the app.  
+There are further documents e.g. for setting up and using the app as well as sample species lists for different regions and in different languages (German, English, French and Italian) provided.
 
-The development history is listed in History.md in .../docs.
+The complete development history is listed in History.md in https://github.com/wistein/TransektCount/tree/master/docs/History.md.
 
 Source file structure is for compilation by Android Studio.
 
@@ -85,4 +85,4 @@ Pictures of this work by Wilhelm Stein may only be used for scientific or non-co
 Code and illustrations provided by other authors remain the copyright of those authors and should not be reproduced or distributed other than with their license.
 
 For detailed copyrights on external code and pictures see "Licenses" in the app's main menu or the separate document "License.txt" under 
-https://github.com/wistein/TransektCount/tree/master/docs.
+https://github.com/wistein/TransektCount/tree/master/docs/License.txt.

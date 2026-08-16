@@ -237,7 +237,7 @@
     <string name="viewSpecTitle">Risultato del conteggio</string>
     <string name="wait">Lista in fase di calcolo&#8230;</string>
 
-    <!-- other stuff -->
+    <!-- Other stuff -->
     <string name="charZero">0</string>
     <string name="countCodeHint">Codice</string>
     <string name="countExternalHint">Fuori dalla zona di conteggio</string>

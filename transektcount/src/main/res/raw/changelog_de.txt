@@ -73,6 +73,18 @@ _ subtitle
   .
   _
 
+$ 5.1.6
+  % Version 5.1.6
+  _ 16.08.2026
+  * Code-Verbesserungen
+  * Das Datum in Namen exportierter Dateien geändert von „date_time“ in „date-time“
+  * GPX-Datei-Import erkennt auch Dateien die anstelle von n Tracks nur 1 Track bestehend aus n Track-Segmenten enthalten
+  * Eingabe der Artbemerkungen mit Auswahl vorgeschlagener Begriffe wie "Foto", "Vorbeiflug", "Neue Art", …
+  * %-Eingabewert für Bewölkung wird auf 10er-Werte gerundet
+  * Striktere Plausi-Kontrolle für die Eingabe der numerischen Metadaten
+  * "Hilfe"-Text aktualisiert
+  * Doku aktualisiert
+
 $ 5.1.5
   % Version 5.1.5
   _ 28.07.2026

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- arrays.xml Italian array strings,
-     last edited 2026-03-21 -->
+     last edited 2026-08-12 -->
 
 <resources>
 
@@ -49,6 +49,17 @@
         <item>5 m</item>
         <item>7,5 m</item>
         <item>10 m</item>
+    </string-array>
+
+    <string-array name="notes_options">
+        <item>Foto</item>
+        <item>Sorvolo</item>
+        <item>Nuova specie</item>
+        <item>1° della stagione</item>
+        <item>Sul fiore di </item>
+        <item>Pianta foraggera: </item>
+        <item>Esemplare morto</item>
+        <item>Non sicuro</item>
     </string-array>
 
 </resources>
