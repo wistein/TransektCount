@@ -104,7 +104,7 @@ import kotlin.system.exitProcess
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
  * last edited in Java on 2026-07-18,
  * converted to Kotlin on 2026-07-20,
- * last edited on 2026-08-02.
+ * last edited on 2026-08-30.
  */
 class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
@@ -212,7 +212,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         // Set DarkMode when system is in BrightMode
         val nightModeFlags = Configuration.UI_MODE_NIGHT_MASK
-        val confUi = getResources().configuration.uiMode
+        val confUi = resources.configuration.uiMode
         if ((nightModeFlags and confUi) == Configuration.UI_MODE_NIGHT_NO) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
@@ -251,7 +251,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
             Log.i(TAG, ("253, onCreate, autoSection: " + autoSection
-                        + ", transect has track: " + transectHasTrack))
+                        + ", transect has tracks: " + transectHasTrack))
 
         // Check initial storage permission state and if not granted provide dialog
         storagePermGranted = isStoragePermGranted()
@@ -486,7 +486,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     val navBarMode: Int
         // Check for Navigation bar (1-, 2- or 3-button mode)
         get() {
-            val resources = this.getResources()
+            val resources = this.resources
 
             @SuppressLint("DiscouragedApi") val resourceId = resources.getIdentifier(
                 "config_navBarInteractionMode",
@@ -549,7 +549,6 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         prefs = getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
-        editor = prefs.edit()
 
         outPref = prefs.getString("pref_csv_out", "sections")!! // sort mode csv-export
         autoSection = prefs.getBoolean("pref_auto_section", false)
@@ -640,7 +639,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "643, locationDispatcher 1")
+                        Log.i(TAG, "642, locationDispatcher 1")
 
                     if (!locServiceOn) {
                         locationService = LocationService(applicationContext)
@@ -657,7 +656,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 2 -> {
                     // Stop location service on backpress, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "660, location stop 2 by backpress")
+                        Log.i(TAG, "659, location stop 2 by backpress")
 
                     if (locServiceOn) {
                         stopLocSrv()
@@ -667,7 +666,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "670, location stop 3 by onStop")
+                        Log.i(TAG, "669, location stop 3 by onStop")
 
                     if (locServiceOn) {
                         stopLocSrv()
@@ -900,7 +899,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Stop location service when denied in settings with alert sound first
         if (!autoSection && locServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "903, location stop by setting")
+                Log.i(TAG, "902, location stop by setting")
 
             locationService!!.stopSoundA()
             stopLocSrv()
@@ -909,7 +908,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Stop sound service when denied in settings
         if (!buttonSoundPref && sndServiceOn) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "912, button sound stop by setting")
+                Log.i(TAG, "911, button sound stop by setting")
 
             stopService(sndIntent)
             sndServiceOn = false
@@ -931,7 +930,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "934, onPause")
+            Log.i(TAG, "933, onPause")
 
         headDataSource!!.close()
         sectionDataSource!!.close()
@@ -946,7 +945,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "949, onStop")
+            Log.i(TAG, "948, onStop")
 
         baseLayout!!.invalidate()
 
@@ -964,7 +963,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             locationDispatcher(3)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "967, onStop, app not visible, LocationService running: $locServiceOn")
+                Log.i(TAG, "966, onStop, app not visible, LocationService running: $locServiceOn")
 
             finishAndRemoveTask() // In combination with System.exit(0) in onDestroy() closes app completely
         }
@@ -974,7 +973,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "977, onDestroy")
+            Log.i(TAG, "976, onDestroy")
 
         exitProcess(0)
     }
@@ -982,7 +981,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start SelectSectionActivity (by button)
     fun selectSection(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "985, selectSection, View: $view")
+            Log.i(TAG, "984, selectSection, View: $view")
 
         selSect()
     }
@@ -1014,7 +1013,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start EditMetaActivity (by button)
     fun editMeta(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1017, showResults, View: $view")
+            Log.i(TAG, "1016, showResults, View: $view")
 
         startActivity(
             Intent(this, EditMetaActivity::class.java)
@@ -1025,7 +1024,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start ShowResultsActivity (by button)
     fun showResults(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1028, showResults, View: $view")
+            Log.i(TAG, "1027, showResults, View: $view")
 
         mesg = getString(R.string.wait)
         Toast.makeText(
@@ -1055,7 +1054,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Import the basic DB
     private fun importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1058, importBasicDBFile")
+            Log.i(TAG, "1057, importBasicDBFile")
 
         val fileExtension = ".db"
         val fileNameStart = "transektcount0"
@@ -1378,12 +1377,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             val nameArray: MutableList<String?> = ArrayList()
             val nameGArray: MutableList<String?> = ArrayList()
 
-            var br = BufferedReader(FileReader(inFile))
+            val br = BufferedReader(FileReader(inFile))
             var hasDataLang = true
 
-            editor = prefs.edit()
             csvLine = br.readLine() // Read 1. line only
-            var specLine: Array<String?> =
+            val specLine: Array<String?> =
                 csvLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (specLine[0] == "nocode") {
                 dataLanguage = specLine[2]!!
@@ -1405,34 +1403,35 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
             // For all sections
             while (iSec <= maxSec) {
-                br = BufferedReader(FileReader(inFile))
                 iList = 0
-                // For all species list lines
-                while ((br.readLine().also { csvLine = it }) != null)  // for each csvLine
-                {
-                    // comma-separated 0:id (not used), 1:code, 2:name, 3:nameL
-                    specLine =
-                        csvLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
-                    // 1. line fields contain String[0]: "nocode", [1]: "language", [2]: "de"|"en"|"fr"|"it"|"es"
-                    if (specLine[0] == "nocode") {
-                        if (hasDataLang) {
-                            iCounts--
-                            iList--
+                inFile?.bufferedReader().use { reader ->
+                    val lines = reader?.readLines()
+
+                    // For all species list lines
+                    lines?.forEach { it1 ->
+                        val spLine = it1.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                        // 1. line fields contain String[0]: "nocode", [1]: "language", [2]: "de"|"en"|"fr"|"it"|"es"
+                        if (spLine[0] == "nocode") {
+                            if (hasDataLang) {
+                                iCounts--
+                                iList--
+                            }
+                        } else {
+                            // comma-separated 0:code, 1:name, 2:nameL
+                            codeArray.add(iList, spLine[0])
+                            nameArray.add(iList, spLine[1])
+                            nameGArray.add(iList, spLine[2])
+                            countDataSource!!.writeCountItem(
+                                iCounts.toString(), iSec.toString(),
+                                codeArray[iList]!!, nameArray[iList]!!, nameGArray[iList]!!
+                            )
                         }
-                    } else {
-                        codeArray.add(iList, specLine[0])
-                        nameArray.add(iList, specLine[1])
-                        nameGArray.add(iList, specLine[2])
-                        countDataSource!!.writeCountItem(
-                            iCounts.toString(), iSec.toString(),
-                            codeArray[iList]!!, nameArray[iList]!!, nameGArray[iList]!!
-                        )
+                        iList++
+                        iCounts++
                     }
-                    iList++
-                    iCounts++
                 }
-                br.close()
+
                 iSec++
             }
             mesg = getString(R.string.importList)
@@ -1516,7 +1515,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             fileIS.close()
                         } catch (e: IOException) {
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.e(TAG,"1519, decodeGPX, Problem converting Stream to String: $e")
+                                Log.e(TAG,"1518, decodeGPX, Problem converting Stream to String: $e")
                         }
 
                         val gpxString = gpxsb.toString()
@@ -1542,7 +1541,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         // Get number of sections and compare with number of tracks
                         val numSect = sectionDataSource!!.numEntries
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1545, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
+                            Log.i(TAG, ("1544, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
 
                         if (numSect != numTrk) {
                             mesg = getString(R.string.track_err)
@@ -1616,7 +1615,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 // add offset = length of "</trkseg>" = 9
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 9)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1619, decodeGPX, gpxTrkString: $gpxTrkString")
+                    Log.i(TAG, "1618, decodeGPX, gpxTrkString: $gpxTrkString")
 
                 // set track name from section name
                 // record of transect section for trkseg
@@ -1634,7 +1633,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     // for each track point in trkseg
                     do {
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1637, decodeGPX, do trackpt")
+                            Log.i(TAG, "1636, decodeGPX, do trackpt")
 
                         val nextTp: Int // index for next track point (after /> or /trkpt>)
                         strStart = gpxTrkString.indexOf("lat=") + 5
@@ -1646,7 +1645,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         val tlon = gpxTrkString.substring(strStart, strEnd)
 
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1649, decodeGPX, sectionNameGPS: "
+                            Log.i(TAG, ("1648, decodeGPX, sectionNameGPS: "
                                     + sectionNameGPS + ", " + tlat + ", " + tlon))
 
                         trackDataSource!!.createTrackTp(sectionNameGPS, tlat, tlon)
@@ -1661,13 +1660,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             gpxTrkString = gpxTrkString.substring(nextTp + 8)
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1664, decodeGPX, trackpt $trkPt")
+                                Log.i(TAG, "1663, decodeGPX, trackpt $trkPt")
                         } else {
                             nextTp = gpxTrkString.indexOf("/>")
                             gpxTrkString = gpxTrkString.substring(nextTp + 2)
 
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1670, decodeGPX, trackpt $trkPt")
+                                Log.i(TAG, "1669, decodeGPX, trackpt $trkPt")
                         }
                     } while (gpxTrkString.contains("<trkpt"))
                 }
@@ -1677,7 +1676,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             } while (gpxString.contains("<trkseg>"))
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1680, decodeGPX, gpxString finished: $gpxString")
+                Log.i(TAG, "1679, decodeGPX, gpxString finished: $gpxString")
         }
 
         transectHasTrack = true
@@ -1892,10 +1891,10 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             File(path, "/transektcount_" + dataLanguage + "_" + dbDate + ".db")
         else if (dbDate == "")
             File(path,
-                "/transektcount_" + dataLanguage + "_" + getcurDate() + "_" + transNoForDir + ".db")
+                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + ".db")
         else
             File(path,
-                "/transektcount_" + dataLanguage + "_" + dbDate + "_" + transNoForDir + ".db")
+                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + dbDate + ".db")
 
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         var inPath = applicationContext.filesDir.path
@@ -2050,9 +2049,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             tranSect + dataLanguage + "_" + csvDate + "_" + sortIdent + ".csv")
         else if (csvDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + getcurDate() + "_" + transNoForDir + "_" + sortIdent + ".csv")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + "_" + sortIdent + ".csv")
         else File(path,
-            tranSect + dataLanguage + "_" + csvDate + "_" + transNoForDir + "_" + sortIdent + ".csv")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + csvDate + "_" + sortIdent + ".csv")
 
         var section: Section
         var sectIdent: Int
@@ -2897,7 +2896,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 ).show()
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2901, csv write external failed")
+                    Log.e(TAG, "2899, csv write external failed")
             }
             dbHelper!!.close()
         }
@@ -3023,9 +3022,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             tranSect + dataLanguage + "_" + xlsxDate + "_" + sortIdent + ".xlsx")
         else if (xlsxDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + getcurDate() + "_" + transNoForDir + "_" + sortIdent + ".xlsx")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + "_" + sortIdent + ".xlsx")
         else File(path,
-            tranSect + dataLanguage + "_" + xlsxDate + "_" + transNoForDir + "_" + sortIdent + ".xlsx")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + xlsxDate + "_" + sortIdent + ".xlsx")
 
         val outputStream: FileOutputStream
         try {

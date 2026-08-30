@@ -2,15 +2,16 @@
 
 #### TransektCount Copyright © 2016-2026, Wilhelm Stein
 
-#### Version 5.1.6 (2026-08-16)
+#### Version 5.1.6 (2026-08-30)
 - Code improvements
-- The date in names of exported files modified from "date_time" to "date-time"
 - GPX file import recognizes also files having 1 track with n track segments instead of having n tracks 
 - Entering species notes proposed with predefined wordings like "Photo", "Flyby", "New species", …
-- Cloud %-values rounded to multiples of 10
+- Stored clouds %-values rounded to multiples of 10
 - More restrictive plausi for input of metadata numbers
+- Name composition for exported files changed 
 - "Help" text updated
 - Docs updated
+- Bugfix for importing a species list
 
 #### Version 5.1.5 (2026-07-28)
 - Code improvements

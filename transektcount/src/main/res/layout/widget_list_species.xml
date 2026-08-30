@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- widget_list_species.xml 
-    used by ResultsSpeciesWidget.java and ShowResultsActivity.java.
-    Shows purged list of species counts
-    Copyright © 2016-2025, Wilhelm Stein, Bonn, Germany
-    last edited on 2025-09-19.
+     used by ResultsSpeciesWidget.kt and ShowResultsActivity.kt.
+     Shows purged list of species counts.
+     Last edited on 2026-08-27.
 -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"

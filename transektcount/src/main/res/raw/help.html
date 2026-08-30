@@ -5,7 +5,7 @@
 <html lang="en">
 
 <!-- TransektCount User Guide help.html --
-  Last edited on 2026-08-16
+  Last edited on 2026-08-21
  -->
 
 <h3><font color=#D9FDD9>1. Introduction</font></h3>
@@ -21,10 +21,15 @@ either by reading them in order from the results page or by exporting them to an
 <br><br>
 The app is published with source code and documentation as open source on <br>
 https://github.com/wistein/TransektCount.<br>
-It has neither tracking nor advertising functions and does not make use of Google Play Services, but requires permits for its serviceable functions:<br><br>
-- <b>Storage access</b> which is needed for importing species data and DB files, exporting data and the counting results to DB, XLSX or CSV files, <br>
-- <b>wakelock</b> to hinder the app from being switched off by the system when inactive, but get dimmed and get an insensitive screen when pocketed or held near the body and <br>
-- optionally exact <b>location tracking</b> by GPS to recognize the sections and to inform about a section transition.
+It has neither tracking nor advertising functions and does not make use of Google Play Services, but requires the following permits for its serviceable functions:<br><br>
+- <b>Storage access</b> which is needed for importing species<br>
+&nbsp;&nbsp;&nbsp;data and DB files, exporting data and the counting<br>
+&nbsp;&nbsp;&nbsp;results to DB, XLSX or CSV files,<br>
+- <b>wakelock</b> to hinder the app from being switched off<br>
+&nbsp;&nbsp;&nbsp;by the system when inactive, but get dimmed and get an<br>
+&nbsp;&nbsp;&nbsp;insensitive screen when pocketed or held near the body and<br>
+- optionally exact <b>GPS location service</b> to recognize the<br>
+&nbsp;&nbsp;&nbsp;sections and to inform about a section transition.
 <br><br><br>
 
 <h3><font color=#D9FDD9>2. Setting up</font></h3>
@@ -65,18 +70,21 @@ The *-sign attached to code 07001 in the table above indicates a complex of spec
 <font color=#FF9800><b>Caution:</b></font> A wrong code shows "<b>N/A</b>" or a wrong picture. If necessary, see the "<b>List of Coded Butterflies.pdf</b>" on<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
-In the next step, you could enter some metadata like transect-No. or inspectors name. Click on "<b><font color="#D9FDD9">Edit Metadata</font></b>" and save the input by clicking the save icon.
+Once this list is complete, you can add copies for all remaining transect sections by the add button on top of the section list, and name each section appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
 <br><br>
-Once this section list is complete, you can add copies for all remaining transect sections by the add button on top of the section list, and name each section appropriately, if possible in the order you will walk the transect (e.g.: Sect 02, Sect 03, ...).
+In the next step, you could enter some metadata like transect-No. or inspectors name. Click on "<b><font color="#D9FDD9">Edit Metadata</font></b>" and save the input by clicking the save icon.
 <br><br>
 When you have created the section lists for all your transect sections and entered the general metadata, the database is ready for export as a "Basic Database".<br>
 To do this, use the function "<b><font color="#D9FDD9">Export as Basic DB</font></b>" in the main menu of the starting page.<br>
 By that you have a copy of the prepared empty database saved as "Basic Database" (<b>transektcount0_dl_Tr-No.db</b>) with 'dl' as data language and ‘Tr-No’ as Transect No. in the app's data directory "<b>Documents/TransektCount</b>".<br>
-The app data directory is created during the first app call. When uninstalling TransektCount you will not lose your data as this directory remains untouched.<br><br>
-Exporting as Basic DB ignores all counts, notes and inspection-related metadata. The Basic DB serves as a template for future inspections. To prepare a future monitoring inspection you will only need to enter the inspection-specific metadata (date, start time, temperature, wind and clouds).
+The app data directory is created during the first app call. When uninstalling TransektCount you will not lose your data as this directory remains untouched.
+<br><br>
+Exporting as Basic DB ignores all counts, notes and inspection-related metadata. The Basic DB serves as a template for future inspections.
 <br><br>
 The Basic DB can be changed, supplemented and exported anytime. Changes of species always affect all sections to maintain consistency. However, the section name will only be changed for the current section.<br>
 <font color=#2C87FD><b>Note:</b></font> The file names of the Basic DBs always start with the string "<b>transektcount0</b>" ("transectcount" with a trailing "0").
+<br><br>
+To prepare a future monitoring inspection you will only need to enter the inspection-specific metadata (date, start time, temperature, wind and cloud cover).
 <br><br>
 Alternatively you can import and adapt a self-created Basic DB for your transect. Or you may substitute the species list by importing a previously exported species list from TransektCount or TourCount (if installed). Examples for downloading, partly from other European countries than Germany, are provided on<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
@@ -95,23 +103,22 @@ with
 <br><br>
 - <b><font color="#0060FF">blue</font></b> = fixed string parts.<br>
 - <b>dl</b> = data language of local species names<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("de", "en", "es", "fr", "it"),<br>
+&nbsp;&nbsp;&nbsp;("de", "en", "es", "fr", "it"),<br>
 - <b>Tr-No</b> = transect name<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(filtered for filename conformity),<br>
+&nbsp;&nbsp;&nbsp;(filtered for filename conformity),<br>
 - <b>StartDate</b> = date of the inspection start<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(YYYYMMDD-hhmm).<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If not specified the current storage date,<br>
+&nbsp;&nbsp;&nbsp;(YYYYMMDD-hhmm).<br>
+&nbsp;&nbsp;&nbsp;If not specified the current storage date,<br>
 - <b>os</b> = output sorting code ("n" names, "c" codes,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sn" section and names or<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sc" section and codes).<br>
+&nbsp;&nbsp;&nbsp;"sn" section and names or<br>
+&nbsp;&nbsp;&nbsp;"sc" section and codes).<br>
 - <b>CurrentDate</b> = current storage date<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(YYYYMMDD-hhmm).
+&nbsp;&nbsp;&nbsp;(YYYYMMDD-hhmm).
 <br><br><br>
 
 <h3><font color=#D9FDD9>3. Usage</font></h3>
 Start with "<b><font color="#D9FDD9">Edit Metadata</font></b>". Fill in the relevant metadata for the specific transect inspection.<br>
-Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden.<br>
-You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. Finish with the save button.
+You may enter the current date and time by clicking the related field or enter any date and time by long pressing the related field. To suppress unreal values for temperature, wind or clouds, plausibility checks are done when saving and refuse saving until suitable values are entered. The percentage value entered for cloud cover is rounded to the nearest ten when saved. Finish with the "Save" button.
 <br><br>
 Then select "<b><font color="#D9FDD9">Counting</font></b>". The transect sections list is displayed here.<br>
 Select the relevant transect section by clicking the section name. The counting page for the first species in the sorted species list of the section appears.<br><br>
@@ -213,11 +220,11 @@ The app shows several short pop-up messages in 4 categories:<br><br>
 <br><br><br>
 
 <h3><font color=#D9FDD9>5. GPS Usage</font></h3>
-Automatic section recognition in the transect is performed by comparing the current position with the track coordinates of the transect sections in a transektcount_xxx.gpx file. If the current position is no further than e.g. 5 m (default setting) away from a section track point, the section is indicated for registration. GPS inaccuracies must unfortunately be accepted. Contact between two transect sections should be avoided and gaps of approx. 5 m between sections are recommended.
+Automatic section recognition in the transect is performed by comparing the current position with the track coordinates of the transect sections in a transektcount_xxx.gpx file. If the current position is no further than e.g. 5 m (default setting) away from a section track point, the section is indicated for registration. GPS inaccuracies must unfortunately be accepted. Contact between two transect sections should be avoided and gaps of approx. 5 m between sections are recommended. GPS inaccuracies may have to be accepted in some cases, but modern smartphones are now very accurate.
+<br><br>
+The allowed distance from the track "<b><font color="#D9FDD9">Max. Distance of track deviation</font></b>" can be set between 2 and 10 m (default: 5 m) to accommodate the device's GPS accuracy.
 <br><br>
 To strike a balance between performance and power consumption, you can set the "<b><font color="#D9FDD9">Min. distance for GPS update</font></b>" between 0 and 5 m (default: 5 m) and the "<b><font color="#D9FDD9">GPS polling interval</font></b>" between 1 and 10 seconds (default: 3 seconds).
-<br><br>
-The preset deviation radius "<b><font color="#D9FDD9">Max. Distance of track deviation</font></b>" can be set between 2 and 10 m (default: 5 m) to accommodate the device's GPS accuracy.
 <br><br><br>
 
 <h4><font color=#D9FDD9>5.1 Creating the track file for TransektCount</font></h4>

@@ -2,13 +2,14 @@ TransektCount permet de compter les papillons par espèce et par section de tran
 
 Nouveautés de la version 5.1.6 :
 - Améliorations du code
-- La date figurant dans les noms des fichiers exportés a été modifiée, passant de « date_heure » à « date-heure »
 - L'importation de fichiers GPX prend également en charge les fichiers comportant une seule trace divisée en n segments, plutôt que n traces distinctes
 - Saisie de notes sur les espèces à partir des formulations prédéfinies « Photo », « Survol », « Nouvelle espèce », …
 - La valeur saisie en % pour la nébulosité est arrondie aux dizaines
 - Contrôle de cohérence plus strict pour la saisie des métadonnées numériques
+- Modification de la structure des noms des fichiers exportés
 - Mise à jour du texte « Aide »
 - Documents mis à jour
+- Correction d'un bug lié à l'importation d'une liste d'espèces
 
 Caractéristiques :
 - La collecte des données s'appuie sur un relevé par transect.

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ widget_counting_head1.xml used by CountingHead1Widget.java
-  ~ Last edited on 2025-07-07.
+<!-- widget_counting_head1.xml
+     used by CountingHead1Widget.kt
+     Last edited on 2026-08-27.
   -->
-
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"

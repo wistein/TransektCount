@@ -2,13 +2,14 @@ TransektCount supporta il conteggio specifico per specie delle farfalle per ogni
 
 Novità della versione 5.1.6:
 - Miglioramenti al codice
-- La data nei nomi dei file esportati è stata modificata da “date_time” a “date-time”
 - L'importazione dei file GPX riconosce anche i file contenenti 1 traccia con n segmenti, anziché n tracce.
 - Inserimento di note relative alle specie utilizzando le diciture predefinite “Foto”, “Avvistamento in volo”, “Nuova specie”, …
 - Il valore immesso in % relativo alla nuvolosità viene arrotondato ai valori più vicini a 10
 - Controlli di plausibilità più rigorosi per l'inserimento dei metadati numerici
+- Modifica della struttura dei nomi dei file esportati
 - Testo “Aiuto” aggiornato
 - Documenti aggiornati
+- Correzione di un bug relativo all'importazione di un elenco di specie
 
 Caratteristiche:
 - La raccolta dei dati si basa sul percorso lungo un transetto.

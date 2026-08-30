@@ -188,7 +188,7 @@
     <string name="pref_csv_output_title">Sortierung der Ergebnisse</string>
     <string name="pref_deviation_title">Max. Distanz der Track-Abweichung</string>
     <string name="pref_distance_title">Min. Distanz für GPS-Update</string>
-    <string name="pref_interval_title">GPS-Abfrageinterval</string>
+    <string name="pref_interval_title">GPS-Abfrageintervall</string>
     <string name="pref_left_hand">Linkshänder</string>
     <string name="pref_left_hand_summ">Zeige Zählansicht für Linkshänder</string>
     <string name="pref_proximity_dialog">Wähle die Empfindlichkeit zwecks Abschalten des Bildschirms.</string>

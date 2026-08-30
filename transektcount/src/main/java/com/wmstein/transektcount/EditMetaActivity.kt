@@ -46,10 +46,9 @@ import java.util.Locale
  * Created by wmstein on 2016-03-31,
  * last edited in Java on 2026-05-23,
  * converted to kotlin on 2026-07-17,
- * last edited on 2026-07-21
+ * last edited on 2026-08-21
  */
 class EditMetaActivity : AppCompatActivity() {
-    // Preferences
     private val prefs = getPrefs()
 
     // Data from DB tables
@@ -66,14 +65,14 @@ class EditMetaActivity : AppCompatActivity() {
     private var sTime: TextView? = null
     private var eTime: TextView? = null
 
-    private var ehw: EditMetaHeadWidget? = null
+    private var emhw: EditMetaHeadWidget? = null
     private var emw: EditMetaWidget? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "77, onCreate")
+            Log.i(TAG, "75, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)  // SDK 35+
         {
@@ -116,7 +115,7 @@ class EditMetaActivity : AppCompatActivity() {
             val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG,"120, handleOnBackPressed")
+                        Log.i(TAG,"118, handleOnBackPressed")
 
                     finish()
                     remove()
@@ -129,7 +128,7 @@ class EditMetaActivity : AppCompatActivity() {
 
     val navBarMode: Int
         get() {
-            val resources = this.getResources()
+            val resources = this.resources
             @SuppressLint("DiscouragedApi") val resourceId = resources.getIdentifier(
                 "config_navBarInteractionMode",
                 "integer", "android"
@@ -141,7 +140,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "145, onResume")
+            Log.i(TAG, "143, onResume")
 
         // Setup data sources
         headDataSource!!.open()
@@ -155,26 +154,31 @@ class EditMetaActivity : AppCompatActivity() {
         head = headDataSource!!.head
         meta = metaDataSource!!.meta
 
-        // Display the editable head data
-        ehw = EditMetaHeadWidget(this, null)
-        ehw!!.setWidgetNo(getString(R.string.transectnumber) + ":")
-        ehw!!.widgetNo1 = head!!.transect_no
-        ehw!!.setWidgetName(getString(R.string.inspector) + ":")
-        ehw!!.widgetName1 = head!!.inspector_name
-        metaArea!!.addView(ehw)
+        // Display the head data
+        emhw = EditMetaHeadWidget(this, null)
+        emhw!!.setWidgetNo(getString(R.string.transectnumber) + ":")
+        emhw!!.setWidgetName(getString(R.string.inspector) + ":")
 
-        // Display the editable metadata
+        // Display the editable head data
+        emhw!!.widgetNo1 = head!!.transect_no
+        emhw!!.widgetName1 = head!!.inspector_name
+        metaArea!!.addView(emhw)
+
+        // Display the metadata
         emw = EditMetaWidget(this, null)
         emw!!.setWidgetTemp1(getString(R.string.temperature) + ":")
         emw!!.setWidgetWind1(getString(R.string.wind) + ":")
         emw!!.setWidgetClouds1(getString(R.string.clouds) + ":")
 
-        emw!!.setWidgetStartTemp2(meta!!.temps)
-        emw!!.setWidgetEndTemp2(meta!!.tempe)
-        emw!!.setWidgetStartWind2(meta!!.winds)
-        emw!!.setWidgetEndWind2(meta!!.winde)
-        emw!!.setWidgetStartClouds2(meta!!.clouds)
-        emw!!.setWidgetEndClouds2(meta!!.cloude)
+        // Display the editable metadata
+        emw!!.widgetTempS = meta!!.temps
+        emw!!.widgetTempE = meta!!.tempe
+
+        emw!!.widgetWinds = meta!!.winds
+        emw!!.widgetWinde = meta!!.winde
+
+        emw!!.widgetCloudsS = meta!!.clouds
+        emw!!.widgetCloudsE = meta!!.cloude
 
         emw!!.setWidgetDate1(getString(R.string.date) + ":")
         emw!!.setWidgetDate2(meta!!.date)
@@ -182,6 +186,7 @@ class EditMetaActivity : AppCompatActivity() {
         emw!!.setWidgetSTime2(meta!!.start_tm)
         emw!!.setWidgetETime1(getString(R.string.endtm))
         emw!!.setWidgetETime2(meta!!.end_tm)
+
         emw!!.setWidgetNote1(getString(R.string.note) + ":")
         emw!!.setWidgetNote2(meta!!.note)
         metaArea!!.addView(emw)
@@ -191,15 +196,15 @@ class EditMetaActivity : AppCompatActivity() {
         if (newTransectNo != "") {
             emw!!.requestFocus()
         } else {
-            ehw!!.requestFocus()
+            emhw!!.requestFocus()
         }
 
         pdate = Calendar.getInstance()
         ptime = Calendar.getInstance()
 
-        sDate = findViewById(R.id.widgetDate2)
-        sTime = findViewById(R.id.widgetSTime2)
-        eTime = findViewById(R.id.widgetETime2)
+        sDate = findViewById(R.id.widgetDateValue)
+        sTime = findViewById(R.id.widgetStartTimeValue)
+        eTime = findViewById(R.id.widgetEndTimeValue)
 
         // Get current date by click
         sDate!!.setOnClickListener { _: View? ->
@@ -292,7 +297,7 @@ class EditMetaActivity : AppCompatActivity() {
         if (id == android.R.id.home)  // back button in actionBar
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "296, MenuItem home")
+                Log.i(TAG, "300, MenuItem home")
 
             finish()
             return true
@@ -300,7 +305,7 @@ class EditMetaActivity : AppCompatActivity() {
 
         if (id == R.id.menuSaveExit) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "304, MenuItem saveExit")
+                Log.i(TAG, "308, MenuItem saveExit")
 
             if (saveData()) finish()
             return true
@@ -312,7 +317,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "316, onPause")
+            Log.i(TAG, "320, onPause")
 
         headDataSource!!.close()
         metaDataSource!!.close()
@@ -332,7 +337,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "336, onStop")
+            Log.i(TAG, "340, onStop")
 
         metaArea = null
     }
@@ -341,50 +346,53 @@ class EditMetaActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "345, onDestroy")
+            Log.i(TAG, "349, onDestroy")
     }
 
     fun saveData(): Boolean {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "350, saveData")
+            Log.i(TAG, "354, saveData")
 
         // Save head data
-        head!!.transect_no = ehw!!.widgetNo1
-        head!!.inspector_name = ehw!!.widgetName1
+        head!!.transect_no = emhw!!.widgetNo1
+        head!!.inspector_name = emhw!!.widgetName1
 
         headDataSource!!.saveHead(head!!)
 
         var mesg: String
 
         // Save metadata with plausi
-        meta!!.temps = emw!!.widgetTemps
-        meta!!.tempe = emw!!.widgetTempe
-        if (meta!!.temps !in 0..50 || meta!!.tempe !in 0..50) {
+        if (emw!!.widgetTempS !in 0..50 || emw!!.widgetTempE !in 0..50) {
             mesg = getString(R.string.valTemp)
             Toast.makeText(this,  //orange
                 fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
                 Toast.LENGTH_LONG).show()
             return false
+        } else {
+            meta!!.temps = emw!!.widgetTempS
+            meta!!.tempe = emw!!.widgetTempE
         }
 
-        meta!!.winds = emw!!.widgetWinds
-        meta!!.winde = emw!!.widgetWinde
-        if (meta!!.winds !in 0..4 || meta!!.winde !in 0..4) {
+        if (emw!!.widgetWinds !in 0..4 || emw!!.widgetWinde !in 0..4) {
             mesg = getString(R.string.valWind)
             Toast.makeText(this,  //orange
                 fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
                 Toast.LENGTH_LONG).show()
             return false
+        } else {
+            meta!!.winds = emw!!.widgetWinds
+            meta!!.winde = emw!!.widgetWinde
         }
 
-        meta!!.clouds = emw!!.widgetClouds
-        meta!!.cloude = emw!!.widgetCloude
-        if (meta!!.clouds !in 0..100 || meta!!.cloude !in 0..100) {
+        if (emw!!.widgetCloudsS !in 0..100 || emw!!.widgetCloudsE !in 0..100) {
             mesg = getString(R.string.valClouds)
             Toast.makeText(this,  //orange
                 fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
                 Toast.LENGTH_LONG).show()
             return false
+        } else {
+            meta!!.clouds = emw!!.widgetCloudsS
+            meta!!.cloude = emw!!.widgetCloudsE
         }
 
         meta!!.date = emw!!.widgetDate

@@ -5,7 +5,7 @@
 <html lang="de">
 
 <!-- TransektCount Benutzeranleitung help_de.html --
-  Last edited on 2026-08-16
+  Last edited on 2026-08-21
  -->
 
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
@@ -19,12 +19,19 @@ Datenbankdateien werden Transekt-bezogen, also individuell bezüglich Transektab
 Die erfassten Daten (Metadaten, Zählerstände und Anmerkungen) können zur Eingabe in ein Tagfaltermonitoring-System z.B. auf <br>https://web.app.ufz.de/tagfalter-monitoring<br>
 entweder von der Ergebnisseite geordnet abgelesen oder in eine MS-Excel-Tabelle exportiert und diese auf einen PC übertragen und dort komfortabler gelesen oder verarbeitet werden.
 <br><br>
-Die App ist veröffentlicht unter
-<br>https://github.com/wistein/TransektCount<br>
-mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br><br>
-- <b>Speicherzugriff</b> zwecks Import von DB-Dateien und Spezieslisten, Export von Daten und der Zählergebnisse in DB-, XLSX- oder CSV-Dateien, <br>
-- <b>Wakelock</b> zwecks Verhinderung, dass die App sich selbständig dimmt oder abschaltet, aber beim Einstecken in die Jackentasche oder beim Halten dicht am Körper den Bildschirm und dessen Berührungsempfindlichkeit so lange abschaltet, bis das Gerät wieder benutzt wird und <br>
-- ggf. genaue <b>Standortbestimmung</b> durch GPS um Transektabschnittsgrenzen zu erkennen und einen Abschnittsübergang zu melden.
+Die App ist veröffentlicht unter<br>
+https://github.com/wistein/TransektCount<br>
+mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber die folgenden Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br><br>
+- <b>Speicherzugriff</b> zwecks Import von DB-Dateien und<br>
+&nbsp;&nbsp;&nbsp;Spezieslisten, Export von Daten und der Zählergebnisse<br>
+&nbsp;&nbsp;&nbsp;in DB-, XLSX- oder CSV-Dateien,<br>
+- <b>Wakelock</b> zwecks Verhinderung, dass die App bei<br>
+&nbsp;&nbsp;&nbsp;Inaktivität vom Systen abgeschaltet wird, jedoch beim<br>
+&nbsp;&nbsp;&nbsp;Einstecken oder nahe am Körper halten, den Bildschirm<br>
+&nbsp;&nbsp;&nbsp;abdunkelt und berührungsunempfindlich macht und<br>
+- ggf. genaue <b>Standortbestimmung</b> durch GPS um<br>
+&nbsp;&nbsp;&nbsp;Transektabschnittsgrenzen zu erkennen und einen<br>
+&nbsp;&nbsp;&nbsp;Abschnittsübergang zu melden.
 <br><br><br>
 
 <h3><font color=#D9FDD9>2. Einrichtung</font></h3>
@@ -65,19 +72,21 @@ Das am Code 07001 angehängte *-Zeichen im Listenausschnitt oben kennzeichnet ei
 <font color=#FF9800><b>Vorsicht:</b></font> Ein falscher Code zeigt ein „<b>N/A</b>“ oder falsches Bild an. Dazu siehe ggf. „<b>Liste kodierter Schmetterlinge.pdf</b>“ unter<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
-Im nächsten Schritt sollten die fixen Metadaten (Stammdaten) wie Transekt-Nr. und Kartierername eingegeben werden. Dazu „<b><font color="#D9FDD9">Metadaten editieren</font></b>“ klicken und die Eingaben mit Klick aufs Speichersymbol sichern.
+Ist die Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Kopf der Abschnittsliste per plus-Button die fehlenden Abschnitte erzeugen und jeweils sinnvoll benennen, möglichst in der Reihenfolge wie die Abschnitte begangen werden (z.B.: Ab 02, Ab 03, ...).
 <br><br>
-Ist die Abschnitts-Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Kopf der Abschnittsliste per plus-Button die fehlenden Abschnitte erzeugen und jeweils sinnvoll benennen, möglichst in der Reihenfolge wie die Abschnitte begangen werden (z.B.: Ab 02, Ab 03, ...).
+Im nächsten Schritt sollten die fixen Metadaten (Stammdaten) wie Transekt-Nr. und Kartierername eingegeben werden. Dazu „<b><font color="#D9FDD9">Metadaten editieren</font></b>“ klicken und die Eingaben mit Klick aufs Speichersymbol sichern.
 <br><br>
 Sind alle Transektabschnittslisten eingerichtet und die generellen Metadaten eingegeben, ist die Datenbank fertig vorbereitet und sollte nun als „Basis-Datenbank“ exportiert werden.<br>
 Das geht mithilfe der Funktion „<b><font color="#D9FDD9">Export als Basis-DB</font></b>“ im Menü der Startseite.<br>
 Hierdurch wird eine Kopie der vorbereiteten, leeren Datenbank als „Basis-Datenbank“ (<b>transektcount0_ds_Tr-Nr.db</b>) mit 'ds' als Datensprache und 'Tr-Nr' als Transekt-Nr. im Daten-Verzeichnis „<b>Documents/TransektCount</b>“ abgelegt.<br>
 Das App-Datenverzeichnis wird während des ersten App-Aufrufs angelegt. Bei Deinstallation von TransektCount werden dieses Verzeichnis und die Daten darin nicht gelöscht.
 <br><br>
-Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Metadaten. Sie dient als Vorlage für zukünftige Begehungen. Nach dem Import einer Basis-DB sind zur Vorbereitung einer Begehung nur noch die begehungsspezifischen Metadaten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben.
+Der Export als Basis-DB ignoriert alle Zähldaten, Bemerkungen und begehungsspezifischen Metadaten. Sie dient als leere Vorlage für zukünftige Begehungen.
 <br><br>
 Die Basis-DB kann auch später, z.B. nach Änderungen an Listen erneut exportiert werden. Nachträgliche Änderungen der Artenliste wirken sich immer auf alle vorhandenen Abschnitte aus. Allerdings Änderungen des Abschnittsnamens betreffen nur den aktuellen Abschnitt.<br>
 <font color=#2C87FD><b>Merke:</b></font> Die Dateinamen der Basis-DBs beginnen immer mit „<b>transektcount0</b>“ („transektcount“ mit angehängter „0“).
+<br><br>
+Nach dem Import einer Basis-DB sind zur Vorbereitung einer Begehung nur noch die begehungsspezifischen Metadaten (Datum, Startzeit, Temperatur, Wind und Wolken) einzugeben. Der %-Eingabewert für Bewölkung wird beim Speichern auf 10er-Werte gerundet.
 <br><br>
 Alternativ kann auch eine selbst erstellte Basis-DB importiert und angepasst werden. Oder die Speziesliste kann durch eine zuvor exportierte Speziesliste aus TransektCount oder TourCount (falls installiert) per Import ersetzt werden. Beispieldateien, teilweise aus dem europäischen Ausland, können aus <br>
 https://github.com/wistein/TransektCount/tree/master/docs<br>
@@ -94,23 +103,23 @@ Die Dateinamen-Konvention der aus TransektCount exportierten Dateien:
 mit
 <br><br>
 - <b><font color="#0060FF">blau</font></b> = gesetzte Zeichenfolgen.<br>
-- <b>ds</b> = Datenspracheder lokalen Artnamen<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(„de“, „en“, „es“, „fr“, „it“),<br>
+- <b>ds</b> = Datensprache der lokalen Artnamen<br>
+&nbsp;&nbsp;&nbsp;(„de“, „en“, „es“, „fr“, „it“),<br>
 - <b>Tr-Nr</b> = Transektbezeichnung,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bereinigt für Dateinamenskonformität),<br>
+&nbsp;&nbsp;&nbsp;(bereinigt für Dateinamenskonformität),<br>
 - <b>StartDatum</b> = Datum und Zeit des Starts der Begehung<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wenn nicht angegeben, das aktuelle Speicherdatum,<br>
+&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).<br>
+&nbsp;&nbsp;&nbsp;Wenn nicht angegeben, das aktuelle Speicherdatum,<br>
 - <b>as</b> = Ausgabe-Sortiercode („n“ Namen, „c“ Codes,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;„sn“ Abschnitt und Namen oder<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;„sc“ Abschnitt und Codes).<br>
+&nbsp;&nbsp;&nbsp;„sn“ Abschnitt und Namen oder<br>
+&nbsp;&nbsp;&nbsp;„sc“ Abschnitt und Codes).<br>
 - <b>AktDatum</b> = aktuelles Speicherdatum<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).
+&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).
 <br><br><br>
 
 <h3><font color=#D9FDD9>3. Benutzung</font></h3>
 Beginne mit „<b><font color="#D9FDD9">Metadaten editieren</font></b>“. Gib die relevanten Metadaten der Transektbegehung ein. Das aktuelle Datum und die momentane Uhrzeit kann durch Antippen des jeweiligen Felds eingegeben werden.<br>
-Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden. Mit dem Speichern-Button beenden.
+Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden. Unrealistische Werte für Temperatur, Wind oder Bewölkung werden mit Plausibilitätschecks abgefangen. Werte für Bewölkung werden beim Speichern auf Zehner gerundet. Mit dem „Speichern“-Button beenden.
 <br><br>
 Dann wähle „<b><font color="#D9FDD9">Zählen</font></b>“. Hier wird die Liste aller Transektabschnitte angezeigt.<br>
 Wähle den zutreffenden Transektabschnitt durch Tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Artenliste des Abschnitts. Wähle die zutreffende Art in der Rollliste durch Klicken des Falter-Icons.<br>
@@ -185,12 +194,12 @@ Die exportierten Ergebnisdateien können in einer Android-Tabellenkalkulations-A
 <br><br>
 Die exportierten <b>.xlsx</b>- oder <b>.csv</b>-Ergebnisdateien können auch für die weitere Bearbeitung auf einen PC übertragen und in einer Tabellenkalkulation geladen bzw. importiert werden (getestet mit MS Excel, LibreOffice Calc und Softmaker PlanMaker).
 <br><br>
-IT-affine Anwender können die mittels Exportfunktion erzeugten Datenbankdateien (.db-Dateien) auf einen PC übertragen mit Hilfe eines kostenlosen Tools wie „<b>DB Browser for SQLite</b>“
+IT-affine Anwender können die mittels Exportfunktion erzeugten Datenbankdateien (.db-Dateien) auf einen PC übertragen mithilfe eines kostenlosen Tools wie „<b>DB Browser for SQLite</b>“
 <br>(https://sqlitebrowser.org)<br>
 manuell oder per SQL-Script bearbeiten. Einige vorbereitete, ggf. nützliche Beispiel-SQL-Scripte finden sich im Doku-Verzeichnis der GitHub-Webseite<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
-Unter „<b><font color="#D9FDD9">App-Info</font></b>“ sind allgemeine Infos zur App, die E-Mail-Adresse des Autors und die Historie zur App-Entwicklung abrufbar.
+Unter „<b><font color="#D9FDD9">App-Info</font></b>“ sind allgemeine Informationen zur App, die E-Mail-Adresse des Autors und die Historie zur App-Entwicklung abrufbar.
 <br><br>
 Unter „<b><font color="#D9FDD9">Lizenzen</font></b>“ sind die Lizenzbestimmungen zum Code und den Abbildungen beschrieben.
 <br><br>
@@ -208,9 +217,9 @@ In der App erscheinen verschiedene, eingefärbte Kurz-Meldungen in 4 Kategorien:
 <h3><font color=#D9FDD9>5. GPS-Nutzung</font></h3>
 Die automatische Abschnittserkennung im Transekt geschieht durch Vergleich des aktuellen Standpunkts mit den Track-Koordinaten der Transektabschnitte in einer importierten transektcount_xxx.gpx-Datei. Ist der momentane Standpunkt nicht weiter als z.B. 5 m von einem Abschnitts-Trackpunkt entfernt, wird der Abschnitt für die Registrierung vorgeschlagen. GPS-Ungenauigkeiten müssen dabei ggf. in Kauf genommen werden, allerdings sind moderne Smartphones inzwischen sehr genau.
 <br><br>
-Für einen Kompromiss zwischen Performanz und Energieverbrauch können die „<b><font color="#D9FDD9">Min. Distanz für GPS-Update</font></b>“ zwischen 0 und 5 m (5 m voreingestellt) und das „<b><font color="#D9FDD9">GPS-Abfrageintervall</font></b>“ zwischen 1 und 10 sec (3 sec voreingestellt) gewählt werden.
+Der tolerierte Abstand zum Track „<b><font color="#D9FDD9">Max. Distanz der Track-Abweichung</font></b>“ kann zur Anpassung an die GPS-Genauigkeit des Geräts zwischen 2 und 10 m (5 m voreingestellt) eingestellt werden.
 <br><br>
-Der Abstandsradius „<b><font color="#D9FDD9">Max. Distanz der Track-Abweichung</font></b>“ der Voreinstellung kann zur Anpassung an die GPS-Genauigkeit des Geräts zwischen 2 und 10 m (5 m voreingestellt) eingestellt werden.
+Für einen Kompromiss zwischen Performanz und Energieverbrauch können die „<b><font color="#D9FDD9">Min. Distanz für GPS-Update</font></b>“ zwischen 0 und 5 m (5 m voreingestellt) und das „<b><font color="#D9FDD9">GPS-Abfrageintervall</font></b>“ zwischen 1 und 10 sec (3 sec voreingestellt) gewählt werden.
 <br><br><br>
 
 <h4><font color=#D9FDD9>5.1 Erzeugung der Track-Datei für TransektCount</font></h4>

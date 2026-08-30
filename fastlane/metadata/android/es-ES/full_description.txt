@@ -2,13 +2,14 @@ TransektCount permite el recuento específico por especies de mariposas en cada 
 
 Novedades de la versión 5.1.6:
 - Mejoras en el código
-- La fecha que aparece en los nombres de los archivos exportados ha cambiado de «date_time» a «date-time»
 - La importación de archivos GPX también reconoce archivos que contienen una ruta con n segmentos, en lugar de n rutas
 - Incluir notas sobre especies propuestas con expresiones predefinidas como «Foto», «Visto de pasada», «Nueva especie», …
 - El valor introducido en porcentaje para la nubosidad se redondea a valores de 10
 - Controles de plausibilidad más estrictos para la introducción de metadatos numéricos
+- Se ha modificado la estructura de los nombres de los archivos exportados
 - Se ha actualizado el texto de «Ayuda»
 - Documentación actualizada
+- Corrección de un error en la importación de una lista de especies
 
 Características:
 - El registro de datos se basa en un recorrido por transectos.

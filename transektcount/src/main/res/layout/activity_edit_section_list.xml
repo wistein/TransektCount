@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_edit_species_list.xml is used by EditSectionListActivity.kt
-     in conjunction with widget_edit_title.xml and widget_edit_count.xml
-     Last edited on 2024-12-14
+<!-- activity_edit_species_list.xml
+     used by EditSectionListActivity.kt
+     in conjunction with widget_edit_title.xml and widget_edit_count.xml.
+     Last edited on 2026-08-27
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/editSectionList"
     android:background="@color/DarkerGreen"
