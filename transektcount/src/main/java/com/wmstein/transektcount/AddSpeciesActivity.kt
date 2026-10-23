@@ -1,5 +1,34 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * AddSpeciesActivity lets you insert new species into the counting species list
+ * AddSpeciesActivity is called from CountingActivity
+ * Uses AddSpeciesWidget.kt, widget_add_spec.xml.
+ *
+ * The sorting order of the species to add cannot be changed, as it is determined
+ * by 3 interdependent and correlated arrays in arrays.xml
+ *
+ * Created for TransektCount by wmstein on 2019-04-12,
+ * last edited in Java on 2023-05-08,
+ * converted to Kotlin on 2023-06-28,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -16,6 +45,8 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -35,19 +66,6 @@ import com.wmstein.transektcount.widgets.AddSpeciesHintWidget
 
 import java.util.Locale
 
-/*******************************************************************************
- * AddSpeciesActivity lets you insert new species into the counting species list
- * AddSpeciesActivity is called from CountingActivity
- * Uses AddSpeciesWidget.kt, widget_add_spec.xml.
- *
- * The sorting order of the species to add cannot be changed, as it is determined
- * by 3 interdependent and correlated arrays in arrays.xml
- *
- * Created for TransektCount by wmstein on 2019-04-12,
- * last edited in Java on 2023-05-08,
- * converted to Kotlin on 2023-06-28,
- * last edited on 2026-07-21
- */
 class AddSpeciesActivity : AppCompatActivity() {
     private var addArea: LinearLayout? = null
     private var addHintArea: LinearLayout? = null
@@ -92,7 +110,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "95, isEmulator, onCreate")
+            Log.i(TAG, "113, isEmulator, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -136,7 +154,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "139, handleOnBackPressed")
+                    Log.i(TAG, "157, handleOnBackPressed")
 
                 val intent = NavUtils.getParentActivityIntent(this@AddSpeciesActivity)!!
                 intent.putExtra("section_id", sectionId)
@@ -153,7 +171,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "156, onResume")
+            Log.i(TAG, "174, onResume")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -184,11 +202,11 @@ class AddSpeciesActivity : AppCompatActivity() {
             "es" -> namesLCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selSpecs_es)))
             else -> {
                 namesLCompleteArrayList = ArrayList(listOf(*resources.getStringArray(R.array.selSpecs_de)))
-                val mesg = getString(R.string.specsCommonLang)
+                val msg = getString(R.string.specsCommonLang)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
         }
@@ -209,11 +227,11 @@ class AddSpeciesActivity : AppCompatActivity() {
         addHintArea!!.addView(haw)
 
         // Toast for duration of list calculation
-        val mesg = getString(R.string.wait)
+        val msg = getString(R.string.wait)
         Toast.makeText(
-            applicationContext,
-            fromHtml("<font color='blue'>$mesg</font>"),
-            Toast.LENGTH_SHORT
+            this,
+            fromHtml("<font color='blue'>$msg</font>"),
+            LENGTH_SHORT
         ).show()
 
         // Delay necessary for Toast to show and not break activity
@@ -227,7 +245,7 @@ class AddSpeciesActivity : AppCompatActivity() {
     // Parameter view is necessary for function call
     fun getAddSearchChars(view: View) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "230, getAddSearchChars, View: $view")
+            Log.i(TAG, "248, getAddSearchChars, View: $view")
 
         // Read EditText searchAdd from widget_add_hint.xml
         val searchAdd: EditText = findViewById(R.id.searchA)
@@ -270,7 +288,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         // 2. Build lists of all yet missing species
         val specCodesContainedListSize = specCodesContainedList.size
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "270, specCodesContainedListSize: $specCodesContainedListSize")
+            Log.i(TAG, "291, specCodesContainedListSize: $specCodesContainedListSize")
 
         // Reduce complete arraylists for already contained species
         for (i in 0 until specCodesContainedListSize) {
@@ -280,8 +298,6 @@ class AddSpeciesActivity : AppCompatActivity() {
                 specCode = specCodesContainedList[i]!!
                 posSpec = codesCompleteArrayList!!.indexOf(specCode)
 
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "281, 1. specCode: $specCode, posSpec: $posSpec")
                 namesCompleteArrayList!!.removeAt(posSpec)
                 namesLCompleteArrayList!!.removeAt(posSpec)
                 codesCompleteArrayList!!.removeAt(posSpec)
@@ -319,8 +335,6 @@ class AddSpeciesActivity : AppCompatActivity() {
 
         // Create remainingIdArrayList for all remaining species of codesReducedArrayList
         remainingIdArrayList = arrayOfNulls(codesReducedArrayList!!.size)
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "320, remainingIdArrayListSize: " + remainingIdArrayList.size)
         var i = 0
         while (i < codesReducedArrayList!!.size) {
             remainingIdArrayList[i] = (i + 1).toString()
@@ -373,10 +387,10 @@ class AddSpeciesActivity : AppCompatActivity() {
             specCode = listToAdd!![i].getSpecCode()
             specNameG = listToAdd!![i].getSpecNameG()
             try {
-                var sectid = 1
-                while (sectid <= numSect) {
-                    countDataSource!!.createCount(sectid, specName, specCode, specNameG)
-                    sectid++
+                var sectId = 1
+                while (sectId <= numSect) {
+                    countDataSource!!.createCount(sectId, specName, specCode, specNameG)
+                    sectId++
                 }
             } catch (_: Exception) {
                 // nothing
@@ -428,7 +442,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "428, onPause")
+            Log.i(TAG, "445, onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -447,7 +461,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "447, onStop")
+            Log.i(TAG, "464, onStop")
 
 
         addArea = null
@@ -458,7 +472,7 @@ class AddSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "458, onDestroy")
+            Log.i(TAG, "475, onDestroy")
     }
 
     companion object {

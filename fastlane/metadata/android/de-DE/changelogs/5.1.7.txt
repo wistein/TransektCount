@@ -1,0 +1,15 @@
+Version 5.1.7 (23.10.2026)
+- Code-Verbesserungen
+- Fix: Keine falsche Anzeige mehr bei "Ergebnis anzeigen" für dessen Option "Sortieren nach Namen"
+- Fix für XLSX-Layout: Bei grau hinterlegten Zeilen erstreckte sich für einige Sortiermodi das Grau nicht bis zur letzten Spalte
+- Fix: Eine Änderung der Einstellungen-Option "Transektabschnitt per GPS erkennen" wirkt sofort, es ist kein Neustart der App mehr erforderlich
+- Fix: Die Abbrechen-Option von "Lösche GPS-Track" arbeitet nun korrekt
+- Fix: Nach Import einer anderen Transekt-DB mit Track ist die Abstandsberechnung zum neuen Track nun ohne Neustart korrekt
+- Fix: Nach Löschen des Tracks wird nun keine Abstandsmeldung mehr angezeigt
+- Fix: Für importierte DB- oder Spezies-Dateien im alten Format zeigt nun unter "Einstellungen" die Option "Datensprache" die dort gewählte Datensprache sofort mit passendem Icon an
+- Einige Dialoge mit Überschrift und Icon ergänzt
+- Die Erteilung der Standortberechtigung überarbeitet und deren Dialoge verbessert
+- Der Dateiname einer exportierten DB enthält nun "Track" falls ein Transekt-Track geladen ist
+- Lizenzinformationen vervollständigt
+- "Hilfe"-Text aktualisiert
+- Doku aktualisiert

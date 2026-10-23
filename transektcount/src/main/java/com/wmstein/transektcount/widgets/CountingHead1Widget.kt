@@ -1,5 +1,30 @@
 package com.wmstein.transektcount.widgets
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountingHead1Widget is the interface for widget_counting_head1.xml.
+ * Fills the species row with names, code, spinner and picture.
+ *
+ * Created by wmstein 2016-12-18,
+ * last edited in Java on 2023-05-09,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +35,6 @@ import android.widget.TextView
 
 import com.wmstein.transektcount.R
 
-/*********************************************************************
- * CountingHead1Widget is the interface for widget_counting_head1.xml.
- * Fills the species row with names, code, spinner and picture.
- *
- * Created by wmstein 18.12.2016.
- * Last edited in Java on 2023-05-09,
- * converted to Kotlin on 2023-06-26,
- * last edited on 2026-08-03
- */
 class CountingHead1Widget(
     context: Context,
     private val idArray: Array<String>,    // species ids

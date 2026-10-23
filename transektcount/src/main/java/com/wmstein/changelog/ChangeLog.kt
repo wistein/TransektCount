@@ -1,5 +1,45 @@
 package com.wmstein.changelog
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * Based on ChangeLog.java, copyright © 2011-2013, Karsten Priegnitz
+ * 
+ * Permission to use, copy, modify, and distribute this piece of software
+ * for any purpose with or without fee is hereby granted, provided that
+ * the above copyright notice and this permission notice appear in the
+ * source code of all copies.
+ * 
+ * It would be appreciated if you mention the author in your change log,
+ * contributors list or the like.
+ * 
+ * Author: Karsten Priegnitz
+ * See: https://code.google.com/p/android-change-log/
+ * 
+ * App newly installed: Shows the history of TransektCount.
+ * App updated: Shows the last changes of TransektCount.
+ * 
+ * Therefore, retrieves the version names and stores the new version name in SharedPreferences
+ * 
+ * Adopted for TransektCount by wmstein on 2016-02-12,
+ * last edited in Java on 2026-05-16,
+ * converted to Kotlin on 2026-07-18,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -22,30 +62,6 @@ import java.io.InputStreamReader
 import java.util.Locale
 import androidx.core.graphics.toColorInt
 
-/**********************************************************************
- * Based on ChangeLog.java, copyright © 2011-2013, Karsten Priegnitz
- * 
- * Permission to use, copy, modify, and distribute this piece of software
- * for any purpose with or without fee is hereby granted, provided that
- * the above copyright notice and this permission notice appear in the
- * source code of all copies.
- * 
- * It would be appreciated if you mention the author in your change log,
- * contributors list or the like.
- * 
- * Author: Karsten Priegnitz
- * See: https://code.google.com/p/android-change-log/
- * 
- * Newly installed: Shows the history of TransektCount.
- * Updated: Shows the last changes of TransektCount.
- * 
- * Therefore, retrieves the version names and stores the new version name in SharedPreferences
- * 
- * Adopted for TransektCount by wmstein on 2016-02-12,
- * last edited in Java on 2026-05-16,
- * converted to Kotlin on 2026-07-18,
- * last edited on 2026-07-20.
- */
 class ChangeLog(private val context: Context, prefs: SharedPreferences) {
     // Get version numbers of lastVersion and thisVersion to compare
     private val lastVersion = prefs.getString(VERSION_KEY, NO_VERSION)!!
@@ -66,10 +82,10 @@ class ChangeLog(private val context: Context, prefs: SharedPreferences) {
             thisVersion = NO_VERSION
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG,"69, Could not get version name from PackageManager!",e)
+                Log.e(TAG,"85, Could not get version name from PackageManager!",e)
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "72, init, last Version: $lastVersion, curr. Version: $thisVersion")
+            Log.i(TAG, "88, init, last Version: $lastVersion, this Version: $thisVersion")
     }
 
     /**
@@ -122,8 +138,7 @@ class ChangeLog(private val context: Context, prefs: SharedPreferences) {
             .setView(wv)
             .setTitle(if (full) fullTitle else changeTitle)
             .setCancelable(false) // OK button
-            .setPositiveButton(
-                context.resources.getString(R.string.ok_button))
+            .setPositiveButton("Ok")
             { _: DialogInterface?, _: Int -> updateVersionInPreferences() }
 
         if (!full) {
@@ -253,7 +268,7 @@ class ChangeLog(private val context: Context, prefs: SharedPreferences) {
             ins.close()
         } catch (e: IOException) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG,"256, could not read changelog text.",e)
+                Log.e(TAG,"271, could not read changelog text.",e)
         }
 
         return sb.toString()

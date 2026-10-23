@@ -1,15 +1,20 @@
 TransektCount supporta il conteggio specifico per specie delle farfalle per ogni sezione di transetto secondo il metodo dell’European Butterfly Monitoring Scheme. Aiuta gli addetti al conteggio lungo i transetti a registrare le farfalle diurne e notturne durante i sopralluoghi lungo i transetti.
 
-Novità della versione 5.1.6:
+Novità della versione 5.1.7:
 - Miglioramenti al codice
-- L'importazione dei file GPX riconosce anche i file contenenti 1 traccia con n segmenti, anziché n tracce.
-- Inserimento di note relative alle specie utilizzando le diciture predefinite “Foto”, “Avvistamento in volo”, “Nuova specie”, …
-- Il valore immesso in % relativo alla nuvolosità viene arrotondato ai valori più vicini a 10
-- Controlli di plausibilità più rigorosi per l'inserimento dei metadati numerici
-- Modifica della struttura dei nomi dei file esportati
+- Risolto: l'opzione “Mostra risultati” non visualizza più risultati errati quando è selezionata l'opzione “Ordina per nome”.
+- Correzione relativa al layout XLSX: per le righe con sfondo grigio, in alcune modalità di ordinamento il grigio non si estendeva fino all'ultima colonna
+- Risolto: le modifiche all'impostazione “Rileva sezione di transetto con GPS” hanno effetto immediato; non è più necessario riavviare l'app.
+- Risolto: l’opzione “Annulla” per “Rimuovi tracciato GPS” ora funziona correttamente
+- Risolto: dopo aver importato un altro database di transetti contenente un tracciato, il calcolo della distanza per il nuovo tracciato è ora corretto senza dover riavviare il programma
+- Risolto: dopo l’eliminazione della traccia, il messaggio relativo alla distanza non viene più visualizzato
+- Risolto: ora, nella pagina delle impostazioni, l’opzione “Lingua dei dati” per i file importati nel vecchio formato (DB e Specie) mostra immediatamente la lingua dei dati selezionata insieme all’icona corrispondente.
+- Alcune finestre di dialogo sono state integrate con titoli e icone
+- Riorganizzazione della gestione delle autorizzazioni relative alla posizione e miglioramento delle relative finestre di dialogo
+- Il nome del file di un database esportato ora contiene la parola “Track” se è caricata una traccia di transetto
+- Informazioni sulla licenza completate
 - Testo “Aiuto” aggiornato
 - Documenti aggiornati
-- Correzione di un bug relativo all'importazione di un elenco di specie
 
 Caratteristiche:
 - La raccolta dei dati si basa sul percorso lungo un transetto.

@@ -1,5 +1,36 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * EditSectionListActivity lets you edit the current section name and the species
+ * lists (change new species for all sections).
+ * EditSectionListActivity is called from CountingActivity,
+ * uses EditSectionListWidget.kt, EditSectionListTitleWidget.kt,
+ * activity_edit_section_list.xml, widget_edit_title.xml, widget_edit_count.xml.
+ *
+ * Parts based on EditProjectActivity.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+
+ * Adopted, modified and enhanced by wmstein since 2016-02-16,
+ * last edited in Java on 2023-07-07,
+ * converted to Kotlin on 2023-07-17,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -14,6 +45,8 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -34,19 +67,6 @@ import com.wmstein.transektcount.widgets.EditSectionListWidget
 
 import java.util.Locale
 
-/********************************************************************************
- * EditSectionListActivity lets you edit the current section name and the species
- * lists (change new species for all sections).
- * EditSectionListActivity is called from CountingActivity,
- * uses EditSectionListWidget.kt, EditSectionListTitleWidget.kt,
- * activity_edit_section_list.xml, widget_edit_title.xml, widget_edit_count.xml.
- *
- * Based on EditProjectActivity.java by milo on 05/05/2014.
- * Adopted, modified and enhanced by wmstein since 2016-02-16,
- * last edited in Java on 2023-07-07,
- * converted to Kotlin on 2023-07-17,
- * last edited on 2026-08-02
- */
 class EditSectionListActivity : AppCompatActivity() {
     // Data
     private var section: Section? = null
@@ -74,19 +94,21 @@ class EditSectionListActivity : AppCompatActivity() {
     private var searchChars = ""
 
     private var diffSpecies = 0 // No. of different species in DB
+    private var childCnt = 0
+
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
     private var awakePref = false
     private var sortPref = ""
     private var oldName = ""
-    private var mesg = ""
+    private var msg = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "89 onCreate")
+            Log.i(TAG, "111, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -148,7 +170,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "151 onResume")
+            Log.i(TAG, "173, onResume")
 
         // Load preferences
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -187,7 +209,7 @@ class EditSectionListActivity : AppCompatActivity() {
         etw!!.setWidgetTitle(getString(R.string.titleEdit))
         speciesNotesArea!!.addView(etw)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "190, onResume, EditSectionListTitleWidget, old section name: "
+            Log.i(TAG, "212, onResume, EditSectionListTitleWidget, old section name: "
                         + oldName + ", new sectionName: " + etw!!.sectionName)
 
         // Display hint: Current species list
@@ -206,7 +228,7 @@ class EditSectionListActivity : AppCompatActivity() {
     // Parameter view is necessary for function call
     fun getEditSearchChars(view: View) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "209, getEditSearchChars, View: $view")
+            Log.i(TAG, "231, getEditSearchChars, View: $view")
 
         // Read EditText searchEdit from widget_edit_hint.xml
         val searchEdit: EditText = findViewById(R.id.searchE)
@@ -281,11 +303,11 @@ class EditSectionListActivity : AppCompatActivity() {
         // Check for unique species names
         val isDbl: String = compSpeciesNames()
         if (isDbl != "") {
-            mesg = isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
+            msg = isDbl + " " + getString(R.string.isdouble) + " " + getString(R.string.duplicate)
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
             retValue = false
         }
@@ -301,17 +323,17 @@ class EditSectionListActivity : AppCompatActivity() {
         // Add title if the user has written one
         val newSectName = etw!!.sectionName // edited section name
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "301, newSectName: $newSectName")
+            Log.i(TAG, "326, newSectName: $newSectName")
 
         if ((newSectName.isNotEmpty())) {
             // Check for duplicate section name
             sectionBackup = section
             if (compSectionNames(newSectName)) {
-                mesg = newSectName + " " + getString(R.string.isdouble)
+                msg = newSectName + " " + getString(R.string.isdouble)
                 Toast.makeText(
                     applicationContext,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
                 saveState = false
             } else {
@@ -324,11 +346,11 @@ class EditSectionListActivity : AppCompatActivity() {
             // Save new section name also as track name in track table
             trackDataSource!!.saveTrackName(newSectName, oldName)
         } else {
-            mesg = getString(R.string.isempty)
+            msg = getString(R.string.isempty)
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
             saveState = false
         }
@@ -336,11 +358,11 @@ class EditSectionListActivity : AppCompatActivity() {
         if (saveState) {
             // Save changed section name
             sectionDataSource!!.saveSectionName(section!!)
-            mesg = getString(R.string.sectSaving)
+            msg = getString(R.string.sectSaving)
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='#008000'>$mesg</font>"),
-                Toast.LENGTH_SHORT
+                fromHtml("<font color='#008000'>$msg</font>"),
+                LENGTH_SHORT
             ).show()
         }
 
@@ -352,9 +374,9 @@ class EditSectionListActivity : AppCompatActivity() {
     private fun doEditedSpecies(): Boolean {
         // Read the edited species list
         var correct = false
-        val childcount: Int = editingSpeciesArea!!.childCount // No. of counts in selection list
+        childCnt = editingSpeciesArea!!.childCount // No. of counts in selection list
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "353, childcount: $childcount")
+            Log.i(TAG, "379, childCnt: $childCnt")
 
         // Check for unique species names and codes before storing
         val isDblName: String = compSpeciesNames()
@@ -368,38 +390,40 @@ class EditSectionListActivity : AppCompatActivity() {
             var ci = 1   // count index
             
             var cid: Int // count id
-            var cname: String
-            var ccode: String
-            var cnameg: String
+            var cName: String
+            var cCode: String
+            var cNameG: String
 
             // For all sections
             while (si <= numSect) {
                 // for all selected species per section
-                for (i in 0 until childcount) {
+                for (i in 0 until childCnt) {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "376, Section: $si, Species $ci")
-                    val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-                    cid = esaw.getCountId() + (diffSpecies * (si - 1)) // cid with offset for sections
-                    cname = esaw.getCountName()
+                        Log.i(TAG, "402, Section: $si, Species $ci")
+
+                    val eSLW = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+                    cid = eSLW.getCountId() + (diffSpecies * (si - 1)) // cid with offset for sections
+                    cName = eSLW.getCountName()
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "381, id: $cid, name: $cname")
-                    ccode = esaw.getCountCode()
-                    if ((cname.isNotEmpty()) && (ccode.isNotEmpty())) {
-                        cnameg = esaw.getCountNameG()
+                        Log.i(TAG, "408, id: $cid, name: $cName")
+
+                    cCode = eSLW.getCountCode()
+                    if ((cName.isNotEmpty()) && (cCode.isNotEmpty())) {
+                        cNameG = eSLW.getCountNameG()
                         countDataSource!!.updateEditedSpecies(
                             si,
                             cid,
-                            cname,
-                            ccode,
-                            cnameg
+                            cName,
+                            cCode,
+                            cNameG
                         )
                         correct = true
                     } else {
-                        mesg = getString(R.string.isempty)
+                        msg = getString(R.string.isempty)
                         Toast.makeText(
                             applicationContext,
-                            fromHtml("<font color='red'><b>$mesg</b></font>"),
-                            Toast.LENGTH_LONG
+                            fromHtml("<font color='red'><b>$msg</b></font>"),
+                            LENGTH_LONG
                         ).show()
                         correct = false
                         break
@@ -412,42 +436,45 @@ class EditSectionListActivity : AppCompatActivity() {
                 si++
             }
         } else {
-            mesg = (getString(R.string.spec_Name) + " " + isDblName + " "
+            msg = (getString(R.string.spec_Name) + " " + isDblName + " "
                     + getString(R.string.orcode) + " " + isDblCode + " " + getString(
                 R.string.isdouble
             ))
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
             correct = false
         }
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "423, getEditSpecies, ok: $correct")
+            Log.i(TAG, "451, getEditSpecies, ok: $correct")
+
         return correct
     }
 
     // Compare section names for duplicates and return TRUE when duplicate found
     private fun compSectionNames(newSectName: String): Boolean {
         var isDblName = false
-        var sname: String
+        var sName: String
         if (newSectName == oldName) {
             return false // name has not changed
         }
         val sectionList = sectionDataSource!!.allSectionNames
-        val childcount = sectionList.size + 1
+        childCnt = sectionList.size + 1
 
         // For all Sections
-        for (i in 1 until childcount) {
+        for (i in 1 until childCnt) {
             section = sectionDataSource!!.getSection(i)
-            sname = section!!.name
+            sName = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "442, sname = $sname")
-            if (newSectName == sname) {
+                Log.i(TAG, "471, sName = $sName")
+
+            if (newSectName == sName) {
                 isDblName = true
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "446, Double section name = $sname")
+                    Log.i(TAG, "476, Double section name = $sName")
+
                 break
             }
         }
@@ -459,16 +486,17 @@ class EditSectionListActivity : AppCompatActivity() {
         var name: String
         var isDblName = ""
         cmpSpeciesNames = ArrayList()
-        val childcount = editingSpeciesArea!!.childCount // # of species
+        childCnt = editingSpeciesArea!!.childCount // # of species
 
         // For all CountEditWidgets
-        for (i in 0 until childcount) {
-            val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-            name = esaw.getCountName()
+        for (i in 0 until childCnt) {
+            val eSLW = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+            name = eSLW.getCountName()
             if (cmpSpeciesNames!!.contains(name)) {
                 isDblName = name
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "467, Double name = $isDblName")
+                    Log.i(TAG, "498, Double name = $isDblName")
+
                 break
             }
             cmpSpeciesNames!!.add(name)
@@ -481,16 +509,17 @@ class EditSectionListActivity : AppCompatActivity() {
         var code: String
         var isDblCode = ""
         cmpSpeciesCodes = ArrayList()
-        val childcount = editingSpeciesArea!!.childCount
+        childCnt = editingSpeciesArea!!.childCount
 
         // For all CountEditWidgets
-        for (i in 0 until childcount) {
-            val esaw = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
-            code = esaw.getCountCode()
+        for (i in 0 until childCnt) {
+            val eSLW = editingSpeciesArea!!.getChildAt(i) as EditSectionListWidget
+            code = eSLW.getCountCode()
             if (cmpSpeciesCodes!!.contains(code)) {
                 isDblCode = code
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "489, Double name = $isDblCode")
+                    Log.i(TAG, "521, Double name = $isDblCode")
+
                 break
             }
             cmpSpeciesCodes!!.add(code)
@@ -529,7 +558,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "528 onPause")
+            Log.i(TAG, "561 onPause")
 
         // Close the data sources
         sectionDataSource!!.close()
@@ -552,7 +581,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "551 onStop")
+            Log.i(TAG, "584 onStop")
 
         editingSpeciesArea = null
         speciesNotesArea = null
@@ -563,7 +592,7 @@ class EditSectionListActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "562, onDestroy")
+            Log.i(TAG, "595, onDestroy")
     }
 
     companion object {

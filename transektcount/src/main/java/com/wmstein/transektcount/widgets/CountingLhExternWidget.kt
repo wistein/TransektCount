@@ -1,7 +1,28 @@
-/*
- * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany.
- */
 package com.wmstein.transektcount.widgets
+
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountingLhExternWidget.kt is the interface for widget_counting_lhe.xml
+ *
+ * Created by wmstein on 2016-12-06,
+ * last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
 
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
@@ -20,14 +41,6 @@ import com.wmstein.transektcount.database.Count
 
 import java.util.Objects
 
-/************************************************************************
- * CountingLhExternWidget.kt is the interface for widget_counting_lhe.xml
- *
- * Created by wmstein on 06.12.2016,
- * last edited in Java on 2021-01-26,
- * converted to Kotlin on 2023-06-26,
- * last edited on 2026-08-03.
- */
 class CountingLhExternWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
     var ht: Int = 0
@@ -163,50 +176,50 @@ class CountingLhExternWidget(context: Context, attrs: AttributeSet?) : RelativeL
 
     // Count up/down and set value on lefthanded screen
     fun countUpLHf1e() {
-        countCountf1e.text = count!!.increase_f1e().toString()
+        countCountf1e.text = count!!.increaseF1e().toString()
     }
 
     fun countDownLHf1e() {
-        countCountf1e.text = count!!.safe_decrease_f1e().toString()
+        countCountf1e.text = count!!.safeDecreaseF1e().toString()
     }
 
     fun countUpLHf2e() {
-        countCountf2e.text = count!!.increase_f2e().toString()
+        countCountf2e.text = count!!.increaseF2e().toString()
     }
 
     fun countDownLHf2e() {
-        countCountf2e.text = count!!.safe_decrease_f2e().toString()
+        countCountf2e.text = count!!.safeDecreaseF2e().toString()
     }
 
     fun countUpLHf3e() {
-        countCountf3e.text = count!!.increase_f3e().toString()
+        countCountf3e.text = count!!.increaseF3e().toString()
     }
 
     fun countDownLHf3e() {
-        countCountf3e.text = count!!.safe_decrease_f3e().toString()
+        countCountf3e.text = count!!.safeDecreaseF3e().toString()
     }
 
     fun countUpLHpe() {
-        countCountpe.text = count!!.increase_pe().toString()
+        countCountpe.text = count!!.increasePe().toString()
     }
 
     fun countDownLHpe() {
-        countCountpe.text = count!!.safe_decrease_pe().toString()
+        countCountpe.text = count!!.safeDecreasePe().toString()
     }
 
     fun countUpLHle() {
-        countCountle.text = count!!.increase_le().toString()
+        countCountle.text = count!!.increaseLe().toString()
     }
 
     fun countDownLHle() {
-        countCountle.text = count!!.safe_decrease_le().toString()
+        countCountle.text = count!!.safeDecreaseLe().toString()
     }
 
     fun countUpLHee() {
-        countCountee.text = count!!.increase_ee().toString()
+        countCountee.text = count!!.increaseEe().toString()
     }
 
     fun countDownLHee() {
-        countCountee.text = count!!.safe_decrease_ee().toString()
+        countCountee.text = count!!.safeDecreaseEe().toString()
     }
 }

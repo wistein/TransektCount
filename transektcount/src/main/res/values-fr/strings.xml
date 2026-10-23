@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml French strings,
-     last edited 2026-07-16 -->
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     French strings
+
+     Last edited 2026-10-20
+************************************************************************************************ -->
 
 <resources>
 
@@ -11,9 +30,11 @@
     <!-- WelcomeActivity -->
     <string name="back_twice">Appuyez à nouveau pour quitter</string>
     <string name="cancelButton">Annuler</string>
+    <string name="yesButton">Oui</string>
     <string name="changeLogTitle">Info sur l\'application</string>
     <string name="code_spec">Code espèce</string>
     <string name="confirmDBImport">Voulez-vous vraiment importer une BD ? Vos données actuelles seront écrasées !\n\nAttention ! S\'il s\'agit d\'une ancienne version du fichier, rendez-vous ensuite dans « Paramètres » et vérifiez que la langue des données est correctement définie.</string>
+    <string name="confirmBasicDBImport">Voulez-vous vraiment importer une structure de BD ? Vos données actuelles seront écrasées !\n\nAttention ! S\'il s\'agit d\'une ancienne version du fichier, rendez-vous ensuite dans « Paramètres » et vérifiez que la langue des données est correctement définie.</string>
     <string name="confirmGPSDelete">Voulez-vous vraiment supprimer les données de suivi ?</string>
     <string name="confirmGPSImport">Faut-il essayer d\'importer le fichier GPS ?</string>
     <string name="confirmListImport">Voulez-vous vraiment importer la liste d\'espèces ? Vos données de comptage actuelles seront supprimées ! Cela peut prendre plus de temps avec des listes volumineuses.</string>
@@ -165,7 +186,6 @@
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
     <string name="changelog_show_full">plus&#8230;</string>
     <string name="changelog_title">Quoi de neuf ?</string>
-    <string name="ok_button">OK</string>
     <string name="title_help_dialog">Aide</string>
     <string name="title_license_dialog">Licences</string>
 
@@ -258,21 +278,22 @@
     <string name="hintTitle">Titre:</string>
     <string name="hintTotal">Totaux</string>
     <string name="newSect">Nouvelle section:</string>
+<!--    <string name="askSwitchSect">Charger la nouvelle section ?\u0020</string> -->
     <string name="no_provider">Aucun service GPS disponible !</string>
     <string name="sect01">Sect 01</string>
     <string name="totalsIES">Total interne / externe / espèces :</string>
 
     <!-- Permissions -->
-    <string name="app_settings">Paramètres système</string>
-    <string name="dialog_background_loc_message">Si l\'application doit être utilisée pour des transects plus longs, la localisation est plus fiable avec l\'autorisation facultative « Toujours autoriser ».</string>
-    <string name="dialog_background_loc_title">Autorisation facultative souhaitée</string>
-    <string name="dialog_fine_location_message">La détection des sections de transect nécessite la plus grande précision possible.</string>
-    <string name="dialog_fine_location_title">Autoriser la localisation précise.</string>
-    <string name="grant_perm_later">L\'autorisation facultative « Toujours autoriser » peut être accordée ultérieurement dans les paramètres système, si nécessaire.</string>
+    <string name="dialog_location_title">Autoriser l\'accès à la localisation</string>
+    <string name="dialog_location_message">Pour utiliser les notifications basées sur le GPS lors du passage d\'une section de transect à une autre, vous devez autoriser l\'accès à votre position.\n\nIl existe plusieurs modes d\'utilisation du GPS : Pour TransektCount, sélectionnez les options « Autoriser uniquement pendant l\'utilisation de l\'application » et « Utiliser la localisation précise ».\n\nSi vous souhaitez une plus grande fiabilité — par exemple lorsque vous passez d\'une application à l\'autre ou lorsqu\'un transect comporte des sections très éloignées les unes des autres —, vous devez activer l\'option « Toujours autoriser » dans les paramètres système d\'Android.</string>
+    <string name="dialog_fine_location_title">Autoriser la localisation précise</string>
+    <string name="dialog_fine_location_denied">Vous n\'avez pas accordé l\'autorisation de localisation.\n\nLe changement de tronçon de transect ne peut donc pas être signalé par GPS pour le moment.\n\nCette autorisation peut être accordée ultérieurement via les paramètres système d\'Android.</string>
+    <string name="dialog_location_dropped_title">Autorisation de localisation révoquée</string>
+    <string name="dialog_location_dropped">Vous avez retiré l\'autorisation de localisation.\n\nIl n\'est désormais plus possible de signaler le changement de tronçon de transect via le GPS.\n\nCette autorisation ne peut être réactivée qu\'à partir des paramètres système d\'Android.</string>
 
-    <string name="dialog_storage_message1">Veuillez attribuer l\'autorisation « Accès à tous les fichiers » à TransektCount\n\nafin de permettre l\'importation et l\'exportation des fichiers TransektCount.\n\nSinon, ni les bases de données, ni les listes, ni les résultats ne pourront être importés ou exportés.</string>
-    <string name="dialog_storage_message2">Veuillez accorder l\'autorisation « Accès à tous les fichiers » à TransektCount\n\nafin de pouvoir importer et exporter des fichiers TransektCount.\n\nRéessayez ensuite.</string>
-    <string name="dialog_storage_title">Autoriser le \'Accès à tous les fichiers\'\n(seulement ceux spécifiques à TransektCount).</string>
+    <string name="dialog_storage_message1">Veuillez attribuer l\'autorisation « Accès à tous les fichiers » à TransektCount afin de permettre l\'importation et l\'exportation des fichiers TransektCount.\n\nSinon, ni les bases de données, ni les listes, ni les résultats ne pourront être importés ou exportés.</string>
+    <string name="dialog_storage_message2">Veuillez accorder l\'autorisation « Accès à tous les fichiers » à TransektCount afin de pouvoir importer et exporter des fichiers TransektCount.\n\nRéessayez ensuite.</string>
+    <string name="dialog_storage_title">Accès à tous les fichiers</string>
     <string name="storage_perm_denied">L\'autorisation de stockage nécessaire pour TransektCount fait défaut, l\'enregistrement n\'est pas possible.</string>
 
 </resources>

@@ -1,5 +1,46 @@
 package com.wmstein.transektcount.database
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * DbHelper.kt is the database helper class for SQLite functionality of TransektCount
+ * onUpgrade is called with the 1. call of dbHelper.getWritableDatabase()
+ *   if newVersion != oldVersion
+ *
+ * Basic structure derived from DbHelper.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+ *
+ * Adopted for TransektCount by wmstein on 2016-02-18.
+ * updated to version 2 on 2018-02-27, rel. 212
+ * updated to version 3 on 2018-04-01, rel. 301
+ * updated to version 4 on 2019-03-26, rel. 307
+ * last edited in Java on 2023-06-11,
+ * converted to Kotlin on 2023-06-26,
+ * updated to version 5 on 2023-12-17, rel. 401
+ * updated to version 6 on 2024-03-23, rel. 403
+ * updated to version 7 on 2026-03-30, rel. 505
+ * updated to version 8 on 2026-04-08, rel. 506
+ * current version 8, -> has to be set under 'companion object'
+ * last edited on 2026-10-21.
+ ***************************************************************************************************
+ *
+ * ATTENTION!
+ * Current DATABASE_VERSION must be set under 'companion object'
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -14,32 +55,91 @@ import com.wmstein.transektcount.R
 
 import java.util.Locale
 
-/************************************************************************************
- * DbHelper.kt is the database helper class for SQLite functionality of TransektCount
- * onUpgrade is called with 1. call of dbHelper.getWritableDatabase()
- *   if newVersion != oldVersion
- *
- * Basic structure of DbHelper.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 2016-02-18.
- * updated to version 2 on 2018-02-27, rel. 212
- * updated to version 3 on 2018-04-01, rel. 301
- * updated to version 4 on 2019-03-26, rel. 307
- * last edited in Java on 2023-06-11,
- * converted to Kotlin on 2023-06-26,
- * updated to version 5 on 2023-12-17, rel. 401
- * updated to version 6 on 2024-03-23, rel. 403
- * updated to version 7 on 2026-03-30, rel. 505
- * updated to version 8 on 2026-04-08, rel. 506
- * current version 8, -> has to be set under 'companion object'
- * last edited on 2026-07-16
- *
- * ************************************************************************
- * ATTENTION!
- * Current DATABASE_VERSION must be set under 'companion object' at the end
- * ************************************************************************
- */
 class DbHelper(private val mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    companion object {
+        private const val DATABASE_VERSION = 8
+        //DATABASE_VERSION 8: Add field H_DATA_LANGUAGE to HEAD_TABLE if not exists
+        //DATABASE_VERSION 7: Drop table ALERT_TABLE
+        //DATABASE_VERSION 6: Modified table META_TABLE for start and end values
+        //DATABASE_VERSION 5: New table TRACK_TABLE for GPS supported control of transect sections
+        //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names
+        //DATABASE_VERSION 3: Column temp in table META_TABLE changed to tempe as 'temp' seems to have
+        //DATABASE_VERSION 2: New count columns added to COUNT_TABLE for sexes and stadiums
+
+        private const val TAG = "DBHelper"
+        private const val DATABASE_NAME = "transektcount.db"
+
+        // tables
+        const val SECTION_TABLE = "sections"
+        const val COUNT_TABLE = "counts"
+        const val HEAD_TABLE = "head"
+        const val META_TABLE = "meta"
+        const val TRACK_TABLE = "tracks"
+        const val COUNT_TABLE1 = "counts1" // temporary table for update to version 5
+        const val ALERT_TABLE = "alerts" // needed to remove obsolet table alerts for update to version 7
+
+        // fields of table sections
+        const val S_ID = "_id"
+        const val S_CREATED_AT = "created_at"
+        const val S_NAME = "name"
+        const val S_NOTES = "notes"
+
+        // fields of table counts
+        const val C_ID = "_id"
+        const val C_SECTION_ID = "section_id"
+        const val C_NAME = "name"
+        const val C_CODE = "code"
+        const val C_COUNT_F1I = "count_f1i"
+        const val C_COUNT_F2I = "count_f2i"
+        const val C_COUNT_F3I = "count_f3i"
+        const val C_COUNT_PI = "count_pi"
+        const val C_COUNT_LI = "count_li"
+        const val C_COUNT_EI = "count_ei"
+        const val C_COUNT_F1E = "count_f1e"
+        const val C_COUNT_F2E = "count_f2e"
+        const val C_COUNT_F3E = "count_f3e"
+        const val C_COUNT_PE = "count_pe"
+        const val C_COUNT_LE = "count_le"
+        const val C_COUNT_EE = "count_ee"
+        const val C_NOTES = "notes"
+        const val C_NAME_G = "name_g"
+
+        // fields of old counts table version 1
+        private const val C_COUNT = "count" //deprecated in database version 2
+        private const val C_COUNTA = "counta" //deprecated in database version 2
+
+        // fields of table head
+        const val H_ID = "_id"
+        const val H_TRANSECT_NO = "transect_no"
+        const val H_INSPECTOR_NAME = "inspector_name"
+        const val H_DATA_LANGUAGE = "data_language"
+
+        // fields of table meta
+        const val M_ID = "_id"
+        const val M_TEMPS = "temps"
+        const val M_TEMPE = "tempe"
+        const val M_WINDS = "winds"
+        const val M_WINDE = "winde"
+        const val M_CLOUDS = "clouds"
+        const val M_CLOUDE = "cloude"
+        const val M_DATE = "date"
+        const val M_START_TM = "start_tm"
+        const val M_END_TM = "end_tm"
+        const val M_NOTE = "note"
+
+        // fields of old meta table version 4 and 5 deprecated in version 6
+        private const val M_TEMP = "temp"
+        private const val M_WIND = "wind"
+
+        // fields of table tracks
+        const val T_ID = "_id"
+        const val T_SECTION = "tsection"
+        const val T_LAT = "tlat"
+        const val T_LON = "tlon"
+    }
+
     // initDataLanguage = current system locale
     private val initDataLanguage = Locale.getDefault().toString().substring(0, 2)
 
@@ -677,88 +777,6 @@ class DbHelper(private val mContext: Context) :
         }
         cursor.close()
         return sections
-    }
-
-    companion object {
-        private const val DATABASE_VERSION = 8
-        //DATABASE_VERSION 8: Add field H_DATA_LANGUAGE to HEAD_TABLE if not exists
-        //DATABASE_VERSION 7: Drop table ALERT_TABLE
-        //DATABASE_VERSION 6: Modified table META_TABLE for start and end values
-        //DATABASE_VERSION 5: New table TRACK_TABLE for GPS supported control of transect sections
-        //DATABASE_VERSION 4: Column C_NAME_G added to COUNT_TABLE for local butterfly names
-        //DATABASE_VERSION 3: Column temp in table META_TABLE changed to tempe as 'temp' seems to have
-        //DATABASE_VERSION 2: New count columns added to COUNT_TABLE for sexes and stadiums
-
-        private const val TAG = "DBHelper"
-        private const val DATABASE_NAME = "transektcount.db"
-
-        // tables
-        const val SECTION_TABLE = "sections"
-        const val COUNT_TABLE = "counts"
-        const val HEAD_TABLE = "head"
-        const val META_TABLE = "meta"
-        const val TRACK_TABLE = "tracks"
-        const val COUNT_TABLE1 = "counts1" // temporary table for update to version 5
-        const val ALERT_TABLE = "alerts" // needed to remove obsolet table alerts for update to version 7
-
-        // fields of table sections
-        const val S_ID = "_id"
-        const val S_CREATED_AT = "created_at"
-        const val S_NAME = "name"
-        const val S_NOTES = "notes"
-
-        // fields of table counts
-        const val C_ID = "_id"
-        const val C_SECTION_ID = "section_id"
-        const val C_NAME = "name"
-        const val C_CODE = "code"
-        const val C_COUNT_F1I = "count_f1i"
-        const val C_COUNT_F2I = "count_f2i"
-        const val C_COUNT_F3I = "count_f3i"
-        const val C_COUNT_PI = "count_pi"
-        const val C_COUNT_LI = "count_li"
-        const val C_COUNT_EI = "count_ei"
-        const val C_COUNT_F1E = "count_f1e"
-        const val C_COUNT_F2E = "count_f2e"
-        const val C_COUNT_F3E = "count_f3e"
-        const val C_COUNT_PE = "count_pe"
-        const val C_COUNT_LE = "count_le"
-        const val C_COUNT_EE = "count_ee"
-        const val C_NOTES = "notes"
-        const val C_NAME_G = "name_g"
-
-        // fields of old counts table version 1
-        private const val C_COUNT = "count" //deprecated in database version 2
-        private const val C_COUNTA = "counta" //deprecated in database version 2
-
-        // fields of table head
-        const val H_ID = "_id"
-        const val H_TRANSECT_NO = "transect_no"
-        const val H_INSPECTOR_NAME = "inspector_name"
-        const val H_DATA_LANGUAGE = "data_language"
-
-        // fields of table meta
-        const val M_ID = "_id"
-        const val M_TEMPS = "temps"
-        const val M_TEMPE = "tempe"
-        const val M_WINDS = "winds"
-        const val M_WINDE = "winde"
-        const val M_CLOUDS = "clouds"
-        const val M_CLOUDE = "cloude"
-        const val M_DATE = "date"
-        const val M_START_TM = "start_tm"
-        const val M_END_TM = "end_tm"
-        const val M_NOTE = "note"
-
-        // fields of old meta table version 4 and 5 deprecated in version 6
-        private const val M_TEMP = "temp"
-        private const val M_WIND = "wind"
-
-        // fields of table tracks
-        const val T_ID = "_id"
-        const val T_SECTION = "tsection"
-        const val T_LAT = "tlat"
-        const val T_LON = "tlon"
     }
 
 }

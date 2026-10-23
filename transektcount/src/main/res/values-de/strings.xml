@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml German strings,
-     last edited 2026-07-16 -->
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     German strings
+
+     Last edited 2026-10-20
+************************************************************************************************ -->
 
 <resources>
 
@@ -11,9 +30,11 @@
     <!-- WelcomeActivity -->
     <string name="back_twice">Zum Beenden erneut drücken</string>
     <string name="cancelButton">Abbrechen</string>
+    <string name="yesButton">Ja</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="code_spec">Spezies Code</string>
     <string name="confirmDBImport">Wollen Sie wirklich eine DB importieren? Ihre aktuellen Daten werden überschrieben!\n\nAchtung! Bei älterer Dateiversion anschließend unter „Einstellungen“ überprüfen, ob die korrekte Datensprache eingestellt ist.</string>
+    <string name="confirmBasicDBImport">Wollen Sie wirklich eine Basis-DB importieren? Ihre aktuellen Daten werden überschrieben!\n\nAchtung! Bei älterer Dateiversion anschließend unter „Einstellungen“ überprüfen, ob die korrekte Datensprache eingestellt ist.</string>
     <string name="confirmGPSDelete">Wollen Sie wirklich die Track-Daten löschen?</string>
     <string name="confirmGPSImport">Soll versucht werden, die GPS-Datei zu importieren?</string>
     <string name="confirmListImport">Wollen Sie wirklich die Speziesliste importieren? Ihre aktuellen Zähldaten werden gelöscht! Kann bei großen Listen länger dauern.</string>
@@ -31,7 +52,7 @@
     <string name="from">von:</string>
     <string name="importBasisMenu">Import Basis-DB</string>
     <string name="importButton">Import</string>
-    <string name="importDB">Die Datenbank wurde importiert.</string>
+    <string name="importDB">Die Datenbank wurde importiert</string>
     <string name="importFail">Die Datenbank konnte nicht importiert werden!</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importGPS">Die GPX-Datei wurde importiert.</string>
@@ -53,7 +74,7 @@
     <string name="reset2basic">Die Datenbank wurde zurückgesetzt.</string>
     <string name="resetDBMenu">Reset Daten</string>
     <string name="resetFail">Die Datenbank konnte nicht zurückgesetzt werden!</string>
-    <string name="resetGPSMenu">Lösche GPS-Track-Daten</string>
+    <string name="resetGPSMenu">Lösche GPS-Track</string>
     <string name="resetTracks">Die Track-Daten wurden gelöscht.</string>
     <string name="results">TransektCount-Ergebnis</string>
     <string name="saveBasisDB">Export der Basis-DB nach Documents/TransektCount.</string>
@@ -165,7 +186,6 @@
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
     <string name="changelog_show_full">mehr&#8230;</string>
     <string name="changelog_title">Was ist neu</string>
-    <string name="ok_button">OK</string>
     <string name="title_help_dialog">Hilfe</string>
     <string name="title_license_dialog">Lizenzen</string>
 
@@ -258,21 +278,22 @@
     <string name="hintTitle">Titel</string>
     <string name="hintTotal">Gesamtsummen</string>
     <string name="newSect">Neuer Abschnitt:</string>
+<!--    <string name="askSwitchSect">Neuen Abschnitt laden?\u0020</string> -->
     <string name="no_provider">Kein GPS-Dienst verfügbar!</string>
     <string name="sect01">Ab 01</string>
     <string name="totalsIES">Gesamt intern / extern / Arten:</string>
 
     <!-- Permissions -->
-    <string name="app_settings">System-Einstellungen</string>
-    <string name="dialog_background_loc_message">Wenn die App bei längeren Transektbegehungen genutzt werden soll, ist die Ortsbestimmung zuverlässiger mit der optionalen Berechtigung \'Immer zulassen\'.</string>
-    <string name="dialog_background_loc_title">Optionale Berechtigung erwünscht</string>
-    <string name="dialog_fine_location_message">Die Transektabschnitte-Erkennung benötigt höchstmögliche Genauigkeit.</string>
-    <string name="dialog_fine_location_title">Erlaube den genauen Standort zu erfassen.</string>
-    <string name="grant_perm_later">Die optionale Berechtigung \'Immer zulassen\' kann ggf. später in den Systemeinstellungen erteilt werden.</string>
+    <string name="dialog_location_title">Bitte Standort-Berechtigung zulassen</string>
+    <string name="dialog_location_message">Um die GPS-gestützte Signalisierung eines Wechsels zwischen Transektabschnitten nutzen zu können, müssen Sie die Standortberechtigung erteilen.\n\nEs gibt verschiedene Modi für die GPS-Nutzung: Wählen Sie für TransektCount die Optionen „Zugriff nur während der Nutzung der App zulassen“ und „Genauen Standort verwenden“.\n\nWenn Sie mehr Zuverlässigkeit wünschen, z. B. bei wechselnder Nutzung anderer Apps oder einem Transekt mit weit getrennten Abschnitten, sollten Sie die Option in den Systemeinstellungen von Android mit „Immer zulassen“ aktivieren.</string>
+    <string name="dialog_fine_location_title">Erlaube den genauen Standort zu erfassen</string>
+    <string name="dialog_fine_location_denied">Sie haben die Standortberechtigung nicht erteilt.\n\nDer Wechsel der Transektabschnitte kann nun nicht per GPS signalisiert werden.\n\nDie Berechtigung kann später über die Android-System-Einstellungen erteilt werden.</string>
+    <string name="dialog_location_dropped_title">Standort-Berechtigung entzogen</string>
+    <string name="dialog_location_dropped">Sie haben die Standort-Berechtigung entzogen.\n\nDer Wechsel der Transektabschnitte kann nun nicht mehr per GPS signalisiert werden.\n\nDie Berechtigung kann nur wieder über die Android-System-Einstellungen erteilt werden.</string>
 
-    <string name="dialog_storage_message1">Bitte erteile die Berechtigung \'Zugriff auf alle Dateien\' für TransektCount\n\nzwecks Im- und Export von TransektCount-Dateien.\n\nAnsonsten können weder Datenbanken, Listen noch Ergebnisse im- oder exportiert werden.</string>
-    <string name="dialog_storage_message2">Bitte erteile TransektCount die Berechtigung \'Zugriff auf alle Dateien\'\n\nzwecks Im- und Export von TransektCount-Dateien.\n\nVersuche es danach erneut.</string>
-    <string name="dialog_storage_title">Erlaube den \'Zugriff auf alle Dateien\'\n(nur TransektCount-spezifische).</string>
+    <string name="dialog_storage_message1">Bitte erteile die Berechtigung \'Zugriff auf alle Dateien\' für TransektCount zwecks Im- und Export von TransektCount-Dateien.\n\nAnsonsten können weder Datenbanken, Listen noch Ergebnisse im- oder exportiert werden.</string>
+    <string name="dialog_storage_message2">Bitte erteile TransektCount die Berechtigung \'Zugriff auf alle Dateien\' zwecks Im- und Export von TransektCount-Dateien.\n\nVersuche es danach erneut.</string>
+    <string name="dialog_storage_title">Zugriff auf alle Dateien</string>
     <string name="storage_perm_denied">Die für TransektCount notwendige Speicher-Berechtigung fehlt, Im- und Export von Daten ist nicht möglich.</string>
 
 </resources>

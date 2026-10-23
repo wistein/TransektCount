@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml German strings,
-     last edited 2026-07-16 -->
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     Italian strings
+
+     Last edited 2026-10-20
+************************************************************************************************ -->
 
 <resources>
 
@@ -11,9 +30,11 @@
     <!-- WelcomeActivity -->
     <string name="back_twice">Premere nuovamente per uscire</string>
     <string name="cancelButton">Annulla</string>
+    <string name="yesButton">Sì</string>
     <string name="changeLogTitle">App-Info</string>
     <string name="code_spec">Codice specie</string>
     <string name="confirmDBImport">Vuoi davvero importare un database? I tuoi dati attuali verranno sovrascritti!\n\nAttenzione! Se si tratta di una versione precedente del file, vai poi su «Impostazioni» e verifica che sia impostata la lingua dei dati corretta.</string>
+    <string name="confirmBasicDBImport">Vuoi davvero importare un DB di base? I tuoi dati attuali verranno sovrascritti!\n\nAttenzione! Se si tratta di una versione precedente del file, vai poi su «Impostazioni» e verifica che sia impostata la lingua dei dati corretta.</string>
     <string name="confirmGPSDelete">Vuoi davvero cancellare i dati della traccia?</string>
     <string name="confirmGPSImport">Vuoi provare a importare il file GPS?</string>
     <string name="confirmListImport">Vuoi davvero importare la lista di specie? I tuoi dati di conteggio attuali verranno cancellati! L\'operazione potrebbe richiedere più tempo in caso di elenchi di grandi dimensioni.</string>
@@ -31,7 +52,7 @@
     <string name="from">da:</string>
     <string name="importBasisMenu">Imposta DB di base</string>
     <string name="importButton">Import</string>
-    <string name="importDB">Il database è stato importato.</string>
+    <string name="importDB">Il database è stato importato</string>
     <string name="importFail">Impossibile importare il database!</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importGPS">Il file GPX è stato importato.</string>
@@ -165,14 +186,13 @@
     <string name="changelog_full_title">Info app (TransektCount Ver.</string>
     <string name="changelog_show_full">più&#8230;</string>
     <string name="changelog_title">Cosa c\'è di nuovo</string>
-    <string name="ok_button">OK</string>
     <string name="title_help_dialog">Aiuto</string>
     <string name="title_license_dialog">Licenze</string>
 
     <!-- Preferences -->
     <string name="pref_alert_sound">Suono evento</string>
     <string name="pref_alert_sound_summ">Genera un suono quando viene attivato un evento</string>
-    <string name="pref_auto_section">Riconoscere il sezione del transetto tramite GPS</string>
+    <string name="pref_auto_section">Rileva sezione di transetto con GPS</string>
     <string name="pref_auto_section_summ">Contrassegna automaticamente la sezione di transetto corrente tramite GPS (richiede un\'adeguata lista di coordinate GPX).</string>
     <string name="pref_awake">Lascia lo schermo acceso</string>
     <string name="pref_awake_summ">Impedisci la sospensione durante il conteggio</string>
@@ -258,21 +278,22 @@
     <string name="hintTitle">Titolo</string>
     <string name="hintTotal">Totali</string>
     <string name="newSect">Nuova sezione:</string>
+<!--    <string name="askSwitchSect">Caricare la nuova sezione??\u0020</string> -->
     <string name="no_provider">Servizio GPS non disponibile!</string>
     <string name="sect01">Sez 01</string>
     <string name="totalsIES">Totale interno / esterno / specie:</string>
 
     <!-- Permissions -->
-    <string name="app_settings">Impostazioni di sistema</string>
-    <string name="dialog_background_loc_message">Se l\'app deve essere utilizzata per percorrenze trasversali più lunghe, la localizzazione è più affidabile con l\'autorizzazione opzionale \“Consenti sempre\”.</string>
-    <string name="dialog_background_loc_title">Autorizzazione facoltativa richiesta</string>
-    <string name="dialog_fine_location_message">Il riconoscimento dei tratti di transetto richiede la massima precisione possibile.</string>
-    <string name="dialog_fine_location_title">Consenti la localizzazione precisa.</string>
-    <string name="grant_perm_later">L\'autorizzazione opzionale \“Consenti sempre\” può essere concessa in un secondo momento nelle impostazioni di sistema.</string>
+    <string name="dialog_location_title">Autorizza l\'uso della localizzazione</string>
+    <string name="dialog_location_message">Per utilizzare le notifiche basate sul GPS quando si passa da una sezione di transetto all\’altra, è necessario concedere l\’autorizzazione alla localizzazione.\n\nEsistono diverse modalità di utilizzo del GPS: Per TransektCount, selezionare le opzioni “Consenti solo durante l\’utilizzo dell\’app” e “Usa posizione precisa”.\n\nSe si desidera una maggiore affidabilità — ad esempio quando si passa da un\’app all\’altra o quando un transetto presenta sezioni molto distanti tra loro — è consigliabile abilitare l\’opzione “Consenti sempre” nelle impostazioni di sistema di Android.</string>
+    <string name="dialog_fine_location_title">Consenti la localizzazione precisa</string>
+    <string name="dialog_fine_location_denied">Non è stata concessa l\'autorizzazione relativa alla posizione.\n\nAl momento non è possibile segnalare tramite GPS il cambio di sezione del transetto.\n\nL\'autorizzazione può essere concessa in un secondo momento tramite le impostazioni di sistema di Android.</string>
+    <string name="dialog_location_dropped_title">Autorizzazione alla localizzazione revocata</string>
+    <string name="dialog_location_dropped">L\'autorizzazione relativa alla localizzazione è stata revocata.\n\nOra non è più possibile segnalare il cambio di sezione del transetto tramite GPS.\n\nL\'autorizzazione può essere concessa nuovamente solo tramite le impostazioni di sistema di Android.</string>
 
-    <string name="dialog_storage_message1">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount\n\nal fine di importare ed esportare i file di TransektCount.\n\nIn caso contrario, non sarà possibile importare né esportare né database, né elenchi, né risultati.</string>
-    <string name="dialog_storage_message2">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount\n\nal fine di importare ed esportare i file di TransektCount.\n\nProva poi di nuovo.</string>
-    <string name="dialog_storage_title">Autorizza la \'Accesso a tutti i file\'\n(solo quelle specifiche di TransektCount).</string>
+    <string name="dialog_storage_message1">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount al fine di importare ed esportare i file di TransektCount.\n\nIn caso contrario, non sarà possibile importare né esportare né database, né elenchi, né risultati.</string>
+    <string name="dialog_storage_message2">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount al fine di importare ed esportare i file di TransektCount.\n\nProva poi di nuovo.</string>
+    <string name="dialog_storage_title">Accesso a tutti i file</string>
     <string name="storage_perm_denied">Manca l\'autorizzazione di salvataggio necessaria per TransektCount, non è possibile salvare.</string>
 
 </resources>

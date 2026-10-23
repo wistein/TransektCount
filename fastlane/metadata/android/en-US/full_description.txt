@@ -1,15 +1,20 @@
 TransectCount supports the species-specific counting of butterflies per transect section according to the European Butterfly Monitoring Scheme method. It is meant for transect counters to ease registering butterflies and day-flying moth during transect surveys.
 
-New in Version 5.1.6:
+New in Version 5.1.7:
 - Code improvements
-- GPX file import recognizes also files having 1 track with n track segments instead of having n tracks
-- Entering species notes proposed with predefined wordings like "Photo", "Flyby", "New species", …
-- Cloud %-values rounded to multiples of 10
-- More restrictive plausi for input of metadata numbers
-- Name composition for exported files changed
+- Fixed: The “Show Results” option no longer displays incorrect results when “Sort by Name” is selected.
+- Fix for XLSX layout: For rows with a gray background, the gray did not extend all the way to the last column in some sorting modes
+- Fixed: A change to the "Indicate transect section by GPS" setting takes effect immediately; it is no longer necessary to restart the app.
+- Fixed: The “Cancel” option for “Delete GPS Track” now works correctly
+- Fixed: After importing another transect DB containing a track, the distance calculation for the new track is now correct without having to restart the program
+- Fixed: After deleting the track, the distance message is no longer displayed
+- Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
+- Some dialogs supplemented with headlines and icons
+- Location permission handling was redesigned and respective dialogs were improved
+- The filename of an exported DB now includes “Track” if a transect track is loaded
+- Licenses information supplemented
 - "Help" text updated
 - Docs updated
-- Bugfix for importing a species list
 
 Features:
 - Data collection is based on a transect inspection.

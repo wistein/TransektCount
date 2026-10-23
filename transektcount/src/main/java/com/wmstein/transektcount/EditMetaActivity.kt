@@ -1,5 +1,29 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * EditMetaActivity collects, partly edits and shows metadata for a transect inspection
+ *
+ * Created by wmstein on 2016-03-31,
+ * last edited in Java on 2026-05-23,
+ * converted to kotlin on 2026-07-17,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -17,6 +41,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -40,14 +65,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-/**************************************************************************************
- * EditMetaActivity collects, partly edits and shows metadata for a transect inspection
- *
- * Created by wmstein on 2016-03-31,
- * last edited in Java on 2026-05-23,
- * converted to kotlin on 2026-07-17,
- * last edited on 2026-08-21
- */
 class EditMetaActivity : AppCompatActivity() {
     private val prefs = getPrefs()
 
@@ -57,22 +74,22 @@ class EditMetaActivity : AppCompatActivity() {
     private var headDataSource: HeadDataSource? = null
     private var metaDataSource: MetaDataSource? = null
 
-    private var pdate: Calendar? = null
-    private var ptime: Calendar? = null
+    private var pDate: Calendar? = null
+    private var pTime: Calendar? = null
 
     private var metaArea: LinearLayout? = null
     private var sDate: TextView? = null
     private var sTime: TextView? = null
     private var eTime: TextView? = null
 
-    private var emhw: EditMetaHeadWidget? = null
-    private var emw: EditMetaWidget? = null
+    private var eMHW: EditMetaHeadWidget? = null
+    private var eMW: EditMetaWidget? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "75, onCreate")
+            Log.i(TAG, "92, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)  // SDK 35+
         {
@@ -115,7 +132,7 @@ class EditMetaActivity : AppCompatActivity() {
             val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG,"118, handleOnBackPressed")
+                        Log.i(TAG,"135, handleOnBackPressed")
 
                     finish()
                     remove()
@@ -140,7 +157,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "143, onResume")
+            Log.i(TAG, "160, onResume")
 
         // Setup data sources
         headDataSource!!.open()
@@ -155,52 +172,52 @@ class EditMetaActivity : AppCompatActivity() {
         meta = metaDataSource!!.meta
 
         // Display the head data
-        emhw = EditMetaHeadWidget(this, null)
-        emhw!!.setWidgetNo(getString(R.string.transectnumber) + ":")
-        emhw!!.setWidgetName(getString(R.string.inspector) + ":")
+        eMHW = EditMetaHeadWidget(this, null)
+        eMHW!!.setWidgetNo(getString(R.string.transectnumber) + ":")
+        eMHW!!.setWidgetName(getString(R.string.inspector) + ":")
 
         // Display the editable head data
-        emhw!!.widgetNo1 = head!!.transect_no
-        emhw!!.widgetName1 = head!!.inspector_name
-        metaArea!!.addView(emhw)
+        eMHW!!.widgetNo1 = head!!.transect_no
+        eMHW!!.widgetName1 = head!!.inspector_name
+        metaArea!!.addView(eMHW)
 
         // Display the metadata
-        emw = EditMetaWidget(this, null)
-        emw!!.setWidgetTemp1(getString(R.string.temperature) + ":")
-        emw!!.setWidgetWind1(getString(R.string.wind) + ":")
-        emw!!.setWidgetClouds1(getString(R.string.clouds) + ":")
+        eMW = EditMetaWidget(this, null)
+        eMW!!.setWidgetTemp1(getString(R.string.temperature) + ":")
+        eMW!!.setWidgetWind1(getString(R.string.wind) + ":")
+        eMW!!.setWidgetClouds1(getString(R.string.clouds) + ":")
 
         // Display the editable metadata
-        emw!!.widgetTempS = meta!!.temps
-        emw!!.widgetTempE = meta!!.tempe
+        eMW!!.widgetTempS = meta!!.temps
+        eMW!!.widgetTempE = meta!!.tempe
 
-        emw!!.widgetWinds = meta!!.winds
-        emw!!.widgetWinde = meta!!.winde
+        eMW!!.widgetWinds = meta!!.winds
+        eMW!!.widgetWinde = meta!!.winde
 
-        emw!!.widgetCloudsS = meta!!.clouds
-        emw!!.widgetCloudsE = meta!!.cloude
+        eMW!!.widgetCloudsS = meta!!.clouds
+        eMW!!.widgetCloudsE = meta!!.cloude
 
-        emw!!.setWidgetDate1(getString(R.string.date) + ":")
-        emw!!.setWidgetDate2(meta!!.date)
-        emw!!.setWidgetSTime1(getString(R.string.starttm))
-        emw!!.setWidgetSTime2(meta!!.start_tm)
-        emw!!.setWidgetETime1(getString(R.string.endtm))
-        emw!!.setWidgetETime2(meta!!.end_tm)
+        eMW!!.setWidgetDate1(getString(R.string.date) + ":")
+        eMW!!.setWidgetDate2(meta!!.date)
+        eMW!!.setWidgetSTime1(getString(R.string.starttm))
+        eMW!!.setWidgetSTime2(meta!!.start_tm)
+        eMW!!.setWidgetETime1(getString(R.string.endtm))
+        eMW!!.setWidgetETime2(meta!!.end_tm)
 
-        emw!!.setWidgetNote1(getString(R.string.note) + ":")
-        emw!!.setWidgetNote2(meta!!.note)
-        metaArea!!.addView(emw)
+        eMW!!.setWidgetNote1(getString(R.string.note) + ":")
+        eMW!!.setWidgetNote2(meta!!.note)
+        metaArea!!.addView(eMW)
 
         // Check for focus
         val newTransectNo = head!!.transect_no
         if (newTransectNo != "") {
-            emw!!.requestFocus()
+            eMW!!.requestFocus()
         } else {
-            emhw!!.requestFocus()
+            eMHW!!.requestFocus()
         }
 
-        pdate = Calendar.getInstance()
-        ptime = Calendar.getInstance()
+        pDate = Calendar.getInstance()
+        pTime = Calendar.getInstance()
 
         sDate = findViewById(R.id.widgetDateValue)
         sTime = findViewById(R.id.widgetStartTimeValue)
@@ -215,10 +232,10 @@ class EditMetaActivity : AppCompatActivity() {
         // Get date picker result
         val dpd =
             OnDateSetListener { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                pdate!!.set(Calendar.YEAR, year)
-                pdate!!.set(Calendar.MONTH, monthOfYear)
-                pdate!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val date = pdate!!.getTime()
+                pDate!!.set(Calendar.YEAR, year)
+                pDate!!.set(Calendar.MONTH, monthOfYear)
+                pDate!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val date = pDate!!.getTime()
                 sDate!!.text = getFormDate(date)
             }
 
@@ -226,9 +243,9 @@ class EditMetaActivity : AppCompatActivity() {
         sDate!!.setOnLongClickListener { _: View? ->
             DatePickerDialog(
                 this@EditMetaActivity, dpd,
-                pdate!!.get(Calendar.YEAR),
-                pdate!!.get(Calendar.MONTH),
-                pdate!!.get(Calendar.DAY_OF_MONTH)
+                pDate!!.get(Calendar.YEAR),
+                pDate!!.get(Calendar.MONTH),
+                pDate!!.get(Calendar.DAY_OF_MONTH)
             ).show()
             true
         }
@@ -240,19 +257,19 @@ class EditMetaActivity : AppCompatActivity() {
         }
 
         // Get start time picker result
-        val stpd = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-            ptime!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            ptime!!.set(Calendar.MINUTE, minute)
-            val date = ptime!!.getTime()
+        val sTP = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+            pTime!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            pTime!!.set(Calendar.MINUTE, minute)
+            val date = pTime!!.getTime()
             sTime!!.text = getFormTime(date)
         }
 
         // Select start time
         sTime!!.setOnLongClickListener { _: View? ->
             TimePickerDialog(
-                this@EditMetaActivity, stpd,
-                ptime!!.get(Calendar.HOUR_OF_DAY),
-                ptime!!.get(Calendar.MINUTE),
+                this@EditMetaActivity, sTP,
+                pTime!!.get(Calendar.HOUR_OF_DAY),
+                pTime!!.get(Calendar.MINUTE),
                 true
             ).show()
             true
@@ -265,19 +282,19 @@ class EditMetaActivity : AppCompatActivity() {
         }
 
         // Get start time picker result
-        val etpd = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-            ptime!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            ptime!!.set(Calendar.MINUTE, minute)
-            val date = ptime!!.getTime()
+        val eTP = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+            pTime!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            pTime!!.set(Calendar.MINUTE, minute)
+            val date = pTime!!.getTime()
             eTime!!.text = getFormTime(date)
         }
 
         // Select end time
         eTime!!.setOnLongClickListener { _: View? ->
             TimePickerDialog(
-                this@EditMetaActivity, etpd,
-                ptime!!.get(Calendar.HOUR_OF_DAY),
-                ptime!!.get(Calendar.MINUTE),
+                this@EditMetaActivity, eTP,
+                pTime!!.get(Calendar.HOUR_OF_DAY),
+                pTime!!.get(Calendar.MINUTE),
                 true
             ).show()
             true
@@ -297,7 +314,7 @@ class EditMetaActivity : AppCompatActivity() {
         if (id == android.R.id.home)  // back button in actionBar
         {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "300, MenuItem home")
+                Log.i(TAG, "317, MenuItem home")
 
             finish()
             return true
@@ -305,7 +322,7 @@ class EditMetaActivity : AppCompatActivity() {
 
         if (id == R.id.menuSaveExit) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "308, MenuItem saveExit")
+                Log.i(TAG, "335, MenuItem saveExit")
 
             if (saveData()) finish()
             return true
@@ -317,7 +334,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "320, onPause")
+            Log.i(TAG, "337, onPause")
 
         headDataSource!!.close()
         metaDataSource!!.close()
@@ -337,7 +354,7 @@ class EditMetaActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "340, onStop")
+            Log.i(TAG, "357, onStop")
 
         metaArea = null
     }
@@ -346,59 +363,59 @@ class EditMetaActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "349, onDestroy")
+            Log.i(TAG, "366, onDestroy")
     }
 
     fun saveData(): Boolean {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "354, saveData")
+            Log.i(TAG, "371, saveData")
 
         // Save head data
-        head!!.transect_no = emhw!!.widgetNo1
-        head!!.inspector_name = emhw!!.widgetName1
+        head!!.transect_no = eMHW!!.widgetNo1
+        head!!.inspector_name = eMHW!!.widgetName1
 
         headDataSource!!.saveHead(head!!)
 
-        var mesg: String
+        var msg: String
 
         // Save metadata with plausi
-        if (emw!!.widgetTempS !in 0..50 || emw!!.widgetTempE !in 0..50) {
-            mesg = getString(R.string.valTemp)
+        if (eMW!!.widgetTempS !in 0..50 || eMW!!.widgetTempE !in 0..50) {
+            msg = getString(R.string.valTemp)
             Toast.makeText(this,  //orange
-                fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG).show()
+                fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                LENGTH_LONG).show()
             return false
         } else {
-            meta!!.temps = emw!!.widgetTempS
-            meta!!.tempe = emw!!.widgetTempE
+            meta!!.temps = eMW!!.widgetTempS
+            meta!!.tempe = eMW!!.widgetTempE
         }
 
-        if (emw!!.widgetWinds !in 0..4 || emw!!.widgetWinde !in 0..4) {
-            mesg = getString(R.string.valWind)
+        if (eMW!!.widgetWinds !in 0..4 || eMW!!.widgetWinde !in 0..4) {
+            msg = getString(R.string.valWind)
             Toast.makeText(this,  //orange
-                fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG).show()
+                fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                LENGTH_LONG).show()
             return false
         } else {
-            meta!!.winds = emw!!.widgetWinds
-            meta!!.winde = emw!!.widgetWinde
+            meta!!.winds = eMW!!.widgetWinds
+            meta!!.winde = eMW!!.widgetWinde
         }
 
-        if (emw!!.widgetCloudsS !in 0..100 || emw!!.widgetCloudsE !in 0..100) {
-            mesg = getString(R.string.valClouds)
+        if (eMW!!.widgetCloudsS !in 0..100 || eMW!!.widgetCloudsE !in 0..100) {
+            msg = getString(R.string.valClouds)
             Toast.makeText(this,  //orange
-                fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG).show()
+                fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                LENGTH_LONG).show()
             return false
         } else {
-            meta!!.clouds = emw!!.widgetCloudsS
-            meta!!.cloude = emw!!.widgetCloudsE
+            meta!!.clouds = eMW!!.widgetCloudsS
+            meta!!.cloude = eMW!!.widgetCloudsE
         }
 
-        meta!!.date = emw!!.widgetDate
-        meta!!.start_tm = emw!!.widgetSTime
-        meta!!.end_tm = emw!!.widgetETime
-        meta!!.note = emw!!.widgetNote
+        meta!!.date = eMW!!.widgetDate
+        meta!!.start_tm = eMW!!.widgetSTime
+        meta!!.end_tm = eMW!!.widgetETime
+        meta!!.note = eMW!!.widgetNote
 
         metaDataSource!!.saveMeta(meta!!)
         return true
@@ -407,22 +424,22 @@ class EditMetaActivity : AppCompatActivity() {
 
     // Formatted date
     fun getFormDate(date: Date): String {
-        val dform: DateFormat?
+        val dFormDate: DateFormat?
         val lng = Locale.getDefault().toString().substring(0, 2)
 
-        dform = when (lng) {
+        dFormDate = when (lng) {
             "de" -> SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN)
             "en" -> SimpleDateFormat("yyyy-MM-dd", Locale.US)
             else  // for fr, it and es
                 -> SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH)
         }
-        return dform.format(date)
+        return dFormDate.format(date)
     }
 
     // Derive start_tm and end_tm from date
     fun getFormTime(date: Date): String {
-        val dform: DateFormat = SimpleDateFormat("HH:mm", Locale.US)
-        return dform.format(date)
+        val dFormTime: DateFormat = SimpleDateFormat("HH:mm", Locale.US)
+        return dFormTime.format(date)
     }
 
     companion object {

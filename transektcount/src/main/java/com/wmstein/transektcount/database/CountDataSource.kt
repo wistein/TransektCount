@@ -1,5 +1,32 @@
 package com.wmstein.transektcount.database
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * Class CountDataSource provides methods for table Count
+ *
+ * Basic structure derived from CountDataSource.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+ *
+ * Adapted for TransektCount by wmstein on 2016-02-18,
+ * last edited in Java on 2022-04-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -9,13 +36,6 @@ import android.database.sqlite.SQLiteDatabase
 
 import com.wmstein.transektcount.database.DbHelper.Companion.COUNT_TABLE
 
-/******************************************************
- * Based on CountDataSource.java by milo on 05/05/2014.
- * Adopted for TransektCount by wmstein on 2016-02-18,
- * last edited in Java on 2022-04-26,
- * converted to Kotlin on 2023-06-26,
- * last edited on 2026-05-31
- */
 class CountDataSource(context: Context) {
     // Database fields
     private var database: SQLiteDatabase? = null
@@ -86,26 +106,26 @@ class CountDataSource(context: Context) {
 
     @SuppressLint("Range")
     private fun cursorToCount(cursor: Cursor): Count {
-        val newcount = Count()
-        newcount.id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_ID))
-        newcount.section_id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_SECTION_ID))
-        newcount.name = cursor.getString(cursor.getColumnIndex(DbHelper.C_NAME))
-        newcount.code = cursor.getString(cursor.getColumnIndex(DbHelper.C_CODE))
-        newcount.count_f1i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F1I))
-        newcount.count_f2i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F2I))
-        newcount.count_f3i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F3I))
-        newcount.count_pi = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_PI))
-        newcount.count_li = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_LI))
-        newcount.count_ei = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_EI))
-        newcount.count_f1e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F1E))
-        newcount.count_f2e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F2E))
-        newcount.count_f3e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F3E))
-        newcount.count_pe = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_PE))
-        newcount.count_le = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_LE))
-        newcount.count_ee = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_EE))
-        newcount.notes = cursor.getString(cursor.getColumnIndex(DbHelper.C_NOTES))
-        newcount.name_g = cursor.getString(cursor.getColumnIndex(DbHelper.C_NAME_G))
-        return newcount
+        val newCount = Count()
+        newCount.id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_ID))
+        newCount.section_id = cursor.getInt(cursor.getColumnIndex(DbHelper.C_SECTION_ID))
+        newCount.name = cursor.getString(cursor.getColumnIndex(DbHelper.C_NAME))
+        newCount.code = cursor.getString(cursor.getColumnIndex(DbHelper.C_CODE))
+        newCount.count_f1i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F1I))
+        newCount.count_f2i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F2I))
+        newCount.count_f3i = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F3I))
+        newCount.count_pi = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_PI))
+        newCount.count_li = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_LI))
+        newCount.count_ei = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_EI))
+        newCount.count_f1e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F1E))
+        newCount.count_f2e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F2E))
+        newCount.count_f3e = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_F3E))
+        newCount.count_pe = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_PE))
+        newCount.count_le = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_LE))
+        newCount.count_ee = cursor.getInt(cursor.getColumnIndex(DbHelper.C_COUNT_EE))
+        newCount.notes = cursor.getString(cursor.getColumnIndex(DbHelper.C_NOTES))
+        newCount.name_g = cursor.getString(cursor.getColumnIndex(DbHelper.C_NAME_G))
+        return newCount
     }
 
     // Used by EditSectionListActivity
@@ -267,8 +287,8 @@ class CountDataSource(context: Context) {
     }
 
     fun updateEditedSpecies(
-        sectid: Int,
-        countid: Int,
+        sectId: Int,
+        countId: Int,
         name: String?,
         code: String?,
         nameG: String?,
@@ -278,7 +298,7 @@ class CountDataSource(context: Context) {
         dataToInsert.put(DbHelper.C_CODE, code)
         dataToInsert.put(DbHelper.C_NAME_G, nameG)
         val where = DbHelper.C_SECTION_ID + " = ? AND " + DbHelper.C_ID + " = ?"
-        val whereArgs = arrayOf(sectid.toString(), countid.toString())
+        val whereArgs = arrayOf(sectId.toString(), countId.toString())
         database!!.update(COUNT_TABLE, dataToInsert, where, whereArgs)
     }
 
@@ -550,7 +570,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSection(sectionId: Int, sname: String): Array<String?> {
+    fun getAllStringsForSection(sectionId: Int, sName: String): Array<String?> {
         val cursor = database!!.query(
             COUNT_TABLE, allColumns,
             DbHelper.C_SECTION_ID + " = " + sectionId, null, null, null, null
@@ -559,7 +579,7 @@ class CountDataSource(context: Context) {
         var i = 0
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            @SuppressLint("Range") val uname = cursor.getString(cursor.getColumnIndex(sname))
+            @SuppressLint("Range") val uname = cursor.getString(cursor.getColumnIndex(sName))
             uArray[i] = uname
             i++
             cursor.moveToNext()
@@ -569,7 +589,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSectionSrtName(sectionId: Int, sname: String): Array<String?> {
+    fun getAllStringsForSectionSrtName(sectionId: Int, sName: String): Array<String?> {
         val cursor = database!!.rawQuery(
             "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
@@ -579,7 +599,7 @@ class CountDataSource(context: Context) {
         cursor.moveToFirst()
         var i = 0
         while (!cursor.isAfterLast) {
-            @SuppressLint("Range") val uname = cursor.getString(cursor.getColumnIndex(sname))
+            @SuppressLint("Range") val uname = cursor.getString(cursor.getColumnIndex(sName))
             uArray[i] = uname
             i++
             cursor.moveToNext()
@@ -589,7 +609,7 @@ class CountDataSource(context: Context) {
     }
 
     // Used by CountingActivity
-    fun getAllStringsForSectionSrtCode(sectionId: Int, sname: String): Array<String?> {
+    fun getAllStringsForSectionSrtCode(sectionId: Int, sName: String): Array<String?> {
         val cursor = database!!.rawQuery(
             "select * from " + COUNT_TABLE
                     + " WHERE " + DbHelper.C_SECTION_ID + " = " + sectionId + " order by "
@@ -600,7 +620,7 @@ class CountDataSource(context: Context) {
         var i = 0
         while (!cursor.isAfterLast) {
             @SuppressLint("Range")
-            val uname = cursor.getString(cursor.getColumnIndex(sname))
+            val uname = cursor.getString(cursor.getColumnIndex(sName))
             uArray[i] = uname
             i++
             cursor.moveToNext()

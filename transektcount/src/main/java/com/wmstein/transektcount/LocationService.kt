@@ -1,5 +1,52 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2025-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * Gaining location data is based on LocationSrv created by anupamchugh on 2016-11-28, published on
+ * https://github.com/journaldev/journaldev/tree/master/Android/GPSLocationTracking
+ * Copyright © 2016 anupamchugh.
+ *
+ * Licensed under the MIT License (MIT):
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ ***************************************************************************************************
+ *
+ * LocationService does not rely on Google Play Services.
+ * It provides periodic location data and determines the current section of a transect
+ * with the help of corresponding section tracks.
+ *
+ * Partly taken from the LocationService.kt code of TourCount that was adopted from anupamchugh's
+ * code by wmstein on 2018-07-26,
+ * enhanced for TransektCount by wmstein on 2025-09-11,
+ * last edited on 2026-10-21
+ **************************************************************************************************/
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Service
@@ -17,6 +64,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
@@ -42,20 +90,10 @@ import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-/**************************************************************************************************
- * LocationService provides periodic location data and determines the current section of a transect
- * with the help of corresponding section tracks.
- *
- * Gaining location data is based on LocationSrv created by anupamchugh on 2016-11-28, published on
- * https://github.com/journaldev/journaldev/tree/master/Android/GPSLocationTracking
- * under MIT License.
- *
- * Part of that code was adopted for TourCount and converted to kotlin by wmstein on 2023-08-16,
- * then adapted and enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-08-01
- */
 class LocationService : Service, LocationListener {
-    private var mContext: Context? = null
+    var sContext: Context? = null
+    private var audioAttributionContext: Context? = null
+    private var locationAttributionContext: Context? = null
     private var locationManager: LocationManager? = null
     private var location: Location? = null
     private var checkGPS = false
@@ -72,24 +110,23 @@ class LocationService : Service, LocationListener {
     private var alertSoundPref = false
     private var alertSound = ""
 
-    private var audioAttributionContext: Context? = null
-    private var locationAttributionContext: Context? = null
     private var rToneA: MediaPlayer? = null
 
     // DB handling
     private var sectionDataSource: SectionDataSource? = null
     private var trackDataSource: TrackDataSource? = null
     private var isSelSectAct = false
+    private var msg = ""
 
     // Default constructor is demanded for service declaration in AndroidManifest.xml
     constructor() // not to be removed!
 
     constructor(context: Context) {
-        this.mContext = context // Gets ApplicationContext from call in WelcomeActivity
+        this.sContext = context // Gets ApplicationContext from call in WelcomeActivity
         audioAttributionContext =
-            mContext!!.createAttributionContext("ringSound")
+            sContext!!.createAttributionContext("ringSound")
         locationAttributionContext =
-            mContext!!.createAttributionContext("locationCheck")
+            sContext!!.createAttributionContext("locationCheck")
 
         val prefs = TransektCountApplication.getPrefs()
         selTimeInterval = prefs.getString("pref_time_interval", "3000")!!.toLong()
@@ -98,8 +135,8 @@ class LocationService : Service, LocationListener {
         alertSoundPref = prefs.getBoolean("pref_alert_sound", false)
         alertSound = prefs.getString("alert_sound", "")!!
 
-        sectionDataSource = SectionDataSource(mContext!!)
-        trackDataSource = TrackDataSource(mContext!!)
+        sectionDataSource = SectionDataSource(sContext!!)
+        trackDataSource = TrackDataSource(sContext!!)
 
         // Try to get list of trackpoints
         trackDataSource!!.open()
@@ -116,18 +153,18 @@ class LocationService : Service, LocationListener {
             if (checkGPS) {
                 this.canGetLocation = true
             } else {
-                val mesg = mContext!!.getString(R.string.no_provider)
+                msg = sContext!!.getString(R.string.no_provider)
                 Toast.makeText(
-                    mContext!!,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_SHORT
+                    sContext!!,
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_SHORT
                 ).show()
             }
 
             // if GPS is enabled get position using GPS service
             if (checkGPS && canGetLocation) {
                 if (ActivityCompat.checkSelfPermission(
-                        mContext!!,
+                        sContext!!,
                         Manifest.permission.ACCESS_FINE_LOCATION
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
@@ -140,7 +177,7 @@ class LocationService : Service, LocationListener {
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "143, Error in getLocation: $e")
+                Log.e(TAG, "180, Error in getLocation: $e")
         }
     }
 
@@ -155,11 +192,11 @@ class LocationService : Service, LocationListener {
         if (isFirstLoc && distMin != 0.0) {
             // Show message: GPS: Distance to track: distance m
             val dst = DecimalFormat("#.#").format(distMin)
-            val mesg = mContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
+            msg = sContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
             Toast.makeText( // bright green
-                mContext!!,
-                fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
-                Toast.LENGTH_SHORT
+                sContext!!,
+                fromHtml("<bold><font color='#008000'>$msg</font></bold>"),
+                LENGTH_SHORT
             ).show()
             isFirstLoc = false
         }
@@ -167,15 +204,17 @@ class LocationService : Service, LocationListener {
         if (sectionNameGPS != "") {
             sectionDataSource!!.open()
             sectionGPS = sectionDataSource!!.getSectionByName(sectionNameGPS)
+//            sectionIdGPS = sectionGPS!!.id // todo?
             sectionDataSource!!.close()
             isInsideTrack = true
         } else {
             sectionGPS = null
+//            sectionIdGPS = 1 // todo?
             isInsideTrack = false
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "178, current SecName: $sectionNameCurrent")
+            Log.i(TAG, "217, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -185,16 +224,17 @@ class LocationService : Service, LocationListener {
 
             // Pause 100 ms to play sound surely
             Handler(Looper.getMainLooper()).postDelayed({
-                val mesg = mContext!!.getString(R.string.newSect) + " $sectionNameGPS"
+                msg = sContext!!.getString(R.string.newSect) + " $sectionNameGPS"
+
                 Toast.makeText( // bright green
-                    mContext!!,
-                    fromHtml("<bold><font color='#008000'>$mesg</font></bold>"),
-                    Toast.LENGTH_SHORT
+                    sContext!!,
+                    fromHtml("<bold><font color='#008000'>$msg</font></bold>"),
+                    LENGTH_SHORT
                 ).show()
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "197, new SecName: $sectionNameGPS")
+                Log.i(TAG, "237, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
@@ -202,13 +242,13 @@ class LocationService : Service, LocationListener {
             // Start SelectSectionActivity if it called location
             isSelSectAct = isSelectSectionActivityResumed
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "205, isSelectSectionActivityRes: $isSelSectAct")
+                Log.i(TAG, "245, isSelectSectionActivityRes: $isSelSectAct")
 
             // Reload SelectSectionActivity when it is active with new section marked blue
             if (isSelSectAct) {
-                val intent = Intent(mContext, SelectSectionActivity::class.java)
+                val intent = Intent(sContext, SelectSectionActivity::class.java)
                 intent.flags = FLAG_ACTIVITY_NEW_TASK
-                mContext!!.startActivity(intent)
+                sContext!!.startActivity(intent)
             }
 
         } else if (isInsideTrack)
@@ -230,7 +270,7 @@ class LocationService : Service, LocationListener {
         var tSecNam = ""             // section name from identified track
 
         if (ActivityCompat.checkSelfPermission(
-                mContext!!,
+                sContext!!,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
@@ -244,10 +284,10 @@ class LocationService : Service, LocationListener {
         }
 
         // Read all TRACK_TABLE entries and find distMin for nearest track
-        for (trackpt: Track in trackPts) {
-            tSName = trackpt.tsection
-            tLat = trackpt.tlat // Lat. from DB
-            tLon = trackpt.tlon // Lon. from DB
+        for (trackPt: Track in trackPts) {
+            tSName = trackPt.tsection
+            tLat = trackPt.tlat // Lat. from DB
+            tLon = trackPt.tlon // Lon. from DB
             dist = sDistance(tLat, tLon, lat, lon)
             if (distMinInit > dist) {
                 distMinInit = dist
@@ -299,11 +339,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "302, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "342, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "306, StopListener: $e")
+                Log.e(TAG, "346, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -370,7 +410,7 @@ class LocationService : Service, LocationListener {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "373, onDestroy")
+            Log.i(TAG, "413, onDestroy")
 
         if (alertSoundPref && rToneA != null) {
             rToneA!!.reset()

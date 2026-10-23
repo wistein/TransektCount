@@ -1,5 +1,33 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * AutoFitEditText is used in CountOptionsActivity to fit in larger count numbers
+ *
+ * Created by varsovski on 29-Oct-15, published on
+ * https://github.com/viksaaskool/autofitedittext,
+ * licensed under MIT License by Viktor Arsovski.
+ *
+ * Modified for TransektCount by wmstein on 2023-09-18,
+ * last edited in Java on 2023-09-18
+ * converted to Kotlin on 2023-09-19
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.RectF
@@ -17,18 +45,6 @@ import java.util.Objects
 
 import kotlin.math.roundToInt
 
-/********************************************************************************
- * AutoFitEditText is used in CountOptionsActivity to fit in larger count numbers
- *
- * Created by varsovski on 29-Oct-15, published on
- * https://github.com/viksaaskool/autofitedittext,
- * licensed under MIT License by Viktor Arsovski.
- *
- * Modified for TransektCount by wmstein on 2023-09-18,
- * last edited in Java on 2023-09-18
- * converted to Kotlin on 2023-09-19
- * last edited on 2026-07-21.
- */
 class AutoFitEditText @JvmOverloads constructor(
     context: Context?, attrs: AttributeSet? = null,
     defStyle: Int = 0
@@ -75,8 +91,8 @@ class AutoFitEditText @JvmOverloads constructor(
             ): Int {
                 textPaint!!.textSize = suggestedSize.toFloat()
                 val text = Objects.requireNonNull(text).toString()
-                val singleline = maxLines == 1
-                if (singleline) {
+                val singleLine = maxLines == 1
+                if (singleLine) {
                     textRect.bottom = textPaint!!.fontSpacing
                     textRect.right = textPaint!!.measureText(text)
                 } else {
@@ -178,7 +194,7 @@ class AutoFitEditText @JvmOverloads constructor(
         var hi = end - 1
         var mid: Int
         while (lo <= hi) {
-            mid = lo + hi ushr 1
+            mid = lo + hi ushr 1 // shift value right for 1 pos.
             val midValCmp = sizeTester.onTestSize(mid, availableSpace)
             if (midValCmp < 0) {
                 lastBest = lo

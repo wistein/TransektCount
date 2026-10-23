@@ -1,5 +1,34 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * SelectSectionAdapter is called from SelectSectionActivity.
+ * It provides the lines of the sections list for selecting the
+ * section to be used by the CountingActivity
+ *
+ * Parts based on ProjectListAdapter.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+ *
+ * Modified for TransektCount by wmstein since 2016-02-18
+ * Last edited in Java on 2023-07-05,
+ * converted to Kotlin on 2023-07-17,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -23,17 +52,6 @@ import com.wmstein.transektcount.TransektCountApplication.Companion.sectionNameC
 import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.Section
 
-/**************************************************************
- * SelectSectionAdapter is called from SelectSectionActivity.
- * It provides the lines of the sections list for selecting the
- * section to be used by the CountingActivity
- *
- * Based on ProjectListAdapter.java by milo on 2014-05-05.
- * Modified for TransektCount by wmstein since 2016-02-18
- * Last edited in Java on 2023-07-05,
- * converted to Kotlin on 2023-07-17,
- * last edited on 2026-05-26
- */
 internal class SelectSectionAdapter(
     private val context: Context,
     private val layoutResourceId: Int,
@@ -94,13 +112,13 @@ internal class SelectSectionAdapter(
                 holder.deleteSection!!.setOnClickListener(mOnDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "97, getView, Id = $sectionId, maxId = $maxId")
+                    Log.i(TAG, "115, getView, Id = $sectionId, maxId = $maxId")
             } else {
                 holder.deleteSection!!.setImageResource(R.drawable.ic_menu_nodelete)
                 holder.deleteSection!!.setOnClickListener(mOnNoDeleteClickListener)
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "103, getView, Id = $sectionId, not maxId = $maxId")
+                    Log.i(TAG, "121, getView, Id = $sectionId, not maxId = $maxId")
             }
             sectionsListRow?.tag = holder
         } else {
@@ -187,9 +205,8 @@ internal class SelectSectionAdapter(
             sct!!.name
                     + ": "
                     + mContext.getString(R.string.informNodelete)
-        ).setCancelable(false).setPositiveButton(
-            R.string.ok_button
-        ) { _: DialogInterface?, _: Int -> }
+        ).setCancelable(false).setPositiveButton("Ok")
+        { _: DialogInterface?, _: Int -> }
         val alert = builder.create()
         alert.show()
     }

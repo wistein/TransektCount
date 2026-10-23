@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml English strings,
-     last edited 2026-07-16 -->
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     English strings
+
+     Last edited 2026-10-20
+************************************************************************************************ -->
 
 <resources>
 
@@ -25,15 +44,17 @@
     <!-- WelcomeActivity -->
     <string name="back_twice">Press again to exit</string>
     <string name="cancelButton">Cancel</string>
+    <string name="yesButton">Yes</string>
     <string name="changeLogTitle">App Info</string>
     <string name="code_spec">Species Code</string>
     <string name="confirmDBImport">Are you sure you want to import a DB file? Your current data will be overwritten!\n\nNote! If this is an older version of the file, go afterward to “Settings” and check that the correct data language is set.</string>
+    <string name="confirmBasicDBImport">Are you sure you want to import a Basic DB file? Your current data will be overwritten!\n\nNote! If this is an older version of the file, go afterward to “Settings” and check that the correct data language is set.</string>
     <string name="confirmGPSDelete">Are you sure you want to delete the track data?</string>
     <string name="confirmGPSImport">Do you want to try to import the GPS file?</string>
-    <string name="confirmListImport">Are you sure you want to import the species list? Your current counting data will be deleted! May last long for a long list.</string>
+    <string name="confirmListImport">Are you sure you want to import the species list? Your current counting data will be deleted! May last longer for a long list.</string>
     <string name="confirmResetDB">Are you sure you want to reset the Transect DB? Your current counting data will be deleted!</string>
     <string name="corruptDb">DB error! If problem remains after restart and after import of a different TransektCount-DB, please de-install and re-install the app.</string>
-    <string name="deleteTrackFail">Cannot delete tracks, the current DB has no tracks!</string>
+    <string name="deleteTrackFail">No need to delete—there are no tracks in the database!</string>
     <string name="distanceToTrack">Distance to transect:</string>
     <string name="editMetaButton">Edit Metadata</string>
     <string name="exportBasisMenu">Export Basic DB</string>
@@ -45,7 +66,7 @@
     <string name="from">from:</string>
     <string name="importBasisMenu">Import Basic DB</string>
     <string name="importButton">Import</string>
-    <string name="importDB">Your database has been imported.</string>
+    <string name="importDB">Your database has been imported</string>
     <string name="importFail">Your database could not be imported!</string>
     <string name="importFileMenu">Import DB</string>
     <string name="importGPS">The GPX file has been imported.</string>
@@ -67,7 +88,7 @@
     <string name="reset2basic">Your database has been resetted.</string>
     <string name="resetDBMenu">Reset Data</string>
     <string name="resetFail">Your database could not be resetted!</string>
-    <string name="resetGPSMenu">Remove GPS Track Data</string>
+    <string name="resetGPSMenu">Remove GPS Track</string>
     <string name="resetTracks">Your track data has been deleted.</string>
     <string name="results">TransektCount Result</string>
     <string name="saveBasisDB">Exporting Basic DB to Documents/TransektCount.</string>
@@ -179,7 +200,6 @@
     <string name="changelog_full_title">App Info (TransektCount Ver.</string>
     <string name="changelog_show_full">more&#8230;</string>
     <string name="changelog_title">What\'s New</string>
-    <string name="ok_button">OK</string>
     <string name="title_help_dialog">Help</string>
     <string name="title_license_dialog">Licenses</string>
 
@@ -272,21 +292,22 @@
     <string name="hintTitle">Title</string>
     <string name="hintTotal">Totals</string>
     <string name="newSect">New section:</string>
+<!--    <string name="askSwitchSect">Load new section?\u0020</string> -->
     <string name="no_provider">No GPS service available!</string>
     <string name="sect01">Sect 01</string>
     <string name="totalsIES">Totals internal / external / species:</string>
 
     <!-- Permissions -->
-    <string name="app_settings">System Settings</string>
-    <string name="dialog_background_loc_message">If the app should run for longer inspections, location data would be more reliable with the optional permission \'Allow all the time\'.</string>
-    <string name="dialog_background_loc_title">Optional permission wanted</string>
-    <string name="dialog_fine_location_message">Identifying transect sections needs maximum precision.</string>
-    <string name="dialog_fine_location_title">Allow to use precise location.</string>
-    <string name="grant_perm_later">You may grant the optional permission \'Allow all the time\' in system settings later.</string>
+    <string name="dialog_location_title">Allow to use location</string>
+    <string name="dialog_location_message">To use GPS-based notifications when switching between transect sections, you must grant location permission.\n\nThere are several modes for GPS usage: For TransektCount, select the options “Allow only while using the app” and “Use precise location.”\n\nIf you want greater reliability—e.g. when switching between other apps or when a transect has widely separated sections—you should enable the “Always allow” option in Android’s system settings.</string>
+    <string name="dialog_fine_location_title">Allow to use precise location</string>
+    <string name="dialog_fine_location_denied">You have not granted location permission.\n\nThe change in transect sections cannot now be indicated via GPS.\n\nPermission can be granted later through the Android system settings.</string>
+    <string name="dialog_location_dropped_title">Location permission revoked</string>
+    <string name="dialog_location_dropped">You have revoked the location permission.\n\nChanges in transect sections can no longer be detected via GPS.\n\nThe permission can only be re-enabled through the Android system settings.</string>
 
-    <string name="dialog_storage_message1">Please grant the "All files access" permission for TransektCount\n\nin order to import or export TransektCount files.\n\nOtherwise, neither databases, lists, nor results can be imported or exported.</string>
-    <string name="dialog_storage_message2">Please grant the “All files access” permission for TransektCount\n\nso that TransektCount files can be imported and exported.\n\nThen try again.</string>
-    <string name="dialog_storage_title">Allow to use "All files access"\n(only TransektCount-specific files).</string>
+    <string name="dialog_storage_message1">Please grant the "All files access" permission for TransektCount in order to import or export TransektCount files.\n\nOtherwise, neither databases, lists, nor results can be imported or exported.</string>
+    <string name="dialog_storage_message2">Please grant the “All files access” permission for TransektCount so that TransektCount files can be imported and exported.\n\nThen try again.</string>
+    <string name="dialog_storage_title">All files access</string>
     <string name="storage_perm_denied">Required storage permission for TransektCount is missing, file import and export is not possible.</string>
 
 </resources>

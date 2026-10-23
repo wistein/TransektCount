@@ -1,16 +1,36 @@
 <html>
 
-<!--
-Formatting commands:
---------------------
-% title
-& bold text
-_ subtitle
-! free text
-# numbered list item
-* bullet list item
-. empty line
--->
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     English changelog
+
+     Formatting commands:
+     --------------------
+     % title
+     _ subtitle
+     ! free text
+     & bold text
+     # numbered list item
+     * bullet list item
+     . empty line
+
+     Last edited 2026-10-23
+************************************************************************************************ -->
+
   <head>
     <style type='text/css'>
       a { color:#a0a0e0 }
@@ -72,6 +92,24 @@ _ subtitle
   _
   .
   _
+
+$ 5.1.7
+  % Version 5.1.7
+  _ 2026-10-23
+  * Code improvements
+  * Fixed: The “Show Results” option no longer displays incorrect results when “Sort by Name” is selected.
+  * Fix for XLSX layout: For rows with a gray background, the gray did not extend all the way to the last column in some sorting modes
+  * Fixed: A change to the "Indicate transect section by GPS" setting takes effect immediately; it is no longer necessary to restart the app.
+  * Fixed: The “Cancel” option for “Delete GPS Track” now works correctly
+  * Fixed: After importing another transect DB containing a track, the distance calculation for the new track is now correct without having to restart the program
+  * Fixed: After deleting the track, the distance message is no longer displayed
+  * Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
+  * Some dialogs supplemented with headlines and icons
+  * Location permission handling was redesigned and respective dialogs were improved
+  * The filename of an exported DB now includes “Track” if a transect track is loaded
+  * Licenses information supplemented
+  * "Help" text updated
+  * Docs updated
 
 $ 5.1.6
   % Version 5.1.6

@@ -1,5 +1,39 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * WelcomeActivity provides the starting page with buttons to start
+ * EditMetaActivity, SelectSectionActivity and ShowResultsActivity.
+ * and a menu for the import/export/help/info methods.
+ *
+ * It uses further LocationService and the PermissionDialogFragments.
+ *
+ * Database handling is mainly controlled in WelcomeActivity as e.g. upgrade
+ * to current DB version when importing an older DB file by importDBFile().
+ *
+ * Parts based on WelcomeActivity.java of BeeCount created by Milo Thurston (knirirr) on 2014-05-05,
+ * licensed under the Apache License, Version 2.0.
+ *
+ * Changes and additions for TransektCount by wmstein since 2016-02-18,
+ * last edited in Java on 2026-07-18,
+ * converted to Kotlin on 2026-07-20,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -33,6 +67,8 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +78,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.ViewCompat
@@ -52,6 +89,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wmstein.changelog.ChangeLog
 import com.wmstein.filechooser.AdvFileChooser
 import com.wmstein.transektcount.TCLifecycleHandler.Companion.isApplicationVisible
+import com.wmstein.transektcount.TransektCountApplication.Companion.distMin
 import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
 import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.CountDataSource
@@ -90,22 +128,6 @@ import java.util.concurrent.Executors
 
 import kotlin.system.exitProcess
 
-/***************************************************************************************************
- * WelcomeActivity provides the starting page with buttons to start
- * EditMetaActivity, SelectSectionActivity and ShowResultsActivity.
- * and a menu for the import/export/help/info methods.
- *
- * It uses further LocationService and the PermissionDialogFragments.
- *
- * Database handling is mainly controlled in WelcomeActivity as e.g. upgrade
- * to current DB version when importing an older DB file by importDBFile().
- *
- * Based on BeeCount's WelcomeActivity.java by Milo Thurston from 2014-05-05.
- * Changes and additions for TransektCount by wmstein since 2016-02-18,
- * last edited in Java on 2026-07-18,
- * converted to Kotlin on 2026-07-20,
- * last edited on 2026-08-30.
- */
 class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var transektCount: TransektCountApplication? = null
     private var baseLayout: View? = null
@@ -114,10 +136,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     // Services
     private var locationService: LocationService? = null
-    private var locServiceOn = false
     private lateinit var locIntent: Intent
     var soundService: SoundService? = null
-    private var sndServiceOn = false
     var sndIntent: Intent? = null
 
     // Import/export stuff
@@ -127,11 +147,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var mExternalStorageWriteable = false
     private val storageState = Environment.getExternalStorageState()
     private val mHandler = Handler(Looper.getMainLooper())
+    private var fileNameStart = ""
 
     // File handling with plausi check
     private val regexFilename = "[^a-zA-Z_0-9äöüÄÖÜ-]"
     private var transNo = "" // The transect name/No. as shown
     private var transNoForDir = "" // The transect name as part of a filename
+    private var hasTrack = "" // Appends "Track" to filename if applicable
+
 
     // Preferences
     private var prefs = getPrefs()
@@ -145,8 +168,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     // Permissions
     private var storagePermGranted = false // initial storage permission state
-    var stoIntent: Intent? = null
     private var fineLocationPermGranted = false // foreground location permission state
+    private var hasAskedFineLocation = false
 
     // DB handling, data sources
     private var database: SQLiteDatabase? = null
@@ -166,8 +189,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private var sectionNameGPS = "" // track section name from track table
 
     // Other stuff
-    private var mesg = ""
-    private lateinit var alert: AlertDialog
+    private var msg = ""
     private var doubleBackToExitPressedTwice = false
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -175,7 +197,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "178, onCreate")
+            Log.i(TAG, "200, onCreate")
 
         transektCount = application as TransektCountApplication
 
@@ -185,13 +207,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         alertSoundPref = prefs.getBoolean("pref_alert_sound", false)
         transectHasTrack = prefs.getBoolean("transect_has_track", false)
         autoSection = prefs.getBoolean("pref_auto_section", false)
+        hasAskedFineLocation = prefs.getBoolean("has_asked_foreground", false)
 
         // Initialize (button) sound service
         if (buttonSoundPref) {
             soundService = SoundService(applicationContext)
             sndIntent = Intent(applicationContext, SoundService::class.java)
             startService(sndIntent)
-            sndServiceOn = true
         }
 
         // Proximity sensor handling in preferences menu
@@ -249,9 +271,16 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             editor.commit()
         }
 
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, ("253, onCreate, autoSection: " + autoSection
-                        + ", transect has tracks: " + transectHasTrack))
+        // Check if location permission was dropped by system permission
+        if (transectHasTrack && autoSection) {
+            isLocationPermGranted() // Get fineLocationPermGranted
+            if (!fineLocationPermGranted) {
+                showLocPermissionDroppedDialog()
+                autoSection = false
+                editor.putBoolean("pref_auto_section", false)
+                editor.commit()
+            }
+        }
 
         // Check initial storage permission state and if not granted provide dialog
         storagePermGranted = isStoragePermGranted()
@@ -263,15 +292,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         // Check again after request
         storagePermGranted = isStoragePermGranted()
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "267, onCreate, storageGranted: $storagePermGranted")
 
         // Check current DB version and upgrade if necessary
         dbHelper = DbHelper(this)
         database = dbHelper!!.writableDatabase // Make DB upgrade if necessary
         val dbVer = database!!.version // DB version after upgrade
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "274, onCreate, dbVersion: $dbVer")
+            Log.i(TAG, "301, onCreate, dbVersion: $dbVer")
 
         dbHelper!!.close()
 
@@ -311,11 +338,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         } catch (_: SQLiteException) {
             headDataSource!!.close()
 
-            mesg = getString(R.string.corruptDb)
+            msg = getString(R.string.corruptDb)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
 
             mHandler.postDelayed({ this.finishAndRemoveTask() }, 2000)
@@ -330,7 +357,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         try {
             trackDataSource!!.open()
             trackPts = trackDataSource!!.getAllTrackPoints()
-            trCount = trackDataSource!!.diffTrks
+            trCount = trackDataSource!!.diffTracks
             trackDataSource!!.close()
         } catch (_: SQLiteException) {
             trackDataSource!!.close()
@@ -343,10 +370,6 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         sectionNameGPS = sectionDataSource!!.getSection(1).name
         sectionDataSource!!.close()
 
-        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG && autoSection)
-            Log.i(TAG, ("347, onCreate, TrkPts: " + trackPts.size
-                        + ", trCount: " + trCount + ", secCount: " + secCount))
-
         // Check if tracks exist and correspond to sections
         if (trCount > 0 && trCount != secCount) {
             autoSection = false
@@ -354,11 +377,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             editor.putBoolean("pref_auto_section", false)
             editor.commit()
 
-            mesg = getString(R.string.track_err)
+            msg = getString(R.string.track_err)
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='red'>$mesg</font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'>$msg</font>"),
+                LENGTH_LONG
             ).show()
         }
 
@@ -372,11 +395,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 editor.putBoolean("transect_has_track", false)
                 editor.commit()
 
-                mesg = getString(R.string.track_err)
+                msg = getString(R.string.track_err)
                 Toast.makeText(
                     applicationContext,
-                    fromHtml("<font color='red'>$mesg</font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'>$msg</font>"),
+                    LENGTH_LONG
                 ).show()
             } else if (trCount > 0) {
                 transectHasTrack = true
@@ -386,51 +409,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             }
         }
 
-        /*+*+++++++++++++++++++++++++++++++++++++++++++
-         * Check and ask foreground location permission
+        /*+*++++++++++++++++++++++++++++++++
+         * Check and ask location permission
          */
         if (autoSection && isStoragePermGranted()) {
-            isFineLocationPermGranted()
+            isLocationPermGranted() // Set fineLocationPermGranted
 
-            if (transectHasTrack && !fineLocationPermGranted) { // query foreground location permission
-                if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "397, onCreate, ForegrndLocDialog")
-
-                PermissionsForegroundDialogFragment.newInstance().show(
-                    supportFragmentManager, PermissionsForegroundDialogFragment::class.java.name
-                )
-
-                editor.putBoolean("has_asked_background", false)
-                editor.commit()
-            } else if (!transectHasTrack) {
+            if (transectHasTrack) { // Query location permission
+                if (!hasAskedFineLocation || !fineLocationPermGranted)
+                    requestFineLocationPermission()
+            } else {
                 autoSection = false
 
                 editor.putBoolean("pref_auto_section", false) // deny auto section function
                 editor.commit()
-            }
-        }
-
-        if (autoSection && isStoragePermGranted()) {
-            isFineLocationPermGranted()
-            if (transectHasTrack && fineLocationPermGranted) {
-                // Get flag 'has_asked_background'
-                val hasAskedBackgroundLocation = prefs.getBoolean("has_asked_background", false)
-
-                // Get background location with permissions check only once and if storage and fine location
-                //   permissions are granted
-                if (storagePermGranted && fineLocationPermGranted && !hasAskedBackgroundLocation) {
-                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "423, onCreate, BackgrndLocDialog")
-
-                    // Ask optional background location permission
-                    PermissionsBackgroundDialogFragment.newInstance().show(
-                        supportFragmentManager, PermissionsBackgroundDialogFragment::class.java.name
-                    )
-
-                    // Store flag 'hasAskedBackground = true' in SharedPreferences
-                    editor.putBoolean("has_asked_background", true)
-                    editor.commit()
-                }
             }
         }
 
@@ -457,21 +449,21 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Request All-Files-Access Permission
     fun requestAllFilesAccessPermission(m: Int) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "460, requestAllFilesAccessPermission")
+            Log.i(TAG, "452, requestAllFilesAccessPermission")
 
-        if (m == 1) mesg = getString(R.string.dialog_storage_message1)
-        else if (m == 2) mesg = getString(R.string.dialog_storage_message2)
+        if (m == 1) msg = getString(R.string.dialog_storage_message1)
+        else if (m == 2) msg = getString(R.string.dialog_storage_message2)
 
         // Provide dialog for storage permission request
         AlertDialog.Builder(this)
+            .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(getString(R.string.dialog_storage_title))
-            .setMessage(mesg)
-            .setPositiveButton(
-                getString(R.string.ok_button)
-            ) { _: DialogInterface?, _: Int ->
-                stoIntent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            .setMessage(msg)
+            .setPositiveButton("Ok")
+            { _: DialogInterface?, _: Int ->
+                val stoIntent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 val packageUri = Uri.fromParts("package", packageName, null)
-                stoIntent!!.data = packageUri
+                stoIntent.data = packageUri
                 TransektCountApplication.isStorPermReq = true
                 startActivity(stoIntent)
             }
@@ -480,6 +472,97 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             ) { _: DialogInterface?, _: Int ->
                 showSnackbarRed(getString(R.string.storage_perm_denied))
             }
+            .create().show()
+    }
+
+    // Check initial location permission
+    private fun isLocationPermGranted() {
+        fineLocationPermGranted =
+            (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED)
+    }
+
+    private fun requestFineLocationPermission() {
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "487, requestFineLocationPermission")
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.dialog_location_title))
+                .setMessage(getString(R.string.dialog_location_message))
+                .setCancelable(false)
+                .setPositiveButton("Ok")
+                { _: DialogInterface?, _: Int ->
+                    ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION),
+                        FINE_LOCATION_PERMISSION_REQUEST_CODE)
+                }
+                .create().show()
+
+            // Store flag 'hasAskedFineLocation = true' in SharedPreferences
+            editor.putBoolean("has_asked_foreground", true)
+            editor.commit()
+        } else {
+            // Permissions are already granted
+            // If all requirements are given start location service
+            if (autoSection && transectHasTrack) {
+                // Start location service and get 1. location
+                locationDispatcher(1)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == FINE_LOCATION_PERMISSION_REQUEST_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // Permission granted
+                // If all requirements are given start location service
+                if (autoSection && transectHasTrack) {
+                    // Start location service and get 1. location
+                    locationDispatcher(1)
+                }
+            } else {
+                // Permission denied, show rationale or guide to settings
+                showLocPermissionDeniedDialog()
+            }
+        }
+    }
+
+    private fun showLocPermissionDroppedDialog() {
+        // Show a dialog explaining that permissions should be given in settings
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "542, DroppedLocationInfoDlg")
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.dialog_location_dropped_title))
+            .setMessage(getString(R.string.dialog_location_dropped))
+            .setIcon(android.R.drawable.ic_dialog_info)
+            .setCancelable(false)
+            .setPositiveButton("Ok")
+            { _: DialogInterface?, _: Int -> }
+            .create().show()
+    }
+
+    private fun showLocPermissionDeniedDialog() {
+        // Show a dialog explaining how to enable permissions in settings
+        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+            Log.i(TAG, "557, LocationDeniedDlg")
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.dialog_fine_location_title))
+            .setMessage(getString(R.string.dialog_fine_location_denied))
+            .setIcon(android.R.drawable.ic_dialog_info)
+            .setCancelable(false)
+            .setPositiveButton("Ok")
+            { _: DialogInterface?, _: Int -> }
             .create().show()
     }
 
@@ -495,9 +578,6 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
             // navBarMode = 0: 3-button, = 1: 2-button, = 2: gesture
             val navBarMode = if (resourceId > 0) resources.getInteger(resourceId) else 0
-            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "499, NavBarMode = $navBarMode")
-
             return navBarMode
         }
 
@@ -515,24 +595,23 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             locationDispatcher(2) // stop locHandler and location service
 
                         // Stop sound server
-                        if (sndServiceOn && locServiceOn) {
+                        if (soundService != null && locationService != null) {
                             locationService!!.releaseSoundA()
                             soundService!!.releaseSoundM()
                             soundService!!.releaseSoundP()
 
                             stopService(sndIntent)
-                            sndServiceOn = false
                         }
                         finish()
                         remove()
                     } else {
                         doubleBackToExitPressedTwice = true
 
-                        mesg = getString(R.string.back_twice) // within 1.5 sec
+                        msg = getString(R.string.back_twice) // within 1.5 sec
                         Toast.makeText(
                             applicationContext,
-                            fromHtml("<font color='blue'>$mesg</font>"),
-                            Toast.LENGTH_SHORT
+                            fromHtml("<font color='blue'>$msg</font>"),
+                            LENGTH_SHORT
                         ).show()
                         m1Handler.postDelayed(r1, 1500)
                     }
@@ -545,7 +624,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "548, onResume")
+            Log.i(TAG, "627, onResume")
 
         prefs = getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -566,12 +645,12 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         trackDataSource!!.open()
 
         baseLayout = findViewById(R.id.baseLayout)
-        baseLayout!!.background = transektCount!!.setBackgr()
+        baseLayout!!.background = transektCount!!.setBackground()
 
         // Try to get list of trackpoints and number of tracks
         try {
             trackPts = trackDataSource!!.getAllTrackPoints()
-            trCount = trackDataSource!!.diffTrks
+            trCount = trackDataSource!!.diffTracks
         } catch (_: SQLiteException) {
             trCount = 0
         }
@@ -586,11 +665,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             editor.putBoolean("pref_auto_section", false)
             editor.commit()
 
-            mesg = getString(R.string.track_err)
+            msg = getString(R.string.track_err)
             Toast.makeText(
                 applicationContext,
-                fromHtml("<font color='red'>$mesg</font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'>$msg</font>"),
+                LENGTH_LONG
             ).show()
         }
 
@@ -619,34 +698,24 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     }
     // End of onResume()
 
-    // Check initial fine location permission
-    private fun isFineLocationPermGranted() {
-        fineLocationPermGranted = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
     /* Control location service by locationDispatcherMode:
      *  1: Start location service and periodic location requests
-     *  2: Stop location service on backpress, when running
+     *  2: Stop location service on backPressed, when running
      *  3: Stop location service by onStop() when app is invisible
      */
-    private fun locationDispatcher(locationDispatcherMode: Int) {
+    fun locationDispatcher(locationDispatcherMode: Int) {
         if (fineLocationPermGranted && autoSection)  // if GPS should be used
         {
             when (locationDispatcherMode) {
                 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "642, locationDispatcher 1")
+                        Log.i(TAG, "713, locationDispatcher 1")
 
-                    if (!locServiceOn) {
+                    if (locationService == null) {
                         locationService = LocationService(applicationContext)
                         locIntent = Intent(applicationContext, LocationService::class.java)
                         startService(locIntent)
-
-                        locServiceOn = true
                     }
 
                     // Get location to check distance to nearest transect
@@ -654,11 +723,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 }
 
                 2 -> {
-                    // Stop location service on backpress, when running
+                    // Stop location service on backPressed, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "659, location stop 2 by backpress")
+                        Log.i(TAG, "728, location stop 2 by backPressed")
 
-                    if (locServiceOn) {
+                    if (locationService != null) {
                         stopLocSrv()
                     }
                 }
@@ -666,9 +735,19 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "669, location stop 3 by onStop")
+                        Log.i(TAG, "738, location stop 3 by onStop")
 
-                    if (locServiceOn) {
+                    if (locationService != null) {
+                        stopLocSrv()
+                    }
+                }
+
+                4 -> {
+                    // Stop location service by onStop() when new DB is imported
+                    if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
+                        Log.i(TAG, "748 location stop 4 by DB import")
+
+                    if (locationService != null) {
                         stopLocSrv()
                     }
                 }
@@ -679,16 +758,16 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     val distance: Unit
         // Get the current location for a hint telling the distance to transect
         get() {
-            if (locationService!!.canGetLocation() && TransektCountApplication.distMin != 0.0) {
+            if (locationService!!.canGetLocation() && distMin != 0.0) {
                 // Show message: GPS: Distance to track: distance m
                 val dst = DecimalFormat("#.#")
-                    .format(TransektCountApplication.distMin)
+                    .format(distMin)
 
-                mesg = getString(R.string.distanceToTrack) + " " + dst + " m"
+                msg = getString(R.string.distanceToTrack) + " " + dst + " m"
                 Toast.makeText(
                     this,  // bright green
-                    fromHtml("<font color='#008000'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='#008000'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
             }
         }
@@ -700,7 +779,6 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         stopService(locIntent)
 
         TransektCountApplication.sectionIdGPS = 0
-        locServiceOn = false
         TransektCountApplication.lat = 0.0
         TransektCountApplication.lon = 0.0
     }
@@ -800,11 +878,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 if (!transectHasTrack && storagePermGranted) importGPS()
                 else if (!storagePermGranted) requestAllFilesAccessPermission(2)
                 else {
-                    mesg = getString(R.string.importTrackFail)
+                    msg = getString(R.string.importTrackFail)
                     Toast.makeText(
                         this,  // orange
-                        fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                 }
                 return true
@@ -813,16 +891,12 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             R.id.deleteGPXMenu -> {
                 if (transectHasTrack) {
                     deleteGPS()
-                    transectHasTrack = false
-                    autoSection = false
-                    // Reset app title to TransektCount
-                    welcomeTitle!!.text = getString(R.string.app_name)
                 } else {
-                    mesg = getString(R.string.deleteTrackFail)
+                    msg = getString(R.string.deleteTrackFail)
                     Toast.makeText(
                         this,  // orange
-                        fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                 }
                 return true
@@ -866,11 +940,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             }
 
             R.id.showResults -> {
-                mesg = getString(R.string.wait)
+                msg = getString(R.string.wait)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='blue'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='blue'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
 
                 // To show toast, pause for 100 msec before calling ShowResultsActivity
@@ -890,38 +964,36 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
         baseLayout = findViewById(R.id.baseLayout)
-        baseLayout!!.background = transektCount!!.setBackgr()
+        baseLayout!!.background = transektCount!!.setBackground()
         outPref = prefs.getString("pref_csv_out", "species")!!
         autoSection = prefs.getBoolean("pref_auto_section", false)
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false)
         alertSoundPref = prefs.getBoolean("pref_alert_sound", false)
 
         // Stop location service when denied in settings with alert sound first
-        if (!autoSection && locServiceOn) {
+        if (!autoSection && locationService != null) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "902, location stop by setting")
+                Log.i(TAG, "976, location stop by setting")
 
             locationService!!.stopSoundA()
             stopLocSrv()
         }
 
         // Stop sound service when denied in settings
-        if (!buttonSoundPref && sndServiceOn) {
+        if (!buttonSoundPref && soundService != null) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "911, button sound stop by setting")
+                Log.i(TAG, "985, button sound stop by setting")
 
             stopService(sndIntent)
-            sndServiceOn = false
         }
 
         // Start sound service when set in settings
-        if (buttonSoundPref && !sndServiceOn) {
+        if (buttonSoundPref && soundService == null) {
             startService(sndIntent)
-            sndServiceOn = true
         }
 
         // Stop alert sound when denied in settings
-        if (!alertSoundPref && locServiceOn) {
+        if (!alertSoundPref && locationService != null) {
             locationService!!.stopSoundA()
         }
     }
@@ -930,7 +1002,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "933, onPause")
+            Log.i(TAG, "1005, onPause")
 
         headDataSource!!.close()
         sectionDataSource!!.close()
@@ -945,25 +1017,28 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "948, onStop")
+            Log.i(TAG, "1020, onStop")
 
         baseLayout!!.invalidate()
 
         // Stop location service when app is finished
         if (!isApplicationVisible) {
-            if (sndServiceOn) {
+            if (soundService != null) {
                 soundService!!.releaseSoundM()
                 soundService!!.releaseSoundP()
                 stopService(sndIntent)
-                sndServiceOn = false
             }
 
-            if (locServiceOn) locationService!!.releaseSoundA()
+            var locServiceOn = false // Just needed for next Log.i
+            if (locationService != null) {
+                locationService!!.releaseSoundA()
+                locServiceOn = true
+            }
 
             locationDispatcher(3)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "966, onStop, app not visible, LocationService running: $locServiceOn")
+                Log.i(TAG, "1041, onStop, app not visible, LocationService running: $locServiceOn")
 
             finishAndRemoveTask() // In combination with System.exit(0) in onDestroy() closes app completely
         }
@@ -973,15 +1048,16 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "976, onDestroy")
+            Log.i(TAG, "1051, onDestroy")
 
         exitProcess(0)
     }
 
+    // Begin of button functions
     // Start SelectSectionActivity (by button)
     fun selectSection(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "984, selectSection, View: $view")
+            Log.i(TAG, "1060, selectSection, View: $view")
 
         selSect()
     }
@@ -1013,7 +1089,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start EditMetaActivity (by button)
     fun editMeta(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1016, showResults, View: $view")
+            Log.i(TAG, "1092, showResults, View: $view")
 
         startActivity(
             Intent(this, EditMetaActivity::class.java)
@@ -1024,13 +1100,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start ShowResultsActivity (by button)
     fun showResults(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1027, showResults, View: $view")
+            Log.i(TAG, "1103, showResults, View: $view")
 
-        mesg = getString(R.string.wait)
+        msg = getString(R.string.wait)
         Toast.makeText(
             this,
-            fromHtml("<font color='blue'>$mesg</font>"),
-            Toast.LENGTH_SHORT
+            fromHtml("<font color='blue'>$msg</font>"),
+            LENGTH_SHORT
         ).show()
 
         // Trick: Pause for 100 msec to show toast
@@ -1046,6 +1122,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             }, 100
         )
     }
+    // End of button functions
 
     /***********************************************************************************************
      * The next four function groups below are for importing data files.
@@ -1054,10 +1131,10 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Import the basic DB
     private fun importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1057, importBasicDBFile")
+            Log.i(TAG, "1134, importBasicDBFile")
 
         val fileExtension = ".db"
-        val fileNameStart = "transektcount0"
+        fileNameStart = "transektcount0"
         val fileHd = getString(R.string.fileHeadlineBasicDB)
 
         val intent = Intent(this, AdvFileChooser::class.java)
@@ -1071,7 +1148,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Choose a transektcount db-file to load and set it to transektcount.db
     private fun importDBFile() {
         val fileExtension = ".db"
-        val fileNameStart = "transektcount_"
+        fileNameStart = "transektcount_"
         val fileHd = getString(R.string.fileHeadlineDB)
 
         val intent = Intent(this, AdvFileChooser::class.java)
@@ -1102,11 +1179,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 }
             } else {
                 if ((result?.resultCode == RESULT_FIRST_USER)) {
-                    mesg = getString(R.string.noFile)
+                    msg = getString(R.string.noFile)
                     Toast.makeText(
                         applicationContext,  // orange
-                        fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                 }
             }
@@ -1125,8 +1202,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 val autoSectionTemp = autoSection
 
                 val builder = AlertDialog.Builder(this@WelcomeActivity)
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
-                builder.setMessage(R.string.confirmDBImport)
+                builder.setIcon(R.drawable.ic_dialog_question)
+                if (fileNameStart == "transektcount0") {
+                    builder.setTitle(R.string.importBasisMenu)
+                    builder.setMessage(R.string.confirmBasicDBImport)
+                } else if (fileNameStart == "transektcount_"){
+                    builder.setTitle(R.string.importFileMenu)
+                    builder.setMessage(R.string.confirmDBImport)
+                }
                 builder.setCancelable(false)
                 builder.setPositiveButton(
                     R.string.importButton
@@ -1135,13 +1218,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         transectHasTrack = false
                         autoSection = false
                     }
-                    try {
-                        headDataSource!!.close()
-                        sectionDataSource!!.close()
-                        metaDataSource!!.close()
-                        countDataSource!!.close()
-                        trackDataSource!!.close()
 
+                    headDataSource!!.close()
+                    sectionDataSource!!.close()
+                    metaDataSource!!.close()
+                    countDataSource!!.close()
+                    trackDataSource!!.close()
+
+                    try {
                         copy(inFile, outFile)
 
                         headDataSource!!.open()
@@ -1171,7 +1255,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                         // Test for number of existing tracks and matching sections
                         trCount = try {
-                            trackDataSource!!.diffTrks
+                            trackDataSource!!.diffTracks
                         } catch (_: SQLiteException) {
                             0
                         }
@@ -1179,14 +1263,18 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                         // Check to continue location service
                         if (trCount > 0 && trCount == secCount) {
-                            editor.putBoolean("transect_has_track", true)
                             transectHasTrack = true
-                            editor.putBoolean("pref_auto_section", true)
                             autoSection = true
+                            editor.putBoolean("transect_has_track", true)
+                            editor.putBoolean("pref_auto_section", true)
+                            locationDispatcher(4) // Stop location service
+                            locationDispatcher(1) // Restart location service to read the new track
                         } else {
+                            transectHasTrack = false
+                            autoSection = false
                             editor.putBoolean("transect_has_track", false)
                             editor.putBoolean("pref_auto_section", false)
-                            locationDispatcher(2)
+                            locationDispatcher(4) // Stop location service
                         }
                         editor.commit()
 
@@ -1206,7 +1294,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         TransektCountApplication.sectionIdGPS = 0
                         TransektCountApplication.sectionNameCurrent = ""
 
-                        mesg = if (trCount > 0) {
+                        msg = if (trCount > 0) {
                             (getString(R.string.importDB) + ",\n"
                                     + getString(R.string.with) + " " + trCount + " "
                                     + getString(R.string.tracks))
@@ -1215,8 +1303,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         }
                         Toast.makeText(
                             applicationContext, // bright green
-                            fromHtml("<font color='#008000'>$mesg</font>"),
-                            Toast.LENGTH_SHORT
+                            fromHtml("<font color='#008000'>$msg</font>"),
+                            LENGTH_SHORT
                         ).show()
                     } catch (_: IOException) {
                         headDataSource!!.open()
@@ -1225,12 +1313,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         countDataSource!!.open()
                         trackDataSource!!.open()
 
-                        locServiceOn = false
-                        mesg = getString(R.string.importFail)
+                        msg = getString(R.string.importFail)
                         Toast.makeText(
                             applicationContext,
-                            fromHtml("<font color='red'><b>$mesg</b></font>"),
-                            Toast.LENGTH_LONG
+                            fromHtml("<font color='red'><b>$msg</b></font>"),
+                            LENGTH_LONG
                         ).show()
                     }
                 }
@@ -1242,8 +1329,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     editor.commit()
                     dialog!!.cancel()
                 }
-                alert = builder.create()
-                alert.show()
+                builder.create()
+                builder.show()
             }
         }
     // End of part2 of import of DB files
@@ -1251,7 +1338,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Select and import a species list (also from TourCount file species_YYYY-MM-DD_hhmmss.csv)
     private fun importSpeciesList() {
         val fileExtension = ".csv"
-        val fileNameStart = "species_"
+        fileNameStart = "species_"
         val fileHd = getString(R.string.fileHeadlineCSV)
 
         val intent = Intent(this, AdvFileChooser::class.java)
@@ -1278,11 +1365,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     else null
                 }
             } else if ((result?.resultCode == RESULT_FIRST_USER)) {
-                mesg = getString(R.string.noFile)
+                msg = getString(R.string.noFile)
                 Toast.makeText(
                     applicationContext,  // orange
-                    fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
 
@@ -1297,19 +1384,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     val specLine: Array<String?> =
                         csvLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }
                             .toTypedArray()
-                    mesg = if (specLine[0] == "nocode")
+                    msg = if (specLine[0] == "nocode")
                         getString(R.string.confirmListImport)
                     else
                         getString(R.string.specsCommonLangMissing) + "\n\n" + getString(R.string.confirmListImport)
                     br.close()
                 } catch (_: Exception) {
-                    mesg = getString(R.string.br_Error)
+                    msg = getString(R.string.br_Error)
                     brError = true
                 }
 
                 val builder = AlertDialog.Builder(this@WelcomeActivity)
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
-                builder.setMessage(mesg)
+                builder.setIcon(R.drawable.ic_dialog_question)
+                builder.setTitle(R.string.importSpeciesListMenu)
+                builder.setMessage(msg)
                 if (brError) {
                     builder.setCancelable(true)
                     builder.setNegativeButton(
@@ -1321,21 +1409,21 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         R.string.importButton
                     ) { _: DialogInterface?, _: Int ->
                         // Load .csv species list
-                        clearDBforImport()
+                        clearDbForImport()
                         readSpeciesCSV(inFile)
                     }
                     builder.setNegativeButton(
                         R.string.cancelButton
                     ) { dialog: DialogInterface?, _: Int -> dialog!!.cancel() }
                 }
-                alert = builder.create()
-                alert.show()
+                builder.create()
+                builder.show()
             }
         }
 
     // Clear DB for import of an external species list:
     //  clear COUNT_TABLE and update SECTION_TABLE
-    private fun clearDBforImport() {
+    private fun clearDbForImport() {
         dbHelper = DbHelper(this)
         database = dbHelper!!.writableDatabase
 
@@ -1352,7 +1440,6 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         TransektCountApplication.lat = 0.0
         TransektCountApplication.lon = 0.0
         TransektCountApplication.isFirstLoc = true
-        locServiceOn = false
         TransektCountApplication.isSelectSectionActivityResumed = false
         TransektCountApplication.sectionIdGPS = 0
         TransektCountApplication.sectionNameCurrent = ""
@@ -1365,11 +1452,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Read a species list and write items to table counts
     private fun readSpeciesCSV(inFile: File?) {
         try {
-            mesg = getString(R.string.waitImport)
+            msg = getString(R.string.waitImport)
             Toast.makeText(
                 this,
-                fromHtml("<font color='blue'>$mesg</font>"),
-                Toast.LENGTH_SHORT
+                fromHtml("<font color='blue'>$msg</font>"),
+                LENGTH_SHORT
             ).show()
 
             var csvLine: String
@@ -1434,31 +1521,31 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                 iSec++
             }
-            mesg = getString(R.string.importList)
+            msg = getString(R.string.importList)
             Toast.makeText(
                 this,  // bright green
-                fromHtml("<font color='#008000'>$mesg</font>"),
-                Toast.LENGTH_SHORT
+                fromHtml("<font color='#008000'>$msg</font>"),
+                LENGTH_SHORT
             ).show()
         } catch (_: Exception) {
-            mesg = getString(R.string.importListFail)
+            msg = getString(R.string.importListFail)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         }
     }
     // End of importSpeciesList()
 
-    /***********************************************************************************************
-     * Select and import gpx-file to store track coords into the TRACK_TABLE of transektcount.db
+    /************************************************************************************************
+     * Select and import gpx-file to store track coordinates into the TRACK_TABLE of transektcount.db
      */
     private fun importGPS() {
         if (transectHasTrack) deleteGPS()
 
         val fileExtension = ".gpx"
-        val fileNameStart = "transektcount"
+        fileNameStart = "transektcount"
         val fileHd = getString(R.string.fileHeadlineGPS)
 
         val intent = Intent(this, AdvFileChooser::class.java)
@@ -1485,19 +1572,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     else null
                 }
             } else if ((result?.resultCode == RESULT_FIRST_USER)) {
-                mesg = getString(R.string.noFile)
+                msg = getString(R.string.noFile)
                 Toast.makeText(
                     applicationContext,  // orange
-                    fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
 
             // Process the read GPX file
             if (inFile != null) {
-                val gpxsb = StringBuilder()
+                val gpxSB = StringBuilder()
                 val builder = AlertDialog.Builder(this@WelcomeActivity)
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
+                builder.setIcon(R.drawable.ic_dialog_question)
+                builder.setTitle(R.string.importGPSMenu)
                 builder.setMessage(R.string.confirmGPSImport)
                 builder.setCancelable(true).setPositiveButton(
                     R.string.importButton
@@ -1510,21 +1598,21 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             val xmlBR = BufferedReader(InputStreamReader(fileIS))
 
                             while ((xmlBR.readLine().also { gpxLine = it }) != null) {
-                                gpxsb.append(gpxLine).append('\n')
+                                gpxSB.append(gpxLine).append('\n')
                             }
                             fileIS.close()
                         } catch (e: IOException) {
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.e(TAG,"1518, decodeGPX, Problem converting Stream to String: $e")
+                                Log.e(TAG,"1606, decodeGPX, Problem converting Stream to String: $e")
                         }
 
-                        val gpxString = gpxsb.toString()
+                        val gpxString = gpxSB.toString()
 
-                        mesg = getString(R.string.waitImport)
+                        msg = getString(R.string.waitImport)
                         Toast.makeText(
                             this@WelcomeActivity,
-                            fromHtml("<font color='blue'>$mesg</font>"),
-                            Toast.LENGTH_SHORT
+                            fromHtml("<font color='blue'>$msg</font>"),
+                            LENGTH_SHORT
                         ).show()
 
                         // Parse gpxString to get number of tracks
@@ -1541,14 +1629,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         // Get number of sections and compare with number of tracks
                         val numSect = sectionDataSource!!.numEntries
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1544, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
+                            Log.i(TAG, ("1632, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
 
                         if (numSect != numTrk) {
-                            mesg = getString(R.string.track_err)
+                            msg = getString(R.string.track_err)
                             Toast.makeText(
                                 this@WelcomeActivity,
-                                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                                Toast.LENGTH_LONG
+                                fromHtml("<font color='red'><b>$msg</b></font>"),
+                                LENGTH_LONG
                             ).show()
                             return@setPositiveButton
                         }
@@ -1558,26 +1646,27 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             decodeGPX(gpxString) // do it in background
                         }
 
-                        mesg = getString(R.string.importGPS)
+                        msg = getString(R.string.importGPS)
                         Toast.makeText(
                             this@WelcomeActivity,  // bright green
-                            fromHtml("<font color='#008000'>$mesg</font>"),
-                            Toast.LENGTH_SHORT
+                            fromHtml("<font color='#008000'>$msg</font>"),
+                            LENGTH_SHORT
                         ).show()
                     } else {
-                        mesg = getString(R.string.no_GPSfile)
+                        msg = getString(R.string.no_GPSfile)
                         Toast.makeText(
                             this@WelcomeActivity,  // orange
-                            fromHtml("<font color='#ff6000'><b>$mesg</b></font>"),
-                            Toast.LENGTH_LONG
+                            fromHtml("<font color='#ff6000'><b>$msg</b></font>"),
+                            LENGTH_LONG
                         ).show()
                     }
                 }.setNegativeButton(
                     R.string.cancelButton
-                ) { dialog: DialogInterface?, _: Int -> dialog!!.cancel() }
-
-                alert = builder.create()
-                alert.show()
+                ) { dialog: DialogInterface?, _: Int ->
+                    dialog!!.cancel()
+                }
+                builder.create()
+                builder.show()
             }
         }
 
@@ -1604,7 +1693,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         if (gpxString.contains("<trkseg>"))  // test for track data
         {
-            // reduce gpxString to all tracksegments <trkseg> ... </gpx>
+            // Reduce gpxString to all track segments <trkseg> ... </gpx>
             gpxString = gpxString.substring(strStart) // rest string with all tracks
 
             // For each track
@@ -1615,42 +1704,39 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 // add offset = length of "</trkseg>" = 9
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 9)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1618, decodeGPX, gpxTrkString: $gpxTrkString")
+                    Log.i(TAG, "1707, decodeGPX, gpxTrkString: $gpxTrkString")
 
-                // set track name from section name
-                // record of transect section for trkseg
+                // Set track name from section name
+                // Record of transect section for trkseg
                 val section = sectionDataSource!!.getSection(trkseg)
                 sectionNameGPS = section.name
 
-                // reduce gpxString to rest after </trkseg>
+                // Reduce gpxString to rest after </trkseg>
                 strEnd = gpxString.indexOf("</trkseg>")
 
-                // add offset = length of "</trkseg>" = 9
+                // Add offset = length of "</trkseg>" = 9
                 gpxString = gpxString.substring(strEnd + 9)
 
-                // get coords of all track points
+                // Get coords of all track points
                 if (gpxTrkString.contains("<trkseg>")) {
                     // for each track point in trkseg
                     do {
-                        if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, "1636, decodeGPX, do trackpt")
-
-                        val nextTp: Int // index for next track point (after /> or /trkpt>)
+                        val nextTp: Int // Index for next track point (after "/>" or "/trkpt>")
                         strStart = gpxTrkString.indexOf("lat=") + 5
                         strEnd = gpxTrkString.indexOf("lat=") + 14
-                        val tlat = gpxTrkString.substring(strStart, strEnd)
+                        val tLat = gpxTrkString.substring(strStart, strEnd)
 
                         strStart = gpxTrkString.indexOf("lon=") + 5
                         strEnd = gpxTrkString.indexOf("lon=") + 14
-                        val tlon = gpxTrkString.substring(strStart, strEnd)
+                        val tLon = gpxTrkString.substring(strStart, strEnd)
 
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1648, decodeGPX, sectionNameGPS: "
-                                    + sectionNameGPS + ", " + tlat + ", " + tlon))
+                            Log.i(TAG, ("1734, decodeGPX, sectionNameGPS: "
+                                    + sectionNameGPS + ", " + tLat + ", " + tLon))
 
-                        trackDataSource!!.createTrackTp(sectionNameGPS, tlat, tlon)
+                        trackDataSource!!.createTrackTp(sectionNameGPS, tLat, tLon)
 
-                        // increment gpxTrkString line for next track point
+                        // Increment gpxTrkString line for next track point
                         trkPt += 1
 
                         if (gpxVik)  // test for track data (Viking/Garmin)
@@ -1658,15 +1744,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             // reduce gpxTrkString to remainder after current trkpt line
                             nextTp = gpxTrkString.indexOf("</trkpt>")
                             gpxTrkString = gpxTrkString.substring(nextTp + 8)
-
-                            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1663, decodeGPX, trackpt $trkPt")
                         } else {
                             nextTp = gpxTrkString.indexOf("/>")
                             gpxTrkString = gpxTrkString.substring(nextTp + 2)
-
-                            if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.i(TAG, "1669, decodeGPX, trackpt $trkPt")
                         }
                     } while (gpxTrkString.contains("<trkpt"))
                 }
@@ -1676,7 +1756,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             } while (gpxString.contains("<trkseg>"))
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1679, decodeGPX, gpxString finished: $gpxString")
+                Log.i(TAG, "1759, decodeGPX, gpxString finished: $gpxString")
         }
 
         transectHasTrack = true
@@ -1687,45 +1767,51 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // End of importGPS()
     // End of import file functions group
 
-    // Delete all track info from TRACK_TABLE
+    // Delete all track info from TRACK_TABLE and stop location service
     @SuppressLint("ApplySharedPref")
     private fun deleteGPS() {
         // Confirm dialogue before anything else takes place
         val builder = AlertDialog.Builder(this)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setIcon(R.drawable.ic_dialog_question)
+        builder.setTitle(R.string.resetGPSMenu)
         builder.setMessage(R.string.confirmGPSDelete)
         builder.setCancelable(false)
         builder.setPositiveButton(
-            R.string.deleteButton
+            R.string.yesButton
         ) { _: DialogInterface?, _: Int ->
+            if (locationService != null) {
+                stopLocSrv()
+            }
+            transectHasTrack = false
+            autoSection = false
+            editor.putBoolean("pref_auto_section", false)
+            editor.putBoolean("transect_has_track", false)
+            editor.commit()
+
             val resOK = clearGPSValues()
+
             if (resOK) {
+                // Reset app title to TransektCount
+                welcomeTitle!!.text = getString(R.string.app_name)
+
                 // switch autoSection off
                 exportBasicDb(1) // Write modified DB as Basic DB without message
 
-                if (locServiceOn) {
-                    stopLocSrv()
-                    locServiceOn = false
-                }
-                transectHasTrack = false
-                autoSection = false
-                editor.putBoolean("pref_auto_section", false)
-                editor.putBoolean("transect_has_track", false)
-                editor.commit()
-
-                mesg = getString(R.string.resetTracks)
+                msg = getString(R.string.resetTracks)
                 Toast.makeText(
                     this,  // bright green
-                    fromHtml("<font color='#008000'><b>$mesg</b></font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='#008000'><b>$msg</b></font>"),
+                    LENGTH_SHORT
                 ).show()
             }
         }
         builder.setNegativeButton(
             R.string.cancelButton
-        ) { dialog: DialogInterface?, _: Int -> dialog!!.cancel() }
-        alert = builder.create()
-        alert.show()
+        ) { dialog: DialogInterface?, _: Int ->
+            dialog!!.cancel()
+        }
+        builder.create()
+        builder.show()
     }
 
     // Clear track coordinates from TRACK_TABLE
@@ -1739,11 +1825,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             database!!.execSQL(sql)
             resOK = true
         } catch (_: Exception) {
-            mesg = getString(R.string.resetFail)
+            msg = getString(R.string.resetFail)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         }
         dbHelper!!.close()
@@ -1782,21 +1868,24 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             dataLanguage = prefs.getString("pref_sel_data_lang", "")!!
             if (dataLanguage.isEmpty()) dataLanguage = "--"
 
+            if (transectHasTrack)
+                hasTrack = "_Track"
+
             outFile = if (transNoForDir == "")
-                File(path, "/transektcount0_$dataLanguage.db")
+                File(path, "/transektcount0_$dataLanguage$hasTrack.db")
             else
-                File(path, "/transektcount0_" + dataLanguage + "_" + transNoForDir + ".db")
+                File(path, "/transektcount0_" + dataLanguage + "_" + transNoForDir + hasTrack + ".db")
         }
 
         // Check if we can write the media
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED == storageState
 
         if (!mExternalStorageWriteable) {
-            mesg = getString(R.string.noCard)
+            msg = getString(R.string.noCard)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         } else {
             // Export the basic db
@@ -1819,19 +1908,19 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                 // Show message success
                 if (d0 && i == 2) {
-                    mesg = getString(R.string.saveBasisDB)
+                    msg = getString(R.string.saveBasisDB)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='blue'>$mesg</font>"),
-                        Toast.LENGTH_SHORT
+                        fromHtml("<font color='blue'>$msg</font>"),
+                        LENGTH_SHORT
                     ).show()
                 }
             } catch (_: IOException) {
-                mesg = getString(R.string.saveFail)
+                msg = getString(R.string.saveFail)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
         }
@@ -1849,7 +1938,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         val date: String = meta!!.date // has system date
         val startTime: String = meta!!.start_tm
 
-        var engl = false
+        var english = false
         var hasDate = true
         var dbDate: String
         val dbTime: String
@@ -1859,7 +1948,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Get year from date
         if (date != "") {
             // "-" at position 4 of the date means EN
-            if (date.substring(4, 5) == "-") engl = true
+            if (date.substring(4, 5) == "-") english = true
             // Create date for filename as YYYYMMDD from any format
             dbDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2)
             dbDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10)
@@ -1869,7 +1958,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             hasDate = false
         }
 
-        dbDate = if (engl) dbDateEN
+        dbDate = if (english) dbDateEN
         else dbDateEU
 
         if (startTime != "") {
@@ -1884,17 +1973,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         dataLanguage = prefs.getString("pref_sel_data_lang", "")!!
         if (dataLanguage.isEmpty()) dataLanguage = "--"
 
+        if (transectHasTrack)
+            hasTrack = "_Track"
+
         // outFile -> /storage/emulated/0/Documents/TransektCount/transektcount_Tr-No_yyyyMMdd-HHmm.db
         outFile = if (transNoForDir == "" && dbDate == "")
-            File(path, "/transektcount_" + dataLanguage + "_" + getcurDate() + ".db")
+            File(path, "/transektcount_" + dataLanguage + "_" + getCurDate() + hasTrack + ".db")
         else if (transNoForDir == "")
-            File(path, "/transektcount_" + dataLanguage + "_" + dbDate + ".db")
+            File(path, "/transektcount_" + dataLanguage + "_" + dbDate + hasTrack + ".db")
         else if (dbDate == "")
             File(path,
-                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + ".db")
+                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + getCurDate() + hasTrack + ".db")
         else
             File(path,
-                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + dbDate + ".db")
+                "/transektcount_" + dataLanguage + "_" + transNoForDir + "_" + dbDate + hasTrack + ".db")
 
         // inFile <- /data/data/com.wmstein.transektcount/databases/transektcount.db
         var inPath = applicationContext.filesDir.path
@@ -1906,29 +1998,29 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED == storageState
 
         if (!mExternalStorageWriteable) {
-            mesg = getString(R.string.noCard)
+            msg = getString(R.string.noCard)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         } else {
             // Export the db
             try {
                 copy(inFile, outFile)
 
-                mesg = getString(R.string.saveDB)
+                msg = getString(R.string.saveDB)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='blue'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='blue'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
             } catch (_: IOException) {
-                mesg = getString(R.string.saveFail)
+                msg = getString(R.string.saveFail)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
         }
@@ -1949,7 +2041,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         path = File("$path/Documents/TransektCount")
 
         // Prepare metadata
-        val inspecName: String // Inspector's name
+        val inspectName: String // Inspector's name
         val kw: String // kw = calendar week (String)
 
         // Open Meta table for meta info
@@ -1963,9 +2055,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         val date: String = meta!!.date // has system date
         val startTime: String = meta!!.start_tm
         val endTime: String = meta!!.end_tm
-        val inspecNote: String = meta!!.note
+        val inspectionNote: String = meta!!.note
 
-        var engl = false
+        var english = false
         var hasDate = true
         var csvDate: String
         val csvTime: String
@@ -1975,7 +2067,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Get year from date
         if (date != "") {
             // "-" at position 4 of the date means EN
-            if (date.substring(4, 5) == "-") engl = true
+            if (date.substring(4, 5) == "-") english = true
             // Create date for filename as YYYYMMDD from any format
             csvDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2)
             csvDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10)
@@ -1985,7 +2077,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             csvDateEU = ""
         }
 
-        csvDate = if (engl) csvDateEN
+        csvDate = if (english) csvDateEN
         else csvDateEU
 
         if (startTime != "") {
@@ -2043,13 +2135,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         outFile = if (transNoForDir == "" && csvDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + getcurDate() + "_" + sortIdent + ".csv")
+            tranSect + dataLanguage + "_" + getCurDate() + "_" + sortIdent + ".csv")
         else if (transNoForDir == "")
             File(path,
             tranSect + dataLanguage + "_" + csvDate + "_" + sortIdent + ".csv")
         else if (csvDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + "_" + sortIdent + ".csv")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + getCurDate() + "_" + sortIdent + ".csv")
         else File(path,
             tranSect + dataLanguage + "_" + transNoForDir + "_" + csvDate + "_" + sortIdent + ".csv")
 
@@ -2085,11 +2177,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED == storageState
 
         if (!mExternalStorageWriteable) {
-            mesg = getString(R.string.noCard)
+            msg = getString(R.string.noCard)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         } else {
             // Export purged db as csv
@@ -2146,13 +2238,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                 // Open Head table for head info
                 head = headDataSource!!.head
-                inspecName = "\"" + head!!.inspector_name + "\""
+                inspectName = "\"" + head!!.inspector_name + "\""
 
                 // Calculating the week of the year (ISO 8601)
                 val cal = Calendar.getInstance()
 
                 if (date.isNotEmpty()) {
-                    if (engl) {
+                    if (english) {
                         yyyy = date.substring(0, 4).toInt()
                         mm = date.substring(5, 7).toInt()
                         dd = date.substring(8, 10).toInt()
@@ -2175,7 +2267,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 when (outPref) {
                     "names", "codes" -> arrMeta = arrayOf(
                         "\"" + transNo + "\"",
-                        inspecName,
+                        inspectName,
                         "\"" + date + "\"",
                         getString(R.string.from),
                         "\"" + startTime + "\"",
@@ -2185,12 +2277,12 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         "",
                         kw,
                         "", "", "", "", "", "",
-                        "\"" + inspecNote + "\"",
+                        "\"" + inspectionNote + "\"",
                     )
 
                     else -> arrMeta = arrayOf(
                         "\"" + transNo + "\"",
-                        inspecName,
+                        inspectName,
                         "\"" + date + "\"",
                         getString(R.string.from),
                         "\"" + startTime + "\"",
@@ -2200,7 +2292,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         "",
                         kw,
                         "", "", "", "", "", "", "",
-                        "\"" + inspecNote + "\"",
+                        "\"" + inspectionNote + "\"",
                     )
                 }
                 csvWrite.writeNext(arrMeta)
@@ -2214,8 +2306,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 csvWrite.writeNext(arrMeta1)
 
                 // Empty row
-                val arrEmpt: Array<String?> = arrayOf()
-                csvWrite.writeNext(arrEmpt)
+                val arrEmpty: Array<String?> = arrayOf()
+                csvWrite.writeNext(arrEmpty)
 
                 // 1. headline of species counts table
                 val arrIE: Array<String?>
@@ -2664,7 +2756,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
                 //**************************
                 // Empty row before sum area
-                csvWrite.writeNext(arrEmpt)
+                csvWrite.writeNext(arrEmpty)
 
                 totali = summf + summ + sumf + sump + suml + sumo
                 totale = summfe + summe + sumfe + sumpe + sumle + sumoe
@@ -2860,7 +2952,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 csvWrite.writeNext(arrSume)
 
                 // Overall totals
-                val strtotal = if (total > 0) total.toString()
+                val strTotal = if (total > 0) total.toString()
                 else ""
 
                 // Write overall total sum
@@ -2868,35 +2960,35 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     "names", "codes" -> arrayOf(
                         "", "", "",
                         getString(R.string.sum_total), "", "", "", "", "", "",
-                        "", "", "", "", "", "", strtotal
+                        "", "", "", "", "", "", strTotal
                     )
 
                     else -> arrayOf(
                         "", "", "", "",
                         getString(R.string.sum_total), "", "", "", "", "", "",
-                        "", "", "", "", "", "", strtotal
+                        "", "", "", "", "", "", strTotal
                     )
                 }
                 csvWrite.writeNext(arrTotal)
 
                 csvWrite.close()
 
-                mesg = getString(R.string.saveCSV)
+                msg = getString(R.string.saveCSV)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='blue'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='blue'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
             } catch (_: Exception) {
-                mesg = getString(R.string.saveFail)
+                msg = getString(R.string.saveFail)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2899, csv write external failed")
+                    Log.e(TAG, "2991, csv write external failed")
             }
             dbHelper!!.close()
         }
@@ -2909,14 +3001,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
      * // Spreadsheet programs can directly load this formatted xlsx file
      */
     private fun exportDb2XLSX() {
-        mesg = getString(R.string.saveXLSX)
+        msg = getString(R.string.saveXLSX)
         Toast.makeText(
             this,
-            fromHtml("<font color='blue'>$mesg</font>"),
-            Toast.LENGTH_SHORT
+            fromHtml("<font color='blue'>$msg</font>"),
+            LENGTH_SHORT
         ).show()
 
-        val inspecName: String
+        val inspectName: String
         val kw: String // kw = calendar week (String)
 
         // Open Meta table for meta info
@@ -2930,9 +3022,9 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         val date: String = meta!!.date // has system date
         val startTime: String = meta!!.start_tm
         val endTime: String = meta!!.end_tm
-        val inspecNote: String = meta!!.note
+        val inspectionNote: String = meta!!.note
 
-        var engl = false
+        var english = false
         var hasDate = true
         var xlsxDate: String
         val xlsxTime: String
@@ -2942,7 +3034,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Get year from date
         if (date != "") {
             // "-" at position 4 of the date means EN
-            if (date.substring(4, 5) == "-") engl = true
+            if (date.substring(4, 5) == "-") english = true
             // Create date for filename as YYYYMMDD from any format
             xlsxDateEU = date.substring(6, 10) + date.substring(3, 5) + date.substring(0, 2)
             xlsxDateEN = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10)
@@ -2952,7 +3044,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             xlsxDateEU = ""
         }
 
-        xlsxDate = if (engl) xlsxDateEN
+        xlsxDate = if (english) xlsxDateEN
         else xlsxDateEU
 
         if (startTime != "") {
@@ -3016,13 +3108,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         outFile = if (transNoForDir == "" && xlsxDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + getcurDate() + "_" + sortIdent + ".xlsx")
+            tranSect + dataLanguage + "_" + getCurDate() + "_" + sortIdent + ".xlsx")
         else if (transNoForDir == "")
             File(path,
             tranSect + dataLanguage + "_" + xlsxDate + "_" + sortIdent + ".xlsx")
         else if (xlsxDate == "")
             File(path,
-            tranSect + dataLanguage + "_" + transNoForDir + "_" + getcurDate() + "_" + sortIdent + ".xlsx")
+            tranSect + dataLanguage + "_" + transNoForDir + "_" + getCurDate() + "_" + sortIdent + ".xlsx")
         else File(path,
             tranSect + dataLanguage + "_" + transNoForDir + "_" + xlsxDate + "_" + sortIdent + ".xlsx")
 
@@ -3080,11 +3172,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED == storageState
 
         if (!mExternalStorageWriteable) {
-            mesg = getString(R.string.noCard)
+            msg = getString(R.string.noCard)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         } else {
             // Export purged db as xlsx
@@ -3121,13 +3213,13 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
             // Open Head table for head info
             head = headDataSource!!.head
-            inspecName = head!!.inspector_name
+            inspectName = head!!.inspector_name
 
             // Calculating the week of the year (ISO 8601)
             val cal = Calendar.getInstance()
 
             if (date.isNotEmpty()) {
-                if (engl) {
+                if (english) {
                     yyyy = date.substring(0, 4).toInt()
                     mm = date.substring(5, 7).toInt()
                     dd = date.substring(8, 10).toInt()
@@ -3147,7 +3239,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             //    clouds, calendar week and inspection note
             kw = kWeek.toString()
             ws.value(1, 0, transNo)
-            ws.value(1, 1, inspecName)
+            ws.value(1, 1, inspectName)
             ws.value(1, 2, date)
             ws.value(1, 3, getString(R.string.from))
             ws.value(1, 4, startTime)
@@ -3155,7 +3247,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             ws.value(1, 6, winds.toString())
             ws.value(1, 7, clouds.toString())
             ws.value(1, 9, kw)
-            ws.value(1, 11, inspecNote)
+            ws.value(1, 11, inspectionNote)
             ws.style(1, 3).horizontalAlignment("right").set()
             ws.range(1, 4, 0, 9).style().horizontalAlignment("center").set()
             ws.range(1, 11, 1, 14).merge()
@@ -3735,9 +3827,15 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 }
 
                 if (!even) {
-                    // Fill line light gray
-                    ws.range(tableIndex, 0, tableIndex, 16).style()
-                        .fillColor("DDDDDD").set()
+                    // Fill alternating species table line light gray
+                    if (outPref == "names" || outPref == "codes") {
+                        ws.range(tableIndex, 0, tableIndex, 16).style()
+                            .fillColor("DDDDDD").set()
+                    }
+                    else {
+                        ws.range(tableIndex, 0, tableIndex, 17).style()
+                            .fillColor("DDDDDD").set()
+                    }
                 }
 
                 summf += curXLSX.getInt(4)
@@ -4027,11 +4125,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 outputStream.close()
                 wb.close()
             } catch (_: Exception) {
-                mesg = getString(R.string.saveFail)
+                msg = getString(R.string.saveFail)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             }
             dbHelper!!.close()
@@ -4054,11 +4152,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         mExternalStorageWriteable = Environment.MEDIA_MOUNTED == storageState
 
         if (!mExternalStorageWriteable) {
-            mesg = getString(R.string.noCard)
+            msg = getString(R.string.noCard)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
         } else {
             // Export species list into species_ll_yyyy-MM-dd_HHmmss.csv
@@ -4079,20 +4177,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_de_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_de_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_de_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_de_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4101,20 +4199,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_en_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_en_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_en_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_en_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4123,20 +4221,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_fr_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_fr_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_fr_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_fr_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4145,20 +4243,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_it_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_it_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_it_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_it_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4167,20 +4265,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_es_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_es_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_es_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_es_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4190,20 +4288,20 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     if (transNoForDir == "") {
                         outFileTour = File(
                             pathTour, ("/species_--_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_--_"
-                                    + getcurDate() + ".csv")
+                                    + getCurDate() + ".csv")
                         )
                     } else {
                         outFileTour = File(
                             pathTour, ("/species_--_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                         outFileTransect = File(
                             pathTransect, ("/species_--_"
-                                    + transNoForDir + "_" + getcurDate() + ".csv")
+                                    + transNoForDir + "_" + getCurDate() + ".csv")
                         )
                     }
                 }
@@ -4231,11 +4329,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     }
                     csvWrite.close()
                 } catch (_: Exception) {
-                    mesg = getString(R.string.saveFailList)
+                    msg = getString(R.string.saveFailList)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='red'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                 }
             }
@@ -4262,18 +4360,18 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     }
                     csvWrite.close()
 
-                    mesg = getString(R.string.saveList)
+                    msg = getString(R.string.saveList)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='blue'>$mesg</font>"),
-                        Toast.LENGTH_SHORT
+                        fromHtml("<font color='blue'>$msg</font>"),
+                        LENGTH_SHORT
                     ).show()
                 } catch (_: Exception) {
-                    mesg = getString(R.string.saveFailList)
+                    msg = getString(R.string.saveFailList)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='red'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                 }
             }
@@ -4285,27 +4383,30 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private fun resetToBasisDb() {
         // Confirm dialogue before anything else takes place
         val builder = AlertDialog.Builder(this)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setIcon(R.drawable.ic_dialog_question)
+        builder.setTitle(R.string.resetDBMenu)
         builder.setMessage(R.string.confirmResetDB)
         builder.setCancelable(false)
         builder.setPositiveButton(
-            R.string.deleteButton
+            R.string.yesButton
         ) { _: DialogInterface?, _: Int ->
             val resOK = clearDBValues()
             if (resOK) {
-                mesg = getString(R.string.reset2basic)
+                msg = getString(R.string.reset2basic)
                 Toast.makeText(
                     this,  // bright green
-                    fromHtml("<font color='#008000'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='#008000'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
             }
         }
         builder.setNegativeButton(
             R.string.cancelButton
-        ) { dialog: DialogInterface?, _: Int -> dialog!!.cancel() }
-        alert = builder.create()
-        alert.show()
+        ) { dialog: DialogInterface?, _: Int ->
+            dialog!!.cancel()
+        }
+        builder.create()
+        builder.show()
     }
 
     // Clear DB values for basic DB
@@ -4351,17 +4452,16 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                     + DbHelper.M_NOTE + " = '';")
             database!!.execSQL(sql)
         } catch (_: Exception) {
-            mesg = getString(R.string.resetFail)
+            msg = getString(R.string.resetFail)
             Toast.makeText(
                 this,
-                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                Toast.LENGTH_LONG
+                fromHtml("<font color='red'><b>$msg</b></font>"),
+                LENGTH_LONG
             ).show()
             resOK = false
         }
         dbHelper!!.close()
 
-        locServiceOn = false
         TransektCountApplication.lat = 0.0
         TransektCountApplication.lon = 0.0
         TransektCountApplication.isFirstLoc = true
@@ -4385,11 +4485,11 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     }
 
     // Get date for filename of exported data
-    private fun getcurDate(): String {
+    private fun getCurDate(): String {
         val date = Date()
-        @SuppressLint("SimpleDateFormat") val dform: DateFormat =
+        @SuppressLint("SimpleDateFormat") val dForm: DateFormat =
             SimpleDateFormat("yyyyMMdd-HHmm")
-        return dform.format(date)
+        return dForm.format(date)
     }
 
     // Copy file block-wise
@@ -4400,7 +4500,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
         // Transfer bytes from in to out
         val buf = ByteArray(1024)
-        var len: Int
+        var len = 0
         while ((fIS.read(buf).also { len = it }) > 0) {
             fOS.write(buf, 0, len)
         }
@@ -4411,7 +4511,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     companion object {
         private const val TAG = "WelcomeAct"
-
+        private const val FINE_LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
 }

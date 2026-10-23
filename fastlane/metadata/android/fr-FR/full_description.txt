@@ -1,15 +1,20 @@
 TransektCount permet de compter les papillons par espèce et par section de transect, conformément à la méthode du Programme européen de surveillance des papillons (European Butterfly Monitoring Scheme). Il aide les observateurs à recenser les papillons diurnes et les papillons de nuit actifs le jour lors de leurs relevés sur les transects.
 
-Nouveautés de la version 5.1.6 :
+Nouveautés de la version 5.1.7 :
 - Améliorations du code
-- L'importation de fichiers GPX prend également en charge les fichiers comportant une seule trace divisée en n segments, plutôt que n traces distinctes
-- Saisie de notes sur les espèces à partir des formulations prédéfinies « Photo », « Survol », « Nouvelle espèce », …
-- La valeur saisie en % pour la nébulosité est arrondie aux dizaines
-- Contrôle de cohérence plus strict pour la saisie des métadonnées numériques
-- Modification de la structure des noms des fichiers exportés
+- Correction : l'option « Afficher les résultats » n'affiche plus de résultats erronés lorsque l'option « Trier par nom » est sélectionnée.
+- Correction de la mise en page XLSX : pour les lignes à fond gris, la couleur grise ne s'étendait pas jusqu'à la dernière colonne dans certains modes de tri.
+- Correction : la modification du paramètre « Indiquer la section de transect par GPS » prend effet immédiatement ; il n'est plus nécessaire de redémarrer l'application.
+- Correction : l'option « Annuler » de la fonction « Supprimer le tracé GPS » fonctionne désormais correctement.
+- Correction : après l'importation d'une autre base de données de transects contenant un tracé, le calcul de la distance pour le nouveau tracé est désormais correct sans qu'il soit nécessaire de redémarrer le programme.
+- Correction : après la suppression de la trace, le message indiquant la distance n’apparaît plus.
+- Correction : désormais, sur la page des paramètres, l’option « Langue des données » pour les fichiers importés dans l’ancien format (base de données et espèces) affiche immédiatement la langue des données sélectionnée ainsi que l’icône correspondante.
+- Ajout de titres et d’icônes à certaines boîtes de dialogue.
+- Refonte de la gestion des autorisations de localisation et amélioration des boîtes de dialogue correspondantes
+- Le nom de fichier d'une base de données exportée contient désormais « Track » si un tracé de transect est chargé
+- Informations sur la licence complétées
 - Mise à jour du texte « Aide »
 - Documents mis à jour
-- Correction d'un bug lié à l'importation d'une liste d'espèces
 
 Caractéristiques :
 - La collecte des données s'appuie sur un relevé par transect.

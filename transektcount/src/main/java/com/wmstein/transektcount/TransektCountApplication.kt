@@ -1,5 +1,31 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * Provides global app data and handles background image and prefs
+ *
+ * Partly based on BeeCountApplication.java created by Milo Thurston (knirirr) on 2014-05-14,
+ * licensed under the Apache License, Version 2.0.
+ *
+ * Adopted for TransektCount by wmstein on 2016-02-12,
+ * converted to Kotlin on 2024-12-09,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.app.Application
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -15,14 +41,6 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.preference.PreferenceManager
 
-/********************************************************************
- * Provide global app data and handle background image and prefs
- *
- * Partly derived from BeeCountApplication.java by milo on 14/05/2014.
- * Adopted for TransektCount by wmstein on 2016-02-12,
- * converted to Kotlin on 2024-12-09,
- * last edited on 2026-07-16
- */
 class TransektCountApplication : Application() {
     var bMapDraw: BitmapDrawable? = null
     var width = 0
@@ -35,7 +53,7 @@ class TransektCountApplication : Application() {
 
         // Support to debug "A resource failed to call ..." (close, dispose or similar)
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) {
-            Log.i(TAG, "38, onCreate, StrictMode.setVmPolicy")
+            Log.i(TAG, "56, onCreate, StrictMode.setVmPolicy")
             StrictMode.setVmPolicy(
                 VmPolicy.Builder(StrictMode.getVmPolicy())
                     .detectLeakedClosableObjects()
@@ -47,7 +65,7 @@ class TransektCountApplication : Application() {
             prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "50, prefs: $e")
+                Log.e(TAG, "68, prefs: $e")
         }
 
         // Initiate ActivityLifecycle for stopping periodic location requests
@@ -57,7 +75,7 @@ class TransektCountApplication : Application() {
 
     // bMapDraw is a pre-prepared bitmap read by WelcomeActivity, SelectSectionActivity
     //   and CountingActivity
-    fun setBackgr(): BitmapDrawable {
+    fun setBackground(): BitmapDrawable {
         bMapDraw = null
 
         val backgroundPref: String = prefs!!.getString("pref_backgr", "default")!!

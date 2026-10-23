@@ -1,5 +1,39 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountingActivity is the central activity of TransektCount and is called from
+ * SelectSectionActivity for the selected section.
+ * It provides 12 counters and calls AddSpeciesActivity, DelSpeciesActivity,
+ * EditSectionListActivity and CountOptionsActivity.
+ * It switches screen off when the device is pocketed
+ * and allows taking pictures and sending notes.
+ *
+ * CountingActivity uses CountingWidget*.kt, NotesWidget.kt and activity_counting*.xml
+ *
+ * Basic counting functions derived from CountingActivity.java of BeeCount created by Milo Thurston
+ * (knirirr) on 2014-05-05, licensed under the Apache License, Version 2.0.
+ *
+ * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
+ * last edited in Java on 2026-06-08,
+ * converted to Kotlin on 2026-07-17,
+ * last edited on 2026-09-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
@@ -30,6 +64,8 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -39,6 +75,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 
 import com.wmstein.transektcount.TransektCountApplication.Companion.getPrefs
+import com.wmstein.transektcount.TransektCountApplication.Companion.sectionIdGPS
 import com.wmstein.transektcount.Utils.fromHtml
 import com.wmstein.transektcount.database.Count
 import com.wmstein.transektcount.database.CountDataSource
@@ -54,22 +91,6 @@ import com.wmstein.transektcount.widgets.CountingLhExternWidget
 import com.wmstein.transektcount.widgets.CountingLhInternWidget
 import com.wmstein.transektcount.widgets.NotesWidget
 
-/******************************************************************************
- * CountingActivity is the central activity of TransektCount and is called from
- * SelectSectionActivity for the selected section.
- * It provides 12 counters and calls AddSpeciesActivity, DelSpeciesActivity,
- * EditSectionListActivity and CountOptionsActivity.
- * It switches screen off when the device is pocketed
- * and allows taking pictures and sending notes.
- *
- * CountingActivity uses CountingWidget*.kt, NotesWidget.kt and activity_counting*.xml
- *
- * Basic counting functions created by milo for BeeCount on 2014-05-05.
- * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
- * last edited in Java on 2026-06-08,
- * converted to Kotlin on 2026-07-17,
- * last edited on 2026-07-21.
- */
 class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, SensorEventListener {
     private var countScreen: LinearLayout? = null
     private var countsFieldHeadArea1: LinearLayout? = null // headline internal/external
@@ -106,7 +127,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
     private var awakePref = false
     private var brightPref = false
     private var sortPref = ""
-    private var lhandPref = false // true for lefthand mode of counting screen
+    private var leftHandPref = false // true for left hand mode of counting screen
     private var buttonSoundPref = false
     private var buttonVibPref = false
     private var specCode = ""
@@ -119,18 +140,17 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
     private var headDataSource: HeadDataSource? = null
 
     private lateinit var soundService: SoundService
-
     private lateinit var vibrator: Vibrator
     
-    private var mesg = ""
-
     private val mHandler = Handler(Looper.getMainLooper())
+
+    private var msg = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "133, onCreate")
+            Log.i(TAG, "153, onCreate")
 
         val transektCount = application as TransektCountApplication
         prefs = getPrefs()
@@ -154,10 +174,10 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
             this.enableEdgeToEdge()
 
         // Distinguish between left-/ right-handed counting page layout
-        if (lhandPref) {
+        if (leftHandPref) {
             setContentView(R.layout.activity_counting_lh)
             countScreen = findViewById(R.id.countingScreenLH)
-            countScreen!!.background = transektCount.setBackgr()
+            countScreen!!.background = transektCount.setBackground()
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1LH)
             countsFieldArea1 = findViewById(R.id.countsField1LH)
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2LH)
@@ -178,7 +198,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         } else {
             setContentView(R.layout.activity_counting)
             countScreen = findViewById(R.id.countingScreen)
-            countScreen!!.background = transektCount.setBackgr()
+            countScreen!!.background = transektCount.setBackground()
             countsFieldHeadArea1 = findViewById(R.id.countsFieldHead1RH)
             countsFieldArea1 = findViewById(R.id.countsField1RH)
             countsFieldHeadArea2 = findViewById(R.id.countsFieldHead2RH)
@@ -250,7 +270,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
 
     val navBarMode: Int
         get() {
-            val resources = this.getResources()
+            val resources = this.resources
 
             @SuppressLint("DiscouragedApi") val resourceId = resources.getIdentifier(
                 "config_navBarInteractionMode",
@@ -265,7 +285,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         awakePref = prefs.getBoolean("pref_awake", true)
         brightPref = prefs.getBoolean("pref_bright", true)
         sortPref = prefs.getString("pref_sort_sp", "none")!! // sorted species list on counting page
-        lhandPref = prefs.getBoolean("pref_left_hand", false) // left-handed counting page
+        leftHandPref = prefs.getBoolean("pref_left_hand", false) // left-handed counting page
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false)
         buttonVibPref = prefs.getBoolean("pref_button_vib", false)
         proxSensorPref = prefs.getString("pref_prox", "Off")!!
@@ -276,7 +296,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "279, onResume")
+            Log.i(TAG, "299, onResume")
 
         sensorManager!!.registerListener(this,
             proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
@@ -311,12 +331,17 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         countDataSource!!.open()
 
         try {
-            section = sectionDataSource!!.getSection(sectionId)
+            section = if (sectionIdGPS > 0 && sectionId != sectionIdGPS) {
+                sectionDataSource!!.getSection(sectionIdGPS) // neu
+            } else {
+                sectionDataSource!!.getSection(sectionId)
+            }
         } catch (_: CursorIndexOutOfBoundsException) {
-            mesg = getString(R.string.getHelp)
+            msg = getString(R.string.getHelp)
             Toast.makeText(this,
-                fromHtml("<font color='#008000'>$mesg</font>"),
-                Toast.LENGTH_LONG).show()
+                fromHtml("<font color='#008000'>$msg</font>"),
+                LENGTH_LONG
+            ).show()
             disableProximitySensor()
             finish()
         }
@@ -358,14 +383,14 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
 
         var rName: String
         var resId: Int
-        val resId0: Int = getResources().getIdentifier(
+        val resId0: Int = resources.getIdentifier(
             "p00000", "drawable", this.packageName
         )
 
         val imageArray = arrayOfNulls<Int>(codeArray.size)
         for ((iPic, code) in codeArray.withIndex()) {
             rName = "p$code"
-            resId = getResources().getIdentifier(
+            resId = resources.getIdentifier(
                 rName, "drawable",
                 this.packageName
             )
@@ -379,7 +404,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         countingWidgetLHE = ArrayList()
 
         // Show head2: Species with spinner to select
-        spinner = if (lhandPref)  // if left-handed counting page
+        spinner = if (leftHandPref)  // if left-handed counting page
             findViewById(R.id.countHead1SpinnerLH)
         else findViewById(R.id.countHead1Spinner)
 
@@ -419,7 +444,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         if (proximitySensor != null) {
             if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-                    Log.i(TAG, ("422 Value0: " + event.values[0] + ", "
+                    Log.i(TAG, ("447 Value0: " + event.values[0] + ", "
                             + "Sensitivity: " + (sensorSensitivity)))
 
                 // if ([0|5] >= [-0|-2.5|-4.9] && [0|5] < [0|2.5|4.9])
@@ -489,11 +514,11 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
             R.id.menuDelSpecies -> {
                 disableProximitySensor()
 
-                mesg = getString(R.string.wait)
+                msg = getString(R.string.wait)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='blue'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='blue'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
 
                 val intent = Intent(this@CountingActivity, DelSpeciesActivity::class.java)
@@ -509,11 +534,11 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
             R.id.menuEditSection -> {
                 disableProximitySensor()
 
-                mesg = getString(R.string.wait)
+                msg = getString(R.string.wait)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='blue'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='blue'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
 
                 val intent = Intent(this@CountingActivity, EditSectionListActivity::class.java)
@@ -538,17 +563,17 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
                 // Select from available camera apps
                 val isIntentSafe = activities.isNotEmpty()
                 if (isIntentSafe) {
-                    val title = getResources().getString(R.string.chooserTitle)
+                    val title = resources.getString(R.string.chooserTitle)
                     val chooser = Intent.createChooser(camIntent, title)
                     if (camIntent.resolveActivity(getPackageManager()) != null) {
                         try {
                             startActivity(chooser)
                         } catch (_: Exception) {
-                            mesg = getString(R.string.noPhotoPermit)
+                            msg = getString(R.string.noPhotoPermit)
                             Toast.makeText(
                                 this,
-                                fromHtml("<font color='red'><b>$mesg</b></font>"),
-                                Toast.LENGTH_LONG
+                                fromHtml("<font color='red'><b>$msg</b></font>"),
+                                LENGTH_LONG
                             ).show()
                         }
                     }
@@ -569,7 +594,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
                 sendIntent.putExtra(Intent.EXTRA_TITLE, "Message of TransektCount")
                 sendIntent.putExtra(Intent.EXTRA_TEXT, section!!.name + ": ")
                 sendIntent.type = "text/plain"
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)))
+                startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_to)))
                 return true
             }
 
@@ -581,7 +606,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
     // Edit count options by CountOptionsActivity by button in widget_counting_head2.xml
     fun editOptions(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "584, editOptions, View: $view")
+            Log.i(TAG, "609, editOptions, View: $view")
 
         disableProximitySensor()
 
@@ -618,7 +643,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "618, onPause")
+            Log.i(TAG, "646, onPause")
 
         disableProximitySensor()
 
@@ -640,7 +665,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "640, onStop")
+            Log.i(TAG, "668, onStop")
 
         countScreen!!.invalidate()
 
@@ -654,7 +679,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "654, onDestroy")
+            Log.i(TAG, "682, onDestroy")
     }
 
     // Spinner listener
@@ -681,13 +706,13 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
                     count = countDataSource!!.getCountById(iid)
                     countingScreen(count!!)
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-                        Log.i(TAG, ("681, SpinnerListener, count id: " + count!!.id
+                        Log.i(TAG, ("709, SpinnerListener, count id: " + count!!.id
                                 + ", code: " + count!!.code + ", name: " + count!!.name))
                 } catch (e: Exception) {
                     // Exception may occur when permissions are changed while activity is paused
                     //  or when spinner is rapidly repeatedly pressed
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.e(TAG, "687, SpinnerListener, catch: $e"
+                        Log.e(TAG, "715, SpinnerListener, catch: $e"
                     )
                 }
             }
@@ -701,7 +726,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
     // Show rest of widgets for counting screen
     private fun countingScreen(count: Count) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, "701, countingScreen")
+            Log.i(TAG, "729, countingScreen")
 
         // 1. Species line is set by CountingHead1Widget in onResume, Spinner
         
@@ -711,17 +736,17 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         countsFieldHeadArea1!!.addView(head2)
 
         // 3. Counts internal
-        if (lhandPref) // if left-handed counting page
+        if (leftHandPref) // if left-handed counting page
         {
-            val widgeti = CountingLhInternWidget(this, null)
-            widgeti.setCountLHi(count)
-            countingWidgetLHI.add(widgeti)
-            countsFieldArea1!!.addView(widgeti)
+            val widgetI = CountingLhInternWidget(this, null)
+            widgetI.setCountLHi(count)
+            countingWidgetLHI.add(widgetI)
+            countsFieldArea1!!.addView(widgetI)
         } else {
-            val widgeti = CountingInternWidget(this, null)
-            widgeti.setCounti(count)
-            countingWidgetI.add(widgeti)
-            countsFieldArea1!!.addView(widgeti)
+            val widgetI = CountingInternWidget(this, null)
+            widgetI.setCounti(count)
+            countingWidgetI.add(widgetI)
+            countsFieldArea1!!.addView(widgetI)
         }
 
         // 4. Headline Counting Area 2 (external)
@@ -730,17 +755,17 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         countsFieldHeadArea2!!.addView(head3)
 
         // 5. Counts external
-        if (lhandPref) // if left-handed counting page
+        if (leftHandPref) // if left-handed counting page
         {
-            val widgete = CountingLhExternWidget(this, null)
-            widgete.setCountLHe(count)
-            countingWidgetLHE.add(widgete)
-            countsFieldArea2!!.addView(widgete)
+            val widgetE = CountingLhExternWidget(this, null)
+            widgetE.setCountLHe(count)
+            countingWidgetLHE.add(widgetE)
+            countsFieldArea2!!.addView(widgetE)
         } else {
-            val widgete = CountingExternWidget(this, null)
-            widgete.setCounte(count)
-            countingWidgetE.add(widgete)
-            countsFieldArea2!!.addView(widgete)
+            val widgetE = CountingExternWidget(this, null)
+            widgetE.setCounte(count)
+            countingWidgetE.add(widgetE)
+            countsFieldArea2!!.addView(widgetE)
         }
 
         // 6. Species note widget if there are any notes
@@ -803,7 +828,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         //  no action by 1st click when previous species selected again
         val tempCountId = view.tag.toString().toInt()
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "803, countUpf1i, section Id: $sectionId, count Id: $tempCountId")
+            Log.i(TAG, "831, countUpf1i, section ID: $sectionId, count ID: $tempCountId")
 
         val widget = getCountFromIdI(tempCountId)
         if (widget != null) {
@@ -856,7 +881,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
     fun countDownf1i(view: View) {
         val tempCountId = view.tag.toString().toInt()
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG,"856, countDownf1i, section Id: $sectionId, count Id: $tempCountId")
+            Log.i(TAG,"884, countDownf1i, section ID: $sectionId, count ID: $tempCountId")
 
         val widget = getCountFromIdI(tempCountId)
         if (widget != null) {
@@ -1302,7 +1327,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         val tempCountId = view.tag.toString().toInt()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, ("1302, countUpf1e, section Id: " + sectionId
+            Log.i(TAG, ("1330, countUpf1e, section ID: " + sectionId
                     + ", tempCountId: " + tempCountId))
 
         val widget = getCountFromIdE(tempCountId)
@@ -1350,7 +1375,7 @@ class CountingActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, 
         val tempCountId = view.tag.toString().toInt()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG) 
-            Log.i(TAG, ("1350 countDownf1e, section Id: " + sectionId
+            Log.i(TAG, ("1378, countDownf1e, section ID: " + sectionId
                     + ", tempCountId: " + tempCountId))
 
         val widget = getCountFromIdE(tempCountId)

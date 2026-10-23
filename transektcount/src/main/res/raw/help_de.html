@@ -1,40 +1,66 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
 
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     TransektCount Benutzeranleitung, help_de.html
+
+     Last edited 2026-10-23
+************************************************************************************************ -->
+
 <meta charset="UTF-8" content="">
 <html lang="de">
 
-<!-- TransektCount Benutzeranleitung help_de.html --
-  Last edited on 2026-08-21
- -->
-
 <h3><font color=#D9FDD9>1. Einführung</font></h3>
-TransektCount soll bei der Erfassung der Schmetterlinge in europäischen Transekten unterstützen.<br>
+TransektCount soll Transektzähler bei der Transektkartierung gemäß Tagfalter-Monitoring Programmen in Europa unterstützen.
+<br><br>
 Mit der App können Individuen pro Transektabschnitt artspezifisch, getrennt nach Geschlecht und Entwicklungsstadien gemäß der European Butterfly Monitoring Scheme-Methode erfasst werden.<br>
-Transektabschnitte müssen manuell gewählt werden, können aber optional automatisch per GPS bestimmt werden. <br>
-Sie bietet aufbereitete Ergebnisausgaben und ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos.
+Transektabschnitte müssen manuell gewählt werden, können aber optional automatisch per GPS signalisiert werden. <br>
+TransektCount bietet aufbereitete Ergebnisausgaben und ersetzt Feldbuch, Bleistift und ggf. auch eine Kamera für Belegfotos.
 <br><br>
 Datenbankdateien werden Transekt-bezogen, also individuell bezüglich Transektabschnitte und erwarteten Schmetterlingsarten angelegt. Dazu ist eine umfangreiche, bebilderte Liste an Arten enthalten. Die interne Datenbank ist begehungsbezogen, d.h. pro Begehung wird eine neue Datenbank-Instanz verwendet.
 <br><br>
 Die erfassten Daten (Metadaten, Zählerstände und Anmerkungen) können zur Eingabe in ein Tagfaltermonitoring-System z.B. auf <br>https://web.app.ufz.de/tagfalter-monitoring<br>
 entweder von der Ergebnisseite geordnet abgelesen oder in eine MS-Excel-Tabelle exportiert und diese auf einen PC übertragen und dort komfortabler gelesen oder verarbeitet werden.
 <br><br>
-Die App ist veröffentlicht unter<br>
+Die App ist mit Quellcode und Dokumentation als Open Source unter<br>
 https://github.com/wistein/TransektCount<br>
-mit Quellcode und Dokumentation. Sie ist Open Source, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber die folgenden Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br><br>
-- <b>Speicherzugriff</b> zwecks Import von DB-Dateien und<br>
-&nbsp;&nbsp;&nbsp;Spezieslisten, Export von Daten und der Zählergebnisse<br>
-&nbsp;&nbsp;&nbsp;in DB-, XLSX- oder CSV-Dateien,<br>
-- <b>Wakelock</b> zwecks Verhinderung, dass die App bei<br>
-&nbsp;&nbsp;&nbsp;Inaktivität vom Systen abgeschaltet wird, jedoch beim<br>
-&nbsp;&nbsp;&nbsp;Einstecken oder nahe am Körper halten, den Bildschirm<br>
-&nbsp;&nbsp;&nbsp;abdunkelt und berührungsunempfindlich macht und<br>
-- ggf. genaue <b>Standortbestimmung</b> durch GPS um<br>
-&nbsp;&nbsp;&nbsp;Transektabschnittsgrenzen zu erkennen und einen<br>
-&nbsp;&nbsp;&nbsp;Abschnittsübergang zu melden.
+veröffentlicht. Sie benötigt kein Internet, enthält weder Tracking- noch Werbefunktionen und verwendet keine Google-Play-Dienste, erfordert aber die folgenden Zugriffsrechte, die für die zweckdienlichen Funktionen der App nötig sind: <br><br>
+- <b>Zugriff auf alle Dateien</b> zwecks Import von DB-Dateien,<br>
+&nbsp;&nbsp;&nbsp;Spezieslisten und Track-Dateien (.db, .csv oder .gpx<br>
+&nbsp;&nbsp;&nbsp;Dateien), und Export von Datenbanken, Spezieslisten<br>
+&nbsp;&nbsp;&nbsp;und Ergebnissen in DB-, CSV- oder XLSX-Dateien<br>
+&nbsp;&nbsp;&nbsp; (ausschließlich im Datenverzeichnis von<br>
+&nbsp;&nbsp;&nbsp;TransektCount und ggf. in dem von TourCount),<br><br>
+- optional <b>Wakelock</b> zwecks Verhinderung, dass die App<br>
+&nbsp;&nbsp;&nbsp;bei Inaktivität vom Systen abgeschaltet wird, jedoch<br>
+&nbsp;&nbsp;&nbsp;beim Einstecken oder nahe am Körper halten, den Bild-<br>
+&nbsp;&nbsp;&nbsp;schirm abdunkelt und berührungsunempfindlich macht<br>
+&nbsp;&nbsp;&nbsp;und<br><br>
+- optional präzise <b>GPS-Nutzung</b> zur laufenden<br>
+&nbsp;&nbsp;&nbsp;Positionsbestimmung um Transektabschnitte zu<br>
+&nbsp;&nbsp;&nbsp;erkennen und einen Abschnittsübergang zu melden.
 <br><br><br>
 
 <h3><font color=#D9FDD9>2. Einrichtung</font></h3>
+Beim ersten Start muss die Berechtigung zum Speichern von Daten erteilt werden. TransektCount liest und schreibt ausschließlich in das öffentliche Verzeichnis <b>Documents/TransektCount</b>, das beim ersten Start der App angelegt wird (und in <b>Documents/TourCount</b> falls die komplementäre App TourCount installiert ist. Dieses Datenverzeichnis wird bei Deinstallation von TransektCount nicht gelöscht, die dort gespeicherten Daten bleiben erhalten.
+<br><br>
+Später, wenn eine Transekt-Track-Datei erstellt wurde und die GPS-gesteuerte Abschnittserkennung gewünscht wird, muss auch die Berechtigung zur Ortsbestimmung erteilt werden. Für eine zuverlässigere Abschnittserkennung bei langen Transekten kann in den Systemeinstellungen optional „<b>Immer zulassen</b>“ aktiviert werden. Damit wird verhindert, dass Android den Ortsbestimmungsdienst bei längeren Bedienungspausen der App selbstständig beendet.
+<br><br>
 Vor der erstmaligen Verwendung sollten die App-Einstellungen den eigenen Wünschen angepasst werden.<br>
 (→ <b>4. Weitere Funktionen</b>).
 <br><br>
@@ -47,7 +73,7 @@ Dazu auf der Startseite „<b><font color="#D9FDD9">Zählen</font></b>“ und da
 <br><br>
 Alle 3 Editierseiten bieten eine Vorauswahl zur Erleichterung der Artauswahl durch Eingabe von 2 oder mehr Buchstaben des wissenschaftlichen Artnamens und anschließendem Klicken des Such-Buttons. Zur weiteren Eingrenzung der Auswahl können weitere Buchstaben eingegeben und der Such-Button erneut geklickt werden.
 <br><br>
-Unter „<b><font color="#D9FDD9">Arten hinzufügen</font></b>“ neue Arten in der blauen Scroll-Down-Liste per Checkbox markieren. Mit dem (+)-Button in der Kopfzeile die Änderungen übernehmen. (Die ausgewählten Arten verschwinden dann aus der Scroll-Down-Auswahlliste).
+Unter „<b><font color="#D9FDD9">Arten hinzufügen</font></b>“ können weitere benötigte Arten aus der blauen Liste per Checkbox hinzugefügt werden. Mit dem (+)-Button in der Kopfzeile die Änderungen übernehmen. (Die ausgewählten Arten verschwinden dann aus der Scroll-Down-Auswahlliste).
 <br><br>
 Am Ende der Scroll-Down-Liste kann ein Platzhalter für eine unbestimmte Art (NN) übernommen und später, ggf. nach Bestimmung editiert werden.
 <br><br>
@@ -69,7 +95,7 @@ Die Codes dienen als Sortierkriterium für die Liste und als Referenz zur Anzeig
 Die Codes entsprechen dem Nummerierungsschema gemäß Karsholt/Razowski und werden ebenfalls in der Kartiereranleitung und im Lepiforum (https://lepiforum.org) verwendet.
 <br><br>
 Das am Code 07001 angehängte *-Zeichen im Listenausschnitt oben kennzeichnet eine Gruppe schwer unterscheidbarer Arten. Zwecks Sortierfolge sollte für solche Gruppen der größere der Gruppenarten-Codes gewählt werden.<br>
-<font color=#FF9800><b>Vorsicht:</b></font> Ein falscher Code zeigt ein „<b>N/A</b>“ oder falsches Bild an. Dazu siehe ggf. „<b>Liste kodierter Schmetterlinge.pdf</b>“ unter<br>
+<font color=#FF9800><b>Vorsicht:</b></font> Ein falscher Code zeigt ein „<b>N/A</b>“ oder falsches Bild an. Dazu siehe ggf. „<b>List of Coded Butterflies for TourCount and TransektCount.pdf</b>“ mit lokalen Namen in 5 europäischen Sprachen unter<br>
 https://github.com/wistein/TransektCount/tree/master/docs.
 <br><br>
 Ist die Artenliste komplett, kann sie für alle weiteren Transektabschnitte kopiert werden. Dazu im Kopf der Abschnittsliste per plus-Button die fehlenden Abschnitte erzeugen und jeweils sinnvoll benennen, möglichst in der Reihenfolge wie die Abschnitte begangen werden (z.B.: Ab 02, Ab 03, ...).
@@ -92,29 +118,32 @@ Alternativ kann auch eine selbst erstellte Basis-DB importiert und angepasst wer
 https://github.com/wistein/TransektCount/tree/master/docs<br>
 heruntergeladen, in das App-Datenverzeichnis „<b>Documents/TransektCount</b>“ kopiert und von dort importiert und dann angepasst werden. Änderungen hinsichtlich der Arten wirken sich immer auf alle vorhandenen Abschnittslisten aus.
 <br><br>
-Die Dateinamen-Konvention der aus TransektCount exportierten Dateien:
+Die Namenskonventionen für die von TransektCount exportierten Dateien sind:
 <br><br>
 - Basis-DB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#0060FF">transektcount0_</font>ds<font color="#0060FF">_</font>Tr-Nr<font color="#0060FF">.db</font></b><br>
 - Aktuelle DB:&nbsp;&nbsp; <b><font color="#0060FF">transektcount_</font>ds<font color="#0060FF">_</font>StartDatum<font color="#0060FF">_</font>Tr-Nr<font color="#0060FF">.db</font></b><br>
 - Ergebnis:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#0060FF">Transekt_</font>ds<font color="#0060FF">_</font>StartDatum<font color="#0060FF">_</font>Tr-Nr<font color="#0060FF">_</font>as<font color="#0060FF">.xlsx</font></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or <b><font color="#0060FF">.csv</font></b>)<br>
-- Speziesliste:&nbsp;&nbsp;<b><font color="#0060FF">species_</font>ds<font color="#0060FF">_</font>Tr-Nr<font color="#0060FF">_</font>AktDatum<font color="#0060FF">.csv</font></b>
+- Speziesliste:&nbsp;&nbsp;<b><font color="#0060FF">species_</font>ds<font color="#0060FF">_</font>Tr-Nr<font color="#0060FF">_</font>AktDatum<font color="#0060FF">.csv</font></b><br>
+- Track:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#0060FF">transektcount_</font>xxx<font color="#0060FF">.csv</font></b>
 <br><br>
 mit
 <br><br>
-- <b><font color="#0060FF">blau</font></b> = gesetzte Zeichenfolgen.<br>
-- <b>ds</b> = Datensprache der lokalen Artnamen<br>
+- <b><font color="#0060FF">blau</font></b>: Gesetzte Zeichenfolgen.<br>
+- <b>ds</b>: Datensprache der lokalen Artnamen<br>
 &nbsp;&nbsp;&nbsp;(„de“, „en“, „es“, „fr“, „it“),<br>
-- <b>Tr-Nr</b> = Transektbezeichnung,<br>
+- <b>Tr-Nr</b>: Transektbezeichnung,<br>
 &nbsp;&nbsp;&nbsp;(bereinigt für Dateinamenskonformität),<br>
-- <b>StartDatum</b> = Datum und Zeit des Starts der Begehung<br>
+- <b>StartDatum</b>: Datum und Zeit des Starts der Begehung<br>
 &nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).<br>
 &nbsp;&nbsp;&nbsp;Wenn nicht angegeben, das aktuelle Speicherdatum,<br>
-- <b>as</b> = Ausgabe-Sortiercode („n“ Namen, „c“ Codes,<br>
+- <b>as</b>: Ausgabe-Sortiercode („n“ Namen, „c“ Codes,<br>
 &nbsp;&nbsp;&nbsp;„sn“ Abschnitt und Namen oder<br>
 &nbsp;&nbsp;&nbsp;„sc“ Abschnitt und Codes).<br>
-- <b>AktDatum</b> = aktuelles Speicherdatum<br>
-&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).
+- <b>AktDatum</b>: aktuelles Speicherdatum<br>
+&nbsp;&nbsp;&nbsp;(JJJJMMTT-hhmm).<br>
+- <b>xxx</b>: Track-Name (z. B.: Transektbezeichnung,<br>
+&nbsp;&nbsp;&nbsp;aber entsprechend der Dateinamenkonvention).
 <br><br><br>
 
 <h3><font color=#D9FDD9>3. Benutzung</font></h3>
@@ -122,7 +151,10 @@ Beginne mit „<b><font color="#D9FDD9">Metadaten editieren</font></b>“. Gib d
 Sollen ein anderes Datum oder andere Zeiten eingegeben werden, können diese Felder länger gedrückt werden und der sich dann öffnende Eingabe-Dialog genutzt werden. Unrealistische Werte für Temperatur, Wind oder Bewölkung werden mit Plausibilitätschecks abgefangen. Werte für Bewölkung werden beim Speichern auf Zehner gerundet. Mit dem „Speichern“-Button beenden.
 <br><br>
 Dann wähle „<b><font color="#D9FDD9">Zählen</font></b>“. Hier wird die Liste aller Transektabschnitte angezeigt.<br>
-Wähle den zutreffenden Transektabschnitt durch Tippen auf den Abschnittsnamen. Es erscheint die Zählerseite für die erste Art in der sortierten Artenliste des Abschnitts. Wähle die zutreffende Art in der Rollliste durch Klicken des Falter-Icons.<br>
+Wähle den zutreffenden Transektabschnitt durch Tippen auf den Abschnittsnamen.
+<br><br>
+Es erscheint die Zählerseite für die erste Art in der sortierten Artenliste des Abschnitts. Wähle die zutreffende Art in der Rollliste durch Klicken des Falter-Icons.
+<br><br>
 Da beim Zählen im Transekt unterschieden wird zwischen Faltern, die innerhalb des imaginären Zählbereichs (eines Kubus von 5 m Kantenlänge vor dem/der Zählenden) oder außerhalb gesichtet werden, gibt es entsprechend für jede Art 2 Sätze von Zählern.
 <br><br>
 Zum Zählen tippe jeweils auf den entsprechenden (+)-Button der gesichteten Kategorie (♂|♀, ♂, ♀, Puppe, Raupe, Ei) der Art. Mit den (-)-Buttons kann ggf. korrigiert werden.<br>
@@ -133,6 +165,8 @@ Der Bleistift-Button unter der Artnamen-Zeile auf der Zählerseite ruft die absc
 Eine Art-spezifische Bemerkung wird auf der Zählerseite der Art unterhalb des Zählerfelds eingeblendet und in die Ergebnistabelle geschrieben (z. B.: „Foto“).<br>
 Mit dem Eintrag '0' in der Spezies-Bemerkung wird diese Art für den gewählten Abschnitt auch trotz fehlender Zählwerte bei den Ergebnissen berücksichtigt.
 <br><br>
+Um eine Seite zurückzugehen, dient allgemein der Pfeil oben links. Um geänderten Inhalt sicher zu übernehmen, muss der jeweilige <b>Hinzufügen</b>-, <b>Löschen</b>-, oder <b>Speichern</b>-Button geklickt werden.
+<br><br>
 Bevor TransektCount nach einer Begehung beendet wird, sollten immer die Metadaten mit den Endwerten für Zeit, Wind und Wolken ergänzt werden. Dann sollte über das Menü der Startseite mittels „<b><font color="#D9FDD9">Export d. Ergebnisse</font></b>“ die aktuelle Zählung als <b>.xlsx</b> (MS Excel-Tabelle) oder <b>.csv</b> (comma separated values, Tabellentextdatei) gesichert werden. Die Dateien werden mit Datensprache, Datum und Uhrzeit des Startzeitpunkts und Transekt-Nr. benannt und als „<b>transekt_ds_StartDatum_Tr-Nr_as.xlsx</b>“ bzw. „<b>.csv</b>“ im Verzeichnis „<b>Documents/TransektCount</b>“ gespeichert. Falls keine Startzeit angegeben wurde, wird die aktuelle Zeit verwendet.
 <br><br>
 Bei der Verwendung von GPS wird nach dem Start der App und nach dem ersten GPS-Fix zunächst eine kurze Meldung mit der Abstandsangabe zum Transekt angezeigt. Wird ein Transektabschnitt erreicht, wird akustisch und per Hinweismeldung über den aktuellen Transektabschnitt informiert. Bei jedem weiteren Wechsel von Transektabschnitten wird ebenso informiert.
@@ -141,14 +175,15 @@ Die Auswahl des Abschnitts muss weiterhin manuell erfolgen, die GPS-Erkennung un
 <br><br>
 Auf der Seite „Transektabschnitte“ ist nach der GPS-Erkennung der Name des neu erkannten Abschnitts blau markiert.
 <br><br>
-Schließlich gibt es noch die Ergebnisseite, auf der die Metadaten zur Begehung, die Summen pro Kategorie und nachfolgend die gezählten Individuen in einer Scroll-Liste angezeigt werden. Die enthaltene Liste der Individuen kann je nach gewählter Ausgabe-Option entweder nach Artnamen oder Abschnitten sortiert ausgegeben werden.<br>
-Diese Seite wird von der Startseite aus erreicht mit „<b><font color="#D9FDD9">Ergebnis anzeigen</font></b>“ bzw. per Augen-Icon in der Kopfzeile.
+Schließlich gibt es noch die Ergebnisseite, auf der die Metadaten zur Begehung, die Summen pro Kategorie und nachfolgend die gezählten Individuen in einer Scroll-Liste anzeigt. Die enthaltene Liste der Individuen kann je nach gewählter Ausgabe-Option entweder nach Artnamen oder Abschnitten sortiert ausgegeben werden.
 <br><br>
-Eine Ebene zurück in der App gelangt man jeweils mit dem Zurück-Button oder dem Pfeil oben links. Um geänderten Inhalt sicher zu übernehmen, sollte, wie vorhanden, jeweils der Hinzufügen-, Lösch-, oder Speichern-Button benutzt werden.
+Die enthaltene Liste der Individuen kann je nach gewählter Ausgabe-Sortier-Option entweder nach Artnamen, Art-Codes, Abschnitten und Namen oder Abschnitten und Codes sortiert ausgegeben werden.
+<br><br>
+Diese Seite wird von der Startseite aus erreicht mit „<b><font color="#D9FDD9">Ergebnis anzeigen</font></b>“ bzw. per Augen-Icon in der Kopfzeile.
 <br><br>
 Bei großen Datenmengen kann sich die Reaktion der App z. B. bei Import-Funktionen oder beim Aufruf der Ergebnisseite etwas verzögern, da hier im Hintergrund umfangreiche Berechnungen laufen. Das wird durch einen kurzen Hinweis „Liste wird berechnet …“ angezeigt.
 <br><br>
-Auf eine ggf. auftauchende Meldung „TransektCount reagiert nicht“ bitte mit „<b><font color="#D9FDD9">Warten</font></b>“ antworten.
+Auf eine ggf. auftauchende Systemmeldung „<b>TransektCount reagiert nicht</b>“ bitte mit „<b><font color="#D9FDD9">Warten</font></b>“ antworten.
 <br><br><br>
 
 <h3><font color=#D9FDD9>4. Weitere Funktionen</font></h3>
@@ -163,34 +198,32 @@ TransektCount speichert die Daten Android-spezifisch in einer internen SQLite-DB
 <br><br>
 Ab App-Version 5.0.6 werden auch DB-Dateien mit einem Feld zur Erkennung der Datensprache für lokale Artnamen (Deutsch, Englisch, Französisch, Italienisch oder Spanisch) exportiert. Für eine zuvor erzeugte DB-Datei sollte nach deren Import zwecks korrekter Weiterverarbeitung die korrekte Datensprache per „<b><font color="#D9FDD9">Einstellungen</font></b>“ gewählt werden.
 <br><br>
-Mit „<b><font color="#D9FDD9">Import Basis-DB</font></b>“ kann eine vorhandene Basis-DB-Datei ausgewählt und eingelesen werden, die als Vorlage für ein Transekt exportiert wurde.<
-<br><br>
-Beim <b>Datenexport</b> wird der Transektname (falls in den Metadaten vorhanden) in den Dateinamen eingefügt. Dabei werden alle Zeichen entfernt, die den Dateinamen-Konventionen widersprechen.
+Mit „<b><font color="#D9FDD9">Import Basis-DB</font></b>“ kann eine vorhandene Basis-DB-Datei ausgewählt und eingelesen werden, die als Vorlage für ein Transekt exportiert wurde und mit “<b>transektcount0</b>“ beginnt.<
 <br><br>
 Mit „<b><font color="#D9FDD9">Export Basis-DB</font></b>“ kann die interne DB als Basis-DB „<b>transektcount0_ds_Tr-Nr.db</b>“, d. h. ohne begehungsspezifische Daten nach „<b>Documents/TransektCount</b>“ exportiert werden. Das ist sinnvoll, wenn dauerhaft Änderungen an der Transektstruktur vorgenommen oder Arten gelöscht oder neu hinzugefügt wurden.
 <br><br>
-Mit „<b><font color="#D9FDD9">Import DB</font></b>“ kann eine entsprechend benannte TransektCount-DB ausgewählt und in die App geladen werden.<br>
+Mit „<b><font color="#D9FDD9">Import DB</font></b>“ kann eine entsprechend benannte TransektCount-DB, die auch Zähldaten enthält, ausgewählt und in die App geladen werden.<br>
 <b><font color=#2C87FD>Merke:</font></b> Der DB-Dateiname muss dazu immer mit der exakten Zeichenfolge „<b>transektcount_</b>“ beginnen (z. B.: „<b>transektcount_de_NW-5309-03.db</b>“), ansonsten kann die Datei nicht importiert werden.
 <br><br>
-„<b><font color="#D9FDD9">Export akt. DB</font></b>“ schreibt eine Kopie der DB mit allen momentan enthaltenen Daten in die Datei „<b>transektcount_ds_StartDatum_Tr-Nr.db</b>“ ins Verzeichnis „<b>Documents/TransektCount</b>“. Falls in den Metadaten vorhanden werden Datum und Zeitpunkt des Begehungsstarts in den Dateinamen eingefügt. Anderenfalls wird das aktuelle Datum verwendet. Die Transektbezeichnung wird eingefügt, falls sie unter Metadaten existiert und ggf. um Zeichen bereinigt, die den Dateinamen-Konventionen widersprechen.
+„<b><font color="#D9FDD9">Export akt. DB</font></b>“ schreibt eine Kopie der DB mit allen momentan enthaltenen Daten in die Datei „<b>transektcount_ds_StartDatum_Tr-Nr.db</b>“ ins Verzeichnis „<b>Documents/TransektCount</b>“. Falls in den Metadaten vorhanden werden Transektbezeichnung, Datum und Zeitpunkt des Begehungsstarts in den Dateinamen eingefügt. Fehlt das Startdatum, wird das aktuelle Datum verwendet. Die Transektbezeichnung wird ggf. um Zeichen bereinigt, die den Dateinamen-Konventionen widersprechen.
 <br><br>
-Mit „<b><font color="#D9FDD9">Import Speziesliste</font></b>“ kann eine vorhandene Speziesliste ausgewählt und importiert werden. Beim Import bleiben die Metadaten erhalten, jedoch werden alle Zähldaten gelöscht. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden.<br>
+Mit „<b><font color="#D9FDD9">Import Speziesliste</font></b>“ kann eine vorhandene Speziesliste ausgewählt und importiert werden. Beim Import bleiben die Metadaten erhalten, jedoch werden alle Zähldaten gelöscht. Falls die App TourCount installiert ist, können die exportierten Spezieslisten wechselseitig importiert werden.
+<br><br>
 Ab App-Version 5.0.5 wurde die Struktur der Speziesliste um die Angabe der Datensprache ergänzt. Als Datensprache können Deutsch, Englisch, Französisch, Italienisch oder Spanisch genutzt werden. Soweit lokale Artnamen aufgefunden werden konnten, sind sie für die in der App vorhandenen Arten enthalten.<br>
 Beim Importieren einer Artenliste, die für oder mit älteren Versionen erstellt wurde, gibt es einen Haken. Damit alles wie erwartet funktioniert, müssen Sie die richtige Datensprache nach dem Import in den Einstellungen manuell festlegen.<br>
-<b><font color=#2C87FD>Merke:</font></b> Der Dateiname einer Speziesliste muss immer mit „species_“ beginnen, sonst kann die Datei nicht importiert werden.
+<b><font color=#2C87FD>Merke:</font></b> Der Import einer Speziesliste löscht alle aktuellen Zähldaten, und der Dateiname einer Speziesliste muss immer mit „<b>species_</b>“ beginnen, sonst kann die Datei nicht importiert werden.
 <br><br>
-Mit „<b><font color="#D9FDD9">Export Speziesliste</font></b>“ kann die aktuelle Speziesliste als CSV-Datei (CSV = Comma Separated Values Textdatei) „<b>species_ds_Tr-Nr_AktDatum.csv</b>“ exportiert werden.
+Mit „<b><font color="#D9FDD9">Export Speziesliste</font></b>“ kann die aktuelle Speziesliste als CSV-Datei (CSV = Comma Separated Values Textdatei) „<b>species_ds_Tr-Nr_AktDatum.csv</b>“ exportiert werden. Dabei wird auch hier die Transektbezeichnung eingefügt falls sie unter Metadaten existiert und ggf. um Zeichen bereinigt, die den Dateinamen-Konventionen widersprechen.
 <br><br>
-Wurde eine Speziesliste importiert, die aus einer App-Version < 5.0.5 exportiert wurde, sollte deren Datensprache unter Einstellungen eingestellt werden und die Liste erneut exportiert werden. Dann wird deren Datensprache zukünftig automatisch erkannt und gesetzt.
+Wurde eine Speziesliste importiert, die aus einer App-Version < 5.0.5 exportiert wurde, kann deren Datensprache unter Einstellungen eingestellt werden und die Liste erneut exportiert werden. Dann wird deren Datensprache zukünftig automatisch erkannt und gesetzt.
 <br><br>
 „<b><font color="#D9FDD9">„Import GPS-Track</font></b>“ lädt eine vorbereitete gpx-Track-Datei (z. B. <b>transektcount_t1.gpx</b>) aus dem Verzeichnis „<b>Documents/TransektCount</b>“. Unter <b>5. GPS-Nutzung</b> wird beschrieben, wie eine gpx-Datei erzeugt und verwendet werden kann.
 <br><br>
-Die Funktionen „<b><font color="#D9FDD9">Export d. Ergebnisse (xlsx)</font></b>“ und „<b><font color="#D9FDD9">Export d. Ergebnisse (csv)</font></b>“ scheiben die Metadaten und Zählergebnisse als aufbereitete Excel-Tabelle „<b>Transekt_ds_StartDatum_Tr-Nr_as.xlsx</b>“ bzw. Komma-separierte „<b>.csv</b>“-Textdatei ins Verzeichnis „<b>Documents/TransektCount</b>“. Es wird vorzugsweise das Startdatum der Begehung, ansonsten das aktuelle Datum in die Dateinamen übernommen.
+Die Funktionen „<b><font color="#D9FDD9">Export d. Ergebnisse (xlsx)</font></b>“ und „<b><font color="#D9FDD9">Export d. Ergebnisse (csv)</font></b>“ scheiben die Metadaten und Zählergebnisse als aufbereitete Excel-Tabelle „<b>Transekt_ds_StartDatum_Tr-Nr_as.xlsx</b>“ bzw. als strukturierte, Komma-separierte „<b>.csv</b>“-Textdatei ins Verzeichnis „<b>Documents/TransektCount</b>“. Es wird, falls vorhanden, das Startdatum der Begehung, ansonsten das aktuelle Datum in die Dateinamen übernommen.
 <br><br>
-Die Tabelle kann vorher per „<b>Sortierung der Ergebnisse</b>“-Option in den TransektCount Einstellungen nach Speziesnamen, -codes und Abschnitten geordnet aufbereitet werden. Das vereinfacht die Eingabe je nach Design des Eingabeformulars einer Monitoring-Web-Seite, wie <br>
-https://web.app.ufz.de/tagfalter-monitoring/.
+Zuvor kann die Tabelle zur einfacheren Eingabe in das Eingabeformular einer Monitoring-Web-Seite, wie https://web.app.ufz.de/tagfalter-monitoring/, per „<b>Sortierung der Ergebnisse</b>“-Option in den TransektCount Einstellungen angepasst werden. Die Ausgabe-Sortieroptionen betreffen die Zähldaten der Tabelle und sind: Speziesnamen, Speziescodes sowie Abschnitte + Speziesnamen und Abschnitte + Speziescodes.
 <br><br>
-Die exportierten Ergebnisdateien können in einer Android-Tabellenkalkulations-App, wie Collabora (Open Source, kostenlos, basiert auf LibreOffice) angesehen und eingeschränkt auch bearbeitet werden. Sie ist erhältlich z.B. im Collabora Office Store (eine zusätzliche Paketquelle im F-Droid App-Store), im Play Store oder direkt unter https://www.collaboraoffice.com/downloads/).
+Die exportierten Ergebnisdateien können in einer Android-Tabellenkalkulations-App, wie Collabora (Open Source, kostenlos, basiert auf LibreOffice) angesehen und eingeschränkt auch bearbeitet werden. Sie ist erhältlich im F-Droid App-Store oder im Play Store.
 <br><br>
 Die exportierten <b>.xlsx</b>- oder <b>.csv</b>-Ergebnisdateien können auch für die weitere Bearbeitung auf einen PC übertragen und in einer Tabellenkalkulation geladen bzw. importiert werden (getestet mit MS Excel, LibreOffice Calc und Softmaker PlanMaker).
 <br><br>
@@ -205,9 +238,9 @@ Unter „<b><font color="#D9FDD9">Lizenzen</font></b>“ sind die Lizenzbestimmu
 <br><br>
 Das Optionsmenü der Zählerseite hat eine <b>Fotofunktion</b> um die Kamera möglichst schnell zu starten, ohne TransektCount zu verlassen. Dort lässt sich auch eine <b>Mitteilungsfunktion</b> aufrufen, um eine TransektCount-spezifische Nachricht über SMS oder E-Mail versenden zu können.
 <br><br>
-Optional wird die Zähler-Ansicht temporär per <b>Näherungssensors</b> ausgeschaltet, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn es wieder normal genutzt wird.
+Optional wird die Zähler-Ansicht temporär per <b>Näherungssensors</b> ausgeschaltet, wenn das Handy eingesteckt oder nahe am Körper gehalten wird. Das spart Energie, verhindert versehentliche Eingaben und bringt die App augenblicklich zurück, wenn sie wieder genutzt wird.
 <br><br>
-In der App erscheinen verschiedene, eingefärbte Kurz-Meldungen in 4 Kategorien:<br><br>
+In der App erscheinen verschiedene, eingefärbte <b>Kurz-Meldungen</b> in 4 Kategorien:<br><br>
 - <b><font color="#E91E63">Fehler</font></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (z. B. Bei einem Datenbank-Problem).<br>
 - <b><font color="#FF9800">Warnung</font></b> (z. B. bei einer unzulässigen Eingabe).<br>
 - <b><font color="#2C87FD">Hinweis</font></b>&nbsp; (z. B. wenn etwas länger dauert).<br>
@@ -215,7 +248,7 @@ In der App erscheinen verschiedene, eingefärbte Kurz-Meldungen in 4 Kategorien:
 <br><br><br>
 
 <h3><font color=#D9FDD9>5. GPS-Nutzung</font></h3>
-Die automatische Abschnittserkennung im Transekt geschieht durch Vergleich des aktuellen Standpunkts mit den Track-Koordinaten der Transektabschnitte in einer importierten transektcount_xxx.gpx-Datei. Ist der momentane Standpunkt nicht weiter als z.B. 5 m von einem Abschnitts-Trackpunkt entfernt, wird der Abschnitt für die Registrierung vorgeschlagen. GPS-Ungenauigkeiten müssen dabei ggf. in Kauf genommen werden, allerdings sind moderne Smartphones inzwischen sehr genau.
+Die automatische Abschnittserkennung im Transekt geschieht durch Vergleich des aktuellen Standorts mit den Track-Koordinaten der Transektabschnitte in einer importierten transektcount_xxx.gpx-Datei. Ist der momentane Standpunkt nicht weiter als z.B. 5 m von einem Abschnitts-Trackpunkt entfernt, wird der Abschnitt für die Registrierung vorgeschlagen. GPS-Ungenauigkeiten müssen dabei ggf. in Kauf genommen werden, allerdings sind moderne Smartphones inzwischen sehr genau.
 <br><br>
 Der tolerierte Abstand zum Track „<b><font color="#D9FDD9">Max. Distanz der Track-Abweichung</font></b>“ kann zur Anpassung an die GPS-Genauigkeit des Geräts zwischen 2 und 10 m (5 m voreingestellt) eingestellt werden.
 <br><br>
@@ -225,14 +258,14 @@ Für einen Kompromiss zwischen Performanz und Energieverbrauch können die „<b
 <h4><font color=#D9FDD9>5.1 Erzeugung der Track-Datei für TransektCount</font></h4>
 Die Aufzeichnung einer Transektstrecke kann mit einer kostenlosen Smartphone-App wie CoMaps oder einer anderen Wanderkarten-App erfolgen, die die aufgezeichnete Strecke hinreichend genau im GPX-Format exportieren kann. Es ist ratsam, die Transektstrecke mehrfach per Smartphone vor Ort aufzuzeichnen. Die aufgezeichnete Strecke sollte sich mit der Wegführung in der Karte decken. Abweichungen, die bei wiederholten Aufzeichnungen der Transektstrecke ähnlich sind, lassen auf Ungenauigkeiten in der Karte schließen.
 <br><br>
-Zusätzlich können an den Abschnittsgrenzen benannte Wegpunkte bei der Aufzeichnung gesetzt werden. Die Aufzeichnungen sollen zur Orientierung für die anschließend manuell zu zeichnenden Abschnitts-Tracks dienen.
+Zusätzlich können an den Abschnittsgrenzen benannte Wegpunkte bei der Aufzeichnung gesetzt werden. Die Aufzeichnungen sollen zur Orientierung für die anschließend zwecks hinreichender Genauigkeit manuell zu zeichnenden Abschnitts-Tracks dienen.
 <br><br>
 <b><font color="#D9FDD9">Unter Windows:</font></b><br>
 Sie können das kostenlose Programm <b><font color="#D9FDD9">BaseCamp</font></b> von Garmin verwenden. Laden Sie eine geeignete kostenlose Karte auf Basis von OpenStreetMap. Importieren Sie die aufgezeichneten GPX-Track(s) des Transekts.
 <br><br>
 Das manuelle Zeichnen der Track-Abschnitte in BaseCamp sollte bei <b><font color="#D9FDD9">höchstmöglichem Zoom</font></b> vorgenommen werden, da dann beim Zeichnen eines Tracks optimale Abstände von ca. 2 m zwischen den einzelnen Trackpunkten erzielt werden können. Damit wird eine hinreichende Genauigkeit für den Koordinatenabgleich zur Abschnittserkennung innerhalb der App erzielt.
 <br><br>
-Die Transektabschnitte müssen als neue Abschnitts-Tracks in <b><font color="#D9FDD9">gleicher Anzahl und Reihenfolge</font></b> gezeichnet werden, wie sie in TransektCount gelistet sind. Beim Import werden sie in dieser Reihenfolge den vorhandenen Transektabschnitten zugeordnet. Eine Benennung wie in <b><font color="#D9FDD9">Abb. 16</font></b> dient hier nur der eigenen Übersicht.
+Die Transektabschnitte müssen als neue Abschnitts-Tracks in <b><font color="#D9FDD9">gleicher Anzahl und Reihenfolge</font></b> gezeichnet werden, wie sie in TransektCount gelistet sind. Beim Import werden sie in dieser Reihenfolge den vorhandenen Transektabschnitten zugeordnet. Eine Benennung dient nur der eigenen Übersicht und wird von TransektCount ignoriert.
 <br><br>
 Zeichnen Sie jeden Abschnitts-Track mit einem <b><font color="#D9FDD9">Abstand der einzelnen Track-Punkte von ca. 2 m</font></b> über die gedachte, gemittelte Linie der aufgezeichneten Strecke. Lassen Sie jeweils zwischen den verschiedenen Abschnitts-Tracks eine <b><font color="#D9FDD9">Lücke von ca. 5 m</font></b>.
 <br><br>
@@ -240,37 +273,29 @@ Sind alle Abschnitts-Tracks fertig, löschen sie dann die zuvor aus dem Snartpho
 <br><br>
 Die gezeichneten Abschnitts-Tracks können dann als Ergebnis in die Datei „<b>transektcount_xxx.gpx</b>“ exportiert werden, wobei die einleitende Zeichenfolge „<b><font color="#D9FDD9">transektcount</font></b>“ signifikant ist und „<b><font color="#D9FDD9">xxx</font></b>“ als Platzhalter für eine Transekt-Bezeichnung steht.
 <br><br>
-<b>Abb. 16</b> zeigt einen Screenshot von BaseCamp mit den Tracks der Abschnitte eines Beispiel-Transekts.
-<br><br>
 <b><font color="#D9FDD9">Unter Linux:</font></b><br>
 Sie können das Programm <b><font color="#D9FDD9">Viking</font></b> dafür benutzen. Dessen Benutzeroberfläche unterscheidet sich zwar deutlich von BaseCamp, das Ergebnis ist aber ebenso verwendbar. Die Vorgehensweise entspricht der wie in „<b><font color="#D9FDD9">Unter Windows</font></b>“ beschriebenen.
 <br><br>
 In Viking muss das Ergebnis als „<b><font color="#D9FDD9">Single GPX File</font></b>“ exportiert werden.
 <br><br><br>
 
-<h4><font color=#D9FDD9>5.2 Import der Track-Datei in TransektCount</font></h4>
+<h4><font color=#D9FDD9>5.2 Nutzung der Track-Datei in TransektCount</font></h4>
 Die neu erzeugte GPX-Track-Datei ins Smartphone nach „<b><font color="#D9FDD9">Documents/TransektCount</font></b>“ kopieren. Dort wird sie von der App zwecks Import erwartet.
 <br><br>
 Ist die Track-Datei korrekt erzeugt, wird sie vom Befehl „<b><font color="#D9FDD9">Import GPS-Track</font></b>“ mit der Meldung „Die GPX-Datei wurde importiert.“ quittiert.
 <br><br>
 Als letztes unter Einstellungen den Punkt „<b><font color="#D9FDD9">Transektabschnitt per GPS erkennen</font></b>“ aktivieren und ggf. die Empfindlichkeit bei „<b><font color="#D9FDD9">Maximal erlaubte GPS-Abweichung</font></b>“ anpassen.
-<br><br><br>
-
-<h4><font color=#D9FDD9>5.3 Hinweise</font></h4>
-Es ist ratsam, die Transektstrecke mehrfach per Smartphone vor Ort aufzuzeichnen. Die Tracks sollten sich mit der Wegführung in der Karte decken. Hierzu ggf. die Trackzeichnung bei Ausreißern korrigieren. Abweichungen, die bei mehreren Aufzeichnungen der Transektstrecke ähnlich sind, lassen auf Ungenauigkeiten der Karte schließen. 
 <br><br>
-Das manuelle Zeichnen der Trackabschnitte in BaseCamp sollte bei hohem Zoom vorgenommen werden, da dann optimale Abstände von ca. 2 m zwischen den einzelnen Trackpunkten erzielt werden und eine hinreichende Genauigkeit für den Koordinatenabgleich zur Abschnittsbestimmung innerhalb der App erzielt wird.
+Da die Anzahl der Transektabschnitte gleich der Anzahl der Tracks sein muss, ist das Hinzufügen eines neuen Transektabschnitts nur solange möglich, wie noch keine Tracks importiert sind. Daher müssen vor dem Hinzufügen eines neuen Transektabschnitts die Tracks aus der Datenbank mit der Funktion „<b>Lösche GPS-Track-Daten</b>“ gelöscht werden.
 <br><br>
-Die Transektabschnitte sollten in gleicher Anzahl und Reihenfolge gezeichnet werden, wie sie in TransektCount gelistet sind. Beim Import werden sie in dieser Reihenfolge den vorhandenen Transektabschnitten zugeordnet. 
+Nach Hinzufügen eines neuen Abschnitts muss auch die dem Transekt zugeordnete Track-Datei mit dem Track des neuen Abschnitts in BaseCamp, Viking oder ähnlicher Anwendung ergänzt und in TransektCount neu importiert werden.
 <br><br>
-Da die Anzahl der Transektabschnitte gleich der Anzahl der Tracks sein muss, ist das Hinzufügen eines neuen Transektabschnitts nur solange möglich, wie noch keine Tracks importiert sind. Daher müssen vor dem Hinzufügen eines neuen Transektabschnitts die Tracks aus der Datenbank mit der Funktion „Lösche GPS-Track-Daten“ gelöscht werden. 
-<br><br>
-Nach Hinzufügen eines neuen Abschnitts muss auch die dem Transekt-zugeordnete Track-Datei mit dem Track des neuen Abschnitts in BaseCamp, Viking oder ähnlicher Anwendung ergänzt und in TransektCount neu importiert werden. 
-<br><br>
-Bei der Löschung eines Transektabschnitts wird auch der zugehörige Abschnitts-Track in der Datenbank gelöscht.
+Bei der Löschung eines Transektabschnitts wird auch der zugehörige Abschnitts-Track in der internen Datenbank gelöscht.
 <br><br><br>
 
 <h3><font color=#D9FDD9>6. Meldungen</font></h3>
+Beim Löschversuch eines Abschnitts mit durchgekreuztem Löschsymbol aus der Abschnittsliste:
+<br><br>
 <font color=#D9FDD9>Abschnitt nn: Löschen dieses Abschnitts ist nicht möglich, da die interne DB korrumpiert würde. Nur der zuletzt erzeugte Abschnitt kann gelöscht werden. (Falls auch der zuletzt erzeugte Abschnitt nicht löschbar ist, hat Ihr Gerät leider nicht genug Ressourcen um diese Löschfunktion auszuführen.)</font>
 <br><br>
 Bei aktuellen Modellen sollte diese Einschränkung allerdings erst bei sehr vielen Transektabschnitten vorkommen. Andere Funktionen der App sind von dieser Einschränkung nicht betroffen.

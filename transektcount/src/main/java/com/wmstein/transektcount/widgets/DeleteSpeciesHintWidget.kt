@@ -1,5 +1,28 @@
 package com.wmstein.transektcount.widgets
 
+/***************************************************************************************************
+ * Copyright © 2024-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * DeleteSpeciesHintWidget is used by DelSpeciesActivity,
+ * shows single Hint line with search field,
+ *
+ * Created by wmstein on 2024-12-17
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -10,13 +33,6 @@ import com.wmstein.transektcount.R
 
 import java.util.Objects
 
-/********************************************************
- * DeleteSpeciesHintWidget is used by DelSpeciesActivity,
- * shows single Hint line with search field,
- *
- * Created by wmstein on 2024-12-17
- * Last edited on 2026-08-03
- */
 class DeleteSpeciesHintWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private var searchD: EditText
 

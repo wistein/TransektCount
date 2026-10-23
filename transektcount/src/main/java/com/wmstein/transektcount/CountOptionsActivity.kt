@@ -1,5 +1,38 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountOptionsActivity
+ * Edit options for counted species.
+ * Uses CountOptionsWidget.kt, CountOptionsLhWidget.kt,
+ * widget_options.xml, widget_options_lh.xml and
+ * CountOptionsNotesWidget.
+ *
+ * Parts derived from CountOptionsActivity.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+ *
+ * Supplemented with functions for transect counters.
+ *
+ * Adapted and changed by wmstein since 2016-02-18,
+ * last edited in Java on 2023-05-08,
+ * converted to Kotlin on 2023-07-17,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -27,21 +60,6 @@ import com.wmstein.transektcount.widgets.CountOptionsNotesWidget
 import com.wmstein.transektcount.widgets.CountOptionsWidget
 import com.wmstein.transektcount.widgets.CountOptionsLhWidget
 
-/************************************************************
- * CountOptionsActivity
- * Edit options for counted species.
- * Uses CountOptionsWidget.kt, CountOptionsLhWidget.kt,
- * widget_options.xml, widget_options_lh.xml and
- * CountOptionsNotesWidget.
- *
- * Based on CountOptionsActivity.java by milo on 05/05/2014.
- * Supplemented with functions for transect external counters.
- *
- * Adapted and changed by wmstein since 2016-02-18,
- * last edited in Java on 2023-05-08,
- * converted to Kotlin on 2023-07-17,
- * last edited on 2026-08-12.
- */
 class CountOptionsActivity : AppCompatActivity() {
     private var count: Count? = null
     private var countId = 0
@@ -51,9 +69,9 @@ class CountOptionsActivity : AppCompatActivity() {
     private var sectionName = ""
     private var staticWidgetArea: LinearLayout? = null
     private var dynamicWidgetArea: LinearLayout? = null
-    private var cow: CountOptionsWidget? = null
-    private var cowLh: CountOptionsLhWidget? = null
-    private var conw: CountOptionsNotesWidget? = null
+    private var countOW: CountOptionsWidget? = null
+    private var countOWLh: CountOptionsLhWidget? = null
+    private var countONW: CountOptionsNotesWidget? = null
 
     private var sf1i = 0
     private var sf2i = 0
@@ -79,14 +97,14 @@ class CountOptionsActivity : AppCompatActivity() {
     // Preferences
     private var prefs = TransektCountApplication.getPrefs()
     private var brightPref = false
-    private var lhandPref = false
+    private var leftHandPref = false
     private var awakePref = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "89, onCreate")
+            Log.i(TAG, "107, onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -95,7 +113,7 @@ class CountOptionsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_count_options)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.count_options)) { v, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.count_options_view)) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view. This solution sets
             // only the bottom, left, and right dimensions, but you can apply whichever
@@ -143,11 +161,11 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "146, onResume")
+            Log.i(TAG, "164, onResume")
 
         brightPref = prefs.getBoolean("pref_bright", true)
         awakePref = prefs.getBoolean("pref_awake", true)
-        lhandPref = prefs.getBoolean("pref_left_hand", false)
+        leftHandPref = prefs.getBoolean("pref_left_hand", false)
 
         // Set full brightness of screen
         if (brightPref) {
@@ -174,221 +192,221 @@ class CountOptionsActivity : AppCompatActivity() {
         // Set up the static widgets in the following order
         //  1. Current count values (internal counters)
         //  2. Current count values (external counters)
-        if (lhandPref) {
-            cowLh = CountOptionsLhWidget(this, null)
-            sf1i = cowLh!!.parameterValuef1i
-            sf2i = cowLh!!.parameterValuef2i
-            sf3i = cowLh!!.parameterValuef3i
-            spi = cowLh!!.parameterValuepi
-            sli = cowLh!!.parameterValueli
-            sei = cowLh!!.parameterValueei
+        if (leftHandPref) {
+            countOWLh = CountOptionsLhWidget(this, null)
+            sf1i = countOWLh!!.parameterValuef1i
+            sf2i = countOWLh!!.parameterValuef2i
+            sf3i = countOWLh!!.parameterValuef3i
+            spi = countOWLh!!.parameterValuepi
+            sli = countOWLh!!.parameterValueli
+            sei = countOWLh!!.parameterValueei
 
-            sf1e = cowLh!!.parameterValuef1e
-            sf2e = cowLh!!.parameterValuef2e
-            sf3e = cowLh!!.parameterValuef3e
-            spe = cowLh!!.parameterValuepe
-            sle = cowLh!!.parameterValuele
-            see = cowLh!!.parameterValueee
+            sf1e = countOWLh!!.parameterValuef1e
+            sf2e = countOWLh!!.parameterValuef2e
+            sf3e = countOWLh!!.parameterValuef3e
+            spe = countOWLh!!.parameterValuepe
+            sle = countOWLh!!.parameterValuele
+            see = countOWLh!!.parameterValueee
         } else {
-            cow = CountOptionsWidget(this, null)
-            sf1i = cow!!.parameterValuef1i
-            sf2i = cow!!.parameterValuef2i
-            sf3i = cow!!.parameterValuef3i
-            spi = cow!!.parameterValuepi
-            sli = cow!!.parameterValueli
-            sei = cow!!.parameterValueei
+            countOW = CountOptionsWidget(this, null)
+            sf1i = countOW!!.parameterValuef1i
+            sf2i = countOW!!.parameterValuef2i
+            sf3i = countOW!!.parameterValuef3i
+            spi = countOW!!.parameterValuepi
+            sli = countOW!!.parameterValueli
+            sei = countOW!!.parameterValueei
 
-            sf1e = cow!!.parameterValuef1e
-            sf2e = cow!!.parameterValuef2e
-            sf3e = cow!!.parameterValuef3e
-            spe = cow!!.parameterValuepe
-            sle = cow!!.parameterValuele
-            see = cow!!.parameterValueee
+            sf1e = countOW!!.parameterValuef1e
+            sf2e = countOW!!.parameterValuef2e
+            sf3e = countOW!!.parameterValuef3e
+            spe = countOW!!.parameterValuepe
+            sle = countOW!!.parameterValuele
+            see = countOW!!.parameterValueee
         }
         countsInit = if (sf1i + sf2i + sf3i + spi + sli + sei + sf1e + sf2e + sf3e + spe + sle + see > 0)
             true // has initial counts
         else
             false // no count so far
 
-        if (lhandPref) {
-            cowLh!!.setInstructionsf1i(
+        if (leftHandPref) {
+            countOWLh!!.setInstructionsf1i(
                 String.format(
                     getString(R.string.editCountValuef1i),
                     count!!.count_f1i
                 )
             )
-            cowLh!!.setInstructionsf2i(
+            countOWLh!!.setInstructionsf2i(
                 String.format(
                     getString(R.string.editCountValuef2i),
                     count!!.count_f2i
                 )
             )
-            cowLh!!.setInstructionsf3i(
+            countOWLh!!.setInstructionsf3i(
                 String.format(
                     getString(R.string.editCountValuef3i),
                     count!!.count_f3i
                 )
             )
-            cowLh!!.setInstructionspi(
+            countOWLh!!.setInstructionspi(
                 String.format(
                     getString(R.string.editCountValuepi),
                     count!!.count_pi
                 )
             )
-            cowLh!!.setInstructionsli(
+            countOWLh!!.setInstructionsli(
                 String.format(
                     getString(R.string.editCountValueli),
                     count!!.count_li
                 )
             )
-            cowLh!!.setInstructionsei(
+            countOWLh!!.setInstructionsei(
                 String.format(
                     getString(R.string.editCountValueei),
                     count!!.count_ei
                 )
             )
-            cowLh!!.setInstructionsf1e(
+            countOWLh!!.setInstructionsf1e(
                 String.format(
                     getString(R.string.editCountValuef1e),
                     count!!.count_f1e
                 )
             )
-            cowLh!!.setInstructionsf2e(
+            countOWLh!!.setInstructionsf2e(
                 String.format(
                     getString(R.string.editCountValuef2e),
                     count!!.count_f2e
                 )
             )
-            cowLh!!.setInstructionsf3e(
+            countOWLh!!.setInstructionsf3e(
                 String.format(
                     getString(R.string.editCountValuef3e),
                     count!!.count_f3e
                 )
             )
-            cowLh!!.setInstructionspe(
+            countOWLh!!.setInstructionspe(
                 String.format(
                     getString(R.string.editCountValuepe),
                     count!!.count_pe
                 )
             )
-            cowLh!!.setInstructionsle(
+            countOWLh!!.setInstructionsle(
                 String.format(
                     getString(R.string.editCountValuele),
                     count!!.count_le
                 )
             )
-            cowLh!!.setInstructionsee(
+            countOWLh!!.setInstructionsee(
                 String.format(
                     getString(R.string.editCountValueee),
                     count!!.count_ee
                 )
             )
-            cowLh!!.parameterValuef1i = count!!.count_f1i
-            cowLh!!.parameterValuef2i = count!!.count_f2i
-            cowLh!!.parameterValuef3i = count!!.count_f3i
-            cowLh!!.parameterValuepi = count!!.count_pi
-            cowLh!!.parameterValueli = count!!.count_li
-            cowLh!!.parameterValueei = count!!.count_ei
-            cowLh!!.parameterValuef1e = count!!.count_f1e
-            cowLh!!.parameterValuef2e = count!!.count_f2e
-            cowLh!!.parameterValuef3e = count!!.count_f3e
-            cowLh!!.parameterValuepe = count!!.count_pe
-            cowLh!!.parameterValuele = count!!.count_le
-            cowLh!!.parameterValueee = count!!.count_ee
-            staticWidgetArea!!.addView(cowLh)
+            countOWLh!!.parameterValuef1i = count!!.count_f1i
+            countOWLh!!.parameterValuef2i = count!!.count_f2i
+            countOWLh!!.parameterValuef3i = count!!.count_f3i
+            countOWLh!!.parameterValuepi = count!!.count_pi
+            countOWLh!!.parameterValueli = count!!.count_li
+            countOWLh!!.parameterValueei = count!!.count_ei
+            countOWLh!!.parameterValuef1e = count!!.count_f1e
+            countOWLh!!.parameterValuef2e = count!!.count_f2e
+            countOWLh!!.parameterValuef3e = count!!.count_f3e
+            countOWLh!!.parameterValuepe = count!!.count_pe
+            countOWLh!!.parameterValuele = count!!.count_le
+            countOWLh!!.parameterValueee = count!!.count_ee
+            staticWidgetArea!!.addView(countOWLh)
         } else {
-            cow!!.setInstructionsf1i(
+            countOW!!.setInstructionsf1i(
                 String.format(
                     getString(R.string.editCountValuef1i),
                     count!!.count_f1i
                 )
             )
-            cow!!.setInstructionsf2i(
+            countOW!!.setInstructionsf2i(
                 String.format(
                     getString(R.string.editCountValuef2i),
                     count!!.count_f2i
                 )
             )
-            cow!!.setInstructionsf3i(
+            countOW!!.setInstructionsf3i(
                 String.format(
                     getString(R.string.editCountValuef3i),
                     count!!.count_f3i
                 )
             )
-            cow!!.setInstructionspi(
+            countOW!!.setInstructionspi(
                 String.format(
                     getString(R.string.editCountValuepi),
                     count!!.count_pi
                 )
             )
-            cow!!.setInstructionsli(
+            countOW!!.setInstructionsli(
                 String.format(
                     getString(R.string.editCountValueli),
                     count!!.count_li
                 )
             )
-            cow!!.setInstructionsei(
+            countOW!!.setInstructionsei(
                 String.format(
                     getString(R.string.editCountValueei),
                     count!!.count_ei
                 )
             )
-            cow!!.setInstructionsf1e(
+            countOW!!.setInstructionsf1e(
                 String.format(
                     getString(R.string.editCountValuef1e),
                     count!!.count_f1e
                 )
             )
-            cow!!.setInstructionsf2e(
+            countOW!!.setInstructionsf2e(
                 String.format(
                     getString(R.string.editCountValuef2e),
                     count!!.count_f2e
                 )
             )
-            cow!!.setInstructionsf3e(
+            countOW!!.setInstructionsf3e(
                 String.format(
                     getString(R.string.editCountValuef3e),
                     count!!.count_f3e
                 )
             )
-            cow!!.setInstructionspe(
+            countOW!!.setInstructionspe(
                 String.format(
                     getString(R.string.editCountValuepe),
                     count!!.count_pe
                 )
             )
-            cow!!.setInstructionsle(
+            countOW!!.setInstructionsle(
                 String.format(
                     getString(R.string.editCountValuele),
                     count!!.count_le
                 )
             )
-            cow!!.setInstructionsee(
+            countOW!!.setInstructionsee(
                 String.format(
                     getString(R.string.editCountValueee),
                     count!!.count_ee
                 )
             )
-            cow!!.parameterValuef1i = count!!.count_f1i
-            cow!!.parameterValuef2i = count!!.count_f2i
-            cow!!.parameterValuef3i = count!!.count_f3i
-            cow!!.parameterValuepi = count!!.count_pi
-            cow!!.parameterValueli = count!!.count_li
-            cow!!.parameterValueei = count!!.count_ei
-            cow!!.parameterValuef1e = count!!.count_f1e
-            cow!!.parameterValuef2e = count!!.count_f2e
-            cow!!.parameterValuef3e = count!!.count_f3e
-            cow!!.parameterValuepe = count!!.count_pe
-            cow!!.parameterValuele = count!!.count_le
-            cow!!.parameterValueee = count!!.count_ee
-            staticWidgetArea!!.addView(cow)
+            countOW!!.parameterValuef1i = count!!.count_f1i
+            countOW!!.parameterValuef2i = count!!.count_f2i
+            countOW!!.parameterValuef3i = count!!.count_f3i
+            countOW!!.parameterValuepi = count!!.count_pi
+            countOW!!.parameterValueli = count!!.count_li
+            countOW!!.parameterValueei = count!!.count_ei
+            countOW!!.parameterValuef1e = count!!.count_f1e
+            countOW!!.parameterValuef2e = count!!.count_f2e
+            countOW!!.parameterValuef3e = count!!.count_f3e
+            countOW!!.parameterValuepe = count!!.count_pe
+            countOW!!.parameterValuele = count!!.count_le
+            countOW!!.parameterValueee = count!!.count_ee
+            staticWidgetArea!!.addView(countOW)
         }
 
         // Set the widget for species notes
-        conw = CountOptionsNotesWidget(this, null)
-        conw!!.setSpecNotesTitle(getString(R.string.notesSpecies, sectionName))
-        conw!!.spNotes = count!!.notes // Read existing notes into widget
-        staticWidgetArea!!.addView(conw)
+        countONW = CountOptionsNotesWidget(this, null)
+        countONW!!.setSpecNotesTitle(getString(R.string.notesSpecies, sectionName))
+        countONW!!.spNotes = count!!.notes // Read existing notes into widget
+        staticWidgetArea!!.addView(countONW)
     }
     // End of onResume()
 
@@ -423,7 +441,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "426, onPause")
+            Log.i(TAG, "444, onPause")
 
         countDataSource!!.close()
         sectionDataSource!!.close()
@@ -442,7 +460,7 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "445, onStop")
+            Log.i(TAG, "463, onStop")
 
         staticWidgetArea = null
         dynamicWidgetArea = null
@@ -452,39 +470,39 @@ class CountOptionsActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "455, onDestroy")
+            Log.i(TAG, "473, onDestroy")
     }
 
     fun saveData(): Boolean {
-        sf1i = cow!!.parameterValuef1i
+        sf1i = countOW!!.parameterValuef1i
         count!!.count_f1i = sf1i
-        sf2i = cow!!.parameterValuef2i
+        sf2i = countOW!!.parameterValuef2i
         count!!.count_f2i = sf2i
-        sf3i = cow!!.parameterValuef3i
+        sf3i = countOW!!.parameterValuef3i
         count!!.count_f3i = sf3i
-        spi = cow!!.parameterValuepi
+        spi = countOW!!.parameterValuepi
         count!!.count_pi = spi
-        sli = cow!!.parameterValueli
+        sli = countOW!!.parameterValueli
         count!!.count_li = sli
-        sei = cow!!.parameterValueei
+        sei = countOW!!.parameterValueei
         count!!.count_ei = sei
-        sf1e = cow!!.parameterValuef1e
+        sf1e = countOW!!.parameterValuef1e
         count!!.count_f1e = sf1e
-        sf2e = cow!!.parameterValuef2e
+        sf2e = countOW!!.parameterValuef2e
         count!!.count_f2e = sf2e
-        sf3e = cow!!.parameterValuef3e
+        sf3e = countOW!!.parameterValuef3e
         count!!.count_f3e = sf3e
-        spe = cow!!.parameterValuepe
+        spe = countOW!!.parameterValuepe
         count!!.count_pe = spe
-        sle = cow!!.parameterValuele
+        sle = countOW!!.parameterValuele
         count!!.count_le = sle
-        see = cow!!.parameterValueee
+        see = countOW!!.parameterValueee
         count!!.count_ee = see
-        count!!.notes = conw!!.spNotes
+        count!!.notes = countONW!!.spNotes
 
-        val mesg = getString(R.string.saving) + " " + count!!.name + "!"
+        val msg = getString(R.string.saving) + " " + count!!.name + "!"
         Toast.makeText(
-            this, fromHtml("<font color='#008000'>$mesg</font>"),
+            this, fromHtml("<font color='#008000'>$msg</font>"),
             Toast.LENGTH_SHORT
         ).show()
 

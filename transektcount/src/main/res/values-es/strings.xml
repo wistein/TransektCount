@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- strings.xml German strings,
-     last edited 2026-07-16 -->
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     Spanish strings
+
+     Last edited 2026-10-20
+************************************************************************************************ -->
 
 <resources>
 
@@ -11,9 +30,11 @@
     <!-- WelcomeActivity -->
     <string name="back_twice">Vuelve a pulsar para salir</string>
     <string name="cancelButton">Cancelar</string>
+    <string name="yesButton">Sí</string>
     <string name="changeLogTitle">Info de app</string>
     <string name="code_spec">Código de especie</string>
     <string name="confirmDBImport">¿De verdad quieres importar una BD? ¡Se sobrescribirán tus datos actuales!\n\n¡Atención! Si se trata de una versión anterior del fichero, ve después a «Configuración» y comprueba que el idioma de los datos esté correctamente configurado.</string>
+    <string name="confirmBasicDBImport">¿De verdad quieres importar una BD básica? ¡Se sobrescribirán tus datos actuales!\n\n¡Atención! Si se trata de una versión anterior del fichero, ve después a «Configuración» y comprueba que el idioma de los datos esté correctamente configurado.</string>
     <string name="confirmGPSDelete">¿De verdad quieres borrar los datos de la pista?</string>
     <string name="confirmGPSImport">¿Quieres intentar importar el fichero GPS?</string>
     <string name="confirmListImport">¿De verdad quieres importar la lista de especies? ¡Se borrarán tus datos de conteo actuales! Puede tardar más tiempo si las listas son largas.</string>
@@ -31,7 +52,7 @@
     <string name="from">de:</string>
     <string name="importBasisMenu">Importar BD básica</string>
     <string name="importButton">Importar</string>
-    <string name="importDB">La base de datos se ha importado.</string>
+    <string name="importDB">La base de datos se ha importado</string>
     <string name="importFail">¡No se ha podido importar la base de datos!</string>
     <string name="importFileMenu">Importar BD</string>
     <string name="importGPS">Se ha importado el archivo GPX.</string>
@@ -165,14 +186,13 @@
     <string name="changelog_full_title">App-Info (TransektCount Ver.</string>
     <string name="changelog_show_full">más&#8230;</string>
     <string name="changelog_title">¿Qué hay de nuevo?</string>
-    <string name="ok_button">OK</string>
     <string name="title_help_dialog">Ayuda</string>
     <string name="title_license_dialog">Licencias</string>
 
     <!-- Preferences -->
     <string name="pref_alert_sound">Sonido de aviso</string>
     <string name="pref_alert_sound_summ">Reproduce un sonido cuando se muestre información importante.</string>
-    <string name="pref_auto_section">Localizar un segmento de transecto mediante GPS</string>
+    <string name="pref_auto_section">Detectar tramo de transecto por GPS</string>
     <string name="pref_auto_section_summ">Marca automáticamente el segmento actual del transecto mediante GPS (requiere una lista de coordenadas GPX adecuada).</string>
     <string name="pref_awake">Deja la pantalla encendida</string>
     <string name="pref_awake_summ">Evita que el sistema entre en modo de suspensión durante el recuento.</string>
@@ -258,21 +278,22 @@
     <string name="hintTitle">Título</string>
     <string name="hintTotal">Totales</string>
     <string name="newSect">Nueva sección:</string>
+<!--    <string name="askSwitchSect">¿Cargar la nueva sección?\u0020</string> -->
     <string name="no_provider">¡No hay servicio GPS disponible!</string>
     <string name="sect01">Sec. 01</string>
     <string name="totalsIES">Total interno / externo / Tipos:</string>
 
     <!-- Permissions -->
-    <string name="app_settings">Configuración del sistema</string>
-    <string name="dialog_background_loc_message">Si se va a utilizar la aplicación durante recorridos de transectos prolongados, la localización es más fiable con el permiso opcional «Permitir siempre».</string>
-    <string name="dialog_background_loc_title">Autorización opcional solicitada.</string>
-    <string name="dialog_fine_location_message">La identificación de los tramos de transectos requiere la mayor precisión posible.</string>
-    <string name="dialog_fine_location_title">Permite que se registre tu ubicación exacta.</string>
-    <string name="grant_perm_later">La autorización opcional «Permitir siempre» se puede conceder más adelante en la configuración del sistema, si fuera necesario.</string>
+    <string name="dialog_location_title">Permitir el uso de la ubicación</string>
+    <string name="dialog_location_message">Para recibir notificaciones basadas en el GPS al cambiar de sección de transecto, debes conceder permiso de ubicación.\n\nExisten varios modos de uso del GPS: Para TransektCount, selecciona las opciones «Permitir solo mientras se utiliza la aplicación» y «Usar ubicación precisa».\n\nSi deseas una mayor fiabilidad —por ejemplo, al cambiar a otras aplicaciones o cuando un transecto tiene secciones muy separadas entre sí—, debes activar la opción «Permitir siempre» en los ajustes del sistema de Android.</string>
+    <string name="dialog_fine_location_title">Permite que se registre tu ubicación exacta</string>
+    <string name="dialog_fine_location_denied">No ha concedido el permiso de localización.\n\nAhora no es posible señalar el cambio de tramos de transecto mediante GPS.\n\nEl permiso se puede conceder más tarde a través de los ajustes del sistema de Android.</string>
+    <string name="dialog_location_dropped_title">Permiso de ubicación revocado</string>
+    <string name="dialog_location_dropped">Ha retirado el permiso de ubicación.\n\nAhora ya no es posible señalar el cambio de tramos de transecto mediante GPS.\n\nEl permiso solo se puede volver a conceder a través de los ajustes del sistema de Android.</string>
 
-    <string name="dialog_storage_message1">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount\n\npara poder importar y exportar archivos de TransektCount.\n\nDe lo contrario, no se podrán importar ni exportar bases de datos, listas ni resultados.</string>
-    <string name="dialog_storage_message2">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount\n\npara poder importar y exportar archivos de TransektCount.\n\nDespués, vuelve a intentarlo.</string>
-    <string name="dialog_storage_title">Permitir el «Acceso a todos los archivos»\n(solo las específicas de TransektCount).</string>
+    <string name="dialog_storage_message1">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount para poder importar y exportar archivos de TransektCount.\n\nDe lo contrario, no se podrán importar ni exportar bases de datos, listas ni resultados.</string>
+    <string name="dialog_storage_message2">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount para poder importar y exportar archivos de TransektCount.\n\nDespués, vuelve a intentarlo.</string>
+    <string name="dialog_storage_title">Acceso a todos los archivos</string>
     <string name="storage_perm_denied">Falta el permiso de almacenamiento necesario para TransektCount; no es posible guardar.</string>
 
 </resources>

@@ -1,5 +1,29 @@
 package com.wmstein.transektcount.widgets
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountingExternWidget.kt is the interface for widget_counting_e.xml
+ *
+ * Created by wmstein on 2016-12-18,
+ * last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.util.AttributeSet
@@ -17,14 +41,6 @@ import com.wmstein.transektcount.database.Count
 
 import java.util.Objects
 
-/********************************************************************
- * CountingExternWidget.kt is the interface for widget_counting_e.xml
- *
- * Created by wmstein on 18.12.2016.
- * Last edited in Java on 2021-01-26,
- * converted to Kotlin on 2023-06-26,
- * last edited on 2026-08-03
- */
 class CountingExternWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
     var ht: Int = 0
@@ -160,50 +176,50 @@ class CountingExternWidget(context: Context, attrs: AttributeSet?) : RelativeLay
 
     // Count up/down and set value on screen
     fun countUpf1e() {
-        countCountf1e.text = count!!.increase_f1e().toString()
+        countCountf1e.text = count!!.increaseF1e().toString()
     }
 
     fun countDownf1e() {
-        countCountf1e.text = count!!.safe_decrease_f1e().toString()
+        countCountf1e.text = count!!.safeDecreaseF1e().toString()
     }
 
     fun countUpf2e() {
-        countCountf2e.text = count!!.increase_f2e().toString()
+        countCountf2e.text = count!!.increaseF2e().toString()
     }
 
     fun countDownf2e() {
-        countCountf2e.text = count!!.safe_decrease_f2e().toString()
+        countCountf2e.text = count!!.safeDecreaseF2e().toString()
     }
 
     fun countUpf3e() {
-        countCountf3e.text = count!!.increase_f3e().toString()
+        countCountf3e.text = count!!.increaseF3e().toString()
     }
 
     fun countDownf3e() {
-        countCountf3e.text = count!!.safe_decrease_f3e().toString()
+        countCountf3e.text = count!!.safeDecreaseF3e().toString()
     }
 
     fun countUppe() {
-        countCountpe.text = count!!.increase_pe().toString()
+        countCountpe.text = count!!.increasePe().toString()
     }
 
     fun countDownpe() {
-        countCountpe.text = count!!.safe_decrease_pe().toString()
+        countCountpe.text = count!!.safeDecreasePe().toString()
     }
 
     fun countUple() {
-        countCountle.text = count!!.increase_le().toString()
+        countCountle.text = count!!.increaseLe().toString()
     }
 
     fun countDownle() {
-        countCountle.text = count!!.safe_decrease_le().toString()
+        countCountle.text = count!!.safeDecreaseLe().toString()
     }
 
     fun countUpee() {
-        countCountee.text = count!!.increase_ee().toString()
+        countCountee.text = count!!.increaseEe().toString()
     }
 
     fun countDownee() {
-        countCountee.text = count!!.safe_decrease_ee().toString()
+        countCountee.text = count!!.safeDecreaseEe().toString()
     }
 }

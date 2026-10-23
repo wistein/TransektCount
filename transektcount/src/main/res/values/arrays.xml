@@ -1,6 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><!-- last edited 2026-02-16 -->
-<!-- arrays.xml English array strings and butterflies in 5 languages
-     last edited 2026-08-27 -->
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ***********************************************************************************************
+     Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use any of its files except in compliance with the License.
+     You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+****************************************************************************************************
+
+     English array strings and butterfly names in 6 languages
+
+     Last edited 2026-10-23
+************************************************************************************************ -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="pref_bg_entries">
@@ -361,6 +380,83 @@
         <item comment="20000">Neue Art</item>
     </string-array>
 
+    <string-array name="initSpecs_es">
+        <item comment="03998">Zigena de los seis puntos</item>
+        <item comment="06605">-</item>
+        <item comment="06788">Tau emperador</item>
+        <item comment="06843">Esfinge colibrí</item>
+        <item comment="06919">Fronteriza</item>
+        <item comment="06923">Dorada línea corta</item>
+        <item comment="06924">Dorada línea larga</item>
+        <item comment="06930">Dorada difusa</item>
+        <item comment="06955">Apolo</item>
+        <item comment="06958">Podalirio</item>
+        <item comment="06960">Macaón</item>
+        <item comment="06966">Esbelta común</item>
+        <item comment="06973">Aurora</item>
+        <item comment="06993">Blanca del majuelo</item>
+        <item comment="06995">Blanca de la col</item>
+        <item comment="06997">Blanca de Mann</item>
+        <item comment="06998">Blanquita de la col</item>
+        <item comment="07000">Blanca verdinervada</item>
+        <item comment="07015">Amarilla</item>
+        <item comment="07021">-</item>
+        <item comment="07024">Limonera</item>
+        <item comment="07030">Lucina</item>
+        <item comment="07034">Manto común</item>
+        <item comment="07037">Manto de oro</item>
+        <item comment="07039">Manto oscuro</item>
+        <item comment="07047">Topacio</item>
+        <item comment="07049">Nazarena</item>
+        <item comment="07058">Cejiblanca</item>
+        <item comment="07063">Rabicorta escasa</item>
+        <item comment="07093">Duende naranjitas</item>
+        <item comment="07097">Náyade</item>
+        <item comment="07145">Morena oriental</item>
+        <item comment="07152">Semiargus</item>
+        <item comment="07163">Icaro</item>
+        <item comment="07202">Nacarada pafia</item>
+        <item comment="07204">Nacarada aglaja</item>
+        <item comment="07210">Sofía</item>
+        <item comment="07220">Perlada rojiza</item>
+        <item comment="07222">Perlada selene</item>
+        <item comment="07243">Atalanta</item>
+        <item comment="07245">Cardera</item>
+        <item comment="07248">Pavo real</item>
+        <item comment="07250">Ortiguera</item>
+        <item comment="07252">C-blanca</item>
+        <item comment="07255">Levana</item>
+        <item comment="07257">Antíopa</item>
+        <item comment="07258">Olmera</item>
+        <item comment="07283">Doncella común</item>
+        <item comment="07287">Ninfa boscana</item>
+        <item comment="07298">Tornasolada chica</item>
+        <item comment="07307">Maculada</item>
+        <item comment="07309">Saltacercas</item>
+        <item comment="07312">Pedregosa</item>
+        <item comment="07334">Ocelada común</item>
+        <item comment="07340">Lobito agreste</item>
+        <item comment="07344">Sortijitas</item>
+        <item comment="07350">Loba</item>
+        <item comment="07360">Arrán marrón</item>
+        <item comment="07361">Montañesa ribeteada</item>
+        <item comment="07415">Medioluto norteña</item>
+        <item comment="07436">Pardo-rubia</item>
+        <item comment="07547">-</item>
+        <item comment="07620">-</item>
+        <item comment="07804">-</item>
+        <item comment="07916">-</item>
+        <item comment="08275">Alfombra común</item>
+        <item comment="08289">-</item>
+        <item comment="08967">-</item>
+        <item comment="08969">-</item>
+        <item comment="09056">Mariposa plusia</item>
+        <item comment="10603">Calimorfa</item>
+        <item comment="10605">-</item>
+        <item comment="10607">Gota de sangre</item>
+        <item comment="20000">NN</item>
+    </string-array>
+
     <string-array name="initSpecs_fr">
         <item comment="03998">Zygène du pied-de-poule</item>
         <item comment="06605">Pyrauste pourprée</item>
@@ -512,83 +608,6 @@
         <item comment="10603">Dominula</item>
         <item comment="10605">Falena dell\'edera</item>
         <item comment="10607">Carmine</item>
-        <item comment="20000">NN</item>
-    </string-array>
-
-    <string-array name="initSpecs_es">
-        <item comment="03998">Zigena de los seis puntos</item>
-        <item comment="06605">-</item>
-        <item comment="06788">Tau emperador</item>
-        <item comment="06843">Esfinge colibrí</item>
-        <item comment="06919">Fronteriza</item>
-        <item comment="06923">Dorada línea corta</item>
-        <item comment="06924">Dorada línea larga</item>
-        <item comment="06930">Dorada difusa</item>
-        <item comment="06955">Apolo</item>
-        <item comment="06958">Podalirio</item>
-        <item comment="06960">Macaón</item>
-        <item comment="06966">Esbelta común</item>
-        <item comment="06973">Aurora</item>
-        <item comment="06993">Blanca del majuelo</item>
-        <item comment="06995">Blanca de la col</item>
-        <item comment="06997">Blanca de Mann</item>
-        <item comment="06998">Blanquita de la col</item>
-        <item comment="07000">Blanca verdinervada</item>
-        <item comment="07015">Amarilla</item>
-        <item comment="07021">-</item>
-        <item comment="07024">Limonera</item>
-        <item comment="07030">Lucina</item>
-        <item comment="07034">Manto común</item>
-        <item comment="07037">Manto de oro</item>
-        <item comment="07039">Manto oscuro</item>
-        <item comment="07047">Topacio</item>
-        <item comment="07049">Nazarena</item>
-        <item comment="07058">Cejiblanca</item>
-        <item comment="07063">Rabicorta escasa</item>
-        <item comment="07093">Duende naranjitas</item>
-        <item comment="07097">Náyade</item>
-        <item comment="07145">Morena oriental</item>
-        <item comment="07152">Semiargus</item>
-        <item comment="07163">Icaro</item>
-        <item comment="07202">Nacarada pafia</item>
-        <item comment="07204">Nacarada aglaja</item>
-        <item comment="07210">Sofía</item>
-        <item comment="07220">Perlada rojiza</item>
-        <item comment="07222">Perlada selene</item>
-        <item comment="07243">Atalanta</item>
-        <item comment="07245">Cardera</item>
-        <item comment="07248">Pavo real</item>
-        <item comment="07250">Ortiguera</item>
-        <item comment="07252">C-blanca</item>
-        <item comment="07255">Levana</item>
-        <item comment="07257">Antíopa</item>
-        <item comment="07258">Olmera</item>
-        <item comment="07283">Doncella común</item>
-        <item comment="07287">Ninfa boscana</item>
-        <item comment="07298">Tornasolada chica</item>
-        <item comment="07307">Maculada</item>
-        <item comment="07309">Saltacercas</item>
-        <item comment="07312">Pedregosa</item>
-        <item comment="07334">Ocelada común</item>
-        <item comment="07340">Lobito agreste</item>
-        <item comment="07344">Sortijitas</item>
-        <item comment="07350">Loba</item>
-        <item comment="07360">Arrán marrón</item>
-        <item comment="07361">Montañesa ribeteada</item>
-        <item comment="07415">Medioluto norteña</item>
-        <item comment="07436">Pardo-rubia</item>
-        <item comment="07547">-</item>
-        <item comment="07620">-</item>
-        <item comment="07804">-</item>
-        <item comment="07916">-</item>
-        <item comment="08275">Alfombra común</item>
-        <item comment="08289">-</item>
-        <item comment="08967">-</item>
-        <item comment="08969">-</item>
-        <item comment="09056">Mariposa plusia</item>
-        <item comment="10603">Calimorfa</item>
-        <item comment="10605">-</item>
-        <item comment="10607">Gota de sangre</item>
         <item comment="20000">NN</item>
     </string-array>
 

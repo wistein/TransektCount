@@ -1,5 +1,34 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * Shows the list of selectable sections which is put together by SelectSectionAdapter.
+ * Starts EditSectionListActivity.
+ *
+ * Parts based on ListProjectActivity.java of BeeCount created by Milo Thurston (knirirr)
+ * on 2014-05-05, licensed under the Apache License, Version 2.0.
+
+ * Changes and additions for TransektCount by wmstein since 2016-02-16,
+ * last edited in Java on 2023-07-07,
+ * converted to Kotlin on 2023-07-17,
+ * renamed from ListSectionActivity.kt on 2024-11-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -16,6 +45,8 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -31,17 +62,6 @@ import com.wmstein.transektcount.database.SectionDataSource
 import com.wmstein.transektcount.database.TrackDataSource
 import com.wmstein.transektcount.Utils.fromHtml
 
-/************************************************************************************
- * Shows the list of selectable sections which is put together by SelectSectionAdapter.
- * Starts EditSectionListActivity.
- *
- * Based on ListProjectActivity.java by milo on 05/05/2014.
- * Changes and additions for TransektCount by wmstein since 2016-02-16,
- * last edited in Java on 2023-07-07,
- * converted to Kotlin on 2023-07-17,
- * renamed from ListSectionActivity.kt on 2024-11-26,
- * last edited on 2026-05-26
- */
 class SelectSectionActivity : AppCompatActivity() {
     private lateinit var transektCount: TransektCountApplication
 
@@ -102,7 +122,7 @@ class SelectSectionActivity : AppCompatActivity() {
         buttonSoundPref = prefs.getBoolean("pref_button_sound", false)
 
         val listView = findViewById<LinearLayout>(R.id.list_view)
-        listView.background = transektCount.setBackgr()
+        listView.background = transektCount.setBackground()
 
         sectionDataSource = SectionDataSource(this)
         trackDataSource = TrackDataSource(this)
@@ -170,11 +190,11 @@ class SelectSectionActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == R.id.menuCloneSection) {
             if (transectHasTrack) {
-                val mesg = getString(R.string.hasTrack)
+                val msg = getString(R.string.hasTrack)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='red'><b>$mesg</b></font>"),
-                    Toast.LENGTH_LONG
+                    fromHtml("<font color='red'><b>$msg</b></font>"),
+                    LENGTH_LONG
                 ).show()
             } else {
                 cloneSection()
@@ -224,7 +244,7 @@ class SelectSectionActivity : AppCompatActivity() {
         val input = EditText(this)
         input.inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
 
-        var mesg: String
+        var msg: String
 
         // Set up the buttons
         aDialog.setView(input)
@@ -236,23 +256,23 @@ class SelectSectionActivity : AppCompatActivity() {
 
                 // Check for empty section name
                 if (newSectName.isEmpty()) {
-                    mesg = getString(R.string.attention) + " " + getString(R.string.newSectName)
+                    msg = getString(R.string.attention) + " " + getString(R.string.newSectName)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='red'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                     return@OnClickListener
                 }
 
                 // Check if this is not a duplicate of an existing name
                 if (compSectionNames(newSectName)) {
-                    mesg =
+                    msg =
                         getString(R.string.attention) + " " + newSectName + " " + getString(R.string.isdouble)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='red'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                     return@OnClickListener
                 }
@@ -274,11 +294,11 @@ class SelectSectionActivity : AppCompatActivity() {
                 }
 
                 if (entries != maxId) {
-                    mesg = getString(R.string.notContiguous)
+                    msg = getString(R.string.notContiguous)
                     Toast.makeText(
                         this,
-                        fromHtml("<font color='red'><b>$mesg</b></font>"),
-                        Toast.LENGTH_LONG
+                        fromHtml("<font color='red'><b>$msg</b></font>"),
+                        LENGTH_LONG
                     ).show()
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
                         Log.i(TAG, "284 maxId: $maxId, entries: $entries")
@@ -297,11 +317,11 @@ class SelectSectionActivity : AppCompatActivity() {
                 }
 
                 // Exit this and go to the list of new sections
-                mesg = newSectName + " " + getString(R.string.newCopyCreated)
+                msg = newSectName + " " + getString(R.string.newCopyCreated)
                 Toast.makeText(
                     this,
-                    fromHtml("<font color='#008000'>$mesg</font>"),
-                    Toast.LENGTH_SHORT
+                    fromHtml("<font color='#008000'>$msg</font>"),
+                    LENGTH_SHORT
                 ).show()
                 sections =
                     sectionDataSource!!.getAllSections(prefs) // with sorting order of pref_sort_sect
@@ -330,10 +350,10 @@ class SelectSectionActivity : AppCompatActivity() {
 
         val sectionList: List<Section?> = sectionDataSource!!.getAllSections(prefs)
 
-        val childcount = sectionList.size + 1
+        val childCnt = sectionList.size + 1
 
         // For all sections
-        for (i in 1..<childcount) {
+        for (i in 1..<childCnt) {
             section = sectionDataSource!!.getSection(i)
             selSectName = section!!.name
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)

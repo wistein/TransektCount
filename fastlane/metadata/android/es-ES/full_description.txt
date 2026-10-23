@@ -1,15 +1,20 @@
 TransektCount permite el recuento específico por especies de mariposas en cada tramo de transecto, de acuerdo con el método del European Butterfly Monitoring Scheme. Ayuda a los recuentistas de transectos a registrar mariposas y polillas diurnas durante los recorridos por los transectos.
 
-Novedades de la versión 5.1.6:
-- Mejoras en el código
-- La importación de archivos GPX también reconoce archivos que contienen una ruta con n segmentos, en lugar de n rutas
-- Incluir notas sobre especies propuestas con expresiones predefinidas como «Foto», «Visto de pasada», «Nueva especie», …
-- El valor introducido en porcentaje para la nubosidad se redondea a valores de 10
-- Controles de plausibilidad más estrictos para la introducción de metadatos numéricos
-- Se ha modificado la estructura de los nombres de los archivos exportados
-- Se ha actualizado el texto de «Ayuda»
-- Documentación actualizada
-- Corrección de un error en la importación de una lista de especies
+Novedades de la versión 5.1.7:
+- Mejoras en el código.
+- Corregido: La opción «Mostrar resultados» ya no muestra resultados incorrectos cuando se selecciona «Ordenar por nombre».
+- Corrección del diseño de archivos XLSX: En las filas con fondo gris, el color gris no se extendía hasta la última columna en algunos modos de ordenación.
+- Corregido: Los cambios en la configuración «Indicar sección de transecto por GPS» surten efecto inmediatamente; ya no es necesario reiniciar la aplicación.
+- Corregido: La opción «Cancelar» de «Eliminar ruta GPS» ahora funciona correctamente.
+- Corregido: Tras importar otra base de datos de transectos que contenga una ruta, el cálculo de la distancia de la nueva ruta ahora es correcto sin necesidad de reiniciar el programa.
+- Corregido: Tras eliminar el rastro, ya no se muestra el mensaje de distancia.
+- Corregido: Ahora, en la página de configuración, la opción «Idioma de los datos» para archivos importados en el formato antiguo (BD y especies) muestra inmediatamente el idioma de los datos seleccionado junto con el icono correspondiente.
+- Se han añadido títulos e iconos a algunos cuadros de diálogo.
+- Se ha rediseñado la gestión de los permisos de ubicación y se han mejorado los cuadros de diálogo correspondientes.
+- El nombre del archivo de una BD exportada incluye ahora «Track» si se ha cargado una ruta de transecto.
+- Se ha completado la información sobre la licencia
+- Se ha actualizado el texto de «Ayuda».
+- Documentación actualizada.
 
 Características:
 - El registro de datos se basa en un recorrido por transectos.

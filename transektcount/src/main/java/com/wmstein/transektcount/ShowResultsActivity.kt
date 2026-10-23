@@ -1,5 +1,31 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * ShowResultsActivity.kt shows results list of counted species,
+ * uses ResultsSpeciesWidget, ResultsHeadWidget, ResultsMetaWidget,
+ * ResultsSumWidget
+ *
+ * Created by wmstein on 2016-03-15,
+ * last edited in Java on 2022-04-30,
+ * converted to Kotlin on 2023-07-17,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
@@ -28,16 +54,6 @@ import com.wmstein.transektcount.widgets.ResultsMetaWidget
 import com.wmstein.transektcount.widgets.ResultsSpeciesWidget
 import com.wmstein.transektcount.widgets.ResultsSumWidget
 
-/******************************************************************
- * ShowResultsActivity.kt shows results list of counted species,
- * uses ResultsSpeciesWidget, ResultsHeadWidget, ResultsMetaWidget,
- * ResultsSumWidget
- *
- * Created by wmstein on 2016-03-15,
- * last edited in Java on 2022-04-30,
- * converted to Kotlin on 2023-07-17,
- * last edited on 2026-07-21.
- */
 class ShowResultsActivity : AppCompatActivity() {
     private var specArea: LinearLayout? = null
 
@@ -63,7 +79,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "66, onCreate")
+            Log.i(TAG, "82, onCreate")
 
         awakePref = prefs.getBoolean("pref_awake", true)
         outPref = prefs.getString("pref_csv_out", "species").toString() // sort mode output
@@ -114,11 +130,11 @@ class ShowResultsActivity : AppCompatActivity() {
 
         specArea = findViewById(R.id.listSpecLayout)
 
-        // new onBackPressed logic
+        // New onBackPressed logic
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "121, handleOnBackPressed")
+                    Log.i(TAG, "137, handleOnBackPressed")
                 finish()
                 remove()
             }
@@ -131,7 +147,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "134, onResume")
+            Log.i(TAG, "150, onResume")
 
         headDataSource!!.open()
         metaDataSource!!.open()
@@ -144,7 +160,7 @@ class ShowResultsActivity : AppCompatActivity() {
     }
     // End of onResume()
 
-    // fill ResultsSpeciesWidget with relevant counts and sections data
+    // Fill ResultsSpeciesWidget with relevant counts and sections data
     private fun loadData() {
         var summf = 0
         var summ = 0
@@ -159,11 +175,11 @@ class ShowResultsActivity : AppCompatActivity() {
         var sumle = 0
         var sumoe = 0
 
-        // load head and metadata
+        // Load head and metadata
         head = headDataSource!!.head
         meta = metaDataSource!!.meta
 
-        // display the editable transect No.
+        // Display the editable transect No.
         lhw = ResultsHeadWidget(this, null)
         lhw!!.setWidgetLNo(getString(R.string.transectnumber)+":")
         lhw!!.setWidgetLNo1(head!!.transect_no)
@@ -171,7 +187,7 @@ class ShowResultsActivity : AppCompatActivity() {
         lhw!!.setWidgetLName1(head!!.inspector_name)
         specArea!!.addView(lhw)
 
-        // display the editable metadata
+        // Display the editable metadata
         lmw = ResultsMetaWidget(this, null)
         lmw!!.setWidgetLTemp(getString(R.string.temperature)+":")
         lmw!!.setWidgetLTemps(meta!!.temps)
@@ -192,7 +208,7 @@ class ShowResultsActivity : AppCompatActivity() {
         lmw!!.setWidgetLNote2(meta!!.note)
         specArea!!.addView(lmw)
 
-        // display all the sorted counts by adding them to listSpecies layout
+        // Display all the sorted counts by adding them to listSpecies layout
         var sectId: Int
         var section: Section
 
@@ -206,7 +222,7 @@ class ShowResultsActivity : AppCompatActivity() {
                 // sort criteria are section and species code
                 countDataSource!!.allCountsForSrtSectionCode
             }
-            "species" -> {
+            "names" -> {
                 // sort criteria are species name and section
                 countDataSource!!.allCountsForSrtNameSection
             }
@@ -265,7 +281,7 @@ class ShowResultsActivity : AppCompatActivity() {
         val sumInt: Int = summf + summ + sumf + sump + suml + sumo // sum of internal counts
         val sumExt: Int = summfe + summe + sumfe + sumpe + sumle + sumoe // sum of external counts
 
-        // display the totals
+        // Display the totals
         lsw = ResultsSumWidget(this, null)
         lsw!!.setSum(
             summf,
@@ -286,7 +302,7 @@ class ShowResultsActivity : AppCompatActivity() {
         )
         specArea!!.addView(lsw)
 
-        // display all counted soecies per section
+        // Display all counted species per section
         for (spec in specs) {
             val widget = ResultsSpeciesWidget(this, null)
             sectId = widget.getSpecSectionid(spec)
@@ -301,9 +317,9 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "299, onPause")
+            Log.i(TAG, "320, onPause")
 
-        // close the data sources
+        // Close the data sources
         headDataSource!!.close()
         metaDataSource!!.close()
         countDataSource!!.close()
@@ -317,7 +333,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "315, onStop")
+            Log.i(TAG, "336, onStop")
 
         if (awakePref) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -330,7 +346,7 @@ class ShowResultsActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "328, onDestroy")
+            Log.i(TAG, "349, onDestroy")
     }
 
     companion object {

@@ -1,5 +1,40 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
+ * to have the text font size in it automatically fit to match the screen width. Credits go largely
+ * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
+ * rewritten to match android coding standards and our MBC.
+ *
+ * This version of AutoFitText is adaptable to height and to accept the different TextView types
+ * (Button, TextClock etc.)
+ *
+ * @author pheuschk
+ * createDate: 18.04.2013
+ *
+ * Modified for TransektCount by wmstein on 18.03.2016
+ * Bug fixed (height of single character), cleaned of unused code.
+ *
+ * Last edited in Java by wmstein on 2023-05-09,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
@@ -11,24 +46,6 @@ import android.widget.TextView
 
 import androidx.appcompat.widget.AppCompatTextView
 
-/**************************************************************************************************
- * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
- * to have the text font size in it automatically fit to match the screen width. Credits go largely
- * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
- * rewritten to match android coding standards and our MBC.
- *
- * This version of AutoFitTextView is adaptable to height and to accept the different TextView types
- * (Button, TextClock etc.)
- *
- * @author pheuschk
- * createDate: 18.04.2013
- *
- * Modified for TransektCount by wmstein on 18.03.2016
- * Bug fixed (height of single character), cleaned of unused code and context comments changed
- * last edited in Java by wmstein on 2023-05-09,
- * converted to Kotlin on 2023-06-26,
- * last edit on 2026-07-21
- */
 @SuppressLint("NewApi")
 class AutoFitText(context: Context, attrs: AttributeSet?) :
     AppCompatTextView(context, attrs) {
@@ -100,7 +117,7 @@ class AutoFitText(context: Context, attrs: AttributeSet?) :
 
         // Converging only a single line
         var testSize: Float
-        while (upperTextSize - lowerTextSize > MTHRESHOLD) {
+        while (upperTextSize - lowerTextSize > M_THRESHOLD) {
 
             // Go to the mean value...
             testSize = (upperTextSize + lowerTextSize) / 2
@@ -144,7 +161,7 @@ class AutoFitText(context: Context, attrs: AttributeSet?) :
          * Defines how close we want to be to the factual size of the Text-field. Lower values mean
          * higher precision but also exponentially higher computing cost (more loop runs)
          */
-        const val MTHRESHOLD = 0.5f // original was 0.5f
+        const val M_THRESHOLD = 0.5f // original was 0.5f
     }
 
 }

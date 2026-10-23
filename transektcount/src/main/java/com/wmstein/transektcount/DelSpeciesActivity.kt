@@ -1,5 +1,31 @@
 package com.wmstein.transektcount
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * DelSpeciesActivity lets you delete species from the species lists.
+ * It is called from CountingActivity.
+ * Uses DelSpeciesWidget.kt, EditSectionListTitleWidget.kt,
+ * activity_del_species.xml, widget_edit_title.xml.
+ *
+ * Based on EditSpeciesListActivity.kt.
+ * Created on 2024-07-27 by wmstein,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
@@ -28,16 +54,6 @@ import com.wmstein.transektcount.widgets.DeleteSpeciesHintWidget
 
 import java.util.Locale
 
-/********************************************************************
- * DelSpeciesActivity lets you delete species from the species lists.
- * It is called from CountingActivity.
- * Uses DelSpeciesWidget.kt, EditSectionListTitleWidget.kt,
- * activity_del_species.xml, widget_edit_title.xml.
- *
- * Based on EditSectionListActivity.kt.
- * Created on 2024-07-27 by wmstein,
- * last edited on 2025-07-21.
- */
 class DelSpeciesActivity : AppCompatActivity() {
     // Data
     private var sectionId = 1
@@ -64,7 +80,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "67 onCreate")
+            Log.i(TAG, "83 onCreate")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) // SDK 35+
         {
@@ -99,7 +115,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "102 onCreate, searchChars: $searchChars")
+            Log.i(TAG, "118 onCreate, searchChars: $searchChars")
 
         listToDelete = ArrayList()
 
@@ -127,7 +143,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "130 onResume")
+            Log.i(TAG, "146 onResume")
 
         // Load preference
         brightPref = prefs.getBoolean("pref_bright", true)
@@ -170,7 +186,7 @@ class DelSpeciesActivity : AppCompatActivity() {
     // Parameter view is necessary for function call
     fun getDelSearchChars(view: View) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "173, getDelSearchChars, View: $view")
+            Log.i(TAG, "189, getDelSearchChars, View: $view")
 
         // Read EditText searchDel from widget_del_hint.xml
         val searchDel: EditText = findViewById(R.id.searchD)
@@ -210,7 +226,7 @@ class DelSpeciesActivity : AppCompatActivity() {
             for (count in countsCodesSortList) {
                 val checkedName = count.name.uppercase(Locale.getDefault()).contains(searchChars)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "213, checkedName: $checkedName")
+                    Log.i(TAG, "229, checkedName: $checkedName")
                 if (checkedName) {
                     val dsw = DeleteSpeciesWidget(this, null)
                     dsw.setSpecName(count.name)
@@ -258,10 +274,10 @@ class DelSpeciesActivity : AppCompatActivity() {
         while (i < listToDelete!!.size) {
             specCode = listToDelete!![i].getSpecCode()
             try {
-                var sectid = 1
-                while (sectid <= numSect) {
+                var sectId = 1
+                while (sectId <= numSect) {
                     countDataSource!!.deleteAllCountsWithCode(specCode)
-                    sectid++
+                    sectId++
                 }
             } catch (_: Exception) {
                 // nothing
@@ -319,7 +335,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "322 onPause")
+            Log.i(TAG, "338 onPause")
 
         sectionDataSource!!.close()
         countDataSource!!.close()
@@ -338,7 +354,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "341, onStop")
+            Log.i(TAG, "357, onStop")
 
         deleteArea = null
         delHintArea = null
@@ -348,7 +364,7 @@ class DelSpeciesActivity : AppCompatActivity() {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "351, onDestroy")
+            Log.i(TAG, "367, onDestroy")
     }
 
     companion object {

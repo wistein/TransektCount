@@ -1,5 +1,29 @@
 package com.wmstein.transektcount.widgets
 
+/***************************************************************************************************
+ * Copyright © 2016-2026, Wilhelm Stein, Bonn, Germany
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use any of its files except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************************************
+ *
+ * CountingLhInternWidget is the interface for widget_counting_lhi.xml
+ *
+ * Created by wmstein on 2016-09-06,
+ * last edited in Java on 2021-01-26,
+ * converted to Kotlin on 2023-06-26,
+ * last edited on 2026-10-21.
+ **************************************************************************************************/
+
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.util.AttributeSet
@@ -17,14 +41,6 @@ import com.wmstein.transektcount.database.Count
 
 import java.util.Objects
 
-/*********************************************************************
- * CountingLhInternWidget is the interface for widget_counting_lhi.xml
- *
- * Created by wmstein on 06.09.2016
- * Last edited in Java on 2021-01-26,
- * converted to Kotlin on 2023-06-26,
- * last edited on 2026-08-03
- */
 class CountingLhInternWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     var sHeight: Int = 0
     var ht: Int = 0
@@ -162,50 +178,50 @@ class CountingLhInternWidget(context: Context, attrs: AttributeSet?) : RelativeL
     // Count up/down and set value on lefthanded screen
     fun countUpLHf1i() {
         // increase count_f1i
-        countCountf1i.text = count!!.increase_f1i().toString()
+        countCountf1i.text = count!!.increaseF1i().toString()
     }
 
     fun countDownLHf1i() {
-        countCountf1i.text = count!!.safe_decrease_f1i().toString()
+        countCountf1i.text = count!!.safeDecreaseF1i().toString()
     }
 
     fun countUpLHf2i() {
-        countCountf2i.text = count!!.increase_f2i().toString()
+        countCountf2i.text = count!!.increaseF2i().toString()
     }
 
     fun countDownLHf2i() {
-        countCountf2i.text = count!!.safe_decrease_f2i().toString()
+        countCountf2i.text = count!!.safeDecreaseF2i().toString()
     }
 
     fun countUpLHf3i() {
-        countCountf3i.text = count!!.increase_f3i().toString()
+        countCountf3i.text = count!!.increaseF3i().toString()
     }
 
     fun countDownLHf3i() {
-        countCountf3i.text = count!!.safe_decrease_f3i().toString()
+        countCountf3i.text = count!!.safeDecreaseF3i().toString()
     }
 
     fun countUpLHpi() {
-        countCountpi.text = count!!.increase_pi().toString()
+        countCountpi.text = count!!.increasePi().toString()
     }
 
     fun countDownLHpi() {
-        countCountpi.text = count!!.safe_decrease_pi().toString()
+        countCountpi.text = count!!.safeDecreasePi().toString()
     }
 
     fun countUpLHli() {
-        countCountli.text = count!!.increase_li().toString()
+        countCountli.text = count!!.increaseLi().toString()
     }
 
     fun countDownLHli() {
-        countCountli.text = count!!.safe_decrease_li().toString()
+        countCountli.text = count!!.safeDecreaseLi().toString()
     }
 
     fun countUpLHei() {
-        countCountei.text = count!!.increase_ei().toString()
+        countCountei.text = count!!.increaseEi().toString()
     }
 
     fun countDownLHei() {
-        countCountei.text = count!!.safe_decrease_ei().toString()
+        countCountei.text = count!!.safeDecreaseEi().toString()
     }
 }
