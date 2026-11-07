@@ -1,4 +1,4 @@
-Version 5.1.7 (23.10.2026)
+Version 5.1.7 (07.11.2026)
 - Code-Verbesserungen
 - Fix: Keine falsche Anzeige mehr bei "Ergebnis anzeigen" für dessen Option "Sortieren nach Namen"
 - Fix für XLSX-Layout: Bei grau hinterlegten Zeilen erstreckte sich für einige Sortiermodi das Grau nicht bis zur letzten Spalte
@@ -9,6 +9,7 @@ Version 5.1.7 (23.10.2026)
 - Fix: Für importierte DB- oder Spezies-Dateien im alten Format zeigt nun unter "Einstellungen" die Option "Datensprache" die dort gewählte Datensprache sofort mit passendem Icon an
 - Einige Dialoge mit Überschrift und Icon ergänzt
 - Die Erteilung der Standortberechtigung überarbeitet und deren Dialoge verbessert
+- Die Dialoge zu Erteilung der Speicherberechtigung verbessert
 - Der Dateiname einer exportierten DB enthält nun "Track" falls ein Transekt-Track geladen ist
 - Lizenzinformationen vervollständigt
 - "Hilfe"-Text aktualisiert

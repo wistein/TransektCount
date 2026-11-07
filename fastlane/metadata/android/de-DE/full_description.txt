@@ -11,6 +11,7 @@ Neu in Version 5.1.7:
 - Fix: Für importierte DB- oder Spezies-Dateien im alten Format zeigt nun unter "Einstellungen" die Option "Datensprache" die dort gewählte Datensprache sofort mit passendem Icon an
 - Einige Dialoge mit Überschrift und Icon ergänzt
 - Die Erteilung der Standortberechtigung überarbeitet und deren Dialoge verbessert
+- Die Dialoge zu Erteilung der Speicherberechtigung verbessert
 - Der Dateiname einer exportierten DB enthält nun "Track" falls ein Transekt-Track geladen ist
 - Lizenzinformationen vervollständigt
 - "Hilfe"-Text aktualisiert

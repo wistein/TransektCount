@@ -11,6 +11,7 @@ New in Version 5.1.7:
 - Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
 - Some dialogs supplemented with headlines and icons
 - Location permission handling was redesigned and respective dialogs were improved
+- Storage permission handling dialogs were improved
 - The filename of an exported DB now includes “Track” if a transect track is loaded
 - Licenses information supplemented
 - "Help" text updated

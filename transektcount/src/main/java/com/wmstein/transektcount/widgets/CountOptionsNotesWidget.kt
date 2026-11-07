@@ -1,3 +1,5 @@
+@file:Suppress("UsePropertyAccessSyntax")
+
 package com.wmstein.transektcount.widgets
 
 /***************************************************************************************************
@@ -22,7 +24,7 @@ package com.wmstein.transektcount.widgets
  * Created by wmstein on 2016-10-23,
  * last edited in Java on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-10-21.
+ * last edited on 2026-11-03.
  **************************************************************************************************/
 
 import android.content.Context
@@ -41,10 +43,9 @@ import java.util.Objects
 class CountOptionsNotesWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val specNotesTitle: TextView
     private val specNotesNotes: AutoCompleteTextView
-    val suggestions = ArrayList(listOf(*resources.getStringArray(R.array.notes_options)))
-    val specNotesAdapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line,
+    private val suggestions = ArrayList(listOf(*resources.getStringArray(R.array.notes_options)))
+    private val specNotesAdapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line,
         suggestions)
-
     var selectedValue = ""
 
     val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

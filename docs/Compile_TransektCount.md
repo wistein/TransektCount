@@ -20,40 +20,34 @@ Android SDK with
 
 ### build.gradle (TransektCount)
 - buildscript:
-  ext:
+  - __ext:__  
     kotlin_version = '2.2.21' (or higher)
-  repositories:
+  - __repositories:__  
     mavenCentral()
     google()
-  dependencies:
-    classpath 'com.android.tools.build:gradle:9.2.1' (or higher)
+  - __dependencies:__  
+    classpath 'com.android.tools.build:gradle:9.2.1' (or higher)  
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 ### build.gradle (transektcount)
 - Compiled with SDK Ver. 37 for targetSdkVersion 37 and minSdk 30.
 - JavaVersion.VERSION_21 (or current version)
-- buildFeatures {buildConfig = true}
-
-- External Libraries:
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'androidx.activity:activity-ktx:x.y.z' (current version)
-  implementation 'androidx.annotation:annotation-jvm:x.y.z' (current version)
-  implementation 'androidx.appcompat:appcompat:x.y.z' (current version)
-  implementation 'androidx.coordinatorlayout:coordinatorlayout:x.y.z' (current version)
-  implementation 'androidx.core:core-ktx:x.y.z' (current version)
-  implementation 'androidx.fragment:fragment-ktx:x.y.z' (current version)
-  implementation 'androidx.legacy:legacy-support-v4:x.y.z' (current version)
-  implementation 'androidx.preference:preference-ktx:x.y.z' (current version)
-  implementation 'com.google.android.material:material:x.y.z' (current version)
-  implementation 'androidx.lifecycle:lifecycle-process:x.y.z' (current version)
+- __External Libraries:__  
+  - implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  - implementation 'androidx.activity:activity-ktx:x.y.z' (current version)
+  - implementation 'androidx.annotation:annotation-jvm:x.y.z' (current version)
+  - implementation 'androidx.appcompat:appcompat:x.y.z' (current version)
+  - implementation 'androidx.coordinatorlayout:coordinatorlayout:x.y.z' (current version)
+  - implementation 'androidx.core:core-ktx:x.y.z' (current version)
+  - implementation 'androidx.fragment:fragment-ktx:x.y.z' (current version)
+  - implementation 'androidx.legacy:legacy-support-v4:x.y.z' (current version)
+  - implementation 'androidx.preference:preference-ktx:x.y.z' (current version)
+  - implementation 'com.google.android.material:material:x.y.z' (current version)
+  - implementation 'androidx.lifecycle:lifecycle-process:x.y.z' (current version)
 
 ## Start the Project
-Get the project source by downloading the master.zip.
-
-Extract it to a directory "TransektCount".
-
-Load the directory as a project in Android Studio.
-
-Set up your Android Studio environment regarding compiling key, apk directory and GitHub destination.
-
-For using BuildConfig.DEBUG in the project without marked as error, you have to compile once in Debug mode.
+- Get the project source by downloading the master.zip.
+- Extract it to a directory __TransektCount__.
+- Load the directory as a project in Android Studio.
+- Set up your Android Studio environment regarding compiling key, apk directory and GitHub destination.
+- For using __BuildConfig.DEBUG__ in the project without marked as error, you have to compile once in Debug mode.

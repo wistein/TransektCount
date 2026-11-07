@@ -1,4 +1,4 @@
-Version 5.1.7 (2026-10-23)
+Version 5.1.7 (2026-11-07)
 - Code improvements
 - Fixed: The “Show Results” option no longer displays incorrect results when “Sort by Name” is selected.
 - Fix for XLSX layout: For rows with a gray background, the gray did not extend all the way to the last column in some sorting modes
@@ -9,6 +9,7 @@ Version 5.1.7 (2026-10-23)
 - Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
 - Some dialogs supplemented with headlines and icons
 - Location permission handling was redesigned and respective dialogs were improved
+- Storage permission handling dialogs were improved
 - The filename of an exported DB now includes “Track” if a transect track is loaded
 - Licenses information supplemented
 - "Help" text updated

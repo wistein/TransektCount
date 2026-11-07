@@ -31,7 +31,7 @@ package com.wmstein.transektcount
  * Changes and additions for TransektCount by wmstein since 2016-02-18,
  * last edited in Java on 2026-07-18,
  * converted to Kotlin on 2026-07-20,
- * last edited on 2026-10-21.
+ * last edited on 2026-11-03.
  **************************************************************************************************/
 
 import android.Manifest
@@ -190,6 +190,10 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     // Other stuff
     private var msg = ""
+    private var denyMsg = ""
+    private var denyMsgExIm = ""
+    private var denyMsgEx = ""
+    private var denyMsgIm = ""
     private var doubleBackToExitPressedTwice = false
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -197,7 +201,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onCreate(savedInstanceState)
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "200, onCreate")
+            Log.i(TAG, "204, onCreate")
 
         transektCount = application as TransektCountApplication
 
@@ -265,6 +269,10 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         if (cl!!.firstRun())
             Objects.requireNonNull<AlertDialog>(cl!!.logDialog).show()
 
+        denyMsgExIm = getString(R.string.storage_deny_ExIm)
+        denyMsgEx = getString(R.string.storage_deny_Ex)
+        denyMsgIm = getString(R.string.storage_deny_Im)
+
         if (!transectHasTrack && autoSection) {
             autoSection = false
             editor.putBoolean("pref_auto_section", false)
@@ -298,7 +306,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         database = dbHelper!!.writableDatabase // Make DB upgrade if necessary
         val dbVer = database!!.version // DB version after upgrade
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "301, onCreate, dbVersion: $dbVer")
+            Log.i(TAG, "309, onCreate, dbVersion: $dbVer")
 
         dbHelper!!.close()
 
@@ -449,10 +457,22 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Request All-Files-Access Permission
     fun requestAllFilesAccessPermission(m: Int) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "452, requestAllFilesAccessPermission")
+            Log.i(TAG, "460, requestAllFilesAccessPermission")
 
-        if (m == 1) msg = getString(R.string.dialog_storage_message1)
-        else if (m == 2) msg = getString(R.string.dialog_storage_message2)
+        when (m) {
+            1 -> { // Messages for denying export and import
+                msg = getString(R.string.dialog_storage_message1)
+                denyMsg = getString(R.string.storage_perm_denied, denyMsgExIm)
+            }
+            2 -> { // Messages for denying export
+                msg = getString(R.string.dialog_storage_message2)
+                denyMsg = getString(R.string.storage_perm_denied, denyMsgEx)
+            }
+            3 -> { // Messages for denying import
+                msg = getString(R.string.dialog_storage_message2)
+                denyMsg = getString(R.string.storage_perm_denied, denyMsgIm)
+            }
+        }
 
         // Provide dialog for storage permission request
         AlertDialog.Builder(this)
@@ -470,7 +490,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             .setNegativeButton(
                 getString(R.string.cancelButton)
             ) { _: DialogInterface?, _: Int ->
-                showSnackbarRed(getString(R.string.storage_perm_denied))
+                showSnackbarRed(denyMsg)
             }
             .create().show()
     }
@@ -484,7 +504,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     private fun requestFineLocationPermission() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "487, requestFineLocationPermission")
+            Log.i(TAG, "507, requestFineLocationPermission")
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -539,7 +559,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private fun showLocPermissionDroppedDialog() {
         // Show a dialog explaining that permissions should be given in settings
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "542, DroppedLocationInfoDlg")
+            Log.i(TAG, "562, DroppedLocationInfoDlg")
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_location_dropped_title))
@@ -554,7 +574,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private fun showLocPermissionDeniedDialog() {
         // Show a dialog explaining how to enable permissions in settings
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "557, LocationDeniedDlg")
+            Log.i(TAG, "577, LocationDeniedDlg")
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_fine_location_title))
@@ -624,7 +644,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onResume()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "627, onResume")
+            Log.i(TAG, "647, onResume")
 
         prefs = getPrefs()
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -710,7 +730,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 1 -> {
                     // Start location service
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "713, locationDispatcher 1")
+                        Log.i(TAG, "733, locationDispatcher 1")
 
                     if (locationService == null) {
                         locationService = LocationService(applicationContext)
@@ -725,7 +745,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 2 -> {
                     // Stop location service on backPressed, when running
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "728, location stop 2 by backPressed")
+                        Log.i(TAG, "748, location stop 2 by backPressed")
 
                     if (locationService != null) {
                         stopLocSrv()
@@ -735,7 +755,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 3 -> {
                     // Stop location service by onStop() when app is invisible
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "738, location stop 3 by onStop")
+                        Log.i(TAG, "758, location stop 3 by onStop")
 
                     if (locationService != null) {
                         stopLocSrv()
@@ -745,7 +765,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 4 -> {
                     // Stop location service by onStop() when new DB is imported
                     if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                        Log.i(TAG, "748 location stop 4 by DB import")
+                        Log.i(TAG, "768 location stop 4 by DB import")
 
                     if (locationService != null) {
                         stopLocSrv()
@@ -851,7 +871,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 if (storagePermGranted) {
                     importBasisDb()
                 } else {
-                    requestAllFilesAccessPermission(2)
+                    requestAllFilesAccessPermission(3)
                 }
                 return true
             }
@@ -860,7 +880,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 if (storagePermGranted) {
                     importDBFile()
                 } else {
-                    requestAllFilesAccessPermission(2)
+                    requestAllFilesAccessPermission(3)
                 }
                 return true
             }
@@ -869,14 +889,14 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 if (storagePermGranted) {
                     importSpeciesList()
                 } else {
-                    requestAllFilesAccessPermission(2)
+                    requestAllFilesAccessPermission(3)
                 }
                 return true
             }
 
             R.id.importGPSMenu -> {
                 if (!transectHasTrack && storagePermGranted) importGPS()
-                else if (!storagePermGranted) requestAllFilesAccessPermission(2)
+                else if (!storagePermGranted) requestAllFilesAccessPermission(3)
                 else {
                     msg = getString(R.string.importTrackFail)
                     Toast.makeText(
@@ -973,7 +993,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Stop location service when denied in settings with alert sound first
         if (!autoSection && locationService != null) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "976, location stop by setting")
+                Log.i(TAG, "996, location stop by setting")
 
             locationService!!.stopSoundA()
             stopLocSrv()
@@ -982,7 +1002,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         // Stop sound service when denied in settings
         if (!buttonSoundPref && soundService != null) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "985, button sound stop by setting")
+                Log.i(TAG, "1005, button sound stop by setting")
 
             stopService(sndIntent)
         }
@@ -1002,7 +1022,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onPause()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1005, onPause")
+            Log.i(TAG, "1025, onPause")
 
         headDataSource!!.close()
         sectionDataSource!!.close()
@@ -1017,7 +1037,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onStop()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1020, onStop")
+            Log.i(TAG, "1040, onStop")
 
         baseLayout!!.invalidate()
 
@@ -1038,7 +1058,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             locationDispatcher(3)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1041, onStop, app not visible, LocationService running: $locServiceOn")
+                Log.i(TAG, "1061, onStop, app not visible, LocationService running: $locServiceOn")
 
             finishAndRemoveTask() // In combination with System.exit(0) in onDestroy() closes app completely
         }
@@ -1048,7 +1068,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onDestroy()
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1051, onDestroy")
+            Log.i(TAG, "1071, onDestroy")
 
         exitProcess(0)
     }
@@ -1057,7 +1077,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start SelectSectionActivity (by button)
     fun selectSection(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1060, selectSection, View: $view")
+            Log.i(TAG, "1080, selectSection, View: $view")
 
         selSect()
     }
@@ -1089,7 +1109,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start EditMetaActivity (by button)
     fun editMeta(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1092, showResults, View: $view")
+            Log.i(TAG, "1112, showResults, View: $view")
 
         startActivity(
             Intent(this, EditMetaActivity::class.java)
@@ -1100,7 +1120,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Start ShowResultsActivity (by button)
     fun showResults(view: View?) {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1103, showResults, View: $view")
+            Log.i(TAG, "1123, showResults, View: $view")
 
         msg = getString(R.string.wait)
         Toast.makeText(
@@ -1131,7 +1151,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     // Import the basic DB
     private fun importBasisDb() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "1134, importBasicDBFile")
+            Log.i(TAG, "1154, importBasicDBFile")
 
         val fileExtension = ".db"
         fileNameStart = "transektcount0"
@@ -1603,7 +1623,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                             fileIS.close()
                         } catch (e: IOException) {
                             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                                Log.e(TAG,"1606, decodeGPX, Problem converting Stream to String: $e")
+                                Log.e(TAG,"1626, decodeGPX, Problem converting Stream to String: $e")
                         }
 
                         val gpxString = gpxSB.toString()
@@ -1629,7 +1649,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         // Get number of sections and compare with number of tracks
                         val numSect = sectionDataSource!!.numEntries
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1632, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
+                            Log.i(TAG, ("1652, decodeGPX, numSect: $numSect, numTrk: $numTrk"))
 
                         if (numSect != numTrk) {
                             msg = getString(R.string.track_err)
@@ -1704,7 +1724,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 // add offset = length of "</trkseg>" = 9
                 gpxTrkString = gpxString.substring(trkStart, trkEnd + 9)
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "1707, decodeGPX, gpxTrkString: $gpxTrkString")
+                    Log.i(TAG, "1727, decodeGPX, gpxTrkString: $gpxTrkString")
 
                 // Set track name from section name
                 // Record of transect section for trkseg
@@ -1731,8 +1751,8 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                         val tLon = gpxTrkString.substring(strStart, strEnd)
 
                         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                            Log.i(TAG, ("1734, decodeGPX, sectionNameGPS: "
-                                    + sectionNameGPS + ", " + tLat + ", " + tLon))
+                            Log.i(TAG, "1754, decodeGPX, sectionNameGPS: "
+                                    + sectionNameGPS + ", " + tLat + ", " + tLon)
 
                         trackDataSource!!.createTrackTp(sectionNameGPS, tLat, tLon)
 
@@ -1756,7 +1776,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             } while (gpxString.contains("<trkseg>"))
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "1759, decodeGPX, gpxString finished: $gpxString")
+                Log.i(TAG, "1779, decodeGPX, gpxString finished: $gpxString")
         }
 
         transectHasTrack = true
@@ -2988,7 +3008,7 @@ class WelcomeActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 ).show()
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.e(TAG, "2991, csv write external failed")
+                    Log.e(TAG, "3011, csv write external failed")
             }
             dbHelper!!.close()
         }

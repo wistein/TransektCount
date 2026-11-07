@@ -11,6 +11,7 @@ Novità della versione 5.1.7:
 - Risolto: ora, nella pagina delle impostazioni, l’opzione “Lingua dei dati” per i file importati nel vecchio formato (DB e Specie) mostra immediatamente la lingua dei dati selezionata insieme all’icona corrispondente.
 - Alcune finestre di dialogo sono state integrate con titoli e icone
 - Riorganizzazione della gestione delle autorizzazioni relative alla posizione e miglioramento delle relative finestre di dialogo
+- Sono state migliorate le finestre di dialogo relative alla gestione delle autorizzazioni di archiviazione
 - Il nome del file di un database esportato ora contiene la parola “Track” se è caricata una traccia di transetto
 - Informazioni sulla licenza completate
 - Testo “Aiuto” aggiornato

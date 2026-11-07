@@ -44,7 +44,7 @@ package com.wmstein.transektcount
  * Partly taken from the LocationService.kt code of TourCount that was adopted from anupamchugh's
  * code by wmstein on 2018-07-26,
  * enhanced for TransektCount by wmstein on 2025-09-11,
- * last edited on 2026-10-21
+ * last edited on 2026-11-03
  **************************************************************************************************/
 
 import android.Manifest
@@ -119,7 +119,7 @@ class LocationService : Service, LocationListener {
     private var msg = ""
 
     // Default constructor is demanded for service declaration in AndroidManifest.xml
-    constructor() // not to be removed!
+    constructor() // Despite warning, do not remove!
 
     constructor(context: Context) {
         this.sContext = context // Gets ApplicationContext from call in WelcomeActivity
@@ -189,8 +189,8 @@ class LocationService : Service, LocationListener {
     override fun onLocationChanged(location: Location) {
         sectionNameGPS = checkSectionTrack()
 
+        // Show message: "Distance to transect" for the 1. GPS lock
         if (isFirstLoc && distMin != 0.0) {
-            // Show message: GPS: Distance to track: distance m
             val dst = DecimalFormat("#.#").format(distMin)
             msg = sContext!!.getString(R.string.distanceToTrack) + " " + dst + " m"
             Toast.makeText( // bright green
@@ -204,17 +204,15 @@ class LocationService : Service, LocationListener {
         if (sectionNameGPS != "") {
             sectionDataSource!!.open()
             sectionGPS = sectionDataSource!!.getSectionByName(sectionNameGPS)
-//            sectionIdGPS = sectionGPS!!.id // todo?
             sectionDataSource!!.close()
             isInsideTrack = true
         } else {
             sectionGPS = null
-//            sectionIdGPS = 1 // todo?
             isInsideTrack = false
         }
 
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "217, current SecName: $sectionNameCurrent")
+            Log.i(TAG, "215, current SecName: $sectionNameCurrent")
 
         // Show message about new section if position isInsideTrack
         //  sectionNameCurrent is a global variable and is also set in SelectSectionAdapter
@@ -234,7 +232,7 @@ class LocationService : Service, LocationListener {
             }, 100)
 
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "237, new SecName: $sectionNameGPS")
+                Log.i(TAG, "235, new SecName: $sectionNameGPS")
 
             sectionNameCurrent = sectionNameGPS
             sectionIdGPS = sectionGPS!!.id // highlight new GPS section in SelectSectionActivity
@@ -242,7 +240,7 @@ class LocationService : Service, LocationListener {
             // Start SelectSectionActivity if it called location
             isSelSectAct = isSelectSectionActivityResumed
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.i(TAG, "245, isSelectSectionActivityRes: $isSelSectAct")
+                Log.i(TAG, "243, isSelectSectionActivityRes: $isSelSectAct")
 
             // Reload SelectSectionActivity when it is active with new section marked blue
             if (isSelSectAct) {
@@ -339,11 +337,11 @@ class LocationService : Service, LocationListener {
                 locationManager = null
 
                 if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                    Log.i(TAG, "342, StopListener: Should stop GPS service.")
+                    Log.i(TAG, "340, StopListener: Should stop GPS service.")
             }
         } catch (e: Exception) {
             if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-                Log.e(TAG, "346, StopListener: $e")
+                Log.e(TAG, "344, StopListener: $e")
         }
 
         if (alertSoundPref) {
@@ -410,7 +408,7 @@ class LocationService : Service, LocationListener {
 
     override fun onDestroy() {
         if (IsRunningOnEmulator.DLOG || BuildConfig.DEBUG)
-            Log.i(TAG, "413, onDestroy")
+            Log.i(TAG, "411, onDestroy")
 
         if (alertSoundPref && rToneA != null) {
             rToneA!!.reset()

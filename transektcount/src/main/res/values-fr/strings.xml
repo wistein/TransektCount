@@ -18,7 +18,7 @@
 
      French strings
 
-     Last edited 2026-10-20
+     Last edited 2026-11-03
 ************************************************************************************************ -->
 
 <resources>
@@ -294,6 +294,9 @@
     <string name="dialog_storage_message1">Veuillez attribuer l\'autorisation « Accès à tous les fichiers » à TransektCount afin de permettre l\'importation et l\'exportation des fichiers TransektCount.\n\nSinon, ni les bases de données, ni les listes, ni les résultats ne pourront être importés ou exportés.</string>
     <string name="dialog_storage_message2">Veuillez accorder l\'autorisation « Accès à tous les fichiers » à TransektCount afin de pouvoir importer et exporter des fichiers TransektCount.\n\nRéessayez ensuite.</string>
     <string name="dialog_storage_title">Accès à tous les fichiers</string>
-    <string name="storage_perm_denied">L\'autorisation de stockage nécessaire pour TransektCount fait défaut, l\'enregistrement n\'est pas possible.</string>
+    <string name="storage_perm_denied">L\'autorisation d\'accès au stockage a été refusée. %1$s de données ne sont pas possibles.</string>
+    <string name="storage_deny_ExIm">L\'exportation et l\'importation</string>
+    <string name="storage_deny_Ex">L\'exportation</string>
+    <string name="storage_deny_Im">L\'importation</string>
 
 </resources>

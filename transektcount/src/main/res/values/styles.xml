@@ -10,11 +10,6 @@
 		<!-- Customize dark theme attributes here -->
 	</style>
 
-	<style name="PermissionsDialogFragmentStyle"
-		parent="Base.Theme.AppCompat.Dialog">
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-	
 	<style name="HeadlineText">
 		<item name="android:textColor">#0BFFFF</item>
 		<item name="android:textStyle">italic</item>

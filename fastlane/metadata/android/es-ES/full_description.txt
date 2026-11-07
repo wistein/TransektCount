@@ -11,6 +11,7 @@ Novedades de la versión 5.1.7:
 - Corregido: Ahora, en la página de configuración, la opción «Idioma de los datos» para archivos importados en el formato antiguo (BD y especies) muestra inmediatamente el idioma de los datos seleccionado junto con el icono correspondiente.
 - Se han añadido títulos e iconos a algunos cuadros de diálogo.
 - Se ha rediseñado la gestión de los permisos de ubicación y se han mejorado los cuadros de diálogo correspondientes.
+- Se han mejorado los cuadros de diálogo de gestión de permisos de almacenamiento
 - El nombre del archivo de una BD exportada incluye ahora «Track» si se ha cargado una ruta de transecto.
 - Se ha completado la información sobre la licencia
 - Se ha actualizado el texto de «Ayuda».

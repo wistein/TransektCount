@@ -18,7 +18,7 @@
 
      Italian strings
 
-     Last edited 2026-10-20
+     Last edited 2026-11-03
 ************************************************************************************************ -->
 
 <resources>
@@ -294,6 +294,9 @@
     <string name="dialog_storage_message1">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount al fine di importare ed esportare i file di TransektCount.\n\nIn caso contrario, non sarà possibile importare né esportare né database, né elenchi, né risultati.</string>
     <string name="dialog_storage_message2">Ti preghiamo di concedere l\'autorizzazione “Accesso a tutti i file” per TransektCount al fine di importare ed esportare i file di TransektCount.\n\nProva poi di nuovo.</string>
     <string name="dialog_storage_title">Accesso a tutti i file</string>
-    <string name="storage_perm_denied">Manca l\'autorizzazione di salvataggio necessaria per TransektCount, non è possibile salvare.</string>
+    <string name="storage_perm_denied">L\'autorizzazione all\'archiviazione è stata negata. Non è possibile %1$s dati.</string>
+    <string name="storage_deny_ExIm">esportare né importare</string>
+    <string name="storage_deny_Ex">esportare</string>
+    <string name="storage_deny_Im">importare</string>
 
 </resources>

@@ -27,8 +27,6 @@
      # numbered list item
      * bullet list item
      . empty line
-
-     Last edited 2026-10-23
 ************************************************************************************************ -->
 
   <head>
@@ -95,7 +93,7 @@
 
 $ 5.1.7
   % Version 5.1.7
-  _ 2026-10-23
+  _ 2026-11-07
   * Code improvements
   * Fixed: The “Show Results” option no longer displays incorrect results when “Sort by Name” is selected.
   * Fix for XLSX layout: For rows with a gray background, the gray did not extend all the way to the last column in some sorting modes
@@ -106,6 +104,7 @@ $ 5.1.7
   * Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
   * Some dialogs supplemented with headlines and icons
   * Location permission handling was redesigned and respective dialogs were improved
+  * Storage permission handling dialogs were improved
   * The filename of an exported DB now includes “Track” if a transect track is loaded
   * Licenses information supplemented
   * "Help" text updated
@@ -353,7 +352,7 @@ $ 4.2.3
 $ 4.2.2
   % Version 4.2.2
   _ 2025-03-17
-  * Added pictures of Yponameuta melinellus, Agriphila geniculea, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eupithecia vulgata, Eileme caniola
+  * Added pictures of Yponomeuta malinellus, Agriphila geniculea, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eupithecia vulgata, Eileme caniola
   * Added export of the current species list for import in TourCount
   * Added import of an exported TourCount species list
   * Docs updated

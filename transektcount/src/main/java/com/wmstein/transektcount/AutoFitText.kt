@@ -18,7 +18,7 @@ package com.wmstein.transektcount
  *
  * This class builds a new android Widget named AutoFitText which can be used instead of a TextView
  * to have the text font size in it automatically fit to match the screen width. Credits go largely
- * to Dunni, gjpc, gregm and speedplane from Stackoverflow, method has been (style-) optimized and
+ * to Dunni, gjpc, gregm and speedplane from Stack Overflow, method has been (style-) optimized and
  * rewritten to match android coding standards and our MBC.
  *
  * This version of AutoFitText is adaptable to height and to accept the different TextView types
@@ -32,7 +32,7 @@ package com.wmstein.transektcount
  *
  * Last edited in Java by wmstein on 2023-05-09,
  * converted to Kotlin on 2023-06-26,
- * last edited on 2026-10-21.
+ * last edited on 2026-11-03.
  **************************************************************************************************/
 
 import android.annotation.SuppressLint

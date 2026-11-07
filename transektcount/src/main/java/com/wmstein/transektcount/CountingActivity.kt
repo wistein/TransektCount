@@ -31,7 +31,7 @@ package com.wmstein.transektcount
  * Adopted, modified and enhanced for TransektCount by wmstein since 2016-02-18,
  * last edited in Java on 2026-06-08,
  * converted to Kotlin on 2026-07-17,
- * last edited on 2026-09-21.
+ * last edited on 2026-10-21.
  **************************************************************************************************/
 
 import android.annotation.SuppressLint

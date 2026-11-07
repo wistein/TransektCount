@@ -18,7 +18,7 @@
 
      Spanish strings
 
-     Last edited 2026-10-20
+     Last edited 2026-11-03
 ************************************************************************************************ -->
 
 <resources>
@@ -294,6 +294,9 @@
     <string name="dialog_storage_message1">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount para poder importar y exportar archivos de TransektCount.\n\nDe lo contrario, no se podrán importar ni exportar bases de datos, listas ni resultados.</string>
     <string name="dialog_storage_message2">Por favor, concede el permiso «Acceso a todos los archivos» a TransektCount para poder importar y exportar archivos de TransektCount.\n\nDespués, vuelve a intentarlo.</string>
     <string name="dialog_storage_title">Acceso a todos los archivos</string>
-    <string name="storage_perm_denied">Falta el permiso de almacenamiento necesario para TransektCount; no es posible guardar.</string>
+    <string name="storage_perm_denied">Se ha denegado el permiso de almacenamiento. No es posible %1$s datos.</string>
+    <string name="storage_deny_ExIm">exportar ni importar</string>
+    <string name="storage_deny_Ex">exporter</string>
+    <string name="storage_deny_Im">importer</string>
 
 </resources>

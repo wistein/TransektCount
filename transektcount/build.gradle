@@ -1,5 +1,5 @@
 // Build file where you can add configuration options for the module.
-// Last edited on 2026-08-31
+// Last edited on 2026-11-03
 
 plugins {
     id 'com.android.application'
@@ -54,11 +54,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.activity:activity-ktx:1.13.0'
-    implementation 'androidx.annotation:annotation-jvm:1.10.0'
+    implementation 'androidx.annotation:annotation-jvm:1.11.0'
     implementation 'androidx.appcompat:appcompat:1.8.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.3.0'
-    implementation 'androidx.core:core-ktx:1.19.0'
-    implementation 'androidx.fragment:fragment-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.19.1'
+    implementation 'androidx.fragment:fragment-ktx:1.9.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.11.0'
     implementation 'androidx.lifecycle:lifecycle-process:2.11.0'

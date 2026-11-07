@@ -2,7 +2,7 @@
 
 #### TransektCount Copyright © 2016-2026, Wilhelm Stein
 
-#### Version 5.1.7 (2026-10-23)
+#### Version 5.1.7 (2026-11-07)
 - Code improvements
 - Fixed: The “Show Results” option no longer displays incorrect results when “Sort by Name” is selected.
 - Fix for XLSX layout: For rows with a gray background, the gray did not extend all the way to the last column in some sorting modes
@@ -13,6 +13,7 @@
 - Fixed: On the Settings page, the “Data Language” option activated for imported old files (DB and Species) now displays the selected data language along with the corresponding icon immediately.
 - Some dialogs supplemented with headlines and icons
 - Location permission handling was redesigned and respective dialogs were improved
+- Storage permission handling dialogs were improved
 - The filename of an exported DB now includes “Track” if a transect track is loaded
 - Licenses information supplemented
 - "Help" text updated
@@ -134,7 +135,7 @@
 
 #### Version 5.0.1 (2026-01-15)
 - Now if GPS identifies a different section the color if its name is also changed during the "Select Section" page is shown
-- Html formatting for app messages improved for different Android versions
+- HTML formatting for app messages improved for different Android versions
 
 #### Version 5.0.0 (2026-01-03)
 - This is a generally revised version that now implements optional GPS support to indicate a change of the current transect section. The use of GPS requires the provision of transect track data, described in the Help and the TransektCount_Userguide_5.0.0.pdf
@@ -212,7 +213,7 @@
 - Docs updated
 
 #### Version 4.2.2 (2025-03-17)
-- Added pictures of Yponameuta melinellus, Agriphila geniculea, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eupithecia vulgata, Eileme caniola
+- Added pictures of Yponomeuta malinellus, Agriphila geniculea, Phigalia pilosaria, Idaea rusticata, Xanthorhoe fluctuata, Eupithecia vulgata, Eileme caniola
 - Added export of the current species list for import in TourCount
 - Added import of an exported TourCount species list
 - Update Gradle -> 8.11.1
@@ -221,7 +222,7 @@
 - Docs updated
 
 #### Version 4.2.1 (2025-02-23)
-- Backpressed logic on starting page improved
+- Back-pressed logic on starting page improved
 - Bugfix for starting the default camera if it is the only camera app
 - Permissions handling improved
 - Code improvements
@@ -403,7 +404,7 @@
 
 #### Version 3.0.1 (2018-04-01)
 - Project changes for Android Studio 3.1, Gradle 3.1.0 and SDK 27 (Android 8.1)
-- First use now creates a direct usable internal DB with common european species
+- First use now creates a direct usable internal DB with common European species
 - Small optimizations on the results page
 - Database version 3 (change of a column name for compiler warning) 
 - Design of starting page updated
@@ -507,13 +508,21 @@
 - Removal of unused functions
 
 #### Version 1.0.0 (2016-02-12)
-##### 1. Release.
-Counting and DB functionality are partly derived from BeeCount by Milo Thurston(knirirr)
-(https://github.com/knirirr/BeeCount.git)
+Basic program structure and counting functionality was partly derived from BeeCount by knirirr, published on  
+https://github.com/knirirr/BeeCount.git
 
-Main features comprise:
+Initial features comprise:
 - Text and structure adaptation for butterfly monitoring in transects
-- Modified AutoFitText.java, original code from author: pheuschk (open source code from stackoverflow)
-- Modified ChangeLog.java original code from author: Karsten Priegnitz (open source code from code.google.com)
-- Modified CSVWriter.java original code copyright 2015 Bytecode Pty Ltd. (Apache License 2.0)
-- Modified File Chooser dialog based on android-file-chooser, 2011, Google Code Archive, GNU GPL v3
+- __Main features__ are:
+  - Input page for metadata
+  - Counting page
+  - Page to edit counting options
+  - Settings page
+  - In German and English language
+  - App runs always in portrait mode
+
+#### Other sources:
+- Modified AutoFitText.java, author: pheuschk (open source code from Stack Overflow)
+- Modified ChangeLog.java, author: Karsten Priegnitz (open source code from code.google.com)
+- Modified CSVWriter.java, 2015, Bytecode Pty Ltd. (Apache License 2.0)
+- Modified File Chooser dialog, 2011, Google Code Archive, GNU GPLv3
